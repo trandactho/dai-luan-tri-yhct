@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liên Hệ & Tài Trợ - Đại Luận Trị & Tra Cứu YHCT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #0a0908; color: #e0d8cf; font-family: system-ui, -apple-system, sans-serif; }
+        .bg-dark-box { background-color: #1a1614; border: 1px solid #332a22; }
+        .text-primary { color: #d2691e; }
+        .bg-primary { background-color: #d2691e; }
+        select, input, textarea { background-color: #26201c; color: #e0d8cf; border: 1px solid #4a3e35; }
+        select:focus, input:focus, textarea:focus { outline: none; border-color: #d2691e; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen p-4 max-w-3xl mx-auto space-y-6">
+
+    <header class="text-center space-y-2 py-4">
+        <h1 class="text-lg font-bold text-primary flex items-center justify-center gap-2">
+            <i class="fa-solid fa-envelope"></i> THÔNG TIN LIÊN HỆ & TÀI TRỢ
+        </h1>
+        <p class="text-xs text-stone-500">Đại Luận Trị & Tra Cứu YHCT</p>
+    </header>
+
+    <main class="flex-grow space-y-6">
+        <section class="bg-dark-box p-6 rounded-xl space-y-4 shadow-lg">
+            <h2 class="text-sm font-bold text-amber-500 flex items-center gap-2 border-b border-stone-800 pb-2">
+                <i class="fa-solid fa-id-card"></i> Thông Tin Tác Giả & Quản Trị
+            </h2>
+            <div class="space-y-3 text-xs">
+                <div>
+                    <span class="text-stone-500 block uppercase text-[10px] font-bold">Tác giả / Tác quyền</span>
+                    <span class="font-bold text-stone-200 text-sm">Trần Đắc Thọ</span>
+                </div>
+                <div>
+                    <span class="text-stone-500 block uppercase text-[10px] font-bold">Đơn vị công tác</span>
+                    <span class="text-stone-300">Trường Cao đẳng Công Thương miền Trung</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-dark-box p-6 rounded-xl space-y-4 shadow-lg">
+            <h2 class="text-sm font-bold text-amber-500 flex items-center gap-2 border-b border-stone-800 pb-2">
+                <i class="fa-solid fa-heart text-rose-500"></i> Đồng Hành & Tài Trợ Phát Triển
+            </h2>
+            <p class="text-xs text-stone-400 leading-relaxed">
+                Mọi sự tài trợ quý báu từ bạn sẽ giúp duy trì máy chủ, mở rộng kho dữ liệu YHCT và cập nhật các tính năng mới hoàn toàn miễn phí cho cộng đồng.
+            </p>
+            <div class="bg-stone-950/60 p-4 rounded-lg border border-stone-800/80 space-y-3 text-xs">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-0.5 border-b border-stone-900 pb-2">
+                    <span class="text-stone-500">Chủ tài khoản:</span> 
+                    <span class="font-bold text-amber-400 tracking-wider">TRAN DAC THO</span>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-0.5 border-b border-stone-900 pb-2">
+                    <span class="text-stone-500">Ngân hàng:</span> 
+                    <span class="font-bold text-stone-200">Agribank</span>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-0.5 border-b border-stone-900 pb-2">
+                    <span class="text-stone-500">Số tài khoản:</span> 
+                    <span class="font-bold text-emerald-400 tracking-wider">4600215026061</span>
+                </div>
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-0.5">
+                    <span class="text-stone-500">Chi nhánh mở:</span> 
+                    <span class="text-stone-300">Chi nhánh Tỉnh Phú Yên</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-dark-box p-6 rounded-xl space-y-4 shadow-lg">
+            <h2 class="text-sm font-bold text-amber-500 flex items-center gap-2 border-b border-stone-800 pb-2">
+                <i class="fa-solid fa-paper-plane"></i> Gửi Góp Ý / Phản Hồi
+            </h2>
+            <p class="text-xs text-stone-400">Nếu bạn phát hiện sai sót về dữ liệu YHCT hoặc có đề xuất cải tiến, xin vui lòng phản hồi tại đây.</p>
+            <form onsubmit="event.preventDefault(); alert('Cảm ơn bạn đã góp ý!');" class="space-y-3 text-xs">
+                <div>
+                    <label class="block text-stone-400 font-bold mb-1">Họ và tên của bạn</label>
+                    <input type="text" placeholder="Nhập họ tên..." class="w-full p-2.5 rounded">
+                </div>
+                <div>
+                    <label class="block text-stone-400 font-bold mb-1">Nội dung góp ý</label>
+                    <textarea rows="3" placeholder="Nhập nội dung..." class="w-full p-2.5 rounded"></textarea>
+                </div>
+                <button type="submit" class="w-full py-2.5 bg-primary hover:bg-orange-700 text-white font-bold rounded transition-colors">
+                    Gửi Phản Hồi
+                </button>
+            </form>
+        </section>
+    </main>
+
+    <div class="text-center pt-2">
+        <a href="index.html" class="inline-flex items-center gap-2 text-xs text-amber-500 hover:text-amber-400 font-bold">
+            <i class="fa-solid fa-arrow-left"></i> Quay lại trang chủ
+        </a>
+    </div>
+
+    <footer class="text-center text-xs text-stone-600 py-4 border-t border-stone-800">
+        © 2026 Đại Luận Trị YHCT. Phát triển bởi Trần Đắc Thọ.
+    </footer>
+
+</body>
+</html>
