@@ -555,15 +555,28 @@
                 .sort(() => 0.5 - Math.random())
                 .slice(0, count)
                 .map(q => {
-                    const shuffled = q.lua_chon
-                        .map((text, idx) => ({ text, isCorrect: idx === q.dap_an }))
-                        .sort(() => 0.5 - Math.random());
+                    const specialKeywords = ['cả a và b', 'tất cả', 'không có', 'cả hai', 'đều đúng', 'đều sai'];
+                    
+                    // Kiểm tra xem câu hỏi có chứa đáp án tổng hợp cần cố định vị trí không
+                    const hasSpecialOpt = q.lua_chon.some(text => 
+                        specialKeywords.some(keyword => text.toLowerCase().includes(keyword))
+                    );
 
-                    return {
-                        ...q,
-                        lua_chon: shuffled.map(item => item.text),
-                        dap_an: shuffled.findIndex(item => item.isCorrect)
-                    };
+                    if (hasSpecialOpt) {
+                        // Nếu có chứa đáp án tổng hợp, giữ nguyên thứ tự để tránh lỗi logic
+                        return { ...q };
+                    } else {
+                        // Xáo trộn bình thường nếu các đáp án độc lập
+                        const shuffled = q.lua_chon
+                            .map((text, idx) => ({ text, isCorrect: idx === q.dap_an }))
+                            .sort(() => 0.5 - Math.random());
+
+                        return {
+                            ...q,
+                            lua_chon: shuffled.map(item => item.text),
+                            dap_an: shuffled.findIndex(item => item.isCorrect)
+                        };
+                    }
                 });
 
             currentQuizIndex = 0;
