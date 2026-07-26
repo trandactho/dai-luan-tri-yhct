@@ -1,1 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nhật Ký Cập Nhật - Đại Luận Trị & Tra Cứu YHCT v1.2.1 Premium</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📜</text></svg>">
+</head>
+<body class="bg-[#0a0908] text-stone-300 font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-amber-500 selection:text-black">
+
+    <!-- HEADER -->
+    <header class="bg-[#121110] border-b border-stone-800 py-3 px-4 text-center sticky top-0 z-50 backdrop-blur-md bg-opacity-95">
+        <div class="max-w-4xl mx-auto flex items-center justify-between">
+            <a href="index.html" class="inline-flex items-center gap-1.5 text-xs font-bold text-amber-500 hover:text-amber-400 transition-colors">
+                <i class="fa-solid fa-arrow-left"></i> Quay lại Trang chủ
+            </a>
+            <h1 class="text-xs font-bold text-stone-300 flex items-center gap-1.5">
+                <i class="fa-solid fa-clock-rotate-left text-amber-500"></i> NHẬT KÝ CẬP NHẬT ỨNG DỤNG
+            </h1>
+            <div class="text-[11px] text-stone-500 hidden sm:block">Đại Luận Trị YHCT</div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="container mx-auto px-4 py-8 max-w-4xl flex-1 space-y-8">
+
+        <!-- TITLE BANNER -->
+        <div class="bg-[#121110] border border-stone-800 p-6 rounded-2xl text-center space-y-3 shadow-xl">
+            <div class="inline-flex items-center gap-1.5 bg-amber-950/60 border border-amber-800/80 px-3 py-1 rounded-full text-xs font-bold text-amber-400">
+                <i class="fa-solid fa-code-branch"></i> Phiên bản hiện tại: v1.2.1 Premium
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-black text-amber-400 tracking-tight">Lịch Sử Thay Đổi & Nâng Cấp</h2>
+            <p class="text-xs sm:text-sm text-stone-400 max-w-xl mx-auto leading-relaxed">
+                Theo dõi toàn bộ quá trình phát triển, các bản vá lỗi và tối ưu hóa cơ sở dữ liệu y học cổ truyền của hệ thống.
+            </p>
+        </div>
+
+        <!-- TIMELINE CHANGELOG -->
+        <div class="space-y-6 relative border-l-2 border-stone-800 ml-3 sm:ml-6 pl-6">
+
+            <!-- v1.2.1 -->
+            <div class="relative group space-y-3">
+                <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-amber-500 border-4 border-[#0a0908] ring-2 ring-amber-500/40"></span>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h3 class="text-base font-bold text-amber-400 flex items-center gap-2">
+                        Phiên bản v1.2.1 <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800 font-bold uppercase tracking-wider">Mới nhất</span>
+                    </h3>
+                    <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 7, 2026</span>
+                </div>
+                <div class="bg-[#121110] border border-stone-800 p-5 rounded-xl space-y-2 text-xs text-stone-300">
+                    <p>• <strong>Cải tiến toàn diện Tab Trắc Nghiệm:</strong> Tùy chọn 5, 10, 20, 30 câu, xáo trộn đáp án ngẫu nhiên và lưu lịch sử làm bài.</p>
+                    <p>• <strong>Chế độ Ôn Tập Dược Liệu & Huyệt Vị:</strong> Thêm tính năng làm mờ thông minh để kiểm tra trí nhớ tên vị thuốc và chủ trị huyệt vị.</p>
+                    <p>• <strong>Tối ưu hóa Tra cứu Ảnh:</strong> Tự động làm sạch từ khóa kết hợp liên kết DuckDuckGo, Google, Bing.</p>
+                    <p>• <strong>Hỗ trợ thao tác vuốt màn hình (Swipe Navigation):</strong> Chuyển tab mượt mà trên thiết bị di động.</p>
+                </div>
+            </div>
+
+            <!-- v1.2.0 -->
+            <div class="relative group space-y-3">
+                <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-stone-700 border-4 border-[#0a0908]"></span>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h3 class="text-base font-bold text-stone-200">Phiên bản v1.2.0</h3>
+                    <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 6, 2026</span>
+                </div>
+                <div class="bg-[#121110] border border-stone-800 p-5 rounded-xl space-y-2 text-xs text-stone-300">
+                    <p>• Mở rộng cơ sở dữ liệu cổ phương quân thần tá sứ, bổ sung chuyên mục trà dược trị liệu.</p>
+                    <p>• Tích hợp xuất file PDF phác đồ điều trị trực tiếp bằng thư viện client-side.</p>
+                    <p>• Nâng cấp giao diện Dark Mode toàn diện với các tông màu trầm ấm đặc trưng của YHCT.</p>
+                </div>
+            </div>
+
+            <!-- v1.1.0 -->
+            <div class="relative group space-y-3">
+                <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-stone-700 border-4 border-[#0a0908]"></span>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h3 class="text-base font-bold text-stone-200">Phiên bản v1.1.0</h3>
+                    <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 5, 2026</span>
+                </div>
+                <div class="bg-[#121110] border border-stone-800 p-5 rounded-xl space-y-2 text-xs text-stone-300">
+                    <p>• Xây dựng bộ lọc tam trục (Tạng phủ - Hàn nhiệt - Hư thực) chuẩn hóa trong biện chứng luận trị.</p>
+                    <p>• Tích hợp trợ lý AI tư vấn YHCT trực tuyến qua máy chủ API.</p>
+                </div>
+            </div>
+
+            <!-- v1.0.0 -->
+            <div class="relative group space-y-3">
+                <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-stone-700 border-4 border-[#0a0908]"></span>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h3 class="text-base font-bold text-stone-200">Phiên bản v1.0.0 (Khởi đầu)</h3>
+                    <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 4, 2026</span>
+                </div>
+                <div class="bg-[#121110] border border-stone-800 p-5 rounded-xl space-y-2 text-xs text-stone-300">
+                    <p>• Ra mắt nền tảng tra cứu dược liệu, châm cứu huyệt vị và biện chứng luận trị cơ bản.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="text-center text-xs text-stone-500 py-6 border-t border-stone-800 mt-12 space-y-2">
+        <div class="flex flex-wrap justify-center gap-4 text-stone-400 font-medium">
+            <a href="index.html" class="hover:text-amber-500 transition-colors">Trang chủ ứng dụng</a>
+            <span>•</span>
+            <a href="about.html" class="hover:text-amber-500 transition-colors">Giới thiệu</a>
+            <span>•</span>
+            <a href="privacy.html" class="hover:text-amber-500 transition-colors">Chính sách bảo mật</a>
+        </div>
+        <p class="text-[11px] text-stone-600">© 2026 Đại Luận Trị YHCT. Phát triển bởi Trần Đắc Thọ.</p>
+    </footer>
+
+</body>
+</html>
 
