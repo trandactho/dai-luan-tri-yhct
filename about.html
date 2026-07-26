@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Giới Thiệu - Đại Luận Trị & Tra Cứu YHCT</title>
+    <meta name="description" content="Giới thiệu về Đại Luận Trị & Tra Cứu YHCT - Nền tảng hỗ trợ học tập, tra cứu và thực hành Y Học Cổ Truyền.">
+    <script>
+    const _addEventListener = window.addEventListener;
+    window.addEventListener = function(type, listener, options) {
+        if (type === 'unload') type = 'pagehide';
+        return _addEventListener.call(this, type, listener, options);
+    };
+
+    const bo_loc = (originalFunc) => (...args) => {
+        const msg = args[0];
+        if (typeof msg === 'string' && (
+            msg.includes('Permissions policy violation') || 
+            msg.includes('Permissions-Policy') ||
+            msg.includes('interest-cohort') ||
+            msg.includes('cdn.tailwindcss.com') ||
+            msg.includes('should not be used in production') ||
+            msg.includes('requestStorageAccess') ||
+            msg.includes('unload')
+        )) return;
+        originalFunc(...args);
+    };
+
+    console.warn = bo_loc(console.warn);
+    console.error = bo_loc(console.error);
+</script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #0a0908; color: #e0d8cf; font-family: system-ui, -apple-system, sans-serif; }
+        .bg-dark-box { background-color: #1a1614; border: 1px solid #332a22; }
+        .text-primary { color: #d2691e; }
+        .bg-primary { background-color: #d2691e; }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen p-4 max-w-3xl mx-auto space-y-6">
+
+    <header class="text-center space-y-2 py-4">
+        <h1 class="text-lg font-bold text-primary flex items-center justify-center gap-2">
+            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT
+        </h1>
+        <p class="text-xs text-stone-500 mt-1">Nền tảng Tra cứu & Ôn luyện Y Học Cổ Truyền Chuẩn hóa</p>
+    </header>
+
+    <main class="flex-grow space-y-4">
+        <section class="bg-dark-box p-6 rounded-xl space-y-4 shadow-lg text-xs leading-relaxed">
+            <h2 class="text-sm font-bold text-amber-500 border-b border-stone-800 pb-2">
+                <i class="fa-solid fa-circle-info mr-2"></i>Sứ Mệnh & Mục Tiêu
+            </h2>
+            <p class="text-stone-300">
+                <strong>Đại Luận Trị & Tra Cứu YHCT</strong> là hệ thống được xây dựng nhằm hỗ trợ sinh viên, y bác sĩ và những người yêu thích Y Học Cổ Truyền dễ dàng tra cứu, hệ thống hóa và ôn luyện kiến thức chuyên ngành một cách khoa học, chính xác.
+            </p>
+            <p class="text-stone-300">
+                Ứng dụng số hóa kiến thức y học cổ truyền dựa trên các tài liệu chính thống, giúp đơn giản hóa quá trình biện chứng luận trị và đối chiếu cổ phương trong thực hành lâm sàng.
+            </p>
+        </section>
+
+        <section class="bg-dark-box p-6 rounded-xl space-y-4 shadow-lg text-xs leading-relaxed">
+            <h2 class="text-sm font-bold text-amber-500 border-b border-stone-800 pb-2">
+                <i class="fa-solid fa-cubes mr-2"></i>Tính Năng Nổi Bật
+            </h2>
+            <ul class="space-y-2 text-stone-300">
+                <li class="flex items-start gap-2">
+                    <i class="fa-solid fa-check text-emerald-500 mt-1"></i>
+                    <span><strong>Biện chứng luận trị:</strong> Định vị hội chứng theo Tam trục (Tạng phủ - Hàn nhiệt - Hư thực), đối chiếu phác đồ và bài thuốc cổ phương.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <i class="fa-solid fa-check text-emerald-500 mt-1"></i>
+                    <span><strong>Tra cứu Dược liệu & Huyệt vị:</strong> Cung cấp thông tin chi tiết về tính vị, quy kinh, công năng, chủ trị và kiêng kỵ lâm sàng.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <i class="fa-solid fa-check text-emerald-500 mt-1"></i>
+                    <span><strong>Trà dược trị liệu:</strong> Tổng hợp các công thức trà dưỡng sinh, pha chế đơn giản và hiệu quả.</span>
+                </li>
+                <li class="flex items-start gap-2">
+                    <i class="fa-solid fa-check text-emerald-500 mt-1"></i>
+                    <span><strong>Trắc nghiệm & Trợ lý AI:</strong> Hỗ trợ ôn tập kiến thức sinh động và tư vấn giải đáp thắc mắc nhanh chóng.</span>
+                </li>
+            </ul>
+        </section>
+    </main>
+
+    <div class="text-center pt-2">
+        <a href="index.html" class="inline-flex items-center gap-2 text-xs text-amber-500 hover:text-amber-400 font-bold">
+            <i class="fa-solid fa-arrow-left"></i> Quay lại trang chủ
+        </a>
+    </div>
+
+    <footer class="text-center text-xs text-stone-600 py-4 border-t border-stone-800">
+        © 2026 Đại Luận Trị YHCT. Phát triển bởi Trần Đắc Thọ.
+    </footer>
+
+</body>
+                  </html>
+  
