@@ -1,0 +1,1519 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đại Luận Trị & Tra Cứu YHCT 1.2.2 Premium</title>
+
+    <meta name="description" content="Ứng dụng tra cứu Y Học Cổ Truyền toàn diện: Biện chứng luận trị, Dược liệu học, Châm cứu huyệt vị, Trà dược trị liệu và Trợ lý AI tư vấn YHCT.">
+    <meta name="author" content="Trần Đắc Thọ">
+    <meta name="robots" content="index, follow">
+
+    <meta name="theme-color" content="#0a0908">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Cấu hình PWA -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🩺</text></svg>">
+
+
+</head>
+<body>
+    <!-- Màn hình chờ khi khởi động ứng dụng -->
+    <div id="app-loader" class="fixed inset-0 bg-[#0a0908] z-50 flex flex-col items-center justify-center transition-opacity duration-300">
+        <i class="fa-solid fa-mortar-pestle text-4xl text-primary animate-bounce mb-3"></i>
+        <div class="text-sm font-bold text-amber-500">Đang tải cơ sở dữ liệu YHCT...</div>
+        <div class="text-[11px] text-stone-500 mt-1">Vui lòng đợi trong giây lát</div>
+    </div>
+    
+    <!-- HEADER -->
+    <header class="bg-dark-box p-2 text-center border-b border-stone-800">
+        <h1 class="text-sm font-bold text-primary flex items-center justify-center gap-1">
+            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (1.2.2)
+        </h1>
+        <p class="text-[10px] text-stone-500">
+            Biện chứng (<span id="total-chung">0</span>) · 
+            Dược liệu (<span id="total-thuoc">0</span>) · 
+            Huyệt vị (<span id="total-huyet">0</span>) · 
+            Trà dược (<span id="total-tra">0</span>)
+        </p>
+        <div class="mt-1 inline-flex items-center gap-1.5 bg-stone-900 border border-stone-800 px-2.5 py-0.5 rounded-full text-[11px] text-stone-400">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>Hệ thống: <strong class="text-emerald-400 font-bold">Sẵn sàng</strong></span>
+        </div>
+    </header>
+
+    <!-- TABS NAVIGATION -->
+    <nav class="grid grid-cols-7 gap-0.5 bg-stone-900 border-b border-stone-800 text-center text-[10px]">
+        <button id="btnTabLuanTri" onclick="switchTab('luantri')" class="py-2 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center tab-active">
+            <i class="fa-solid fa-file-medical text-xs mb-0.5"></i>
+            <span class="scale-90 tracking-tighter">Luận Trị</span>
+        </button>
+        <button id="btnTabTracNghiem" onclick="switchTab('tracnghiem')" class="py-2 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+            <i class="fa-solid fa-graduation-cap text-xs mb-0.5"></i>
+            <span class="scale-90 tracking-tighter">Trắc Nghiệm</span>
+        </button>
+        <button id="btnTabDuocLieu" onclick="switchTab('duoclieu')" class="py-2 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+            <i class="fa-solid fa-leaf text-xs mb-0.5"></i>
+            <span class="scale-90 tracking-tighter">Dược Liệu</span>
+        </button>
+        <button id="btnTabHuyetVi" onclick="switchTab('huyetvi')" class="py-2 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+            <i class="fa-solid fa-circle-dot text-xs mb-0.5"></i>
+            <span class="scale-90 tracking-tighter">Huyệt Vị</span>
+        </button>
+        <button id="btnTabTra" onclick="switchTab('tra')" class="py-2 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+            <i class="fa-solid fa-mug-hot text-xs mb-0.5"></i>
+            <span class="scale-90 tracking-tighter">Trà Dược</span>
+        </button>
+        <button id="btnTabXemAnh" onclick="switchTab('xemanh')" class="py-2 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+            <i class="fa-solid fa-image text-xs mb-0.5"></i>
+            <span class="scale-90 tracking-tighter">Xem Ảnh</span>
+        </button>
+        <button id="btnTabAI" onclick="switchTab('ai')" class="py-2 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+            <i class="fa-solid fa-robot text-xs mb-0.5"></i>
+            <span class="scale-90 tracking-tighter">Trợ Lý AI</span>
+        </button>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="container mx-auto px-4 py-6 pb-20 max-w-5xl">
+
+        <!-- TAB 1: BIỆN CHỨNG LUẬN TRỊ -->
+        <section id="sectionLuanTri" class="block space-y-5">
+            <div class="bg-dark-box p-4 rounded-lg flex flex-col sm:flex-row gap-3 items-center">
+                <div class="relative flex-1 w-full">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-stone-500"></i>
+                    <input type="text" id="search-input" oninput="debounceSearchLuanTri()" onkeydown="if(event.key==='Enter') searchLuanTri()" placeholder="Nhập triệu chứng/tên vị thuốc..." class="w-full pl-9 pr-4 py-2 rounded">
+                    <div id="search-dropdown" class="hidden absolute left-0 right-0 top-full mt-1 bg-stone-900 border border-stone-700 rounded-lg shadow-2xl z-50 max-h-60 overflow-y-auto"></div>
+                </div>
+                
+                <div id="quiz-controls" class="w-full sm:w-auto flex flex-1 gap-2">
+                    <button onclick="startQuizMode()" class="w-full px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded flex items-center justify-center gap-2 transition-all">
+                        <i class="fa-solid fa-graduation-cap"></i> Chế độ Ôn Tập
+                    </button>
+                </div>
+
+                <button onclick="exportPDF()" class="w-full sm:w-auto px-5 py-2 bg-primary hover:bg-orange-700 text-white font-bold rounded flex items-center justify-center gap-2 transition-colors">
+                    <i class="fa-solid fa-file-pdf"></i> Xuất PDF Phác Đồ
+                </button>
+            </div>
+
+            <!-- BỘ LỌC TAM TRỤC -->
+            <div id="bo-loc-tam-truc" class="grid grid-cols-3 gap-3 transition-all">
+                <select id="tang-phu" onchange="updateLuanTri()" class="w-full p-3 rounded font-medium text-center text-sm">
+                    <option value="Tâm">Tâm (Tim)</option>
+                    <option value="Can">Can (Gan)</option>
+                    <option value="Tỳ">Tỳ (Tiêu hóa)</option>
+                    <option value="Phế">Phế (Phổi)</option>
+                    <option value="Thận">Thận (Nội tiết)</option>
+                    <option value="Đởm">Đởm (Mật)</option>
+                    <option value="Vị">Vị (Dạ dày)</option>
+                    <option value="Đại trường">Đại trường</option>
+                    <option value="Tiểu trường">Tiểu trường</option>
+                    <option value="Bàng quang">Bàng quang</option>
+                    <option value="Tam tiêu">Tam tiêu</option>
+                    <option value="Khác">Khác</option>
+                </select>
+                <select id="han-nhiet" onchange="updateLuanTri()" class="w-full p-3 rounded font-medium text-center text-sm">
+                    <option value="Nhiệt">Nhiệt (Nóng)</option>
+                    <option value="Hàn">Hàn (Lạnh)</option>
+                    <option value="Khác">Khác (Uất/Ứ/Đàm)</option>
+                </select>
+                <select id="hu-thuc" onchange="updateLuanTri()" class="w-full p-3 rounded font-medium text-center text-sm">
+                    <option value="Thực">Thực (Cấp tính)</option>
+                    <option value="Hư">Hư (Suy nhược)</option>
+                    <option value="Khác">Khác</option>
+                </select>
+            </div>
+
+            <div id="pdf-area" class="space-y-4 p-2 bg-stone-950 rounded-lg">
+                <div class="bg-dark-box p-5 rounded-lg border-l-4 border-primary">
+                    <div class="text-stone-500 text-xs font-bold uppercase tracking-wider mb-1">Hội chứng biện chứng</div>
+                    <div id="hoi-chung" class="text-xl font-bold text-primary transition-all">---</div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-dark-box p-5 rounded-lg">
+                        <div class="text-stone-500 text-xs font-bold uppercase tracking-wider mb-2"><i class="fa-solid fa-stethoscopes mr-1.5 text-amber-600"></i>Triệu chứng lâm sàng</div>
+                        <ul id="trieu-chung" class="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-1 list-disc pl-5 text-sm text-stone-300"></ul>
+                    </div>
+                    <div class="bg-dark-box p-5 rounded-lg">
+                        <div class="text-stone-500 text-xs font-bold uppercase tracking-wider mb-2"><i class="fa-solid fa-gavel mr-1.5 text-emerald-600"></i>Pháp trị chuẩn hóa</div>
+                        <div id="phap-dieu-tri" class="text-base font-semibold text-emerald-500 transition-all">---</div>
+                    </div>
+                </div>
+
+                <div class="bg-dark-box p-5 rounded-lg">
+                    <div class="flex justify-between items-center mb-3 border-b border-stone-800 pb-2">
+                        <div>
+                            <div class="text-stone-500 text-xs font-bold uppercase tracking-wider">Đối chiếu cổ phương</div>
+                            <div id="bai-thuoc" class="text-lg font-bold text-amber-500 transition-all">---</div>
+                        </div>
+                    </div>
+                    <div class="text-stone-400 text-xs font-bold uppercase mb-2">Thành phần quân thần tá sứ:</div>
+                    <div id="chi-tiet-bai-thuoc" class="flex flex-wrap gap-2 transition-all"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: TRẮC NGHIỆM KIẾN THỨC -->
+        <section id="sectionTracNghiem" class="hidden space-y-5">
+            <div id="quiz-setup" class="bg-dark-box p-5 rounded-lg space-y-4">
+                <h2 class="text-base font-bold text-amber-500 flex items-center gap-2">
+                    <i class="fa-solid fa-sliders"></i> Cấu Hình Bài Kiểm Tra
+                </h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-stone-400 font-bold mb-1">Mảng kiến thức:</label>
+                        <select id="quiz-category" class="w-full p-2.5 rounded text-sm">
+                            <option value="all">🌟 Tổng hợp tất cả</option>
+                            <option value="luantri">🩺 Biện chứng luận trị</option>
+                            <option value="duoclieu">🌿 Dược liệu học</option>
+                            <option value="huyetvi">🎯 Châm cứu huyệt vị</option>
+                            <option value="tra">☕ Trà dược trị liệu</option>
+                            <option value="lyluan">🧠 Lý luận cơ bản</option>
+                            <option value="phuongte">🥣 Phương tễ học</option>
+                            <option value="chandoan">🔍 Chẩn đoán YHCT</option>
+                            <option value="duongsinh">🧘 Xoa bóp - Dưỡng sinh</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-stone-400 font-bold mb-1">Số lượng câu hỏi:</label>
+                        <select id="quiz-count" class="w-full p-2.5 rounded text-sm">
+                            <option value="5">5 câu (Nhanh)</option>
+                            <option value="10" selected>10 câu (Tiêu chuẩn)</option>
+                            <option value="20">20 câu (Nâng cao)</option>
+                            <option value="30">30 câu (Chuyên sâu)</option>
+                        
+                        </select>
+                    </div>
+                </div>
+                <div id="quiz-last-score" class="text-xs text-amber-500 font-medium pt-1"></div>
+                    
+                <button onclick="batDauTracNghiem()" class="w-full py-3 bg-primary hover:bg-orange-700 text-white font-bold rounded flex items-center justify-center gap-2 transition-colors">
+                    <i class="fa-solid fa-play"></i> Bắt Đầu Kiểm Tra
+                </button>
+            </div>
+
+            <div id="quiz-play" class="hidden bg-dark-box p-5 rounded-lg space-y-4 border border-stone-800">
+                <div class="flex justify-between items-center border-b border-stone-800 pb-2">
+                    <span id="quiz-progress" class="text-xs font-bold text-amber-500">Câu 1/10</span>
+                    <span id="quiz-score-live" class="text-xs text-stone-400">Điểm: 0</span>
+                </div>
+                <div id="quiz-question" class="text-sm font-semibold text-stone-200 min-h-[50px]"></div>
+                <div id="quiz-options" class="space-y-2"></div>
+            </div>
+
+            <div id="quiz-result" class="hidden bg-dark-box p-6 rounded-lg text-center space-y-4 border border-stone-800">
+                <div class="text-stone-400 text-xs uppercase font-bold tracking-wider">KẾT QUẢ TRẮC NGHIỆM</div>
+                <div id="quiz-score-final" class="text-4xl font-black text-amber-500">0/10</div>
+                <div id="quiz-evaluation" class="text-sm font-medium text-stone-300 bg-stone-900 p-4 rounded-lg border border-stone-800 text-left leading-relaxed"></div>
+                
+                <button onclick="hienThiXemLai()" class="w-full py-3 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold rounded flex items-center justify-center gap-2 transition-all">
+                    <i class="fa-solid fa-eye"></i> Xem Lại Bài Làm
+                </button>
+
+                <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                    <button onclick="batDauTracNghiem()" class="flex-1 py-3 bg-primary hover:bg-orange-700 text-white font-bold rounded flex items-center justify-center gap-2 transition-colors">
+                        <i class="fa-solid fa-rotate-right"></i> Làm Bài Khác
+                    </button>
+                    <button onclick="quayLaiCauHinhQuiz()" class="flex-1 py-3 bg-stone-800 hover:bg-stone-700 text-stone-300 border border-stone-700 font-bold rounded flex items-center justify-center gap-2 transition-all">
+                        <i class="fa-solid fa-sliders"></i> Chọn Cấu Trúc Khác
+                    </button>
+                </div>
+            </div>
+
+            <div id="quiz-review" class="hidden bg-dark-box p-5 rounded-lg space-y-4 border border-stone-800">
+                <div class="flex justify-between items-center border-b border-stone-800 pb-2">
+                    <h3 class="text-sm font-bold text-amber-500"><i class="fa-solid fa-list-check"></i> Chi Tiết Câu Trả Lời</h3>
+                    <button onclick="dongXemLai()" class="text-stone-400 hover:text-white text-xs px-2.5 py-1.5 bg-stone-800 rounded font-bold">Quay lại kết quả</button>
+                </div>
+                <div id="quiz-review-list" class="space-y-3 max-h-96 overflow-y-auto text-xs text-left pr-1"></div>
+            </div>
+        </section>
+        
+        <!-- TAB 3: DƯỢC LIỆU -->
+                <section id="sectionDuocLieu" class="hidden space-y-5">
+            <div class="bg-dark-box p-5 rounded-lg space-y-3">
+                <div class="flex gap-2 items-center">
+                    <div class="relative flex-1">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-stone-500"></i>
+                        <input type="text" id="searchDuocLieu" oninput="debounceFilterDuocLieu()" onkeydown="if(event.key==='Enter') filterDuocLieu()" placeholder="Nhập tên/công năng của dược liệu..." class="w-full pl-10 pr-4 py-2 rounded-lg">
+                    </div>
+                    <button onclick="toggleQuizDL()" class="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0">
+                        <i class="fa-solid fa-graduation-cap"></i> Ôn tập
+                    </button>
+                </div>
+                <select id="filterNhomDuocLieu" onchange="filterDuocLieu()" class="w-full p-3 rounded"></select>
+            </div>
+            <div id="gridDuocLieu" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>        </section>
+        
+        <!-- TAB 4: HUYỆT VỊ -->
+                <section id="sectionHuyetVi" class="hidden space-y-5">
+            <div class="bg-dark-box p-5 rounded-lg space-y-3">
+                <div class="flex gap-2 items-center">
+                    <div class="relative flex-1">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-stone-500"></i>
+                        <input type="text" id="searchHuyetVi" oninput="debounceFilterHuyetVi()" onkeydown="if(event.key==='Enter') filterHuyetVi()" placeholder="Nhập tên huyệt, vị trí..." class="w-full pl-10 pr-4 py-2 rounded-lg">
+                    </div>
+                    <button onclick="toggleQuizHV()" class="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0">
+                        <i class="fa-solid fa-graduation-cap"></i> Ôn tập
+                    </button>
+                </div>
+                <select id="filterKinhLac" onchange="filterHuyetVi()" class="w-full p-3 rounded"></select>
+            </div>
+            <div id="gridHuyetVi" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </section>
+
+        <!-- TAB 5: TRÀ DƯỢC -->
+        <section id="sectionTra" class="hidden space-y-5">
+            <div class="bg-dark-box p-5 rounded-lg flex flex-col md:flex-row gap-4">
+                <div class="relative w-full md:w-64">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-stone-500"></i>
+                    <input type="text" id="searchTra" oninput="debounceFilterTra()" onkeydown="if(event.key==='Enter') filterTra()" placeholder="Nhập tên trà..." class="w-full pl-9 pr-4 py-2 rounded">
+                </div>
+                <select id="filterNhomTra" onchange="filterTra()" class="w-full md:w-1/2 p-3 rounded"></select>
+            </div>
+            <div id="gridTra" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+        </section>
+        
+        <!-- TAB 6: XEM ẢNH -->
+        <section id="sectionXemAnh" class="hidden space-y-4">
+            <div class="relative bg-dark-box p-8 rounded-xl max-w-md mx-auto text-center space-y-6 border border-amber-900/40 shadow-2xl my-2">
+                <div class="space-y-1 pt-2">
+                    <div class="text-stone-500 text-[10px] font-bold tracking-wider uppercase flex items-center justify-center gap-1">
+                        <i class="fa-solid fa-bolt text-[9px] text-amber-500"></i> TRA CỨU HÌNH ẢNH YHCT
+                    </div>
+                    <h3 id="current-image-keyword" class="text-xl font-black text-amber-400 tracking-wide py-1">
+                        Chưa chọn vị thuốc
+                    </h3>
+                </div>
+
+                <!-- Khung chứa các liên kết mở trực tiếp -->
+                <div id="image-links-container" class="grid grid-cols-1 gap-2.5 pt-2">
+                    <div class="text-xs text-stone-400 italic">Vui lòng chọn dược liệu hoặc huyệt vị từ các tab trước để hiển thị liên kết tra cứu.</div>
+                </div>
+
+                <!-- Nút quay lại tab nguồn thông minh -->
+                <button onclick="quayLaiTabTruoc()" class="w-full py-2.5 px-3 bg-stone-800 hover:bg-stone-700 text-stone-300 border border-stone-700 font-bold text-xs rounded flex items-center justify-center gap-2 transition-all cursor-pointer">
+                    <i class="fa-solid fa-arrow-left"></i> Quay lại tab tra cứu
+                </button>
+
+                <p class="text-[10px] text-stone-500 italic">Hệ thống tự động tối ưu từ khóa chuẩn YHCT.</p>
+                <div class="text-[10px] text-stone-600 italic opacity-80 pt-1">by Trần Đắc Thọ</div>
+            </div>
+        </section>
+
+        <!-- TAB 7: TRỢ LÝ AI -->
+        <section id="sectionAI" class="hidden space-y-4">
+            <div class="bg-dark-box p-5 rounded-lg space-y-4">
+                <h3 class="text-sm font-bold text-amber-500 flex items-center gap-2">
+                    <i class="fa-solid fa-robot"></i> Trợ Lý AI YHCT
+                </h3>
+                <div id="ai-chat-box" class="bg-stone-900 p-4 rounded-lg h-80 overflow-y-auto space-y-3 text-xs border border-stone-800">
+                    <div class="bg-stone-800 p-3 rounded-lg text-stone-300">
+                        <span class="font-bold text-amber-500">Trợ Lý AI YHCT:</span> Chào bạn, tôi có thể hỗ trợ gì cho bạn về Y học cổ truyền?
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" id="ai-input" onkeydown="if(event.key==='Enter') sendAIWebMessage()" placeholder="Nhập câu hỏi cho trợ lý AI..." class="flex-1 p-3 rounded text-xs">
+                    <button onclick="sendAIWebMessage()" class="px-5 py-3 bg-primary hover:bg-orange-700 text-white font-bold text-xs rounded transition-colors flex items-center gap-1.5 cursor-pointer">
+                        <i class="fa-solid fa-paper-plane"></i> Gửi
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER CHUẨN -->
+    <footer class="text-center text-xs text-stone-500 py-6 border-t border-stone-800 mt-8 mb-10 space-y-2">
+        <div class="flex flex-wrap justify-center gap-4 text-stone-400 font-medium">
+            <a href="about.html" target="_blank" class="hover:text-primary transition-colors">Giới thiệu</a>
+            <span>•</span>
+            <a href="changelog.html" target="_blank" class="hover:text-primary transition-colors">Nhật ký cập nhật</a> <!-- Thêm dòng này -->
+        <span>•</span>
+            <a href="privacy.html" target="_blank" class="hover:text-primary transition-colors">Chính sách bảo mật</a>
+            <span>•</span>
+            <a href="disclaimer.html" target="_blank" class="hover:text-primary transition-colors">Miễn trừ trách nhiệm y tế</a>
+            <span>•</span>
+            <a href="contact.html" target="_blank" class="hover:text-primary transition-colors">Liên hệ</a>
+        </div>
+        <p class="text-[11px] text-stone-600">© 2026 Đại Luận Trị YHCT. Phát triển bởi Trần Đắc Thọ.</p>
+    </footer>
+
+    <!-- 1. NẠP DỮ LIỆU TỪ FILE JS NGOÀI TRƯỚC -->
+    <script src="luantridata.js"></script>
+    <script src="duoclieudata.js"></script>
+    <script src="huyetvidata.js"></script>
+    <script src="tradata.js"></script>
+    <script src="questiondata.js"></script>
+    
+    <!-- 2. DỮ LIỆU DỰ PHÒNG CHUẨN CÚ PHÁP -->
+    <script>
+        if (typeof database === 'undefined') window.database = {};
+        if (typeof duocLieuData === 'undefined') window.duocLieuData = [];
+        if (typeof huyetViData === 'undefined') window.huyetViData = [];
+        if (typeof traData === 'undefined') window.traData = [];
+        
+        if (typeof questionsData === 'undefined' && !window.questionsData) {
+            window.questionsData = [
+                {
+                    category: "luantri",
+                    cau_hoi: "Triệu chứng đặc trưng của hội chứng Tâm hỏa kháng thịnh là gì?",
+                    lua_chon: ["Tâm phiền mất ngủ, mặt đỏ miệng khát", "Sợ lạnh, tay chân lạnh", "Đau lưng mỏi gối", "Bụng đầy trướng ăn kém"],
+                    dap_an: 0,
+                    giai_thich: "Tâm hỏa kháng thịnh gây nhiễu tâm thần và bốc hỏa lên trên."
+                }
+            ];
+        }
+    </script>
+
+    <!-- LOGIC XỬ LÝ CHÍNH -->
+        <script>
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>'"]/g, 
+                tag => ({
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    "'": '&#39;',
+                    '"': '&quot;'
+                }[tag])
+            );
+        }
+
+        let quizActive = false;
+                let isQuizDL = false, isQuizHV = false;
+
+        function toggleQuizDL() {
+            isQuizDL = !isQuizDL;
+            const btn = event.currentTarget;
+            if (isQuizDL) {
+                btn.className = "px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0 shadow-lg shadow-amber-900/50";
+            } else {
+                btn.className = "px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0";
+            }
+            filterDuocLieu();
+        }
+
+        function toggleQuizHV() {
+            isQuizHV = !isQuizHV;
+            const btn = event.currentTarget;
+            if (isQuizHV) {
+                btn.className = "px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0 shadow-lg shadow-amber-900/50";
+            } else {
+                btn.className = "px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0";
+            }
+            filterHuyetVi();
+        }
+
+        const getVal = (id) => document.getElementById(id)?.value ?? '';
+
+        function debounce(func, delay = 100) {
+            let timer;
+            return function(...args) {
+                clearTimeout(timer);
+                timer = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
+        const debounceSearchLuanTri = debounce(searchLuanTri, 100);
+        const debounceFilterDuocLieu = debounce(filterDuocLieu, 100);
+        const debounceFilterHuyetVi = debounce(filterHuyetVi, 100);
+        const debounceFilterTra = debounce(filterTra, 100);
+
+        function capNhatTongSoTrieuChung() {
+            if (typeof database === 'undefined' || !database) return;
+            const tatCaTrieuChung = [];
+            Object.values(database).forEach(hoiChung => {
+                if (hoiChung?.tc && Array.isArray(hoiChung.tc)) {
+                    tatCaTrieuChung.push(...hoiChung.tc);
+                }
+            });
+            const trieuChungDuyNhat = [...new Set(tatCaTrieuChung.filter(Boolean))];
+            const elementTong = document.getElementById('total-chung');
+            if (elementTong) elementTong.innerText = trieuChungDuyNhat.length;
+        }
+
+                window.addEventListener("DOMContentLoaded", () => {
+            requestAnimationFrame(() => {
+                try {
+                    capNhatTongSoTrieuChung();
+                    if (typeof duocLieuData !== 'undefined' && duocLieuData) {
+                        const el = document.getElementById('total-thuoc');
+                        if (el) el.textContent = duocLieuData.length;
+                    }
+                    if (typeof huyetViData !== 'undefined' && huyetViData) {
+                        const el = document.getElementById('total-huyet');
+                        if (el) el.textContent = huyetViData.length;
+                    }
+                    if (typeof traData !== 'undefined' && traData) {
+                        const el = document.getElementById('total-tra');
+                        if (el) el.textContent = traData.length;
+                    }
+                } catch (err) {
+                    console.error("Lỗi khởi tạo:", err);
+                }
+
+                const savedTab = localStorage.getItem('activeTab') || 'luantri';
+                switchTab(savedTab);
+            });
+        });
+
+        
+
+        function switchTab(tabName) {
+            if (tabName !== 'xemanh') {
+                localStorage.setItem('activeTab', tabName);
+            }
+
+            const tabs = ['luantri', 'tracnghiem', 'duoclieu', 'huyetvi', 'tra', 'xemanh', 'ai'];
+            const pascalMap = { 
+                luantri: 'LuanTri', 
+                tracnghiem: 'TracNghiem', 
+                duoclieu: 'DuocLieu', 
+                huyetvi: 'HuyetVi', 
+                tra: 'Tra', 
+                xemanh: 'XemAnh',
+                ai: 'AI'
+            };
+
+            tabs.forEach(t => {
+                const pascalCase = pascalMap[t];
+                const section = document.getElementById('section' + pascalCase);
+                const btn = document.getElementById('btnTab' + pascalCase);
+
+                if (t === tabName) {
+                    if (section) {
+                        section.classList.remove('hidden');
+                        section.style.opacity = '0';
+                        section.style.transform = 'translateY(6px)';
+                        section.style.transition = 'all 0.15s ease';
+                        requestAnimationFrame(() => {
+                            section.style.opacity = '1';
+                            section.style.transform = 'translateY(0)';
+                        });
+                    }
+                    if (btn) btn.classList.add('tab-active', 'text-primary');
+
+                    if (t === 'duoclieu') filterDuocLieu();
+                    if (t === 'huyetvi') filterHuyetVi();
+                    if (t === 'tra') filterTra();
+                    if (t === 'tracnghiem') capNhatDiemGanNhat();
+                    
+                } else {
+                    if (section) section.classList.add('hidden');
+                    if (btn) btn.classList.remove('tab-active', 'text-primary');
+                }
+            });
+        }
+
+        let currentQuizQuestions = [];
+        let currentQuizIndex = 0;
+        let quizScore = 0;
+        let userAnswers = [];
+        
+        function capNhatDiemGanNhat() {
+            const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
+            const el = document.getElementById('quiz-last-score');
+            if (el && history.length > 0) {
+                el.innerHTML = `⏱️ Lần gần nhất (${history[0].date}): <strong class="text-amber-400">${history[0].score}</strong> (${history[0].percent})`;
+            }
+        }
+ 
+        function batDauTracNghiem() {
+            const categorySelect = document.getElementById('quiz-category');
+            const countSelect = document.getElementById('quiz-count');
+            
+            const category = categorySelect ? categorySelect.value : 'all';
+            const count = countSelect ? parseInt(countSelect.value) : 10;
+
+            let rawData = [];
+            if (typeof questionsData !== 'undefined' && Array.isArray(questionsData) && questionsData.length > 3) {
+                rawData = questionsData;
+            } else if (Array.isArray(window.questionsData)) {
+                rawData = window.questionsData;
+            }
+
+            let pool = rawData;
+            if (category !== 'all') {
+                const filtered = rawData.filter(q => q.category === category);
+                if (filtered.length > 0) pool = filtered;
+            }
+
+            currentQuizQuestions = [...pool]
+                .sort(() => 0.5 - Math.random())
+                .slice(0, count)
+                .map(q => {
+                    const shuffled = q.lua_chon
+                        .map((text, idx) => ({ text, isCorrect: idx === q.dap_an }))
+                        .sort(() => 0.5 - Math.random());
+
+                    return {
+                        ...q,
+                        lua_chon: shuffled.map(item => item.text),
+                        dap_an: shuffled.findIndex(item => item.isCorrect)
+                    };
+                });
+
+            currentQuizIndex = 0;
+            quizScore = 0;
+            userAnswers = [];
+
+            document.getElementById('quiz-setup').classList.add('hidden');
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('quiz-review').classList.add('hidden');
+            document.getElementById('quiz-play').classList.remove('hidden');
+
+            hienThiCauHoiTracNghiem();
+        }
+
+        function hienThiCauHoiTracNghiem() {
+            if (currentQuizIndex >= currentQuizQuestions.length) {
+                hienThiKetQuaTracNghiem();
+                return;
+            }
+
+            const oldFeedback = document.getElementById('quiz-feedback-box');
+            if (oldFeedback) oldFeedback.remove();
+
+            const q = currentQuizQuestions[currentQuizIndex];
+            document.getElementById('quiz-progress').innerText = `Câu ${currentQuizIndex + 1}/${currentQuizQuestions.length}`;
+            document.getElementById('quiz-score-live').innerText = `Điểm: ${quizScore}`;
+            document.getElementById('quiz-question').innerText = q.cau_hoi;
+
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = "";
+
+            q.lua_chon.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full p-3 text-left bg-stone-900 hover:bg-stone-800 border border-stone-800 rounded text-xs text-stone-200 transition-all flex items-center gap-2";
+                btn.innerHTML = `<span class="w-5 h-5 rounded-full bg-stone-800 flex items-center justify-center text-[10px] font-bold text-amber-500">${String.fromCharCode(65 + idx)}</span> <span>${opt}</span>`;
+                btn.onclick = () => chonDapAnTracNghiem(idx);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function chonDapAnTracNghiem(selectedIndex) {
+            const q = currentQuizQuestions[currentQuizIndex];
+            const isCorrect = selectedIndex === q.dap_an;
+            
+            if (isCorrect) quizScore++;
+
+            userAnswers.push({
+                cau_hoi: q.cau_hoi,
+                lua_chon: q.lua_chon,
+                dap_an_dung: q.dap_an,
+                lua_chon_cua_ban: selectedIndex,
+                giai_thich: q.giai_thich,
+                dung: isCorrect
+            });
+
+            const optionsContainer = document.getElementById('quiz-options');
+            const buttons = optionsContainer.children;
+            for (let i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = true;
+                buttons[i].classList.add('pointer-events-none', 'opacity-75');
+                if (i === q.dap_an) {
+                    buttons[i].classList.remove('bg-stone-900', 'border-stone-800');
+                    buttons[i].classList.add('bg-emerald-950/80', 'border-emerald-600', 'text-emerald-300', 'font-bold');
+                } else if (i === selectedIndex && !isCorrect) {
+                    buttons[i].classList.remove('bg-stone-900', 'border-stone-800');
+                    buttons[i].classList.add('bg-red-950/80', 'border-red-600', 'text-red-300', 'font-bold');
+                }
+            }
+
+            let feedbackDiv = document.getElementById('quiz-feedback-box');
+            if (!feedbackDiv) {
+                feedbackDiv = document.createElement('div');
+                feedbackDiv.id = 'quiz-feedback-box';
+                optionsContainer.parentNode.appendChild(feedbackDiv);
+            }
+
+            if (isCorrect) {
+                feedbackDiv.className = "mt-4 p-3.5 rounded-lg border border-emerald-800 bg-emerald-950/40 text-xs space-y-2 animate-fade-in";
+                feedbackDiv.innerHTML = `
+                    <div class="font-bold text-emerald-400 flex items-center gap-1.5 text-sm">
+                        <i class="fa-solid fa-circle-check"></i> Chính xác!
+                    </div>
+                    <div class="text-stone-300 italic">💡 ${q.giai_thich || 'Đã ghi nhận đáp án đúng.'}</div>
+                    <button onclick="chuyenCauTiepTheo()" class="mt-2 w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded transition-all flex items-center justify-center gap-2 cursor-pointer">
+                        Câu tiếp theo <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                `;
+            } else {
+                feedbackDiv.className = "mt-4 p-3.5 rounded-lg border border-red-800 bg-red-950/40 text-xs space-y-2 animate-fade-in";
+                feedbackDiv.innerHTML = `
+                    <div class="font-bold text-red-400 flex items-center gap-1.5 text-sm">
+                        <i class="fa-solid fa-circle-xmark"></i> Chưa chính xác!
+                    </div>
+                    <div class="text-stone-300 italic">💡 ${q.giai_thich || 'Xem lại kiến thức chuyên đề này.'}</div>
+                    <button onclick="chuyenCauTiepTheo()" class="mt-2 w-full py-2.5 bg-stone-800 hover:bg-stone-700 text-stone-200 border border-stone-700 font-bold rounded transition-all flex items-center justify-center gap-2 cursor-pointer">
+                        Câu tiếp theo <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                `;
+            }
+        }
+
+        function chuyenCauTiepTheo() {
+            currentQuizIndex++;
+            hienThiCauHoiTracNghiem();
+        }
+                
+        function hienThiKetQuaTracNghiem() {
+            document.getElementById('quiz-play').classList.add('hidden');
+            document.getElementById('quiz-result').classList.remove('hidden');
+
+            const total = currentQuizQuestions.length;
+            document.getElementById('quiz-score-final').innerText = `${quizScore}/${total}`;
+
+            let evaluationText = "";
+            const percent = (quizScore / total) * 100;
+            if (percent === 100) {
+                evaluationText = "🏆 Xuất sắc! Bạn nắm rất vững kiến thức Y học cổ truyền chuẩn xác.";
+            } else if (percent >= 80) {
+                evaluationText = "👍 Rất tốt! Kiến thức lâm sàng và dược lý của bạn ở mức cao.";
+            } else if (percent >= 50) {
+                evaluationText = "📚 Khá ổn, tuy nhiên bạn cần ôn tập thêm về các pháp trị và dược liệu.";
+            } else {
+                evaluationText = "💡 Cần cố gắng ôn luyện thêm các chuyên đề Biện chứng luận trị và Dược liệu học.";
+            }
+            document.getElementById('quiz-evaluation').innerText = evaluationText;
+
+            const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
+            history.unshift({
+                date: new Date().toLocaleDateString('vi-VN'),
+                score: `${quizScore}/${total}`,
+                percent: percent.toFixed(0) + '%'
+            });
+            localStorage.setItem('quizHistory', JSON.stringify(history.slice(0, 5)));
+            capNhatDiemGanNhat();
+        }
+
+        function kichHoatTimAnh(keyword = "") {
+            const kw = keyword.trim() || "Chưa chọn vị thuốc";
+            const kwEl = document.getElementById('current-image-keyword');
+            if (kwEl) kwEl.innerText = kw;
+
+            const container = document.getElementById('image-links-container');
+            if (container) {
+                if (kw === "Chưa chọn vị thuốc") {
+                    container.innerHTML = `<div class="text-xs text-stone-400 italic">Vui lòng chọn dược liệu hoặc huyệt vị từ các tab trước để hiển thị liên kết tra cứu.</div>`;
+                } else {
+                    const kwClean = kw.replace(/\(.*?\)/g, '').replace(/[^\w\sàáảãạăắằẳẵặâấầẩẫậèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵđ]/gi, ' ').trim();
+                    const suffix = kwClean.toLowerCase().includes('huyệt') ? ' huyệt vị YHCT' : ' vị thuốc YHCT';
+                    const q = encodeURIComponent(kwClean + suffix);
+
+                    const urlGoogle = `https://www.google.com/search?q=${q}&udm=2`;
+                    const urlDDG = `https://duckduckgo.com/?q=${q}&iax=images&ia=images`;
+                    const urlBing = `https://www.bing.com/images/search?q=${q}&form=HDRSC2`;
+
+                    container.innerHTML = `
+                        <button onclick="window.open('${urlDDG}', '_blank', 'noopener,noreferrer')" class="w-full py-3 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer">
+                            <i class="fa-solid fa-shield-halved text-sm"></i> Mở trên DuckDuckGo
+                        </button>
+                        <button onclick="window.open('${urlGoogle}', '_blank', 'noopener,noreferrer')" class="w-full py-3 px-3 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer">
+                            <i class="fa-brands fa-google text-sm"></i> Mở ảnh trên Google
+                        </button>
+                        <button onclick="window.open('${urlBing}', '_blank', 'noopener,noreferrer')" class="w-full py-3 px-3 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer">
+                            <i class="fa-solid fa-magnifying-glass text-sm"></i> Mở trên Bing
+                        </button>
+                    `;
+                }
+            }
+
+            switchTab('xemanh');
+        }
+
+        function quayLaiCauHinhQuiz() {
+            document.getElementById('quiz-result').classList.add('hidden');
+            document.getElementById('quiz-review').classList.add('hidden');
+            document.getElementById('quiz-setup').classList.remove('hidden');
+        }
+
+        function hienThiXemLai() {
+            document.getElementById('quiz-result').classList.add('hidden');
+            const reviewDiv = document.getElementById('quiz-review');
+            reviewDiv.classList.remove('hidden');
+
+            const listContainer = document.getElementById('quiz-review-list');
+            listContainer.innerHTML = "";
+
+            userAnswers.forEach((ans, index) => {
+                const item = document.createElement('div');
+                item.className = `p-3 rounded-lg border text-xs space-y-1.5 ${ans.dung ? 'bg-emerald-950/20 border-emerald-900/50' : 'bg-red-950/20 border-red-900/50'}`;
+                
+                const yourChoiceText = ans.lua_chon_cua_ban !== undefined ? ans.lua_chon[ans.lua_chon_cua_ban] : "Chưa trả lời";
+                const correctChoiceText = ans.lua_chon[ans.dap_an_dung];
+
+                item.innerHTML = `
+                    <div class="font-bold text-stone-200">Câu ${index + 1}: ${ans.cau_hoi}</div>
+                    <div class="${ans.dung ? 'text-emerald-400' : 'text-red-400'} font-medium">
+                        👉 Lựa chọn của bạn: ${yourChoiceText} ${ans.dung ? '✓' : '✗'}
+                    </div>
+                    ${!ans.dung ? `<div class="text-emerald-400 font-medium">✔ Đáp án đúng: ${correctChoiceText}</div>` : ''}
+                    <div class="text-stone-400 italic pt-1">💡 Giải thích: ${ans.giai_thich}</div>
+                `;
+                listContainer.appendChild(item);
+            });
+        }
+
+        function dongXemLai() {
+            document.getElementById('quiz-review').classList.add('hidden');
+            document.getElementById('quiz-result').classList.remove('hidden');
+        }
+
+        function quayLaiTabTruoc() {
+            const lastTab = localStorage.getItem('activeTab') || 'duoclieu';
+            switchTab(lastTab);
+        }
+        
+        function xemDuocLieu(tenViThuoc) {
+            if (!tenViThuoc) return;
+            switchTab('duoclieu');
+            const searchInput = document.getElementById('searchDuocLieu');
+            const filterNhom = document.getElementById('filterNhomDuocLieu');
+            if (searchInput) searchInput.value = tenViThuoc;
+            if (filterNhom) filterNhom.value = "";
+            filterDuocLieu();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        window.onload = function() {
+            setTimeout(() => {
+                if (typeof duocLieuData !== 'undefined' && duocLieuData && Array.isArray(duocLieuData)) {
+                    const nhomDL = [...new Set(duocLieuData.map(d => d.nhom).filter(Boolean))];
+                    const selectDL = document.getElementById('filterNhomDuocLieu');
+                    if (selectDL) {
+                        selectDL.innerHTML = '<option value="">-- Tất cả nhóm dược --</option>';
+                        nhomDL.forEach(n => { let opt = document.createElement('option'); opt.value = n; opt.innerText = n; selectDL.appendChild(opt); });
+                    }
+                }
+                
+                if (typeof huyetViData !== 'undefined' && huyetViData && Array.isArray(huyetViData)) {
+                    const heKinhLac = [...new Set(huyetViData.map(h => h.kinh).filter(Boolean))];
+                    const selectHL = document.getElementById('filterKinhLac');
+                    if (selectHL) {
+                        selectHL.innerHTML = '<option value="">-- Tất cả hệ thống kinh mạch --</option>';
+                        heKinhLac.forEach(k => { let opt = document.createElement('option'); opt.value = k; opt.innerText = k; selectHL.appendChild(opt); });
+                    }
+                }
+
+                if (typeof traData !== 'undefined' && traData && Array.isArray(traData)) {
+                    const nhomTra = [...new Set(traData.map(t => t.nhom).filter(Boolean))];
+                    const selectTra = document.getElementById('filterNhomTra');
+                    if (selectTra) {
+                        selectTra.innerHTML = '<option value="">-- Tất cả nhóm công dụng --</option>';
+                        nhomTra.forEach(n => { let opt = document.createElement('option'); opt.value = n; opt.innerText = n; selectTra.appendChild(opt); });
+                    }
+                }
+                updateLuanTri();
+            }, 20);
+        };
+
+        function startQuizMode() {
+            if (typeof database === 'undefined' || !database) return;
+            quizActive = true;
+            
+            const boLoc = document.getElementById('bo-loc-tam-truc');
+            if (boLoc) boLoc.classList.add('blur-sm', 'pointer-events-none', 'opacity-40');
+            const input = document.getElementById('search-input');
+            if (input) {
+                input.classList.add('blur-sm', 'pointer-events-none', 'opacity-40');
+                input.disabled = true;
+            }
+            
+            const controls = document.getElementById('quiz-controls');
+            if (controls) {
+                controls.innerHTML = `
+                    <button onclick="loadRandomCase()" class="flex-1 px-4 py-3 bg-purple-900 hover:bg-purple-800 text-purple-300 border border-purple-700 font-bold rounded flex items-center justify-center gap-2 transition-all">
+                        <i class="fa-solid fa-shuffle"></i> Ca Tiếp Theo
+                    </button>
+                    <button onclick="stopQuizMode()" class="flex-1 px-4 py-3 bg-stone-800 hover:bg-stone-700 text-stone-400 border border-stone-700 font-bold rounded flex items-center justify-center gap-2 transition-all">
+                        <i class="fa-solid fa-xmark"></i> Thoát
+                    </button>
+                `;
+            }
+            loadRandomCase();
+        }
+
+        function loadRandomCase() {
+            if (!quizActive || typeof database === 'undefined' || !database) return;
+            const keys = Object.keys(database);
+            if (keys.length === 0) return;
+            const randomKey = keys[Math.floor(Math.random() * keys.length)];
+            const data = database[randomKey];
+            if (data) {
+                const parts = randomKey.split('_');
+                if (parts.length === 3) {
+                    const tp = document.getElementById('tang-phu');
+                    const hn = document.getElementById('han-nhiet');
+                    const ht = document.getElementById('hu-thuc');
+                    if (tp) tp.value = parts[0];
+                    if (hn) hn.value = parts[1];
+                    if (ht) ht.value = parts[2];
+                }
+                const hcEl = document.getElementById('hoi-chung');
+                const pdtEl = document.getElementById('phap-dieu-tri');
+                const btEl = document.getElementById('bai-thuoc');
+                if (hcEl) hcEl.innerText = data.hc || "Chưa rõ hội chứng";
+                if (pdtEl) pdtEl.innerText = data.pdt || "Chưa rõ pháp trị";
+                if (btEl) btEl.innerText = data.bt || "Chưa rõ cổ phương";
+
+                const ul = document.getElementById('trieu-chung'); 
+                if (ul) {
+                    ul.innerHTML = "";
+                    if (data.tc && Array.isArray(data.tc)) {
+                        const frag = document.createDocumentFragment();
+                        data.tc.forEach(t => { let li = document.createElement('li'); li.innerText = t; frag.appendChild(li); });
+                        ul.appendChild(frag);
+                    }
+                }
+                const divBt = document.getElementById('chi-tiet-bai-thuoc'); 
+                if (divBt) {
+                    divBt.innerHTML = "";
+                    if (data.tpbt && Array.isArray(data.tpbt)) {
+                        const frag = document.createDocumentFragment();
+                        data.tpbt.forEach(v => {
+                            let b = document.createElement('button');
+                            b.className = "px-2.5 py-1 text-xs bg-stone-800 text-amber-400 border border-stone-700 rounded transition-all font-medium";
+                            b.innerHTML = `<i class="fa-solid fa-leaf text-[10px] mr-1 text-emerald-500"></i>${v}`;
+                            b.onclick = () => xemDuocLieu(v); frag.appendChild(b);
+                        });
+                        divBt.appendChild(frag);
+                    }
+                }
+                
+                const boLoc = document.getElementById('bo-loc-tam-truc');
+                if (boLoc) boLoc.classList.add('blur-sm', 'pointer-events-none', 'opacity-40');
+                if (hcEl) hcEl.className = "text-xl font-bold text-primary transition-all blur-sm select-none cursor-pointer";
+                if (pdtEl) pdtEl.className = "text-base font-semibold text-emerald-500 transition-all blur-sm select-none cursor-pointer";
+                if (btEl) btEl.className = "text-lg font-bold text-amber-500 transition-all blur-sm select-none cursor-pointer";
+                const chiTietBT = document.getElementById('chi-tiet-bai-thuoc');
+                if (chiTietBT) chiTietBT.className = "flex flex-wrap gap-2 transition-all blur-sm select-none";
+                
+                const revealAction = () => {
+                    if (hcEl) hcEl.classList.remove('blur-sm', 'select-none');
+                    if (pdtEl) pdtEl.classList.remove('blur-sm', 'select-none');
+                    if (btEl) btEl.classList.remove('blur-sm', 'select-none');
+                    if (chiTietBT) chiTietBT.classList.remove('blur-sm', 'select-none');
+                    if (boLoc) boLoc.classList.remove('blur-sm', 'opacity-40');
+                };
+                if (hcEl) hcEl.onclick = revealAction;
+                if (pdtEl) pdtEl.onclick = revealAction;
+                if (btEl) btEl.onclick = revealAction;
+            }
+        }
+
+        function stopQuizMode() {
+            quizActive = false;
+            const boLoc = document.getElementById('bo-loc-tam-truc');
+            if (boLoc) boLoc.classList.remove('blur-sm', 'pointer-events-none', 'opacity-40');
+            const input = document.getElementById('search-input');
+            if (input) {
+                input.classList.remove('blur-sm', 'pointer-events-none', 'opacity-40');
+                input.disabled = false;
+            }
+            
+            const controls = document.getElementById('quiz-controls');
+            if (controls) {
+                controls.innerHTML = `
+                    <button onclick="startQuizMode()" class="w-full px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded flex items-center justify-center gap-2 transition-all">
+                        <i class="fa-solid fa-graduation-cap"></i> Chế độ Ôn Tập
+                    </button>
+                `;
+            }
+            const hcEl = document.getElementById('hoi-chung');
+            const pdtEl = document.getElementById('phap-dieu-tri');
+            const btEl = document.getElementById('bai-thuoc');
+            const chiTietBT = document.getElementById('chi-tiet-bai-thuoc');
+            if (hcEl) { hcEl.className = "text-xl font-bold text-primary transition-all"; hcEl.onclick = null; }
+            if (pdtEl) { pdtEl.className = "text-base font-semibold text-emerald-500 transition-all"; pdtEl.onclick = null; }
+            if (btEl) { btEl.className = "text-lg font-bold text-amber-500 transition-all"; btEl.onclick = null; }
+            if (chiTietBT) chiTietBT.className = "flex flex-wrap gap-2 transition-all";
+            updateLuanTri();
+        }
+
+        function updateLuanTri(query = "") {
+            if (quizActive || typeof database === 'undefined' || !database) return;
+            const tp = getVal('tang-phu');
+            const hn = getVal('han-nhiet');
+            const ht = getVal('hu-thuc');
+            if (!tp || !hn || !ht) return;
+
+            const data = database[`${tp}_${hn}_${ht}`];
+            const hcEl = document.getElementById('hoi-chung');
+            const pdtEl = document.getElementById('phap-dieu-tri');
+            const btEl = document.getElementById('bai-thuoc');
+            const ul = document.getElementById('trieu-chung');
+            const divBt = document.getElementById('chi-tiet-bai-thuoc');
+            
+            if (data) {
+                if (hcEl) hcEl.innerHTML = highlightText(data.hc || "Chưa rõ hội chứng", query);
+                if (pdtEl) pdtEl.innerText = data.pdt || "Chưa có pháp trị";
+                if (btEl) btEl.innerText = data.bt || "Đối chứng nghiệm phương";
+                
+                if (ul) {
+                    ul.innerHTML = "";
+                    if (data.tc && Array.isArray(data.tc)) { 
+                        const frag = document.createDocumentFragment();
+                        data.tc.forEach(t => { 
+                            let li = document.createElement('li'); 
+                            li.innerHTML = highlightText(t, query); 
+                            frag.appendChild(li); 
+                        }); 
+                        ul.appendChild(frag);
+                    }
+                }
+
+                if (divBt) {
+                    divBt.innerHTML = "";
+                    if (data.tpbt && Array.isArray(data.tpbt)) {
+                        const frag = document.createDocumentFragment();
+                        data.tpbt.forEach(v => {
+                            let btn = document.createElement('button');
+                            btn.className = "px-2.5 py-1 text-xs bg-stone-800 text-amber-400 border border-stone-700 rounded transition-all font-medium";
+                            btn.innerHTML = `<i class="fa-solid fa-leaf text-[10px] mr-1 text-emerald-500"></i>${highlightText(v, query)}`;
+                            btn.onclick = () => xemDuocLieu(v); 
+                            frag.appendChild(btn);
+                        });
+                        divBt.appendChild(frag);
+                    }
+                }
+            } else {
+                if (hcEl) hcEl.innerText = "Chưa có phác đồ chuẩn";
+                if (pdtEl) pdtEl.innerText = "Biện chứng chưa khớp định vị tam trục";
+                if (btEl) btEl.innerText = "---";
+                if (ul) ul.innerHTML = "<li class='text-stone-500 italic text-xs'>Vui lòng đổi bộ lọc...</li>";
+                if (divBt) divBt.innerHTML = "";
+            }
+        }
+
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('search-dropdown');
+            const input = document.getElementById('search-input');
+            if (dropdown && !dropdown.contains(e.target) && e.target !== input) {
+                dropdown.classList.add('hidden');
+            }
+        });
+
+        function searchLuanTri() {
+            if (typeof database === 'undefined' || !database) return;
+            const query = getVal('search-input').toLowerCase().trim();
+            const dropdown = document.getElementById('search-dropdown');
+            
+            if (!query) {
+                if (dropdown) dropdown.classList.add('hidden');
+                updateLuanTri();
+                return;
+            }
+            if (quizActive) stopQuizMode();
+
+            const matches = [];
+            for (let key in database) {
+                const item = database[key]; 
+                if (!item) continue;
+                const matchHoiChung = (item.hc || '').toLowerCase().includes(query);
+                const matchTrieuChung = (item.tc || []).some(t => (t || '').toLowerCase().includes(query));
+                const matchBaiThuoc = (item.bt || '').toLowerCase().includes(query);
+                const matchViThuoc = (item.tpbt || []).some(v => (v || '').toLowerCase().includes(query));
+
+                if (matchHoiChung || matchTrieuChung || matchBaiThuoc || matchViThuoc) {
+                    matches.push({ key, ...item });
+                    if (matches.length >= 30) break;
+                }
+            }
+
+            if (dropdown) {
+                if (matches.length > 0) {
+                    dropdown.innerHTML = matches.map(m => `
+                        <div onclick="selectSearchResult('${m.key}')" class="p-2.5 hover:bg-stone-800 border-b border-stone-800/80 cursor-pointer transition-colors text-xs text-left">
+                            <div class="font-bold text-amber-400">${highlightText(m.hc, query)}</div>
+                            <div class="text-stone-400 text-[11px] truncate mt-0.5">${m.tc ? m.tc.join(', ') : ''}</div>
+                        </div>
+                    `).join('');
+                    dropdown.classList.remove('hidden');
+                } else {
+                    dropdown.innerHTML = `<div class="p-3 text-xs text-stone-500 text-center">Không tìm thấy hội chứng phù hợp</div>`;
+                    dropdown.classList.remove('hidden');
+                }
+            }
+
+            if (matches.length > 0) {
+                selectSearchResult(matches[0].key, false);
+            }
+        }
+
+        function selectSearchResult(key, hideDropdown = true) {
+            const query = getVal('search-input').trim();
+            const parts = key.split('_');
+            if (parts.length === 3) {
+                const tp = document.getElementById('tang-phu');
+                const hn = document.getElementById('han-nhiet');
+                const ht = document.getElementById('hu-thuc');
+                if (tp) tp.value = parts[0];
+                if (hn) hn.value = parts[1];
+                if (ht) ht.value = parts[2];
+                updateLuanTri(query);
+            }
+            if (hideDropdown) {
+                const dropdown = document.getElementById('search-dropdown');
+                if (dropdown) dropdown.classList.add('hidden');
+            }
+        }
+
+        function highlightText(text, query) {
+            if (!query || !text) return text;
+            const safeText = String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+            const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${safeQuery})`, 'gi');
+            return safeText.replace(regex, '<mark class="bg-amber-500/30 text-amber-300 font-bold px-0.5 rounded">$1</mark>');
+        }
+
+                        function filterDuocLieu() {
+            if (typeof duocLieuData === 'undefined' || !duocLieuData) return;
+            const txt = getVal('searchDuocLieu').toLowerCase().trim();
+            const group = getVal('filterNhomDuocLieu');
+            const grid = document.getElementById('gridDuocLieu'); 
+            if (!grid) return; 
+            grid.innerHTML = "";
+            
+            const filteredData = duocLieuData.filter(d => {
+                if (!d) return false;
+                const ten = d.ten || '';
+                const congDung = d.cong_dung || '';
+                const nhom = d.nhom || '';
+                return (ten.toLowerCase().includes(txt) || congDung.toLowerCase().includes(txt)) && 
+                       (group === "" || nhom === group);
+            });
+
+            if (filteredData.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-14 space-y-2 text-stone-500">
+                        <i class="fa-solid fa-magnifying-glass-blur text-3xl opacity-40 block mb-1"></i>
+                        <p class="text-sm font-medium">Không tìm thấy dược liệu phù hợp</p>
+                    </div>
+                `;
+                return;
+            }
+                    
+            const frag = document.createDocumentFragment();
+            filteredData.slice(0, 50).forEach(d => {
+                let card = document.createElement('div'); 
+                card.className = "bg-dark-box p-4 rounded-lg space-y-3 relative cursor-pointer border-l-4 border-emerald-600/70 hover:scale-[1.01] transition-all duration-150 shadow-md shadow-black/40";
+                
+                const kiengKy = d.kieng_ky || d.dac_tinh || d.chong_chi_dinh || d.luu_y || "";
+                const boxHTML = kiengKy ? `
+                    <div class="bg-red-950/20 border border-red-900/40 p-2.5 rounded-md text-xs leading-relaxed mt-1">
+                        <div class="text-red-500 text-[10px] font-bold tracking-wider uppercase flex items-center gap-1 mb-0.5">
+                            <i class="fa-solid fa-triangle-exclamation text-[9px]"></i> KIÊNG KỴ LÂM SÀNG:
+                        </div>
+                        <p class="text-red-400/90 font-medium">${highlightText(kiengKy, txt)}</p>
+                    </div>
+                ` : `
+                    <div class="bg-stone-950/50 border border-stone-900 p-2.5 rounded-md text-xs leading-relaxed mt-1">
+                        <div class="text-emerald-600/90 text-[10px] font-bold tracking-wider uppercase flex items-center gap-1 mb-0.5">
+                            <i class="fa-solid fa-circle-info text-[9px]"></i> LƯU Ý LÂM SÀNG:
+                        </div>
+                        <p class="text-stone-400 font-medium">Tuân thủ liều lượng phối ngũ tiêu chuẩn theo y lệnh.</p>
+                    </div>
+                `;
+
+                const blurDL = typeof isQuizDL !== 'undefined' && isQuizDL ? 'blur-md transition-all duration-300' : '';
+
+                card.innerHTML = `
+                    <div class="absolute top-0 right-0 bg-emerald-950 text-emerald-400 font-bold px-2 py-0.5 text-[10px] uppercase rounded-bl border-b border-l border-stone-800/60 tracking-wider">${d.nhom || 'Dược liệu'}</div>
+                    <div class="mb-2">
+                        <span class="font-bold text-emerald-400 text-base inline-flex items-center gap-1.5 cursor-pointer hover:underline card-title-el">
+                            <i class="fa-solid fa-leaf text-xs"></i> ${highlightText(d.ten || '', txt)}
+                        </span>
+                    </div>
+                    <div class="blur-target ${blurDL} transition-all duration-300">
+                        <div>
+                            <div class="text-stone-500 text-[10px] font-bold tracking-wider uppercase">CÔNG NĂNG CHỦ TRỊ:</div>
+                            <p class="text-sm text-stone-300 leading-relaxed mt-0.5">${highlightText(d.cong_dung || '', txt)}</p>
+                        </div>
+                        <div class="mt-2">
+                            ${boxHTML}
+                        </div>
+                    </div>
+                `;
+
+                // Xử lý sự kiện click cho toàn bộ card
+                                card.onclick = (e) => {
+                    const isTitle = e.target.closest('.card-title-el');
+                    const activeQuiz = typeof isQuizDL !== 'undefined' && isQuizDL;
+
+                    if (activeQuiz) {
+                        // Đang bật ôn tập: bấm mở chữ mờ, đồng thời nếu bấm vào tên thì vẫn xem ảnh luôn
+                        const blurEl = card.querySelector('.blur-target');
+                        if (blurEl) blurEl.classList.remove('blur-md');
+                        if (isTitle) {
+                            kichHoatTimAnh(d.ten || '');
+                        }
+                    } else {
+                        // Đang tắt ôn tập: chỉ bấm vào tên mới xem ảnh
+                        if (isTitle) {
+                            kichHoatTimAnh(d.ten || '');
+                        }
+                    }
+                };
+
+                frag.appendChild(card);
+            });
+            grid.appendChild(frag);
+        }
+
+
+                        function filterHuyetVi() {
+            if (typeof huyetViData === 'undefined' || !huyetViData) return;
+            const txt = getVal('searchHuyetVi').toLowerCase().trim();
+            const kinh = getVal('filterKinhLac');
+            const grid = document.getElementById('gridHuyetVi'); 
+            if (!grid) return; 
+            grid.innerHTML = "";
+            
+            const getKinhTheme = (kinhName) => {
+                const k = (kinhName || '').toLowerCase();
+                if (k.includes('phế') || k.includes('đại trường')) return { border: 'border-l-4 border-sky-500', bgBox: 'bg-sky-950/40 border-sky-900/60', text: 'text-sky-400', textLight: 'text-sky-200/90', tag: 'bg-sky-950 text-sky-400' };
+                if (k.includes('can') || k.includes('đởm')) return { border: 'border-l-4 border-emerald-500', bgBox: 'bg-emerald-950/40 border-emerald-900/60', text: 'text-emerald-400', textLight: 'text-emerald-200/90', tag: 'bg-emerald-950 text-emerald-400' };
+                if (k.includes('tỳ') || k.includes('vị')) return { border: 'border-l-4 border-amber-500', bgBox: 'bg-amber-950/40 border-amber-900/60', text: 'text-amber-400', textLight: 'text-amber-200/90', tag: 'bg-amber-950 text-amber-400' };
+                if (k.includes('tâm') || k.includes('tiểu trường') || k.includes('tiêu') || k.includes('bào')) return { border: 'border-l-4 border-rose-500', bgBox: 'bg-rose-950/40 border-rose-900/60', text: 'text-rose-400', textLight: 'text-rose-200/90', tag: 'bg-rose-950 text-rose-400' };
+                if (k.includes('thận') || k.includes('bàng quang')) return { border: 'border-l-4 border-indigo-500', bgBox: 'bg-indigo-950/40 border-indigo-900/60', text: 'text-indigo-400', textLight: 'text-indigo-200/90', tag: 'bg-indigo-950 text-indigo-400' };
+                return { border: 'border-l-4 border-teal-500', bgBox: 'bg-teal-950/40 border-teal-900/60', text: 'text-teal-400', textLight: 'text-teal-200/90', tag: 'bg-teal-950 text-teal-400' };
+            };
+
+            const filteredData = huyetViData.filter(h => {
+                if (!h) return false;
+                const matchTxt = (h.ten || '').toLowerCase().includes(txt) || 
+                                 (h.chu_tri || '').toLowerCase().includes(txt) || 
+                                 (h.vi_tri || '').toLowerCase().includes(txt) || 
+                                 (h.dinh_vi || '').toLowerCase().includes(txt);
+                const matchKinh = (kinh === "" || h.kinh === kinh);
+                return matchTxt && matchKinh;
+            });
+
+            if (filteredData.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-14 space-y-2 text-stone-500">
+                        <i class="fa-solid fa-magnifying-glass-blur text-3xl opacity-40 block mb-1"></i>
+                        <p class="text-sm font-medium">Không tìm thấy huyệt vị phù hợp</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const frag = document.createDocumentFragment();
+            filteredData.slice(0, 50).forEach(h => {
+                const theme = getKinhTheme(h.kinh);
+                let card = document.createElement('div'); 
+                card.className = `bg-dark-box p-4 rounded-lg space-y-3 relative cursor-pointer ${theme.border} shadow-md shadow-black/40`;
+                
+                const blurHV = typeof isQuizHV !== 'undefined' && isQuizHV ? 'blur-md transition-all duration-300' : '';
+
+                card.innerHTML = `
+                    <div class="absolute top-0 right-0 ${theme.tag} font-bold px-2 py-0.5 text-[9px] uppercase rounded-bl border-b border-l border-stone-800/60">${h.kinh || ''}</div>
+                    <div class="mb-2">
+                        <span class="font-bold ${theme.text} text-base inline-flex items-center gap-1.5 cursor-pointer hover:underline card-title-el">
+                            <i class="fa-solid fa-circle-dot text-xs"></i> Huyệt ${highlightText(h.ten || '', txt)}
+                        </span>
+                    </div>
+                    <div class="blur-target ${blurHV} transition-all duration-300">
+                        <div>
+                            <div class="text-stone-500 text-[10px] font-bold tracking-wider uppercase">ĐỊNH VỊ GIẢI PHẪU:</div>
+                            <p class="text-xs text-stone-400 mt-0.5 leading-relaxed">${highlightText(h.vi_tri || h.dinh_vi || 'Đang cập nhật', txt)}</p>
+                        </div>
+                        <div class="${theme.bgBox} border p-2.5 rounded-md mt-1.5">
+                            <div class="${theme.text} text-[10px] font-bold tracking-wider uppercase flex items-center gap-1">
+                                <i class="fa-solid fa-kit-medical text-[9px]"></i> CHỦ TRỊ ĐẶC HIỆU:
+                            </div>
+                            <p class="text-sm ${theme.textLight} font-medium mt-0.5 leading-relaxed">${highlightText(h.chu_tri || '', txt)}</p>
+                        </div>
+                    </div>
+                `;
+
+                // Xử lý sự kiện click cho toàn bộ card
+                                card.onclick = (e) => {
+                    const isTitle = e.target.closest('.card-title-el');
+                    const activeQuiz = typeof isQuizHV !== 'undefined' && isQuizHV;
+
+                    if (activeQuiz) {
+                        // Đang bật ôn tập: bấm mở chữ mờ, đồng thời nếu bấm vào tên thì vẫn xem ảnh luôn
+                        const blurEl = card.querySelector('.blur-target');
+                        if (blurEl) blurEl.classList.remove('blur-md');
+                        if (isTitle) {
+                            kichHoatTimAnh('Huyệt ' + (h.ten || ''));
+                        }
+                    } else {
+                        // Đang tắt ôn tập: chỉ bấm vào tên mới xem ảnh
+                        if (isTitle) {
+                            kichHoatTimAnh('Huyệt ' + (h.ten || ''));
+                        }
+                    }
+                };
+
+                frag.appendChild(card);
+            });
+            grid.appendChild(frag);
+        }
+
+
+
+        function filterTra() {
+            if (typeof traData === 'undefined' || !traData) return;
+            let txt = getVal('searchTra').toLowerCase().trim();
+            const nhom = getVal('filterNhomTra');
+            const grid = document.getElementById('gridTra'); 
+            if (!grid) return; 
+            grid.innerHTML = "";
+
+            let altTxt = txt;
+            if (txt.includes('dành dành')) altTxt = 'chi tử';
+            else if (txt.includes('chi tử')) altTxt = 'dành dành';
+
+            const filteredData = traData.filter(t => {
+                if (!t) return false;
+                const matchTxt = (t.ten || '').toLowerCase().includes(txt) || 
+                                 (t.ten || '').toLowerCase().includes(altTxt) ||
+                                 (t.cong_dung || '').toLowerCase().includes(txt) ||
+                                 (t.cong_dung || '').toLowerCase().includes(altTxt) ||
+                                 (t.thanh_phan || []).some(tp => {
+                                     const tpLow = (tp || '').toLowerCase();
+                                     return tpLow.includes(txt) || tpLow.includes(altTxt);
+                                 });
+                const matchNhom = (nhom === "" || t.nhom === nhom);
+                return matchTxt && matchNhom;
+            });
+
+            if (filteredData.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-14 space-y-2 text-stone-500">
+                        <i class="fa-solid fa-mug-xmark text-3xl opacity-40 block mb-1"></i>
+                        <p class="text-sm font-medium">Không tìm thấy công thức trà phù hợp</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const frag = document.createDocumentFragment();
+            filteredData.slice(0, 50).forEach(t => {
+                let card = document.createElement('div');
+                card.className = "bg-dark-box p-4 rounded-lg space-y-3 relative border-l-4 border-amber-600/70 shadow-md shadow-black/40 hover:scale-[1.01] transition-all duration-150";
+                
+                const tagsHtml = (t.thanh_phan || []).map(tp => 
+                    `<button onclick="xemDuocLieu('${tp}')" class="bg-stone-800 text-amber-400/90 font-semibold text-xs px-2.5 py-1 rounded border border-stone-700/60 flex items-center gap-1 shadow-sm shadow-black/20 hover:border-amber-500 active:scale-95 transition-all">
+                        <i class="fa-solid fa-leaf text-[10px] text-emerald-500"></i> ${highlightText(tp, txt)}
+                    </button>`
+                ).join(' ');
+
+                card.innerHTML = `
+                    <div class="absolute top-0 right-0 bg-amber-950 text-amber-500 text-[10px] font-bold px-2 py-0.5 rounded-bl uppercase tracking-wider">${t.nhom || ''}</div>
+                    <h3 class="font-bold text-amber-500 text-base">☕ ${highlightText(t.ten || '', txt)}</h3>
+                    <div>
+                        <div class="text-stone-500 text-[10px] font-bold tracking-wider uppercase">CÔNG DỤNG CHÍNH:</div>
+                        <p class="text-sm text-stone-300 leading-relaxed mt-0.5">${highlightText(t.cong_dung || '', txt)}</p>
+                    </div>
+                    <div class="bg-amber-950/30 border border-amber-900/50 p-2.5 rounded-md text-xs leading-relaxed">
+                        <div class="text-amber-500 text-[10px] font-bold tracking-wider uppercase flex items-center gap-1 mb-0.5">
+                            <i class="fa-solid fa-lightbulb text-[9px]"></i> CÁCH PHA & DÙNG:
+                        </div>
+                        <p class="font-medium text-amber-200/90">${highlightText(t.cach_dung || '', txt)}</p>
+                    </div>
+                    <div class="space-y-1.5 pt-0.5">
+                        <div class="text-stone-500 text-[10px] font-bold tracking-wider uppercase flex items-center gap-1">
+                            <i class="fa-solid fa-clipboard-list text-[9px]"></i> THÀNH PHẦN DƯỢC LIỆU:
+                        </div>
+                        <div class="flex flex-wrap gap-1.5">
+                            ${tagsHtml}
+                        </div>
+                    </div>
+                `;
+                frag.appendChild(card);
+            });
+            grid.appendChild(frag);
+        }
+
+        function exportPDF() {
+            const element = document.getElementById('pdf-area');
+            if (typeof html2pdf === 'undefined') {
+                alert('Đang tải bộ công cụ xuất PDF, vui lòng thử lại sau vài giây.');
+                return;
+            }
+
+            const btn = document.querySelector('button[onclick="exportPDF()"]');
+            const oldHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang xuất PDF...';
+            btn.classList.add('opacity-75', 'pointer-events-none');
+
+            html2pdf().from(element).save('Phac-Do-YHCT.pdf').then(() => {
+                btn.innerHTML = oldHtml;
+                btn.classList.remove('opacity-75', 'pointer-events-none');
+            });
+        }
+
+        async function sendAIWebMessage() {
+            const inputEl = document.getElementById('ai-input');
+            const chatBox = document.getElementById('ai-chat-box');
+            if (!inputEl || !chatBox) return;
+            
+            let query = inputEl.value.trim();
+            if (!query) return;
+
+            const safeQuery = escapeHTML(query);
+
+            chatBox.innerHTML += `
+                <div class="bg-amber-950/30 p-3 rounded-lg border border-amber-900/40 text-amber-200 text-right">
+                    <span class="font-bold text-amber-400">Bạn:</span> ${safeQuery}
+                </div>
+            `;
+            inputEl.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            try {
+                const res = await fetch('/.netlify/functions/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ prompt: query })
+                });
+                const data = await res.json();
+                const safeReply = escapeHTML(data.reply || data.error);
+
+                chatBox.innerHTML += `
+                    <div class="bg-stone-900 p-3 rounded-lg border border-stone-800 text-stone-300">
+                        <span class="font-bold text-amber-500 flex items-center gap-1 mb-1">
+                            <i class="fa-solid fa-robot"></i> Trợ Lý AI YHCT:
+                        </span>
+                        <div>${safeReply}</div>
+                    </div>
+                `;
+            } catch (err) {
+                chatBox.innerHTML += `<div class="text-red-500 text-xs">Lỗi kết nối máy chủ AI.</div>`;
+            }
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        let touchstartX = 0, touchstartY = 0, touchendX = 0, touchendY = 0;
+        
+        function handleSwipe() {
+            const tabsOrder = ['luantri', 'tracnghiem', 'duoclieu', 'huyetvi', 'tra', 'xemanh', 'ai'];
+            const pascalMap = { luantri: 'LuanTri', tracnghiem: 'TracNghiem', duoclieu: 'DuocLieu', huyetvi: 'HuyetVi', tra: 'Tra', xemanh: 'XemAnh', ai: 'AI' };
+            const diffX = touchendX - touchstartX;
+            const diffY = touchendY - touchstartY;
+
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 45) {
+                let currentActive = tabsOrder.find(t => {
+                    return document.getElementById('btnTab' + pascalMap[t])?.classList.contains('tab-active');
+                }) || 'luantri';
+
+                let currentIndex = tabsOrder.indexOf(currentActive);
+                if (diffX < 0 && currentIndex < tabsOrder.length - 1) {
+                    switchTab(tabsOrder[currentIndex + 1]);
+                } else if (diffX > 0 && currentIndex > 0) {
+                    switchTab(tabsOrder[currentIndex - 1]);
+                }
+            }
+        }
+
+        document.addEventListener('touchstart', e => {
+            touchstartX = e.changedTouches[0].screenX;
+            touchstartY = e.changedTouches[0].screenY;
+        }, { passive: true });
+
+        document.addEventListener('touchend', e => {
+            touchendX = e.changedTouches[0].screenX;
+            touchendY = e.changedTouches[0].screenY;
+            handleSwipe();
+        }, { passive: true });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
+                e.target.blur();
+            }
+        });
+    </script>
+
+
+    <!-- PWA Service Worker & Khởi tạo ứng dụng -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./sw.js')
+                .then(() => console.log('PWA SW Registered'))
+                .catch(err => console.error('SW Error:', err));
+        }
+        window.addEventListener('load', () => {
+            const loader = document.getElementById('app-loader');
+            if (loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.remove(), 300);
+            }
+        });        
+    </script>
+    <script src="html2pdf.bundle.min.js" defer></script>
+    <!-- POPUP THÔNG BÁO NHẬT KÝ CẬP NHẬT -->
+<div id="changelog-popup" class="fixed bottom-4 right-4 z-50 max-w-sm w-[90%] sm:w-80 bg-[#121110] border border-amber-950/80 rounded-xl shadow-2xl p-4 text-xs space-y-3 transition-all duration-300 transform translate-y-0 opacity-100">
+    <div class="flex items-start justify-between gap-2">
+        <div class="flex items-center gap-2">
+            <span class="w-7 h-7 rounded-lg bg-amber-950/80 border border-amber-800 text-amber-400 flex items-center justify-center text-xs font-bold flex-shrink-0">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+            </span>
+            <div>
+                <div class="font-bold text-amber-400">Có gì mới ở 1.2.2?</div>
+                <div class="text-[10px] text-stone-500">Cập nhật tháng 7, 2026</div>
+            </div>
+        </div>
+        <!-- Nút tắt (đóng popup) -->
+        <button onclick="closeChangelogPopup()" class="text-stone-400 hover:text-stone-200 p-1 transition-colors cursor-pointer" title="Đóng thông báo">
+            <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+    </div>
+
+    <p class="text-stone-300 leading-relaxed">
+        Bổ sung tính năng ôn tập chuyên sâu, xáo trộn trắc nghiệm linh hoạt và tối ưu hóa giao diện di động.
+    </p>
+
+    <div class="flex items-center gap-2 pt-1">
+        <a href="changelog.html" target="_blank" class="flex-1 py-2 px-3 bg-amber-600 hover:bg-amber-500 text-black font-bold text-center rounded transition-colors flex items-center justify-center gap-1.5">
+            Xem chi tiết <i class="fa-solid fa-arrow-right text-[10px]"></i>
+        </a>
+        <button onclick="closeChangelogPopup()" class="py-2 px-3 bg-stone-800 hover:bg-stone-700 text-stone-300 font-semibold rounded transition-colors">
+            Đã hiểu
+        </button>
+    </div>
+</div>
+
+<script>
+    function closeChangelogPopup() {
+        const popup = document.getElementById('changelog-popup');
+        if (popup) {
+            popup.style.opacity = '0';
+            popup.style.transform = 'translateY(10px)';
+            setTimeout(() => popup.remove(), 300);
+            // Lưu trạng thái vào localStorage để không hiện lại liên tục nếu người dùng đã tắt
+            localStorage.setItem('hideChangelogPopup_1.2.2', 'true');
+        }
+    }
+
+    // Kiểm tra nếu người dùng đã tắt trước đó thì ẩn luôn khi load trang
+    window.addEventListener('DOMContentLoaded', () => {
+        if (localStorage.getItem('hideChangelogPopup_1.2.2') === 'true') {
+            const popup = document.getElementById('changelog-popup');
+            if (popup) popup.remove();
+        }
+    });
+</script>
+
+</body>
+</html>
