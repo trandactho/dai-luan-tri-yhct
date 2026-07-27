@@ -68,14 +68,14 @@
             </div>
         </section>
 
-        <!-- FORM GÓP Ý ĐÃ TÍCH HỢP NETLIFY FORMS -->
+        <!-- FORM GÓP Ý CHUẨN NETLIFY -->
         <section class="bg-dark-box p-6 rounded-xl space-y-4 shadow-lg">
             <h2 class="text-sm font-bold text-amber-500 flex items-center gap-2 border-b border-stone-800 pb-2">
                 <i class="fa-solid fa-paper-plane"></i> Gửi Góp Ý / Phản Hồi
             </h2>
             <p class="text-xs text-stone-400">Nếu bạn phát hiện sai sót về dữ liệu YHCT hoặc có đề xuất cải tiến, xin vui lòng phản hồi tại đây.</p>
             
-            <form name="gop-y-yhct" method="POST" data-netlify="true" class="space-y-3 text-xs">
+            <form name="gop-y-yhct" method="POST" data-netlify="true" action="/contact.html?success=true" class="space-y-3 text-xs">
                 <input type="hidden" name="form-name" value="gop-y-yhct" />
 
                 <div>
@@ -120,5 +120,11 @@
         © 2026 Đại Luận Trị YHCT. Phát triển bởi Trần Đắc Thọ.
     </footer>
 
+    <script>
+        if (window.location.search.includes('success=true')) {
+            alert('Cảm ơn bạn! Ý kiến đóng góp của bạn đã được gửi thành công.');
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    </script>
 </body>
 </html>
