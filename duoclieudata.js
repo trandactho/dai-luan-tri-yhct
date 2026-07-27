@@ -1703,7 +1703,31 @@ const bổSung10ViCuối = [
     { nhom: "Chế biến", ten: "Sài hồ chế gừng", cong_dung: "Sơ can giải uất, cầm nôn, hòa giải thiếu dương.", kieng_ky: "Can dương bốc hỏa." },
     { nhom: "Chế biến", ten: "Sơn tra sao vàng", cong_dung: "Tiêu thực hóa tích, bớt kích ứng dạ dày.", kieng_ky: "Dạ dày thừa acid." },
     { nhom: "Chế biến", ten: "Thảo quyết minh sao đen", cong_dung: "Bình can an thần, hạ áp, chữa mất ngủ tốt hơn.", kieng_ky: "Tiêu chảy." },
-    { nhom: "Chế biến", ten: "Trần bì sao cám", cong_dung: "Lý khí kiện tỳ, táo thấp hóa đờm dịu nhẹ.", kieng_ky: "Ho khan âm hư." }
+    { nhom: "Chế biến", ten: "Trần bì sao cám", cong_dung: "Lý khí kiện tỳ, táo thấp hóa đờm dịu nhẹ.", kieng_ky: "Ho khan âm hư." },
+    ];
+const bổSungTừCôngThức = [
+    { nhom: "Thanh nhiệt", ten: "Long đởm thảo", cong_dung: "Thanh nhiệt táo thấp, tả can đởm hỏa.", kieng_ky: "Tỳ vị hư hàn, tiêu chảy." },
+    { nhom: "Trừ đàm", ten: "Tô tử", cong_dung: "Giáng khí hóa đờm, chỉ khái bình suyễn, nhuận tràng.", kieng_ky: "Ho do âm hư, tiêu chảy." },
+    { nhom: "Trừ đàm", ten: "Bạch quả", cong_dung: "Liễm phế định suyễn, thu đới sáp niệu.", kieng_ky: "Dùng quá liều gây độc, ho thực nhiệt." },
+    { nhom: "Giải biểu", ten: "Đạm đậu xị", cong_dung: "Giải biểu thấu chẩn, tuyên uất trừ phiền.", kieng_ky: "Mồ hôi ra quá nhiều." },
+    { nhom: "Giải biểu", ten: "Ngưu bàng tử", cong_dung: "Sơ tán phong nhiệt, tuyên phế thấu chẩn, giải độc lợi yết.", kieng_ky: "Tỳ vị hư hàn, tiêu chảy." },
+    { nhom: "Thu sáp", ten: "Liên tu", cong_dung: "Thanh tâm cố tinh, chỉ huyết sáp đới.", kieng_ky: "Tiểu buốt dắt do thấp nhiệt." },
+    { nhom: "Bổ khí", ten: "Di đường", cong_dung: "Ôn trung bổ hư, nhuận phế chỉ khái, hoãn cấp chỉ thống.", kieng_ky: "Tỳ vị thấp nhiệt, đầy bụng." },
+    { nhom: "Thu sáp", ten: "Tang phiêu tiêu", cong_dung: "Cố tinh sáp niệu, bổ thận trợ dương.", kieng_ky: "Âm hư hỏa vượng, bàng quang thấp nhiệt." },
+    { nhom: "Hoạt huyết", ten: "Ngũ linh chi", cong_dung: "Hoạt huyết hóa ứ, chỉ thống, giải độc.", kieng_ky: "Phụ nữ mang thai, kỵ Nhân sâm." },
+    { nhom: "Khai khiếu", ten: "Ngưu hoàng", cong_dung: "Thanh tâm giải độc, hóa đàm khai khiếu, tức phong định kinh.", kieng_ky: "Phụ nữ mang thai, thể hư hàn." },
+    { nhom: "Trừ thấp", ten: "Bạch đậu khấu", cong_dung: "Hóa thấp hành khí, ôn trung chỉ nôn, khai vị.", kieng_ky: "Âm hư huyết nhiệt." },
+    { nhom: "Trừ thấp", ten: "Thông thảo", cong_dung: "Thanh nhiệt lợi thủy, thông hạ nhũ汁 (thông sữa).", kieng_ky: "Phụ nữ mang thai, không có thấp nhiệt." },
+    { nhom: "Thu sáp", ten: "Ô mai", cong_dung: "Liễm phế chỉ khái, sáp tràng chỉ tả, sinh tân chỉ khát, khu trùng.", kieng_ky: "Ngoại cảm thực tà, tích nhiệt nội trệ." },
+    { nhom: "Thanh nhiệt", ten: "Tử bối thiên quỳ", cong_dung: "Thanh nhiệt giải độc, tán kết tiêu thũng.", kieng_ky: "Tỳ vị hư hàn." },
+    { nhom: "Khu hàn", ten: "Ô đầu chế", cong_dung: "Khu phong trừ thấp, ôn kinh chỉ thống cực mạnh.", kieng_ky: "Độc tính cao, thai phụ, âm hư hỏa vượng." },
+    { nhom: "Bình can", ten: "Đại giả thạch", cong_dung: "Bình can tiềm dương, giáng nghịch hạ khí, lương huyết chỉ huyết.", kieng_ky: "Phụ nữ mang thai, thể hư hàn." },
+    { nhom: "Lý khí", ten: "Xuyên luyện tử", cong_dung: "Sơ can lý khí, thanh nhiệt chỉ thống, diệt giun.", kieng_ky: "Tỳ vị hư hàn, không dùng quá liều." },
+    { nhom: "Khu hàn", ten: "Thục tiêu", cong_dung: "Ôn trung tán hàn, chỉ thống, sát trùng.", kieng_ky: "Âm hư hỏa vượng, thai phụ." },
+    { nhom: "An thần", ten: "Nữ lang", cong_dung: "Dưỡng tâm an thần, trấn tĩnh, giảm căng thẳng lo âu.", kieng_ky: "Không dùng kéo dài quá liều." },
+    { nhom: "An thần", ten: "Hợp hoan bì", cong_dung: "Giải uất an thần, hòa huyết tiêu sưng, trị mất ngủ trằn trọc.", kieng_ky: "Âm hư hỏa vượng." },
+    { nhom: "Thanh nhiệt", ten: "Mía lau", cong_dung: "Thanh nhiệt sinh tân, tư âm chỉ khát, lợi tiểu.", kieng_ky: "Tỳ vị hư hàn, tiêu chảy." }
+
 ];
 
 // CẬP NHẬT LẠI MẢNG GỘP TỔNG:
@@ -1718,7 +1742,8 @@ window.duocLieuData = [
     ...duocLieuDot8,
     ...duocLieuDot9,
     ...duocLieuDot10,
-    ...bổSung10ViCuối
+    ...bổSung10ViCuối,
+    ...bổSungTừCôngThức,
 ];
 
 console.log("Tổng số lượng dược liệu hoàn tất:", window.duocLieuData.length);
