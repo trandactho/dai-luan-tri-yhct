@@ -107,32 +107,33 @@
             </div>
 
             <!-- BỘ LỌC TAM TRỤC -->
-            <div id="bo-loc-tam-truc" class="grid grid-cols-3 gap-3 transition-all">
-                <select id="tang-phu" onchange="updateLuanTri()" class="w-full p-3 rounded font-medium text-center text-sm">
-                    <option value="Tâm">Tâm (Tim)</option>
-                    <option value="Can">Can (Gan)</option>
-                    <option value="Tỳ">Tỳ (Tiêu hóa)</option>
-                    <option value="Phế">Phế (Phổi)</option>
-                    <option value="Thận">Thận (Nội tiết)</option>
-                    <option value="Đởm">Đởm (Mật)</option>
-                    <option value="Vị">Vị (Dạ dày)</option>
-                    <option value="Đại trường">Đại trường</option>
-                    <option value="Tiểu trường">Tiểu trường</option>
-                    <option value="Bàng quang">Bàng quang</option>
-                    <option value="Tam tiêu">Tam tiêu</option>
-                    <option value="Khác">Khác</option>
-                </select>
-                <select id="han-nhiet" onchange="updateLuanTri()" class="w-full p-3 rounded font-medium text-center text-sm">
-                    <option value="Nhiệt">Nhiệt (Nóng)</option>
-                    <option value="Hàn">Hàn (Lạnh)</option>
-                    <option value="Khác">Khác (Uất/Ứ/Đàm)</option>
-                </select>
-                <select id="hu-thuc" onchange="updateLuanTri()" class="w-full p-3 rounded font-medium text-center text-sm">
-                    <option value="Thực">Thực (Cấp tính)</option>
-                    <option value="Hư">Hư (Suy nhược)</option>
-                    <option value="Khác">Khác</option>
-                </select>
-            </div>
+<div id="bo-loc-tam-truc" class="grid grid-cols-3 gap-3 transition-all">
+    <select id="tang-phu" onchange="updateLuanTri()" class="w-full p-3 rounded font-medium text-center text-sm">
+        <option value="Tam">Tâm (Tim)</option>
+        <option value="Can">Can (Gan)</option>
+        <option value="Ty">Tỳ (Tiêu hóa)</option>
+        <option value="Phe">Phế (Phổi)</option>
+        <option value="Than">Thận (Nội tiết)</option>
+        <option value="Dom">Đởm (Mật)</option>
+        <option value="Vi">Vị (Dạ dày)</option>
+        <option value="Dai_Truong">Đại trường</option>
+        <option value="Tieu_Truong">Tiểu trường</option>
+        <option value="Bang_Quang">Bàng quang</option>
+        <option value="Tam_Tieu">Tam tiêu</option>
+        <option value="Khac">Khác</option>
+    </select>
+    <select id="han-nhiet" onchange="updateLuanTri()" class="w-full p-3 rounded font-medium text-center text-sm">
+        <option value="Nhiet">Nhiệt (Nóng)</option>
+        <option value="Han">Hàn (Lạnh)</option>
+        <option value="Khac">Khác (Uất/Ứ/Đàm)</option>
+    </select>
+    <select id="hu-thuc" onchange="updateLuanTri()" class="w-full p-3 rounded font-medium text-center text-sm">
+        <option value="Thuc">Thực (Cấp tính)</option>
+        <option value="Hu">Hư (Suy nhược)</option>
+        <option value="Khac">Khác</option>
+    </select>
+</div>
+
 
             <div id="pdf-area" class="space-y-4 p-2 bg-stone-950 rounded-lg">
                 <div class="bg-dark-box p-5 rounded-lg border-l-4 border-primary">
@@ -1079,20 +1080,30 @@ function batDauTracNghiem() {
             updateLuanTri();
         }
 
-        function updateLuanTri(query = "") {
-            if (quizActive || typeof database === 'undefined' || !database) return;
-            const tp = getVal('tang-phu');
-            const hn = getVal('han-nhiet');
-            const ht = getVal('hu-thuc');
-            if (!tp || !hn || !ht) return;
+                // ==========================================
+        // KHỐI XỬ LÝ BIỆN CHỨNG LUẬN TRỊ (ĐÃ TỐI ƯU)
+        // ==========================================
 
-            const data = database[`${tp}_${hn}_${ht}`];
+        // 1. Hàm tô sáng từ khóa
+        function highlightText(text, query) {
+            if (!query || !text) return text;
+            const safeText = String(text)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;');
+            const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            const regex = new RegExp(`(${safeQuery})`, 'gi');
+            return safeText.replace(regex, '<mark class="bg-amber-500/30 text-amber-300 font-bold px-0.5 rounded">$1</mark>');
+        }
+
+        // 2. Hàm render chi tiết phác đồ ra màn hình
+        function renderDetailLuanTri(data, query = "") {
             const hcEl = document.getElementById('hoi-chung');
             const pdtEl = document.getElementById('phap-dieu-tri');
             const btEl = document.getElementById('bai-thuoc');
             const ul = document.getElementById('trieu-chung');
             const divBt = document.getElementById('chi-tiet-bai-thuoc');
-            
+
             if (data) {
                 if (hcEl) hcEl.innerHTML = highlightText(data.hc || "Chưa rõ hội chứng", query);
                 if (pdtEl) pdtEl.innerText = data.pdt || "Chưa có pháp trị";
@@ -1134,14 +1145,19 @@ function batDauTracNghiem() {
             }
         }
 
-        document.addEventListener('click', function(e) {
-            const dropdown = document.getElementById('search-dropdown');
-            const input = document.getElementById('search-input');
-            if (dropdown && !dropdown.contains(e.target) && e.target !== input) {
-                dropdown.classList.add('hidden');
-            }
-        });
+        // 3. Hàm cập nhật khi thay đổi 3 ô lọc Tam Trục
+        function updateLuanTri(query = "") {
+            if (quizActive || typeof database === 'undefined' || !database) return;
+            const tp = getVal('tang-phu');
+            const hn = getVal('han-nhiet');
+            const ht = getVal('hu-thuc');
+            if (!tp || !hn || !ht) return;
 
+            const data = database[`${tp}_${hn}_${ht}`];
+            renderDetailLuanTri(data, query);
+        }
+
+        // 4. Hàm tìm kiếm hội chứng luận trị
         function searchLuanTri() {
             if (typeof database === 'undefined' || !database) return;
             const query = getVal('search-input').toLowerCase().trim();
@@ -1189,34 +1205,44 @@ function batDauTracNghiem() {
             }
         }
 
+        // 5. Hàm chọn kết quả từ danh sách tìm kiếm
         function selectSearchResult(key, hideDropdown = true) {
             const query = getVal('search-input').trim();
-            const parts = key.split('_');
-            if (parts.length === 3) {
-                const tp = document.getElementById('tang-phu');
-                const hn = document.getElementById('han-nhiet');
-                const ht = document.getElementById('hu-thuc');
-                if (tp) tp.value = parts[0];
-                if (hn) hn.value = parts[1];
-                if (ht) ht.value = parts[2];
-                updateLuanTri(query);
+            if (typeof database === 'undefined' || !database || !database[key]) return;
+
+            renderDetailLuanTri(database[key], query);
+
+            const tp = document.getElementById('tang-phu');
+            const hn = document.getElementById('han-nhiet');
+            const ht = document.getElementById('hu-thuc');
+
+            if (tp && hn && ht) {
+                Array.from(tp.options).forEach(opt => {
+                    if (key.startsWith(opt.value + '_')) {
+                        tp.value = opt.value;
+                        const remainder = key.replace(opt.value + '_', '').split('_');
+                        if (remainder.length >= 2) {
+                            if (Array.from(hn.options).some(o => o.value === remainder[0])) hn.value = remainder[0];
+                            if (Array.from(ht.options).some(o => o.value === remainder[1])) ht.value = remainder[1];
+                        }
+                    }
+                });
             }
+
             if (hideDropdown) {
                 const dropdown = document.getElementById('search-dropdown');
                 if (dropdown) dropdown.classList.add('hidden');
             }
         }
 
-        function highlightText(text, query) {
-            if (!query || !text) return text;
-            const safeText = String(text)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;');
-            const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-            const regex = new RegExp(`(${safeQuery})`, 'gi');
-            return safeText.replace(regex, '<mark class="bg-amber-500/30 text-amber-300 font-bold px-0.5 rounded">$1</mark>');
-        }
+        // Sự kiện click ngoài ô tìm kiếm để ẩn dropdown
+        document.addEventListener('click', function(e) {
+            const dropdown = document.getElementById('search-dropdown');
+            const input = document.getElementById('search-input');
+            if (dropdown && !dropdown.contains(e.target) && e.target !== input) {
+                dropdown.classList.add('hidden');
+            }
+        });
 
                         function filterDuocLieu() {
             if (typeof duocLieuData === 'undefined' || !duocLieuData) return;
@@ -1605,7 +1631,7 @@ function batDauTracNghiem() {
                 <i class="fa-solid fa-clock-rotate-left"></i>
             </span>
             <div>
-                <div class="font-bold text-amber-400">Có gì mới ở 1.2.2?</div>
+                <div class="font-bold text-amber-400">Có gì mới ở 1.2.3?</div>
                 <div class="text-[10px] text-stone-500">Cập nhật tháng 7, 2026</div>
             </div>
         </div>
@@ -1637,13 +1663,13 @@ function batDauTracNghiem() {
             popup.style.transform = 'translateY(10px)';
             setTimeout(() => popup.remove(), 300);
             // Lưu trạng thái vào localStorage để không hiện lại liên tục nếu người dùng đã tắt
-            localStorage.setItem('hideChangelogPopup_1.2.2', 'true');
+            localStorage.setItem('hideChangelogPopup_1.2.3', 'true');
         }
     }
 
     // Kiểm tra nếu người dùng đã tắt trước đó thì ẩn luôn khi load trang
     window.addEventListener('DOMContentLoaded', () => {
-        if (localStorage.getItem('hideChangelogPopup_1.2.2') === 'true') {
+        if (localStorage.getItem('hideChangelogPopup_1.2.3') === 'true') {
             const popup = document.getElementById('changelog-popup');
             if (popup) popup.remove();
         }
