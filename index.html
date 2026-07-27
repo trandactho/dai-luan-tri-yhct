@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đại Luận Trị & Tra Cứu YHCT 1.2.3 Premium</title>
+    <title>Đại Luận Trị & Tra Cứu YHCT v1.2.3 Premium</title>
 
     <meta name="description" content="Ứng dụng tra cứu Y Học Cổ Truyền toàn diện: Biện chứng luận trị, Dược liệu học, Châm cứu huyệt vị, Trà dược trị liệu và Trợ lý AI tư vấn YHCT.">
     <meta name="author" content="Trần Đắc Thọ">
@@ -34,22 +34,22 @@
         <div class="text-[11px] text-stone-500 mt-1">Vui lòng đợi trong giây lát</div>
     </div>
     
-    <!-- HEADER -->
-    <header class="bg-dark-box p-2 text-center border-b border-stone-800">
+        <!-- HEADER -->
+    <header class="bg-dark-box p-2 text-center border-b border-stone-800 space-y-0.5">
         <h1 class="text-sm font-bold text-primary flex items-center justify-center gap-1">
-            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (1.2.3)
+            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.2.3)
         </h1>
-        <p class="text-[10px] text-stone-500">
-            Biện chứng (<span id="total-chung">0</span>) · 
-            Dược liệu (<span id="total-thuoc">0</span>) · 
-            Huyệt vị (<span id="total-huyet">0</span>) · 
-            Trà dược (<span id="total-tra">0</span>)
-        </p>
-        <div class="mt-1 inline-flex items-center gap-1.5 bg-stone-900 border border-stone-800 px-2.5 py-0.5 rounded-full text-[11px] text-stone-400">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>Hệ thống: <strong class="text-emerald-400 font-bold">Sẵn sàng</strong></span>
+        <div class="text-[10px] text-stone-400 space-x-2">
+            <span>Biện chứng (<span id="total-chung" class="text-amber-500 font-bold">0</span>)</span> · 
+            <span>Trắc nghiệm (<span id="total-quiz" class="text-amber-500 font-bold">0</span>)</span> · 
+            <span>Dược liệu (<span id="total-thuoc" class="text-amber-500 font-bold">0</span>)</span>
+        </div>
+        <div class="text-[10px] text-stone-400 space-x-2">
+            <span>Huyệt vị (<span id="total-huyet" class="text-amber-500 font-bold">0</span>)</span> · 
+            <span>Trà dược (<span id="total-tra" class="text-amber-500 font-bold">0</span>)</span>
         </div>
     </header>
+
 
     <!-- TABS NAVIGATION -->
     <nav class="grid grid-cols-7 gap-0.5 bg-stone-900 border-b border-stone-800 text-center text-[10px]">
@@ -350,7 +350,7 @@
         <p class="text-[11px] text-stone-600">© 2026 Đại Luận Trị YHCT. Phát triển bởi Trần Đắc Thọ.</p>
     </footer>
 
-    <!-- 1. NẠP DỮ LIỆU TỪ FILE JS NGOÀI TRƯỚC -->
+        <!-- 1. NẠP DỮ LIỆU TỪ FILE JS NGOÀI TRƯỚC -->
     <script src="luantridata.js"></script>
     <script src="duoclieudata.js"></script>
     <script src="huyetvidata.js"></script>
@@ -416,6 +416,23 @@
             }
             filterHuyetVi();
         }
+                function capNhatTongSoTracNghiem() {
+            let total = 0;
+            if (typeof questionsData !== 'undefined' && Array.isArray(questionsData)) {
+                total += questionsData.length;
+            } else if (Array.isArray(window.questionsData)) {
+                total += window.questionsData.length;
+            }
+            // Cộng thêm số lượng câu hỏi động có thể sinh ra từ các cơ sở dữ liệu khác
+            if (typeof database !== 'undefined') total += Object.keys(database).length;
+            if (typeof duocLieuData !== 'undefined' && Array.isArray(duocLieuData)) total += duocLieuData.length;
+            if (typeof huyetViData !== 'undefined' && Array.isArray(huyetViData)) total += huyetViData.length;
+            if (typeof traData !== 'undefined' && Array.isArray(traData)) total += traData.length;
+
+            const el = document.getElementById('total-quiz');
+            if (el) el.innerText = total;
+        }
+        
 
         const getVal = (id) => document.getElementById(id)?.value ?? '';
 
@@ -449,6 +466,8 @@
             requestAnimationFrame(() => {
                 try {
                     capNhatTongSoTrieuChung();
+                    capNhatTongSoTracNghiem(); // Thêm dòng này vào
+
                     if (typeof duocLieuData !== 'undefined' && duocLieuData) {
                         const el = document.getElementById('total-thuoc');
                         if (el) el.textContent = duocLieuData.length;
@@ -531,65 +550,168 @@
             }
         }
  
-        function batDauTracNghiem() {
-            const categorySelect = document.getElementById('quiz-category');
-            const countSelect = document.getElementById('quiz-count');
-            
-            const category = categorySelect ? categorySelect.value : 'all';
-            const count = countSelect ? parseInt(countSelect.value) : 10;
+        // 1. Hàm tạo câu hỏi động từ dữ liệu các tab (Biện chứng, Dược liệu, Huyệt vị, Trà dược)
+function taoCauHoiTamTuDuLieu(category) {
+    let generated = [];
 
-            let rawData = [];
-            if (typeof questionsData !== 'undefined' && Array.isArray(questionsData) && questionsData.length > 3) {
-                rawData = questionsData;
-            } else if (Array.isArray(window.questionsData)) {
-                rawData = window.questionsData;
+    // Biện chứng luận trị
+    if ((category === 'luantri' || category === 'all') && typeof database !== 'undefined') {
+        Object.keys(database).forEach(key => {
+            const item = database[key];
+            if (item && item.hc && item.tc && item.tc.length > 0) {
+                const wrongOptions = Object.values(database)
+                    .map(d => d.hc).filter(hc => hc !== item.hc)
+                    .sort(() => 0.5 - Math.random()).slice(0, 3);
+                
+                if (wrongOptions.length >= 3) {
+                    const options = [item.hc, ...wrongOptions].sort(() => 0.5 - Math.random());
+                    generated.push({
+                        category: 'luantri',
+                        cau_hoi: `Triệu chứng lâm sàng: "${item.tc.slice(0, 3).join(', ')}..." định hướng đến hội chứng nào?`,
+                        lua_chon: options,
+                        dap_an: options.indexOf(item.hc),
+                        giai_thich: `Biện chứng: ${item.hc} (Pháp trị: ${item.pdt || 'Chưa rõ'})`
+                    });
+                }
             }
+        });
+    }
 
-            let pool = rawData;
-            if (category !== 'all') {
-                const filtered = rawData.filter(q => q.category === category);
-                if (filtered.length > 0) pool = filtered;
+    // Dược liệu
+    if ((category === 'duoclieu' || category === 'all') && typeof duocLieuData !== 'undefined' && Array.isArray(duocLieuData)) {
+        duocLieuData.forEach(d => {
+            if (d && d.ten && d.cong_dung) {
+                const wrongOptions = duocLieuData
+                    .map(item => item.cong_dung).filter(cd => cd !== d.cong_dung)
+                    .sort(() => 0.5 - Math.random()).slice(0, 3);
+
+                if (wrongOptions.length >= 3) {
+                    const options = [d.cong_dung, ...wrongOptions].sort(() => 0.5 - Math.random());
+                    generated.push({
+                        category: 'duoclieu',
+                        cau_hoi: `Vị thuốc "${d.ten}" có công năng chủ trị chính là gì?`,
+                        lua_chon: options,
+                        dap_an: options.indexOf(d.cong_dung),
+                        giai_thich: `Công năng chuẩn: ${d.cong_dung}`
+                    });
+                }
             }
+        });
+    }
 
-            currentQuizQuestions = [...pool]
-                .sort(() => 0.5 - Math.random())
-                .slice(0, count)
-                .map(q => {
-                    const specialKeywords = ['cả a và b', 'tất cả', 'không có', 'cả hai', 'đều đúng', 'đều sai'];
-                    
-                    // Kiểm tra xem câu hỏi có chứa đáp án tổng hợp cần cố định vị trí không
-                    const hasSpecialOpt = q.lua_chon.some(text => 
-                        specialKeywords.some(keyword => text.toLowerCase().includes(keyword))
-                    );
+    // Huyệt vị
+    if ((category === 'huyetvi' || category === 'all') && typeof huyetViData !== 'undefined' && Array.isArray(huyetViData)) {
+        huyetViData.forEach(h => {
+            if (h && h.ten && h.chu_tri) {
+                const wrongOptions = huyetViData
+                    .map(item => item.chu_tri).filter(ct => ct !== h.chu_tri)
+                    .sort(() => 0.5 - Math.random()).slice(0, 3);
 
-                    if (hasSpecialOpt) {
-                        // Nếu có chứa đáp án tổng hợp, giữ nguyên thứ tự để tránh lỗi logic
-                        return { ...q };
-                    } else {
-                        // Xáo trộn bình thường nếu các đáp án độc lập
-                        const shuffled = q.lua_chon
-                            .map((text, idx) => ({ text, isCorrect: idx === q.dap_an }))
-                            .sort(() => 0.5 - Math.random());
+                if (wrongOptions.length >= 3) {
+                    const options = [h.chu_tri, ...wrongOptions].sort(() => 0.5 - Math.random());
+                    generated.push({
+                        category: 'huyetvi',
+                        cau_hoi: `Huyệt "${h.ten}" có chủ trị đặc hiệu nào sau đây?`,
+                        lua_chon: options,
+                        dap_an: options.indexOf(h.chu_tri),
+                        giai_thich: `Vị trí: ${h.vi_tri || h.dinh_vi || 'Đang cập nhật'}. Chủ trị: ${h.chu_tri}`
+                    });
+                }
+            }
+        });
+    }
 
-                        return {
-                            ...q,
-                            lua_chon: shuffled.map(item => item.text),
-                            dap_an: shuffled.findIndex(item => item.isCorrect)
-                        };
-                    }
-                });
+    // Trà dược
+    if ((category === 'tra' || category === 'all') && typeof traData !== 'undefined' && Array.isArray(traData)) {
+        traData.forEach(t => {
+            if (t && t.ten && t.cong_dung) {
+                const wrongOptions = traData
+                    .map(item => item.cong_dung).filter(cd => cd !== t.cong_dung)
+                    .sort(() => 0.5 - Math.random()).slice(0, 3);
 
-            currentQuizIndex = 0;
-            quizScore = 0;
-            userAnswers = [];
+                if (wrongOptions.length >= 3) {
+                    const options = [t.cong_dung, ...wrongOptions].sort(() => 0.5 - Math.random());
+                    generated.push({
+                        category: 'tra',
+                        cau_hoi: `Công dụng chính của "${t.ten}" là gì?`,
+                        lua_chon: options,
+                        dap_an: options.indexOf(t.cong_dung),
+                        giai_thich: `Thành phần: ${t.thanh_phan ? t.thanh_phan.join(', ') : 'Đang cập nhật'}.`
+                    });
+                }
+            }
+        });
+    }
 
-            document.getElementById('quiz-setup').classList.add('hidden');
-            document.getElementById('quiz-result').classList.add('hidden');
-            document.getElementById('quiz-review').classList.add('hidden');
-            document.getElementById('quiz-play').classList.remove('hidden');
+    return generated;
+}
 
-            hienThiCauHoiTracNghiem();
-        }
+// 2. Hàm Bắt đầu trắc nghiệm đã tích hợp tạo câu hỏi tự động và giữ cố định đáp án đặc biệt
+function batDauTracNghiem() {
+    const categorySelect = document.getElementById('quiz-category');
+    const countSelect = document.getElementById('quiz-count');
+    
+    const category = categorySelect ? categorySelect.value : 'all';
+    const count = countSelect ? parseInt(countSelect.value) : 10;
+
+    let rawData = [];
+    if (typeof questionsData !== 'undefined' && Array.isArray(questionsData)) {
+        rawData = [...questionsData];
+    } else if (Array.isArray(window.questionsData)) {
+        rawData = [...window.questionsData];
+    }
+
+    // Gộp câu hỏi tĩnh và câu hỏi động
+    rawData = rawData.concat(taoCauHoiTamTuDuLieu(category));
+
+    let pool = [];
+    if (category === 'all') {
+        pool = rawData;
+    } else {
+        pool = rawData.filter(q => q && q.category === category);
+    }
+
+    if (pool.length === 0) {
+        alert('Không tìm thấy câu hỏi, hệ thống chuyển sang chế độ Tổng hợp tất cả.');
+        pool = rawData;
+    }
+
+    currentQuizQuestions = [...pool]
+        .sort(() => 0.5 - Math.random())
+        .slice(0, count)
+        .map(q => {
+            const specialKeywords = ['cả a và b', 'tất cả', 'không có', 'cả hai', 'đều đúng', 'đều sai'];
+            const hasSpecialOpt = q.lua_chon && q.lua_chon.some(text => 
+                specialKeywords.some(keyword => text.toLowerCase().includes(keyword))
+            );
+
+            if (hasSpecialOpt) {
+                return { ...q };
+            } else {
+                const shuffled = q.lua_chon
+                    .map((text, idx) => ({ text, isCorrect: idx === q.dap_an }))
+                    .sort(() => 0.5 - Math.random());
+
+                return {
+                    ...q,
+                    lua_chon: shuffled.map(item => item.text),
+                    dap_an: shuffled.findIndex(item => item.isCorrect)
+                };
+            }
+        });
+
+    currentQuizIndex = 0;
+    quizScore = 0;
+    userAnswers = [];
+
+    document.getElementById('quiz-setup').classList.add('hidden');
+    document.getElementById('quiz-result').classList.add('hidden');
+    document.getElementById('quiz-review').classList.add('hidden');
+    document.getElementById('quiz-play').classList.remove('hidden');
+
+    hienThiCauHoiTracNghiem();
+}
+
 
         function hienThiCauHoiTracNghiem() {
             if (currentQuizIndex >= currentQuizQuestions.length) {
