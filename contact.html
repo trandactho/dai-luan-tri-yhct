@@ -75,22 +75,22 @@
             </h2>
             <p class="text-xs text-stone-400">Nếu bạn phát hiện sai sót về dữ liệu YHCT hoặc có đề xuất cải tiến, xin vui lòng phản hồi tại đây.</p>
             
-            <form name="gop-y-yhct" method="POST" data-netlify="true" action="success.html" class="space-y-3 text-xs">
+            <form name="gop-y-yhct" method="POST" data-netlify="true" id="contact-form" class="space-y-3 text-xs">
     <input type="hidden" name="form-name" value="gop-y-yhct" />
 
     <div>
         <label class="block text-stone-400 font-bold mb-1">Họ và tên của bạn</label>
-        <input type="text" name="hoten" placeholder="Nhập họ tên..." required class="w-full p-2.5 rounded bg-[#26201c] text-[#e0d8cf] border border-[#4a3e35]">
+        <input type="text" name="hoten" placeholder="Nhập họ tên..." required class="w-full p-2.5 rounded">
     </div>
 
     <div>
         <label class="block text-stone-400 font-bold mb-1">Email liên hệ (Không bắt buộc)</label>
-        <input type="email" name="email" placeholder="Nhập email để nhận phản hồi..." class="w-full p-2.5 rounded bg-[#26201c] text-[#e0d8cf] border border-[#4a3e35]">
+        <input type="email" name="email" placeholder="Nhập email để nhận phản hồi..." class="w-full p-2.5 rounded">
     </div>
 
     <div>
         <label class="block text-stone-400 font-bold mb-1">Chủ đề góp ý</label>
-        <select name="chude" class="w-full p-2.5 rounded bg-[#26201c] text-[#e0d8cf] border border-[#4a3e35]">
+        <select name="chude" class="w-full p-2.5 rounded">
             <option value="Bao-loi-du-lieu">🐛 Báo lỗi sai sót dữ liệu YHCT</option>
             <option value="De-xuat-tinh-nang">💡 Đề xuất tính năng mới</option>
             <option value="Gop-y-giao-dien">🎨 Góp ý giao diện / Trải nghiệm</option>
@@ -100,17 +100,15 @@
 
     <div>
         <label class="block text-stone-400 font-bold mb-1">Nội dung chi tiết</label>
-        <textarea name="noidung" rows="3" placeholder="Nhập nội dung góp ý..." required class="w-full p-2.5 rounded bg-[#26201c] text-[#e0d8cf] border border-[#4a3e35]"></textarea>
+        <textarea name="noidung" rows="3" placeholder="Nhập nội dung góp ý..." required class="w-full p-2.5 rounded"></textarea>
     </div>
-
     <button type="submit" class="w-full py-2.5 bg-primary hover:bg-orange-700 text-white font-bold rounded transition-colors flex items-center justify-center gap-2 cursor-pointer">
         <i class="fa-solid fa-paper-plane"></i> Gửi Phản Hồi
     </button>
 </form>
-          
+
         </section>
     </main>
-
     <div class="text-center pt-2">
         <a href="index.html" class="inline-flex items-center gap-2 text-xs text-amber-500 hover:text-amber-400 font-bold">
             <i class="fa-solid fa-arrow-left"></i> Quay lại trang chủ
