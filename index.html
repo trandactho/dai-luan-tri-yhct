@@ -1092,10 +1092,11 @@
             updateLuanTri();
         }
 
-        // ==========================================
-        // KHỐI XỬ LÝ BIỆN CHỨNG LUẬN TRỊ
-        // ==========================================
+                // =========================================================================
+        // KHỐI XỬ LÝ BIỆN CHỨNG LUẬN TRỊ (ĐÃ TỐI ƯU & ĐỒNG BỘ NGUYÊN KHỐI)
+        // =========================================================================
 
+        // 1. Hàm highlight từ khóa tìm kiếm
         function highlightText(text, query) {
             if (!query || !text) return text;
             const safeText = String(text)
@@ -1106,7 +1107,78 @@
             const regex = new RegExp(`(${safeQuery})`, 'gi');
             return safeText.replace(regex, '<mark class="bg-amber-500/30 text-amber-300 font-bold px-0.5 rounded">$1</mark>');
         }
-        
+
+        // 2. Hàm khử dấu tiếng Việt
+        function removeAccents(str) {
+            return (str || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+        }
+
+        // 3. Hàm bóc tách thuộc tính Tam Trục từ tên hội chứng (item.hc) hoặc mảng phanloai
+        function getItemTamTruc(item) {
+            if (!item) return { tp: '', hn: '', ht: '', bc: '' };
+            
+            const pl = Array.isArray(item.phanloai) ? item.phanloai : [];
+            const title = removeAccents(item.hc || '');
+            const pTP = removeAccents(pl[0] || title);
+            const pHN = removeAccents(pl[1] || item.han_nhiet || title);
+            const pHT = removeAccents(pl[2] || item.hu_thuc || title);
+            const pBC = removeAccents(pl[3] || title);
+
+            // Bóc tách Tạng Phủ
+            let tp = '';
+            if (pTP.includes('tam tieu')) tp = 'Tam_Tieu';
+            else if (pTP.includes('dai truong')) tp = 'Dai_Truong';
+            else if (pTP.includes('tieu truong')) tp = 'Tieu_Truong';
+            else if (pTP.includes('bang quang')) tp = 'Bang_Quang';
+            else if (pTP.includes('can')) tp = 'Can';
+            else if (pTP.includes('tam')) tp = 'Tam';
+            else if (pTP.includes('ty')) tp = 'Ty';
+            else if (pTP.includes('phe')) tp = 'Phe';
+            else if (pTP.includes('than')) tp = 'Than';
+            else if (pTP.includes('dom')) tp = 'Dom';
+            else if (pTP.includes('vi')) tp = 'Vi';
+
+            // Bóc tách Hàn / Nhiệt
+            let hn = 'Binh';
+            if (pHN.includes('hiep tap')) hn = 'Han nhiet hiep tap';
+            else if (pHN.includes('nhiet') || pHN.includes('hoa')) hn = 'Nhiet';
+            else if (pHN.includes('han') || pHN.includes('lanh')) hn = 'Han';
+            else if (pHN.includes('binh')) hn = 'Binh';
+
+            // Bóc tách Hư / Thực
+            let ht = 'Thuc';
+            if (pHT.includes('hiep tap')) ht = 'Hu thuc hiep tap';
+            else if (pHT.includes('hu') || pHT.includes('suy')) ht = 'Hu';
+            else if (pHT.includes('thuc')) ht = 'Thuc';
+
+            // Bóc tách Bệnh cơ
+            let bc = '';
+            if (pBC.includes('thap nhiet')) bc = 'thap nhiet';
+            else if (pBC.includes('khi') || pBC.includes('uat') || pBC.includes('tre')) bc = 'khi';
+            else if (pBC.includes('huyet') || pBC.includes('u')) bc = 'huyet u';
+            else if (pBC.includes('dam') || pBC.includes('thap')) bc = 'dam';
+            else if (pBC.includes('hoa')) bc = 'hoa';
+
+            return { tp, hn, ht, bc };
+        }
+
+        // 4. Hàm đồng bộ các ô chọn Tam Trục theo hội chứng hiện tại
+        function syncSelectsWithItem(item) {
+            if (!item) return;
+            const info = getItemTamTruc(item);
+
+            const tp = document.getElementById('tang-phu');
+            const hn = document.getElementById('han-nhiet');
+            const ht = document.getElementById('hu-thuc');
+            const bc = document.getElementById('benh-co');
+
+            if (tp) tp.value = info.tp;
+            if (hn) hn.value = info.hn;
+            if (ht) ht.value = info.ht;
+            if (bc) bc.value = info.bc;
+        }
+
+        // 5. Hàm hiển thị chi tiết phác đồ luận trị
         function renderDetailLuanTri(data, query = "") {
             const hcEl = document.getElementById('hoi-chung');
             const pdtEl = document.getElementById('phap-dieu-tri');
@@ -1155,6 +1227,46 @@
             }
         }
 
+        // 6. Hàm lọc & tự động khởi động Tam Trục
+        function updateLuanTri(query = "") {
+            if (quizActive || typeof database === 'undefined' || !database) return;
+
+            const tp = getVal('tang-phu');
+            const hn = getVal('han-nhiet');
+            const ht = getVal('hu-thuc');
+            const bc = getVal('benh-co');
+
+            let bestMatchData = null;
+            let firstItem = Object.values(database)[0] || null;
+
+            // Khi khởi động (tất cả ô chọn đang trống) -> tự nạp hội chứng đầu tiên và nhảy Tam Trục
+            if (!tp && !hn && !ht && !bc && firstItem) {
+                bestMatchData = firstItem;
+                syncSelectsWithItem(firstItem);
+            } else {
+                // Lọc cơ sở dữ liệu theo giá trị Tam Trục
+                for (let key in database) {
+                    const item = database[key];
+                    if (!item) continue;
+
+                    const info = getItemTamTruc(item);
+
+                    const matchTP = !tp || info.tp === tp;
+                    const matchHN = !hn || info.hn === hn;
+                    const matchHT = !ht || info.ht === ht;
+                    const matchBC = !bc || info.bc === bc;
+
+                    if (matchTP && matchHN && matchHT && matchBC) {
+                        bestMatchData = item;
+                        break;
+                    }
+                }
+            }
+
+            renderDetailLuanTri(bestMatchData, query);
+        }
+
+        // 7. Hàm xử lý tìm kiếm hội chứng
         function searchLuanTri() {
             if (quizActive) stopQuizMode();
 
@@ -1203,115 +1315,20 @@
             }
         }
 
-        // 2. Cập nhật hàm tự động đồng bộ ô chọn khi click tìm kiếm
-function selectSearchResult(key, hideDropdown = true) {
-    const query = getVal('search-input').trim();
-    if (typeof database === 'undefined' || !database || !database[key]) return;
+        // 8. Hàm chọn kết quả từ danh sách thả xuống
+        function selectSearchResult(key, hideDropdown = true) {
+            const query = getVal('search-input').trim();
+            if (typeof database === 'undefined' || !database || !database[key]) return;
 
-    const item = database[key];
-    renderDetailLuanTri(item, query);
+            const item = database[key];
+            renderDetailLuanTri(item, query);
+            syncSelectsWithItem(item);
 
-    const tp = document.getElementById('tang-phu');
-    const hn = document.getElementById('han-nhiet');
-    const ht = document.getElementById('hu-thuc');
-    const bc = document.getElementById('benh-co');
-
-    if (Array.isArray(item.phanloai)) {
-        const [pTP, pHN, pHT, pBC] = item.phanloai;
-
-        // 1. Đồng bộ Tạng Phủ
-        if (tp) {
-            const mapTP = { 
-                'can': 'Can', 'tâm': 'Tam', 'tỳ': 'Ty', 'phế': 'Phe', 'thận': 'Than', 
-                'đờm': 'Dom', 'vị': 'Vi', 'đại trường': 'Dai_Truong', 
-                'tiểu trường': 'Tieu_Truong', 'bàng quang': 'Bang_Quang', 'tam tiêu': 'Tam_Tieu' 
-            };
-            const foundTP = Object.keys(mapTP).find(k => pTP?.toLowerCase().includes(k));
-            tp.value = foundTP ? mapTP[foundTP] : "";
-        }
-
-        // 2. Đồng bộ Hàn Nhiệt
-        if (hn) {
-            hn.value = pHN?.includes('Nhiệt') ? 'Nhiet' : pHN?.includes('Hàn') ? 'Han' : pHN?.includes('Bình') ? 'Binh' : (pHN ? 'Han nhiet hiep tap' : '');
-        }
-
-        // 3. Đồng bộ Hư Thực
-        if (ht) {
-            ht.value = pHT?.includes('Thực') ? 'Thuc' : pHT?.includes('Hư') ? 'Hu' : (pHT ? 'Hu thuc hiep tap' : '');
-        }
-
-        // 4. Đồng bộ Bệnh Cơ (Tự động chuyển về option tương ứng hoặc trả về "Tất cả")
-        if (bc) {
-            if (pBC) {
-                const cleanBC = removeAccents(pBC);
-                let matched = false;
-                for (let opt of bc.options) {
-                    if (opt.value && cleanBC.includes(removeAccents(opt.value))) {
-                        bc.value = opt.value;
-                        matched = true;
-                        break;
-                    }
-                }
-                if (!matched) bc.value = ""; // Nếu bệnh cơ của hội chứng không trùng danh sách lọc thì reset về "Tất cả"
-            } else {
-                bc.value = "";
+            if (hideDropdown) {
+                const dropdown = document.getElementById('search-dropdown');
+                if (dropdown) dropdown.classList.add('hidden');
             }
         }
-    }
-
-    if (hideDropdown) {
-        const dropdown = document.getElementById('search-dropdown');
-        if (dropdown) dropdown.classList.add('hidden');
-    }
-}
-
-        // 1. Cập nhật hàm lọc Tam Trục tương thích mảng phanloai
-// Hàm khử dấu tiếng Việt để so sánh chính xác
-function removeAccents(str) {
-    return (str || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
-}
-
-function updateLuanTri(query = "") {
-    if (quizActive || typeof database === 'undefined' || !database) return;
-
-    const tp = getVal('tang-phu');
-    const hn = getVal('han-nhiet');
-    const ht = getVal('hu-thuc');
-    const bc = getVal('benh-co');
-
-    const mapTP = {
-        'Can': 'can', 'Tam': 'tam', 'Ty': 'ty', 'Phe': 'phe', 'Than': 'than',
-        'Dom': 'dom', 'Vi': 'vi', 'Dai_Truong': 'dselai truong', 
-        'Tieu_Truong': 'tieu truong', 'Bang_Quang': 'bang quang', 'Tam_Tieu': 'tam tieu'
-    };
-
-    let bestMatchData = null;
-    let firstItem = Object.values(database)[0] || null;
-
-    for (let key in database) {
-        const item = database[key];
-        if (!item) continue;
-
-        const pl = Array.isArray(item.phanloai) ? item.phanloai : [];
-        const strTP = removeAccents(pl[0] || '');
-        const strHN = removeAccents(pl[1] || item.han_nhiet || '');
-        const strHT = removeAccents(pl[2] || item.hu_thuc || '');
-        const strBC = removeAccents(pl[3] || '');
-
-        const matchTP = !tp || strTP.includes(mapTP[tp] || removeAccents(tp)) || removeAccents(key).startsWith(removeAccents(tp));
-        const matchHN = !hn || strHN.includes(removeAccents(hn));
-        const matchHT = !ht || strHT.includes(removeAccents(ht));
-        const matchBC = !bc || strBC.includes(removeAccents(bc)) || removeAccents(item.hc || '').includes(removeAccents(bc));
-
-        if (matchTP && matchHN && matchHT && matchBC) {
-            bestMatchData = item;
-            break;
-        }
-    }
-
-    const finalData = bestMatchData || (tp === '' && hn === '' && ht === '' && bc === '' ? firstItem : null);
-    renderDetailLuanTri(finalData, query);
-}
 
 
 
