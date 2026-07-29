@@ -1,4 +1,4 @@
-exports.handler = async function(event) {
+exports.handler = async function(event, context) {
     if (event.httpMethod !== 'POST') {
         return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
     }
@@ -6,54 +6,69 @@ exports.handler = async function(event) {
     try {
         const { prompt } = JSON.parse(event.body || '{}');
 
-        // 1. Kiểm tra API Key trên Netlify
-        const apiKey = process.env.AI_API_KEY || process.env.PRIMARY_API_KEY || process.env.BACKUP_API_KEY;
+        // Lấy danh sách API Key
+        const keys = [
+            process.env.AI_API_KEY || process.env.PRIMARY_API_KEY,
+            process.env.BACKUP_API_KEY
+        ].filter(Boolean);
 
-        if (!apiKey) {
+        if (keys.length === 0) {
             return { 
                 statusCode: 500, 
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ error: '❌ Netlify chưa nhận API Key. Hãy kiểm tra lại phần Environment variables.' }) 
+                body: JSON.stringify({ error: 'Chưa cấu hình AI_API_KEY trên Netlify.' }) 
             };
         }
 
-        // 2. Gọi API chuẩn quốc tế của Google Gemini 1.5 Flash
-        const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey.trim()}`,
-            {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: "Bạn là trợ lý YHCT chuyên nghiệp. Trả lời ngắn gọn, chuẩn xác:\n\n" + prompt }] }]
-                })
+        // Tên model chuẩn 100% lấy từ danh sách trên màn hình của bạn
+        const models = ['gemini-2.5-flash', 'gemini-2.0-flash-lite'];
+        let lastError = null;
+
+        for (const apiKey of keys) {
+            for (const model of models) {
+                try {
+                    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey.trim()}`;
+
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ 
+                                parts: [{ text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, ngắt dòng rõ ràng, dùng gạch đầu dòng cho các ý chính: " + prompt }] 
+                            }]
+                        })
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
+                        return {
+                            statusCode: 200,
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ reply: data.candidates[0].content.parts[0].text })
+                        };
+                    }
+
+                    if (data.error?.message) {
+                        lastError = data.error.message;
+                    }
+                } catch (err) {
+                    lastError = err.message;
+                }
             }
-        );
-
-        const data = await response.json();
-
-        // 3. Trả về kết quả nếu thành công
-        if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
-            return {
-                statusCode: 200,
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ reply: data.candidates[0].content.parts[0].text })
-            };
         }
 
-        // 4. Báo lỗi chi tiết từ Google nếu thất bại
-        return {
-            statusCode: response.status,
+        return { 
+            statusCode: 500, 
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                error: `Lỗi Google API (${response.status}): ${data.error?.message || 'Không thể kết nối'}` 
-            })
+            body: JSON.stringify({ error: `Lỗi Google API: ${lastError}` }) 
         };
 
     } catch (error) {
         return {
             statusCode: 500,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ error: `Lỗi Serverless Function: ${error.message}` })
+            body: JSON.stringify({ error: error.message })
         };
     }
 };
