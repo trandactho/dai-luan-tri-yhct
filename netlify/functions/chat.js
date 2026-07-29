@@ -6,7 +6,7 @@ exports.handler = async function(event, context) {
     try {
         const { prompt } = JSON.parse(event.body || '{}');
 
-        // 1. Danh sách API Key
+        // 1. Danh sách API Key (Ưu tiên Key chính AI_API_KEY -> Key dự phòng BACKUP_API_KEY)
         const keys = [
             process.env.AI_API_KEY || process.env.PRIMARY_API_KEY,
             process.env.BACKUP_API_KEY
@@ -20,12 +20,12 @@ exports.handler = async function(event, context) {
             };
         }
 
-        // 2. Danh sách Model dự phòng (Nếu 1 model quá tải, tự chuyển model khác)
-        const models = ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-flash-8b'];
+        // 2. Các Model chuẩn xác 100% được Google hỗ trợ
+        const models = ['gemini-1.5-flash', 'gemini-2.0-flash'];
 
         let lastError = null;
 
-        // Tự động thử lần lượt từng Key và từng Model
+        // Xoay vòng qua từng Key và từng Model chuẩn
         for (const apiKey of keys) {
             for (const model of models) {
                 try {
@@ -52,7 +52,9 @@ exports.handler = async function(event, context) {
                         };
                     }
 
-                    lastError = data.error?.message || JSON.stringify(data);
+                    if (data.error?.message) {
+                        lastError = data.error.message;
+                    }
                 } catch (err) {
                     lastError = err.message;
                 }
@@ -62,7 +64,7 @@ exports.handler = async function(event, context) {
         return { 
             statusCode: 500, 
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ error: `Google API Error: ${lastError}` }) 
+            body: JSON.stringify({ error: `Máy chủ AI bận: ${lastError}` }) 
         };
 
     } catch (error) {
