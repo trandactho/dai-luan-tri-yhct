@@ -1361,20 +1361,25 @@ function xuLyKhongTimThay(tabName, query) {
     const cleanQuery = query.trim();
     const key = `${tabName}:${cleanQuery.toLowerCase()}`;
 
-    // Tránh gửi trùng lặp nhiều lần trong 1 phiên làm việc
     if (recordedFeedbackKeywords.has(key)) return;
     recordedFeedbackKeywords.add(key);
 
-    // 1. Tự động gửi API phản hồi về Server/Netlify Function
-    fetch('/.netlify/functions/feedback', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tab: tabName, query: cleanQuery, timestamp: new Date().toISOString() })
-    }).catch(() => {}); // Chạy ngầm silently
+    // Gửi trực tiếp vào Form "gop-y-yhct" có sẵn
+    const formData = new URLSearchParams();
+    formData.append('form-name', 'gop-y-yhct');
+    formData.append('ho-ten', 'Hệ thống tự động');
+    formData.append('chu-de', `Từ khóa thiếu: ${tabName}`);
+    formData.append('noi-dung', `Từ khóa chưa có dữ liệu: "${cleanQuery}" (Thời gian: ${new Date().toLocaleString('vi-VN')})`);
 
-    // 2. Hiển thị thông báo Toast nổi góc trên màn hình
+    fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formData.toString()
+    }).catch(() => {});
+
     hienThongBaoGhiNhan(tabName, cleanQuery);
 }
+
 
 function hienThongBaoGhiNhan(tabName, query) {
     let toast = document.getElementById('feedback-toast');
