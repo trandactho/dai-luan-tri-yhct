@@ -1,7 +1,3 @@
-// =========================================================================
-// ĐẠI LUẬN TRỊ & TRA CỨU YHCT - APP.JS (v1.2.6)
-// =========================================================================
-
 function escapeHTML(str) {
     if (!str) return '';
     return String(str).replace(/[&<>'"]/g, 
@@ -111,7 +107,15 @@ window.addEventListener("DOMContentLoaded", () => {
     });
 });
 
-function switchTab(tabName) {
+// 2. Nạp dữ liệu tương ứng khi người dùng mở từng Tab
+async function switchTab(tabName) {
+    // Chỉ nạp dữ liệu của Tab đó khi người dùng bấm vào
+    if (tabName === 'luantri') await loadScript('luantridata.js');
+    if (tabName === 'duoclieu') await loadScript('duoclieudata.js');
+    if (tabName === 'huyetvi') await loadScript('huyetvidata.js');
+    if (tabName === 'tra') await loadScript('tradata.js');
+    if (tabName === 'tracnghiem') await loadScript('questiondata.js');
+
     if (tabName !== 'xemanh') {
         localStorage.setItem('activeTab', tabName);
     }
@@ -1263,7 +1267,63 @@ function filterTra(isEnter = false) {
     grid.appendChild(frag);
 }
 
-function exportPDF() {
+// 1. Hàm nạp file JS động & Khởi tạo bộ lọc tự động
+const loadedScripts = new Set();
+function loadScript(src) {
+    if (loadedScripts.has(src)) return Promise.resolve();
+    return new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = src;
+        script.onload = () => { 
+            loadedScripts.add(src); 
+            
+            // Cập nhật lại số đếm Header khi nạp file thành công
+            capNhatTongSoTracNghiem();
+            
+            // Khởi tạo bộ lọc Dược liệu khi nạp duoclieudata.js
+            if (src === 'duoclieudata.js' && typeof duocLieuData !== 'undefined') {
+                document.getElementById('total-thuoc')?.innerText = duocLieuData.length;
+                const selectDL = document.getElementById('filterNhomDuocLieu');
+                if (selectDL && selectDL.options.length <= 1) {
+                    const nhomDL = [...new Set(duocLieuData.map(d => d.nhom).filter(Boolean))];
+                    selectDL.innerHTML = '<option value="">-- Tất cả nhóm dược --</option>';
+                    nhomDL.forEach(n => { let opt = document.createElement('option'); opt.value = n; opt.innerText = n; selectDL.appendChild(opt); });
+                }
+            }
+
+            // Khởi tạo bộ lọc Huyệt vị khi nạp huyetvidata.js
+            if (src === 'huyetvidata.js' && typeof huyetViData !== 'undefined') {
+                document.getElementById('total-huyet')?.innerText = huyetViData.length;
+                const selectHL = document.getElementById('filterKinhLac');
+                if (selectHL && selectHL.options.length <= 1) {
+                    const heKinhLac = [...new Set(huyetViData.map(h => h.kinh).filter(Boolean))];
+                    selectHL.innerHTML = '<option value="">-- Tất cả hệ thống kinh mạch --</option>';
+                    heKinhLac.forEach(k => { let opt = document.createElement('option'); opt.value = k; opt.innerText = k; selectHL.appendChild(opt); });
+                }
+            }
+
+            // Khởi tạo bộ lọc Trà dược khi nạp tradata.js
+            if (src === 'tradata.js' && typeof traData !== 'undefined') {
+                document.getElementById('total-tra')?.innerText = traData.length;
+                const selectTra = document.getElementById('filterNhomTra');
+                if (selectTra && selectTra.options.length <= 1) {
+                    const nhomTra = [...new Set(traData.map(t => t.nhom).filter(Boolean))];
+                    selectTra.innerHTML = '<option value="">-- Tất cả nhóm công dụng --</option>';
+                    nhomTra.forEach(n => { let opt = document.createElement('option'); opt.value = n; opt.innerText = n; selectTra.appendChild(opt); });
+                }
+            }
+
+            resolve(); 
+        };
+        script.onerror = reject;
+        document.head.appendChild(script);
+    });
+}
+
+// 3. Chỉ nạp thư viện PDF khi người dùng bấm nút Xuất PDF
+async function exportPDF() {
+    await loadScript('html2pdf.bundle.min.js');
+    
     const element = document.getElementById('pdf-area');
     if (typeof html2pdf === 'undefined') {
         alert('Đang tải bộ công cụ xuất PDF, vui lòng thử lại sau vài giây.');
