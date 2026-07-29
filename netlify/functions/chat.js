@@ -4,10 +4,15 @@ exports.handler = async function(event, context) {
     }
 
     try {
-        const { prompt } = JSON.parse(event.body);
-        const apiKey = process.env.AI_API_KEY;
+        const { prompt } = JSON.parse(event.body || '{}');
 
-        if (!apiKey) {
+        // Lấy danh sách Key: Ưu tiên AI_API_KEY -> Nếu lỗi sẽ tự chuyển sang BACKUP_API_KEY
+        const keys = [
+            process.env.AI_API_KEY || process.env.PRIMARY_API_KEY,
+            process.env.BACKUP_API_KEY
+        ].filter(Boolean);
+
+        if (keys.length === 0) {
             return { 
                 statusCode: 500, 
                 headers: { 'Content-Type': 'application/json' },
@@ -15,35 +20,44 @@ exports.handler = async function(event, context) {
             };
         }
 
-        // Sử dụng model chuẩn mới nhất gemini-3.5-flash trên endpoint v1
-        const url = `https://generativelanguage.googleapis.com/v1/models/gemini-3.5-flash:generateContent?key=${apiKey}`;
+        let lastError = null;
 
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                contents: [{ parts: [{ text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, ngắt dòng rõ ràng, dùng gạch đầu dòng cho các ý chính: " + prompt }] }]
+        // Tự động thử lần lượt các Key
+        for (const apiKey of keys) {
+            try {
+                const url = `https://generativelanguage.googleapis.com/v1/models/gemini-3.5-flash:generateContent?key=${apiKey}`;
 
-            })
-        });
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, ngắt dòng rõ ràng, dùng gạch đầu dòng cho các ý chính: " + prompt }] }]
+                    })
+                });
 
-        const data = await response.json();
+                const data = await response.json();
 
-        if (!response.ok) {
-            return { 
-                statusCode: response.status, 
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ error: `Google API Error: ${data.error?.message || JSON.stringify(data)}` }) 
-            };
+                if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
+                    const reply = data.candidates[0].content.parts[0].text;
+                    return {
+                        statusCode: 200,
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ reply })
+                    };
+                }
+
+                lastError = `Google API Error: ${data.error?.message || JSON.stringify(data)}`;
+            } catch (err) {
+                lastError = err.message;
+            }
         }
 
-        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text || "Không có phản hồi từ AI.";
-
-        return {
-            statusCode: 200,
+        return { 
+            statusCode: 500, 
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ reply })
+            body: JSON.stringify({ error: lastError || "Tất cả API Key đều bận." }) 
         };
+
     } catch (error) {
         return {
             statusCode: 500,
