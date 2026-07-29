@@ -1606,9 +1606,45 @@
             });
         }
 
+                // 1. Hàm định dạng câu trả lời AI đẹp mắt, tự động ngắt dòng và tạo khối điểm nhấn
+        function formatAIMessage(text) {
+            if (!text) return '';
+            
+            // Khử mã độc HTML
+            let safe = escapeHTML(text);
+
+            // Xử lý in đậm **từ khóa**
+            safe = safe.replace(/\*\*(.*?)\*\*/g, '<strong class="text-amber-400 font-bold">$1</strong>');
+
+            // Xử lý ngắt dòng và danh sách gạch đầu dòng
+            const lines = safe.split('\n');
+            const formattedLines = lines.map(line => {
+                const trimmed = line.trim();
+                
+                // Tiêu đề/Gạch đầu dòng/Số thứ tự
+                if (trimmed.startsWith('* ') || trimmed.startsWith('- ')) {
+                    return `<li class="ml-4 list-disc text-stone-300 my-1">${trimmed.substring(2)}</li>`;
+                }
+                if (/^\d+\.\s/.test(trimmed)) {
+                    return `<div class="font-bold text-amber-300 mt-2.5 mb-1 flex items-center gap-1">${trimmed}</div>`;
+                }
+                // Khối cảnh báo y tế
+                if (trimmed.includes('⚠️') || trimmed.toLowerCase().includes('lưu ý') || trimmed.toLowerCase().includes('cấp cứu')) {
+                    return `<div class="bg-amber-950/50 border-l-4 border-amber-500 p-2.5 my-2 rounded-r text-amber-200 text-xs leading-relaxed">${trimmed}</div>`;
+                }
+                if (trimmed === '') return '<div class="h-2"></div>';
+                
+                return `<p class="my-1 leading-relaxed text-stone-300">${trimmed}</p>`;
+            });
+
+            return formattedLines.join('');
+        }
+
+        // 2. Hàm gửi tin nhắn AI có Trạng thái chờ & Trình bày chuyên nghiệp
         async function sendAIWebMessage() {
             const inputEl = document.getElementById('ai-input');
             const chatBox = document.getElementById('ai-chat-box');
+            const btnSend = document.querySelector('button[onclick="sendAIWebMessage()"]');
             if (!inputEl || !chatBox) return;
             
             let query = inputEl.value.trim();
@@ -1616,13 +1652,28 @@
 
             const safeQuery = escapeHTML(query);
 
+            // 1. Hiện tin nhắn người dùng
             chatBox.innerHTML += `
-                <div class="bg-amber-950/30 p-3 rounded-lg border border-amber-900/40 text-amber-200 text-right">
+                <div class="bg-amber-950/40 p-3 rounded-lg border border-amber-900/50 text-amber-200 text-right font-medium">
                     <span class="font-bold text-amber-400">Bạn:</span> ${safeQuery}
                 </div>
             `;
             inputEl.value = '';
+
+            // 2. Hiện THÔNG BÁO AI ĐANG XỬ LÝ (Loading State)
+            const loadingId = 'ai-loading-' + Date.now();
+            chatBox.innerHTML += `
+                <div id="${loadingId}" class="bg-stone-900/90 p-3 rounded-lg border border-stone-800 text-stone-400 flex items-center gap-2.5 animate-pulse text-xs">
+                    <i class="fa-solid fa-brain text-amber-500 animate-spin text-sm"></i>
+                    <span>Trợ lý AI YHCT đang suy nghĩ & phân tích phác đồ...</span>
+                </div>
+            `;
             chatBox.scrollTop = chatBox.scrollHeight;
+
+            if (btnSend) {
+                btnSend.disabled = true;
+                btnSend.classList.add('opacity-50', 'pointer-events-none');
+            }
 
             try {
                 const res = await fetch('/.netlify/functions/chat', {
@@ -1631,21 +1682,47 @@
                     body: JSON.stringify({ prompt: query })
                 });
                 const data = await res.json();
-                const safeReply = escapeHTML(data.reply || data.error);
 
+                // Xóa biểu tượng đang xử lý
+                const loadingEl = document.getElementById(loadingId);
+                if (loadingEl) loadingEl.remove();
+
+                if (!res.ok) {
+                    const safeErr = escapeHTML(data.error || 'Lỗi hệ thống');
+                    chatBox.innerHTML += `
+                        <div class="bg-red-950/40 p-3 rounded-lg border border-red-800 text-red-300 text-xs">
+                            <i class="fa-solid fa-triangle-exclamation mr-1"></i> ${safeErr}
+                        </div>
+                    `;
+                } else {
+                    // Định dạng câu trả lời đẹp mắt
+                    const formattedReply = formatAIMessage(data.reply || 'Không có phản hồi từ AI.');
+                    chatBox.innerHTML += `
+                        <div class="bg-stone-900 p-3.5 rounded-lg border border-stone-800 text-stone-300 space-y-1 shadow-inner">
+                            <div class="font-bold text-amber-500 flex items-center gap-1.5 mb-2 pb-1.5 border-b border-stone-800">
+                                <i class="fa-solid fa-robot"></i> Trợ Lý AI YHCT
+                            </div>
+                            <div class="text-xs leading-relaxed space-y-1">${formattedReply}</div>
+                        </div>
+                    `;
+                }
+            } catch (err) {
+                const loadingEl = document.getElementById(loadingId);
+                if (loadingEl) loadingEl.remove();
                 chatBox.innerHTML += `
-                    <div class="bg-stone-900 p-3 rounded-lg border border-stone-800 text-stone-300">
-                        <span class="font-bold text-amber-500 flex items-center gap-1 mb-1">
-                            <i class="fa-solid fa-robot"></i> Trợ Lý AI YHCT:
-                        </span>
-                        <div>${safeReply}</div>
+                    <div class="bg-red-950/40 p-3 rounded-lg border border-red-800 text-red-300 text-xs">
+                        <i class="fa-solid fa-plug-circle-xmark mr-1"></i> Lỗi kết nối máy chủ AI. Vui lòng thử lại.
                     </div>
                 `;
-            } catch (err) {
-                chatBox.innerHTML += `<div class="text-red-500 text-xs">Lỗi kết nối máy chủ AI.</div>`;
+            } finally {
+                if (btnSend) {
+                    btnSend.disabled = false;
+                    btnSend.classList.remove('opacity-50', 'pointer-events-none');
+                }
+                chatBox.scrollTop = chatBox.scrollHeight;
             }
-            chatBox.scrollTop = chatBox.scrollHeight;
         }
+
 
         let touchstartX = 0, touchstartY = 0, touchendX = 0, touchendY = 0;                               
         function handleSwipe(startX, startY, endX, endY) {
