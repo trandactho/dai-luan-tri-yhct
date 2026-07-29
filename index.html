@@ -1361,24 +1361,22 @@ function xuLyKhongTimThay(tabName, query) {
     const cleanQuery = query.trim();
     const timeStr = new Date().toLocaleString('vi-VN');
 
-    const encode = (data) => Object.keys(data)
-        .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-        .join("&");
+    const params = new URLSearchParams();
+    params.append('form-name', 'gop-y-yhct');
+    params.append('hoten', 'Hệ thống tự động');
+    params.append('email', 'system@luantriyhct.com');
+    params.append('chude', `Từ khóa thiếu: ${tabName}`);
+    params.append('noidung', `Từ khóa chưa có dữ liệu: "${cleanQuery}" (Thời gian: ${timeStr})`);
 
-    fetch("/", {
-        method: "POST",
+    fetch('/', {
+        method: 'POST',
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: encode({
-            "form-name": "gop-y-yhct",
-            "Hoten": "Hệ thống tự động",
-            "Email": "system@luantriyhct.com",
-            "Chude": `Từ khóa thiếu: ${tabName}`,
-            "Noidung": `Từ khóa chưa có dữ liệu: "${cleanQuery}" (Thời gian: ${timeStr})`
-        })
+        body: params.toString()
     }).catch(() => {});
 
     hienThongBaoGhiNhan(tabName, cleanQuery);
 }
+
 
 function hienThongBaoGhiNhan(tabName, query) {
     let toast = document.getElementById('feedback-toast');
@@ -1931,14 +1929,5 @@ function filterTra(isEnter = false) {
             }
         });
     </script>
-
-    <!-- Form ẩn chuẩn Netlify (ĐẶT TRƯỚC THẺ </body>) -->
-    <form name="gop-y-yhct" method="POST" data-netlify="true" hidden>
-        <input type="hidden" name="form-name" value="gop-y-yhct" />
-        <input type="text" name="Hoten" />
-        <input type="email" name="Email" />
-        <input type="text" name="Chude" />
-        <input type="text" name="Noidung" />
-    </form>
 </body>
 </html>
