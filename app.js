@@ -118,7 +118,6 @@ window.addEventListener("DOMContentLoaded", () => {
 
 // 2. Nạp dữ liệu tương ứng khi người dùng mở từng Tab
 async function switchTab(tabName) {
-    // Chỉ nạp dữ liệu của Tab đó khi người dùng bấm vào
     if (tabName === 'luantri') await loadScript('luantridata.js');
     if (tabName === 'duoclieu') await loadScript('duoclieudata.js');
     if (tabName === 'huyetvi') await loadScript('huyetvidata.js');
@@ -158,6 +157,11 @@ async function switchTab(tabName) {
             }
             if (btn) btn.classList.add('tab-active', 'text-primary');
 
+            // 👉 BỔ SUNG ĐOẠN NÀY: Cập nhật dữ liệu Luận trị ngay khi mở tab
+            if (t === 'luantri') {
+                capNhatTongSoTrieuChung();
+                updateLuanTri();
+            }
             if (t === 'duoclieu') filterDuocLieu();
             if (t === 'huyetvi') filterHuyetVi();
             if (t === 'tra') filterTra();
@@ -1390,6 +1394,12 @@ function loadScript(src) {
             loadedScripts.add(src); 
             
             capNhatTongSoTracNghiem();
+
+            // 👉 BỔ SUNG ĐOẠN NÀY: Cập nhật số đếm & hiển thị khi nạp xong luantridata.js
+            if (src === 'luantridata.js' && typeof database !== 'undefined') {
+                capNhatTongSoTrieuChung();
+                updateLuanTri();
+            }
             
             if (src === 'duoclieudata.js' && typeof duocLieuData !== 'undefined') {
                 const elThuoc = document.getElementById('total-thuoc');
