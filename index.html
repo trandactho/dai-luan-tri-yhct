@@ -1359,17 +1359,14 @@ const recordedFeedbackKeywords = new Set();
 function xuLyKhongTimThay(tabName, query) {
     if (!query || query.trim().length < 2) return;
     const cleanQuery = query.trim();
-    const key = `${tabName}:${cleanQuery.toLowerCase()}`;
 
-    if (recordedFeedbackKeywords.has(key)) return;
-    recordedFeedbackKeywords.add(key);
-
-    // Gửi trực tiếp vào Form "gop-y-yhct" có sẵn
+    // Gửi trực tiếp về Netlify Form "gop-y-yhct"
     const formData = new URLSearchParams();
     formData.append('form-name', 'gop-y-yhct');
-    formData.append('ho-ten', 'Hệ thống tự động');
-    formData.append('chu-de', `Từ khóa thiếu: ${tabName}`);
-    formData.append('noi-dung', `Từ khóa chưa có dữ liệu: "${cleanQuery}" (Thời gian: ${new Date().toLocaleString('vi-VN')})`);
+    formData.append('Hoten', 'Hệ thống tự động');
+    formData.append('Email', 'system@luantriyhct.com');
+    formData.append('Chude', `Từ khóa thiếu: ${tabName}`);
+    formData.append('Noidung', `Từ khóa chưa có dữ liệu: "${cleanQuery}" (Thời gian: ${new Date().toLocaleString('vi-VN')})`);
 
     fetch('/', {
         method: 'POST',
@@ -1379,7 +1376,6 @@ function xuLyKhongTimThay(tabName, query) {
 
     hienThongBaoGhiNhan(tabName, cleanQuery);
 }
-
 
 function hienThongBaoGhiNhan(tabName, query) {
     let toast = document.getElementById('feedback-toast');
@@ -1934,5 +1930,13 @@ function filterTra(isEnter = false) {
             }
         });
     </script>
+    <!-- Form ẩn để Netlify nhận diện schema trên trang index.html -->
+<form name="gop-y-yhct" netlify netlify-honeypot="bot-field" hidden>
+    <input type="text" name="Hoten" />
+    <input type="text" name="Email" />
+    <input type="text" name="Chude" />
+    <input type="text" name="Noidung" />
+</form>
+
 </body>
 </html>
