@@ -1360,13 +1360,23 @@ function xuLyKhongTimThay(tabName, query) {
     if (!query || query.trim().length < 2) return;
     const cleanQuery = query.trim();
 
-    // Gửi trực tiếp về Netlify Form "gop-y-yhct"
+    const timeStr = new Date().toLocaleString('vi-VN');
+    const chuDeText = `Từ khóa thiếu: ${tabName}`;
+    const noiDungText = `Từ khóa chưa có dữ liệu: "${cleanQuery}" (Thời gian: ${timeStr})`;
+
     const formData = new URLSearchParams();
     formData.append('form-name', 'gop-y-yhct');
+
+    // Gửi song song 2 bộ tên trường để Netlify bắt dính 100%
     formData.append('Hoten', 'Hệ thống tự động');
     formData.append('Email', 'system@luantriyhct.com');
-    formData.append('Chude', `Từ khóa thiếu: ${tabName}`);
-    formData.append('Noidung', `Từ khóa chưa có dữ liệu: "${cleanQuery}" (Thời gian: ${new Date().toLocaleString('vi-VN')})`);
+    formData.append('Chude', chuDeText);
+    formData.append('Noidung', noiDungText);
+
+    formData.append('ho-ten', 'Hệ thống tự động');
+    formData.append('email', 'system@luantriyhct.com');
+    formData.append('chu-de', chuDeText);
+    formData.append('noi-dung', noiDungText);
 
     fetch('/', {
         method: 'POST',
@@ -1376,6 +1386,7 @@ function xuLyKhongTimThay(tabName, query) {
 
     hienThongBaoGhiNhan(tabName, cleanQuery);
 }
+
 
 function hienThongBaoGhiNhan(tabName, query) {
     let toast = document.getElementById('feedback-toast');
@@ -1930,12 +1941,17 @@ function filterTra(isEnter = false) {
             }
         });
     </script>
-    <!-- Form ẩn để Netlify nhận diện schema trên trang index.html -->
-<form name="gop-y-yhct" netlify netlify-honeypot="bot-field" hidden>
+    <!-- Form ẩn chuẩn Netlify (ĐẶT TRƯỚC THẺ </body>) -->
+<form name="gop-y-yhct" method="POST" data-netlify="true" netlify-honeypot="bot-field" hidden>
+    <input type="hidden" name="form-name" value="gop-y-yhct" />
     <input type="text" name="Hoten" />
     <input type="text" name="Email" />
     <input type="text" name="Chude" />
     <input type="text" name="Noidung" />
+    <input type="text" name="ho-ten" />
+    <input type="text" name="email" />
+    <input type="text" name="chu-de" />
+    <input type="text" name="noi-dung" />
 </form>
 
 </body>
