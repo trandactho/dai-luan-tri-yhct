@@ -87,10 +87,11 @@
         <section id="sectionLuanTri" class="block space-y-5">
             <div class="bg-dark-box p-4 rounded-lg flex flex-col sm:flex-row gap-3 items-center">
                 <div class="relative flex-1 w-full">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-stone-500"></i>
-                    <input type="text" id="search-input" oninput="debounceSearchLuanTri()" onkeydown="if(event.key==='Enter') searchLuanTri(true)">
-                    <div id="search-dropdown" class="hidden absolute left-0 right-0 top-full mt-1 bg-stone-900 border border-stone-700 rounded-lg shadow-2xl z-50 max-h-60 overflow-y-auto"></div>
-                </div>
+    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-stone-500 pointer-events-none"></i>
+    <input type="text" id="search-input" class="w-full pl-9 p-2.5 rounded bg-stone-900 border border-stone-700 text-stone-200 outline-none focus:border-amber-500" placeholder="Tìm kiếm hội chứng, triệu chứng..." oninput="debounceSearchLuanTri()" onkeydown="if(event.key==='Enter') searchLuanTri(true)">
+    <div id="search-dropdown" class="hidden absolute left-0 right-0 top-full mt-1 bg-stone-900 border border-stone-700 rounded-lg shadow-2xl z-50 max-h-60 overflow-y-auto"></div>
+</div>
+
                 
                 <div id="quiz-controls" class="w-full sm:w-auto flex flex-1 gap-2">
                     <button onclick="startQuizMode()" class="w-full px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded flex items-center justify-center gap-2 transition-all">
@@ -273,9 +274,11 @@
             <div class="bg-dark-box p-5 rounded-lg space-y-3">
                 <div class="flex gap-2 items-center">
                     <div class="relative flex-1">
-                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-stone-500"></i>
-                        <input type="text" id="searchDuocLieu" oninput="debounceFilterDuocLieu()" onkeydown="if(event.key==='Enter') filterDuocLieu(true)">
-                    </div>
+    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-stone-500 pointer-events-none"></i>
+    <input type="text" id="searchDuocLieu" class="w-full pl-9 p-2.5 rounded bg-stone-900 border border-stone-700 text-stone-200 outline-none focus:border-amber-500" placeholder="Tìm tên dược liệu..." oninput="debounceFilterDuocLieu()" onkeydown="if(event.key==='Enter') filterDuocLieu(true)">
+</div>
+
+
                     <button onclick="toggleQuizDL()" class="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0">
                         <i class="fa-solid fa-graduation-cap"></i> Ôn tập
                     </button>
@@ -290,9 +293,10 @@
             <div class="bg-dark-box p-5 rounded-lg space-y-3">
                 <div class="flex gap-2 items-center">
                     <div class="relative flex-1">
-                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-stone-500"></i>
-                        <input type="text" id="searchHuyetVi" oninput="debounceFilterHuyetVi()" onkeydown="if(event.key==='Enter') filterHuyetVi(true)">
-                    </div>
+    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-stone-500 pointer-events-none"></i>
+    <input type="text" id="searchHuyetVi" class="w-full pl-9 p-2.5 rounded bg-stone-900 border border-stone-700 text-stone-200 outline-none focus:border-amber-500" placeholder="Tìm tên huyệt vị..." oninput="debounceFilterHuyetVi()" onkeydown="if(event.key==='Enter') filterHuyetVi(true)">
+</div>
+
                     <button onclick="toggleQuizHV()" class="px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0">
                         <i class="fa-solid fa-graduation-cap"></i> Ôn tập
                     </button>
@@ -306,9 +310,9 @@
         <section id="sectionTra" class="hidden space-y-5">
             <div class="bg-dark-box p-5 rounded-lg flex flex-col md:flex-row gap-4">
                 <div class="relative w-full md:w-64">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-stone-500"></i>
-                    <input type="text" id="searchTra" oninput="debounceFilterTra()" onkeydown="if(event.key==='Enter') filterTra(true)">
-                </div>
+    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-stone-500 pointer-events-none"></i>
+    <input type="text" id="searchTra" class="w-full pl-9 p-2.5 rounded bg-stone-900 border border-stone-700 text-stone-200 outline-none focus:border-amber-500" placeholder="Tìm bài trà..." oninput="debounceFilterTra()" onkeydown="if(event.key==='Enter') filterTra(true)">
+</div>
                 <select id="filterNhomTra" onchange="filterTra()" class="w-full md:w-1/2 p-3 rounded"></select>
             </div>
             <div id="gridTra" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
@@ -1361,31 +1365,25 @@ function xuLyKhongTimThay(tabName, query) {
     const cleanQuery = query.trim();
 
     const timeStr = new Date().toLocaleString('vi-VN');
-    const chuDeText = `Từ khóa thiếu: ${tabName}`;
-    const noiDungText = `Từ khóa chưa có dữ liệu: "${cleanQuery}" (Thời gian: ${timeStr})`;
-
+    
     const formData = new URLSearchParams();
     formData.append('form-name', 'gop-y-yhct');
-
-    // Gửi song song 2 bộ tên trường để Netlify bắt dính 100%
-    formData.append('Hoten', 'Hệ thống tự động');
+    formData.append('Hoten', 'He thong tu dong');
     formData.append('Email', 'system@luantriyhct.com');
-    formData.append('Chude', chuDeText);
-    formData.append('Noidung', noiDungText);
-
-    formData.append('ho-ten', 'Hệ thống tự động');
-    formData.append('email', 'system@luantriyhct.com');
-    formData.append('chu-de', chuDeText);
-    formData.append('noi-dung', noiDungText);
+    formData.append('Chude', `Tu khoa thieu: ${tabName}`);
+    formData.append('Noidung', `Tu khoa chua co du lieu: "${cleanQuery}" (Thoi gian: ${timeStr})`);
 
     fetch('/', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: { 
+            'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' 
+        },
         body: formData.toString()
     }).catch(() => {});
 
     hienThongBaoGhiNhan(tabName, cleanQuery);
 }
+
 
 
 function hienThongBaoGhiNhan(tabName, query) {
