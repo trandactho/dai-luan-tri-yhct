@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đại Luận Trị & Tra Cứu YHCT v1.2.7 Premium</title>
+    <title>Đại Luận Trị & Tra Cứu YHCT v1.2.8 Premium</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7294224585301638" crossorigin="anonymous"></script>
     <meta name="description" content="Ứng dụng tra cứu Y Học Cổ Truyền toàn diện: Biện chứng luận trị, Dược liệu học, Châm cứu huyệt vị, Trà dược trị liệu và Trợ lý AI tư vấn YHCT.">
     <meta name="author" content="Trần Đắc Thọ">
@@ -27,7 +27,7 @@
     
     <header class="bg-dark-box p-2 text-center border-b border-stone-800 space-y-0.5">
         <h1 class="text-sm font-bold text-primary flex items-center justify-center gap-1">
-            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.2.7)
+            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.2.8)
         </h1>
         <div class="text-[10px] text-stone-400 space-x-2">
             <span>Biện chứng (<span id="total-chung" class="text-amber-500 font-bold">0</span>)</span> · 
@@ -181,10 +181,15 @@
                         <select id="quiz-category" class="w-full p-2.5 rounded text-sm">
                             <option value="all">🌟 Tổng hợp tất cả</option>
                             <option value="luantri">🩺 Biện chứng luận trị</option>
+                            <option value="lyluan">📖 Lý luận cơ bản YHCT</option>
+                            <option value="phuongte">🧪 Phương tễ học</option>
                             <option value="duoclieu">🌿 Dược liệu học</option>
                             <option value="huyetvi">🎯 Châm cứu huyệt vị</option>
                             <option value="tra">☕ Trà dược trị liệu</option>
-                        </select>
+                            <option value="chandoan">🩺 Chẩn đoán YHCT</option>
+                            <option value="chamcuu_xoabop">🎯 Châm cứu & Xoa bóp</option>
+                            <option value="duongsinh">🧘 Dưỡng sinh Khí công</option>
+                            </select>
                     </div>
                     <div>
                         <label class="block text-xs text-stone-400 font-bold mb-1">Số lượng câu hỏi:</label>
@@ -192,6 +197,7 @@
                             <option value="5">5 câu (Nhanh)</option>
                             <option value="10" selected>10 câu (Tiêu chuẩn)</option>
                             <option value="20">20 câu (Nâng cao)</option>
+                            <option value="30">30 câu (Chuyên sâu)</option>
                         </select>
                     </div>
                 </div>
@@ -340,5 +346,6 @@
     </footer>
 <!-- LOGIC XỬ LÝ CHÍNH (APP.JS HOẶC TÍCH HỢP) -->
     <script src="app.js"></script>
+    <script src="html2pdf.bundle.min.js">render</script>
 </body>
 </html>
