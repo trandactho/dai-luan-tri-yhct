@@ -14,24 +14,28 @@ function escapeHTML(str) {
 let quizActive = false;
 let isQuizDL = false, isQuizHV = false;
 
-function toggleQuizDL() {
+function toggleQuizDL(btnEl) {
     isQuizDL = !isQuizDL;
-    const btn = event.currentTarget;
-    if (isQuizDL) {
-        btn.className = "px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0 shadow-lg shadow-amber-900/50";
-    } else {
-        btn.className = "px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0";
+    const btn = btnEl || event?.currentTarget || document.querySelector('button[onclick*="toggleQuizDL"]');
+    if (btn) {
+        if (isQuizDL) {
+            btn.className = "px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0 shadow-lg shadow-amber-900/50";
+        } else {
+            btn.className = "px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0";
+        }
     }
     filterDuocLieu();
 }
 
-function toggleQuizHV() {
+function toggleQuizHV(btnEl) {
     isQuizHV = !isQuizHV;
-    const btn = event.currentTarget;
-    if (isQuizHV) {
-        btn.className = "px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0 shadow-lg shadow-amber-900/50";
-    } else {
-        btn.className = "px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0";
+    const btn = btnEl || event?.currentTarget || document.querySelector('button[onclick*="toggleQuizHV"]');
+    if (btn) {
+        if (isQuizHV) {
+            btn.className = "px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0 shadow-lg shadow-amber-900/50";
+        } else {
+            btn.className = "px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0";
+        }
     }
     filterHuyetVi();
 }
@@ -528,9 +532,9 @@ function quayLaiTabTruoc() {
     switchTab(lastTab);
 }
 
-function xemDuocLieu(tenViThuoc) {
+async function xemDuocLieu(tenViThuoc) {
     if (!tenViThuoc) return;
-    switchTab('duoclieu');
+    await switchTab('duoclieu');
     const searchInput = document.getElementById('searchDuocLieu');
     const filterNhom = document.getElementById('filterNhomDuocLieu');
     if (searchInput) searchInput.value = tenViThuoc;
@@ -880,6 +884,7 @@ function updateLuanTri(query = "") {
     renderDetailLuanTri(bestMatchData, activeQuery);
 }
 
+// Kết nối tính năng Chẩn đoán thông minh khi ấn Enter tìm kiếm Luận trị
 function searchLuanTri(isEnter = false) {
     if (quizActive) stopQuizMode();
 
@@ -923,11 +928,26 @@ function searchLuanTri(isEnter = false) {
         }
     }
 
-    if (matches.length > 0) {
+    if (matches.length > 1 && isEnter) {
+        if (dropdown) dropdown.classList.add('hidden');
+        batDauLuanTriThongMinh(query);
+    } else if (matches.length > 0) {
         selectSearchResult(matches[0].key, false);
     } else {
         renderDetailLuanTri(null, query, isEnter);
     }
+}
+
+function phanHoiLamSang(choiceIndex) {
+    const session = currentDiagnosisSession;
+    if (choiceIndex === 0) {
+        session.candidateList.splice(1, 1);
+    } else {
+        const removed = session.candidateList.splice(1, 1);
+        session.candidateList[0] = removed[0];
+    }
+    session.step++;
+    hienThiCauHoiPhanBieuLamSang();
 }
 
 function selectSearchResult(key, hideDropdown = true) {
@@ -942,6 +962,11 @@ function selectSearchResult(key, hideDropdown = true) {
         const dropdown = document.getElementById('search-dropdown');
         if (dropdown) dropdown.classList.add('hidden');
     }
+}
+
+// Bổ sung hàm Hủy bỏ chẩn đoán phân biệt
+function huyBoChuanDoan() {
+    updateLuanTri();
 }
 
 function xuLyKhongTimThay(tabName, query) {
@@ -1282,7 +1307,9 @@ function loadScript(src) {
             
             // Khởi tạo bộ lọc Dược liệu khi nạp duoclieudata.js
             if (src === 'duoclieudata.js' && typeof duocLieuData !== 'undefined') {
-                document.getElementById('total-thuoc')?.innerText = duocLieuData.length;
+                const elThuoc = document.getElementById('total-thuoc');
+                if (elThuoc) elThuoc.innerText = duocLieuData.length;
+
                 const selectDL = document.getElementById('filterNhomDuocLieu');
                 if (selectDL && selectDL.options.length <= 1) {
                     const nhomDL = [...new Set(duocLieuData.map(d => d.nhom).filter(Boolean))];
@@ -1293,7 +1320,9 @@ function loadScript(src) {
 
             // Khởi tạo bộ lọc Huyệt vị khi nạp huyetvidata.js
             if (src === 'huyetvidata.js' && typeof huyetViData !== 'undefined') {
-                document.getElementById('total-huyet')?.innerText = huyetViData.length;
+                const elHuyet = document.getElementById('total-huyet');
+                if (elHuyet) elHuyet.innerText = huyetViData.length;
+
                 const selectHL = document.getElementById('filterKinhLac');
                 if (selectHL && selectHL.options.length <= 1) {
                     const heKinhLac = [...new Set(huyetViData.map(h => h.kinh).filter(Boolean))];
@@ -1304,7 +1333,9 @@ function loadScript(src) {
 
             // Khởi tạo bộ lọc Trà dược khi nạp tradata.js
             if (src === 'tradata.js' && typeof traData !== 'undefined') {
-                document.getElementById('total-tra')?.innerText = traData.length;
+                const elTra = document.getElementById('total-tra');
+                if (elTra) elTra.innerText = traData.length;
+
                 const selectTra = document.getElementById('filterNhomTra');
                 if (selectTra && selectTra.options.length <= 1) {
                     const nhomTra = [...new Set(traData.map(t => t.nhom).filter(Boolean))];
@@ -1442,113 +1473,6 @@ async function sendAIWebMessage() {
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 }
-// Biến lưu trạng thái phiên chẩn đoán lâm sàng thông minh
-let currentDiagnosisSession = {
-    step: 0,
-    candidateList: [],
-    targetHoiChung: null
-};
-
-// 1. Kích hoạt bộ lọc câu hỏi lâm sàng thông minh trước khi chốt phác đồ
-function batDauLuanTriThongMinh(query) {
-    if (typeof database === 'undefined' || !database) return;
-    
-    // Tìm các hội chứng có chứa triệu chứng hoặc từ khóa người dùng nhập
-    const matches = Object.keys(database).map(key => {
-        const item = database[key];
-        let score = 0;
-        const q = query.toLowerCase();
-        
-        if ((item.hc || '').toLowerCase().includes(q)) score += 3;
-        if ((item.tc || []).some(t => t.toLowerCase().includes(q))) score += 2;
-        if ((item.pdt || '').toLowerCase().includes(q)) score += 1;
-        
-        return { key, ...item, score };
-    }).filter(item => item.score > 0).sort((a, b) => b.score - a.score);
-
-    if (matches.length <= 1) {
-        // Nếu chỉ tìm thấy 1 hoặc không tìm thấy, hiển thị kết quả trực tiếp
-        if (matches.length === 1) selectSearchResult(matches[0].key, false);
-        else renderDetailLuanTri(null, query, true);
-        return;
-    }
-
-    // Nếu có nhiều hội chứng (dư thừa/chồng lấn), khởi động chuỗi câu hỏi phân loại
-    currentDiagnosisSession = {
-        step: 0,
-        candidateList: matches.slice(0, 4), // Lấy tối đa 4 ứng viên tiềm năng nhất
-        targetHoiChung: null
-    };
-
-    hienThiCauHoiPhanBieuLâmSàng();
-}
-
-// 2. Hiển thị giao diện câu hỏi chẩn đoán phân biệt
-function hienThiCauHoiPhanBieuLâmSàng() {
-    const session = currentDiagnosisSession;
-    const pdfArea = document.getElementById('pdf-area');
-    if (!pdfArea) return;
-
-    if (session.candidateList.length <= 1 || session.step >= 2) {
-        // Đã chốt được hội chứng chính xác nhất
-        const finalChoice = session.candidateList[0] || Object.values(database)[0];
-        selectSearchResult(finalChoice.key, false);
-        return;
-    }
-
-    // Lấy 2 hội chứng đầu tiên để đặt câu hỏi phân biệt
-    const hc1 = session.candidateList[0];
-    const hc2 = session.candidateList[1];
-
-    // Lấy triệu chứng đặc trưng khác biệt để hỏi người dùng
-    const dacTrung1 = hc1.tc[0] || 'Triệu chứng đặc trưng của thể này';
-    const dacTrung2 = hc2.tc[0] || 'Triệu chứng đặc trưng của thể kia';
-
-    pdfArea.innerHTML = `
-        <div class="bg-dark-box p-6 rounded-lg border-2 border-amber-600/60 space-y-4 animate-fade-in">
-            <div class="flex items-center gap-2 text-amber-400 font-bold text-sm">
-                <i class="fa-solid fa-stethoscope"></i> TRỢ LÝ LÂM SÀNG: HỎI THÊM ĐỂ CHỐT HỘI CHỨNG CHÍNH XÁC
-            </div>
-            <p class="text-xs text-stone-300 leading-relaxed">
-                Hệ thống phát hiện các triệu chứng tương đồng giữa hai hội chứng. Vui lòng xác nhận triệu chứng thực tế của bệnh nhân để loại bỏ hội chứng thừa:
-            </p>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                <button onclick="phanHoiLamSang(0)" class="p-3.5 bg-stone-900 hover:bg-stone-800 border border-stone-700 hover:border-amber-500 rounded-lg text-left text-xs space-y-1 transition-all cursor-pointer">
-                    <div class="font-bold text-amber-400">👉 Hướng về: ${escapeHTML(hc1.hc)}</div>
-                    <div class="text-stone-400 italic">Dấu hiệu nổi trội: "${escapeHTML(dacTrung1)}"</div>
-                </button>
-                <button onclick="phanHoiLamSang(1)" class="p-3.5 bg-stone-900 hover:bg-stone-800 border border-stone-700 hover:border-amber-500 rounded-lg text-left text-xs space-y-1 transition-all cursor-pointer">
-                    <div class="font-bold text-amber-400">👉 Hướng về: ${escapeHTML(hc2.hc)}</div>
-                    <div class="text-stone-400 italic">Dấu hiệu nổi trội: "${escapeHTML(dacTrung2)}"</div>
-                </button>
-            </div>
-            <div class="text-right pt-1">
-                <button onclick="huyBoChuanDoan()" class="text-[11px] text-stone-500 hover:text-stone-300 underline">Bỏ qua, hiển thị toàn bộ kết quả</button>
-            </div>
-        </div>
-    `;
-}
-
-// 3. Xử lý câu trả lời để loại bỏ hội chứng thừa
-function phanHoiLamSang(choiceIndex) {
-    const session = currentDiagnosisSession;
-    if (choiceIndex === 0) {
-        // Giữ lại ứng viên 1, loại bỏ ứng viên 2
-        session.candidateList.splice(1, 1);
-    } else {
-        // Giữ lại ứng viên 2, loại bỏ ứng viên 1 ra đầu bảng
-        const removed = session.candidateList.splice(1, 1);
-        session.candidateList[0] = removed[0];
-    }
-    session.step++;
-    hienThiCauHoiPhanBieuLâmSàng();
-}
-
-// 4. Hủy bỏ nếu muốn xem ngay
-function huyBoChuanDoan() {
-    updateLuanTri();
-}
-
 
 let touchstartX = 0, touchstartY = 0, touchendX = 0, touchendY = 0;                               
 function handleSwipe(startX, startY, endX, endY) {
