@@ -1223,18 +1223,21 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
             }
         }
     } else {
-        // Chỉ gửi khi nhấn Enter
         if (query && isEnter) xuLyKhongTimThay('Luận Trị', query);
+
+        const msg = (query && isEnter)
+            ? `<i class='fa-solid fa-paper-plane text-[10px]'></i> Đã tự động ghi nhận từ khóa "${escapeHTML(query)}" để bổ sung dữ liệu.`
+            : (query ? `<i class='fa-solid fa-keyboard text-[10px]'></i> Nhấn <kbd class="px-1 py-0.5 bg-stone-800 border border-stone-700 rounded text-amber-400 font-mono">Enter</kbd> để gửi từ khóa "${escapeHTML(query)}".` : '');
 
         if (hcEl) hcEl.innerHTML = "<span class='text-stone-500 font-normal text-base'><i class='fa-solid fa-circle-exclamation mr-1 text-amber-500'></i>Không tìm thấy hội chứng phù hợp</span>";
         if (pdtEl) pdtEl.innerText = "---";
         if (btEl) btEl.innerText = "---";
-        if (ul) ul.innerHTML = `<li class='text-amber-500/80 italic text-xs col-span-full flex items-center gap-1.5'><i class='fa-solid fa-paper-plane text-[10px]'></i> Đã tự động ghi nhận từ khóa "${escapeHTML(query)}" để bổ sung dữ liệu.</li>`;
+        if (ul) ul.innerHTML = `<li class='text-amber-500/80 italic text-xs col-span-full flex items-center gap-1.5'>${msg}</li>`;
         if (divBt) divBt.innerHTML = "";
         
         syncSelectsWithItem(null);
     }
-}
+} 
 
 // 6. Hàm lọc Tam Trục
 function updateLuanTri(query = "") {
@@ -1419,13 +1422,17 @@ function hienThongBaoGhiNhan(tabName, query) {
     });
 
     if (filteredData.length === 0) {
-        // Chỉ gửi khi nhấn Enter
         if (txtRaw && isEnter) xuLyKhongTimThay('Dược Liệu', txtRaw);
+
+        const feedbackMsg = (txtRaw && isEnter) 
+            ? `<p class="text-xs text-amber-500/90 font-medium"><i class="fa-solid fa-paper-plane mr-1"></i>Đã tự động gửi phản hồi từ khóa "${escapeHTML(txtRaw)}" về hệ thống.</p>`
+            : (txtRaw ? `<p class="text-xs text-stone-500 font-medium"><i class="fa-solid fa-keyboard mr-1"></i>Nhấn <kbd class="px-1 py-0.5 bg-stone-800 border border-stone-700 rounded text-amber-400 font-mono">Enter</kbd> để gửi từ khóa "${escapeHTML(txtRaw)}" về hệ thống.</p>` : '');
+
         grid.innerHTML = `
             <div class="col-span-full text-center py-14 space-y-2 text-stone-500">
                 <i class="fa-solid fa-magnifying-glass-blur text-3xl opacity-40 block mb-1"></i>
                 <p class="text-sm font-medium">Không tìm thấy dược liệu phù hợp</p>
-                <p class="text-xs text-amber-500/90 font-medium"><i class="fa-solid fa-paper-plane mr-1"></i>Đã tự động gửi phản hồi từ khóa "${escapeHTML(txtRaw)}" về hệ thống.</p>
+                ${feedbackMsg}
             </div>
         `;
         return;
@@ -1524,13 +1531,17 @@ function hienThongBaoGhiNhan(tabName, query) {
     });
 
     if (filteredData.length === 0) {
-        // Chỉ gửi khi nhấn Enter
         if (txt && isEnter) xuLyKhongTimThay('Huyệt Vị', txt);
+
+        const feedbackMsg = (txt && isEnter) 
+            ? `<p class="text-xs text-amber-500/90 font-medium"><i class="fa-solid fa-paper-plane mr-1"></i>Đã tự động gửi phản hồi từ khóa "${escapeHTML(txt)}" về hệ thống.</p>`
+            : (txt ? `<p class="text-xs text-stone-500 font-medium"><i class="fa-solid fa-keyboard mr-1"></i>Nhấn <kbd class="px-1 py-0.5 bg-stone-800 border border-stone-700 rounded text-amber-400 font-mono">Enter</kbd> để gửi từ khóa "${escapeHTML(txt)}" về hệ thống.</p>` : '');
+
         grid.innerHTML = `
             <div class="col-span-full text-center py-14 space-y-2 text-stone-500">
                 <i class="fa-solid fa-magnifying-glass-blur text-3xl opacity-40 block mb-1"></i>
                 <p class="text-sm font-medium">Không tìm thấy huyệt vị phù hợp</p>
-                <p class="text-xs text-amber-500/90 font-medium"><i class="fa-solid fa-paper-plane mr-1"></i>Đã tự động gửi phản hồi từ khóa "${escapeHTML(txt)}" về hệ thống.</p>
+                ${feedbackMsg}
             </div>
         `;
         return;
@@ -1617,13 +1628,17 @@ function filterTra(isEnter = false) {
     });
 
     if (filteredData.length === 0) {
-        // Chỉ gửi khi nhấn Enter
         if (txt && isEnter) xuLyKhongTimThay('Trà Dược', txt);
+
+        const feedbackMsg = (txt && isEnter) 
+            ? `<p class="text-xs text-amber-500/90 font-medium"><i class="fa-solid fa-paper-plane mr-1"></i>Đã tự động gửi phản hồi từ khóa "${escapeHTML(txt)}" về hệ thống.</p>`
+            : (txt ? `<p class="text-xs text-stone-500 font-medium"><i class="fa-solid fa-keyboard mr-1"></i>Nhấn <kbd class="px-1 py-0.5 bg-stone-800 border border-stone-700 rounded text-amber-400 font-mono">Enter</kbd> để gửi từ khóa "${escapeHTML(txt)}" về hệ thống.</p>` : '');
+
         grid.innerHTML = `
             <div class="col-span-full text-center py-14 space-y-2 text-stone-500">
                 <i class="fa-solid fa-mug-xmark text-3xl opacity-40 block mb-1"></i>
                 <p class="text-sm font-medium">Không tìm thấy công thức trà phù hợp</p>
-                <p class="text-xs text-amber-500/90 font-medium"><i class="fa-solid fa-paper-plane mr-1"></i>Đã tự động gửi phản hồi từ khóa "${escapeHTML(txt)}" về hệ thống.</p>
+                ${feedbackMsg}
             </div>
         `;
         return;
