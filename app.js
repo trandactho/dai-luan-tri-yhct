@@ -1526,3 +1526,24 @@ document.addEventListener('keydown', function(e) {
         e.target.blur();
     }
 });
+
+async function taiDuLieuOffline() {
+    if (!('caches' in window)) return alert('Trình duyệt không hỗ trợ tính năng lưu offline.');
+
+    // Hỏi xác nhận trước khi tải
+    const xacNhan = confirm('Bạn có muốn tải toàn bộ dữ liệu ứng dụng về máy để sử dụng offline không?');
+    if (!xacNhan) return;
+
+    try {
+        const cache = await caches.open('dailuantri-v1.3.0');
+        await cache.addAll([
+            './', './index.html', './style.css', './app.js',
+            './luantridata.js', './duoclieudata.js', './huyetvidata.js',
+            './tradata.js', './questiondata.js', './manifest.json'
+        ]);
+        alert('Đã lưu dữ liệu chạy offline thành công!');
+    } catch (err) {
+        alert('Cần có mạng ổn định để tải dữ liệu lần đầu.');
+    }
+}
+

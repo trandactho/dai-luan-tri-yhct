@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi">
+<html lang="vi">    
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,7 +24,7 @@
         <div class="text-sm font-bold text-amber-500">Đang tải cơ sở dữ liệu YHCT...</div>
         <div class="text-[11px] text-stone-500 mt-1">Vui lòng đợi trong giây lát</div>
     </div>
-    
+        
     <header class="bg-dark-box p-2 text-center border-b border-stone-800 space-y-0.5">
         <h1 class="text-sm font-bold text-primary flex items-center justify-center gap-1">
             <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.3.0)
@@ -333,19 +333,24 @@
     </main>
 
     <footer class="text-center text-xs text-stone-500 py-6 border-t border-stone-800 mt-8 mb-10 space-y-2">
-        <div class="flex flex-wrap justify-center gap-4 text-stone-400 font-medium">
-            <a href="about.html" class="hover:text-primary transition-colors">Giới thiệu</a>
-            <span>•</span>
-            <a href="changelog.html" class="hover:text-primary transition-colors">Nhật ký cập nhật</a>
-            <span>•</span>
-            <a href="privacy.html" class="hover:text-primary transition-colors">Chính sách bảo mật</a>
-            <span>•</span>
-            <a href="disclaimer.html" class="hover:text-primary transition-colors">Miễn trừ trách nhiệm y tế</a>
-            <span>•</span>
-            <a href="contact.html" class="hover:text-primary transition-colors">Liên hệ</a>
-        </div>
-        <p class="text-[11px] text-stone-600">© 2026 Đại Luận Trị YHCT. Phát triển bởi Trần Đắc Thọ.</p>
-    </footer>
+    <div class="flex flex-wrap justify-center gap-4 text-stone-400 font-medium">
+        <a href="about.html" class="hover:text-primary transition-colors">Giới thiệu</a>
+        <span>•</span>        
+        <a href="changelog.html" class="hover:text-primary transition-colors">Nhật ký cập nhật</a>
+        <span>•</span>
+        <a href="disclaimer.html" class="hover:text-primary transition-colors">Miễn trừ trách nhiệm y tế</a>
+        <span>•</span>
+        <a href="privacy.html" class="hover:text-primary transition-colors">Chính sách bảo mật</a>
+        <span>•</span>
+        <a href="contact.html" class="hover:text-primary transition-colors">Liên hệ</a>
+        <span>•</span>
+        <button onclick="taiDuLieuOffline()" class="hover:text-amber-500 text-stone-400 transition-colors cursor-pointer inline-flex items-center gap-1">
+            <i class="fa-solid fa-cloud-arrow-down"></i> Tải Offline
+        </button>
+    </div>
+    <p class="text-[11px] text-stone-600">© 2026 Đại Luận Trị YHCT. Phát triển bởi Trần Đắc Thọ.</p>
+</footer>
+
 <!-- LOGIC XỬ LÝ CHÍNH (APP.JS HOẶC TÍCH HỢP) -->
     <script src="app.js"></script>
     <script src="html2pdf.bundle.min.js">render</script>
