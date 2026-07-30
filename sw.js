@@ -1,16 +1,16 @@
-const CACHE_NAME = 'dailuantri-v1.2.5';
+const CACHE_NAME = 'dailuantri-v1.2.8';
 const assetsToCache = [
     './',
     './index.html',
     './style.css',
+    './app.js',
     './luantridata.js',
     './duoclieudata.js',
     './huyetvidata.js',
     './tradata.js',
     './questiondata.js',
     './html2pdf.bundle.min.js',
-    './manifest.json',
-    './icon-192.png'
+    './manifest.json'
 ];
 
 self.addEventListener('install', event => {
@@ -31,7 +31,7 @@ self.addEventListener('activate', event => {
                     }
                 })
             );
-        }).then(() => clients.claim())
+        }).then(() => self.clients.claim())
     );
 });
 
@@ -41,7 +41,13 @@ self.addEventListener('fetch', event => {
             if (cachedResponse) {
                 return cachedResponse;
             }
-            return fetch(event.request).catch(() => {
+            return fetch(event.request).then(response => {
+                // Tự động cache các request phát sinh thêm nếu có
+                return caches.open(CACHE_NAME).then(cache => {
+                    cache.put(event.request, response.clone());
+                    return response;
+                });
+            }).catch(() => {
                 if (event.request.mode === 'navigate') {
                     return caches.match('./index.html');
                 }
