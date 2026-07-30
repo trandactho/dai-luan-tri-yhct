@@ -349,5 +349,15 @@
 <!-- LOGIC XỬ LÝ CHÍNH (APP.JS HOẶC TÍCH HỢP) -->
     <script src="app.js"></script>
     <script src="html2pdf.bundle.min.js">render</script>
+    
+    <script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+                .then(() => console.log('Service Worker đã hoạt động!'))
+                .catch(err => console.log('Lỗi đăng ký:', err));
+        });
+    }
+</script>
 </body>
 </html>
