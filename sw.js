@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dailuantri-v1.2.8';
+const CACHE_NAME = 'dailuantri-v1.3.0';
 const assetsToCache = [
     './',
     './index.html',
