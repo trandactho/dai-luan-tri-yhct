@@ -1,3 +1,7 @@
+/* ==========================================================================
+   CƠ SỞ DỮ LIỆU HỘI CHỨNG Y HỌC CỔ TRUYỀN (ĐÃ LỌC TRÙNG & CHUẨN HÓA CÚ PHÁP)
+   ========================================================================== */
+
 window.database = {
 
   // =========================================================================
@@ -35,7 +39,7 @@ window.database = {
     bt: "Kỷ cúc địa hoàng hoàn",
     tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Kỷ tử", "Cúc hoa"]
   },
-  "Can_Han_Thuc": {
+  "Han_Tre_Can_Mach": {
     hc: "Hàn trệ Can mạch",
     phanloai: ["Tạng Can", "Hàn", "Thực", "Hàn trệ"],
     tc: ["Đau quặn bụng dưới", "Đau lan xuống bộ phận sinh dục", "Gặp lạnh đau tăng, ấm giảm", "Mạch huyền trầm khẩn"],
@@ -43,7 +47,7 @@ window.database = {
     bt: "Noãn can tiễn",
     tpbt: ["Tiểu hồi hương", "Nhục quế", "Đương quy", "Câu kỷ tử", "Ô dược", "Trầm hương", "Phục linh"]
   },
-  "Can_Han_Hu": {
+  "Can_Hu_Han": {
     hc: "Can hư hàn",
     phanloai: ["Tạng Can", "Hàn", "Hư", "Dương hư"],
     tc: ["Sợ lạnh, tay chân lạnh", "Đau đỉnh đầu âm ỉ", "Sắc mặt xanh sạm", "Rêu lưỡi trắng nhuận", "Mạch trầm trì nhược"],
@@ -123,6 +127,38 @@ window.database = {
     bt: "An thần định chí hoàn",
     tpbt: ["Nhân sâm", "Phục linh", "Phục thần", "Viễn chí", "Long cốt", "Mẫu lệ"]
   },
+  "Can_Than_Am_Hu": {
+    hc: "Can Thận âm hư",
+    phanloai: ["Tạng Can & Tạng Thận", "Nhiệt", "Hư", "Âm hư"],
+    tc: ["Đầu choáng mắt hoa", "Tai ù ve kêu", "Đau lưng mỏi gối", "Mắt khô xót", "Triều nhiệt đạo hãn", "Mạch tế sác"],
+    pdt: "Tư bổ can thận, minh mục",
+    bt: "Kỷ cúc địa hoàng hoàn",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Kỷ tử", "Cúc hoa"]
+  },
+  "Can_Dom_Hu_Nhut_Nhat": {
+    hc: "Can Đởm hư nhút nhát",
+    phanloai: ["Tạng Can & Phủ Đờm", "Bình", "Hư", "Khí hư"],
+    tc: ["Tâm thần bàng hoàng, hay sợ hãi", "Nghi ngờ lo âu, ngủ mơ nhiều", "Chóng mặt, hoa mắt, thở dài", "Mạch huyền nhược"],
+    pdt: "Ích khí ôn đởm, an thần định chí",
+    bt: "Nhân sâm định chí hoàn gia Câu kỷ tử",
+    tpbt: ["Nhân sâm", "Phục linh", "Phục thần", "Viễn chí", "Thạch xương bồ", "Câu kỷ tử"]
+  },
+  "Can_Than_Huyet_Hu": {
+    hc: "Can Thận huyết hư",
+    phanloai: ["Tạng Can & Tạng Thận", "Bình", "Hư", "Huyết hư"],
+    tc: ["Đau lưng mỏi gối, tóc bạc sớm", "Chóng mặt ù tai, nhìn mờ", "Móng tay móng chân khô nhợt", "Kinh nguyệt ít sắc nhạt", "Mạch tế nhược"],
+    pdt: "Tư bổ can thận, dưỡng huyết điền tinh",
+    bt: "Hà thủ ô hoán tán",
+    tpbt: ["Hà thủ ô chế", "Thục địa", "Đương quy", "Bạch thược", "Thỏ ty tử", "Ngưu tất"]
+  },
+  "Can_Than_Khi_Hu": {
+    hc: "Can Thận khí hư",
+    phanloai: ["Tạng Can & Tạng Thận", "Bình", "Hư", "Khí hư"],
+    tc: ["Thắt lưng hạ sườn mỏi đau âm ỉ", "Sức yếu mệt mỏi, thở ngắn", "Nhìn vật mờ ảo, di tinh rỉ rả", "Mạch trầm hư nhược"],
+    pdt: "Bổ ích can thận, cố bản bồi nguyên",
+    bt: "Đỗ trọng hoàn gia Nhân sâm",
+    tpbt: ["Đỗ trọng", "Tục đoạn", "Nhân sâm", "Cẩu tích", "Hoài sơn", "Kỷ tử"]
+  },
 
   // =========================================================================
   // 2. TẠNG TÂM & PHỦ TIỂU TRƯỜNG
@@ -183,7 +219,6 @@ window.database = {
     bt: "Địch đàm thang",
     tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Chỉ thực", "Trúc nhự", "Thạch xương bồ", "Đởm nam tinh", "Chích cam thảo"]
   },
-  
   "Tam_Dam_Hoa": {
     hc: "Tâm đàm hỏa nhiễu",
     phanloai: ["Tạng Tâm", "Nhiệt", "Thực", "Đàm hỏa"],
@@ -224,7 +259,7 @@ window.database = {
     bt: "Dưỡng âm thanh phế thang gia giảm",
     tpbt: ["Bách hợp", "Mạch môn", "Huyền sâm", "Sinh địa", "Bối mẫu", "Toan táo nhân", "Bạch thược"]
   },
-  "Tieu_Truong_Nhiet_Thuc": {
+  "Tieu_Truong_Hoa_Thinh": {
     hc: "Tiểu trường hỏa thịnh",
     phanloai: ["Phủ Tiểu trường", "Nhiệt", "Thực", "Nhiệt thịnh"],
     tc: ["Tâm phiền, loét miệng lưỡi", "Tiểu dắt, tiểu buốt, tiểu ra máu", "Nước tiểu đỏ đậm", "Mạch sác hữu lực"],
@@ -290,7 +325,7 @@ window.database = {
     tc: ["Bụng trướng ăn kém", "Miệng đắng dính nhớt", "Nôn mửa buồn nôn", "Đại tiện nhão dính hôi", "Rêu lưỡi vàng nhớt"],
     pdt: "Thanh nhiệt hóa thấp, kiện tỳ hòa vị",
     bt: "Tam nhân thang",
-    tpbt: ["Hạnh nhân", "Bạch đậu khấu", "Ý dĩ nhân", "Bán hạ (chế)", "Hậu phác", "Thông thảo", "Trúc diệp",  "Hoạt thạch"]
+    tpbt: ["Hạnh nhân", "Bạch đậu khấu", "Ý dĩ nhân", "Bán hạ (chế)", "Hậu phác", "Thông thảo", "Trúc diệp", "Hoạt thạch"]
   },
   "Ty_Than_Duong_Hu": {
     hc: "Tỳ Thận dương hư",
@@ -387,22 +422,6 @@ window.database = {
     pdt: "Tiêu thực đạo trệ, hòa vị giáng nghịch",
     bt: "Bảo hòa hoàn",
     tpbt: ["Sơn tra", "Thần khúc", "Lai phục tử", "Bán hạ", "Trần bì", "Phục linh", "Liên kiều"]
-  },
-  "Vi_Am_Bat_Tuc": {
-    hc: "Vị âm bất túc",
-    phanloai: ["Phủ Vị", "Nhiệt", "Hư", "Âm hư"],
-    tc: ["Thượng vị nóng rát", "Khát nước thích uống lạnh", "Miệng khô họng táo", "Đại tiện khô", "Lưỡi đỏ ít rêu"],
-    pdt: "Tư âm thanh nhiệt, sinh tân chỉ khát",
-    bt: "Ích vị thang",
-    tpbt: ["Sa sâm", "Mạch môn", "Sinh địa", "Ngọc trúc", "Băng đường"]
-  },
-  "Ty_Vi_Thuc_Tich": {
-    hc: "Tỳ Vị thực tích",
-    phanloai: ["Tạng Tỳ & Phủ Vị", "Bình", "Thực", "Thực tích"],
-    tc: ["Bụng trướng đau, cự án", "Ợ hơi hôi thối, ợ chua", "Buồn nôn hoặc nôn ra thức ăn chưa tiêu", "Đại tiện hôi thối hoặc táo kết", "Rêu lưỡi dày nhớt", "Mạch hoạt sác"],
-    pdt: "Tiêu thực đạo trệ, hòa vị giáng nghịch",
-    bt: "Bảo hòa hoàn gia giảm",
-    tpbt: ["Sơn tra", "Thần khúc", "Lai phục tử", "Bán hạ", "Trần bì", "Phục linh", "Liên kiều", "Chỉ thực"]
   },
 
   // =========================================================================
@@ -510,7 +529,7 @@ window.database = {
     tc: ["Đại tiện táo bón nhiều ngày không đi", "Bụng trướng đầy cự án", "Triều nhiệt, phiền táo", "Rêu lưỡi vàng khô dày", "Mạch trầm thực"],
     pdt: "Thanh nhiệt tả hạ, nhuận táo thông tiện",
     bt: "Đại thừa khí thang",
-    tpbt: ["Đại hoàng", "Hậu phác", "Chỉ thực", "Mang tiêu"]
+    tpbt: ["Đại hoàng", "Hậu phác", "Chỉ xác", "Mang tiêu"]
   },
   "Dai_Truong_Hu_Han": {
     hc: "Đại trường hư hàn",
@@ -754,7 +773,7 @@ window.database = {
   },
 
   // =========================================================================
-  // 7. NGOẠI CẢM - LỤC DÂM TÀ KHÍ
+  // 7. NGOẠI CẢM & LỤC DÂM
   // =========================================================================
   "Phong_Han_Bieu_Chung": {
     hc: "Phong hàn biểu chứng",
@@ -820,33 +839,9 @@ window.database = {
     bt: "Nhân trần phụ tử thang",
     tpbt: ["Nhân trần", "Phụ tử chế", "Can khương", "Bạch truật", "Phục linh", "Cam thảo"]
   },
-  "Thap_Nhiet_Trung_Tieu": {
-    hc: "Thấp nhiệt uẩn kết Trung tiêu",
-    phanloai: ["Trung tiêu", "Nhiệt", "Thực", "Thấp nhiệt"],
-    tc: ["Vùng thượng vị và bụng trướng đầy", "Miệng đắng dính nhớt", "Ăn kém nôn nao, ợ thối", "Thân mình nặng nề, sốt hầm hập", "Rêu lưỡi vàng dày nhớt", "Mạch nhu sác"],
-    pdt: "Thanh nhiệt hóa thấp, lý khí hòa vị",
-    bt: "Tam nhân thang",
-    tpbt: ["Hạnh nhân", "Bạch đậu khấu", "Ý dĩ nhân", "Bán hạ", "Hậu phác", "Thông thảo", "Trúc diệp", "Hoạt thạch"]
-  },
-  "Thap_Nhiet_Dau_Thong": {
-    hc: "Thấp nhiệt đầu thống",
-    phanloai: ["Đầu Mục", "Nhiệt", "Thực", "Thấp nhiệt"],
-    tc: ["Đau đầu như bó chặt, nặng đầu", "Thân thể nặng nề mệt mỏi", "Sốt hầm hập không lui", "Miệng đắng dính nhớt", "Mạch nhu sác"],
-    pdt: "Thanh nhiệt hóa thấp, thanh lợi đầu mục",
-    bt: "Thanh không thang gia giảm",
-    tpbt: ["Xuyên khung", "Phòng phong", "Khương hoạt", "Hoàng liên", "Hoàng cầm", "Sài hồ", "Cam thảo"]
-  },
-  "Hoa_Doc_Noi_Thinh": {
-    hc: "Hỏa độc nội thịnh",
-    phanloai: ["Toàn thân", "Nhiệt", "Thực", "Hỏa độc"],
-    tc: ["Mụn nhọt sưng nóng đỏ đau dữ dội", "Có thể sốt, sợ lạnh", "Miệng khát, nước tiểu đỏ", "Rêu lưỡi vàng dầy", "Mạch sác hữu lực"],
-    pdt: "Thanh nhiệt giải độc, tiêu thũng tán kết",
-    bt: "Ngũ vị tiêu độc ẩm",
-    tpbt: ["Kim ngân hoa", "Cúc hoa", "Bồ công anh", "Tử hoa địa đinh", "Tử bối thiên quỳ"]
-  },
 
   // =========================================================================
-  // 8. BIỆN CHỨNG LỤC KINH, VỆ KHÍ DINH HUYẾT & TAM TIÊU
+  // 8. LỤC KINH & VỆ KHÍ DINH HUYẾT
   // =========================================================================
   "Thai_Duong_Trung_Phong": {
     hc: "Thái dương trung phong",
@@ -880,7 +875,6 @@ window.database = {
     bt: "Lý trung hoàn",
     tpbt: ["Nhân sâm", "Can khương", "Bạch truật", "Chích cam thảo"]
   },
-  
   "Thieu_Am_Han_Hoa": {
     hc: "Thiếu âm hàn hóa chứng",
     phanloai: ["Lục Kinh - Thiếu Âm", "Hàn", "Hư", "Dương hư suy"],
@@ -929,25 +923,9 @@ window.database = {
     bt: "Tê giác địa hoàng thang",
     tpbt: ["Thủy ngưu giác", "Sinh địa", "Xích thược", "Đan bì"]
   },
-  "Thuong_Tieu_Nhiet_Thuc": {
-    hc: "Thượng tiêu nhiệt thịnh (Phế Tâm nhiệt)",
-    phanloai: ["Tam Tiêu - Thượng tiêu", "Nhiệt", "Thực", "Thượng tiêu nhiệt"],
-    tc: ["Sốt, ho thở gấp, đờm đặc vàng", "Tâm phiền loét miệng", "Khát nước họng khô", "Lưỡi đỏ rêu vàng", "Mạch sác"],
-    pdt: "Thanh thượng tiêu, tả hỏa tuyên phế",
-    bt: "Lương cách tán",
-    tpbt: ["Hoàng cầm", "Chi tử", "Liên kiều", "Bạc hà", "Cát cánh", "Đại hoàng", "Mang tiêu", "Cam thảo"]
-  },
-  "Ha_Tieu_Thap_Nhiet_Lam": {
-    hc: "Hạ tiêu thấp nhiệt (Tiết niệu / Sinh dục)",
-    phanloai: ["Tam Tiêu - Hạ tiêu", "Nhiệt", "Thực", "Thấp nhiệt"],
-    tc: ["Tiểu buốt, tiểu đục, ngứa vùng sinh dục", "Bụng dưới trướng đau", "Rêu lưỡi vàng dính", "Mạch nhu sác"],
-    pdt: "Thanh nhiệt lợi thấp hạ tiêu",
-    bt: "Bát chính tán gia giảm",
-    tpbt: ["Xa tiền tử", "Hoạt thạch", "Chi tử", "Mộc thông", "Cù mạch", "Biển súc"]
-  },
 
   // =========================================================================
-  // 9. NỘI KHOA & THẦN KINH / CẤP CỨU
+  // 9. NỘI KHOA - THẦN KINH & TẬP BỆNH
   // =========================================================================
   "Trung_Phong_Kinh_Lac": {
     hc: "Trúng phong kinh lạc",
@@ -981,37 +959,21 @@ window.database = {
     bt: "Linh dương câu đằng ẩm",
     tpbt: ["Linh dương giác", "Câu đằng", "Tang diệp", "Cúc hoa", "Bạch thược", "Sinh địa", "Mẫu đơn bì", "Bối mẫu", "Trúc nhự", "Cam thảo"]
   },
-  "Nhiet_Doc_Ham_Tam_Bao": {
-    hc: "Nhiệt độc hãm tâm bao",
-    phanloai: ["Tạng Tâm", "Nhiệt", "Thực", "Nhiệt độc hãm tâm bao"],
-    tc: ["Sốt cao nội nhiệt không lui", "Thần chí mê muội, nói lảm nhảm", "Chân tay co giật nhẹ", "Lưỡi đỏ thẫm khô", "Mạch tế sác hữu lực"],
-    pdt: "Thanh nhiệt giải độc, thanh tâm khai khiếu",
-    bt: "Thanh cung thang",
-    tpbt: ["Huyền sâm", "Trúc diệp tâm", "Mạch môn", "Linh dương giác", "Sinh địa", "Kim ngân hoa"]
+  "Huyen_Vung_Dam_Troc": {
+    hc: "Huyễn vựng do Đàm trọc trung trở",
+    phanloai: ["Đầu Mục", "Bình", "Thực", "Đàm trọc"],
+    tc: ["Chóng mặt quay mòng mòng, đầu nặng như bó", "Ngực bụng đầy trướng, buồn nôn ra đờm", "Ăn kém, mệt mỏi", "Rêu lưỡi trắng dày nhớt", "Mạch hoạt"],
+    pdt: "Táo thấp hóa đàm, kiện tỳ hòa vị, định vựng",
+    bt: "Bán hạ bạch truật thiên ma thang",
+    tpbt: ["Bán hạ", "Bạch truật", "Thiên ma", "Phục linh", "Trần bì", "Cam thảo", "Sinh khương"]
   },
-  "Huyen_Am_Phe_Thuy": {
-    hc: "Huyền ẩm (Tràn dịch màng phổi)",
-    phanloai: ["Tạng Phế", "Hàn", "Thực", "Đàm ẩm thủy thũng"],
-    tc: ["Đau tức ngực sườn dữ dội khi ho/thở sâu", "Thở gấp, ho khạc đờm trong loãng", "Xoay người đau tăng", "Rêu lưỡi trắng dính", "Mạch huyền"],
-    pdt: "Ôn hóa đàm ẩm, công trục thủy ẩm",
-    bt: "Thập táo thang",
-    tpbt: ["Cam toại", "Đại kích", "Nguyên hoa", "Đại táo"]
-  },
-  "Duong_Hu_Thuy_U": {
-    hc: "Tâm Thận dương hư thủy ứ",
-    phanloai: ["Tạng Tâm & Tạng Thận", "Hàn", "Hư thực thác tạp", "Dương hư thủy ứ"],
-    tc: ["Hồi hộp khó thở dữ dội khi nằm", "Toàn thân phù nặng, ấn lõm sâu", "Tiểu tiện rất ít", "Môi móng tay tím tái", "Mạch trầm tế dời"],
-    pdt: "Ôn dương lợi thủy, hoạt huyết hóa ứ",
-    bt: "Chân vũ thang hợp Đào hồng tứ vật thang",
-    tpbt: ["Phụ tử chế", "Bạch truật", "Phục linh", "Bạch thược", "Sinh khương", "Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung"]
-  },
-  "Uat_Chung_Khi_Uat": {
-    hc: "Uất chứng (Khí uất uất kết)",
-    phanloai: ["Tạng Can", "Bình", "Thực", "Khí uất"],
-    tc: ["Tinh thần u uất, hay thở dài", "Ngực sườn đầy tức, tâm phiền", "Dễ xúc động, hay lo âu", "Ăn uống không ngon", "Mạch huyền"],
-    pdt: "Sơ can giải uất, lý khí an thần",
-    bt: "Bán hạ hậu phác thang hợp Tiêu dao tán",
-    tpbt: ["Sài hồ", "Bạch thược", "Đương quy", "Bạch truật", "Phục linh", "Bán hạ", "Hậu phác", "Tô diệp", "Sinh khương"]
+  "Toa_Cot_Phong_Phong_Han": {
+    hc: "Tọa cốt phong do Phong hàn thấp",
+    phanloai: ["Cơ Xương Khớp", "Hàn", "Thực", "Phong hàn thấp tý"],
+    tc: ["Đau lưng lan xuống mông, đùi, bắp chân", "Gặp lạnh đau tăng, ấm giảm", "Chân tay lạnh, sợ gió", "Mạch trầm khẩn hoặc phù khẩn"],
+    pdt: "Khu phong tán hàn, trừ thấp thông lạc",
+    bt: "Độc hoạt ký sinh thang gia giảm",
+    tpbt: ["Độc hoạt", "Tang ký sinh", "Khương hoạt", "Tế tân", "Phòng phong", "Đương quy", "Xuyên khung", "Ngưu tất"]
   },
 
   // =========================================================================
@@ -1051,313 +1013,7 @@ window.database = {
   },
 
   // =========================================================================
-  // 11. CƠ XƯƠNG KHỚP - TÝ CHỨNG
-  // =========================================================================
-  "Phong_Ty_Hanh_Ty": {
-    hc: "Phong tý (Hành tý - Đau khớp di chuyển)",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Thực", "Phong tý"],
-    tc: ["Đau di chuyển các khớp xương (vai, cổ tay, gối)", "Đau không cố định", "Sợ gió, sốt nhẹ", "Mạch phù"],
-    pdt: "Khu phong thông lạc, tán hàn trừ thấp",
-    bt: "Phòng phong thông thánh tán gia giảm",
-    tpbt: ["Phòng phong", "Khương hoạt", "Độc hoạt", "Tần giao", "Xuyên khung", "Đương quy"]
-  },
-  "Thap_Ty_Truoc_Ty": {
-    hc: "Thấp tý (Trước tý - Đau khớp nặng nề)",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Thực", "Thấp tý"],
-    tc: ["Các khớp đau cố định, cảm giác nặng nề", "Tê dại da thịt", "Thời tiết ẩm ướt đau tăng", "Rêu lưỡi trắng dính", "Mạch nhu hoãn"],
-    pdt: "Trừ thấp thông lạc, khu phong tán hàn",
-    bt: "Ý dĩ nhân tán",
-    tpbt: ["Ý dĩ nhân", "Thương truật", "Đương quy", "Ma hoàng", "Quế chi", "Cam thảo"]
-  },
-  "Cot_Ty_Than_Hu": {
-    hc: "Cốt tý (Mất xương / Thoái hóa khớp do Thận hư)",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Hư", "Cốt tý Thận hư"],
-    tc: ["Đau nhức trong xương khớp kéo dài", "Thoái hóa khớp, biến dạng khớp", "Thắt lưng yếu mềm, tai ù", "Mạch trầm tế"],
-    pdt: "Bổ thận điền tinh, cường gân trác cốt",
-    bt: "Bổ thận tráng cốt hoàn",
-    tpbt: ["Thục địa", "Đỗ trọng", "Cốt toái bổ", "Cẩu tích", "Ngưu tất", "Thỏ ty tử"]
-  },
-
-  // =========================================================================
-  // 12. BỔ SUNG BỆNH CHỨNG MỞ RỘNG
-  // =========================================================================
-  "Tam_Ty_Luong_Hu": {
-    hc: "Tâm Tỳ lưỡng hư",
-    phanloai: ["Tạng Tâm & Tạng Tỳ", "Bình", "Hư", "Tâm Tỳ lưỡng hư"],
-    tc: ["Hồi hộp trống ngực", "Hay quên, mất ngủ, ngủ hay mơ", "Sắc mặt úa vàng", "Ăn uống kém, mệt mỏi", "Đại tiện lỏng nhão", "Mạch tế nhược"],
-    pdt: "Bổ ích tâm tỳ, dưỡng huyết an thần",
-    bt: "Quy tỳ thang",
-    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Hoàng kỳ", "Đương quy", "Long nhãn", "Toan táo nhân", "Viễn chí", "Mộc hương"]
-  },
-  
-  "Phe_Than_Duong_Hu": {
-    hc: "Phế Thận dương hư",
-    phanloai: ["Tạng Phế & Tạng Thận", "Hàn", "Hư", "Phế Thận dương hư"],
-    tc: ["Ho hen thở gấp, động làm thì suyễn nặng", "Sợ lạnh, tay chân lạnh ngắt", "Nước tiểu trong dài", "Mệt mỏi hụt hơi", "Sắc mặt bệch tái", "Mạch trầm tế trì"],
-    pdt: "Ôn bổ phế thận, nạp khí bình suyễn",
-    bt: "Chân vũ thang hợp Kim quỹ thận khí hoàn",
-    tpbt: ["Phụ tử chế", "Nhục quế", "Thục địa", "Sơn thù nhục", "Hoài sơn", "Phục linh", "Bạch truật", "Ngũ vị tử"]
-  },
-  "Ty_Vi_Hu_Han_Tre": {
-    hc: "Tỳ Vị hư hàn trệ",
-    phanloai: ["Tạng Tỳ & Phủ Vị", "Hàn", "Hư thực thác tạp", "Tỳ Vị hư hàn trệ"],
-    tc: ["Thượng vị và bụng đau âm ỉ", "Thích ấm, thích xoa bóp", "Nôn ra nước trong", "Sợ lạnh, tay chân lạnh", "Đại tiện nhão lỏng", "Mạch trầm tế hoãn"],
-    pdt: "Ôn trung tán hàn, kiện tỳ hòa vị",
-    bt: "Lý trung hoàn hợp Lương phụ hoàn",
-    tpbt: ["Đảng sâm", "Bạch truật", "Can khương", "Cam thảo", "Cao lương khương", "Hương phụ"]
-  },
-  "Phe_Ty_Thap_Nhiet": {
-    hc: "Phế Tỳ thấp nhiệt uẩn kết",
-    phanloai: ["Tạng Phế & Tạng Tỳ", "Nhiệt", "Thực", "Thấp nhiệt"],
-    tc: ["Ho khạc đờm vàng nhớt dính", "Bụng trướng, ăn không ngon", "Miệng đắng dính", "Thân thể nặng nề", "Tiểu đỏ ngắn", "Rêu lưỡi vàng nhớt", "Mạch hoạt sác"],
-    pdt: "Thanh nhiệt táo thấp, tuyên phế hóa đàm",
-    bt: "Bình vị tán hợp Tam nhân thang",
-    tpbt: ["Thương truật", "Hậu phác", "Trần bì", "Bán hạ", "Hạnh nhân", "Ý dĩ", "Bạch đậu khấu"]
-  },
-  "Tieu_Truong_Thap_Nhiet": {
-    hc: "Tiểu trường thấp nhiệt",
-    phanloai: ["Phủ Tiểu trường", "Nhiệt", "Thực", "Thấp nhiệt"],
-    tc: ["Bụng dưới trướng đau", "Tiểu dắt, tiểu buốt, tiểu đục hoặc ra máu", "Miệng khát thích uống nước", "Lưỡi đỏ rêu vàng nhớt", "Mạch nhu sác"],
-    pdt: "Thanh nhiệt lợi thấp, thông lâm lợi tiểu",
-    bt: "Bát chính tán gia giảm",
-    tpbt: ["Mộc thông", "Xa tiền tử", "Cù mạch", "Biển súc", "Hoạt thạch", "Chi tử", "Đại hoàng", "Cam thảo"]
-  },
-  "Dai_Truong_Khi_Tre": {
-    hc: "Đại trường khí trệ",
-    phanloai: ["Phủ Đại trường", "Bình", "Thực", "Khí trệ"],
-    tc: ["Bụng trướng đau quặn từng cơn", "Trung tiện được thì giảm đau", "Đại tiện khó, phân không khô nhưng không ra được", "Ngực sườn trướng đầy", "Mạch huyền"],
-    pdt: "Hành khí thông trệ, nhuận tràng thông tiện",
-    bt: "Lục mộc thang",
-    tpbt: ["Mộc hương", "Ô dược", "Chỉ thực", "Trầm hương", "Binh lang", "Đại hoàng"]
-  },
-  "Vi_Thuc_Tich_Hoa_Hoa": {
-    hc: "Vị thực tích hóa hỏa",
-    phanloai: ["Phủ Vị", "Nhiệt", "Thực", "Thực tích hóa hỏa"],
-    tc: ["Thượng vị đau dữ dội, cự án", "Ợ hôi chua, nôn ra thức ăn thối", "Miệng hôi rát, chân răng sưng đau", "Đại tiện táo kết hôi thối", "Lưỡi đỏ rêu vàng dày khô", "Mạch hoạt thực sác"],
-    pdt: "Tiêu thực đạo trệ, thanh vị tả hỏa",
-    bt: "Bảo hòa hoàn hợp Thanh vị tán",
-    tpbt: ["Sơn tra", "Thần khúc", "Lai phục tử", "Hoàng liên", "Thăng ma", "Sinh địa", "Mẫu đơn bì", "Chỉ thực"]
-  },
-  "Dau_Thong_Phong_Han": {
-    hc: "Đầu thống do Phong hàn",
-    phanloai: ["Đầu Mục", "Hàn", "Thực", "Phong hàn đầu thống"],
-    tc: ["Đau đầu lan ra vùng cổ gáy", "Gặp gió lạnh đau tăng", "Sợ lạnh không mồ hôi", "Nghẹt mũi chảy nước mũi trong", "Mạch phù khẩn"],
-    pdt: "Khu phong tán hàn, chỉ thống",
-    bt: "Xuyên khung trà điều tán",
-    tpbt: ["Xuyên khung", "Kinh giới", "Phòng phong", "Bạch chỉ", "Khương hoạt", "Tế tân", "Bạc hà", "Cam thảo"]
-  },
-  "Dau_Thong_Phong_Nhiet": {
-    hc: "Đầu thống do Phong nhiệt",
-    phanloai: ["Đầu Mục", "Nhiệt", "Thực", "Phong nhiệt đầu thống"],
-    tc: ["Đau đầu như búa bổ, trướng đau", "Sốt, sợ gió, mặt đỏ", "Mắt đỏ, họng đau", "Khát nước thích uống lạnh", "Mạch phù sác"],
-    pdt: "Sơ phong thanh nhiệt, thanh lợi đầu mục",
-    bt: "Cúc hoa xài hồ tán",
-    tpbt: ["Cúc hoa", "Tang diệp", "Bạc hà", "Mạn kinh tử", "Bạch chỉ", "Thạch cao"]
-  },
-  "Dau_Thong_Phong_Thap": {
-    hc: "Đầu thống do Phong thấp",
-    phanloai: ["Đầu Mục", "Bình", "Thực", "Phong thấp đầu thống"],
-    tc: ["Đau đầu như bị bó chặt, nặng đầu", "Thân thể nặng nề mỏi mệt", "Ngực bụng trướng đầy", "Tiểu tiện khó", "Rêu lưỡi trắng dính", "Mạch nhu hoãn"],
-    pdt: "Khu phong thắng thấp, thông lạc chỉ thống",
-    bt: "Khương hoạt thắng thấp thang",
-    tpbt: ["Khương hoạt", "Độc hoạt", "Phòng phong", "Mạn kinh tử", "Xuyên khung", "Cam thảo"]
-  },
-  "Dau_Thong_Huyet_U": {
-    hc: "Đau đầu do Huyết ứ",
-    phanloai: ["Đầu Mục", "Bình", "Thực", "Huyết ứ đầu thống"],
-    tc: ["Đau đầu dữ dội cố định một chỗ", "Đau như kim đâm", "Tiền sử chấn thương đầu", "Lưỡi tím hoặc có điểm ứ huyết", "Mạch sáp hoặc huyền sáp"],
-    pdt: "Hoạt huyết hóa ứ, thông lạc chỉ thống",
-    bt: "Thông khiếu trục ứ thang",
-    tpbt: ["Xuyên khung", "Xích thược", "Đào nhân", "Hồng hoa", "Thạch xương bồ", "Gừng tươi", "Đại táo"]
-  },
-  "Dau_Thong_Dam_Trut": {
-    hc: "Đau đầu do Đàm trọc",
-    phanloai: ["Đầu Mục", "Bình", "Thực", "Đàm trọc đầu thống"],
-    tc: ["Đau đầu choáng váng", "Ngực bụng trướng đầy", "Buồn nôn hoặc nôn ra đờm dãi", "Thân thể nặng mỏi", "Rêu lưỡi trắng dày nhớt", "Mạch hoạt"],
-    pdt: "Kiện tỳ mẫn thấp, hóa đàm giáng nghịch",
-    bt: "Bán hạ bạch truật thiên ma thang",
-    tpbt: ["Bán hạ", "Bạch truật", "Thiên ma", "Phục linh", "Trần bì", "Cam thảo", "Sinh khương", "Đại táo"]
-  },
-  "Toa_Cot_Phong_Phong_Han": {
-    hc: "Tọa cốt phong do Phong hàn thấp",
-    phanloai: ["Cơ Xương Khớp", "Hàn", "Thực", "Phong hàn thấp tý"],
-    tc: ["Đau lưng lan xuống mông, đùi, bắp chân", "Gặp lạnh đau tăng, ấm giảm", "Chân tay lạnh, sợ gió", "Mạch trầm khẩn hoặc phù khẩn"],
-    pdt: "Khu phong tán hàn, trừ thấp thông lạc",
-    bt: "Độc hoạt ký sinh thang gia giảm",
-    tpbt: ["Độc hoạt", "Tang ký sinh", "Khương hoạt", "Tế tân", "Phòng phong", "Đương quy", "Xuyên khung", "Ngưu tất"]
-  },
-  "Toa_Cot_Phong_Can_Than_Hu": {
-    hc: "Tọa cốt phong do Can Thận hư",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Hư", "Can Thận hư"],
-    tc: ["Đau dây thần kinh tọa dai dẳng lâu ngày", "Chân tay teo cơ, yếu sức", "Đau lưng mỏi gối, tai ù", "Triều nhiệt hoặc sợ lạnh", "Mạch tế nhược"],
-    pdt: "Bổ can thận, cường gân cốt, thông kinh lạc",
-    bt: "Bổ thận tráng cốt hoàn hợp Độc hoạt ký sinh thang",
-    tpbt: ["Thục địa", "Đỗ trọng", "Cốt toái bổ", "Tục đoạn", "Ngưu tất", "Độc hoạt", "Tang ký sinh"]
-  },
-  "Liet_VII_Ngoai_Bien_Han": {
-    hc: "Liệt dây VII ngoại biên do Phong hàn",
-    phanloai: ["Thần Kinh / Đầu Mặt", "Hàn", "Thực", "Phong hàn kinh lạc"],
-    tc: ["Méo miệng lệch mắt đột ngột khi gặp lạnh", "Không nếp nhăn trán, mắt nhắm không kín", "Ăn đọng thức ăn, chảy nước dãi", "Sợ lạnh, rêu lưỡi trắng mỏng", "Mạch phù khẩn"],
-    pdt: "Khu phong tán hàn, thông kinh hoạt lạc",
-    bt: "Khu phong tán hàn thông lạc thang",
-    tpbt: ["Kinh giới", "Phòng phong", "Bạch chỉ", "Ngưu tất", "Xuyên khung", "Đương quy", "Trần bì", "Gừng tươi"]
-  },
-  "Liet_VII_Ngoai_Bien_Nhiet": {
-    hc: "Liệt dây VII ngoại biên do Phong nhiệt",
-    phanloai: ["Thần Kinh / Đầu Mặt", "Nhiệt", "Thực", "Phong nhiệt kinh lạc"],
-    tc: ["Méo miệng lệch mắt đột ngột", "Sau tai đau sưng rát", "Sốt nhẹ, sợ gió", "Mắt đỏ, miệng khô", "Mạch phù sác"],
-    pdt: "Sơ phong thanh nhiệt, hoạt huyết thông lạc",
-    bt: "Đại tần giao thang gia giảm",
-    tpbt: ["Tần giao", "Hoàng cầm", "Kim ngân hoa", "Ngưu tất", "Bạch chỉ", "Thạch cao", "Xuyên khung"]
-  },
-  "Thieu_Mau_Thien_Dinh_Khi_Hu": {
-    hc: "Huyễn vựng do Khí huyết hư (Rối loạn tiền đình / Thiếu máu brain)",
-    phanloai: ["Đầu Mục / Khí Huyết", "Bình", "Hư", "Khí huyết hư huyễn vựng"],
-    tc: ["Chóng mặt hoa mắt khi thay đổi tư thế", "Sắc mặt nhợt nhạt, mệt mỏi hụt hơi", "Tâm quý, ngủ kém", "Lưỡi nhợt", "Mạch tế nhược"],
-    pdt: "Bổ khí dưỡng huyết, định vựng",
-    bt: "Bát trân thang gia Hoàng kỳ, Viễn chí",
-    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Hoàng kỳ"]
-  },
-  "Thieu_Mau_Thien_Dinh_Can_Duong": {
-    hc: "Huyễn vựng do Can dương thượng kháng",
-    phanloai: ["Tạng Can / Đầu Mục", "Nhiệt", "Hư thực thác tạp", "Can dương thượng kháng"],
-    tc: ["Chóng mặt, đầu choáng váng bứt rứt", "Dễ cáu gắt, mặt đỏ mắt đỏ", "Tai ù như ve kêu", "Mất ngủ, nhiều mộng", "Mạch huyền sác hữu lực"],
-    pdt: "Bình can tiềm dương, trấn tĩnh định vựng",
-    bt: "Thiên ma câu đằng ẩm",
-    tpbt: ["Thiên ma", "Câu đằng", "Thạch quyết minh", "Ngưu tất", "Đỗ trọng", "Tang ký sinh", "Chi tử", "Hoàng cầm"]
-  }
-};
-// Tiếp tục window.database (Đợt 2)
-
-Object.assign(window.database, {
-
-  // =========================================================================
-  // 13. TẠNG CAN & PHỦ ĐỜM (BỔ SUNG)
-  // =========================================================================
-  
-  "Can_Thận_Am_Hu": {
-    hc: "Can Thận âm hư",
-    phanloai: ["Tạng Can & Tạng Thận", "Nhiệt", "Hư", "Âm hư"],
-    tc: ["Đầu choáng mắt hoa", "Tai ù ve kêu", "Đau lưng mỏi gối", "Mắt khô xót", "Triều nhiệt đạo hãn", "Mạch tế sác"],
-    pdt: "Tư bổ can thận, minh mục",
-    bt: "Kỷ cúc địa hoàng hoàn",
-    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Kỷ tử", "Cúc hoa"]
-  },
-
-  // =========================================================================
-  // 14. TẠNG PHẾ & PHỦ ĐẠI TRƯỜNG (BỔ SUNG)
-  // =========================================================================
-  "Phe_Tao_Chung": {
-    hc: "Táo tà phạm Phế",
-    phanloai: ["Tạng Phế", "Nhiệt", "Thực", "Táo nhiệt"],
-    tc: ["Ho khan không đờm", "Mũi khô họng rát", "Da khô, phân khô", "Lưỡi đỏ ít rêu", "Mạch phù sác"],
-    pdt: "Thanh nhiệt nhuận táo, tuyên phế chỉ khái",
-    bt: "Tang hạnh thang",
-    tpbt: ["Tang diệp", "Hạnh nhân", "Sa sâm", "Tượng bối mẫu", "Đạm đậu xị", "Chi tử", "Lê bì"]
-  },
-  "Phe_Thap_Dam": {
-    hc: "Đàm ẩm trở Phế",
-    phanloai: ["Tạng Phế", "Hàn", "Thực", "Đàm ẩm"],
-    tc: ["Ho thở khò khè", "Đờm nhiều trắng loãng có bọt", "Ngực trướng đầy khó nằm", "Mạch huyền hoạt"],
-    pdt: "Ôn phế hóa ẩm, giáng khí bình suyễn",
-    bt: "Linh cam ngũ vị khương tân thang",
-    tpbt: ["Phục linh", "Cam thảo", "Ngũ vị tử", "Can khương", "Tế tân"]
-  },
-
-  // =========================================================================
-  // 15. TẠNG TỲ & PHỦ VỊ (BỔ SUNG)
-  // =========================================================================
-  "Vi_Khi_Hu": {
-    hc: "Vị khí hư",
-    phanloai: ["Phủ Vị", "Bình", "Hư", "Khí hư"],
-    tc: ["Thượng vị trướng nhẹ sau ăn", "Ăn không biết ngon", "Ợ hơi nhẹ, mệt mỏi", "Lưỡi nhợt", "Mạch nhược"],
-    pdt: "Ích khí kiện vị, hòa trung",
-    bt: "Tứ quân tử thang gia Trần bì",
-    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Trần bì"]
-  },
-  "Ty_Vi_Khi_Uat": {
-    hc: "Tỳ Vị khí trệ",
-    phanloai: ["Tạng Tỳ & Phủ Vị", "Bình", "Thực", "Khí trệ"],
-    tc: ["Bụng trướng đau dữ dội", "Ợ hơi, ợ chua nhiều", "Đại tiện không thông thoáng", "Mạch huyền hoãn"],
-    pdt: "Hành khí hòa vị, tiêu trướng chỉ thống",
-    bt: "Mộc hương chỉ thực tán",
-    tpbt: ["Mộc hương", "Chỉ thực", "Trần bì", "Hậu phác", "Sa nhân"]
-  },
-
-  // =========================================================================
-  // 16. TẠNG THẬN & PHỦ BÀNG QUANG (BỔ SUNG)
-  // =========================================================================
-  "Than_Duong_Hu_Hoa_Suy": {
-    hc: "Thận dương suy yếu (Mệnh môn hỏa vi)",
-    phanloai: ["Tạng Thận", "Hàn", "Hư", "Dương hư suy"],
-    tc: ["Thắt lưng lạnh đau như băng", "Chân tay lạnh ngắt", "Liệt dương, di tinh", "Tiểu đêm liên tục", "Mạch trầm vi nhược"],
-    pdt: "Ôn bổ mệnh môn, tư âm trợ dương",
-    bt: "Hữu quy hoàn gia vị",
-    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Lộc giác giao", "Đỗ trọng", "Kỷ tử"]
-  },
-  "Than_Khi_Hu_Nieu_Tri": {
-    hc: "Thận khí hư thủy đái thất thu",
-    phanloai: ["Tạng Thận", "Bình", "Hư", "Khí hư bất cố"],
-    tc: ["Đi tiểu không tự chủ", "Đái dầm (trẻ em)", "Tiểu dắt rỉ rả dai dẳng", "Mệt mỏi, đau lưng", "Mạch trầm tế"],
-    pdt: "Bổ thận ích khí, cố sáp niệu",
-    bt: "Củng đái hoàn",
-    tpbt: ["Bổ cốt chỉ", "Ích trí nhân", "Tang phiêu tiêu", "Hoài sơn", "Phục linh"]
-  },
-
-  // =========================================================================
-  // 17. NGOẠI CẢM & KHÍ HUYẾT TÂN DỊCH (BỔ SUNG)
-  // =========================================================================
-  "Phong_Thap_Bieu_Chung": {
-    hc: "Phong thấp biểu chứng",
-    phanloai: ["Ngoại cảm", "Bình", "Thực", "Phong thấp"],
-    tc: ["Sợ gió sợ lạnh", "Thân thể nặng nề đau mỏi", "Đầu nặng như bó", "Rêu lưỡi trắng dính", "Mạch phù nhu"],
-    pdt: "Khu phong thắng thấp, giải biểu",
-    bt: "Khương hoạt thắng thấp thang gia giảm",
-    tpbt: ["Khương hoạt", "Độc hoạt", "Phòng phong", "Mạn kinh tử", "Xuyên khung", "Gừng tươi"]
-  },
-  "Huyet_U_Kinh_Lạc": {
-    hc: "Huyết ứ kinh lạc",
-    phanloai: ["Kinh Lạc", "Bình", "Thực", "Huyết ứ"],
-    tc: ["Đau cố định dai dẳng", "Ấn vào đau tăng (cự án)", "Da có mảng tím chấn thương", "Lưỡi tím xám", "Mạch sáp"],
-    pdt: "Hoạt huyết hóa ứ, thông kinh chỉ thống",
-    bt: "Đào hồng tứ vật thang",
-    tpbt: ["Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Đào nhân", "Hồng hoa"]
-  }
-});
-// Tiếp tục window.database (Đợt 3)
-
-Object.assign(window.database, {
-
-  // =========================================================================
-  // 18. BỆNH NGŨ QUAN & ĐẦU MẶT (BỔ SUNG)
-  // =========================================================================
-  "Nhi_Truc_Can_Than_Hu": {
-    hc: "Nhĩ ù nhĩ điếc do Can Thận hư",
-    phanloai: ["Ngũ Quan - Tai", "Bình", "Hư", "Can Thận hư"],
-    tc: ["Tai ù như ve kêu dai dẳng", "Sức nghe giảm dần", "Đau lưng mỏi gối", "Chóng mặt hoa mắt", "Mạch tế nhược"],
-    pdt: "Tư bổ can thận, thông nhĩ khiếu",
-    bt: "Nhĩ đống tả quy hoàn",
-    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Thỏ ty tử", "Thạch xương bồ", "Từ thạch"]
-  },
-  "Nhi_Nung_Thap_Nhiet": {
-    hc: "Nhĩ nùng (Viêm tai giữa do Thấp nhiệt)",
-    phanloai: ["Ngũ Quan - Tai", "Nhiệt", "Thực", "Thấp nhiệt"],
-    tc: ["Tai đau nhức, chảy mủ vàng hôi", "Sốt, bứt rứt khó chịu", "Miệng đắng, họng khô", "Mạch huyền sác"],
-    pdt: "Thanh nhiệt lợi thấp, giải độc bài nùng",
-    bt: "Long đởm tả can thang gia giảm",
-    tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Trạch tả", "Mộc thông", "Kim ngân hoa", "Cát cánh"]
-  },
-  "Muc_Xich_Can_Hoa": {
-    hc: "Mục xích (Đau mắt đỏ do Can hỏa)",
-    phanloai: ["Ngũ Quan - Mắt", "Nhiệt", "Thực", "Can hỏa"],
-    tc: ["Mắt đỏ sưng đau, nhiều gỉ mắt", "Sợ ánh sáng, chảy nước mắt", "Miệng đắng, đau đầu", "Mạch huyền sác"],
-    pdt: "Thanh can tả hỏa, minh mục",
-    bt: "Tả hỏa lợi hoành hoàn",
-    tpbt: ["Long đởm thảo", "Cúc hoa", "Thạch quyết minh", "Hoàng cầm", "Chi tử", "Bạch thược"]
-  },
-
-  // =========================================================================
-  // 19. BỆNH NAM KHOA & TIẾT NIỆU (BỔ SUNG)
+  // 11. NAM KHOA & TIẾT NIỆU
   // =========================================================================
   "Liet_Duong_Than_Duong_Hu": {
     hc: "Liệt dương do Thận dương hư",
@@ -1377,2774 +1033,2254 @@ Object.assign(window.database, {
   },
 
   // =========================================================================
-  // 20. BỆNH NHI KHOA & BỆNH LÝ KHÁC
+  // 12. CƠ XƯƠNG KHỚP & TÝ CHỨNG
   // =========================================================================
-  "Nhi_Dong_Tich_Thuc": {
-    hc: "Tích thực ở trẻ em (Cam tích)",
-    phanloai: ["Nhi Khoa", "Bình", "Thực", "Thực tích"],
-    tc: ["Bụng to trướng cứng", "Ăn không tiêu, nôn trớ", "Phân hôi thối hoặc lỏng nhão", "Thân hình gầy còm", "Mạch hoạt"],
-    pdt: "Tiêu tích đạo trệ, kiện tỳ hòa vị",
-    bt: "Tiêu cam hoàn",
-    tpbt: ["Sơn tra", "Thần khúc", "Mạch nha", "Kê nội kim", "Bạch truật", "Trần bì"]
+  "Phong_Ty_Hanh_Ty": {
+    hc: "Phong tý (Hành tý - Đau khớp di chuyển)",
+    phanloai: ["Cơ Xương Khớp", "Bình", "Thực", "Phong tý"],
+    tc: ["Đau di chuyển các khớp xương (vai, cổ tay, gối)", "Đau không cố định", "Sợ gió, sốt nhẹ", "Mạch phù"],
+    pdt: "Khu phong thông lạc, tán hàn trừ thấp",
+    bt: "Phòng phong thông thánh tán gia giảm",
+    tpbt: ["Phòng phong", "Khương hoạt", "Độc hoạt", "Tần giao", "Xuyên khung", "Đương quy"]
   },
-  "Cap_Kinh_Phong_Nhiet": {
-    hc: "Cấp kinh phong (Co giật do sốt cao ở trẻ em)",
-    phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Nhiệt cực sinh phong"],
-    tc: ["Sốt cao đột ngột", "Co giật chân tay, trợn mắt", "Răng cắn chặt, hôn mê", "Mạch sác hữu lực"],
-    pdt: "Thanh nhiệt khai khiếu, bình can tức phong",
-    bt: "Linh dương câu đằng ẩm gia giảm",
-    tpbt: ["Linh dương giác", "Câu đằng", "Cúc hoa", "Trúc nhự", "Bạch thược", "Băng phiến"]
-  }
-});
-// Tiếp tục window.database (Đợt 4)
+  "Thap_Ty_Truoc_Ty": {
+    hc: "Thấp tý (Trước tý - Đau khớp nặng nề)",
+    phanloai: ["Cơ Xương Khớp", "Bình", "Thực", "Thấp tý"],
+    tc: ["Các khớp đau cố định, cảm giác nặng nề", "Tê dại da thịt", "Thời tiết ẩm ướt đau tăng", "Rêu lưỡi trắng dính", "Mạch nhu hoãn"],
+    pdt: "Trừ thấp thông lạc, khu phong tán hàn",
+    bt: "Ý dĩ nhân tán",
+    tpbt: ["Ý dĩ nhân", "Thương truật", "Đương quy", "Ma hoàng", "Quế chi", "Cam thảo"]
+  },
+  "Cot_Ty_Than_Hu": {
+    hc: "Cốt tý (Thoái hóa khớp do Thận hư)",
+    phanloai: ["Cơ Xương Khớp", "Bình", "Hư", "Cốt tý Thận hư"],
+    tc: ["Đau nhức trong xương khớp kéo dài", "Thoái hóa khớp, biến dạng khớp", "Thắt lưng yếu mềm, tai ù", "Mạch trầm tế"],
+    pdt: "Bổ thận điền tinh, cường gân trác cốt",
+    bt: "Bổ thận tráng cốt hoàn",
+    tpbt: ["Thục địa", "Đỗ trọng", "Cốt toái bổ", "Cẩu tích", "Ngưu tất", "Thỏ ty tử"]
+  },
+
+  // =========================================================================
+  // 13. BỔ SUNG 200 HỘI CHỨNG TAI BIẾN / TRÚNG PHONG (TB_001 -> TB_200)
+  // =========================================================================
+  "TB_001": { hc: "Trúng phong trúng kinh lạc thể Phong đàm trở lạc", phanloai: ["Tai biến / Trúng phong", "Bình", "Thực", "Phong đàm"], tc: ["Méo miệng lệch mắt", "Bán thân bất toại", "Nói ngọng", "Rêu lưỡi trắng dính", "Mạch huyền hoạt"], pdt: "Khu phong hóa đàm, thông kinh hoạt lạc", bt: "Chơn nhân dưỡng hoài thang gia giảm", tpbt: ["Bán hạ", "Trần bì", "Nam tinh", "Bạch chỉ", "Xuyên khung", "Đương quy"] },
+  "TB_002": { hc: "Trúng phong trúng kinh lạc thể Phong nhiệt huyết ứ", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Phong nhiệt huyết ứ"], tc: ["Đột ngột tê dại nửa người", "Mặt đỏ, miệng đắng", "Lưỡi đỏ tím có điểm ứ huyết", "Mạch huyền sác"], pdt: "Sơ phong thanh nhiệt, hoạt huyết thông lạc", bt: "Đại tần giao thang gia Đào nhân, Hồng hoa", tpbt: ["Tần giao", "Khương hoạt", "Độc hoạt", "Đào nhân", "Hồng hoa", "Xuyên khung"] },
+  "TB_003": { hc: "Trúng phong trúng kinh lạc thể Phong hàn ngưng trệ", phanloai: ["Tai biến / Trúng phong", "Hàn", "Thực", "Phong hàn"], tc: ["Méo miệng lệch mắt sau gặp lạnh", "Chân tay lạnh, cơ co quắp", "Rêu lưỡi trắng mỏng", "Mạch phù khẩn"], pdt: "Khu phong tán hàn, thông kinh hoạt lạc", bt: "Tiểu tục mệnh thang gia giảm", tpbt: ["Ma hoàng", "Quế chi", "Phòng phong", "Hạnh nhân", "Xuyên khung", "Đương quy"] },
+  "TB_004": { hc: "Trúng phong trúng tạng phủ - Dương bế thể Đàm hỏa thượng nhiễu", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Đàm hỏa bế khiếu"], tc: ["Hôn mê đột ngột, hai tay nắm chặt", "Thở khò khè đờm dãi", "Mặt đỏ thân nóng, táo bón", "Mạch huyền sác hữu lực"], pdt: "Thanh nhiệt hóa đàm, khai khiếu thông bế", bt: "An cung ngưu hoàng hoàn hợp Địch đàm thang", tpbt: ["Ngưu hoàng", "Trúc nhự", "Chỉ thực", "Bán hạ", "Đởm nam tinh", "Thạch xương bồ"] },
+  "TB_005": { hc: "Trúng phong trúng tạng phủ - Âm bế thể Đàm hàn ngưng trệ", phanloai: ["Tai biến / Trúng phong", "Hàn", "Thực", "Đàm hàn bế khiếu"], tc: ["Hôn mê đột ngột, hàm răng cắn chặt", "Mặt bệch tái, chân tay lạnh", "Cổ họng vướng đờm lọc sọc", "Mạch trầm hoạt trì"], pdt: "Ôn hóa đàm hàn, tuyên thông khai khiếu", bt: "Tô hợp hương hoàn", tpbt: ["Tô hợp hương", "Mộc hương", "Trầm hương", "Tế tân", "Xạ hương", "Băng phiến"] },
+  "TB_006": { hc: "Trúng phong trúng tạng phủ - Thoát chứng thể Vong dương nguy cấp", phanloai: ["Tai biến / Trúng phong", "Hàn", "Hư suy", "Vong dương"], tc: ["Hôn mê sâu, mắt nhắm miệng há", "Tay xòe, vã mồ hôi cold đầm đìa", "Chân tay lạnh ngắt quá gối", "Mạch vi vi muốn tuyệt"], pdt: "Hồi dương cứu nghịch, đại bổ nguyên khí", bt: "Sâm phụ thang hợp Tứ nghịch thang", tpbt: ["Nhân sâm", "Phụ tử chế", "Can khương", "Chích cam thảo"] },
+  "TB_007": { hc: "Trúng phong trúng tạng phủ - Thoát chứng thể Vong âm thương tân", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Hư suy", "Vong âm"], tc: ["Hôn mê, thở gấp nông", "Vã mồ hôi nóng dính, da khô nóng", "Môi nẻ lưỡi đỏ thẫm khô", "Mạch tế sác vô lực muốn tuyệt"], pdt: "Tư âm cứu thoát, sinh tân liễm hãn", bt: "Sinh mạch tán gia Mẫu lệ, Quy bản", tpbt: ["Nhân sâm", "Mạch môn", "Ngũ vị tử", "Mẫu lệ", "Quy bản"] },
+  "TB_008": { hc: "Trúng phong cấp thể Can hỏa bốc trào", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Can hỏa thượng viêm"], tc: ["Đau đầu dữ dội rồi ngã quỵ", "Mặt đỏ như hoa hiên, nôn ra máu", "Thần chí lơ mơ, cáu gắt", "Mạch huyền sác hữu lực"], pdt: "Tả can giáng hỏa, trấn kinh khai khiếu", bt: "Long đởm tả can thang gia Đại giả thạch", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Đại giả thạch", "Ngưu tất", "Sài hồ"] },
+  "TB_009": { hc: "Trúng phong cấp thể Can phong nội động", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Can phong nội động"], tc: ["Co giật nửa người đột ngột", "Mắt trợn ngược, răng cắn chặt", "Chóng mặt quay mòng mòng rồi ngã", "Mạch huyền sác dũng mãnh"], pdt: "Bình can tức phong, trấn tĩnh khai khiếu", bt: "Linh dương câu đằng ẩm", tpbt: ["Linh dương giác", "Câu đằng", "Tang diệp", "Cúc hoa", "Bạch thược", "Sinh địa"] },
+  "TB_010": { hc: "Trúng phong cấp thể Khí trệ huyết ứ bế tắc kinh lạc", phanloai: ["Tai biến / Trúng phong", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Bán thân bất toại đột ngột", "Đau đầu nhói cố định một chỗ", "Lưỡi tím xám có điểm ứ huyết", "Mạch huyền sáp"], pdt: "Hành khí hoạt huyết, hóa ứ thông lạc", bt: "Thông khiếu trục ứ thang", tpbt: ["Xuyên khung", "Xích thược", "Đào nhân", "Hồng hoa", "Thạch xương bồ", "Địa long"] },
+  "TB_011": { hc: "Trúng phong cấp thể Đàm nhiệt hãm tâm bao", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Đàm nhiệt"], tc: ["Sốt cao, thần chí mê muội", "Nói lảm nhảm, cổ họng lọc sọc đờm", "Tay chân co giật nhẹ", "Mạch hoạt sác"], pdt: "Thanh nhiệt hóa đàm, thanh tâm khai khiếu", bt: "Thanh cung thang hợp Ôn đởm thang", tpbt: ["Trúc diệp tâm", "Huyền sâm", "Mạch môn", "Bán hạ", "Trúc nhự", "Chỉ thực"] },
+  "TB_012": { hc: "Trúng phong cấp thể Tỳ hư đàm trọc thượng nhiễu", phanloai: ["Tai biến / Trúng phong", "Bình", "Hư thực thác tạp", "Đàm trọc"], tc: ["Chóng mặt dữ dội, đầu nặng như bó", "Buồn nôn ra đờm dãi rồi tê liệt nửa người", "Rêu dầy nhớt", "Mạch nhu hoạt"], pdt: "Kiện tỳ hóa đàm, giáng nghịch thông lạc", bt: "Bán hạ bạch truật thiên ma thang", tpbt: ["Bán hạ", "Bạch truật", "Thiên ma", "Phục linh", "Trần bì", "Sinh khương"] },
+  "TB_013": { hc: "Trúng phong cấp thể Can Thận âm hư Can dương thượng kháng", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Hư thực thác tạp", "Can dương thượng kháng"], tc: ["Đầu trướng đau, tai ù ve kêu", "Đột ngột ngã ngất bán thân bất toại", "Lòng bàn tay chân nóng", "Mạch huyền tế sác"], pdt: "Tư âm tiềm dương, bình can tức phong", bt: "Trấn can tức phong thang", tpbt: ["Ngưu tất", "Đại giả thạch", "Long cốt", "Mẫu lệ", "Quy bản", "Bạch thược"] },
+  "TB_014": { hc: "Trúng phong cấp thể Khí hư huyết uất ngưng trệ", phanloai: ["Tai biến / Trúng phong", "Bình", "Hư thực thác tạp", "Khí hư huyết ứ"], tc: ["Liệt nửa người mặt bệch nhợt", "Thở ngắn mệt mỏi", "Tay chân mềm yếu không sức", "Mạch tế sáp vô lực"], pdt: "Bổ khí hoạt huyết, thông kinh hoạt lạc", bt: "Bổ dương hoàn ngũ thang", tpbt: ["Hoàng kỳ", "Đương quy vĩ", "Xích thược", "Đào nhân", "Hồng hoa", "Địa long"] },
+  "TB_015": { hc: "Trúng phong cấp thể Thấp nhiệt uẩn kết kinh lạc", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Chân tay tê dại nặng nề nóng rát", "Méo miệng, nói ngọng", "Tiểu đỏ ngắn, rêu vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, khu phong thông lạc", bt: "Nhị diệu tán gia Khương hoạt, Tần giao", tpbt: ["Hoàng bá", "Thương truật", "Khương hoạt", "Tần giao", "Xuyên khung", "Ngưu tất"] },
+  "TB_016": { hc: "Trúng phong cấp thể Hàn thấp ứ trệ kinh mạch", phanloai: ["Tai biến / Trúng phong", "Hàn", "Thực", "Hàn thấp"], tc: ["Liệt nửa người kèm đau nhức gặp lạnh tăng", "Sợ lạnh, tay chân cold bệch", "Rêu dầy dính trắng", "Mạch trầm khẩn hoãn"], pdt: "Ôn kinh tán hàn, trừ thấp thông lạc", bt: "Ô đầu thang gia giảm", tpbt: ["Ô đầu chế", "Ma hoàng", "Bạch thược", "Hoàng kỳ", "Thương truật", "Can khương"] },
+  "TB_017": { hc: "Trúng phong cấp thể Âm hư hỏa vượng phong động", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Hư", "Âm hư phong động"], tc: ["Tay chân run rẩy co quắp đột ngột", "Triều nhiệt đạo hãn, gò má đỏ", "Miệng khô họng rát", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, tức phong chỉ kinh", bt: "Tri bá địa hoàng hoàn gia Câu đằng", tpbt: ["Thục địa", "Tri mẫu", "Hoàng bá", "Sơn thù", "Câu đằng", "Cúc hoa"] },
+  "TB_018": { hc: "Trúng phong cấp thể Huyết nhiệt vọng hành xuất huyết não", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Huyết nhiệt"], tc: ["Đau đầu như búa bổ rồi hôn mê", "Mặt đỏ gay, thở xối xả", "Xuất huyết dưới da hoặc chảy máu cam", "Mạch sác dũng mãnh"], pdt: "Thanh nhiệt lương huyết, chỉ huyết khai khiếu", bt: "Tê giác địa hoàng thang gia An cung ngưu hoàng hoàn", tpbt: ["Thủy ngưu giác", "Sinh địa", "Xích thược", "Đan bì", "Ngưu hoàng"] },
+  "TB_019": { hc: "Trúng phong cấp thể Thận dương hư suy khí hóa thất thường", phanloai: ["Tai biến / Trúng phong", "Hàn", "Hư suy", "Thận dương hư"], tc: ["Thần chí lơ mơ, sợ lạnh ngắt", "Bí tiểu hoặc tiểu đái dầm không biết", "Đau thắt lưng gối cold", "Mạch trầm vi nhược"], pdt: "Ôn bổ thận dương, hóa khí thông khiếu", bt: "Thận khí hoàn gia Nhục quế", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Trạch tả", "Đan bì", "Nhục quế", "Phụ tử chế"] },
+  "TB_020": { hc: "Trúng phong cấp thể Tâm Tỳ hư suy huyết không dưỡng não", phanloai: ["Tai biến / Trúng phong", "Bình", "Hư", "Tâm Tỳ hư"], tc: ["Đột ngột choáng váng ngã gục", "Mặt úa vàng, môi nhợt", "Mệt mỏi hụt hơi, mạch tế nhược", "Mạch tế nhược"], pdt: "Bổ ích tâm tỳ, dưỡng huyết an thần", bt: "Quy tỳ thang gia Viễn chí", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Long nhãn", "Toan táo nhân"] },
+  "TB_021": { hc: "Trúng phong cấp thể Tâm hỏa xí thịnh nhiễu thần chí", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Tâm hỏa"], tc: ["Bứt rứt cuồng loạn trước khi hôn mê", "Mặt đỏ, loét miệng lưỡi", "Tiểu đỏ buốt", "Mạch sác hữu lực"], pdt: "Thanh tâm tả hỏa, an thần khai khiếu", bt: "Đạo xích tán gia Hoàng liên", tpbt: ["Sinh địa", "Mộc thông", "Trúc diệp", "Hoàng liên", "Cam thảo"] },
+  "TB_022": { hc: "Trúng phong cấp thể Vị hỏa thực nhiệt bế kết tiêu hóa", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Vị hỏa thực nhiệt"], tc: ["Bụng trướng cứng cự án", "Táo bón 5-7 ngày không đi", "Ợ hơi hôi thối, sốt cao", "Mạch trầm thực sác"], pdt: "Thanh vị tả hạ, thông phủ tiêu tích", bt: "Đại thừa khí thang", tpbt: ["Đại hoàng", "Mang tiêu", "Hậu phác", "Chỉ thực"] },
+  "TB_023": { hc: "Trúng phong cấp thể Can Đởm uất nhiệt sinh phong", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Can Đởm uất nhiệt"], tc: ["Miệng đắng cay, đau hạ sườn", "Mắt đỏ sưng rát rồi liệt nửa người", "Dễ cáu giận", "Mạch huyền sác"], pdt: "Thanh can lợi đởm, tức phong thông lạc", bt: "Long đởm tả can thang gia Câu đằng", tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Trạch tả", "Câu đằng", "Sài hồ"] },
+  "TB_024": { hc: "Trúng phong cấp thể Phế nhiệt đàm ủng hô hấp", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Phế nhiệt đàm ủng"], tc: ["Sốt cao ho thở gấp", "Đờm dính vàng đặc mù hôi", "Cánh mũi phập phồng", "Mạch hoạt sác"], pdt: "Thanh phế hóa đàm, tuyên thông khí đạo", bt: "Định suyễn thang gia Hoàng liên", tpbt: ["Ma hoàng", "Hạnh nhân", "Tang bạch bì", "Hoàng cầm", "Hoàng liên", "Bán hạ"] },
+  "TB_025": { hc: "Trúng phong cấp thể Hàn đàm ngưng trệ phế vị", phanloai: ["Tai biến / Trúng phong", "Hàn", "Thực", "Hàn đàm"], tc: ["Nôn ra nhiều đờm trắng loãng", "Sợ lạnh, mặt bệch tái", "Khó thở khò khè", "Mạch trầm hoạt"], pdt: "Ôn phế hóa đàm, giáng nghịch chỉ nôn", bt: "Nhị trần thang gia Can khương, Tế tân", tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Can khương", "Tế tân", "Cam thảo"] },
+  "TB_026": { hc: "Trúng phong cấp thể Khí âm lưỡng hư thoát áp", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Hư suy", "Khí âm lưỡng hư"], tc: ["Thần chí lơ mơ, mệt mỏi hụt hơi", "Miệng khô khát nước", "Vã mồ hôi, huyết áp tụt", "Mạch tế nhược sác"], pdt: "Ích khí sinh tân, liễm hãn cứu thoát", bt: "Sinh mạch tán gia Hoàng kỳ", tpbt: ["Nhân sâm", "Mạch môn", "Ngũ vị tử", "Hoàng kỳ"] },
+  "TB_027": { hc: "Trúng phong cấp thể Huyết hư sinh phong tê dại", phanloai: ["Tai biến / Trúng phong", "Bình", "Hư", "Huyết hư phong động"], tc: ["Tay chân tê dại co rút đột ngột", "Sắc mặt úa vàng, chóng mặt", "Móng tay chân nhợt", "Mạch tế huyền"], pdt: "Dưỡng huyết nhuận can, khu phong chỉ kinh", bt: "Tứ vật thang gia Thiên ma, Câu đằng", tpbt: ["Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Thiên ma", "Câu đằng"] },
+  "TB_028": { hc: "Trúng phong cấp thể Đàm trọc phong nhiệt hỗ kết", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Đàm phong nhiệt"], tc: ["Đau đầu choáng váng, sốt nhẹ", "Nôn ra đờm dính vàng", "Méo miệng lệch mắt", "Mạch hoạt sác"], pdt: "Thanh nhiệt hóa đàm, sơ phong thông lạc", bt: "Ôn đởm thang gia Cúc hoa, Bạc hà", tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Trúc nhự", "Chỉ thực", "Cúc hoa", "Bạc hà"] },
+  "TB_029": { hc: "Trúng phong cấp thể Mệnh môn hỏa suy vong dương", phanloai: ["Tai biến / Trúng phong", "Hàn", "Hư suy", "Mệnh môn hỏa suy"], tc: ["Thắt lưng cold ngắt, chân tay lạnh quá gối", "Tinh thần lơ mơ, thở yếu", "Tiểu rỉ rả không biết", "Mạch vi tế Muốn tuyệt"], pdt: "Ôn bổ mệnh môn hỏa, hồi dương cứu nghịch", bt: "Hữu quy hoàn gia Phụ tử, Can khương", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Can khương"] },
+  "TB_030": { hc: "Trúng phong cấp thể Kinh lạc khí uất trở trệ", phanloai: ["Tai biến / Trúng phong", "Bình", "Thực", "Khí trệ"], tc: ["Nửa người tê cứng ngột ngạt", "Hay thở dài, tinh thần căng thẳng", "Rêu lưỡi trắng mỏng", "Mạch huyền"], pdt: "Sơ can lý khí, thông kinh hoạt lạc", bt: "Sài hồ sơ can tán gia Địa long", tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Xuyên khung", "Địa long", "Cam thảo"] },
+  "TB_031": { hc: "Di chứng tai biến thể Khí hư huyết ứ chi liệt mềm", phanloai: ["Di chứng Tai biến", "Bình", "Hư thực thác tạp", "Khí hư huyết ứ"], tc: ["Liệt nửa người tay chân duỗi mềm", "Sắc mặt nhợt nhạt, mệt mỏi hụt hơi", "Nói nhỏ yếu, tự hãn", "Mạch tế sáp vô lực"], pdt: "Đại bổ khí huyết, hoạt huyết hóa ứ thông lạc", bt: "Bổ dương hoàn ngũ thang", tpbt: ["Hoàng kỳ", "Đương quy vĩ", "Xích thược", "Đào nhân", "Hồng hoa", "Địa long", "Xuyên khung"] },
+  "TB_032": { hc: "Di chứng tai biến thể Can Thận âm hư chi liệt cứng", phanloai: ["Di chứng Tai biến", "Nhiệt", "Hư thực thác tạp", "Can Thận âm hư"], tc: ["Tay chân liệt co quắp cứng đờ", "Đau lưng mỏi gối, tai ù", "Triều nhiệt đạo hãn, lưỡi đỏ ít rêu", "Mạch tế sác"], pdt: "Tư bổ can thận, nhuận gân thông lạc", bt: "Lục vị địa hoàng hoàn gia Ngưu tất, Đỗ trọng, Bạch thược", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Trạch tả", "Đan bì", "Ngưu tất", "Đỗ trọng", "Bạch thược"] },
+  "TB_033": { hc: "Di chứng tai biến thể Phong đàm trệ kinh lạc teo cơ", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Phong đàm thông lạc"], tc: ["Chân tay liệt tê dại teo cơ nhẹ", "Cổ họng vướng đờm dãi", "Rêu lưỡi trắng dầy nhớt", "Mạch hoạt huyền"], pdt: "Kiện tỳ hóa đàm, khu phong thông lạc", bt: "Bán hạ bạch truật thiên ma thang gia Đởm nam tinh, Mộc qua", tpbt: ["Bán hạ", "Bạch truật", "Thiên ma", "Phục linh", "Trần bì", "Đởm nam tinh", "Mộc qua"] },
+  "TB_034": { hc: "Di chứng tai biến thể Hàn ngưng huyết ứ đau nhức chi liệt", phanloai: ["Di chứng Tai biến", "Hàn", "Thực", "Hàn trệ huyết ứ"], tc: ["Chân tay liệt đau nhức dữ dội khi gặp lạnh", "Sợ lạnh, tay chân cold bệch", "Lưỡi tím xám", "Mạch trầm sáp khẩn"], pdt: "Ôn kinh tán hàn, hoạt huyết thông lạc chỉ thống", bt: "Thân thống trục ứ thang gia Nhục quế, Can khương", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Nhục quế", "Can khương"] },
+  "TB_035": { hc: "Di chứng tai biến thể Khí huyết lưỡng hư kiêm teo cơ", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Khí huyết hư suy"], tc: ["Liệt nửa người lâu ngày gầy còm teo cơ", "Sắc mặt úa vàng mệt mỏi", "Ăn kém tiêu chảy", "Mạch tế nhược hoãn"], pdt: "Song bổ khí huyết, cường gân trác cốt", bt: "Bát trân thang gia Ngưu tất, Đỗ trọng, Hoàng kỳ", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Thục địa", "Đương quy", "Hoàng kỳ", "Ngưu tất", "Đỗ trọng"] },
+  "TB_036": { hc: "Di chứng tai biến thể Thận dương hư suy liệt hai chân", phanloai: ["Di chứng Tai biến", "Hàn", "Hư suy", "Thận dương hư"], tc: ["Hai chân mềm yếu không đứng vững", "Thắt lưng lạnh mỏi, sợ lạnh", "Tiểu đêm nhiều lần", "Mạch trầm tế trì"], pdt: "Ôn bổ thận dương, ích tinh tráng cốt", bt: "Hữu quy hoàn gia Cốt toái bổ, Tục đoạn", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Cốt toái bổ", "Tục đoạn"] },
+  "TB_037": { hc: "Di chứng tai biến thể Thấp nhiệt uẩn kết khớp chi liệt", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Các khớp chi liệt sưng nóng đỏ đau nhẹ", "Thân thể mỏi nặng, tiểu đỏ", "Rêu dầy vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, thông kinh hoạt lạc", bt: "Gia vị nhị diệu tán gia Kê huyết đằng", tpbt: ["Hoàng bá", "Thương truật", "Ngưu tất", "Ý dĩ", "Kê huyết đằng", "Mộc thông"] },
+  "TB_038": { hc: "Di chứng tai biến thể Can hỏa uất kết chi liệt co cứng", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Can hỏa"], tc: ["Chân tay liệt co quắp dằn xóc đau", "Miệng đắng, dễ giận dữ cáu gắt", "Mắt đỏ, táo bón", "Mạch huyền sác"], pdt: "Thanh can tả hỏa, thư gân thông lạc", bt: "Long đởm tả can thang gia Bạch thược, Mộc qua", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Bạch thược", "Mộc qua", "Sài hồ"] },
+  "TB_039": { hc: "Di chứng tai biến thể Tỳ hư thấp trệ phù nề chi liệt", phanloai: ["Di chứng Tai biến", "Bình", "Hư thực thác tạp", "Tỳ hư thấp trệ"], tc: ["Tay chân liệt phù nề ấn lõm", "Bụng trướng đầy ăn kém", "Đại tiện lỏng nhão", "Mạch nhu hoãn"], pdt: "Kiện tỳ mẫn thấp, thông lạc tiêu thũng", bt: "Ngũ linh tán hợp Tứ quân tử thang gia Kê huyết đằng", tpbt: ["Bạch truật", "Phục linh", "Trạch tả", "Trư linh", "Đảng sâm", "Kê huyết đằng"] },
+  "TB_040": { hc: "Di chứng tai biến thể Đàm ứ tương kết chi liệt cứng", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Đàm ứ ngưng trệ"], tc: ["Chi liệt cơ cứng như khúc gỗ", "Nổi u cục mềm dưới da chi liệt", "Lưỡi tím xám rêu dầy nhớt", "Mạch sáp hoạt"], pdt: "Hóa đàm tán kết, hoạt huyết thông lạc", bt: "Nhị trần thang hợp Đào hồng tứ vật thang gia Bạch giới tử", tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Đào nhân", "Hồng hoa", "Bạch giới tử"] },
+  "TB_041": { hc: "Di chứng tai biến thể Âm dương lưỡng hư chi liệt mềm", phanloai: ["Di chứng Tai biến", "Hàn nhiệt thác tạp", "Hư suy", "Âm dương lưỡng hư"], tc: ["Chi liệt duỗi mềm không lực", "Sợ lạnh nhưng gò má đỏ về chiều", "Tai ù, tiểu đêm nhiều", "Mạch trầm tế vô lực"], pdt: "Âm dương song bổ, thông kinh hoạt lạc", bt: "Bát vị hoàn gia Kỷ tử, Thỏ ty tử, Hoàng kỳ", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Kỷ tử", "Hoàng kỳ"] },
+  "TB_042": { hc: "Di chứng tai biến thể Khí trệ huyết ứ đau nhói chi liệt", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Chi liệt đau nhói cố định cự án", "Sắc mặt u uất", "Lưỡi tím sẫm có điểm ứ huyết", "Mạch huyền sáp"], pdt: "Hành khí hoạt huyết, thông kinh chỉ thống", bt: "Cách hạ trục ứ thang gia Ngưu tất", tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Chỉ xác", "Hương phụ", "Ngưu tất"] },
+  "TB_043": { hc: "Di chứng tai biến thể Can Thận tinh huyết khuy tổn", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Tinh huyết khuy tổn"], tc: ["Chi liệt teo cơ nặng, bước đi xiêu vẹo", "Tóc bạc rụng nhiều, trí nhớ kém", "Móng khô nhợt", "Mạch tế nhược"], pdt: "Tư bổ can thận, ích tinh điền tủy", bt: "Tả quy hoàn hợp Tứ vật thang gia Hoàng kỳ", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Kỷ tử", "Thỏ ty tử", "Đương quy", "Hoàng kỳ"] },
+  "TB_044": { hc: "Di chứng tai biến thể Phế Tỳ khí hư ho thở liệt tay", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Phế Tỳ khí hư"], tc: ["Liệt tay khó vận động", "Ho hắng lâu ngày hụt hơi", "Ăn kém tiêu chảy", "Mạch hư nhược"], pdt: "Bổ phế kiện tỳ, thăng dương thông lạc", bt: "Lục quân tử thang gia Bổ phế thang", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Trần bì", "Bán hạ", "Hoàng kỳ"] },
+  "TB_045": { hc: "Di chứng tai biến thể Tâm Thận bất giao mất ngủ liệt chi", phanloai: ["Di chứng Tai biến", "Nhiệt", "Hư thực thác tạp", "Tâm Thận bất giao"], tc: ["Liệt nửa người trằn trọc mất ngủ đêm", "Hồi hộp hoảng hốt, triều nhiệt", "Mắt khô, tai ù", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, thông lạc an thần", bt: "Giao thái hoàn hợp Kỷ cúc địa hoàng hoàn", tpbt: ["Hoàng liên", "Nhục quế", "Thục địa", "Sơn thù", "Kỷ tử", "Cúc hoa"] },
+  "TB_046": { hc: "Di chứng tai biến thể Tâm Huyết hư hồi hộp liệt chi", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Tâm huyết hư"], tc: ["Liệt nửa người mệt mỏi", "Hồi hộp trống ngực hay quên", "Môi lưỡi nhợt", "Mạch tế nhược"], pdt: "Bổ huyết dưỡng tâm, thông kinh hoạt lạc", bt: "Quy tỳ thang gia Kê huyết đằng", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Long nhãn", "Kê huyết đằng"] },
+  "TB_047": { hc: "Di chứng tai biến thể Vị hỏa thực nhiệt táo bón liệt chi", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Vị hỏa"], tc: ["Chi liệt co cứng đau rát", "Đại tiện táo kết 4-5 ngày", "Miệng hôi khát nước", "Mạch hoạt sác"], pdt: "Thanh vị tả hỏa, nhuận tràng thông tiện", bt: "Thanh vị tán hợp Ma tử nhân hoàn", tpbt: ["Hoàng liên", "Thăng ma", "Sinh địa", "Ma tử nhân", "Bạch thược", "Đại hoàng"] },
+  "TB_048": { hc: "Di chứng tai biến thể Hàn thấp ngưng trệ vai tay liệt", phanloai: ["Di chứng Tai biến", "Hàn", "Thực", "Hàn thấp"], tc: ["Vai tay bên liệt đau co cứng gặp cold đau tăng", "Sợ gió sợ lạnh", "Rêu trắng mỏng", "Mạch trầm khẩn"], pdt: "Ôn kinh tán hàn, khu phong thông lạc", bt: "Quyen thông thang gia Nhục quế, Can khương", tpbt: ["Khương hoạt", "Độc hoạt", "Phòng phong", "Khương hoàng", "Nhục quế", "Can khương"] },
+  "TB_049": { hc: "Di chứng tai biến thể Phong nhiệt uất kinh lạc chi liệt nóng", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Phong nhiệt"], tc: ["Chi liệt da nóng rát đỏ nhẹ", "Miệng khô thích uống nước cold", "Sốt nhẹ về chiều", "Mạch phù sác"], pdt: "Sơ phong thanh nhiệt, thông kinh hoạt lạc", bt: "Bạch hổ quế chi thang gia Kê huyết đằng", tpbt: ["Tri mẫu", "Thạch cao", "Quế chi", "Kê huyết đằng", "Cam thảo"] },
+  "TB_050": { hc: "Di chứng tai biến thể Đàm thấp uẩn kết vai gáy liệt", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Đàm thấp"], tc: ["Vùng cổ vai bên liệt nặng nề uể ả", "Đầu nặng như bó", "Nôn nao đờm dãi", "Mạch nhu hoạt"], pdt: "Táo thấp hóa đàm, thông lạc chỉ thống", bt: "Nhị trần thang gia Khương hoạt, Bạch giới tử", tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Khương hoạt", "Bạch giới tử", "Cam thảo"] },
+  "TB_051": { hc: "Di chứng tai biến thể Can uất khí trệ vai sườn liệt", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Khí trệ"], tc: ["Vai và mạng sườn bên liệt trướng đau", "Tâm trạng buồn u uất hay thở dài", "Mạch huyền"], pdt: "Sơ can giải uất, hành khí thông lạc", bt: "Sài hồ sơ can tán gia Kê huyết đằng", tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Xuyên khung", "Kê huyết đằng", "Cam thảo"] },
+  "TB_052": { hc: "Di chứng tai biến thể Thận khí bất cố chân liệt đái dầm", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Thận khí hư"], tc: ["Chân liệt không sức đứng", "Đi tiểu rỉ rả đái dầm không biết", "Mệt mỏi đau lưng", "Mạch trầm nhược"], pdt: "Bổ thận ích khí, cố sáp niệu thông lạc", bt: "Kim tỏa cố tinh hoàn hợp Bổ dương hoàn ngũ thang", tpbt: ["Sa uyển tử", "Liên tu", "Khiếm thực", "Hoàng kỳ", "Đương quy", "Địa long"] },
+  "TB_053": { hc: "Di chứng tai biến thể Mệnh môn hỏa suy chân liệt cold ngắt", phanloai: ["Di chứng Tai biến", "Hàn", "Hư suy", "Mệnh môn hỏa suy"], tc: ["Chân liệt cold ngắt quá gối", "Sợ cold đầm đìa", "Ngũ canh tả, tiểu đêm", "Mạch trầm tế vi"], pdt: "Ôn bổ mệnh môn,通khiếu tráng cốt", bt: "Hữu quy hoàn gia Phụ tử, Nhục quế", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Phụ tử chế", "Nhục quế", "Đỗ trọng"] },
+  "TB_054": { hc: "Di chứng tai biến thể Tỳ Vị hư hàn ăn kém liệt chi", phanloai: ["Di chứng Tai biến", "Hàn", "Hư", "Tỳ Vị hư hàn"], tc: ["Chi liệt mềm yếu", "Bụng đau âm ỉ thích ấm", "Ăn không tiêu nôn nước trong", "Mạch trầm trì nhược"], pdt: "Ôn trung kiện tỳ, ích khí thông lạc", bt: "Lý trung hoàn gia Hoàng kỳ, Đương quy", tpbt: ["Đảng sâm", "Can khương", "Bạch truật", "Hoàng kỳ", "Đương quy", "Cam thảo"] },
+  "TB_055": { hc: "Di chứng tai biến thể Tâm Phế khí hư hụt hơi liệt tay", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Tâm Phế khí hư"], tc: ["Tay liệt không nâng lên được", "Hồi hộp hụt hơi khi nói", "Mệt mỏi tự hãn", "Mạch hư nhược"], pdt: "Bổ tâm ích phế, thăng dương thông lạc", bt: "Bảo nguyên thang gia Bổ dương hoàn ngũ thang", tpbt: ["Nhân sâm", "Hoàng kỳ", "Nhục quế", "Đương quy", "Đào nhân", "Hồng hoa"] },
+  "TB_056": { hc: "Di chứng tai biến thể Huyết hư phong táo da chi liệt ngứa", phanloai: ["Di chứng Tai biến", "Bình", "Hư thực thác tạp", "Huyết hư phong táo"], tc: ["Da bên chi liệt khô nẻ bong tróc", "Ngứa ngáy dữ dội về đêm", "Thân thể gầy nhợt", "Mạch tế sáp"], pdt: "Dưỡng huyết nhuận táo, khu phong thông lạc", bt: "Dưỡng tiêu phong tán gia Kê huyết đằng", tpbt: ["Đương quy", "Thục địa", "Bạch thược", "Phòng phong", "Kê huyết đằng", "Cam thảo"] },
+  "TB_057": { hc: "Di chứng tai biến thể Thấp nhiệt hạ chú chân liệt sưng", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Chân liệt sưng to nóng đỏ rát", "Tiểu dắt buốt vàng đục", "Rêu dầy vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, thông kinh tiêu thũng", bt: "Nhị diệu tán gia Khổ sâm, Mộc thông", tpbt: ["Hoàng bá", "Thương truật", "Khổ sâm", "Mộc thông", "Ngưu tất"] },
+  "TB_058": { hc: "Di chứng tai biến thể Huyết ứ bao khớp chi liệt biến dạng", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Huyết ứ"], tc: ["Các khớp bên chi liệt sưng cứng biến dạng", "Ấn vào đau nhói cự án", "Móng tay chân tím đen", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, nhuyễn kiên thông lạc", bt: "Đào hồng tứ vật thang gia Bạch giới tử, Ngưu tất", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Bạch giới tử", "Ngưu tất"] },
+  "TB_059": { hc: "Di chứng tai biến thể Can Thận hỏa vượng chi liệt giật cơ", phanloai: ["Di chứng Tai biến", "Nhiệt", "Hư thực thác tạp", "Can Thận hỏa vượng"], tc: ["Thỉnh thoảng cơ chi liệt giật nẩy lên", "Mặt đỏ, tai ù, mất ngủ", "Đau lưng mỏi gối", "Mạch huyền tế sác"], pdt: "Tư âm giáng hỏa, trấn tĩnh chỉ giật", bt: "Tri bá địa hoàng hoàn gia Câu đằng, Mẫu lệ", tpbt: ["Thục địa", "Tri mẫu", "Hoàng bá", "Câu đằng", "Mẫu lệ", "Sơn thù"] },
+  "TB_060": { hc: "Di chứng tai biến thể Khí hư trệ thủy chi liệt mập bệu", phanloai: ["Di chứng Tai biến", "Bình", "Hư thực thác tạp", "Khí hư thủy trệ"], tc: ["Người béo bệu chi liệt sưng mề", "Mệt mỏi thích nằm ngại nói", "Tiểu tiện ít phân nhão", "Mạch nhu hoãn"], pdt: "Bổ khí kiện tỳ, lợi thủy thông lạc", bt: "Bổ trung ích khí thang hợp Ngũ linh tán", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Phục linh", "Trạch tả", "Trư linh"] },
+  "TB_061": { hc: "Di chứng tai biến thể Can uất hóa hỏa chi liệt đau nhói", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Can hỏa"], tc: ["Chi liệt đau rát dữ dội như lửa đốt", "Dễ giận dữ chửi mắng", "Miệng đắng tiểu đỏ", "Mạch huyền sác"], pdt: "Thanh can tả hỏa, thông lạc chỉ thống", bt: "Long đởm tả can thang gia Tam thất, Ngưu tất", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Tam thất", "Ngưu tất", "Sài hồ"] },
+  "TB_062": { hc: "Di chứng tai biến thể Phế âm hư ho khan chi liệt mệt", phanloai: ["Di chứng Tai biến", "Nhiệt", "Hư", "Phế âm hư"], tc: ["Chi liệt mềm yếu mệt mỏi", "Ho khan ít đờm kéo dài", "Họng khô triều nhiệt", "Mạch tế sác"], pdt: "Tư âm nhuận phế, thông kinh hoạt lạc", bt: "Bách hợp cố kim thang gia Hoàng kỳ", tpbt: ["Bách hợp", "Sinh địa", "Thục địa", "Mạch môn", "Bối mẫu", "Hoàng kỳ"] },
+  "TB_063": { hc: "Di chứng tai biến thể Tỳ Thận hư hàn đi đứng xiêu vẹo", phanloai: ["Di chứng Tai biến", "Hàn", "Hư", "Tỳ Thận hư hàn"], tc: ["Bước đi xiêu vẹo không vững", "Bụng dưới lạnh đau tiêu lỏng", "Chân tay cold sợ cold", "Mạch trầm tế trì"], pdt: "Ôn bổ tỳ thận, cường gân trác cốt", bt: "Chân vũ thang hợp Lý trung hoàn", tpbt: ["Phụ tử chế", "Can khương", "Bạch truật", "Phục linh", "Nhân sâm", "Cam thảo"] },
+  "TB_064": { hc: "Di chứng tai biến thể Tâm Hỏa thượng viêm ngực bứt rứt liệt chi", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Tâm hỏa"], tc: ["Tâm phiền bứt rứt khó ngủ", "Chi liệt giật nhẹ không yên", "Loét lưỡi tiểu đỏ", "Mạch sác hữu lực"], pdt: "Thanh tâm tả hỏa, an thần thông lạc", bt: "Đạo xích tán gia Toan táo nhân, Kê huyết đằng", tpbt: ["Sinh địa", "Mộc thông", "Trúc diệp", "Toan táo nhân", "Kê huyết đằng", "Cam thảo"] },
+  "TB_065": { hc: "Di chứng tai biến thể Đàm nhiệt thượng nhiễu chi liệt tê rát", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Đàm nhiệt"], tc: ["Chi liệt tê rát nóng nực", "Cổ họng vướng đờm đặc vàng", "Mất ngủ rêu vàng nhớt", "Mạch hoạt sác"], pdt: "Thanh nhiệt hóa đàm, thông kinh hoạt lạc", bt: "Hoàng liên ôn đởm thang gia Kê huyết đằng", tpbt: ["Hoàng liên", "Bán hạ", "Trần bì", "Phục linh", "Trúc nhự", "Kê huyết đằng"] },
+  "TB_066": { hc: "Di chứng tai biến thể Hàn đàm trệ khớp chi liệt co rút", phanloai: ["Di chứng Tai biến", "Hàn", "Thực", "Hàn đàm"], tc: ["Chi liệt co rút đau lạnh", "Nôn ra đờm loãng bọt", "Sợ cold rêu trắng dính", "Mạch trầm hoạt hoãn"], pdt: "Ôn hóa hàn đàm, thư gân thông lạc", bt: "Nhị trần thang gia Can khương, Mộc qua, Tế tân", tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Can khương", "Mộc qua", "Tế tân"] },
+  "TB_067": { hc: "Di chứng tai biến thể Khí hư huyết ứ kiêm phù nề ngón tay", phanloai: ["Di chứng Tai biến", "Bình", "Hư thực thác tạp", "Khí hư huyết ứ"], tc: ["Các ngón tay bên liệt sưng mề mọng", "Không nắm lại được, mệt mỏi nhợt", "Mạch tế sáp vô lực"], pdt: "Bổ khí hoạt huyết, lợi thủy tiêu thũng", bt: "Bổ dương hoàn ngũ thang gia Mộc thông, Ý dĩ", tpbt: ["Hoàng kỳ", "Đương quy", "Đào nhân", "Hồng hoa", "Mộc thông", "Ý dĩ"] },
+  "TB_068": { hc: "Di chứng tai biến thể Can Thận âm hư móng tay chi liệt mờ nhợt", phanloai: ["Di chứng Tai biến", "Nhiệt", "Hư", "Can Thận âm hư"], tc: ["Móng tay chân bên liệt khô xơ dễ gãy", "Tê dại hoa mắt tai ù", "Triều nhiệt đạo hãn", "Mạch tế sác"], pdt: "Tư bổ can thận, dưỡng huyết nhuận móng", bt: "Kỷ cúc địa hoàng hoàn gia Hà thủ ô, Đương quy", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Kỷ tử", "Hà thủ ô", "Đương quy"] },
+  "TB_069": { hc: "Di chứng tai biến thể Tâm Tỳ lưỡng hư mặt nhợt liệt mềm", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Tâm Tỳ hư"], tc: ["Liệt nửa người mặt bệch tái úa", "Hồi hộp hụt hơi ăn kém tiêu chảy", "Ngủ chập chờn hay mơ", "Mạch tế nhược"], pdt: "Song bổ tâm tỳ, thăng dương thông lạc", bt: "Quy tỳ thang gia Hoàng kỳ, Kê huyết đằng", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Kê huyết đằng"] },
+  "TB_070": { hc: "Di chứng tai biến thể Khí uất huyết ứ cơ chi liệt đau nhói", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Cơ chi liệt đau nhói cố định", "Xúc động cáu giận đau tăng", "Lưỡi tím xám điểm ứ huyết", "Mạch huyền sáp"], pdt: "Sơ can giải uất, hoạt huyết hóa ứ thông lạc", bt: "Cách hạ trục ứ thang gia Sài hồ, Địa long", tpbt: ["Sài hồ", "Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Địa long"] },
+  "TB_071": { hc: "Di chứng tai biến nói ngọng thể Phong đàm trở khiếu", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Phong đàm bế khiếu"], tc: ["Nói ú ớ nói ngọng không rõ từ", "Cổ họng vướng đờm dãi lọc sọc", "Lưỡi rêu trắng dầy nhớt", "Mạch huyền hoạt"], pdt: "Khu phong hóa đàm, thấu khiếu khai âm", bt: "Địch đàm thang gia Thạch xương bồ, Uất kim", tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Chỉ thực", "Đởm nam tinh", "Thạch xương bồ", "Uất kim"] },
+  "TB_072": { hc: "Di chứng tai biến mất ngôn ngữ thể Tâm khí hư suy", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Tâm khí hư"], tc: ["Không nói được hoặc nói rất khó khăn", "Tiếng nói nhỏ yếu hụt hơi", "Sắc mặt nhợt mệt mỏi", "Mạch tế nhược vô lực"], pdt: "Bổ tâm ích khí, dưỡng âm khai khiếu", bt: "Dưỡng tâm thang gia Thạch xương bồ, Viễn chí", tpbt: ["Nhân sâm", "Hoàng kỳ", "Bạch truật", "Phục linh", "Đương quy", "Thạch xương bồ", "Viễn chí"] },
+  "TB_073": { hc: "Di chứng tai biến nói khó thể Can phong nội động", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Can phong nội động"], tc: ["Lưỡi rụt co quắp không liếm môi được", "Nói ngọng kèm tay chân giật nhẹ", "Mắt đỏ, cáu gắt", "Mạch huyền sác dũng mãnh"], pdt: "Bình can tức phong, thư gân khai khiếu", bt: "Linh dương câu đằng ẩm gia Thạch xương bồ", tpbt: ["Linh dương giác", "Câu đằng", "Tang diệp", "Cúc hoa", "Thạch xương bồ", "Bạch thược"] },
+  "TB_074": { hc: "Di chứng tai biến nói ngọng thể Khí hư huyết ứ lưỡi tím", phanloai: ["Di chứng Tai biến", "Bình", "Hư thực thác tạp", "Khí hư huyết ứ"], tc: ["Nói lắp nói ngọng sau tai biến", "Lưỡi lệch tím sẫm có điểm ứ huyết", "Sắc mặt nhợt mệt mỏi", "Mạch tế sáp"], pdt: "Bổ khí hoạt huyết, hóa ứ thông lạc khai âm", bt: "Bổ dương hoàn ngũ thang gia Thạch xương bồ, Hồng hoa", tpbt: ["Hoàng kỳ", "Đương quy vĩ", "Xích thược", "Đào nhân", "Hồng hoa", "Thạch xương bồ"] },
+  "TB_075": { hc: "Di chứng tai biến nói khó thể Đàm nhiệt nhiễu tâm khiếu", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Đàm nhiệt bế khiếu"], tc: ["Nói năng lảm nhảm hoặc nói ngọng", "Cổ họng vướng đờm đặc vàng", "Sốt nhẹ, tâm phiền mất ngủ", "Mạch hoạt sác"], pdt: "Thanh nhiệt hóa đàm, thanh tâm khai khiếu", bt: "Hoàng liên ôn đởm thang gia Thạch xương bồ", tpbt: ["Hoàng liên", "Bán hạ", "Trần bì", "Phục linh", "Trúc nhự", "Thạch xương bồ"] },
+  "TB_076": { hc: "Di chứng tai biến méo miệng thể Phong hàn xâm nhập kinh lạc", phanloai: ["Di chứng Tai biến", "Hàn", "Thực", "Phong hàn kinh lạc"], tc: ["Méo miệng lệch mắt, không nếp nhăn trán", "Mắt nhắm không kín, chảy nước dãi", "Gặp cold méo nhiều hơn", "Mạch phù khẩn"], pdt: "Khu phong tán hàn, thông kinh hoạt lạc", bt: "K牵chánh tán gia Kinh giới, Phòng phong", tpbt: ["Bạch phụ tử", "Toàn yết", "Cương tàm", "Kinh giới", "Phòng phong", "Gừng tươi"] },
+  "TB_077": { hc: "Di chứng tai biến lệch mặt thể Phong nhiệt uất kết gáy tai", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Phong nhiệt"], tc: ["Méo miệng lệch mắt kèm đau rát sau tai", "Sốt nhẹ sợ gió, miệng khô", "Mắt đỏ sưng nhẹ", "Mạch phù sác"], pdt: "Sơ phong thanh nhiệt, thông kinh hoạt lạc", bt: "Đại tần giao thang gia Ngân hoa, Bạch chỉ", tpbt: ["Tần giao", "Hoàng cầm", "Kim ngân hoa", "Bạch chỉ", "Thạch cao", "Xuyên khung"] },
+  "TB_078": { hc: "Di chứng tai biến méo miệng lâu ngày thể Huyết hư phong động", phanloai: ["Di chứng Tai biến", "Bình", "Hư thực thác tạp", "Huyết hư phong động"], tc: ["Méo miệng kéo dài trên 6 tháng không hồi phục", "Cơ mặt teo nhẹ rung giật", "Sắc mặt nhợt nhạt chóng mặt", "Mạch tế nhược sáp"], pdt: "Dưỡng huyết khu phong, thông kinh hoạt lạc mặt", bt: "Tứ vật thang gia K牵chánh tán, Hoàng kỳ", tpbt: ["Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Bạch phụ tử", "Hoàng kỳ"] },
+  "TB_079": { hc: "Di chứng tai biến méo miệng thể Khí hư huyết ứ cơ mặt", phanloai: ["Di chứng Tai biến", "Bình", "Hư thực thác tạp", "Khí hư huyết ứ"], tc: ["Lệch mặt nói khó chảy nước dãi liên tục", "Sắc mặt bệch tái mệt mỏi", "Lưỡi lệch tím điểm ứ huyết", "Mạch tế sáp vô lực"], pdt: "Bổ khí hoạt huyết, thông kinh hoạt lạc mặt", bt: "Bổ dương hoàn ngũ thang gia K牵chánh tán", tpbt: ["Hoàng kỳ", "Đương quy vĩ", "Đào nhân", "Hồng hoa", "Bạch phụ tử", "Toàn yết"] },
+  "TB_080": { hc: "Di chứng tai biến nuốt khó thể Đàm trọc trở trệ hầu họng", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Đàm trọc trở hầu"], tc: ["Ăn uống hay nghẹn sặc, nuốt khó", "Cổ họng vướng đờm dãi không khạc được", "Rêu dầy dính nhớt", "Mạch hoạt"], pdt: "Táo thấp hóa đàm, giáng nghịch khai khiếu", bt: "Bán hạ hậu phác thang gia Thạch xương bồ, Cát cánh", tpbt: ["Bán hạ", "Hậu phác", "Phục linh", "Sinh khương", "Tô diệp", "Thạch xương bồ", "Cát cánh"] },
+  "TB_081": { hc: "Di chứng tai biến nuốt sặc thể Can phong nhiễu họng", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Can phong nội động"], tc: ["Khi nuốt cơ họng co quắp bắn thức ăn ra", "Hay giận dữ, đau đầu chóng mặt", "Lưỡi đỏ dằn xóc", "Mạch huyền sác"], pdt: "Bình can tức phong, thư gân lợi họng", bt: "Linh dương câu đằng ẩm gia Bán hạ, Cát cánh", tpbt: ["Linh dương giác", "Câu đằng", "Tang diệp", "Cúc hoa", "Bán hạ", "Cát cánh"] },
+  "TB_082": { hc: "Di chứng tai biến nuốt nghẹn thể Can Thận âm hư khô họng", phanloai: ["Di chứng Tai biến", "Nhiệt", "Hư", "Can Thận âm hư"], tc: ["Nuốt thức ăn khô rất khó nghẹn", "Niêm mạc họng khô rát không nước bọt", "Triều nhiệt đạo hãn, tai ù", "Mạch tế sác"], pdt: "Tư bổ can thận, nhuận họng sinh tân", bt: "Kỷ cúc địa hoàng hoàn gia Sa sâm, Mạch môn", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Kỷ tử", "Sa sâm", "Mạch môn", "Cúc hoa"] },
+  "TB_083": { hc: "Di chứng tai biến nuốt khó thể Khí hư hạ hãm cơ họng liệt", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Khí hư hạ hãm"], tc: ["Cơ họng duỗi mềm nuốt không vào", "Ăn uống chảy tràn ra môi", "Mệt mỏi hụt hơi sắc mặt nhợt", "Mạch hư nhược"], pdt: "Bổ khí thăng dương, lợi họng cử hãm", bt: "Bổ trung ích khí thang gia Thạch xương bồ, Cát cánh", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Thăng ma", "Sài hồ", "Thạch xương bồ", "Cát cánh"] },
+  "TB_084": { hc: "Di chứng tai biến chảy nước dãi thể Tỳ khí hư bất cố", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Tỳ khí hư"], tc: ["Nước dãi chảy lòng thòng không tự chủ", "Ăn kém bụng trướng, đại tiện lỏng", "Mệt mỏi sắc mặt úa vàng", "Mạch hoãn nhược"], pdt: "Kiện tỳ ích khí, nhiếp tân chỉ hãn", bt: "Tứ quân tử thang gia Ích trí nhân, Kha tử", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Ích trí nhân", "Kha tử"] },
+  "TB_085": { hc: "Di chứng tai biến chảy dãi thể Tỳ Vị hư hàn tràng dịch", phanloai: ["Di chứng Tai biến", "Hàn", "Hư", "Tỳ Vị hư hàn"], tc: ["Nước dãi chảy ra trong loãng cold", "Sợ cold, tay chân cold, bụng đau âm ỉ", "Mạch trầm trì vô lực", "Mạch trầm trì vô lực"], pdt: "Ôn trung kiện tỳ, sáp tân chỉ dãi", bt: "Lý trung hoàn gia Ích trí nhân, Bán hạ", tpbt: ["Nhân sâm", "Can khương", "Bạch truật", "Cam thảo", "Ích trí nhân", "Bán hạ"] },
+  "TB_086": { hc: "Di chứng tai biến chảy dãi thể Đàm thấp uẩn kết méo miệng", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Đàm thấp"], tc: ["Nước dãi dính nhớt chảy nhiều bên khóe miệng liệt", "Đầu nặng như bó, rêu dầy nhớt", "Mạch hoạt nhu"], pdt: "Táo thấp hóa đàm, thông lạc chỉ dãi", bt: "Nhị trần thang gia Bán hạ chế, Ích trí nhân", tpbt: ["Bán hạ chế", "Trần bì", "Phục linh", "Cam thảo", "Ích trí nhân", "Nam tinh"] },
+  "TB_087": { hc: "Di chứng tai biến lệch mắt thể Huyết ứ kinh lạc mắt nhắm không kín", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Huyết ứ"], tc: ["Mắt bên liệt trợn ngược nhắm không kín", "Đau nhói vùng quanh hốc mắt", "Lưỡi tím sẫm", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, thông lạc minh mục", bt: "Thông khiếu trục ứ thang gia Cúc hoa", tpbt: ["Xuyên khung", "Xích thược", "Đào nhân", "Hồng hoa", "Thạch xương bồ", "Cúc hoa"] },
+  "TB_088": { hc: "Di chứng tai biến lưỡi lệch thể Can phong nhiễu kinh lạc", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Can phong"], tc: ["Thè lưỡi ra lệch hẳn sang một bên", "Lưỡi run giật, cáu gắt, mặt đỏ", "Mạch huyền sác"], pdt: "Bình can tức phong, thông kinh hoạt lạc", bt: "Trấn can tức phong thang gia Thạch xương bồ", tpbt: ["Ngưu tất", "Đại giả thạch", "Long cốt", "Mẫu lệ", "Bạch thược", "Thạch xương bồ"] },
+  "TB_089": { hc: "Di chứng tai biến mất tiếng thể Thận âm hư phế tân kiệt", phanloai: ["Di chứng Tai biến", "Nhiệt", "Hư suy", "Âm hư"], tc: ["Khàn tiếng hoàn toàn không phát ra âm", "Họng khô rát, triều nhiệt gò má đỏ", "Lưỡi đỏ thẫm ít rêu", "Mạch tế sác vô lực"], pdt: "Tư bổ thận thủy, dưỡng phế nhuận họng", bt: "Bách hợp cố kim thang hợp Lục vị địa hoàng hoàn", tpbt: ["Bách hợp", "Thục địa", "Sinh địa", "Mạch môn", "Huyền sâm", "Kha tử"] },
+  "TB_090": { hc: "Di chứng tai biến nói ngọng thể Khí trệ đàm ngưng cổ họng", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Đàm khí uất"], tc: ["Nói ngọng nghẹn lời khi xúc động", "Họng vướng như có hạt mận", "Hay thở dài, ngực trướng", "Mạch huyền hoạt"], pdt: "Hành khí giải uất, hóa đàm thông khiếu", bt: "Bán hạ hậu phác thang gia Thạch xương bồ", tpbt: ["Bán hạ", "Hậu phác", "Phục linh", "Sinh khương", "Tô diệp", "Thạch xương bồ"] },
+  "TB_091": { hc: "Di chứng tai biến liệt cơ mặt thể Can huyết hư không nuôi gân", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Can huyết hư"], tc: ["Cơ mặt trễ nhão không nhếch mép được", "Sắc mặt úa vàng, móng nhợt", "Chóng mặt hoa mắt", "Mạch tế nhược"], pdt: "Bổ huyết nhuận can, thông kinh hoạt lạc mặt", bt: "Tứ vật thang gia Bạch phụ tử, Hoàng kỳ", tpbt: ["Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Bạch phụ tử", "Hoàng kỳ"] },
+  "TB_092": { hc: "Di chứng tai biến nuốt khó thể Thận dương hư cơ hầu teo", phanloai: ["Di chứng Tai biến", "Hàn", "Hư suy", "Thận dương hư"], tc: ["Nuốt khó kèm cơ vùng cổ teo nhẹ", "Sợ cold tay chân cold ngắt", "Thắt lưng lạnh mỏi, tiểu đêm", "Mạch trầm tế trì"], pdt: "Ôn bổ thận dương, thông khiếu lợi hầu", bt: "Thận khí hoàn gia Thạch xương bồ, Cát cánh", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Thạch xương bồ", "Cát cánh"] },
+  "TB_093": { hc: "Di chứng tai biến chảy dãi thể Tâm Tỳ hư khí không nhiếp dịch", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Tâm Tỳ hư"], tc: ["Chảy nước dãi dầm dề cả khi ngủ", "Hồi hộp hay quên, ăn kém tiêu chảy", "Sắc mặt nhợt nhạt mệt mỏi", "Mạch tế nhược"], pdt: "Bổ tâm tỳ, cố sáp nhiếp tân", bt: "Quy tỳ thang gia Ích trí nhân, Kha tử", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Ích trí nhân", "Kha tử"] },
+  "TB_094": { hc: "Di chứng tai biến lệch mặt thể Thấp nhiệt uẩn kinh lạc mặt", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Méo miệng lệch mắt, da mặt nhờn nóng", "Tiểu ngắn đỏ, rêu vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, thông kinh hoạt lạc", bt: "Tam nhân thang gia K牵chánh tán", tpbt: ["Hạnh nhân", "Ý dĩ", "Bán hạ", "Bạch phụ tử", "Toàn yết", "Cương tàm"] },
+  "TB_095": { hc: "Di chứng tai biến nói ngọng thể Hàn đàm ngưng trệ cuống lưỡi", phanloai: ["Di chứng Tai biến", "Hàn", "Thực", "Hàn đàm"], tc: ["Lưỡi cứng đờ nói ú ớ", "Sợ cold nôn ra đờm loãng bọt", "Rêu dầy dính trắng", "Mạch trầm hoạt hoãn"], pdt: "Ôn hóa hàn đàm, khu phong thông khiếu", bt: "Nhị trần thang gia Can khương, Nam tinh, Thạch xương bồ", tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Can khương", "Nam tinh", "Thạch xương bồ"] },
+  "TB_096": { hc: "Di chứng tai biến mất âm thể Phế khí hư tiếng ho nhỏ yếu", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Phế khí hư"], tc: ["Mất tiếng, nói không ra hơi", "Thở ngắn ngại nói, tự hãn", "Dễ cảm mạo", "Mạch hư nhược"], pdt: "Bổ phế ích khí, tuyên thông âm khiếu", bt: "Bổ phế thang gia Thạch xương bồ, Cát cánh", tpbt: ["Nhân sâm", "Hoàng kỳ", "Thục địa", "Ngũ vị tử", "Thạch xương bồ", "Cát cánh"] },
+  "TB_097": { hc: "Di chứng tai biến méo miệng thể Hàn thấp ngưng trệ cơ mặt", phanloai: ["Di chứng Tai biến", "Hàn", "Thực", "Hàn thấp"], tc: ["Méo miệng gáy cổ cứng đau khi gặp cold", "Da mặt cold bệch", "Rêu lưỡi trắng dính", "Mạch trầm khẩn"], pdt: "Ôn kinh tán hàn, trừ thấp thông lạc mặt", bt: "K牵chánh tán gia Can khương, Quế chi", tpbt: ["Bạch phụ tử", "Toàn yết", "Cương tàm", "Can khương", "Quế chi", "Gừng tươi"] },
+  "TB_098": { hc: "Di chứng tai biến nuốt nghẹn thể Huyết ứ hầu họng", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Huyết ứ"], tc: ["Nuốt khó đau nhói vùng niêm mạc họng", "Lưỡi tím sẫm điểm ứ huyết", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, thông lạc lợi hầu", bt: "Huyết phủ trục ứ thang gia Cát cánh", tpbt: ["Đương quy", "Sinh địa", "Đào nhân", "Hồng hoa", "Chỉ xác", "Cát cánh"] },
+  "TB_099": { hc: "Di chứng tai biến nói ngọng thể Can Thận âm hư lưỡi đỏ teo", phanloai: ["Di chứng Tai biến", "Nhiệt", "Hư", "Can Thận âm hư"], tc: ["Lưỡi đỏ teo thó nói ú ớ", "Triều nhiệt đạo hãn, đau lưng mỏi gối", "Mắt khô, tai ù", "Mạch tế sác"], pdt: "Tư bổ can thận, dưỡng tân thông khiếu", bt: "Kỷ cúc địa hoàng hoàn gia Thạch xương bồ", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Kỷ tử", "Cúc hoa", "Thạch xương bồ"] },
+  "TB_100": { hc: "Di chứng tai biến chảy dãi thể Can uất tỳ hư thất thu", phanloai: ["Di chứng Tai biến", "Bình", "Hư thực thác tạp", "Khí trệ Tỳ hư"], tc: ["Chảy nước dãi nhiều khi căng thẳng cáu giận", "Ngực sườn trướng đau, ăn kém tiêu chảy", "Mạch huyền tế"], pdt: "Sơ can kiện tỳ, sáp tân chỉ dãi", bt: "Tiêu dao tán gia Ích trí nhân", tpbt: ["Sài hồ", "Đương quy", "Bạch thược", "Bạch truật", "Phục linh", "Ích trí nhân"] },
+  "TB_101": { hc: "Di chứng tai biến lệch mặt thể Khí hư đàm trệ cơ mặt", phanloai: ["Di chứng Tai biến", "Bình", "Hư thực thác tạp", "Khí hư đàm trệ"], tc: ["Lệch mặt nói khó, mặt xị mệt mỏi", "Cổ họng đờm dãi dính", "Mạch tế hoạt vô lực"], pdt: "Bổ khí kiện tỳ, hóa đàm thông lạc mặt", bt: "Lục quân tử thang gia K牵chánh tán", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Trần bì", "Bán hạ", "Bạch phụ tử", "Toàn yết"] },
+  "TB_102": { hc: "Di chứng tai biến nuốt sặc thể Phong nhiệt uất họng", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Phong nhiệt"], tc: ["Nuốt vào sặc ho dữ dội, họng sưng đỏ", "Miệng khô khát, sốt nhẹ", "Mạch phù sác"], pdt: "Sơ phong thanh nhiệt, lợi họng giải độc", bt: "Cát cánh thang gia Ngân hoa, Liên kiều, Bán hạ", tpbt: ["Cát cánh", "Cam thảo", "Kim ngân hoa", "Liên kiều", "Bán hạ chế"] },
+  "TB_103": { hc: "Di chứng tai biến lưỡi cứng thể Tâm Hỏa phần huyết uất", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Tâm hỏa huyết nhiệt"], tc: ["Lưỡi đỏ thẫm cứng đờ không uốn được", "Tâm phiền bứt rứt, mặt đỏ", "Loét miệng lưỡi", "Mạch sác hữu lực"], pdt: "Thanh tâm lương huyết, thông khiếu chỉ cứng", bt: "Tê giác địa hoàng thang hợp Đạo xích tán", tpbt: ["Thủy ngưu giác", "Sinh địa", "Xích thược", "Đan bì", "Mộc thông", "Trúc diệp"] },
+  "TB_104": { hc: "Di chứng tai biến méo miệng thể Thận dương hư suy mặt bệch", phanloai: ["Di chứng Tai biến", "Hàn", "Hư suy", "Thận dương hư"], tc: ["Méo miệng kèm da mặt cold bệch tái", "Thắt lưng cold ngắt, sợ cold", "Tiểu đêm nhiều", "Mạch trầm tế vi"], pdt: "Ôn bổ thận dương, thông kinh hoạt lạc mặt", bt: "Thận khí hoàn gia K牵chánh tán", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Bạch phụ tử"] },
+  "TB_105": { hc: "Di chứng tai biến nuốt khó thể Thấp nhiệt uẩn trung tiêu", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Nuốt khó buồn nôn trào ngược", "Miệng đắng dính nhớt, bụng trướng", "Rêu dầy vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt hóa thấp, giáng nghịch lợi hầu", bt: "Tam nhân thang gia Cát cánh, Bán hạ", tpbt: ["Hạnh nhân", "Ý dĩ", "Bán hạ", "Hậu phác", "Bạch đậu khấu", "Cát cánh"] },
+  "TB_106": { hc: "Di chứng tai biến nói ngọng thể Huyết hư phong táo cuống lưỡi khô", phanloai: ["Di chứng Tai biến", "Bình", "Hư thực thác tạp", "Huyết hư phong táo"], tc: ["Cuống lưỡi khô cứng nói khó", "Da da khô nẻ, móng nhợt", "Mệt mỏi hoa mắt", "Mạch tế sáp"], pdt: "Dưỡng huyết nhuận táo, thông kinh khai âm", bt: "Tứ vật thang gia Sa sâm, Mạch môn, Thạch xương bồ", tpbt: ["Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Sa sâm", "Thạch xương bồ"] },
+  "TB_107": { hc: "Di chứng tai biến chảy dãi thể Mệnh môn hỏa suy bàng quang thất thu", phanloai: ["Di chứng Tai biến", "Hàn", "Hư suy", "Mệnh môn hỏa suy"], tc: ["Chảy dãi cold dầm dề kèm tiểu đái dầm", "Chân tay cold ngắt quá gối", "Mệt mỏi thở yếu", "Mạch vi tế"], pdt: "Ôn bổ mệnh môn, cố sáp chỉ dãi", bt: "Hữu quy hoàn gia Ích trí nhân, Kha tử", tpbt: ["Thục địa", "Nhục quế", "Phụ tử chế", "Sơn thù", "Ích trí nhân", "Kha tử"] },
+  "TB_108": { hc: "Di chứng tai biến lệch mắt thể Can hỏa bốc trào đau hốc mắt", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Can hỏa"], tc: ["Đau nhói dữ dội hốc mắt bên lệch", "Mắt đỏ chảy nước mắt nóng", "Miệng đắng cáu gắt", "Mạch huyền sác"], pdt: "Thanh can tả hỏa, khu phong thông lạc", bt: "Long đởm tả can thang gia Bạch chỉ, Cúc hoa", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Bạch chỉ", "Cúc hoa", "Sài hồ"] },
+  "TB_109": { hc: "Di chứng tai biến mất âm thể Khí trệ huyết ứ thanh quản", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Mất tiếng sau khi xúc động mạnh", "Lưỡi tím sẫm có điểm ứ huyết", "Ngực sườn trướng đau", "Mạch huyền sáp"], pdt: "Hành khí hoạt huyết, khai khiếu chỉ âm", bt: "Thông khiếu trục ứ thang gia Cát cánh", tpbt: ["Xuyên khung", "Xích thược", "Đào nhân", "Hồng hoa", "Thạch xương bồ", "Cát cánh"] },
+  "TB_110": { hc: "Di chứng tai biến méo miệng thể Tỳ hư thấp trệ má xị", phanloai: ["Di chứng Tai biến", "Bình", "Hư thực thác tạp", "Tỳ hư thấp trệ"], tc: ["Má bên liệt xị nhão không thu lại được", "Ăn kém bụng trướng, tiêu chảy", "Thân thể mỏi nặng", "Mạch nhu hoãn"], pdt: "Kiện tỳ mẫn thấp, thăng dương thông lạc mặt", bt: "Sâm linh bạch truật tán gia K牵chánh tán", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Bạch phụ tử", "Toàn yết"] },
+  "TB_111": { hc: "Di chứng tai biến sa sút trí tuệ thể Đàm mê tâm khiếu", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Đàm trọc sa sút trí tuệ"], tc: ["Lú lẫn hay quên người thân, ngơ ngác", "Thích ở một mình, cười khóc bất thường", "Rêu dầy nhớt", "Mạch hoạt nhu"], pdt: "Thuận khí hóa đàm, thanh tâm khai khiếu định chí", bt: "Thuận khí đạo đàm thang gia Thạch xương bồ, Viễn chí", tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Chỉ thực", "Nam tinh", "Thạch xương bồ", "Viễn chí"] },
+  "TB_112": { hc: "Di chứng tai biến sa sút trí tuệ thể Thận tinh khuy tổn bổ não", phanloai: ["Di chứng Tai biến", "Bình", "Hư suy", "Thận tinh bất túc"], tc: ["Trí nhớ giảm sút nghiêm trọng, đần độn", "Tóc bạc sớm, tai ù điếc, răng lung lay", "Chân tay yếu mệt", "Mạch trầm tế vô lực"], pdt: "Bổ thận điền tinh, dưỡng tủy bổ não", bt: "Tả quy hoàn gia Thạch xương bồ, Viễn chí, Lộc giác giao", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Kỷ tử", "Thỏ ty tử", "Thạch xương bồ", "Lộc giác giao"] },
+  "TB_113": { hc: "Di chứng tai biến trầm cảm thể Can khí uất kết u uất", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Khí uất trầm cảm"], tc: ["Tinh thần u uất, không muốn giao tiếp", "Hay thở dài, ngực sườn trướng đầy", "Ăn uống không ngon", "Mạch huyền"], pdt: "Sơ can giải uất, lý khí an thần", bt: "Bán hạ hậu phác thang hợp Tiêu dao tán", tpbt: ["Sài hồ", "Bạch thược", "Đương quy", "Bạch truật", "Phục linh", "Bán hạ", "Hậu phác"] },
+  "TB_114": { hc: "Di chứng tai biến trầm cảm thể Tâm Tỳ lưỡng hư lo âu", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Tâm Tỳ hư"], tc: ["Lo âu hốt hoảng, mất ngủ dai dẳng", "Hồi hộp hay quên, gầy còm", "Sắc mặt nhợt nhạt, tiêu lỏng", "Mạch tế nhược"], pdt: "Song bổ tâm tỳ, dưỡng huyết an thần", bt: "Quy tỳ thang gia Viễn chí, Toan táo nhân", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Long nhãn", "Toan táo nhân"] },
+  "TB_115": { hc: "Di chứng tai biến cuồng sảng thể Can Đởm hỏa thịnh cuồng loạn", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Can hỏa cuồng sảng"], tc: ["Ghen giận chửi mắng cuồng loạn đêm", "Nói năng huyên náo đập phá", "Mắt đỏ mặt đỏ, táo bón", "Mạch huyền sác hữu lực"], pdt: "Thanh can tả hỏa, địch đàm định cuồng", bt: "Long đởm tả can thang hợp Địch đàm thang", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Bán hạ", "Trúc nhự", "Chỉ thực", "Đởm nam tinh"] },
+  "TB_116": { hc: "Di chứng tai biến mất ngủ thể Tâm Thận bất giao trằn trọc", phanloai: ["Di chứng Tai biến", "Nhiệt", "Hư thực thác tạp", "Tâm Thận bất giao"], tc: ["Trằn trọc cả đêm không vào giấc", "Tâm phiền bứt rứt, triều nhiệt", "Đau lưng mỏi gối, tai ù", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, dưỡng tâm an thần", bt: "Thiên vương bổ tâm đan hợp Kỷ cúc địa hoàng hoàn", tpbt: ["Sinh địa", "Huyền sâm", "Thục địa", "Kỷ tử", "Cúc hoa", "Toan táo nhân", "Viễn chí"] },
+  "TB_117": { hc: "Di chứng tai biến mất ngủ thể Đàm nhiệt nhiễu tâm bứt rứt", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Đàm nhiệt"], tc: ["Khó ngủ, mơ thấy ác mộng hoảng hốt", "Cổ họng đờm dãi dính nhớt", "Miệng đắng, buồn nôn", "Mạch hoạt sác"], pdt: "Thanh nhiệt hóa đàm, hòa vị an thần", bt: "Hoàng liên ôn đởm thang gia Dạ giao đằng", tpbt: ["Hoàng liên", "Bán hạ", "Trần bì", "Phục linh", "Chỉ thực", "Trúc nhự", "Dạ giao đằng"] },
+  "TB_118": { hc: "Di chứng tai biến tê dại nửa người thể Phong đàm trở lạc cảm giác", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Phong đàm trở lạc"], tc: ["Nửa người tê dại như kiến bò", "Da thịt mất cảm giác nóng cold", "Rêu dầy dính nhớt", "Mạch huyền hoạt"], pdt: "Khu phong hóa đàm, thông kinh hoạt lạc cảm giác", bt: "Đại tần giao thang gia Bạch giới tử, Nam tinh", tpbt: ["Tần giao", "Khương hoạt", "Độc hoạt", "Bạch giới tử", "Nam tinh", "Xuyên khung"] },
+  "TB_119": { hc: "Di chứng tai biến tê dại thể Huyết hư không nuôi dưỡng bì phu", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Huyết hư phong động"], tc: ["Tê dại đầu ngón tay chân kéo dài", "Sắc mặt úa vàng, chóng mặt", "Móng tay chân nhợt khô", "Mạch tế nhược"], pdt: "Dưỡng huyết nhuận can, khu phong thông lạc", bt: "Tứ vật thang gia Hoàng kỳ, Kê huyết đằng", tpbt: ["Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Hoàng kỳ", "Kê huyết đằng"] },
+  "TB_120": { hc: "Di chứng tai biến đau nhói nửa người thể Huyết ứ ngưng trệ cảm giác", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Huyết ứ"], tc: ["Đau nhói dằn xóc từng mảng trên da bên liệt", "Đau nhiều về đêm, cự án", "Lưỡi tím sẫm", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, thông kinh chỉ thống cảm giác", bt: "Thân thống trục ứ thang gia Đan sâm", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Đan sâm", "Địa long"] },
+  "TB_121": { hc: "Di chứng tai biến lo âu sợ hãi thể Tâm Đởm khí hư nhút nhát", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Tâm Đởm khí hư"], tc: ["Tâm thần bàng hoàng hay sợ hãi tiếng động", "Ngủ giật mình hoảng hốt", "Hồi hộp hụt hơi, thở dài", "Mạch nhược"], pdt: "Bổ khí dưỡng tâm, an thần định chí", bt: "An thần định chí hoàn gia Hoàng kỳ", tpbt: ["Nhân sâm", "Hoàng kỳ", "Phục linh", "Phục thần", "Viễn chí", "Long cốt", "Mẫu lệ"] },
+  "TB_122": { hc: "Di chứng tai biến hay quên thể Tâm Tỳ hư khí huyết khuy tổn", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Khí huyết hư suy"], tc: ["Hay quên sự việc mới xảy ra", "Mệt mỏi hụt hơi sắc mặt nhợt", "Ăn kém tiêu chảy, ngủ mơ", "Mạch tế nhược"], pdt: "Bổ tâm tỳ, dưỡng huyết ích trí", bt: "Quy tỳ thang gia Thạch xương bồ, Viễn chí", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Thạch xương bồ", "Viễn chí"] },
+  "TB_123": { hc: "Di chứng tai biến ảo giác thể Đàm hỏa nhiễu tâm rối loạn nhận thức", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Đàm hỏa nhiễu tâm"], tc: ["Thấy ảo giác hình ảnh tiếng động lạ", "Tâm phiền bứt rứt, nói nhảm", "Rêu dầy vàng nhớt", "Mạch hoạt sác"], pdt: "Thanh tâm tả hỏa, địch đàm khai khiếu định chí", bt: "Hoàng liên ôn đởm thang hợp Địch đàm thang", tpbt: ["Hoàng liên", "Bán hạ", "Trần bì", "Phục linh", "Chỉ thực", "Đởm nam tinh", "Thạch xương bồ"] },
+  "TB_124": { hc: "Di chứng tai biến lạnh tê chi liệt thể Thận dương hư suy khí huyết trệ", phanloai: ["Di chứng Tai biến", "Hàn", "Hư suy", "Thận dương hư"], tc: ["Nửa người bên liệt cold ngắt tê dại", "Sợ cold, thắt lưng cold đau", "Tiểu đêm liên tục", "Mạch trầm tế trì"], pdt: "Ôn bổ thận dương, thông kinh tán hàn chỉ tê", bt: "Hữu quy hoàn gia Nhục quế, Can khương, Kê huyết đằng", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Can khương", "Kê huyết đằng"] },
+  "TB_125": { hc: "Di chứng tai biến rát đỏ da chi liệt thể Thấp nhiệt uẩn kết da", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Da bên chi liệt nóng rát đỏ ngứa", "Tiểu ngắn đỏ, rêu vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, thông kinh giải độc", bt: "Long đởm tả can thang gia Khổ sâm, Hoàng bá", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Khổ sâm", "Hoàng bá", "Mộc thông"] },
+  "TB_126": { hc: "Di chứng tai biến cảm giác buốt xương thể Cốt tý Thận hư khuy tổn", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Thận hư cốt tý"], tc: ["Cảm giác đau buốt từ sâu trong xương chi liệt", "Thắt lưng yếu mỏi, tai ù", "Răng lung lay", "Mạch trầm tế vô lực"], pdt: "Bổ thận điền tinh, cường gân trác cốt", bt: "Bổ thận tráng cốt hoàn gia Thục địa, Tục đoạn", tpbt: ["Thục địa", "Đỗ trọng", "Cốt toái bổ", "Tục đoạn", "Ngưu tất", "Thỏ ty tử"] },
+  "TB_127": { hc: "Di chứng tai biến sảng hoảng đêm thể Can âm hư hỏa vượng", phanloai: ["Di chứng Tai biến", "Nhiệt", "Hư", "Can âm hư"], tc: ["Ban đêm tỉnh dậy sợ hãi hốt hoảng", "Triều nhiệt đạo hãn, mắt khô", "Dễ cáu giận", "Mạch tế sác"], pdt: "Tư dưỡng can âm, giáng hỏa an thần", bt: "Kỷ cúc địa hoàng hoàn gia Toan táo nhân, Mẫu lệ", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Kỷ tử", "Cúc hoa", "Toan táo nhân", "Mẫu lệ"] },
+  "TB_128": { hc: "Di chứng tai biến rối loạn nhận thức thể Khí trệ huyết ứ não khiếu", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Phản ứng chậm chạp, ngơ ngác khi nói chuyện", "Lưỡi tím sẫm điểm ứ huyết", "Sắc mặt u uất", "Mạch huyền sáp"], pdt: "Hành khí hoạt huyết, khai khiếu thông não", bt: "Thông khiếu trục ứ thang gia Thạch xương bồ", tpbt: ["Xuyên khung", "Xích thược", "Đào nhân", "Hồng hoa", "Thạch xương bồ", "Địa long"] },
+  "TB_129": { hc: "Di chứng tai biến tê nhói bàn tay thể Khí hư huyết ứ ngón tay", phanloai: ["Di chứng Tai biến", "Bình", "Hư thực thác tạp", "Khí hư huyết ứ"], tc: ["Các ngón tay bên liệt tê nhói cứng khó co", "Mệt mỏi hụt hơi sắc mặt nhợt", "Mạch tế sáp vô lực"], pdt: "Bổ khí hoạt huyết, thông kinh hoạt lạc ngón tay", bt: "Bổ dương hoàn ngũ thang gia Khương hoàng, Sang chi", tpbt: ["Hoàng kỳ", "Đương quy vĩ", "Xích thược", "Đào nhân", "Hồng hoa", "Khương hoàng", "Tang chi"] },
+  "TB_130": { hc: "Di chứng tai biến u uất khóc lóc thể Can uất tỳ hư thất điều", phanloai: ["Di chứng Tai biến", "Bình", "Hư thực thác tạp", "Khí trệ Tỳ hư"], tc: ["Hay xúc động tự nhiên khóc lóc u uất", "Bụng trướng ăn kém, phân nhão", "Hay thở dài", "Mạch huyền tế"], pdt: "Sơ can giải uất, kiện tỳ an thần", bt: "Tiêu dao tán gia Bán hạ, Hậu phác", tpbt: ["Sài hồ", "Đương quy", "Bạch thược", "Bạch truật", "Phục linh", "Bán hạ", "Hậu phác"] },
+  "TB_131": { hc: "Di chứng tai biến ngơ ngác thể Tâm Khí hư suy thần chí bất định", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Tâm khí hư"], tc: ["Mặt ngơ ngác không tập trung suy nghĩ", "Hồi hộp hụt hơi khi vận động", "Tự hãn mệt mỏi", "Mạch hư nhược"], pdt: "Ích khí dưỡng tâm, an thần định chí", bt: "Chích cam thảo thang gia Viễn chí, Phục thần", tpbt: ["Chích cam thảo", "Nhân sâm", "Sinh địa", "Quế chi", "A giao", "Viễn chí", "Phục thần"] },
+  "TB_132": { hc: "Di chứng tai biến quấy phá đêm thể Vị hỏa thực nhiệt quấy tâm", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Vị hỏa"], tc: ["Ban đêm bứt rứt quấy phá không ngủ", "Bụng trướng cứng táo bón", "Miệng hôi khát nước", "Mạch hoạt sác hữu lực"], pdt: "Thanh vị tả hỏa, an thần định chí", bt: "Thanh vị tán hợp Ma tử nhân hoàn gia Toan táo nhân", tpbt: ["Hoàng liên", "Thăng ma", "Sinh địa", "Ma tử nhân", "Bạch thược", "Toan táo nhân"] },
+  "TB_133": { hc: "Di chứng tai biến tê dại khớp cổ chân thể Hàn thấp ngưng trệ bắp chân", phanloai: ["Di chứng Tai biến", "Hàn", "Thực", "Hàn thấp"], tc: ["Bắp chân và cổ chân bên liệt tê dại cold đau", "Gặp cold đau tăng chườm ấm dễ chịu", "Mạch trầm khẩn hoãn"], pdt: "Ôn kinh tán hàn, khu phong thông lạc cổ chân", bt: "Độc hoạt ký sinh thang gia Can khương, Nhục quế", tpbt: ["Độc hoạt", "Tang ký sinh", "Đỗ trọng", "Ngưu tất", "Can khương", "Nhục quế"] },
+  "TB_134": { hc: "Di chứng tai biến run tay chi liệt thể Can Thận âm hư phong động", phanloai: ["Di chứng Tai biến", "Nhiệt", "Hư", "Can Thận âm hư phong động"], tc: ["Bàn tay bên liệt run rẩy không tự chủ", "Chóng mặt tai ù, triều nhiệt", "Móng khô nhợt", "Mạch tế huyền sác"], pdt: "Tư bổ can thận, tắt phong chỉ run", bt: "Trấn can tức phong thang gia Kỷ tử, Cúc hoa", tpbt: ["Ngưu tất", "Đại giả thạch", "Long cốt", "Mẫu lệ", "Quy bản", "Kỷ tử", "Cúc hoa"] },
+  "TB_135": { hc: "Di chứng tai biến mất ngủ thể Tỳ hư đàm thấp ngột ngạt ngực", phanloai: ["Di chứng Tai biến", "Bình", "Hư thực thác tạp", "Tỳ hư đàm thấp"], tc: ["Trằn trọc mất ngủ ngực trướng bức bối", "Nôn nao đờm dãi nhạt miệng", "Ăn kém phân nhão", "Mạch nhu hoạt"], pdt: "Kiện tỳ mẫn thấp, hóa đàm an thần", bt: "Ôn đởm thang gia Bạch truật, Phục linh", tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Chỉ thực", "Trúc nhự", "Bạch truật"] },
+  "TB_136": { hc: "Di chứng tai biến lú lẫn thể Tâm Thận dương hư suy kiệt", phanloai: ["Di chứng Tai biến", "Hàn", "Hư suy", "Tâm Thận dương hư"], tc: ["Lú lẫn tinh thần mệt mỏi thích nằm", "Tay chân cold ngắt, sợ cold", "Tiểu đêm nhiều phù nhẹ", "Mạch trầm tế vi"], pdt: "Ôn thông tâm thận, đại bổ dương khí định chí", bt: "Chân vũ thang hợp Bảo nguyên thang gia Thạch xương bồ", tpbt: ["Phụ tử chế", "Nhân sâm", "Bạch truật", "Phục linh", "Nhục quế", "Thạch xương bồ"] },
+  "TB_137": { hc: "Di chứng tai biến bực bội thể Can hỏa thượng viêm bứt rứt", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Can hỏa"], tc: ["Bực bội cáu giận vô cớ liên tục", "Mắt đỏ mặt đỏ, đau đầu giật", "Tiểu đỏ đại tiện táo", "Mạch huyền sác hữu lực"], pdt: "Thanh can tả hỏa, trấn tĩnh trừ phiền", bt: "Long đởm tả can thang gia Chi tử, Hoàng cầm", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Đương quy", "Sinh địa", "Sài hồ"] },
+  "TB_138": { hc: "Di chứng tai biến tê rát ngực thể Khí trệ huyết ứ tâm ngực", phanloai: ["Di chứng Tai biến", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Tê nhói rát vùng ngực bên liệt", "Hụt hơi khi xúc động", "Lưỡi tím sẫm", "Mạch huyền sáp"], pdt: "Hành khí hoạt huyết, thông dương chỉ thống ngực", bt: "Huyết phủ trục ứ thang gia Đan sâm", tpbt: ["Đương quy", "Sinh địa", "Đào nhân", "Hồng hoa", "Chỉ xác", "Xích thược", "Đan sâm"] },
+  "TB_139": { hc: "Di chứng tai biến ngứa gãi da thể Huyết hư phong táo ngứa dầm dề", phanloai: ["Di chứng Tai biến", "Bình", "Hư thực thác tạp", "Huyết hư phong táo"], tc: ["Gãi sần da bên liệt do ngứa dữ dội", "Da khô tróc vảy, sắc mặt nhợt", "Lưỡi nhợt", "Mạch tế sáp"], pdt: "Dưỡng huyết nhuận táo, khu phong chỉ ngứa", bt: "Dưỡng tiêu phong tán gia Hà thủ ô, Thuyền thoái", tpbt: ["Đương quy", "Thục địa", "Bạch thược", "Phòng phong", "Hà thủ ô", "Thuyền thoái"] },
+  "TB_140": { hc: "Di chứng tai biến sợ lạnh nửa người thể Hàn tà ngưng trệ bì phu", phanloai: ["Di chứng Tai biến", "Hàn", "Thực", "Hàn trệ"], tc: ["Chỉ nửa người bên liệt sợ cold dữ dội", "Mặc nhiều áo vẫn cold, da bệch", "Mạch trầm khẩn"], pdt: "Ôn kinh tán hàn, thông thông doanh vệ", bt: "Quế chi thang gia Tế tân, Can khương", tpbt: ["Quế chi", "Bạch thược", "Sinh khương", "Đại táo", "Chích cam thảo", "Tế tân", "Can khương"] },
+  "TB_141": { hc: "Di chứng tai biến nóng rát nửa người thể Âm hư hỏa vượng bì phu", phanloai: ["Di chứng Tai biến", "Nhiệt", "Hư", "Âm hư hỏa vượng"], tc: ["Nửa người bên liệt nóng rát như đắp chăn nóng", "Triều nhiệt đạo hãn, miệng khô", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, thanh nhiệt bì phu", bt: "Tri bá địa hoàng hoàn gia Mẫu đơn bì", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Tri mẫu", "Hoàng bá", "Mẫu đơn bì"] },
+  "TB_142": { hc: "Di chứng tai biến ảo giác thính giác thể Can Đởm thấp nhiệt tai ù tiếng lạ", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Nghe tiếng lạ xì xào trong tai bên liệt", "Tai đau nhói, miệng đắng", "Tiểu đỏ rêu vàng nhớt", "Mạch huyền nhu sác"], pdt: "Thanh nhiệt lợi thấp, sơ can thông nhĩ", bt: "Long đởm tả can thang gia Thạch xương bồ", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Mộc thông", "Thạch xương bồ"] },
+  "TB_143": { hc: "Di chứng tai biến giảm thị lực thể Can Thận âm hư mắt mờ xót", phanloai: ["Di chứng Tai biến", "Nhiệt", "Hư", "Can Thận âm hư"], tc: ["Mắt bên liệt nhìn mờ ảo xót rát", "Khô mắt không có nước mắt", "Đau lưng mỏi gối", "Mạch tế sác"], pdt: "Tư bổ can thận, dưỡng âm minh mục", bt: "Kỷ cúc địa hoàng hoàn gia Thạch quyết minh", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Kỷ tử", "Cúc hoa", "Thạch quyết minh"] },
+  "TB_144": { hc: "Di chứng tai biến sa sút tâm thần thể Đàm nhiệt kết hỏa cuồng điên", phanloai: ["Di chứng Tai biến", "Nhiệt", "Thực", "Đàm hỏa cuồng điên"], tc: ["Nói lảm nhảm chửi mắng đập phá đồ đạc", "Mất ngủ, mắt đỏ, nôn đờm vàng", "Mạch hoạt sác hữu lực"], pdt: "Thanh tâm tả hỏa, địch đàm khai khiếu định chí", bt: "Sinh thiết lạc đản hợp Địch đàm thang", tpbt: ["Sinh thiết lạc", "Bán hạ", "Trần bì", "Phục linh", "Chỉ thực", "Đởm nam tinh"] },
+  "TB_145": { hc: "Di chứng tai biến tê buốt ngón chân thể Khí hư huyết ứ ngón chân", phanloai: ["Di chứng Tai biến", "Bình", "Hư thực thác tạp", "Khí hư huyết ứ"], tc: ["Các ngón chân bên liệt tê buốt tím đen nhẹ", "Đi lại rất khó khăn, mệt mỏi", "Mạch tế sáp vô lực"], pdt: "Bổ khí hoạt huyết, thông kinh hoạt lạc ngón chân", bt: "Bổ dương hoàn ngũ thang gia Ngưu tất, Mộc qua", tpbt: ["Hoàng kỳ", "Đương quy vĩ", "Xích thược", "Đào nhân", "Hồng hoa", "Ngưu tất", "Mộc qua"] },
+  "TB_146": { hc: "Di chứng tai biến lười nói thể Phế Tỳ khí hư lười vận động", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Phế Tỳ khí hư"], tc: ["Ngại nói chuyện, tiếng nhỏ yếu", "Mệt mỏi thích nằm không muốn vận động", "Ăn kém tiêu chảy", "Mạch hư nhược"], pdt: "Kiện tỳ bổ phế, thăng dương an thần", bt: "Bổ trung ích khí thang gia Viễn chí", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Trần bì", "Thăng ma", "Sài hồ", "Viễn chí"] },
+  "TB_147": { hc: "Di chứng tai biến mệt mỏi tinh thần thể Khí âm lưỡng hư suy nhược", phanloai: ["Di chứng Tai biến", "Nhiệt", "Hư", "Khí âm lưỡng hư"], tc: ["Tinh thần mệt mỏi kiệt sức", "Miệng khô họng rát, vã mồ hôi trộm", "Mạch tế nhược sác"], pdt: "Ích khí sinh tân, dưỡng âm an thần", bt: "Sinh mạch tán gia Hoàng kỳ, Sa sâm", tpbt: ["Nhân sâm", "Mạch môn", "Ngũ vị tử", "Hoàng kỳ", "Sa sâm"] },
+  "TB_148": { hc: "Di chứng tai biến hoảng hốt thể Tâm Huyết hư giật mình đêm", phanloai: ["Di chứng Tai biến", "Bình", "Hư", "Tâm huyết hư"], tc: ["Đang ngủ tỉnh dậy hoảng hốt đập ngực", "Hồi hộp hay quên, mặt nhợt", "Mạch tế nhược"], pdt: "Bổ huyết dưỡng tâm, trấn tĩnh an thần", bt: "Quy tỳ thang gia Long cốt, Mẫu lệ", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Long cốt", "Mẫu lệ"] },
+  "TB_149": { hc: "Di chứng tai biến nhức đầu âm ỉ thể Can dương thượng kháng nhức dai dẳng", phanloai: ["Di chứng Tai biến", "Nhiệt", "Hư thực thác tạp", "Can dương thượng kháng"], tc: ["Đau nhức đầu âm ỉ bên liệt kéo dài", "Mặt hơi đỏ, tai ù, mất ngủ", "Mạch huyền tế"], pdt: "Bình can tiềm dương, thông lạc chỉ thống", bt: "Thiên ma câu đằng ẩm gia Xuyên khung", tpbt: ["Thiên ma", "Câu đằng", "Thạch quyết minh", "Ngưu tất", "Đỗ trọng", "Xuyên khung"] },
+  "TB_150": { hc: "Di chứng tai biến thờ ơ thể Thận tinh bất túc mất cảm xúc", phanloai: ["Di chứng Tai biến", "Bình", "Hư suy", "Thận tinh bất túc"], tc: ["Thờ ơ không cảm xúc với xung quanh", "Đau lưng mỏi gối, tai ù điếc", "Mạch trầm tế vô lực"], pdt: "Bổ thận điền tinh, dưỡng tủy khai khiếu", bt: "Tả quy hoàn gia Thạch xương bồ", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Kỷ tử", "Thỏ ty tử", "Thạch xương bồ"] },
+  "TB_151": { hc: "Biến chứng tai biến viêm phổi sặc thể Đàm nhiệt ung phế sốt cao", phanloai: ["Biến chứng Tai biến", "Nhiệt", "Thực", "Đàm nhiệt ung phế"], tc: ["Sốt cao ho hen thở gấp sau khi sặc", "Đờm dính vàng đặc mù hôi", "Ngực đau tức, rêu vàng dầy", "Mạch hoạt sác"], pdt: "Thanh nhiệt tuyên phế, hóa đàm định suyễn giải độc", bt: "Định suyễn thang gia Thiên kim vị kinh thang", tpbt: ["Ma hoàng", "Hạnh nhân", "Tang bạch bì", "Hoàng cầm", "Vĩ kinh", "Đông qua nhân", "Ý dĩ"] },
+  "TB_152": { hc: "Biến chứng tai biến viêm phổi sặc thể Phong hàn đàm ẩm ứ phế", phanloai: ["Biến chứng Tai biến", "Hàn", "Thực", "Phong hàn đàm ẩm"], tc: ["Ho sặc đờm trắng loãng bọt nhiều", "Sợ cold, sốt nhẹ, thở khò khè", "Rêu dầy dính trắng", "Mạch phù khẩn hoãn"], pdt: "Giải biểu tán hàn, ôn phế hóa ẩm", bt: "Tiểu thanh long thang gia Hạnh nhân", tpbt: ["Ma hoàng", "Quế chi", "Tế tân", "Can khương", "Bán hạ", "Ngũ vị tử", "Hạnh nhân"] },
+  "TB_153": { hc: "Biến chứng tai biến loét tỳ đè thể Thấp nhiệt hỏa độc hoại tử skin", phanloai: ["Biến chứng Tai biến", "Nhiệt", "Thực", "Thấp nhiệt hỏa độc"], tc: ["Vùng mông gót chân lở loét chảy dịch hôi", "Xung quanh sưng nóng đỏ đau dữ dội", "Sốt, tiểu đỏ", "Mạch hoạt sác"], pdt: "Thanh nhiệt giải độc, trừ thấp bài nùng", bt: "Ngũ vị tiêu độc ẩm gia Hoàng bá, Khổ sâm", tpbt: ["Kim ngân hoa", "Cúc hoa", "Bồ công anh", "Hoàng bá", "Khổ sâm", "Cát cánh"] },
+  "TB_154": { hc: "Biến chứng tai biến loét tỳ đè thể Khí huyết hư suy khó liền miệng", phanloai: ["Biến chứng Tai biến", "Bình", "Hư", "Khí huyết hư suy"], tc: ["Vết loét tỳ đè đáy bệch nhợt chảy dịch trong", "Lâu ngày không liền miệng không mọc thịt", "Sắc mặt nhợt mệt mỏi", "Mạch tế nhược vô lực"], pdt: "Đại bổ khí huyết, sinh cơ liền miệng loét", bt: "Thập toàn đại bổ thang gia Hoàng kỳ, Bạch chỉ", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Thục địa", "Đương quy", "Hoàng kỳ", "Bạch chỉ"] },
+  "TB_155": { hc: "Biến chứng tai biến táo bón thể Đại tràng thực nhiệt tích trệ", phanloai: ["Biến chứng Tai biến", "Nhiệt", "Thực", "Đại tràng thực nhiệt"], tc: ["Đại tiện 5-7 ngày không đi, phân cứng như đá", "Bụng trướng đau căng cự án", "Mặt đỏ miệng hôi", "Mạch trầm thực dũng mãnh"], pdt: "Thanh nhiệt tả hạ, nhuận táo thông tiện", bt: "Đại thừa khí thang", tpbt: ["Đại hoàng", "Mang tiêu", "Hậu phác", "Chỉ thực"] },
+  "TB_156": { hc: "Biến chứng tai biến táo bón thể Tân dịch khô kiệt tràng táo", phanloai: ["Biến chứng Tai biến", "Bình", "Hư", "Tân dịch khuy tổn"], tc: ["Phân khô nhỏ như phân dê", "Đi tiêu rặn rất khó khăn khô rát", "Miệng khô họng khát nước", "Mạch tế sáp"], pdt: "Nhuận tràng thông tiện, sinh tân bổ dịch", bt: "Ma tử nhân hoàn gia Sa sâm, Mạch môn", tpbt: ["Ma tử nhân", "Bạch thược", "Chỉ xác", "Đại hoàng", "Hạnh nhân", "Sa sâm", "Mạch môn"] },
+  "TB_157": { hc: "Biến chứng tai biến táo bón thể Khí hư tràng nhược rặn không ra", phanloai: ["Biến chứng Tai biến", "Bình", "Hư", "Khí hư tràng táo"], tc: ["Muốn đi tiêu nhưng rặn không ra nổi", "Vã mồ hôi hụt hơi sau khi rặn", "Phân mềm không quá khô", "Mạch hư nhược"], pdt: "Bổ khí nhuận tràng, ích khí thông tiện", bt: "Bổ trung ích khí thang gia Ma tử nhân, Trần bì", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Thăng ma", "Sài hồ", "Ma tử nhân", "Trần bì"] },
+  "TB_158": { hc: "Biến chứng tai biến bí tiểu thể Bàng quang thấp nhiệt ứ niệu", phanloai: ["Biến chứng Tai biến", "Nhiệt", "Thực", "Thấp nhiệt bàng quang"], tc: ["Bụng dưới căng trướng đau rát", "Muốn tiểu mà không ra giọt nào hoặc ra máu", "Miệng khát sốt nhẹ", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, thông lâm lợi niệu", bt: "Bát chính tán gia Hoàng bá, Mộc thông", tpbt: ["Xa tiền tử", "Cù mạch", "Biển súc", "Hoạt thạch", "Chi tử", "Hoàng bá", "Mộc thông"] },
+  "TB_159": { hc: "Biến chứng tai biến bí tiểu thể Thận khí hư bất hóa bàng quang phao chuyển", phanloai: ["Biến chứng Tai biến", "Bình", "Hư", "Thận khí hư bất hóa"], tc: ["Bụng dưới căng trướng nhưng không đau rát", "Đi tiểu không ra giọt nào, mệt mỏi hụt hơi", "Thắt lưng mỏi cold", "Mạch trầm tế vô lực"], pdt: "Ôn bổ thận khí, thăng thanh giáng trọc lợi niệu", bt: "Tế sinh Thận khí hoàn gia Thăng ma", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Trạch tả", "Đan bì", "Nhục quế", "Thăng ma"] },
+  "TB_160": { hc: "Biến chứng tai biến đái dầm thể Thận dương hư suy thất thu", phanloai: ["Biến chứng Tai biến", "Hàn", "Hư suy", "Thận dương hư"], tc: ["Đi tiểu đái dầm chảy rỉ rả không tự chủ", "Nước tiểu trong dài, sợ cold chân tay cold", "Mệt mỏi sắc mặt bệch", "Mạch trầm tế trì"], pdt: "Ôn bổ thận dương, sáp niệu chỉ di", bt: "Sang phiêu tiêu tán hợp Củng đái hoàn", tpbt: ["Tang phiêu tiêu", "Ích trí nhân", "Bổ cốt chỉ", "Hoài sơn", "Long cốt", "Mẫu lệ"] },
+  "TB_161": { hc: "Biến chứng tai biến viêm đường tiết niệu thể Thấp nhiệt huyết lâm", phanloai: ["Biến chứng Tai biến", "Nhiệt", "Thực", "Thấp nhiệt huyết lâm"], tc: ["Tiểu dắt tiểu buốt nước tiểu đục đọng máu", "Bụng dưới trướng đau rát", "Sốt bứt rứt", "Mạch hoạt sác"], pdt: "Thanh nhiệt lợi thấp, lương huyết thông lâm", bt: "Tiểu kế ẩm gia Mộc thông, Hoàng bá", tpbt: ["Sinh địa", "Mộc thông", "Hoạt thạch", "Xa tiền tử", "Tiểu kế", "Hoàng bá"] },
+  "TB_162": { hc: "Biến chứng tai biến phù chân liệt thể Khí hư thủy trệ tràng chi", phanloai: ["Biến chứng Tai biến", "Bình", "Hư thực thác tạp", "Khí hư thủy trệ"], tc: ["Chân bên liệt phù thũng mọng ấn lõm sâu", "Sắc mặt nhợt mệt mỏi", "Tiểu tiện ít, phân lỏng", "Mạch nhu hoãn vô lực"], pdt: "Bổ khí kiện tỳ, lợi thủy tiêu thũng thông lạc", bt: "Bổ trung ích khí thang hợp Ngũ linh tán gia Kê huyết đằng", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Phục linh", "Trạch tả", "Kê huyết đằng"] },
+  "TB_163": { hc: "Biến chứng tai biến phù chân thể Thận dương hư suy thủy khí lăng", phanloai: ["Biến chứng Tai biến", "Hàn", "Hư suy", "Thận dương hư thủy thũng"], tc: ["Phù nặng cả hai chân và vùng cạp quần", "Sợ cold tay chân cold ngắt", "Mệt mỏi thở ngắn", "Mạch trầm tế vi"], pdt: "Ôn thận trợ dương, hóa khí lợi thủy tiêu thũng", bt: "Chân vũ thang gia Mộc thông, Ngưu tất", tpbt: ["Phụ tử chế", "Bạch truật", "Phục linh", "Bạch thược", "Sinh khương", "Mộc thông", "Ngưu tất"] },
+  "TB_164": { hc: "Biến chứng tai biến trào ngược dạ dày thể Can Vị khí nghịch nôn mửa", phanloai: ["Biến chứng Tai biến", "Bình", "Hư thực thác tạp", "Khí nghịch Vị bất hòa"], tc: ["Ợ chua ợ hơi trào ngược thức ăn ra miệng", "Thượng vị trướng đau, buồn nôn liên tục", "Hay cáu gắt", "Mạch huyền hoãn"], pdt: "Sơ can hòa vị, giáng nghịch chỉ nôn", bt: "Bán hạ hựu sinh thang hợp Tả kim hoàn", tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Hoàng liên", "Ngô thù du", "Sinh khương"] },
+  "TB_165": { hc: "Biến chứng tai biến xuất huyết tiêu hóa thể Vị hỏa trào huyết nôn máu đen", phanloai: ["Biến chứng Tai biến", "Nhiệt", "Thực", "Vị hỏa xuất huyết"], tc: ["Nôn ra máu đục đen hoặc đi tiêu phân đen như hắc ín", "Thượng vị đau rát cự án", "Miệng hôi khát nước", "Mạch hoạt sác hữu lực"], pdt: "Thanh vị tả hỏa, lương huyết chỉ huyết", bt: "Thanh vị tán gia Tam thất, Bồ hoàng", tpbt: ["Hoàng liên", "Thăng ma", "Sinh địa", "Đan bì", "Tam thất", "Bồ hoàng"] },
+  "TB_166": { hc: "Biến chứng tai biến huyết khối tĩnh mạch chi thể Huyết ứ bế tắc kinh mạch", phanloai: ["Biến chứng Tai biến", "Bình", "Thực", "Huyết ứ bế tắc"], tc: ["Chân bên liệt sưng to đau nhói căng cứng", "Da chân tím đục, ấn vào đau dữ dội", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, thông kinh tiêu thũng chỉ thống", bt: "Thân thống trục ứ thang gia Đào nhân, Hồng hoa, Ngưu tất", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Địa long"] },
+  "TB_167": { hc: "Biến chứng tai biến suy hô hấp thể Phế Thận khí kiệt thở nông", phanloai: ["Biến chứng Tai biến", "Bình", "Hư suy", "Phế Thận khí kiệt"], tc: ["Thở nông gấp đứt đoạn, cánh mũi phập phồng", "Vã mồ hôi cold đầm đìa, môi tím tái", "Mạch vi tế Muốn tuyệt"], pdt: "Đại bổ nguyên khí, nạp thận bình suyễn cố thoát", bt: "Sâm phụ thang hợp Hồ đào thang", tpbt: ["Nhân sâm", "Phụ tử chế", "Hồ đào nhục", "Bổ cốt chỉ", "Ngũ vị tử"] },
+  "TB_168": { hc: "Biến chứng tai biến suy tim thể Tâm Thận dương hư tràn dịch", phanloai: ["Biến chứng Tai biến", "Hàn", "Hư suy", "Dương hư thủy trệ"], tc: ["Tâm quý ho hen khó thở không nằm ngửa được", "Toàn thân phù nặng, tiểu rất ít", "Tay chân cold ngắt", "Mạch trầm tế vi"], pdt: "Ôn thông tâm thận, trợ dương lợi thủy cố thoát", bt: "Chân vũ thang hợp Sâm phụ thang gia Quế chi", tpbt: ["Phụ tử chế", "Nhân sâm", "Bạch truật", "Phục linh", "Quế chi", "Sinh khương"] },
+  "TB_169": { hc: "Biến chứng tai biến co rút gân khớp thể Can huyết hư không nuôi gân cơ", phanloai: ["Biến chứng Tai biến", "Bình", "Hư", "Can huyết hư suy"], tc: ["Các khớp chi liệt co quắp cứng đờ khó duỗi", "Cơ bắp teo nhão dần", "Móng khô nhợt, chóng mặt", "Mạch tế nhược"], pdt: "Bổ huyết dưỡng can, thư gân thông lạc", bt: "Tứ vật thang gia Mộc qua, Bạch thược, Hoàng kỳ", tpbt: ["Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Mộc qua", "Hoàng kỳ"] },
+  "TB_170": { hc: "Biến chứng tai biến cứng khớp gối thể Đàm ứ ngưng trệ bao khớp", phanloai: ["Biến chứng Tai biến", "Bình", "Thực", "Đàm ứ kết khớp"], tc: ["Khớp gối bên liệt đau dằn xóc cứng đờ không co duỗi", "Bao khớp dày lên, ấn vào đau", "Lưỡi tím xám", "Mạch sáp hoạt"], pdt: "Hóa đàm tán kết, hoạt huyết thông lạc khớp gối", bt: "Đào hồng tứ vật thang gia Bạch giới tử, Thổ phục linh", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Bạch giới tử", "Thổ phục linh"] },
+  "TB_171": { hc: "Biến chứng tai biến loét miệng thể Vị hỏa tích nhiệt do nằm lâu", phanloai: ["Biến chứng Tai biến", "Nhiệt", "Thực", "Vị hỏa"], tc: ["Niêm mạc miệng lưỡi nổi nhiều vết loét đỏ rát", "Hơi thở hôi thối, khát nước", "Đại tiện táo kết", "Mạch hoạt sác"], pdt: "Thanh vị tả hỏa, giải độc tiêu sang", bt: "Thanh vị tán gia Bồ công anh, Hoàng liên", tpbt: ["Hoàng liên", "Thăng ma", "Sinh địa", "Mẫu đơn bì", "Bồ công anh"] },
+  "TB_172": { hc: "Biến chứng tai biến nấm lưỡi thể Thấp nhiệt uẩn uất khoang miệng", phanloai: ["Biến chứng Tai biến", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Lưỡi đóng lớp màng trắng dày như cặn sữa", "Bốc mùi hôi dính rát, ăn uống khó", "Rêu dầy dính vàng", "Mạch nhu sác"], pdt: "Thanh nhiệt táo thấp, tư miệng chỉ sang", bt: "Tam nhân thang gia Hoàng liên, Khổ sâm", tpbt: ["Hạnh nhân", "Ý dĩ", "Bán hạ", "Hoàng liên", "Khổ sâm", "Cam thảo"] },
+  "TB_173": { hc: "Biến chứng tai biến tiêu chảy thể Tỳ hư thấp trệ do dùng thuốc kéo dài", phanloai: ["Biến chứng Tai biến", "Bình", "Hư thực thác tạp", "Tỳ hư thấp trệ"], tc: ["Đi tiêu lỏng nhão nhiều lần trong ngày", "Bụng trướng đầy ăn không tiêu", "Mệt mỏi sắc mặt vàng nhợt", "Mạch nhu hoãn"], pdt: "Kiện tỳ ích khí, thẩm thấp chỉ tả", bt: "Sâm linh bạch truật tán", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Liên nhục", "Ý dĩ", "Cam thảo"] },
+  "TB_174": { hc: "Biến chứng tai biến sốt kéo dài thể Âm hư triều nhiệt về chiều", phanloai: ["Biến chứng Tai biến", "Nhiệt", "Hư", "Âm hư triều nhiệt"], tc: ["Chiều tối sốt hầm hập 37.5-38 độ kéo dài", "Lòng bàn tay chân nóng, vã mồ hôi trộm", "Lưỡi đỏ ít rêu", "Mạch tế sác"], pdt: "Tư âm thanh nhiệt, trừ chưng thoái nhiệt", bt: "Tri bá địa hoàng hoàn gia Địa cốt bì, Tần giao", tpbt: ["Thục địa", "Tri mẫu", "Hoàng bá", "Sơn thù", "Địa cốt bì", "Tần giao"] },
+  "TB_175": { hc: "Biến chứng tai biến sốt cao thể Khí phận thực nhiệt xí thịnh", phanloai: ["Biến chứng Tai biến", "Nhiệt", "Thực", "Khí phân nhiệt thịnh"], tc: ["Sốt cao 39-40 độ không sợ cold", "Đại khát thích uống nước cold liên tục", "Mặt đỏ vã mồ hôi nhiều", "Mạch hồng đại sác"], pdt: "Thanh khí thấu nhiệt, sinh tân chỉ khát", bt: "Bạch hổ thang gia Thiên hoa phấn", tpbt: ["Tri mẫu", "Thạch cao", "Cam thảo", "Ngạnh mễ", "Thiên hoa phấn"] },
+  "TB_176": { hc: "Biến chứng tai biến trĩ nội sa thể Trung khí hạ hãm rặn nhiều", phanloai: ["Biến chứng Tai biến", "Bình", "Hư", "Khí hư hạ hãm"], tc: ["Búi trĩ sa ra ngoài hậu môn khi đi tiêu", "Khó co lên, mệt mỏi hụt hơi", "Sắc mặt nhợt nhạt", "Mạch hoãn nhược"], pdt: "Bổ trung ích khí, thăng dương cử trĩ", bt: "Bổ trung ích khí thang gia Chỉ xác sao", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Trần bì", "Thăng ma", "Sài hồ", "Chỉ xác"] },
+  "TB_177": { hc: "Biến chứng tai biến trĩ chảy máu thể Huyết nhiệt hạ chú đại tràng", phanloai: ["Biến chứng Tai biến", "Nhiệt", "Thực", "Huyết nhiệt"], tc: ["Đại tiện ra máu tươi phun thành tia hoặc giọt", "Hậu môn nóng rát sưng đau", "Tiểu đỏ táo bón", "Mạch sác"], pdt: "Thanh nhiệt lương huyết, chỉ huyết tiêu thũng", bt: "Tán trĩ tán hợp Chỉ thang tán", tpbt: ["Hoàng liên", "Hoàng bá", "Trắc bách diệp", "Hòe hoa", "Đương quy"] },
+  "TB_178": { hc: "Biến chứng tai biến nôn mửa thể Vị hư hàn trào dịch dạ dày", phanloai: ["Biến chứng Tai biến", "Hàn", "Hư", "Vị hư hàn"], tc: ["Nôn ra nước trong nhạt miệng sau ăn", "Bụng thượng vị đau âm ỉ thích ấm", "Chân tay cold", "Mạch trầm tế hoãn"], pdt: "Ôn trung kiện vị, giáng nghịch chỉ nôn", bt: "Lương phu hoàn hợp Lý trung hoàn", tpbt: ["Cao lương khương", "Hương phụ", "Đảng sâm", "Can khương", "Bạch truật"] },
+  "TB_179": { hc: "Biến chứng tai biến nấc cụt thể Vị khí thượng nghịch liên tục", phanloai: ["Biến chứng Tai biến", "Bình", "Thực", "Vị khí thượng nghịch"], tc: ["Nấc cụt tiếng to vang liên tục không ngớt", "Thượng vị trướng đầy khó chịu", "Rêu lưỡi dầy dính", "Mạch hoạt dũng mãnh"], pdt: "Hòa vị giáng nghịch, tuyên thông ách nghịch", bt: "Đinh hương thị đế thang gia Bán hạ, Mộc hương", tpbt: ["Đinh hương", "Thị đế", "Nhân sâm", "Sinh khương", "Bán hạ", "Mộc hương"] },
+  "TB_180": { hc: "Biến chứng tai biến nấc cụt thể Tỳ Vị hư hàn nấc yếu", phanloai: ["Biến chứng Tai biến", "Hàn", "Hư", "Tỳ Vị hư hàn"], tc: ["Nấc cụt tiếng nhỏ yếu rỉ rả dầm dề", "Chườm ấm thì đỡ nấc, gặp cold nấc tăng", "Chân tay cold mệt mỏi", "Mạch trầm tế vô lực"], pdt: "Ôn trung kiện tỳ, giáng nghịch chỉ ách", bt: "Đinh hương thị đế thang gia Can khương", tpbt: ["Đinh hương", "Thị đế", "Nhân sâm", "Sinh khương", "Can khương", "Cam thảo"] },
+  "TB_181": { hc: "Trúng phong thể Can Đởm hỏa độc bốc não xuất huyết", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Hỏa độc nội thịnh"], tc: ["Đau đầu dữ dội nôn ra máu tươi rồi hôn mê", "Mặt đỏ gay, thở xối xả đờm dãi", "Mắt trợn ngược", "Mạch huyền sác hữu lực dũng mãnh"], pdt: "Thanh can tả hỏa, lương huyết chỉ huyết khai khiếu", bt: "Long đởm tả can thang gia Tê giác, An cung ngưu hoàng hoàn", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Thủy ngưu giác", "Ngưu hoàng"] },
+  "TB_182": { hc: "Trúng phong thể Tâm hỏa bốc trào gây nhồi máu脑", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Tâm hỏa xí thịnh"], tc: ["Hôn mê đột ngột tâm phiền bứt rứt trước đó", "Loét miệng lưỡi, mặt đỏ bừng", "Đại tiểu tiện bí kết", "Mạch sác hữu lực dũng mãnh"], pdt: "Thanh tâm tả hỏa, thanh nhiệt khai khiếu", bt: "Hoàng liên giải độc thang gia Ngưu hoàng", tpbt: ["Hoàng liên", "Hoàng cầm", "Hoàng bá", "Chi tử", "Ngưu hoàng"] },
+  "TB_183": { hc: "Trúng phong thể Đàm trọc ủng tắc mạch máu não", phanloai: ["Tai biến / Trúng phong", "Bình", "Thực", "Đàm trọc bế tắc"], tc: ["Đột ngột ngã gục không biết gì", "Cổ họng lọc sọc đờm dãi, mặt xám tái", "Rêu lưỡi dầy dính dầy nhớt", "Mạch hoạt dũng mãnh"], pdt: "Địch đàm khai khiếu, hóa trọc thông mạch", bt: "Địch đàm thang gia Thạch xương bồ", tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Chỉ thực", "Đởm nam tinh", "Thạch xương bồ"] },
+  "TB_184": { hc: "Trúng phong thể Phong hàn trệ mạch máu nhão", phanloai: ["Tai biến / Trúng phong", "Hàn", "Thực", "Phong hàn bế tắc"], tc: ["Ngã gục sau khi tắm night hoặc gặp gió cold dữ dội", "Mặt bệch cold ngắt, cơ co cứng", "Mạch trầm khẩn dũng mãnh"], pdt: "Khu phong tán hàn, ôn thông não mạch", bt: "Tiểu tục mệnh thang gia Tế tân", tpbt: ["Ma hoàng", "Quế chi", "Phòng phong", "Hạnh nhân", "Tế tân", "Xuyên khung"] },
+  "TB_185": { hc: "Trúng phong thể Khí trệ huyết ứ tắc nghẽn động mạch cảnh", phanloai: ["Tai biến / Trúng phong", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Bán thân bất toại đột ngột sau xúc động giận dữ", "Lưỡi tím sẫm có điểm ứ huyết", "Đau đầu nhói cố định", "Mạch huyền sáp"], pdt: "Hành khí hoạt huyết, hóa ứ thông mạch cảnh", bt: "Thông khiếu trục ứ thang gia Đan sâm", tpbt: ["Xuyên khung", "Xích thược", "Đào nhân", "Hồng hoa", "Thạch xương bồ", "Đan sâm"] },
+  "TB_186": { hc: "Trúng phong thể Can Thận dương hư suy liệt hai chân cấp", phanloai: ["Tai biến / Trúng phong", "Hàn", "Hư suy", "Can Thận dương hư"], tc: ["Đột ngột té ngã hai chân duỗi mềm không đứng được", "Thắt lưng cold ngắt, sợ cold", "Tiểu đái dầm không biết", "Mạch trầm tế vi"], pdt: "Ôn bổ can thận, trợ dương thông mạch", bt: "Thận khí hoàn gia Nhục quế, Lộc nhung", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Trạch tả", "Đan bì", "Nhục quế", "Lộc nhung"] },
+  "TB_187": { hc: "Trúng phong thể Âm hư phong động giật nửa người", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Hư", "Âm hư phong động"], tc: ["Co giật nửa người đột ngột trên nền cao huyết áp", "Triều nhiệt gò má đỏ, lưỡi đỏ ít rêu", "Mạch tế huyền sác"], pdt: "Tư âm nhuận can, tắt phong chỉ giật", bt: "Trấn can tức phong thang gia Quy bản, Cúc hoa", tpbt: ["Ngưu tất", "Đại giả thạch", "Long cốt", "Mẫu lệ", "Quy bản", "Cúc hoa"] },
+  "TB_188": { hc: "Trúng phong thể Tỳ hư đàm thịnh gây tắc mạch não", phanloai: ["Tai biến / Trúng phong", "Bình", "Hư thực thác tạp", "Tỳ hư đàm thịnh"], tc: ["Người béo bệu đột ngột lơ mơ liệt nửa người", "Nôn ra đờm dãi nhạt miệng", "Rêu dầy nhớt", "Mạch nhu hoạt"], pdt: "Kiện tỳ mẫn thấp, hóa đàm thông mạch", bt: "Bán hạ bạch truật thiên ma thang gia Chỉ thực", tpbt: ["Bán hạ", "Bạch truật", "Thiên ma", "Phục linh", "Trần bì", "Chỉ thực"] },
+  "TB_189": { hc: "Trúng phong thể Khí hư huyết uất gây nhồi máu não diện rộng", phanloai: ["Tai biến / Trúng phong", "Bình", "Hư thực thác tạp", "Khí hư huyết ứ"], tc: ["Liệt nửa người hoàn toàn không nhúc nhích được", "Sắc mặt nhợt nhạt, vã mồ hôi hụt hơi", "Lưỡi nhợt tím", "Mạch tế nhược sáp"], pdt: "Đại bổ khí huyết, hoạt huyết thông kinh lạc", bt: "Bổ dương hoàn ngũ thang gia Hoàng kỳ liều cao", tpbt: ["Hoàng kỳ", "Đương quy vĩ", "Xích thược", "Đào nhân", "Hồng hoa", "Địa long"] },
+  "TB_190": { hc: "Trúng phong thể Thấp nhiệt uẩn kết hãm tâm bao", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Thấp nhiệt hãm tâm"], tc: ["Sốt hầm hập, thần chí lơ mơ nói nhảm", "Rêu dầy vàng nhớt, tiểu đỏ krótk", "Thân thể mỏi nặng", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, thanh tâm khai khiếu", bt: "Tam nhân thang gia Hoàng liên, Trúc diệp tâm", tpbt: ["Hạnh nhân", "Ý dĩ", "Bán hạ", "Hoàng liên", "Trúc diệp tâm", "Cam thảo"] },
+  "TB_191": { hc: "Trúng phong thể Huyết nhiệt độc bốc não gây phù não", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Huyết nhiệt độc"], tc: ["Sốt cao dữ dội, đau đầu quằn quại rồi hôn mê", "Nổi ban chẩn tím trên da", "Lưỡi đỏ thẫm khô", "Mạch sác dũng mãnh"], pdt: "Thanh nhiệt lương huyết, giải độc tiêu phù khai khiếu", bt: "Tê giác địa hoàng thang gia Hoằng liên, An cung ngưu hoàng hoàn", tpbt: ["Thủy ngưu giác", "Sinh địa", "Xích thược", "Đan bì", "Hoàng liên", "Ngưu hoàng"] },
+  "TB_192": { hc: "Trúng phong thể Hàn đàm uất bế phế vị hôn mê", phanloai: ["Tai biến / Trúng phong", "Hàn", "Thực", "Hàn đàm bế khiếu"], tc: ["Hôn mê bệch tái cold ngắt", "Nôn mửa ra đờm loãng bọt đầy cằm", "Cổ họng lọc sọc cold", "Mạch trầm hoạt trì"], pdt: "Ôn hóa hàn đàm, khai khiếu thông bế", bt: "Tô hợp hương hoàn gia Nhị trần thang", tpbt: ["Tô hợp hương", "Mộc hương", "Trầm hương", "Bán hạ", "Trần bì", "Phục linh"] },
+  "TB_193": { hc: "Trúng phong thể Tâm Thận bất giao gây tai biến đêm", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Hư thực thác tạp", "Tâm Thận bất giao"], tc: ["Mất ngủ bứt rứt cả night rồi đột ngột stroke", "Mặt đỏ, đau lưng mỏi gối", "Lòng bàn tay chân nóng", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, an thần thông mạch", bt: "Thiên vương bổ tâm đan gia Ngưu tất, Đỗ trọng", tpbt: ["Sinh địa", "Huyền sâm", "Cát cánh", "Viễn chí", "Ngưu tất", "Đỗ trọng"] },
+  "TB_194": { hc: "Trúng phong thể Thận tinh bất túc gây tai biến tái phát", phanloai: ["Tai biến / Trúng phong", "Bình", "Hư suy", "Thận tinh bất túc"], tc: ["Tai biến tái phát lần 2-3, đần độn hẳn", "Liệt cứng hai bên, đái dầm liên tục", "Mạch trầm tế vô lực"], pdt: "Bổ thận điền tinh, dưỡng tủy bổ não thông lạc", bt: "Tả quy hoàn gia Lộc giác giao, Thạch xương bồ", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Kỷ tử", "Lộc giác giao", "Thạch xương bồ"] },
+  "TB_195": { hc: "Trúng phong thể Can hỏa phạm Phế ho ra máu tai biến", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Can hỏa phạm Phế"], tc: ["Đau đầu bứt rứt ho ra máu tươi rồi ngã gục", "Mặt đỏ miệng đắng", "Mạch huyền sác dũng mãnh"], pdt: "Thanh can tả hỏa, thanh phế chỉ huyết khai khiếu", bt: "Long đởm tả can thang gia Bồ hoàng, Mẫu đơn bì", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Bồ hoàng", "Mẫu đơn bì"] },
+  "TB_196": { hc: "Trúng phong thể Mệnh môn hỏa suy vong dương cấp stroke", phanloai: ["Tai biến / Trúng phong", "Hàn", "Hư suy", "Mệnh môn hỏa suy"], tc: ["Stroke đột ngột tay chân cold ngắt quá gối", "Vã mồ hôi cold đầm đìa, mặt bệch tái", "Mạch vi vi muốn tuyệt"], pdt: "Hồi dương cứu nghịch, ôn bổ mệnh môn cố thoát", bt: "Tứ nghịch thang hợp Sâm phụ thang gia Nhục quế", tpbt: ["Phụ tử chế", "Can khương", "Nhân sâm", "Chích cam thảo", "Nhục quế"] },
+  "TB_197": { hc: "Trúng phong thể Vị thực nhiệt táo kết gây vỡ mạch脑", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Thực", "Vị thực nhiệt"], tc: ["Rặn đi tiêu bị vỡ mạch não đột ngột", "Bụng trướng cứng cự án, táo bón nặng", "Mặt đỏ gằn gừ", "Mạch trầm thực sác dũng mãnh"], pdt: "Thanh nhiệt tả hạ, thông phủ giáng hỏa", bt: "Đại thừa khí thang gia Sinh địa", tpbt: ["Đại hoàng", "Mang tiêu", "Hậu phác", "Chỉ thực", "Sinh địa"] },
+  "TB_198": { hc: "Trúng phong thể Khí âm lưỡng hư kiệt sức cấp stroke", phanloai: ["Tai biến / Trúng phong", "Nhiệt", "Hư suy", "Khí âm lưỡng hư"], tc: ["Stroke ở người gầy còm kiệt sức", "Miệng khô khát nước, mệt mỏi thở nông", "Vã mồ hôi nóng dính", "Mạch tế nhược sác"], pdt: "Ích khí sinh tân, tư âm liễm hãn rescue", bt: "Sinh mạch tán gia Hoàng kỳ, Quy bản", tpbt: ["Nhân sâm", "Mạch môn", "Ngũ vị tử", "Hoàng kỳ", "Quy bản"] },
+  "TB_199": { hc: "Trúng phong thể Tỳ không thống huyết xuất huyết brain lan rộng", phanloai: ["Tai biến / Trúng phong", "Bình", "Hư", "Tỳ hư không nhiếp huyết"], tc: ["Chảy máu brain diện rộng ở người suy nhược", "Xuất huyết dưới da, sắc mặt nhợt", "Phân lỏng nhão", "Mạch tế nhược vô lực"], pdt: "Kiện tỳ ích khí, nhiếp huyết chỉ huyết thông lạc", bt: "Quy tỳ thang gia Tam thất, Bồ hoàng", tpbt: ["Nhân sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Tam thất", "Bồ hoàng"] },
+  "TB_200": { hc: "Trúng phong thể Khí uất huyết ứ bế tắc kinh mạch toàn thân", phanloai: ["Tai biến / Trúng phong", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Stroke sau khi uất hận nhẫn nại kéo dài", "Cơ thể tê cứng đau nhói toàn thân", "Lưỡi tím sẫm có điểm ứ huyết", "Mạch huyền sáp dũng mãnh"], pdt: "Sơ can giải uất, hoạt huyết hóa ứ thông kinh toàn thân", bt: "Cách hạ trục ứ thang gia Sài hồ, Địa long, Đan sâm", tpbt: ["Sài hồ", "Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Địa long", "Đan sâm"] }
+
+};
 
 Object.assign(window.database, {
 
   // =========================================================================
-  // 21. PHỤ KHOA & SẢN KHOA (BỔ SUNG)
+  // BỆNH NAM KHOA (NK_001 -> NK_200)
   // =========================================================================
-  "Kinh_Nguyet_Truoc_Ky_Thuc_Nhiet": {
-    hc: "Kinh nguyệt trước kỳ do Thực nhiệt",
+
+  "NK_001": { hc: "Liệt dương do Thận dương hư suy", phanloai: ["Nam Khoa", "Hàn", "Hư", "Thận dương hư"], tc: ["Dương vật không cương cứng", "Sợ lạnh, tay chân lạnh ngắt", "Đau lưng mỏi gối", "Sắc mặt nhợt nhạt", "Mạch trầm tế trì"], pdt: "Ôn bổ thận dương, tráng dương khởi nuy", bt: "Hữu quy hoàn gia Dâm dương hoắc, Ba kích", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Dâm dương hoắc", "Ba kích", "Đỗ trọng"] },
+  "NK_002": { hc: "Liệt dương do Can khí uất kết", phanloai: ["Nam Khoa", "Bình", "Thực", "Can khí uất"], tc: ["Dương vật khó cương khi quan hệ", "Tinh thần u uất, hay thở dài", "Ngực sườn trướng đầy", "Dễ cáu gắt", "Mạch huyền"], pdt: "Sơ can giải uất, thông lạc tráng dương", bt: "Sài hồ sơ can tán gia Dâm dương hoắc, Ngưu tất", tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Xuyên khung", "Dâm dương hoắc", "Ngưu tất", "Cam thảo"] },
+  "NK_003": { hc: "Liệt dương do Thấp nhiệt hạ chú", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Dương vật ỉu mềm không cứng", "Bì bìu ẩm ngứa, hôi háng", "Tiểu tiện đỏ ngắn, buốt dắt", "Lưỡi đỏ rêu vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, thông lạc tráng dương", bt: "Long đởm tả can thang gia Hoàng bá", tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Trạch tả", "Hoàng bá", "Mộc thông", "Sài hồ"] },
+  "NK_004": { hc: "Liệt dương do Tâm Tỳ lưỡng hư", phanloai: ["Nam Khoa", "Bình", "Hư", "Tâm Tỳ hư"], tc: ["Dương vật khó cương cứng, giảm ham muốn", "Hồi hộp, mất ngủ, hay quên", "Sắc mặt nhợt, ăn kém tiêu chảy", "Mạch tế nhược"], pdt: "Bổ ích tâm tỳ, dưỡng huyết tráng dương", bt: "Quy tỳ thang gia Ba kích, Dâm dương hoắc", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Ba kích", "Long nhãn"] },
+  "NK_005": { hc: "Liệt dương do Kinh hãi thương Thận", phanloai: ["Nam Khoa", "Bình", "Thực", "Kinh hãi thương thận"], tc: ["Cương cứng thất thường do hoảng sợ khi quan hệ", "Tâm thần bàng hoàng, dễ giật mình", "Mất ngủ nhiều mộng", "Mạch huyền tế"], pdt: "Bình kinh an thần, bổ thận cố tinh", bt: "An thần định chí hoàn gia Thỏ ty tử, Ba kích", tpbt: ["Nhân sâm", "Phục linh", "Phục thần", "Viễn chí", "Long cốt", "Mẫu lệ", "Thỏ ty tử", "Ba kích"] },
+  "NK_006": { hc: "Liệt dương do Huyết ứ tinh cung", phanloai: ["Nam Khoa", "Bình", "Thực", "Huyết ứ"], tc: ["Liệt dương kèm đau nhói vùng bẹn bẹn", "Tiền sử chấn thương tầng sinh môn", "Lưỡi tím sẫm có điểm ứ huyết", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, thông lạc khởi nuy", bt: "Đào hồng tứ vật thang gia Ngưu tất, Vương bất lưu hành", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Xích thược", "Thục địa", "Ngưu tất"] },
+  "NK_007": { hc: "Liệt dương do Thận âm hư hỏa vượng", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Âm hư hỏa vượng"], tc: ["Dễ kích thích cương nhưng mau dịu", "Triều nhiệt đạo hãn, mỏi lưng gối", "Di tinh, lòng bàn tay chân nóng", "Lưỡi đỏ ít rêu", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, bổ thận ích tinh", bt: "Tri bá địa hoàng hoàn gia Dâm dương hoắc", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Tri mẫu", "Hoàng bá", "Phục linh", "Dâm dương hoắc"] },
+  "NK_008": { hc: "Liệt dương do Tỳ Thận dương hư", phanloai: ["Nam Khoa", "Hàn", "Hư", "Tỳ Thận dương hư"], tc: ["Liệt dương hoàn toàn, không có ham muốn", "Sợ lạnh, tay chân lạnh ngắt", "Bụng dưới lạnh đau, ngũ canh tả", "Mạch trầm tế trì"], pdt: "Ôn bổ tỳ thận, tráng dương khởi nuy", bt: "Phụ tử lý trung hoàn hợp Hữu quy hoàn", tpbt: ["Phụ tử chế", "Nhục quế", "Đảng sâm", "Bạch truật", "Can khương", "Thục địa", "Sơn thù nhục"] },
+  "NK_009": { hc: "Liệt dương do Đàm thấp trệ kinh lạc", phanloai: ["Nam Khoa", "Bình", "Thực", "Đàm thấp"], tc: ["Liệt dương ở người béo bệu", "Thân thể mệt mỏi, nặng nề", "Ngực bụng trướng đầy, đờm nhiều", "Rêu lưỡi trắng dầy nhớt", "Mạch nhu hoạt"], pdt: "Kiện tỳ mẫn thấp, hóa đàm thông lạc tráng dương", bt: "Bán hạ bạch truật thiên ma thang gia Ba kích, Dâm dương hoắc", tpbt: ["Bán hạ", "Bạch truật", "Thiên ma", "Phục linh", "Trần bì", "Ba kích", "Dâm dương hoắc"] },
+  "NK_010": { hc: "Liệt dương do Phế Thận khí hư", phanloai: ["Nam Khoa", "Bình", "Hư", "Phế Thận khí hư"], tc: ["Liệt dương kèm ho hen, thở gấp khi vận động", "Tiếng nói nhỏ yếu, tự hãn", "Thắt lưng mỏi yếu", "Mạch trầm nhược"], pdt: "Bổ phế ích khí, ôn thận tráng dương", bt: "Thất vị đô khí hoàn gia Nhân sâm, Ba kích", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Ngũ vị tử", "Nhân sâm", "Ba kích"] },
+
+  "NK_011": { hc: "Xuất tinh sớm do Thận khí bất cố", phanloai: ["Nam Khoa", "Bình", "Hư", "Thận khí hư"], tc: ["Vừa tiếp xúc đã xuất tinh", "Lưng mỏi gối yếu, tai ù", "Tiểu tiện rỉ rả, tóc rụng", "Mạch trầm nhược"], pdt: "Ích thận cố tinh, sáp niệu", bt: "Kim tỏa cố tinh hoàn gia Bổ cốt chỉ", tpbt: ["Sa uyển tử", "Liên tu", "Khiếm thực", "Long cốt", "Mẫu lệ", "Liên nhục", "Bổ cốt chỉ"] },
+  "NK_012": { hc: "Xuất tinh sớm do Âm hư hỏa vượng", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Âm hư hỏa vượng"], tc: ["Ham muốn cao nhưng mau xuất tinh", "Ngũ tâm phiền nhiệt, triều nhiệt đạo hãn", "Miệng khô, lưỡi đỏ ít rêu", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, cố tinh chỉ tả", bt: "Tri bá địa hoàng hoàn gia Kim tỏa cố tinh hoàn", tpbt: ["Thục địa", "Tri mẫu", "Hoàng bá", "Sơn thù nhục", "Hoài sơn", "Sa uyển tử", "Mẫu lệ"] },
+  "NK_013": { hc: "Xuất tinh sớm do Tâm Thận bất giao", phanloai: ["Nam Khoa", "Nhiệt", "Hư thực thác tạp", "Tâm Thận bất giao"], tc: ["Xuất tinh sớm kèm tâm phiền mất ngủ", "Hồi hộp hay quên, bứt rứt", "Thắt lưng đau mỏi, tai ù", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, thanh tâm an thần cố tinh", bt: "Thiên vương bổ tâm đan hợp Kim tỏa cố tinh hoàn", tpbt: ["Sinh địa", "Huyền sâm", "Cát cánh", "Viễn chí", "Toan táo nhân", "Sa uyển tử", "Long cốt"] },
+  "NK_014": { hc: "Xuất tinh sớm do Can kinh thấp nhiệt", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Dễ kích thích xuất tinh ngay", "Bì bìu ẩm ngứa, hôi thối", "Miệng đắng, tiểu tiện đỏ dắt", "Rêu lưỡi vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, thanh can cố tinh", bt: "Long đởm tả can thang gia Ô tặc cốt, Khiếm thực", tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Trạch tả", "Mộc thông", "Ô tặc cốt", "Khiếm thực"] },
+  "NK_015": { hc: "Xuất tinh sớm do Can khí uất trệ", phanloai: ["Nam Khoa", "Bình", "Thực", "Khí trệ"], tc: ["Xuất tinh sớm do căng thẳng tâm lý", "Tinh thần u uất, hay thở dài", "Ngực sườn trướng đầy", "Mạch huyền"], pdt: "Sơ can giải uất, cố tinh chỉ tả", bt: "Sài hồ sơ can tán gia Sa uyển tử, Khiếm thực", tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Xuyên khung", "Trần bì", "Sa uyển tử", "Khiếm thực"] },
+  "NK_016": { hc: "Xuất tinh sớm do Tâm Tỳ khí huyết hư", phanloai: ["Nam Khoa", "Bình", "Hư", "Khí huyết hư"], tc: ["Mệt mỏi không sức, vừa quan hệ đã xuất tinh", "Mặt nhợt, sắc mặt úa vàng", "Hồi hộp, tiêu chảy phân lỏng", "Mạch tế nhược"], pdt: "Bổ ích tâm tỳ, cố tinh sáp niệu", bt: "Quy tỳ thang gia Khiếm thực, Long cốt", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Long nhãn", "Khiếm thực", "Long cốt"] },
+  "NK_017": { hc: "Xuất tinh sớm do Thận dương hư suy", phanloai: ["Nam Khoa", "Hàn", "Hư", "Thận dương hư"], tc: ["Xuất tinh sớm kèm tinh dịch lạnh loãng", "Sợ lạnh, tay chân lạnh ngắt", "Thắt lưng mỏi cold", "Mạch trầm tế trì"], pdt: "Ôn bổ thận dương, cố tinh sáp niệu", bt: "Hữu quy hoàn gia Sa uyển tử, Bổ cốt chỉ", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Sa uyển tử", "Bổ cốt chỉ"] },
+  "NK_018": { hc: "Xuất tinh sớm do Huyết ứ ngưng trệ tinh đường", phanloai: ["Nam Khoa", "Bình", "Thực", "Huyết ứ"], tc: ["Xuất tinh sớm kèm đau buốt bẹn khi xuất tinh", "Lưỡi tím sẫm có điểm ứ huyết", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, cố tinh thông lạc", bt: "Đào hồng tứ vật thang gia Kim tỏa cố tinh hoàn", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Sa uyển tử", "Khiếm thực", "Long cốt"] },
+
+  "NK_019": { hc: "Di tinh do Thận khí bất cố", phanloai: ["Nam Khoa", "Bình", "Hư", "Thận khí hư"], tc: ["Di tinh mộng tinh liên tục", "Thắt lưng mỏi yếu, tai ù", "Tiểu tiện rỉ rả không tự chủ", "Mạch trầm nhược"], pdt: "Cố tinh sáp niệu, bổ thận ích khí", bt: "Kim tỏa cố tinh hoàn", tpbt: ["Sa uyển tử", "Liên tu", "Khiếm thực", "Long cốt", "Mẫu lệ", "Liên nhục"] },
+  "NK_020": { hc: "Di tinh do Âm hư hỏa vượng", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Âm hư hỏa vượng"], tc: ["Mộng tinh nhiều lần về đêm", "Triều nhiệt đạo hãn, ngũ tâm phiền nhiệt", "Miệng khô lưỡi đỏ ít rêu", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, cố tinh an thần", bt: "Tri bá địa hoàng hoàn gia Long cốt, Mẫu lệ", tpbt: ["Thục địa", "Tri mẫu", "Hoàng bá", "Sơn thù nhục", "Hoài sơn", "Long cốt", "Mẫu lệ"] },
+  "NK_021": { hc: "Di tinh do Tâm Thận bất giao", phanloai: ["Nam Khoa", "Nhiệt", "Hư thực thác tạp", "Tâm Thận bất giao"], tc: ["Ngủ mơ thấy quan hệ rồi di tinh", "Tâm phiền bứt rứt, mất ngủ", "Hồi hộp hoảng hốt, tai ù", "Mạch tế sác"], pdt: "Thanh tâm giáng hỏa, tư thận cố tinh", bt: "Giao thái hoàn hợp Kim tỏa cố tinh hoàn", tpbt: ["Hoàng liên", "Nhục quế", "Sa uyển tử", "Khiếm thực", "Long cốt", "Mẫu lệ", "Liên nhục"] },
+  "NK_022": { hc: "Di tinh do Thấp nhiệt hạ chú", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Di tinh kèm tiểu buốt dắt, nước tiểu đục", "Bì bìu ẩm ngứa hôi", "Rêu lưỡi vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, chỉ di cố tinh", bt: "Bát chính tán gia Sa uyển tử, Ô tặc cốt", tpbt: ["Xa tiền tử", "Mộc thông", "Cù mạch", "Biển súc", "Chi tử", "Sa uyển tử", "Ô tặc cốt"] },
+  "NK_023": { hc: "Di tinh do Can uất hóa hỏa", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Can hỏa"], tc: ["Mộng tinh kèm cáu gắt, nhức đầu", "Mắt đỏ, miệng đắng họng khô", "Tiểu tiện đỏ ngắn", "Mạch huyền sác"], pdt: "Thanh can tả hỏa, cố tinh chỉ di", bt: "Long đởm tả can thang gia Kim tỏa cố tinh hoàn", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Sa uyển tử", "Long cốt", "Mẫu lệ"] },
+  "NK_024": { hc: "Di tinh do Tỳ hư thất thu", phanloai: ["Nam Khoa", "Bình", "Hư", "Tỳ hư"], tc: ["Di tinh ban ngày khi nghĩ đến tình dục (Hoạt tinh)", "Mệt mỏi hụt hơi, ăn kém tiêu chảy", "Sắc mặt vàng nhợt", "Mạch hoãn nhược"], pdt: "Kiện tỳ ích khí, thăng dương cố tinh", bt: "Bổ trung ích khí thang gia Khiếm thực, Kim tỏa cố tinh hoàn", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Thăng ma", "Sài hồ", "Khiếm thực", "Sa uyển tử"] },
+
+  "NK_025": { hc: "Hoạt tinh do Thận dương hư suy", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Thận dương hư"], tc: ["Tinh dịch rỉ ra không kiểm soát khi không cương", "Sợ lạnh, tay chân lạnh ngắt", "Thắt lưng mỏi cold, tiểu đêm nhiều", "Mạch trầm tế vi"], pdt: "Ôn bổ thận dương, cố sáp chỉ di", bt: "Hữu quy hoàn gia Sang phiêu tiêu, Bổ cốt chỉ", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Tang phiêu tiêu", "Bổ cốt chỉ"] },
+  "NK_026": { hc: "Hoạt tinh do Trung khí hạ hãm", phanloai: ["Nam Khoa", "Bình", "Hư", "Trung khí hạ hãm"], tc: ["Tinh dịch rỉ ra khi rặn đi tiêu", "Bụng dưới nặng tức, trĩ sa", "Mệt mỏi hụt hơi, sắc mặt nhợt", "Mạch hoãn nhược"], pdt: "Bổ trung ích khí, thăng đề cố tinh", bt: "Bổ trung ích khí thang gia Kim tỏa cố tinh hoàn", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Trần bì", "Thăng ma", "Sài hồ", "Sa uyển tử", "Long cốt"] },
+
+  "NK_027": { hc: "Huyết tinh do Âm hư hỏa vượng", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Âm hư hỏa vượng"], tc: ["Xuất tinh ra máu đỏ tươi", "Lòng bàn tay chân nóng, triều nhiệt đạo hãn", "Đau mỏi thắt lưng gối", "Lưỡi đỏ ít rêu", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, lương huyết chỉ huyết", bt: "Tri bá địa hoàng hoàn gia Trắc bách diệp, Bồ hoàng", tpbt: ["Thục địa", "Tri mẫu", "Hoàng bá", "Sơn thù nhục", "Hoài sơn", "Trắc bách diệp", "Bồ hoàng"] },
+  "NK_028": { hc: "Huyết tinh do Thấp nhiệt hạ chú", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Xuất tinh ra máu kèm đau buốt bẹn tầng sinh môn", "Tiểu dắt, tiểu buốt, tiểu đục", "Rêu lưỡi vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, lương huyết chỉ huyết", bt: "Tiểu kế ẩm gia Hoàng bá, Mộc thông", tpbt: ["Tiểu kế", "Sinh địa", "Mộc thông", "Hoạt thạch", "Trắc bách diệp", "Hoàng bá", "Cam thảo"] },
+  "NK_029": { hc: "Huyết tinh do Can hỏa bốc trào", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Can hỏa"], tc: ["Xuất tinh ra máu màu đỏ sẫm sau khi tức giận", "Mắt đỏ, miệng đắng, đau đầu", "Dễ cáu gắt", "Mạch huyền sác"], pdt: "Thanh can tả hỏa, lương huyết chỉ huyết", bt: "Long đởm tả can thang gia Tam thất, Bồ hoàng", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Sài hồ", "Tam thất", "Bồ hoàng"] },
+  "NK_030": { hc: "Huyết tinh do Huyết ứ tinh cung", phanloai: ["Nam Khoa", "Bình", "Thực", "Huyết ứ"], tc: ["Xuất tinh ra máu có cục màu tím đen", "Bụng dưới và bẹn đau nhói cự án", "Lưỡi tím sẫm điểm ứ huyết", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, chỉ huyết thông lạc", bt: "Đào hồng tứ vật thang gia Tam thất, Ngưu tất", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Thục địa", "Tam thất", "Ngưu tất"] },
+  "NK_031": { hc: "Huyết tinh do Tỳ không thống huyết", phanloai: ["Nam Khoa", "Bình", "Hư", "Khí hư không nhiếp huyết"], tc: ["Xuất tinh ra máu màu hồng nhạt kéo dài", "Sắc mặt úa vàng, mệt mỏi hụt hơi", "Ăn kém tiêu chảy", "Mạch tế nhược"], pdt: "Kiện tỳ ích khí, nhiếp huyết chỉ huyết", bt: "Quy tỳ thang gia Tam thất, A giao", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Long nhãn", "Tam thất", "A giao"] },
+
+  "NK_032": { hc: "Vô sinh nam do Thận tinh bất túc (Tinh trùng ít/yếu)", phanloai: ["Nam Khoa", "Bình", "Hư", "Thận tinh bất túc"], tc: ["Tinh dịch loãng, số lượng và chất lượng tinh trùng kém", "Chân gối yếu mềm, tai ù", "Tóc bạc sớm, trí nhớ giảm", "Mạch tế vô lực"], pdt: "Bổ thận điền tinh, ích tủy sinh tinh", bt: "Tả quy hoàn gia Lộc giác giao, Tử hà xe", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Thỏ ty tử", "Lộc giác giao", "Tử hà xe", "Ngưu tất"] },
+  "NK_033": { hc: "Vô sinh nam do Thận dương hư suy (Tinh lạnh)", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Thận dương hư"], tc: ["Tinh dịch cold loãng như nước, không tinh trùng", "Sợ lạnh, tay chân lạnh ngắt", "Liệt dương hoặc suy giảm ham muốn", "Mạch trầm tế trì"], pdt: "Ôn bổ thận dương, ích tinh bổ tủy", bt: "Hữu quy hoàn gia Dâm dương hoắc, Nhục thung dung", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Dâm dương hoắc", "Nhục thung dung"] },
+  "NK_034": { hc: "Vô sinh nam do Thấp nhiệt hạ chú (Tinh trùng dị dạng/viêm tinh)", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Tinh trùng bạch cầu cao, dị dạng nhiều", "Bì bìu ẩm nóng ngứa, hôi háng", "Tiểu dắt buốt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, thanh tinh thông lạc", bt: "Long đởm tả can thang gia Thổ phục linh, Hoàng bá", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Thổ phục linh", "Hoàng bá", "Mộc thông"] },
+  "NK_035": { hc: "Vô sinh nam do Khí trệ huyết ứ (Tắc ống dẫn tinh)", phanloai: ["Nam Khoa", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Không có tinh trùng do tắc ống dẫn tinh", "Bì bìu hoặc bẹn có điểm đau nhói cố định", "Lưỡi tím sẫm", "Mạch sáp hoặc huyền"], pdt: "Hành khí hoạt huyết, thông đạo tinh cung", bt: "Thân thống trục ứ thang gia Vương bất lưu hành, Xuyên sơn giáp", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Vương bất lưu hành", "Xuyên sơn giáp"] },
+  "NK_036": { hc: "Vô sinh nam do Can uất khí trệ", phanloai: ["Nam Khoa", "Bình", "Thực", "Can khí uất"], tc: ["Tinh dịch không phóng xuất được hoặc ít", "Tinh thần căng thẳng lo âu", "Ngực sườn trướng đầy, hay thở dài", "Mạch huyền"], pdt: "Sơ can giải uất, thông tinh khởi nuy", bt: "Sài hồ sơ can tán gia Vương bất lưu hành, Dâm dương hoắc", tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Xuyên khung", "Vương bất lưu hành", "Dâm dương hoắc"] },
+  "NK_037": { hc: "Vô sinh nam do Khí huyết lưỡng hư (Tinh dịch loãng ít)", phanloai: ["Nam Khoa", "Bình", "Hư", "Khí huyết hư"], tc: ["Tinh dịch loãng ít, mệt mỏi toàn thân", "Sắc mặt nhợt nhạt, hoa mắt chóng mặt", "Ăn kém tiêu chảy", "Mạch tế nhược"], pdt: "Bổ khí dưỡng huyết, sinh tinh bổ tủy", bt: "Bát trân thang gia Thỏ ty tử, Kỷ tử", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Thỏ ty tử", "Kỷ tử"] },
+  "NK_038": { hc: "Vô sinh nam do Đàm thấp uẩn kết tinh cung", phanloai: ["Nam Khoa", "Bình", "Thực", "Đàm thấp"], tc: ["Tinh dịch đặc quánh khó hóa lỏng", "Thân thể béo bệu, mệt mỏi", "Đờm dãi nhiều, rêu dầy nhớt", "Mạch nhu hoạt"], pdt: "Kiện tỳ mẫn thấp, hóa đàm thông tinh", bt: "Bán hạ bạch truật thiên ma thang gia Thần khúc, Sơn tra", tpbt: ["Bán hạ", "Bạch truật", "Thiên ma", "Phục linh", "Trần bì", "Sơn tra", "Thần khúc"] },
+
+  "NK_039": { hc: "Sán khí do Hàn trệ Can mạch (Thoát vị bẹn do lạnh)", phanloai: ["Nam Khoa", "Hàn", "Thực", "Hàn trệ"], tc: ["Thoát vị bẹn bì bìu sưng đau co rút", "Gặp lạnh đau tăng, chườm ấm dễ chịu", "Bì bìu lạnh ngắt", "Mạch trầm khẩn"], pdt: "Ôn kinh tán hàn, noãn can chỉ thống", bt: "Noãn can tiễn gia Ngô thù du", tpbt: ["Tiểu hồi hương", "Nhục quế", "Đương quy", "Ô dược", "Trầm hương", "Ngô thù du", "Phục linh"] },
+  "NK_040": { hc: "Sán khí do Thấp nhiệt hạ chú (Viêm mào tinh / Bìu sưng nóng)", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Tinh hoàn bì bìu sưng nóng đỏ đau dữ dội", "Sốt, sợ rét, tiểu dắt buốt", "Rêu lưỡi vàng nhớt", "Mạch hoạt sác"], pdt: "Thanh nhiệt lợi thấp, tiêu thũng chỉ thống", bt: "Long đởm tả can thang gia Yến hoa, Bồ công anh", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Kim ngân hoa", "Bồ công anh", "Sài hồ"] },
+  "NK_041": { hc: "Sán khí do Khí trệ huyết ứ (Xoắn tinh hoàn / Chấn thương bìu)", phanloai: ["Nam Khoa", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Tinh hoàn đau nhói đột ngột cự án", "Bì bìu bầm tím sưng to", "Lưỡi tím sẫm có điểm ứ huyết", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, tiêu thũng chỉ thống", bt: "Thân thống trục ứ thang gia Kê nội kim, Ô dược", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Ô dược", "Địa long"] },
+  "NK_042": { hc: "Sán khí do Trung khí hạ hãm (Sa tinh hoàn mạn)", phanloai: ["Nam Khoa", "Bình", "Hư", "Trung khí hạ hãm"], tc: ["Bì bìu sa thõng nặng tức kéo xuống bẹn", "Nằm nghỉ bớt đau, đứng lâu đau tăng", "Mệt mỏi hụt hơi", "Mạch hoãn nhược"], pdt: "Bổ khí thăng dương, cử hãm chỉ thống", bt: "Bổ trung ích khí thang gia Tiểu hồi hương, Ô dược", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Thăng ma", "Sài hồ", "Tiểu hồi hương", "Ô dược"] },
+  "NK_043": { hc: "Sán khí do Can uất hóa hỏa", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Can hỏa"], tc: ["Tinh hoàn sưng đau rát sau khi tức giận", "Mắt đỏ, miệng đắng họng khô", "Tiểu đỏ đại tiện táo", "Mạch huyền sác"], pdt: "Thanh can tả hỏa, tán kết chỉ thống", bt: "Long đởm tả can thang gia Mộc hương, Ô dược", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Sài hồ", "Mộc hương", "Ô dược"] },
+  "NK_044": { hc: "Sán khí do Thận hư sán (Đau mỏi bìu dai dẳng)", phanloai: ["Nam Khoa", "Bình", "Hư", "Thận hư"], tc: ["Thắt lưng và tinh hoàn đau âm ỉ dai dẳng", "Chân gối yếu mỏi, sợ lạnh", "Tiểu đêm nhiều", "Mạch trầm tế"], pdt: "Bổ thận cường gân, tán hàn chỉ thống", bt: "Thận khí hoàn gia Tiểu hồi hương, Bổ cốt chỉ", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Tiểu hồi hương", "Bổ cốt chỉ"] },
+
+  "NK_045": { hc: "Viêm tiền liệt tuyến cấp do Thấp nhiệt hạ chú", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Tiểu buốt, tiểu dắt, tiểu ra mủ hoặc máu", "Đau rát vùng tầng sinh môn và bẹn", "Sốt cao, bứt rứt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, giải độc thông lâm", bt: "Bát chính tán gia Hoàng bá, Đan sâm", tpbt: ["Xa tiền tử", "Mộc thông", "Cù mạch", "Biển súc", "Hoạt thạch", "Chi tử", "Hoàng bá", "Đan sâm"] },
+  "NK_046": { hc: "Viêm tiền liệt tuyến mạn do Khí trệ huyết ứ", phanloai: ["Nam Khoa", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Đau tức âm ỉ bẹn, tầng sinh môn, thắt lưng", "Tiểu ngắt quãng, tiểu không hết gọt", "Lưỡi tím sẫm", "Mạch sáp"], pdt: "Hành khí hoạt huyết, tiêu thũng chỉ thống", bt: "Thần hiệu trục ứ thang gia Ngưu tất, Vương bất lưu hành", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Vương bất lưu hành", "Chỉ xác"] },
+  "NK_047": { hc: "Viêm tiền liệt tuyến mạn do Thận âm hư hỏa vượng", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Âm hư hỏa vượng"], tc: ["Mỏi lưng gối, tiểu đêm nhiều, tiểu rát nhẹ", "Ra chất nhầy trắng sau khi tiểu", "Triều nhiệt đạo hãn", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, thanh nhiệt thông lâm", bt: "Tri bá địa hoàng hoàn gia Mộc thông, Xa tiền tử", tpbt: ["Thục địa", "Tri mẫu", "Hoàng bá", "Sơn thù nhục", "Hoài sơn", "Mộc thông", "Xa tiền tử"] },
+  "NK_048": { hc: "Viêm tiền liệt tuyến mạn do Thận dương hư suy", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Thận dương hư"], tc: ["Tiểu đêm nhiều, tiểu rỉ rả không lực", "Thắt lưng cold đau, sợ lạnh", "Liệt dương, di tinh", "Mạch trầm tế vô lực"], pdt: "Ôn bổ thận dương, hóa khí lợi thủy", bt: "Thận khí hoàn gia Ô dược, Ích trí nhân", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Ô dược", "Ích trí nhân"] },
+  "NK_049": { hc: "Viêm tiền liệt tuyến do Trung khí hạ hãm (Tức nặng bẹn)", phanloai: ["Nam Khoa", "Bình", "Hư", "Trung khí hạ hãm"], tc: ["Bụng dưới và bẹn trướng nặng tức", "Tiểu rỉ rả, rặn nhiều không ra", "Mệt mỏi hụt hơi", "Mạch hoãn nhược"], pdt: "Bổ trung ích khí, thăng dương thông lâm", bt: "Bổ trung ích khí thang gia Mộc thông, Xa tiền tử", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Trần bì", "Thăng ma", "Sài hồ", "Mộc thông", "Xa tiền tử"] },
+
+  "NK_050": { hc: "Phì đại tiền liệt tuyến do Thần dương hư khí hóa thất thường", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Thận dương hư"], tc: ["Tiểu khó, tiểu rỉ rả, tiểu đêm 4-5 lần", "Dòng nước tiểu yếu đứt đoạn", "Chân tay lạnh, đau lưng", "Mạch trầm tế trì"], pdt: "Ôn bổ thận dương, hóa khí lợi thủy", bt: "Tế sinh Thận khí hoàn", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Nhục quế", "Phụ tử chế", "Ngưu tất", "Xa tiền tử"] },
+  "NK_051": { hc: "Phì đại tiền liệt tuyến do Khí trệ huyết ứ (Bí tiểu hoàn toàn)", phanloai: ["Nam Khoa", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Bí tiểu đột ngột, bụng dưới trướng căng đau dữ dội", "Lưỡi tím sẫm có điểm ứ huyết", "Mạch sáp hoặc huyền"], pdt: "Hành khí hoạt huyết, thông lợi bàng quang", bt: "Trầm hương tán gia Ngưu tất, Vương bất lưu hành", tpbt: ["Trầm hương", "Mộc hương", "Đương quy", "Vương bất lưu hành", "Ngưu tất", "Thạch韋"] },
+  "NK_052": { hc: "Phì đại tiền liệt tuyến do Thấp nhiệt uẩn kết hạ tiêu", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Tiểu dắt buốt, nước tiểu vàng đục hôi", "Hậu môn và bẹn nóng trướng", "Rêu dầy vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, thông lâm tán kết", bt: "Bát chính tán gia Kê nội kim, Thổ phục linh", tpbt: ["Xa tiền tử", "Mộc thông", "Cù mạch", "Biển súc", "Chi tử", "Kê nội kim", "Thổ phục linh"] },
+  "NK_053": { hc: "Phì đại tiền liệt tuyến do Phế khí uất trệ (Bí tiểu do phế)", phanloai: ["Nam Khoa", "Bình", "Thực", "Phế khí uất"], tc: ["Bí tiểu kèm ho hen, tức ngạt ngực", "Không tiểu được dù bụng trướng", "Mạch huyền dũng dạc"], pdt: "Tuyên phế lợi thủy, thăng thanh giáng trọc", bt: "Hoàng cầm tả phế thang gia Cát cánh, Mộc thông", tpbt: ["Hoàng cầm", "Tang bạch bì", "Cát cánh", "Chỉ xác", "Mộc thông", "Trạch tả"] },
+
+  "NK_054": { hc: "Cường trung do Âm hư hỏa vượng (Cương liên tục đau rát)", phanloai: ["Nam Khoa", "Nhiệt", "Hư thực thác tạp", "Âm hư hỏa vượng"], tc: ["Dương vật cương cứng liên tục không dịu, đau nhói", "Không xuất tinh được", "Mặt đỏ miệng khô, triều nhiệt", "Mạch tế sác hữu lực"], pdt: "Tư âm giáng hỏa, thanh can tả hỏa", bt: "Tri bá địa hoàng hoàn gia Long đởm thảo, Mẫu lệ", tpbt: ["Thục địa", "Tri mẫu", "Hoàng bá", "Long đởm thảo", "Mẫu lệ", "Sơn thù nhục"] },
+  "NK_055": { hc: "Cường trung do Can kinh nhiệt độc", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Can hỏa nhiệt độc"], tc: ["Dương vật sưng to cương cứng đau dữ dội", "Sốt, bứt rứt, miệng đắng", "Tiểu đỏ buốt", "Mạch huyền sác hữu lực"], pdt: "Thanh can tả hỏa, giải độc lương huyết", bt: "Long đởm tả can thang gia Huyền sâm, Ngưu tất", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Huyền sâm", "Ngưu tất", "Sài hồ"] },
+  "NK_056": { hc: "Cường trung do Huyết ứ ngưng trệ dương vật", phanloai: ["Nam Khoa", "Bình", "Thực", "Huyết ứ"], tc: ["Dương vật cương cứng tím bầm sau chấn thương", "Ấn vào đau nhói cự án", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, tiêu thũng chỉ thống", bt: "Thông khiếu trục ứ thang gia Ngưu tất", tpbt: ["Xuyên khung", "Xích thược", "Đào nhân", "Hồng hoa", "Thạch xương bồ", "Ngưu tất"] },
+
+  "NK_057": { hc: "Ngọc hành sang (Viêm loét quy đầu) do Thấp nhiệt hỏa độc", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt hỏa độc"], tc: ["Quy đầu bao quy đầu sưng nóng đỏ loét chảy mủ", "Ngứa rát dữ dội, hôi thối", "Tiểu buốt", "Mạch nhu sác"], pdt: "Thanh nhiệt giải độc, trừ thấp chỉ sang", bt: "Ngũ vị tiêu độc ẩm gia Hoàng bá, Khổ sâm", tpbt: ["Kim ngân hoa", "Cúc hoa", "Bồ công anh", "Hoàng bá", "Khổ sâm", "Cam thảo"] },
+  "NK_058": { hc: "Ngọc hành sang do Can Thận âm hư huyết táo", phanloai: ["Nam Khoa", "Bình", "Hư thực thác tạp", "Âm hư phong táo"], tc: ["Quy đầu khô nẻ, nứt kẽ đau rát kéo dài", "Ngứa ngáy dai dẳng không lành", "Lưng mỏi gối yếu", "Mạch tế sác"], pdt: "Tư bổ can thận, dưỡng huyết nhuận táo", bt: "Kỷ cúc địa hoàng hoàn gia Hà thủ ô, Đương quy", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Hà thủ ô", "Đương quy"] },
+
+  "NK_059": { hc: "Âm nang phong (Mẩn ngứa bìu) do Phong thấp uẩn kết", phanloai: ["Nam Khoa", "Bình", "Thực", "Phong thấp"], tc: ["Da bìu nổi mẩn đỏ, ngứa ngáy dãi dề", "Gãi chảy dịch vàng, da dày sừng", "Rêu dầy dính", "Mạch nhu hoãn"], pdt: "Khu phong trừ thấp, thanh nhiệt chỉ ngứa", bt: "Tiêu phong tán gia Khổ sâm, Hoàng bá", tpbt: ["Kinh giới", "Phòng phong", "Thuyền thoái", "Khổ sâm", "Hoàng bá", "Thạch cao"] },
+  "NK_060": { hc: "Âm nang phong do Huyết hư phong táo", phanloai: ["Nam Khoa", "Bình", "Hư", "Huyết hư phong táo"], tc: ["Da bìu khô tróc vảy trắng, ngứa dữ dội về đêm", "Sắc mặt úa vàng, mệt mỏi", "Lưỡi nhợt", "Mạch tế sáp"], pdt: "Dưỡng huyết nhuận táo, khu phong chỉ ngứa", bt: "Dưỡng tiêu phong tán gia Hà thủ ô", tpbt: ["Đương quy", "Thục địa", "Bạch thược", "Xuyên khung", "Phòng phong", "Hà thủ ô"] },
+
+  "NK_061": { hc: "Âm nang thũng (Tràn dịch màng tinh hoàn) do Thủy thấp nội đình", phanloai: ["Nam Khoa", "Bình", "Thực", "Thủy thấp tiêu thũng"], tc: ["Bì bìu sưng to mọng nước, không đỏ không nóng", "Cảm giác nặng nề kéo xuống bẹn", "Mệt mỏi, ăn kém", "Mạch nhu hoãn"], pdt: "Kiện tỳ mẫn thấp, lợi thủy tiêu thũng", bt: "Ngũ linh tán gia Thương truật, Xa tiền tử", tpbt: ["Bạch truật", "Phục linh", "Trạch tả", "Trư linh", "Quế chi", "Thương truật", "Xa tiền tử"] },
+  "NK_062": { hc: "Âm nang thũng do Thận dương hư suy thủy thũng", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Thận dương hư"], tc: ["Bì bìu sưng mọng nước kèm phù hai chân", "Tay chân lạnh ngắt, sợ lạnh", "Tiểu ít nước tiểu trong", "Mạch trầm tế vi"], pdt: "Ôn thận trợ dương, hóa khí lợi thủy tiêu thũng", bt: "Chân vũ thang gia Xa tiền tử, Ngưu tất", tpbt: ["Phụ tử chế", "Bạch truật", "Phục linh", "Bạch thược", "Sinh khương", "Xa tiền tử", "Ngưu tất"] },
+
+  "NK_063": { hc: "Suy giảm ham muốn do Mệnh môn hỏa suy", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Mệnh môn hỏa suy"], tc: ["Mất hoàn toàn ham muốn tình dục", "Sợ lạnh, tay chân lạnh ngắt quá gối", "Đau lưng mỏi gối, di tinh tinh lạnh", "Mạch trầm tế vi"], pdt: "Ôn bổ mệnh môn hỏa, tráng dương", bt: "Hữu quy hoàn gia Ba kích, Dâm dương hoắc, Nhục thung dung", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Phụ tử chế", "Nhục quế", "Ba kích", "Dâm dương hoắc", "Nhục thung dung"] },
+  "NK_064": { hc: "Suy giảm ham muốn do Can uất khí trệ", phanloai: ["Nam Khoa", "Bình", "Thực", "Can khí uất"], tc: ["Thờ ơ tình dục do u uất áp lực", "Hay thở dài, ngực sườn trướng đầy", "Mất ngủ, dễ cáu gắt", "Mạch huyền"], pdt: "Sơ can giải uất, lý khí an thần", bt: "Tiêu dao tán gia Dâm dương hoắc, Ba kích", tpbt: ["Sài hồ", "Đương quy", "Bạch thược", "Bạch truật", "Phục linh", "Dâm dương hoắc", "Ba kích"] },
+  "NK_065": { hc: "Suy giảm ham muốn do Tâm Tỳ lưỡng hư", phanloai: ["Nam Khoa", "Bình", "Hư", "Tâm Tỳ hư"], tc: ["Không nghĩ tới chuyện chăn gối do kiệt sức", "Hồi hộp hay quên, gầy còm", "Sắc mặt nhợt nhạt, tiêu lỏng", "Mạch tế nhược"], pdt: "Bổ ích tâm tỳ, dưỡng huyết khởi dâm", bt: "Quy tỳ thang gia Ba kích, Nhục thung dung", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Long nhãn", "Ba kích", "Nhục thung dung"] },
+  "NK_066": { hc: "Suy giảm ham muốn do Thận âm hư hỏa suy", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Âm hư"], tc: ["Chán chăn gối kèm người khô gầy", "Triều nhiệt đạo hãn, tai ù", "Miệng khô họng rát", "Mạch tế sác"], pdt: "Tư bổ thận âm, ích tinh trợ dương", bt: "Tả quy hoàn gia Dâm dương hoắc", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Thỏ ty tử", "Dâm dương hoắc", "Ngưu tất"] },
+
+  "NK_067": { hc: "Không xuất tinh do Can uất khí trệ kinh lạc", phanloai: ["Nam Khoa", "Bình", "Thực", "Can khí uất"], tc: ["Quan hệ thời gian dài không thể xuất tinh", "Ngực sườn trướng đau, tinh thần ức chế", "Mạch huyền"], pdt: "Sơ can giải uất, thông kinh phát tinh", bt: "Sài hồ sơ can tán gia Vương bất lưu hành, Xuyên sơn giáp", tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Xuyên khung", "Vương bất lưu hành", "Xuyên sơn giáp"] },
+  "NK_068": { hc: "Không xuất tinh do Thận tinh khuy tổn", phanloai: ["Nam Khoa", "Bình", "Hư", "Thận tinh bất túc"], tc: ["Không xuất tinh được do không có tinh dạt", "Thắt lưng yếu mềm, tai ù điếc", "Mệt mỏi toàn thân", "Mạch trầm tế vô lực"], pdt: "Tư bổ thận tinh, ích tủy sinh tinh", bt: "Tả quy hoàn gia Tử hà xe, Lộc giác giao", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Thỏ ty tử", "Tử hà xe", "Lộc giác giao"] },
+  "NK_069": { hc: "Không xuất tinh do Thấp nhiệt trở trệ tinh cung", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Quan hệ không xuất tinh kèm đau buốt bẹn", "Tiểu dắt buốt, bì bìu ẩm hôi", "Rêu vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, thông tinh chỉ thống", bt: "Bát chính tán gia Vương bất lưu hành, Ngưu tất", tpbt: ["Xa tiền tử", "Mộc thông", "Cù mạch", "Biển súc", "Chi tử", "Vương bất lưu hành", "Ngưu tất"] },
+  "NK_070": { hc: "Không xuất tinh do Huyết ứ bế tắc tinh đường", phanloai: ["Nam Khoa", "Bình", "Thực", "Huyết ứ"], tc: ["Không xuất tinh kèm đau nhói vùng tầng sinh môn", "Lưỡi tím sẫm điểm ứ huyết", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, thông tinh khai khiếu", bt: "Thông khiếu trục ứ thang gia Vương bất lưu hành", tpbt: ["Xuyên khung", "Xích thược", "Đào nhân", "Hồng hoa", "Thạch xương bồ", "Vương bất lưu hành"] },
+
+  "NK_071": { hc: "Tinh hoàn teo do Thận tinh hư suy", phanloai: ["Nam Khoa", "Bình", "Hư suy", "Thận tinh bất túc"], tc: ["Hai tinh hoàn teo nhỏ, mềm nhão", "Mất ham muốn, không có con", "Tóc bạc sớm, tai ù", "Mạch trầm tế dời"], pdt: "Bổ thận điền tinh, dưỡng tủy bổ nang", bt: "Tả quy hoàn gia Lộc nhung, Tử hà xe, Cốt toái bổ", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Lộc nhung", "Tử hà xe", "Cốt toái bổ", "Kỷ tử"] },
+  "NK_072": { hc: "Tinh hoàn teo do Huyết ứ bế tắc kinh mạch", phanloai: ["Nam Khoa", "Bình", "Thực", "Huyết ứ"], tc: ["Tinh hoàn teo nhỏ sau chấn thương hoặc biến chứng quai bị", "Sờ vào có cặn cứng đau", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, thông kinh tiêu kết", bt: "Đào hồng tứ vật thang gia Xuyên sơn giáp, Ngưu tất", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Xích thược", "Xuyên sơn giáp", "Ngưu tất"] },
+
+  "NK_073": { hc: "Trĩ nang (Mụn mủ bìu) do Hỏa độc uẩn kết", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Hỏa độc"], tc: ["Bì bìu nổi mụn nhọt sưng nóng đỏ đau dữ dội", "Nhanh hóa mủ vỡ chảy dịch hôi", "Sốt cao", "Mạch sác hữu lực"], pdt: "Thanh nhiệt giải độc, tiêu thũng bài nùng", bt: "Ngũ vị tiêu độc ẩm gia Hoàng liên, Cát cánh", tpbt: ["Kim ngân hoa", "Cúc hoa", "Bồ công anh", "Tử hoa địa đinh", "Hoàng liên", "Cát cánh"] },
+
+  "NK_074": { hc: "Tinh thanh (Tinh dịch loãng như nước) do Thận dương hư", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Thận dương hư"], tc: ["Tinh dịch trong loãng không dính", "Sợ lạnh, tay chân lạnh ngắt", "Đau lưng mỏi gối, liệt dương", "Mạch trầm trì"], pdt: "Ôn bổ thận dương, ích tinh đặc tinh", bt: "Hữu quy hoàn gia Bổ cốt chỉ, Thỏ ty tử", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Bổ cốt chỉ", "Thỏ ty tử"] },
+  "NK_075": { hc: "Tinh lạnh do Mệnh môn hỏa suy", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Mệnh môn hỏa suy"], tc: ["Bì bìu và tinh dịch lạnh ngắt khi phóng tinh", "Liệt dương, suy giảm ham muốn", "Sợ lạnh, ngũ canh tả", "Mạch trầm tế vi"], pdt: "Ôn bổ mệnh môn hỏa, trợ dương ích tinh", bt: "Hữu quy hoàn hợp Tứ nghịch thang", tpbt: ["Thục địa", "Nhục quế", "Phụ tử chế", "Can khương", "Sơn thù nhục", "Đỗ trọng", "Chích cam thảo"] },
+
+  "NK_076": { hc: "Tinh đặc khó hóa lỏng do Âm hư hỏa vượng", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Âm hư hỏa vượng"], tc: ["Tinh dịch ra đông đặc dạng vón cục lâu hóa lỏng", "Lòng bàn tay chân nóng, triều nhiệt", "Mỏi lưng gối, lưỡi đỏ", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, hóa đàm sinh tân", bt: "Tri bá địa hoàng hoàn gia Sa sâm, Mạch môn, Sơn tra", tpbt: ["Thục địa", "Tri mẫu", "Hoàng bá", "Sơn thù nhục", "Sa sâm", "Mạch môn", "Sơn tra"] },
+  "NK_077": { hc: "Tinh đặc khó hóa lỏng do Đàm thấp uẩn kết", phanloai: ["Nam Khoa", "Bình", "Thực", "Đàm thấp"], tc: ["Tinh dịch dính quánh kéo sợi khó lỏng", "Thân thể mệt mỏi béo bệu", "Rêu dầy nhớt", "Mạch nhu hoạt"], pdt: "Kiện tỳ mẫn thấp, hóa đàm thông tinh", bt: "Nhị trần thang gia Sơn tra, Thần khúc, Trạch tả", tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Sơn tra", "Thần khúc", "Trạch tả", "Cam thảo"] },
+
+  "NK_078": { hc: "Mỏi gối đau lưng sau quan hệ do Thận khí hư", phanloai: ["Nam Khoa", "Bình", "Hư", "Thận khí hư"], tc: ["Thắt lưng gối đau kiệt sức sau mỗi lần xuất tinh", "Tai ù, hoa mắt, hụt hơi", "Mệt mỏi kéo dài 2-3 ngày", "Mạch trầm nhược"], pdt: "Bổ thận ích khí, cố bản培nguyên", bt: "Thận khí hoàn gia Cẩu tích, Đỗ trọng, Tục đoạn", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Đỗ trọng", "Cẩu tích", "Tục đoạn", "Phục linh"] },
+  "NK_079": { hc: "Mệt mỏi kiệt sức sau quan hệ do Khí huyết lưỡng hư", phanloai: ["Nam Khoa", "Bình", "Hư", "Khí huyết hư"], tc: ["Sắc mặt bệch nhợt, thở xối xả sau quan hệ", "Hồi hộp, vã mồ hôi đầm đìa", "Tay chân bủn rủn", "Mạch tế nhược vô lực"], pdt: "Đại bổ khí huyết, dưỡng tâm an thần", bt: "Thập toàn đại bổ thang", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Hoàng kỳ", "Nhục quế"] },
+
+  "NK_080": { hc: "Đau rát quy đầu khi quan hệ do Can kinh thấp nhiệt", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Quy đầu nóng rát đau nhói khi tiếp xúc", "Bì bìu ẩm ngứa hôi", "Tiểu đỏ buốt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, sơ can chỉ thống", bt: "Long đởm tả can thang gia Khổ sâm", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Khổ sâm", "Mộc thông", "Sài hồ"] },
+  "NK_081": { hc: "Đau buốt bẹn khi xuất tinh do Huyết ứ tinh đường", phanloai: ["Nam Khoa", "Bình", "Thực", "Huyết ứ"], tc: ["Đau quặn dữ dội bẹn bẹn mỗi lần phóng tinh", "Lưỡi tím sẫm", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, thông lạc chỉ thống", bt: "Thân thống trục ứ thang gia Ngưu tất", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Hương phụ", "Địa long"] },
+
+  "NK_082": { hc: "Thao tinh (Tinh dịch tự chảy khi đi tiêu) do Thận khí bất cố", phanloai: ["Nam Khoa", "Bình", "Hư", "Thận khí hư"], tc: ["Rỉ tinh dịch trắng đục khi rặn đại tiện", "Thắt lưng mỏi yếu, tai ù", "Tiểu rỉ rả", "Mạch trầm nhược"], pdt: "Bổ thận cố tinh, sáp niệu", bt: "Kim tỏa cố tinh hoàn gia Bổ cốt chỉ", tpbt: ["Sa uyển tử", "Liên tu", "Khiếm thực", "Long cốt", "Mẫu lệ", "Bổ cốt chỉ"] },
+  "NK_083": { hc: "Thao tinh do Trung khí hạ hãm", phanloai: ["Nam Khoa", "Bình", "Hư", "Trung khí hạ hãm"], tc: ["Rỉ tinh dịch khi rặn tiêu kèm cảm giác sa trực tràng", "Mệt mỏi hụt hơi, bụng nặng", "Mạch hoãn nhược"], pdt: "Bổ trung ích khí, thăng đề cố tinh", bt: "Bổ trung ích khí thang gia Khiếm thực, Sa uyển tử", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Thăng ma", "Sài hồ", "Khiếm thực", "Sa uyển tử"] },
+
+  "NK_084": { hc: "Viêm mào tinh hoàn mạn do Âm hư hỏa vượng", phanloai: ["Nam Khoa", "Nhiệt", "Hư thực thác tạp", "Âm hư hỏa vượng"], tc: ["Mào tinh hoàn sưng cứng đau âm ỉ dai dẳng", "Triều nhiệt đạo hãn, mỏi lưng", "Lưỡi đỏ ít rêu", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, tán kết tiêu thũng", bt: "Tri bá địa hoàng hoàn gia Thổ phục linh, Cốt toái bổ", tpbt: ["Thục địa", "Tri mẫu", "Hoàng bá", "Sơn thù nhục", "Thổ phục linh", "Cốt toái bổ"] },
+  "NK_085": { hc: "Viêm mào tinh hoàn mạn do Khí trệ huyết ứ", phanloai: ["Nam Khoa", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Mào tinh hoàn có cục cứng cố định đau cự án", "Sắc mặt u ám, lưỡi tím", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, nhuyễn kiên tán kết", bt: "Đào hồng tứ vật thang gia Tam thất, Mộc qua", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Tam thất", "Mộc qua", "Ngưu tất"] },
+
+  "NK_086": { hc: "Viêm túi tinh do Thấp nhiệt lương huyết", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt huyết nhiệt"], tc: ["Xuất tinh ra máu đỏ sẫm kèm đau buốt bẹn", "Sốt nhẹ, tiểu buốt dắt", "Rêu dầy vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, lương huyết chỉ huyết", bt: "Tiểu kế ẩm gia Hoàng bá, Tri mẫu", tpbt: ["Tiểu kế", "Sinh địa", "Mộc thông", "Hoạt thạch", "Hoàng bá", "Tri mẫu", "Cam thảo"] },
+  "NK_087": { hc: "Viêm túi tinh do Can hỏa bốc trào", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Can hỏa"], tc: ["Xuất tinh ra máu kèm đau rát bẹn dữ dội", "Mắt đỏ, miệng đắng, dễ cáu giận", "Mạch huyền sác"], pdt: "Thanh can tả hỏa, lương huyết止huyết", bt: "Long đởm tả can thang gia Trắc bách diệp, Tam thất", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trắc bách diệp", "Tam thất", "Sài hồ"] },
+
+  "NK_088": { hc: "Giãn tĩnh mạch thừng tinh do Trung khí hạ hãm", phanloai: ["Nam Khoa", "Bình", "Hư", "Trung khí hạ hãm"], tc: ["Bì bìu bên trái sa thõng nổi búi ngoằn ngoèo", "Đứng lâu trướng đau nặng tức, nằm nghỉ bớt", "Mệt mỏi hụt hơi", "Mạch hoãn nhược"], pdt: "Bổ khí thăng dương, hoạt huyết thông lạc", bt: "Bổ trung ích khí thang gia Ngưu tất, Đương quy vĩ", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Thăng ma", "Sài hồ", "Ngưu tất", "Đương quy vĩ"] },
+  "NK_089": { hc: "Giãn tĩnh mạch thừng tinh do Khí trệ huyết ứ", phanloai: ["Nam Khoa", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Búi tĩnh mạch bìu sưng to bầm tím đau nhói", "Ấn vào đau tăng cố định", "Lưỡi tím sẫm", "Mạch sáp"], pdt: "Hành khí hoạt huyết, tiêu thũng chỉ thống", bt: "Thân thống trục ứ thang gia Ngưu tất, Vương bất lưu hành", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Vương bất lưu hành"] },
+
+  "NK_090": { hc: "Dương quy đầu mụn nước do Tỳ Vị thấp nhiệt", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Quy đầu nổi mụn nước nhỏ liti ngứa rát", "Vỡ ra chảy dịch dính hôi", "Rêu dầy vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, giải độc chỉ ngứa", bt: "Tam nhân thang gia Khổ sâm, Hoàng bá", tpbt: ["Hạnh nhân", "Ý dĩ", "Bán hạ", "Khổ sâm", "Hoàng bá", "Cam thảo"] },
+  "NK_091": { hc: "Dương vật mụn nhọt độc do Nhiệt độc hãm hạ tiêu", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Hỏa độc"], tc: ["Thân dương vật nổi mủ sưng to nóng đỏ", "Đau dữ dội, sốt cao", "Tiểu đỏ buốt", "Mạch sác hữu lực"], pdt: "Thanh nhiệt giải độc, tiêu thũng bài nùng", bt: "Hoàng liên giải độc thang gia Ngũ vị tiêu độc ẩm", tpbt: ["Hoàng liên", "Hoàng cầm", "Hoàng bá", "Chi tử", "Kim ngân hoa", "Bồ công anh"] },
+
+  "NK_092": { hc: "Bì bìu chàm hóa (Eczema bìu) do Thấp nhiệt uẩn kết", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Da bìu đỏ nổi mụn nước chảy dịch dính hôi", "Ngứa ngáy dữ dội cuồng loạn", "Mạch nhu sác"], pdt: "Thanh nhiệt táo thấp, khu phong chỉ ngứa", bt: "Long đởm tả can thang gia Khổ sâm, Địa phụ tử", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Khổ sâm", "Địa phụ tử", "Trạch tả"] },
+  "NK_093": { hc: "Bì bìu khô nẻ do Huyết hư phong táo", phanloai: ["Nam Khoa", "Bình", "Hư", "Huyết hư phong táo"], tc: ["Da bìu khô nẻ dày sừng, tróc vảy mỏng", "Ngứa rát kéo dài mạn tính", "Sắc mặt nhợt", "Mạch tế sáp"], pdt: "Dư dưỡng huyết nhuận táo, khu phong chỉ ngứa", bt: "Dưỡng tiêu phong tán gia Hà thủ ô, Đương quy", tpbt: ["Đương quy", "Thục địa", "Bạch thược", "Phòng phong", "Hà thủ ô", "Cam thảo"] },
+
+  "NK_094": { hc: "Di tinh do Phế khí hư thất thu", phanloai: ["Nam Khoa", "Bình", "Hư", "Phế khí hư"], tc: ["Di tinh mộng tinh kèm ho hắng hụt hơi", "Tự hãn, dễ cảm mạo", "Mệt mỏi ngại nói", "Mạch hư nhược"], pdt: "Bổ phế ích khí, cố tinh sáp niệu", bt: "Bổ phế thang gia Kim tỏa cố tinh hoàn", tpbt: ["Nhân sâm", "Hoàng kỳ", "Thục địa", "Ngũ vị tử", "Sa uyển tử", "Khiếm thực", "Long cốt"] },
+  "NK_095": { hc: "Di tinh do Tâm Hỏa xí thịnh", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Tâm hỏa"], tc: ["Đêm ngủ thấy lửa nóng rồi mộng tinh", "Tâm phiền bứt rứt, loét miệng lưỡi", "Tiểu đỏ buốt", "Mạch sác hữu lực"], pdt: "Thanh tâm tả hỏa, an thần cố tinh", bt: "Đạo xích tán gia Hoàng liên, Mẫu lệ", tpbt: ["Sinh địa", "Mộc thông", "Trúc diệp", "Hoàng liên", "Mẫu lệ", "Cam thảo"] },
+
+  "NK_096": { hc: "Xuất tinh đau do Khí trệ huyết ứ tầng sinh môn", phanloai: ["Nam Khoa", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Đau nhói vùng tầng sinh môn lan ra hậu môn khi xuất tinh", "Lưỡi tím điểm ứ huyết", "Mạch sáp"], pdt: "Hành khí hoạt huyết, thông lạc chỉ thống", bt: "Cách hạ trục ứ thang gia Ngưu tất", tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Chỉ xác", "Hương phụ", "Ngưu tất"] },
+  "NK_097": { hc: "Xuất tinh đau do Thấp nhiệt uẩn kết tinh đạo", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Đau rát buốt dọc niệu đạo và bẹn khi phóng tinh", "Tiểu dắt đục", "Rêu vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, thông lâm chỉ thống", bt: "Bát chính tán gia Hoàng bá", tpbt: ["Xa tiền tử", "Mộc thông", "Cù mạch", "Biển súc", "Chi tử", "Hoàng bá", "Cam thảo"] },
+
+  "NK_098": { hc: "Suy giảm sinh lý tuổi già do Thận tinh kiệt", phanloai: ["Nam Khoa", "Bình", "Hư suy", "Thận tinh bất túc"], tc: ["Mất hoàn toàn ham muốn và khả năng cương ở người già", "Chân gối yếu mềm, tai điếc răng lung lay", "Trí nhớ sa sút", "Mạch trầm tế vô lực"], pdt: "Tư bổ thận tinh, đại bổ nguyên khí", bt: "Tả quy hoàn gia Lộc nhung, Nhục thung dung, Nhân sâm", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Lộc nhung", "Nhục thung dung", "Nhân sâm"] },
+  "NK_099": { hc: "Suy giảm sinh lý tuổi già do Âm dương lưỡng hư", phanloai: ["Nam Khoa", "Hàn nhiệt thác tạp", "Hư suy", "Âm dương lưỡng hư"], tc: ["Vừa sợ lạnh tay chân lạnh lại vừa triều nhiệt", "Mệt mỏi kiệt sức, liệt dương", "Tiểu đêm nhiều lần", "Mạch vi tế"], pdt: "Âm dương song bổ, tư thận tráng dương", bt: "Bát vị hoàn gia Kỷ tử, Thỏ ty tử, Bổ cốt chỉ", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Kỷ tử", "Thỏ ty tử", "Bổ cốt chỉ"] },
+
+  "NK_100": { hc: "Cương yếu (Lãnh dâm) do Tỳ Thận hỏa suy", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Tỳ Thận hỏa suy"], tc: ["Dương vật hơi cương rồi dịu ngay, cold nhão", "Ăn kém tiêu chảy phân sống", "Tay chân lạnh ngắt, sợ lạnh", "Mạch trầm tế dời"], pdt: "Ôn bổ tỳ thận, tráng dương khởi nuy", bt: "Tứ thần hoàn hợp Hữu quy hoàn", tpbt: ["Bổ cốt chỉ", "Nhục đậu khấu", "Ngô thù du", "Thục địa", "Nhục quế", "Phụ tử chế", "Dâm dương hoắc"] },
+
+  "NK_101": { hc: "Liệt dương do Thận khí bất cố", phanloai: ["Nam Khoa", "Bình", "Hư", "Thận khí hư"], tc: ["Dương vật không thể cương cứng, di tinh rỉ rả", "Thắt lưng đau mỏi, tai ù", "Sắc mặt nhợt nhạt", "Mạch trầm nhược"], pdt: "Bổ thận ích khí, tráng dương cố tinh", bt: "Kim tỏa cố tinh hoàn hợp Hữu quy hoàn", tpbt: ["Sa uyển tử", "Khiếm thực", "Thục địa", "Sơn thù nhục", "Dâm dương hoắc", "Ba kích"] },
+  "NK_102": { hc: "Liệt dương do Tâm Thận bất giao", phanloai: ["Nam Khoa", "Nhiệt", "Hư thực thác tạp", "Tâm Thận bất giao"], tc: ["Khó cương cứng kèm tâm phiền mất ngủ", "Hồi hộp hoảng hốt, triều nhiệt", "Lưng mỏi tai ù", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, thanh tâm tráng dương", bt: "Giao thái hoàn hợp Tri bá địa hoàng hoàn gia Dâm dương hoắc", tpbt: ["Hoàng liên", "Nhục quế", "Thục địa", "Tri mẫu", "Hoàng bá", "Dâm dương hoắc"] },
+  "NK_103": { hc: "Liệt dương do Tỳ hư thấp trệ", phanloai: ["Nam Khoa", "Bình", "Hư thực thác tạp", "Tỳ hư thấp trệ"], tc: ["Liệt dương ở người ăn kém trướng bụng", "Thân thể mỏi nặng, đại tiện nhão lỏng", "Mạch nhu hoãn"], pdt: "Kiện tỳ mẫn thấp, thông lạc tráng dương", bt: "Sâm linh bạch truật tán gia Ba kích, Dâm dương hoắc", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Ý dĩ", "Ba kích", "Dâm dương hoắc"] },
+  "NK_104": { hc: "Liệt dương do Phong hàn xâm nhập can kinh", phanloai: ["Nam Khoa", "Hàn", "Thực", "Phong hàn"], tc: ["Liệt dương đột ngột sau khi nhiễm lạnh bẹn", "Bì bìu lạnh ngắt co rút đau âm ỉ", "Mạch phù khẩn"], pdt: "Khu phong tán hàn, noãn can tráng dương", bt: "Noãn can tiễn gia Dâm dương hoắc, Tế tân", tpbt: ["Tiểu hồi hương", "Nhục quế", "Đương quy", "Ô dược", "Tế tân", "Dâm dương hoắc"] },
+  "NK_105": { hc: "Liệt dương do Can hỏa xí thịnh", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Can hỏa"], tc: ["Dương vật hoàn toàn không cương do giận dữ kéo dài", "Mắt đỏ, miệng đắng, đau đầu", "Dễ cáu gắt, tiểu đỏ", "Mạch huyền sác hữu lực"], pdt: "Thanh can tả hỏa, thư gân thông lạc", bt: "Long đởm tả can thang gia Ba kích", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Sài hồ", "Ba kích"] },
+  "NK_106": { hc: "Liệt dương do Khí huyết lưỡng hư suy nhược", phanloai: ["Nam Khoa", "Bình", "Hư", "Khí huyết hư"], tc: ["Liệt dương sau khi ốm nặng kéo dài", "Thân thể gầy gộc, mệt mỏi hụt hơi", "Sắc mặt bệch tái", "Mạch tế nhược vô lực"], pdt: "Thập toàn đại bổ, tráng dương khởi nuy", bt: "Thập toàn đại bổ thang gia Ba kích, Dâm dương hoắc", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Thục địa", "Đương quy", "Ba kích", "Dâm dương hoắc"] },
+  "NK_107": { hc: "Liệt dương do Bàng quang khí hóa thất thường", phanloai: ["Nam Khoa", "Bình", "Hư thực thác tạp", "Khí hóa thất thường"], tc: ["Liệt dương kèm đi tiểu rỉ rả, khó tiểu", "Bụng dưới trướng đầy", "Mạch trầm huyền"], pdt: "Hóa khí lợi thủy, bổ thận tráng dương", bt: "Ngũ linh tán hợp Hữu quy hoàn", tpbt: ["Bạch truật", "Phục linh", "Trạch tả", "Trư linh", "Thục địa", "Phụ tử chế", "Nhục quế"] },
+
+  "NK_108": { hc: "Xuất tinh sớm do Thận âm hư phế tân kiệt", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Âm hư"], tc: ["Xuất tinh sớm kèm ho khan kéo dài", "Họng khô rát, triều nhiệt đạo hãn", "Thắt lưng mỏi gối", "Mạch tế sác"], pdt: "Tư âm nhuận phế, tư bổ thận thủy cố tinh", bt: "Bách hợp cố kim thang gia Sa uyển tử, Khiếm thực", tpbt: ["Bách hợp", "Sinh địa", "Thục địa", "Mạch môn", "Sa uyển tử", "Khiếm thực"] },
+  "NK_109": { hc: "Xuất tinh sớm do Đàm nhiệt nhiễu tâm", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Đàm nhiệt"], tc: ["Vừa tiếp xúc đã xuất tinh kèm tâm phiền mất ngủ", "Cổ họng vướng đờm dính vàng", "Rêu dầy vàng nhớt", "Mạch hoạt sác"], pdt: "Thanh nhiệt hóa đàm, an thần cố tinh", bt: "Hoàng liên ôn đởm thang gia Kim tỏa cố tinh hoàn", tpbt: ["Hoàng liên", "Bán hạ", "Trần bì", "Phục linh", "Trúc nhự", "Sa uyển tử", "Khiếm thực"] },
+  "NK_110": { hc: "Xuất tinh sớm do Khí trệ huyết ứ kinh lạc bẹn", phanloai: ["Nam Khoa", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Xuất tinh sớm kèm đau nhói vùng bẹn bẹn", "Lưỡi tím sẫm có điểm ứ huyết", "Mạch sáp"], pdt: "Hành khí hoạt huyết, cố tinh chỉ tả", bt: "Cách hạ trục ứ thang gia Sa uyển tử, Long cốt", tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Chỉ xác", "Sa uyển tử", "Long cốt"] },
+  "NK_111": { hc: "Xuất tinh sớm do Tỳ hư không nhiếp tinh", phanloai: ["Nam Khoa", "Bình", "Hư", "Tỳ hư"], tc: ["Xuất tinh sớm ở người ăn uống kém tiêu", "Bụng trướng, phân lỏng nhão", "Mệt mỏi hụt hơi", "Mạch hoãn nhược"], pdt: "Kiện tỳ ích khí, nhiếp tinh cố sáp", bt: "Sâm linh bạch truật tán gia Sa uyển tử, Khiếm thực", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Liên nhục", "Sa uyển tử", "Khiếm thực"] },
+
+  "NK_112": { hc: "Mộng tinh do Can hỏa quấy rối tâm thần", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Can hỏa"], tc: ["Đêm ngủ mơ thấy quan hệ tình dục rồi xuất tinh", "Mặt đỏ, miệng đắng, dễ giận dữ", "Tiểu đỏ đại tiện táo", "Mạch huyền sác"], pdt: "Thanh can tả hỏa, trấn tĩnh an thần cố tinh", bt: "Long đởm tả can thang gia Toan táo nhân, Mẫu lệ", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Sài hồ", "Toan táo nhân", "Mẫu lệ"] },
+  "NK_113": { hc: "Mộng tinh do Vị thực nhiệt hóa hỏa", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Vị hỏa"], tc: ["Mộng tinh sau khi ăn uống đồ cay nóng no nê", "Miệng hôi, chân răng sưng đau", "Bụng trướng, táo bón", "Mạch hoạt sác"], pdt: "Thanh vị tả hỏa, giáng nghịch cố tinh", bt: "Thanh vị tán gia Sa uyển tử, Long cốt", tpbt: ["Hoàng liên", "Thăng ma", "Sinh địa", "Đan bì", "Đương quy", "Sa uyển tử", "Long cốt"] },
+  "NK_114": { hc: "Mộng tinh do Phế Thận âm hư", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Âm hư"], tc: ["Mộng tinh liên tục kèm ho khan triều nhiệt", "Gò má đỏ, vã mồ hôi trộm", "Lưng mỏi gối yếu", "Mạch tế sác"], pdt: "Tư âm nhuận phế, tư thận cố tinh", bt: "Bách hợp cố kim thang gia Long cốt, Mẫu lệ", tpbt: ["Bách hợp", "Sinh địa", "Thục địa", "Mạch môn", "Huyền sâm", "Long cốt", "Mẫu lệ"] },
+
+  "NK_115": { hc: "Hoạt tinh do Mệnh môn hỏa suy kiệt", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Mệnh môn hỏa suy"], tc: ["Tinh dịch rỉ chảy liên tục cả ngày lẫn đêm", "Chân tay lạnh ngắt quá gối, sợ lạnh dữ dội", "Sắc mặt bệch tái", "Mạch vi vi muốn tuyệt"], pdt: "Hồi dương cứu nghịch, ôn bổ mệnh môn cố tinh", bt: "Hữu quy hoàn hợp Tứ nghịch thang gia Củng đái hoàn", tpbt: ["Thục địa", "Nhục quế", "Phụ tử chế", "Can khương", "Sơn thù nhục", "Bổ cốt chỉ", "Tang phiêu tiêu"] },
+  "NK_116": { hc: "Hoạt tinh do Tỳ Thận khí hư bất cố", phanloai: ["Nam Khoa", "Bình", "Hư", "Tỳ Thận khí hư"], tc: ["Tinh dịch tự rỉ ra khi vận động nhẹ", "Bụng trướng đầy, tiêu chảy dai dẳng", "Mệt mỏi hụt hơi", "Mạch trầm nhược vô lực"], pdt: "Song bổ tỳ thận, ích khí cố tinh", bt: "Sâm linh bạch truật tán hợp Kim tỏa cố tinh hoàn", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Sa uyển tử", "Khiếm thực", "Long cốt"] },
+
+  "NK_117": { hc: "Huyết tinh do Hỏa độc nội thịnh tinh cung", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Hỏa độc"], tc: ["Xuất tinh ra máu đỏ tươi số lượng nhiều", "Bụng dưới và bẹn sưng nóng đau dữ dội", "Sốt cao, tiểu đỏ buốt", "Mạch sác hữu lực"], pdt: "Thanh nhiệt giải độc, lương huyết chỉ huyết", bt: "Hoàng liên giải độc thang gia Tam thất, Bồ hoàng", tpbt: ["Hoàng liên", "Hoàng cầm", "Hoàng bá", "Chi tử", "Tam thất", "Bồ hoàng"] },
+  "NK_118": { hc: "Huyết tinh do Khí trệ huyết ứ lâu ngày", phanloai: ["Nam Khoa", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Xuất tinh ra máu màu tím đen dai dẳng nhiều tháng", "Bẹn bẹn đau nhói cố định", "Lưỡi tím sẫm", "Mạch sáp"], pdt: "Hành khí hoạt huyết, hóa ứ chỉ huyết", bt: "Huyết phủ trục ứ thang gia Tam thất, Ngưu tất", tpbt: ["Đương quy", "Sinh địa", "Đào nhân", "Hồng hoa", "Chỉ xác", "Tam thất", "Ngưu tất"] },
+
+  "NK_119": { hc: "Vô sinh nam do Thận âm hư tinh khô", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Âm hư tinh khô"], tc: ["Không có tinh trùng hoặc tinh trùng chết 100%", "Lòng bàn tay chân nóng, triều nhiệt đạo hãn", "Mỏi lưng gối, tai ù", "Mạch tế sác"], pdt: "Tư bổ thận âm, sinh tân điền tinh", bt: "Lục vị địa hoàng hoàn gia Tử hà xe, Kỷ tử, Mạch môn", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Đan bì", "Tử hà xe", "Kỷ tử", "Mạch môn"] },
+  "NK_120": { hc: "Vô sinh nam do Tỳ Thận dương hư tinh lạnh", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Tỳ Thận dương hư"], tc: ["Tinh trùng di động yếu (độ A+B < 20%)", "Sợ lạnh, tay chân lạnh, tiêu chảy sáng", "Đau lưng mỏi gối", "Mạch trầm tế trì"], pdt: "Ôn bổ tỳ thận, tráng dương ích tinh", bt: "Tứ thần hoàn hợp Hữu quy hoàn gia Dâm dương hoắc", tpbt: ["Bổ cốt chỉ", "Nhục đậu khấu", "Ngô thù du", "Thục địa", "Nhục quế", "Phụ tử chế", "Dâm dương hoắc"] },
+  "NK_121": { hc: "Vô sinh nam do Tâm Can uất kết tinh trệ", phanloai: ["Nam Khoa", "Bình", "Thực", "Khí uất"], tc: ["Không phóng tinh được do căng thẳng áp lực", "Tâm phiền, hay thở dài, mất ngủ", "Mạch huyền"], pdt: "Sơ can giải uất, thanh tâm an thần thông tinh", bt: "Tiêu dao tán gia Vương bất lưu hành, Viễn chí", tpbt: ["Sài hồ", "Đương quy", "Bạch thược", "Bạch truật", "Phục linh", "Vương bất lưu hành", "Viễn chí"] },
+  "NK_122": { hc: "Vô sinh nam do Hàn ngưng huyết ứ tinh cung", phanloai: ["Nam Khoa", "Hàn", "Thực", "Hàn trệ huyết ứ"], tc: ["Tắc ống dẫn tinh do nhiễm lạnh bẹn bẹn", "Gặp lạnh đau tăng, bẹn cold nhói", "Mạch trầm sáp khẩn"], pdt: "Ôn kinh tán hàn, hoạt huyết thông tinh", bt: "Noãn can tiễn hợp Đào hồng tứ vật thang gia Vương bất lưu hành", tpbt: ["Tiểu hồi hương", "Nhục quế", "Đương quy", "Đào nhân", "Hồng hoa", "Vương bất lưu hành"] },
+
+  "NK_123": { hc: "Sán khí do Hàn thấp uẩn kết bìu", phanloai: ["Nam Khoa", "Hàn", "Thực", "Hàn thấp"], tc: ["Tinh hoàn sưng to lạnh ngắt, da bìu dày cứng", "Đau âm ỉ liên miên, gặp lạnh đau tăng", "Rêu dầy dính trắng", "Mạch nhu trì"], pdt: "Ôn trung tán hàn, trừ thấp tiêu sán", bt: "Bình vị tán gia Can khương, Tiểu hồi hương, Ô dược", tpbt: ["Thương truật", "Hậu phác", "Trần bì", "Can khương", "Tiểu hồi hương", "Ô dược"] },
+  "NK_124": { hc: "Sán khí do Can Hỏa phần huyết", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Can hỏa huyết nhiệt"], tc: ["Tinh hoàn sưng to đỏ tím đau nhói cự án", "Mặt đỏ mắt đỏ, sốt cao", "Tiểu đỏ buốt", "Mạch huyền sác dũng mãnh"], pdt: "Thanh can tả hỏa, lương huyết tiêu thũng", bt: "Long đởm tả can thang gia Trắc bách diệp, Xích thược", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trắc bách diệp", "Xích thược", "Sài hồ"] },
+  "NK_125": { hc: "Sán khí do Thận âm hư bìu trướng đau", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Thận âm hư"], tc: ["Tinh hoàn trướng đau rát nhẹ dai dẳng nhiều năm", "Triều nhiệt đạo hãn, mỏi lưng", "Lưỡi đỏ ít rêu", "Mạch tế sác"], pdt: "Tư bổ thận âm, nhuận can chỉ thống", bt: "Kỷ cúc địa hoàng hoàn gia Tiểu hồi hương, Ô dược", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Cúc hoa", "Tiểu hồi hương", "Ô dược"] },
+
+  "NK_126": { hc: "Viêm tiền liệt tuyến mạn do Tâm Thận bất giao", phanloai: ["Nam Khoa", "Nhiệt", "Hư thực thác tạp", "Tâm Thận bất giao"], tc: ["Tiểu dắt rát nhẹ kéo dài kèm mất ngủ bứt rứt", "Hồi hộp hay quên, triều nhiệt", "Thắt lưng mỏi, tai ù", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, thanh tâm thông lâm", bt: "Giao thái hoàn hợp Bát chính tán gia giảm", tpbt: ["Hoàng liên", "Nhục quế", "Mộc thông", "Xa tiền tử", "Chi tử", "Sinh địa"] },
+  "NK_127": { hc: "Viêm tiền liệt tuyến mạn do Can uất khí trệ", phanloai: ["Nam Khoa", "Bình", "Thực", "Can khí uất"], tc: ["Đau trướng tầng sinh môn lan sang thắt lưng khi xúc động", "Tiểu tiện khó, dòng tiểu yếu", "Hay thở dài", "Mạch huyền"], pdt: "Sơ can giải uất, thông lâm chỉ thống", bt: "Sài hồ sơ can tán gia Mộc thông, Xa tiền tử", tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Xuyên khung", "Mộc thông", "Xa tiền tử"] },
+  "NK_128": { hc: "Viêm tiền liệt tuyến mạn do Tỳ hư thấp trệ", phanloai: ["Nam Khoa", "Bình", "Hư thực thác tạp", "Tỳ hư thấp trệ"], tc: ["Chảy chất nhầy trắng niệu đạo sau tiểu ở người ăn kém", "Thân thể mỏi nặng, đại tiện nhão", "Mạch nhu hoãn"], pdt: "Kiện tỳ mẫn thấp, chỉ đái thông lâm", bt: "Sâm linh bạch truật tán gia Hoàng bá, Xa tiền tử", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Ý dĩ", "Hoàng bá", "Xa tiền tử"] },
+
+  "NK_129": { hc: "Phì đại tiền liệt tuyến do Khí hư tràng trệ", phanloai: ["Nam Khoa", "Bình", "Hư", "Khí hư"], tc: ["Tiểu rỉ rả không ra hết, rặn nhiều hụt hơi", "Đại tiện khó đi, phân mềm", "Thân thể mệt mỏi", "Mạch hư nhược"], pdt: "Bổ khí thăng dương, nhuận tràng thông niệu", bt: "Bổ trung ích khí thang gia Ma tử nhân, Xa tiền tử", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Thăng ma", "Sài hồ", "Ma tử nhân", "Xa tiền tử"] },
+  "NK_130": { hc: "Phì đại tiền liệt tuyến do Thận âm hư tân kiệt", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Thận âm hư"], tc: ["Tiểu đêm 4-5 lần, tiểu buốt nhẹ nóng rát", "Miệng khô họng táo, đại tiện khô", "Thắt lưng mỏi, tai ù", "Mạch tế sác"], pdt: "Tư bổ thận âm, nhuận tràng thông lâm", bt: "Lục vị địa hoàng hoàn gia Tri mẫu, Hoàng bá, Ma tử nhân", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Tri mẫu", "Hoàng bá", "Ma tử nhân"] },
+
+  "NK_131": { hc: "Cường trung do Can uất hóa hỏa", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Can hỏa"], tc: ["Dương vật cương cứng đau rát sau cơn giận dữ dữ dội", "Mắt đỏ, miệng đắng, đau đầu", "Mạch huyền sác hữu lực"], pdt: "Thanh can tả hỏa, trấn tĩnh thư gân", bt: "Long đởm tả can thang gia Mẫu lệ, Bạch thược", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Sài hồ", "Mẫu lệ", "Bạch thược"] },
+  "NK_132": { hc: "Cường trung do Thấp nhiệt uẩn kết tinh cung", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Dương vật cương liên tục nóng rát, bì bìu ẩm hôi", "Tiểu đỏ buốt, rêu vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, chỉ thống thư gân", bt: "Bát chính tán gia Hoàng bá, Long đởm thảo", tpbt: ["Xa tiền tử", "Mộc thông", "Cù mạch", "Biển súc", "Chi tử", "Hoàng bá", "Long đởm thảo"] },
+
+  "NK_133": { hc: "Ngọc hành sang do Âm hư hỏa độc lingering", phanloai: ["Nam Khoa", "Nhiệt", "Hư thực thác tạp", "Âm hư hỏa độc"], tc: ["Quy đầu rỉ dịch loét nhẹ dai dẳng nhiều tháng không lành", "Lòng bàn tay chân nóng, triều nhiệt", "Mạch tế sác"], pdt: "Tư âm thanh nhiệt, giải độc sinh cơ", bt: "Tri bá địa hoàng hoàn gia Kim ngân hoa, Bồ công anh", tpbt: ["Thục địa", "Tri mẫu", "Hoàng bá", "Sơn thù nhục", "Kim ngân hoa", "Bồ công anh"] },
+  "NK_134": { hc: "Ngọc hành sang do Huyết ứ hoại tử", phanloai: ["Nam Khoa", "Bình", "Thực", "Huyết ứ"], tc: ["Quy đầu bầm tím sưng to loét đen đau nhói", "Lưỡi tím sẫm có điểm ứ huyết", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, giải độc tiêu thũng", bt: "Đào hồng tứ vật thang gia Kim ngân hoa, Bồ công anh", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Kim ngân hoa", "Bồ công anh"] },
+
+  "NK_135": { hc: "Âm nang phong do Thấp nhiệt hỏa độc", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt hỏa độc"], tc: ["Da bìu sưng đỏ nổi mụn mủ đau rát dữ dội", "Mủ vỡ tanh hôi, sốt nhẹ", "Mạch nhu sác"], pdt: "Thanh nhiệt giải độc, trừ thấp chỉ sang", bt: "Ngũ vị tiêu độc ẩm gia Hoàng bá, Khổ sâm", tpbt: ["Kim ngân hoa", "Cúc hoa", "Bồ công anh", "Tử hoa địa đinh", "Hoàng bá", "Khổ sâm"] },
+
+  "NK_136": { hc: "Âm nang thũng do Can kinh khí trệ thủy đái", phanloai: ["Nam Khoa", "Bình", "Thực", "Khí trệ thủy trệ"], tc: ["Bì bìu căng to trướng đau lan sang hạ sườn", "Hay thở dài, lo âu xúc động đau tăng", "Mạch huyền hoãn"], pdt: "Sơ can lý khí, lợi thủy tiêu thũng", bt: "Sài hồ sơ can tán hợp Ngũ linh tán", tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Bạch truật", "Phục linh", "Trạch tả", "Trư linh"] },
+
+  "NK_137": { hc: "Suy giảm ham muốn do Phế Thận khí hư", phanloai: ["Nam Khoa", "Bình", "Hư", "Phế Thận khí hư"], tc: ["Giảm ham muốn tình dục kèm ho hen, thở ngắn", "Mệt mỏi tự hãn, sợ gió", "Mạch hư nhược"], pdt: "Bổ phế ích khí, ôn thận tráng dương", bt: "Thất vị đô khí hoàn gia Nhân sâm, Ba kích", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Đan bì", "Ngũ vị tử", "Nhân sâm", "Ba kích"] },
+  "NK_138": { hc: "Suy giảm ham muốn do Huyết ứ ngưng trệ", phanloai: ["Nam Khoa", "Bình", "Thực", "Huyết ứ"], tc: ["Chán quan hệ sau chấn thương vùng chậu bẹn", "Sắc mặt u uất, lưỡi tím điểm ứ huyết", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, thông lạc khởi dâm", bt: "Thân thống trục ứ thang gia Dâm dương hoắc, Ba kích", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Dâm dương hoắc", "Ba kích"] },
+
+  "NK_139": { hc: "Không xuất tinh do Mệnh môn hỏa suy kiệt", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Mệnh môn hỏa suy"], tc: ["Quan hệ lâu không thể xuất tinh do dương vật lạnh", "Tay chân cold ngắt, sợ cold", "Mệt mỏi kiệt sức", "Mạch vi tế"], pdt: "Ôn bổ mệnh môn, tráng dương thông tinh", bt: "Hữu quy hoàn gia Vương bất lưu hành, Dâm dương hoắc", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Vương bất lưu hành", "Dâm dương hoắc"] },
+  "NK_140": { hc: "Không xuất tinh do Tâm Tỳ hư suy", phanloai: ["Nam Khoa", "Bình", "Hư", "Tâm Tỳ hư"], tc: ["Quan hệ không xuất tinh ở người suy nhược nặng", "Hồi hộp mất ngủ hay quên", "Ăn kém tiêu chảy", "Mạch tế nhược"], pdt: "Song bổ tâm tỳ, thông tinh khởi nuy", bt: "Quy tỳ thang gia Vương bất lưu hành, Ba kích", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Long nhãn", "Vương bất lưu hành", "Ba kích"] },
+
+  "NK_141": { hc: "Tinh hoàn teo do Thấp nhiệt uẩn kết lâu ngày", phanloai: ["Nam Khoa", "Nhiệt", "Hư thực thác tạp", "Thấp nhiệt"], tc: ["Tinh hoàn teo dần sau đợt viêm cấp quai bị", "Bì bìu còn ẩm nóng ngứa nhẹ", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, dưỡng tinh tiêu kết", bt: "Long đởm tả can thang gia Tử hà xe, Cốt toái bổ", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Tử hà xe", "Cốt toái bổ"] },
+
+  "NK_142": { hc: "Tinh thanh do Tỳ Thận khí hư", phanloai: ["Nam Khoa", "Bình", "Hư", "Tỳ Thận khí hư"], tc: ["Tinh dịch trong loãng như nước lã", "Ăn kém bụng trướng, mệt mỏi hụt hơi", "Đau lưng mỏi gối", "Mạch hoãn nhược"], pdt: "Kiện tỳ ích khí, bổ thận đặc tinh", bt: "Sâm linh bạch truật tán hợp Thận khí hoàn", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Thục địa", "Sơn thù nhục", "Bổ cốt chỉ"] },
+  "NK_143": { hc: "Tinh lạnh do Can hư hàn kinh mạch", phanloai: ["Nam Khoa", "Hàn", "Hư", "Can hư hàn"], tc: ["Tinh dịch cold ngắt kèm bì bìu cold co rút", "Sợ cold, tay chân cold, sắc mặt xanh xạm", "Mạch trầm trì hoãn"], pdt: "Ôn noãn can kinh, tán hàn cố tinh", bt: "Ngô thù du thang gia Tiểu hồi hương, Nhục quế", tpbt: ["Ngô thù du", "Nhân sâm", "Sinh khương", "Đại táo", "Tiểu hồi hương", "Nhục quế"] },
+
+  "NK_144": { hc: "Mỏi gối đau lưng sau quan hệ do Âm hư hỏa vượng", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Âm hư hỏa vượng"], tc: ["Thắt lưng nóng rát đau nhói sau xuất tinh", "Lòng bàn tay chân nóng, triều nhiệt", "Mất ngủ bứt rứt", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, cường gân bổ thận", bt: "Tri bá địa hoàng hoàn gia Đỗ trọng, Tục đoạn", tpbt: ["Thục địa", "Tri mẫu", "Hoàng bá", "Sơn thù nhục", "Hoài sơn", "Đỗ trọng", "Tục đoạn"] },
+
+  "NK_145": { hc: "Đau rát quy đầu sau quan hệ do Âm hư huyết táo", phanloai: ["Nam Khoa", "Bình", "Hư", "Âm hư phong táo"], tc: ["Quy đầu khô rát, nứt nẻ sưng nhẹ sau quan hệ", "Khô miệng họng, da khô", "Mạch tế sáp"], pdt: "Dưỡng huyết nhuận táo, tư âm sinh tân", bt: "Sa sâm mạch đông thang gia Đương quy, Bạch thược", tpbt: ["Sa sâm", "Mạch môn", "Ngọc trúc", "Sinh địa", "Đương quy", "Bạch thược"] },
+
+  "NK_146": { hc: "Viêm mào tinh hoàn mạn do Hàn thấp ngưng trệ", phanloai: ["Nam Khoa", "Hàn", "Thực", "Hàn thấp"], tc: ["Mào tinh hoàn sưng cứng đau cold khi gặp cold", "Bì bìu cold rét, rêu dầy trắng", "Mạch trầm khẩn"], pdt: "Ôn kinh tán hàn, nhuyễn kiên tán kết", bt: "Noãn can tiễn gia Tiểu hồi hương, Mộc qua", tpbt: ["Tiểu hồi hương", "Nhục quế", "Đương quy", "Ô dược", "Trầm hương", "Mộc qua"] },
+
+  "NK_147": { hc: "Viêm túi tinh do Huyết ứ bế tắc", phanloai: ["Nam Khoa", "Bình", "Thực", "Huyết ứ"], tc: ["Xuất tinh ra máu tím đen kèm đau nhói cố định ở bẹn", "Lưỡi tím điểm ứ huyết", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, chỉ huyết thông lạc", bt: "Thân thống trục ứ thang gia Tam thất, Bồ hoàng", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Tam thất", "Bồ hoàng"] },
+
+  "NK_148": { hc: "Giãn tĩnh mạch thừng tinh do Can hỏa uất kết", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Can hỏa"], tc: ["Búi tĩnh mạch bìu sưng to nóng rát sau khi giận dữ", "Mắt đỏ, miệng đắng", "Mạch huyền sác"], pdt: "Thanh can tả hỏa, hoạt huyết thông lạc", bt: "Long đởm tả can thang gia Đào nhân, Ngưu tất", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Đào nhân", "Ngưu tất", "Sài hồ"] },
+
+  "NK_149": { hc: "Bì bìu chàm hóa mạn do Huyết hư phong táo", phanloai: ["Nam Khoa", "Bình", "Hư", "Huyết hư phong táo"], tc: ["Da bìu dày sừng nứt nẻ ngứa ngáy dai dẳng nhiều năm", "Sắc mặt nhợt nhạt", "Mạch tế sáp"], pdt: "Dưỡng huyết nhuận táo, khu phong chỉ ngứa", bt: "Dưỡng tiêu phong tán gia Hà thủ ô, Thục địa", tpbt: ["Đương quy", "Thục địa", "Bạch thược", "Phòng phong", "Hà thủ ô", "Cam thảo"] },
+
+  "NK_150": { hc: "Liệt dương do Mệnh môn hỏa suy kiệt", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Mệnh môn hỏa suy"], tc: ["Dương vật hoàn toàn lạnh nhão, mất phản xạ cương", "Sợ lạnh, tay chân lạnh ngắt quá gối", "Tiểu đêm liên tục, tiêu chảy sáng", "Mạch vi tế muốn tuyệt"], pdt: "Ôn bổ mệnh môn hỏa, đại bổ nguyên dương", bt: "Hữu quy hoàn gia Phụ tử chế, Nhục quế, Lộc nhung liều cao", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Phụ tử chế", "Nhục quế", "Lộc nhung", "Dâm dương hoắc"] },
+
+  "NK_151": { hc: "Liệt dương do Thận âm hư phế tân kiệt", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Âm hư"], tc: ["Liệt dương kèm ho khan, gầy còm, da khô", "Triều nhiệt đạo hãn, miệng khô khát", "Mạch tế sác"], pdt: "Tư âm nhuận phế, bổ thận tráng dương", bt: "Bách hợp cố kim thang gia Dâm dương hoắc, Ba kích", tpbt: ["Bách hợp", "Sinh địa", "Thục địa", "Mạch môn", "Huyền sâm", "Dâm dương hoắc", "Ba kích"] },
+  "NK_152": { hc: "Liệt dương do Đàm nhiệt uẩn kết hạ tiêu", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Đàm nhiệt"], tc: ["Liệt dương ở người béo bệu, bì bìu ẩm hôi nóng", "Cổ họng đờm vàng dính, tiểu đỏ", "Mạch hoạt sác"], pdt: "Thanh nhiệt hóa đàm, thông lạc tráng dương", bt: "Hoàng liên ôn đởm thang gia Ba kích, Dâm dương hoắc", tpbt: ["Hoàng liên", "Bán hạ", "Trần bì", "Phục linh", "Trúc nhự", "Ba kích", "Dâm dương hoắc"] },
+  "NK_153": { hc: "Liệt dương do Hàn thấp uẩn kết bìu bẹn", phanloai: ["Nam Khoa", "Hàn", "Thực", "Hàn thấp"], tc: ["Liệt dương kèm bì bìu lạnh sưng nặng nề", "Gặp lạnh đau tăng, rêu lưỡi trắng dính", "Mạch trầm khẩn hoãn"], pdt: "Ôn trung tán hàn, mẫn thấp tráng dương", bt: "Bình vị tán gia Can khương, Nhục quế, Ba kích", tpbt: ["Thương truật", "Hậu phác", "Trần bì", "Can khương", "Nhục quế", "Ba kích"] },
+  "NK_154": { hc: "Liệt dương do Can hỏa uất kết phần huyết", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Can hỏa huyết nhiệt"], tc: ["Liệt dương kèm đau rát bẹn dữ dội sau tức giận", "Mắt đỏ, nôn ra máu nhẹ hoặc chảy máu cam", "Mạch huyền sác dũng mãnh"], pdt: "Thanh can tả hỏa, lương huyết thông lạc tráng dương", bt: "Long đởm tả can thang gia Trắc bách diệp, Ba kích", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trắc bách diệp", "Ba kích", "Sài hồ"] },
+
+  "NK_155": { hc: "Xuất tinh sớm do Thận dương hư suy kiệt", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Thận dương hư"], tc: ["Vừa chạm vào đã xuất tinh kèm tinh dịch lạnh loãng", "Tay chân cold ngắt quá gối, sợ cold dữ dội", "Mạch vi tế"], pdt: "Ôn bổ thận dương, sáp niệu cố tinh", bt: "Hữu quy hoàn hợp Kim tỏa cố tinh hoàn gia Phụ tử", tpbt: ["Thục địa", "Nhục quế", "Phụ tử chế", "Sơn thù nhục", "Sa uyển tử", "Khiếm thực", "Long cốt"] },
+  "NK_156": { hc: "Xuất tinh sớm do Tâm Hỏa phần huyết xí thịnh", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Tâm hỏa huyết nhiệt"], tc: ["Ham muốn cao, xuất tinh ngay trong giây đầu", "Mặt đỏ, tâm phiền bứt rứt không ngủ", "Loét lưỡi, tiểu đỏ", "Mạch sác hữu lực"], pdt: "Thanh tâm tả hỏa, lương huyết cố tinh", bt: "Tê giác địa hoàng thang hợp Đạo xích tán gia Sa uyển tử", tpbt: ["Thủy ngưu giác", "Sinh địa", "Xích thược", "Đan bì", "Mộc thông", "Sa uyển tử"] },
+
+  "NK_157": { hc: "Di tinh do Phế Thận âm hư", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Phế Thận âm hư"], tc: ["Mộng tinh kèm ho khan, gò má đỏ về chiều", "Triều nhiệt đạo hãn, họng khô", "Mỏi lưng gối", "Mạch tế sác"], pdt: "Tư âm nhuận phế, tư thận cố tinh", bt: "Bách hợp cố kim thang gia Sa uyển tử, Mẫu lệ", tpbt: ["Bách hợp", "Sinh địa", "Thục địa", "Mạch môn", "Sa uyển tử", "Mẫu lệ"] },
+  "NK_158": { hc: "Di tinh do Hàn đàm trệ kinh lạc", phanloai: ["Nam Khoa", "Hàn", "Thực", "Hàn đàm"], tc: ["Di tinh kèm nôn ra đờm loãng bọt", "Thân thể mỏi nặng, sợ lạnh", "Rêu dầy dính trắng", "Mạch trầm hoạt trì"], pdt: "Ôn hóa hàn đàm, khu phong cố tinh", bt: "Nhị trần thang gia Can khương, Nam tinh, Sa uyển tử", tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Can khương", "Nam tinh", "Sa uyển tử"] },
+
+  "NK_159": { hc: "Hoạt tinh do Tâm Thận dương hư suy", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Tâm Thận dương hư"], tc: ["Tinh dịch rỉ chảy đầm đìa kèm hồi hộp khó thở", "Sợ lạnh, tay chân lạnh ngắt, phù nhẹ", "Mạch trầm tế vi"], pdt: "Ôn thông tâm thận, đại bổ dương khí cố tinh", bt: "Chân vũ thang hợp Sâm phụ thang gia Sang phiêu tiêu", tpbt: ["Phụ tử chế", "Nhân sâm", "Bạch truật", "Phục linh", "Tang phiêu tiêu", "Nhục quế"] },
+
+  "NK_160": { hc: "Huyết tinh do Can Thận âm hư hỏa vượng", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Can Thận âm hư hỏa vượng"], tc: ["Xuất tinh ra máu đỏ tươi kéo dài dai dẳng", "Mắt khô xót, tai ù, triều nhiệt đạo hãn", "Đau lưng mỏi gối", "Mạch tế sác"], pdt: "Tư bổ can thận, giáng hỏa lương huyết chỉ huyết", bt: "Kỷ cúc địa hoàng hoàn gia Tri mẫu, Hoàng bá, Bồ hoàng", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Tri mẫu", "Hoàng bá", "Bồ hoàng"] },
+
+  "NK_161": { hc: "Vô sinh nam do Phế Tỳ khí hư tinh yếu", phanloai: ["Nam Khoa", "Bình", "Hư", "Phế Tỳ khí hư"], tc: ["Tinh trùng ít yếu ở người ho hen dai dẳng", "Mệt mỏi hụt hơi, ăn kém tiêu chảy", "Sắc mặt bệch nhợt", "Mạch hư nhược"], pdt: "Bổ phế kiện tỳ, sinh tinh bổ tủy", bt: "Lục quân tử thang gia Bổ phế thang, Thỏ ty tử", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Trần bì", "Bán hạ", "Hoàng kỳ", "Thỏ ty tử"] },
+  "NK_162": { hc: "Vô sinh nam do Thần dương hư suy mệnh môn hỏa vi", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Thận dương hư"], tc: ["Không có tinh trùng trong tinh dịch, lạnh ngắt", "Sợ lạnh, tay chân cold ngắt, tiêu chảy sáng", "Mạch trầm vi nhược"], pdt: "Ôn bổ mệnh môn hỏa, đại bổ tủy tinh", bt: "Hữu quy hoàn gia Lộc nhung, Tử hà xe, Dâm dương hoắc", tpbt: ["Thục địa", "Nhục quế", "Phụ tử chế", "Sơn thù nhục", "Lộc nhung", "Tử hà xe", "Dâm dương hoắc"] },
+
+  "NK_163": { hc: "Sán khí do Can Thận hư hàn đau kéo dài", phanloai: ["Nam Khoa", "Hàn", "Hư", "Can Thận hư hàn"], tc: ["Tinh hoàn đau co rút lên bẹn âm ỉ dai dẳng nhiều năm", "Thắt lưng cold mỏi, sợ cold", "Mạch trầm tế trì"], pdt: "Ôn bổ can thận, tán hàn chỉ thống", bt: "Noãn can tiễn gia Đỗ trọng, Tục đoạn, Bổ cốt chỉ", tpbt: ["Tiểu hồi hương", "Nhục quế", "Đương quy", "Ô dược", "Đỗ trọng", "Tục đoạn", "Bổ cốt chỉ"] },
+
+  "NK_164": { hc: "Viêm tiền liệt tuyến mạn do Khí hư trệ thủy", phanloai: ["Nam Khoa", "Bình", "Hư thực thác tạp", "Khí hư thủy trệ"], tc: ["Tiểu rỉ rả không ra hết, dòng tiểu yếu ở người mệt mỏi", "Bụng dưới nặng trướng nhẹ", "Mạch hư hoãn"], pdt: "Bổ khí kiện tỳ, lợi thủy thông lâm", bt: "Bổ trung ích khí thang hợp Ngũ linh tán gia Mộc thông", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Phục linh", "Trạch tả", "Mộc thông"] },
+
+  "NK_165": { hc: "Phì đại tiền liệt tuyến do Tâm Thận dương hư suy", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Tâm Thận dương hư"], tc: ["Bí tiểu kèm hồi hộp khó thở, phù hai chân", "Sợ lạnh, tay chân cold ngắt", "Mạch trầm tế vi"], pdt: "Ôn thông tâm thận, hóa khí lợi thủy通bí", bt: "Chân vũ thang hợp Tế sinh Thận khí hoàn", tpbt: ["Phụ tử chế", "Bạch truật", "Phục linh", "Nhục quế", "Xa tiền tử", "Ngưu tất"] },
+
+  "NK_166": { hc: "Cường trung do Huyết nhiệt vọng hành", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Huyết nhiệt"], tc: ["Dương vật cương cứng liên tục tím đỏ rát", "Xuất huyết dưới da hoặc chảy máu cam", "Sốt, tâm phiền", "Mạch sác hữu lực"], pdt: "Thanh nhiệt lương huyết, chỉ thống giải cường", bt: "Tê giác địa hoàng thang gia Long đởm thảo, Mẫu lệ", tpbt: ["Thủy ngưu giác", "Sinh địa", "Xích thược", "Đan bì", "Long đởm thảo", "Mẫu lệ"] },
+
+  "NK_167": { hc: "Ngọc hành sang do Tỳ hư thấp trệ lở loét", phanloai: ["Nam Khoa", "Bình", "Hư thực thác tạp", "Tỳ hư thấp trệ"], tc: ["Quy đầu lở loét chảy dịch trong nhạt dai dẳng", "Ăn kém bụng trướng, tiêu chảy", "Sắc mặt úa vàng", "Mạch nhu hoãn"], pdt: "Kiện tỳ ích khí, trừ thấp sinh cơ chỉ sang", bt: "Sâm linh bạch truật tán gia Hoàng kỳ, Bạch chỉ", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Ý dĩ", "Hoàng kỳ", "Bạch chỉ"] },
+
+  "NK_168": { hc: "Âm nang thũng do Tỳ Thận dương hư thủy thũng", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Tỳ Thận dương hư"], tc: ["Bì bìu sưng to mọng nước kèm phù toàn thân", "Sợ lạnh, tay chân cold ngắt, tiêu chảy sáng", "Mạch trầm tế trì"], pdt: "Ôn bổ tỳ thận, hóa khí lợi thủy tiêu thũng", bt: "Chân vũ thang hợp Thực tỳ ẩm", tpbt: ["Phụ tử chế", "Bạch truật", "Phục linh", "Can khương", "Mộc qua", "Hậu phác", "Xa tiền tử"] },
+
+  "NK_169": { hc: "Suy giảm ham muốn do Can Thận âm hư", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Can Thận âm hư"], tc: ["Chán quan hệ tình dục ở người gầy khô gầy", "Mắt khô xót, tai ù, triều nhiệt đạo hãn", "Đau lưng mỏi gối", "Mạch tế sác"], pdt: "Tư bổ can thận, dưỡng âm sinh tân khởi dâm", bt: "Kỷ cúc địa hoàng hoàn gia Dâm dương hoắc, Ba kích", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Cúc hoa", "Dâm dương hoắc", "Ba kích"] },
+
+  "NK_170": { hc: "Không xuất tinh do Phế khí uất trệ", phanloai: ["Nam Khoa", "Bình", "Thực", "Phế khí uất"], tc: ["Quan hệ không xuất tinh được kèm ngực trướng nghẹn", "Hay thở dài, ho hắng nhẹ", "Mạch huyền dũng"], pdt: "Tuyên phế lý khí, thông kinh phát tinh", bt: "Chỉ khái tán gia Vương bất lưu hành, Cát cánh", tpbt: ["Cát cánh", "Kinh giới", "Bách bộ", "Trần bì", "Chỉ xác", "Vương bất lưu hành"] },
+
+  "NK_171": { hc: "Tinh trùng yếu do Khí huyết lưỡng hư suy nhược", phanloai: ["Nam Khoa", "Bình", "Hư", "Khí huyết hư"], tc: ["Tinh trùng di động < 10%, số lượng ít", "Mệt mỏi kiệt sức, sắc mặt nhợt nhạt", "Hồi hộp, tiêu chảy", "Mạch tế nhược"], pdt: "Thập toàn đại bổ, ích tinh bổ tủy", bt: "Thập toàn đại bổ thang gia Thỏ ty tử, Kỷ tử", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Thục địa", "Đương quy", "Thỏ ty tử", "Kỷ tử"] },
+
+  "NK_172": { hc: "Đau nhói bìu sau quan hệ do Khí trệ huyết ứ", phanloai: ["Nam Khoa", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Bì bìu đau nhói cự án sau khi xuất tinh", "Lưỡi tím sẫm có điểm ứ huyết", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, thông lạc chỉ thống", bt: "Thân thống trục ứ thang gia Ô dược", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Ô dược", "Địa long"] },
+
+  "NK_173": { hc: "Liệt dương do Tỳ Thận âm hư", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Tỳ Thận âm hư"], tc: ["Liệt dương kèm miệng khô khát nước, ăn nhiều mau đói", "Đau lưng mỏi gối, gầy sút", "Mạch tế sác"], pdt: "Tư dưỡng tỳ thận, bổ tinh tráng dương", bt: "Tả quy hoàn hợp Ích vị thang gia Dâm dương hoắc", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Sa sâm", "Mạch môn", "Dâm dương hoắc"] },
+
+  "NK_174": { hc: "Xuất tinh sớm do Phế Thận khí hư", phanloai: ["Nam Khoa", "Bình", "Hư", "Phế Thận khí hư"], tc: ["Xuất tinh sớm ở người hay ho hen hụt hơi", "Sợ gió, tự hãn, mệt mỏi", "Thắt lưng mỏi yếu", "Mạch hư nhược"], pdt: "Bổ phế nạp thận, cố tinh sáp niệu", bt: "Thất vị đô khí hoàn gia Sa uyển tử, Khiếm thực", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Ngũ vị tử", "Sa uyển tử", "Khiếm thực"] },
+
+  "NK_175": { hc: "Di tinh do Thấp nhiệt uẩn kết hạ tiêu lâu ngày", phanloai: ["Nam Khoa", "Nhiệt", "Hư thực thác tạp", "Thấp nhiệt"], tc: ["Di tinh kéo dài dai dẳng, bì bìu ẩm ngứa hôi", "Tiểu buốt dắt nhẹ, rêu vàng dầy nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt táo thấp, cố tinh chỉ di", bt: "Chỉ đới thang gia Sa uyển tử, Ô tặc cốt", tpbt: ["Hoàng bá", "Tri mẫu", "Trúc nhự", "Phục linh", "Trạch tả", "Sa uyển tử", "Ô tặc cốt"] },
+
+  "NK_176": { hc: "Hoạt tinh do Phế Tỳ khí hư hạ hãm", phanloai: ["Nam Khoa", "Bình", "Hư", "Phế Tỳ khí hư"], tc: ["Tinh dịch tự rỉ ra khi ho hoặc vận động nhẹ", "Thở ngắn, ngại nói, mệt mỏi tiêu lỏng", "Mạch hư nhược"], pdt: "Bổ phế kiện tỳ, thăng dương cố tinh", bt: "Bổ trung ích khí thang hợp Kim tỏa cố tinh hoàn", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Thăng ma", "Sài hồ", "Sa uyển tử", "Khiếm thực"] },
+
+  "NK_177": { hc: "Huyết tinh do Can Thận hỏa độc", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Can Thận hỏa độc"], tc: ["Xuất tinh ra máu đỏ tươi số lượng nhiều kèm đau rát dữ dội", "Mắt đỏ, miệng đắng, sốt cao", "Mạch huyền sác hữu lực"], pdt: "Thanh can tả hỏa, giải độc lương huyết chỉ huyết", bt: "Long đởm tả can thang gia Hoàng liên, Bồ hoàng", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Hoàng liên", "Bồ hoàng", "Sài hồ"] },
+
+  "NK_178": { hc: "Vô sinh nam do Tâm Tỳ lưỡng hư tinh suy", phanloai: ["Nam Khoa", "Bình", "Hư", "Tâm Tỳ hư"], tc: ["Không có con do tinh trùng cực ít và yếu ở người gầy yếu", "Hồi hộp, mất ngủ, ăn kém tiêu chảy", "Mạch tế nhược"], pdt: "Bổ ích tâm tỳ, sinh tinh điền tủy", bt: "Quy tỳ thang gia Thỏ ty tử, Kỷ tử, Lộc nhung", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Long nhãn", "Thỏ ty tử", "Lộc nhung"] },
+
+  "NK_179": { hc: "Sán khí do Phế khí hạ hãm sa bìu", phanloai: ["Nam Khoa", "Bình", "Hư", "Phế khí hư hạ hãm"], tc: ["Bì bìu sa thõng đau nặng tức ở người ho hen lâu ngày", "Tiếng nói nhỏ yếu, tự hãn", "Mạch hư hoãn"], pdt: "Bổ phế ích khí, thăng dương cử sán", bt: "Bổ phế thang hợp Bổ trung ích khí thang gia Ô dược", tpbt: ["Nhân sâm", "Hoàng kỳ", "Bạch truật", "Thăng ma", "Sài hồ", "Tang bạch bì", "Ô dược"] },
+
+  "NK_180": { hc: "Viêm tiền liệt tuyến mạn do Âm hư hỏa độc lingering", phanloai: ["Nam Khoa", "Nhiệt", "Hư thực thác tạp", "Âm hư hỏa độc"], tc: ["Tiểu buốt nhẹ rát dai dẳng nhiều năm, chảy chất nhầy", "Lòng bàn tay chân nóng, triều nhiệt đạo hãn", "Mạch tế sác"], pdt: "Tư âm thanh nhiệt, giải độc thông lâm", bt: "Tri bá địa hoàng hoàn gia Kim ngân hoa, Mộc thông", tpbt: ["Thục địa", "Tri mẫu", "Hoàng bá", "Sơn thù nhục", "Kim ngân hoa", "Mộc thông"] },
+
+  "NK_181": { hc: "Phì đại tiền liệt tuyến do Tỳ Thận khí hư thất thu", phanloai: ["Nam Khoa", "Bình", "Hư", "Tỳ Thận khí hư"], tc: ["Tiểu rỉ rả không tự chủ, đái dầm đêm ở người già", "Ăn kém tiêu chảy, mệt mỏi hụt hơi", "Mạch trầm hoãn vô lực"], pdt: "Song bổ tỳ thận, cố sáp niệu thông lâm", bt: "Sâm linh bạch truật tán hợp Tang phiêu tiêu tán", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Tang phiêu tiêu", "Ích trí nhân"] },
+
+  "NK_182": { hc: "Cường trung do Tâm Hỏa quấy rối phần huyết", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Tâm hỏa huyết nhiệt"], tc: ["Dương vật cương cứng đau rát kèm tâm phiền cuồng loạn", "Mất ngủ, loét lưỡi, tiểu đỏ", "Mạch sác hữu lực"], pdt: "Thanh tâm tả hỏa, lương huyết an thần", bt: "Đạo xích tán hợp Hoàng liên giải độc thang gia Mẫu lệ", tpbt: ["Sinh địa", "Mộc thông", "Trúc diệp", "Hoàng liên", "Hoàng cầm", "Mẫu lệ"] },
+
+  "NK_183": { hc: "Ngọc hành sang do Can kinh thấp nhiệt bốc loét", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Quy đầu sưng to mưng mủ loét đỏ nóng rát dữ dội", "Miệng đắng, tiểu đỏ buốt", "Mạch huyền nhu sác"], pdt: "Thanh can lợi thấp, giải độc tiêu sang", bt: "Long đởm tả can thang gia Khổ sâm, Hoàng bá", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Khổ sâm", "Hoàng bá", "Trạch tả", "Sài hồ"] },
+
+  "NK_184": { hc: "Âm nang thũng do Âm hư thủy trệ", phanloai: ["Nam Khoa", "Nhiệt", "Hư thực thác tạp", "Âm hư thủy trệ"], tc: ["Bì bìu sưng mọng nước ở người gầy triều nhiệt", "Lòng bàn tay chân nóng, tiểu ít", "Mạch tế sác hoãn"], pdt: "Tư âm lợi thủy, thẩm thấp tiêu thũng", bt: "Lục vị địa hoàng hoàn gia Trạch tả, Trư linh, Xa tiền tử", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Trư linh", "Xa tiền tử"] },
+
+  "NK_185": { hc: "Suy giảm ham muốn do Khí trệ huyết ứ bẹn chậu", phanloai: ["Nam Khoa", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Mất hoàn toàn cảm giác ham muốn sau mổ bẹn bẹn", "Điểm đau nhói cố định ở bẹn", "Lưỡi tím điểm ứ huyết", "Mạch sáp"], pdt: "Hành khí hoạt huyết, thông lạc khởi dâm", bt: "Cách hạ trục ứ thang gia Dâm dương hoắc, Ba kích", tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Chỉ xác", "Dâm dương hoắc", "Ba kích"] },
+
+  "NK_186": { hc: "Không xuất tinh do Tỳ hư thấp trệ tinh đường", phanloai: ["Nam Khoa", "Bình", "Hư thực thác tạp", "Tỳ hư thấp trệ"], tc: ["Quan hệ không xuất tinh ở người béo bệu ăn kém", "Đờm dãi nhiều, phân lỏng nhão", "Mạch nhu hoãn"], pdt: "Kiện tỳ mẫn thấp, thông tinh chỉ trệ", bt: "Sâm linh bạch truật tán gia Vương bất lưu hành, Sơn tra", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Ý dĩ", "Vương bất lưu hành", "Sơn tra"] },
+
+  "NK_187": { hc: "Tinh thanh do Mệnh môn hỏa suy kiệt", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Mệnh môn hỏa suy"], tc: ["Tinh dịch loãng trong như nước lã, lạnh ngắt", "Liệt dương, sợ lạnh, tay chân cold quá gối", "Mạch vi tế"], pdt: "Ôn bổ mệnh môn hỏa, ích tinh đặc tinh", bt: "Hữu quy hoàn gia Phụ tử, Nhục quế, Tử hà xe liều cao", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Phụ tử chế", "Nhục quế", "Tử hà xe", "Dâm dương hoắc"] },
+
+  "NK_188": { hc: "Mỏi gối đau lưng sau quan hệ do Tâm Thận bất giao", phanloai: ["Nam Khoa", "Nhiệt", "Hư thực thác tạp", "Tâm Thận bất giao"], tc: ["Đau mỏi thắt lưng gối kèm tâm phiền mất ngủ sau quan hệ", "Hồi hộp hay quên, triều nhiệt", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, thanh tâm cường gân bổ thận", bt: "Giao thái hoàn hợp Tri bá địa hoàng hoàn gia Đỗ trọng", tpbt: ["Hoàng liên", "Nhục quế", "Thục địa", "Tri mẫu", "Hoàng bá", "Đỗ trọng"] },
+
+  "NK_189": { hc: "Viêm mào tinh hoàn mạn do Tỳ hư thấp trệ u cục", phanloai: ["Nam Khoa", "Bình", "Hư thực thác tạp", "Tỳ hư thấp trệ"], tc: ["Mào tinh hoàn có cục cứng không đỏ không nóng ở người ăn kém", "Thân thể mỏi nặng, phân nhão", "Mạch nhu hoãn"], pdt: "Kiện tỳ mẫn thấp, nhuyễn kiên tán kết", bt: "Sâm linh bạch truật tán gia Bạch giới tử, Thổ phục linh", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Bạch giới tử", "Thổ phục linh"] },
+
+  "NK_190": { hc: "Viêm túi tinh do Phế Thận âm hư huyết nhiệt", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Âm hư huyết nhiệt"], tc: ["Xuất tinh ra máu đỏ tươi kèm ho khan họng khô", "Triều nhiệt đạo hãn, mỏi lưng", "Mạch tế sác"], pdt: "Tư âm nhuận phế, tư thận lương huyết chỉ huyết", bt: "Bách hợp cố kim thang gia Trắc bách diệp, Tam thất", tpbt: ["Bách hợp", "Sinh địa", "Thục địa", "Mạch môn", "Trắc bách diệp", "Tam thất"] },
+
+  "NK_191": { hc: "Giãn tĩnh mạch thừng tinh do Tỳ hư khí hãm", phanloai: ["Nam Khoa", "Bình", "Hư", "Tỳ hư hạ hãm"], tc: ["Búi tĩnh mạch bìu sa thõng ở người ăn kém trướng bụng", "Đại tiện lỏng nhão, mệt mỏi hụt hơi", "Mạch hoãn nhược"], pdt: "Kiện tỳ ích khí, thăng dương thông lạc tiêu búi", bt: "Sâm linh bạch truật tán hợp Bổ trung ích khí thang gia Ngưu tất", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Phục linh", "Thăng ma", "Sài hồ", "Ngưu tất"] },
+
+  "NK_192": { hc: "Bì bìu chàm hóa mạn do Can Thận âm hư", phanloai: ["Nam Khoa", "Nhiệt", "Hư", "Can Thận âm hư"], tc: ["Da bìu khô nẻ dầy sừng ngứa ngáy dai dẳng nhiều năm", "Mắt khô, tai ù, triều nhiệt đạo hãn", "Mạch tế sác"], pdt: "Tư bổ can thận, dưỡng huyết nhuận táo chỉ ngứa", bt: "Kỷ cúc địa hoàng hoàn gia Hà thủ ô, Đương quy", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Cúc hoa", "Hà thủ ô", "Đương quy"] },
+
+  "NK_193": { hc: "Liệt dương do Thận tinh khuy tổn suy kiệt", phanloai: ["Nam Khoa", "Bình", "Hư suy", "Thận tinh bất túc"], tc: ["Liệt dương hoàn toàn ở người tóc bạc sớm, tai điếc", "Trí nhớ kém, gối yếu chân mềm", "Mạch trầm tế vô lực"], pdt: "Bổ thận điền tinh, đại bổ tủy não tráng dương", bt: "Tả quy hoàn gia Tử hà xe, Lộc giác giao, Dâm dương hoắc", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Tử hà xe", "Lộc giác giao", "Dâm dương hoắc"] },
+
+  "NK_194": { hc: "Xuất tinh sớm do Tâm Tỳ lưỡng hư khí huyết kiệt", phanloai: ["Nam Khoa", "Bình", "Hư", "Tâm Tỳ hư"], tc: ["Chưa kịp quan hệ đã xuất tinh ở người gầy bệch", "Hồi hộp mất ngủ, ăn kém tiêu chảy", "Mạch tế nhược vô lực"], pdt: "Song bổ tâm tỳ, cố tinh sáp niệu", bt: "Quy tỳ thang gia Sa uyển tử, Khiếm thực, Long cốt", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Sa uyển tử", "Khiếm thực", "Long cốt"] },
+
+  "NK_195": { hc: "Di tinh do Khí trệ huyết ứ tinh đạo", phanloai: ["Nam Khoa", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Di tinh kèm đau nhói từng cơn ở bẹn bẹn", "Lưỡi tím sẫm có điểm ứ huyết", "Mạch sáp"], pdt: "Hành khí hoạt huyết, cố tinh chỉ di", bt: "Thân thống trục ứ thang gia Sa uyển tử, Long cốt", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Sa uyển tử", "Long cốt"] },
+
+  "NK_196": { hc: "Hoạt tinh do Mệnh môn hỏa suy kiệt hoàn toàn", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Mệnh môn hỏa suy"], tc: ["Tinh dịch rỉ chảy liên tục không ngừng, lạnh ngắt", "Thân thể lạnh như băng, sợ cold dữ dội", "Mạch vi tế Muốn tuyệt"], pdt: "Cứu thoát hồi dương, ôn bổ mệnh môn cố tinh", bt: "Tứ nghịch thang hợp Hữu quy hoàn gia Sang phiêu tiêu liều cao", tpbt: ["Phụ tử chế", "Can khương", "Thục địa", "Nhục quế", "Tang phiêu tiêu", "Chích cam thảo"] },
+
+  "NK_197": { hc: "Huyết tinh do Tỳ Thận khí hư không nhiếp huyết", phanloai: ["Nam Khoa", "Bình", "Hư", "Tỳ Thận khí hư"], tc: ["Xuất tinh ra máu hồng nhạt kéo dài dai dẳng", "Mệt mỏi hụt hơi, ăn kém tiêu chảy", "Đau lưng mỏi gối", "Mạch trầm nhược vô lực"], pdt: "Kiện tỳ bổ thận, nhiếp huyết chỉ huyết", bt: "Quy tỳ thang hợp Thận khí hoàn gia Tam thất", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Thục địa", "Hoài sơn", "Hoàng kỳ", "Tam thất"] },
+
+  "NK_198": { hc: "Vô sinh nam do Đàm nhiệt uẩn kết tinh cung", phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Đàm nhiệt"], tc: ["Tinh dịch dính quánh kéo sợi dài không hóa lỏng", "Bì bìu ẩm hôi nóng, cổ họng đờm vàng", "Rêu dầy vàng nhớt", "Mạch hoạt sác"], pdt: "Thanh nhiệt hóa đàm, thông tinh tiêu quánh", bt: "Hoàng liên ôn đởm thang gia Sơn tra, Thần khúc, Trạch tả", tpbt: ["Hoàng liên", "Bán hạ", "Trần bì", "Phục linh", "Trúc nhự", "Sơn tra", "Trạch tả"] },
+
+  "NK_199": { hc: "Sán khí do Phế Tỳ khí hư sa bìu", phanloai: ["Nam Khoa", "Bình", "Hư", "Phế Tỳ khí hư"], tc: ["Thoát vị bẹn bìu sa thõng nặng tức ở người ho hen lâu ngày", "Sắc mặt bệch nhợt, ăn kém tiêu chảy", "Mạch hư hoãn"], pdt: "Bổ phế kiện tỳ, thăng dương cử sán chỉ thống", bt: "Lục quân tử thang hợp Bổ trung ích khí thang gia Ô dược", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Phục linh", "Trần bì", "Thăng ma", "Sài hồ", "Ô dược"] },
+
+  "NK_200": { hc: "Viêm tiền liệt tuyến mạn do Tỳ Thận dương hư suy", phanloai: ["Nam Khoa", "Hàn", "Hư suy", "Tỳ Thận dương hư"], tc: ["Tiểu rỉ rả không sạch kèm chất nhầy trắng ở người sợ lạnh", "Bụng dưới cold đau, tiêu chảy sáng", "Thắt lưng cold mỏi", "Mạch trầm tế trì"], pdt: "Ôn bổ tỳ thận, hóa khí thông lâm chỉ đái", bt: "Tứ thần hoàn hợp Tế sinh Thận khí hoàn", tpbt: ["Bổ cốt chỉ", "Nhục đậu khấu", "Ngô thù du", "Thục địa", "Nhục quế", "Phụ tử chế", "Xa tiền tử", "Ngưu tất"] }
+
+});
+
+Object.assign(window.database, {
+
+  // =========================================================================
+  // 1. RỐI LOẠN KINHG NGUYỆT (KINH NGUYỆT BẤT HOÀ)
+  // =========================================================================
+  "PK_KN_TruocKy_HuyetNhietThuc": {
+    hc: "Kinh nguyệt trước kỳ do Huyết nhiệt (Thực nhiệt)",
     phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Huyết nhiệt"],
-    tc: ["Kinh nguyệt đến sớm, lượng nhiều", "Sắc kinh đỏ sẫm hoặc tím đặc", "Mặt đỏ, miệng khát", "Tiểu đỏ, đại tiện táo", "Mạch sác hữu lực"],
+    tc: ["Kinh nguyệt đến sớm", "Lượng kinh nhiều", "Sắc kinh đỏ sẫm đặc", "Mặt đỏ miệng khát", "Tiểu đỏ đại tiện táo", "Mạch sác hữu lực"],
     pdt: "Thanh nhiệt lương huyết, điều kinh",
     bt: "Thanh kinh thang",
     tpbt: ["Hoàng bá", "Sinh địa", "Bạch thược", "Mẫu đơn bì", "Nga truật", "Địa cốt bì", "Thục địa"]
   },
-  "Kinh_Nguyet_Sau_Ky_Hu_Han": {
-    hc: "Kinh nguyệt sau kỳ do Hư hàn",
-    phanloai: ["Phụ Khoa", "Hàn", "Hư", "Hư hàn"],
-    tc: ["Kinh nguyệt đến muộn, lượng ít", "Sắc kinh nhạt loãng hoặc tối", "Bụng dưới đau âm ỉ, thích ấm", "Sợ lạnh, tay chân lạnh", "Mạch trầm tế trì"],
-    pdt: "Ôn kinh tán hàn, dưỡng huyết điều kinh",
-    bt: "Ôn kinh thang gia giảm",
-    tpbt: ["Đương quy", "Xuyên khung", "Bạch thược", "Thục địa", "Nhục quế", "Ngô thù du", "Đảng sâm", "Cam thảo"]
+  "PK_KN_TruocKy_HuyetNhietHu": {
+    hc: "Kinh nguyệt trước kỳ do Huyết nhiệt (Âm hư huyết nhiệt)",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Hư", "Âm hư huyết nhiệt"],
+    tc: ["Kinh nguyệt đến sớm lượng ít", "Sắc kinh đỏ tươi không có cục", "Triều nhiệt, gò má đỏ", "Lòng bàn tay chân nóng", "Lưỡi đỏ ít rêu", "Mạch tế sác"],
+    pdt: "Tư âm thanh nhiệt, lương huyết điều kinh",
+    bt: "Lưỡng địa thang",
+    tpbt: ["Sinh địa", "Địa cốt bì", "Huyền sâm", "Mạch môn", "Bạch thược", "A giao"]
   },
-  "San_Hau_Huyet_Hu_Phat_Sot": {
+  "PK_KN_TruocKy_CanHoa": {
+    hc: "Kinh nguyệt trước kỳ do Can hỏa uất bốc",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Can hỏa"],
+    tc: ["Kinh nguyệt đến sớm lượng nhiều hay ít bất thường", "Sắc kinh đỏ tím đặc có cục", "Ngực sườn trướng đau", "Dễ cáu gắt, miệng đắng", "Mạch huyền sác"],
+    pdt: "Thanh can tả hỏa, lương huyết điều kinh",
+    bt: "Đan chi tiêu dao tán gia giảm",
+    tpbt: ["Sài hồ", "Đương quy", "Bạch thược", "Bạch truật", "Phục linh", "Cam thảo", "Đan bì", "Chi tử"]
+  },
+  "PK_KN_TruocKy_KhiHu": {
+    hc: "Kinh nguyệt trước kỳ do Khí hư (Tỳ hư thất thu)",
+    phanloai: ["Phụ Khoa", "Bình", "Hư", "Khí hư không nhiếp huyết"],
+    tc: ["Kinh nguyệt đến sớm lượng nhiều", "Sắc kinh nhạt loãng", "Mệt mỏi, hụt hơi, ngại nói", "Sắc mặt nhợt nhạt", "Mạch hư nhược"],
+    pdt: "Bổ khí kiện tỳ, cố kinh chỉ huyết",
+    bt: "Bổ trung ích khí thang gia A giao",
+    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Trần bì", "Thăng ma", "Sài hồ", "A giao", "Cam thảo"]
+  },
+  "PK_KN_TruocKy_ThapNhiet": {
+    hc: "Kinh nguyệt trước kỳ do Thấp nhiệt uẩn kết bào cung",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Thấp nhiệt"],
+    tc: ["Kinh nguyệt đến sớm sắc đỏ tím dính hôi", "Bụng dưới đau rát cự án", "Khí hư vàng dính hôi", "Rêu lưỡi vàng nhớt", "Mạch nhu sác"],
+    pdt: "Thanh nhiệt lợi thấp, hóa ứ điều kinh",
+    bt: "Thanh nhiệt điều huyết thang gia giảm",
+    tpbt: ["Hoàng liên", "Sinh địa", "Đương quy", "Xuyên khung", "Xích thược", "Đào nhân", "Hồng hoa", "Ý dĩ"]
+  },
+  "PK_KN_SauKy_HuyetHu": {
+    hc: "Kinh nguyệt sau kỳ do Huyết hư",
+    phanloai: ["Phụ Khoa", "Bình", "Hư", "Huyết hư"],
+    tc: ["Kinh nguyệt đến muộn, lượng ít", "Sắc kinh hồng nhạt loãng", "Bụng dưới đau âm ỉ thích xoa bóp", "Hoa mắt chóng mặt", "Mạch tế nhược"],
+    pdt: "Bổ huyết hòa dinh, dưỡng huyết điều kinh",
+    bt: "Tứ vật thang gia Hoàng kỳ",
+    tpbt: ["Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Hoàng kỳ"]
+  },
+  "PK_KN_SauKy_HanThuc": {
+    hc: "Kinh nguyệt sau kỳ do Hàn thực (Hàn ngưng huyết ứ)",
+    phanloai: ["Phụ Khoa", "Hàn", "Thực", "Hàn ngưng huyết ứ"],
+    tc: ["Kinh nguyệt đến chậm lượng ít", "Sắc kinh tím đen có cục máu đông", "Bụng dưới đau quặn dữ dội, chườm ấm bớt đau", "Tay chân lạnh", "Mạch trầm khẩn"],
+    pdt: "Ôn kinh tán hàn, hoạt huyết hóa ứ điều kinh",
+    bt: "Ôn kinh thang (Cục phương)",
+    tpbt: ["Mẫu đơn bì", "Bạch thược", "Đương quy", "Xuyên khung", "Nhục quế", "Nga truật", "Mộc hương", "Cam thảo"]
+  },
+  "PK_KN_SauKy_HanHu": {
+    hc: "Kinh nguyệt sau kỳ do Hàn hư (Bào cung hư hàn)",
+    phanloai: ["Phụ Khoa", "Hàn", "Hư", "Hư hàn"],
+    tc: ["Kinh nguyệt đến chậm lượng ít", "Sắc kinh nhạt loãng hoặc tối nhợt", "Bụng dưới lạnh đau âm ỉ", "Sợ lạnh, thắt lưng mỏi lạnh", "Mạch trầm tế trì"], pdt: "Ôn kinh bổ hư, noãn bào cung điều kinh",
+    bt: "Đại ôn kinh thang",
+    tpbt: ["Ngô thù du", "Nhục quế", "Đương quy", "Thục địa", "Bạch thược", "Nhân sâm", "Can khương", "Cam thảo"]
+  },
+  "PK_KN_SauKy_KhiTre": {
+    hc: "Kinh nguyệt sau kỳ do Khí trệ",
+    phanloai: ["Phụ Khoa", "Bình", "Thực", "Khí trệ"],
+    tc: ["Kinh nguyệt đến chậm lượng ít", "Sắc kinh đỏ sẫm không thông", "Bụng dưới trướng đau", "Ngực sườn đầy tức, hay thở dài", "Mạch huyền"],
+    pdt: "Hành khí giải uất, hoạt huyết điều kinh",
+    bt: "Ô dược thông kinh tán",
+    tpbt: ["Ô dược", "Hương phụ", "Mộc hương", "Đương quy", "Xuyên khung", "Bạch thược", "Chỉ xác"]
+  },
+  "PK_KN_SauKy_DamThap": {
+    hc: "Kinh nguyệt sau kỳ do Đàm thấp trở trệ",
+    phanloai: ["Phụ Khoa", "Bình", "Thực", "Đàm thấp"],
+    tc: ["Kinh nguyệt đến chậm lượng ít", "Sắc kinh nhạt dính như chất nhầy", "Người béo bệu, thân thể nặng nề", "Miệng dính, nôn nao", "Mạch nhu hoạt"],
+    pdt: "Táo thấp hóa đàm, lý khí điều kinh",
+    bt: "Thương truật đạo đàm thang",
+    tpbt: ["Thương truật", "Bán hạ", "Trần bì", "Phục linh", "Chỉ thực", "Nam tinh", "Hương phụ"]
+  },
+  "PK_KN_ThatKy_CanUat": {
+    hc: "Kinh nguyệt không định kỳ do Can khí uất kết",
+    phanloai: ["Phụ Khoa", "Bình", "Hư thực thác tạp", "Khí uất"],
+    tc: ["Kinh nguyệt lúc đến sớm lúc đến muộn", "Lượng kinh nhiều ít không chừng", "Sắc kinh tím đen có cục", "Trướng vú ngực sườn đau", "Mạch huyền"],
+    pdt: "Sơ can giải uất, dưỡng huyết điều kinh",
+    bt: "Tiêu dao tán",
+    tpbt: ["Sài hồ", "Đương quy", "Bạch thược", "Bạch truật", "Phục linh", "Cam thảo", "Bạc hà", "Sinh khương"]
+  },
+  "PK_KN_ThatKy_ThanHu": {
+    hc: "Kinh nguyệt không định kỳ do Thận hư",
+    phanloai: ["Phụ Khoa", "Bình", "Hư", "Thận hư"],
+    tc: ["Kinh nguyệt sớm muộn thất thường", "Lượng kinh ít, sắc kinh nhạt", "Đau lưng mỏi gối, chóng mặt tai ù", "Tiểu đêm nhiều lần", "Mạch trầm tế"],
+    pdt: "Bổ thận ích tinh, tị dưỡng âm dương điều kinh",
+    bt: "Định kinh thang",
+    tpbt: ["Thục địa", "Hoài sơn", "Sơn thù nhục", "Bạch thược", "Đương quy", "Thỏ ty tử", "Kinh giới tuệ sao"]
+  },
+  "PK_KN_ThatKy_TyHu": {
+    hc: "Kinh nguyệt không định kỳ do Tỳ hư",
+    phanloai: ["Phụ Khoa", "Bình", "Hư", "Tỳ hư"],
+    tc: ["Kinh nguyệt trễ sớm thất thường", "Sắc kinh nhạt loãng", "Ăn kém, bụng trướng đầy sau ăn", "Đại tiện lỏng nhão", "Mạch nhu hoãn nhược"],
+    pdt: "Kiện tỳ ích khí, dưỡng huyết điều kinh",
+    bt: "Quy tỳ thang gia giảm",
+    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Hoàng kỳ", "Đương quy", "Long nhãn", "Toan táo nhân"]
+  },
+  "PK_KN_LieuNhieu_KhieuHu": {
+    hc: "Kinh nguyệt ra quá nhiều do Khí hư",
+    phanloai: ["Phụ Khoa", "Bình", "Hư", "Khí hư không nhiếp huyết"],
+    tc: ["Kinh nguyệt ra lượng rất nhiều ồ ạt", "Sắc kinh đỏ nhạt loãng", "Mệt mỏi hụt hơi, sắc mặt nhợt", "Tự hãn", "Mạch hư nhược hoãn"],
+    pdt: "Bổ khí kiện tỳ, sáp huyết điều kinh",
+    bt: "Cử nguyên thang",
+    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Chích cam thảo", "Thăng ma"]
+  },
+  "PK_KN_LieuNhieu_HuyetNhiet": {
+    hc: "Kinh nguyệt ra quá nhiều do Huyết nhiệt",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Huyết nhiệt"],
+    tc: ["Kinh nguyệt ra nhiều như xối", "Sắc kinh đỏ tươi hoặc tím đặc", "Mặt đỏ, miệng khát, tâm phiền", "Tiểu đỏ, đại tiện táo", "Mạch hồng sác"],
+    pdt: "Thanh nhiệt lương huyết, chỉ huyết điều kinh",
+    bt: "Bảo âm sản",
+    tpbt: ["Sinh địa", "Thục địa", "Bạch thược", "Hoàng bá", "Tri mẫu", "Mẫu đơn bì", "Tục đoạn", "Cam thảo"]
+  },
+  "PK_KN_LieuNhieu_HuyetU": {
+    hc: "Kinh nguyệt ra quá nhiều do Huyết ứ",
+    phanloai: ["Phụ Khoa", "Bình", "Thực", "Huyết ứ"], tc: ["Kinh nguyệt ra nhiều kéo dài", "Sắc kinh tím đen có cục máu đông lớn", "Bụng dưới đau quặn cự án, ra cục bớt đau", "Lưỡi tím sẫm", "Mạch sáp hoặc huyền sáp"],
+    pdt: "Hoạt huyết hóa ứ, chỉ huyết điều kinh",
+    bt: "Tứ vật thang gia Đào nhân, Hồng hoa, Tam thất",
+    tpbt: ["Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Đào nhân", "Hồng hoa", "Tam thất"]
+  },
+  "PK_KN_LieuIt_HuyetHu": {
+    hc: "Kinh nguyệt ra quá ít do Huyết hư",
+    phanloai: ["Phụ Khoa", "Bình", "Hư", "Huyết hư"],
+    tc: ["Kinh nguyệt ra nhỏ giọt vài giọt là hết", "Sắc kinh nhạt loãng", "Hoa mắt chóng mặt, tâm quý", "Sắc mặt nhợt úa", "Mạch tế nhược"],
+    pdt: "Bổ huyết ích khí, điều kinh",
+    bt: "Tứ vật thang gia Đảng sâm, Kỷ tử",
+    tpbt: ["Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Đảng sâm", "Kỷ tử"]
+  },
+  "PK_KN_LieuIt_ThanAmHu": {
+    hc: "Kinh nguyệt ra quá ít do Thận âm hư",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Hư", "Thận âm hư"],
+    tc: ["Kinh nguyệt ít sắc đỏ tươi", "Đau lưng mỏi gối, tai ù ve kêu", "Lòng bàn tay chân nóng, triều nhiệt", "Mạch tế sác"],
+    pdt: "Tư bổ thận âm, dưỡng huyết điều kinh",
+    bt: "Tả quy hoàn gia giảm",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Thỏ ty tử", "Quy bản giao", "Lộc giác giao"]
+  },
+  "PK_KN_LieuIt_ThanDuongHu": {
+    hc: "Kinh nguyệt ra quá ít do Thận dương hư",
+    phanloai: ["Phụ Khoa", "Hàn", "Hư", "Thận dương hư"],
+    tc: ["Kinh nguyệt ít sắc nhạt loãng hoặc xám nhợt", "Thắt lưng cold đau, tay chân cold ngắt", "Đi tiểu đêm nhiều lần", "Mạch trầm tế trì"],
+    pdt: "Ôn bổ thận dương, ích tinh調 kinh",
+    bt: "Hữu quy hoàn gia giảm",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Đỗ trọng", "Thỏ ty tử", "Nhục quế", "Phụ tử chế"]
+  },
+  "PK_KN_LieuIt_HuyetU": {
+    hc: "Kinh nguyệt ra quá ít do Huyết ứ ngưng trệ",
+    phanloai: ["Phụ Khoa", "Bình", "Thực", "Huyết ứ"],
+    tc: ["Kinh nguyệt nhỏ giọt rỉ rả sắc tím đen", "Bụng dưới đau quặn cự án", "Lưỡi tím sẫm có điểm ứ huyết", "Mạch trầm sáp"],
+    pdt: "Hoạt huyết hóa ứ, thông kinh chỉ thống",
+    bt: "Thông kinh la hoàn",
+    tpbt: ["Xích thược", "Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Nga truật", "Tam thất"]
+  },
+
+  // =========================================================================
+  // 2. RONG KINH & BĂNG LẬU
+  // =========================================================================
+  "PK_RongKinh_KhieuHu": {
+    hc: "Rong kinh kéo dài do Khí hư bất cố",
+    phanloai: ["Phụ Khoa", "Bình", "Hư", "Khí hư không nhiếp huyết"],
+    tc: ["Kinh nguyệt kéo dài trên 7 ngày rỉ rả không dứt", "Sắc kinh nhạt loãng", "Mệt mỏi hụt hơi, bụng dưới nặng chèn", "Mạch hư nhược"],
+    pdt: "Bổ khí kiện tỳ, nhiếp huyết cố kinh",
+    bt: "An xông thang",
+    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Chích cam thảo", "Thục địa", "A giao", "Tục đoạn"]
+  },
+  "PK_RongKinh_AmHuHoaVuong": {
+    hc: "Rong kinh do Âm hư hỏa vượng bức huyết vọng hành",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Hư", "Âm hư hỏa vượng"],
+    tc: ["Kinh nguyệt kéo dài lượng ít dính đỏ tươi", "Gò má đỏ, ngũ tâm phiền nhiệt", "Mất ngủ mộng mị, họng khô", "Lưỡi đỏ ít rêu", "Mạch tế sác"],
+    pdt: "Tư âm giáng hỏa, lương huyết chỉ huyết",
+    bt: "Thanh hải hoán thai đan gia giảm",
+    tpbt: ["Thục địa", "Sinh địa", "Bạch thược", "Mẫu đơn bì", "Tri mẫu", "Hoàng bá", "A giao", "Địa cốt bì"]
+  },
+  "PK_RongKinh_HuyetNhiet": {
+    hc: "Rong kinh do Huyết nhiệt vọng hành",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Huyết nhiệt"],
+    tc: ["Kinh nguyệt kéo dài sắc đỏ sẫm đặc hôi", "Sốt nhẹ, tâm phiền khát nước", "Tiểu đỏ đại tiện táo", "Mạch sác hữu lực"],
+    pdt: "Thanh nhiệt lương huyết, chỉ huyết điều kinh",
+    bt: "Cố âm tiễn gia giảm",
+    tpbt: ["Sinh địa", "Thục địa", "Bạch thược", "Hoàng bá", "Tri mẫu", "Trắc bách diệp sao đen", "Cam thảo"]
+  },
+  "PK_RongKinh_HuyetU": {
+    hc: "Rong kinh do Huyết ứ trệ bào cung",
+    phanloai: ["Phụ Khoa", "Bình", "Thực", "Huyết ứ"],
+    tc: ["Kinh nguyệt rỉ rả lâu ngày sắc tím đen có cục", "Bụng dưới đau cố định cự án", "Mạch sáp hữu lực"],
+    pdt: "Hoạt huyết hóa ứ, trừ cũ sinh mới chỉ huyết",
+    bt: "Khẩu vương thất bảo tán",
+    tpbt: ["Đương quy", "Xuyên khung", "Xích thược", "Đào nhân", "Hồng hoa", "Bồ hoàng sao", "Ngũ linh chi"]
+  },
+  "PK_BangLau_TyHu": {
+    hc: "Băng lậu do Tỳ hư khí hãm",
+    phanloai: ["Phụ Khoa", "Bình", "Hư", "Khí hư hạ hãm"],
+    tc: ["Máu kinh ra đột ngột ồ ạt (Băng) hoặc rỉ rả liên miên (Lậu)", "Sắc kinh nhạt loãng", "Sắc mặt bệch tái, chân tay lạnh nhẹ", "Mạch vi nhược hoặc hư đại vô lực"],
+    pdt: "Bổ khí thăng dương, kiện tỳ cố kinh chỉ huyết",
+    bt: "Cử nguyên thang hợp Bổ trung ích khí thang",
+    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Thăng ma", "Sài hồ", "Chích cam thảo", "A giao sao", "Mộc hương"]
+  },
+  "PK_BangLau_ThanDuongHu": {
+    hc: "Băng lậu do Thận dương hư suy",
+    phanloai: ["Phụ Khoa", "Hàn", "Hư suy", "Thận dương hư"],
+    tc: ["Máu kinh ra ồ ạt hoặc rỉ rả dai dẳng sắc xám nhợt", "Bụng dưới lạnh đau, sợ lạnh tay chân cold ngắt", "Tiểu đêm nhiều, tiêu chảy sáng sớm", "Mạch trầm tế vi"],
+    pdt: "Ôn bổ thận dương, cố xung sáp niệu chỉ huyết",
+    bt: "Hữu quy hoàn gia Lộc giác giao, Bổ cốt chỉ, Chi ma",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Lộc giác giao", "Bổ cốt chỉ", "Đỗ trọng"]
+  },
+  "PK_BangLau_ThanAmHu": {
+    hc: "Băng lậu do Thận âm hư suy",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Hư", "Thận âm hư"],
+    tc: ["Máu kinh ra rỉ rả dầm dề đỏ tươi đặc", "Đau lưng mỏi gối, hoa mắt tai ù", "Triều nhiệt đạo hãn", "Mạch tế sác vô lực"],
+    pdt: "Tư bổ thận âm, thanh nhiệt cố xung chỉ huyết",
+    bt: "Tả quy hoàn gia A giao, Quy bản, Trắc bách diệp sao",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Quy bản", "A giao", "Trắc bách diệp"]
+  },
+  "PK_BangLau_ThucNhiet": {
+    hc: "Băng lậu do Thực nhiệt huyết nhiệt",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Huyết nhiệt"],
+    tc: ["Máu kinh ra đột ngột xối xả sắc đỏ tươi/tím đặc", "Miệng khát thích uống lạnh, mặt đỏ", "Táo bón, tiểu ngắn đỏ", "Mạch sác hữu lực dũng mãnh"],
+    pdt: "Thanh nhiệt lương huyết, triệt hỏa chỉ huyết",
+    bt: "Thanh nhiệt cố kinh thang",
+    tpbt: ["Hoàng cầm", "Hoàng bá", "Sinh địa", "Bạch thược", "Mẫu đơn bì", "Địa cốt bì", "Cương tàm", "Cát cánh"]
+  },
+  "PK_BangLau_HuyetU": {
+    hc: "Băng lậu do Huyết ứ trở trệ xung nhâm",
+    phanloai: ["Phụ Khoa", "Bình", "Thực", "Huyết ứ"],
+    tc: ["Máu kinh ra rỉ rả hoặc chảy đợt bùng phát sắc tím đen có cục", "Bụng dưới đau quặn cự án", "Sản dịch/Kinh nguyệt ra cục bớt đau", "Mạch sáp hữu lực"],
+    pdt: "Hoạt huyết hóa ứ, thông xung chỉ huyết",
+    bt: "Sinh hóa thang gia Bồ hoàng, Ngũ linh chi",
+    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Can khương sao đen", "Chích cam thảo", "Bồ hoàng", "Ngũ linh chi"]
+  },
+
+  // =========================================================================
+  // 3. BẾ KINH (MẤT KINH)
+  // =========================================================================
+  "PK_BeKinh_KhiHuyetSuy": {
+    hc: "Bế kinh do Khí huyết hư suy",
+    phanloai: ["Phụ Khoa", "Bình", "Hư", "Khí huyết hư suy"],
+    tc: ["Bế kinh nhiều tháng liên tục", "Sắc mặt nhợt nhạt úa vàng, gầy còm", "Hoa mắt chóng mặt, mệt mỏi hụt hơi", "Lưỡi nhợt", "Mạch tế nhược"],
+    pdt: "Đại bổ khí huyết, dưỡng xung điều kinh",
+    bt: "Nhân sâm dưỡng danh thang",
+    tpbt: ["Nhân sâm", "Hoàng kỳ", "Bạch truật", "Phục linh", "Cam thảo", "Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Trần bì"]
+  },
+  "PK_BeKinh_ThanKhieuHu": {
+    hc: "Bế kinh do Thận khí hư tinh đới kiệt",
+    phanloai: ["Phụ Khoa", "Bình", "Hư suy", "Thận tinh bất túc"],
+    tc: ["Bế kinh ở phụ nữ trẻ hoặc tiền mãn kinh sớm", "Đau lưng mỏi gối, tóc rụng răng lung lay", "Khô âm đạo, giảm ham muốn", "Mạch trầm tế vô lực"],
+    pdt: "Bổ thận điền tinh, dưỡng huyết通 kinh",
+    bt: "Quy thận hoàn gia Kỷ tử, Thỏ ty tử",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Phục linh", "Đỗ trọng", "Đương quy", "Kỷ tử", "Thỏ ty tử"]
+  },
+  "PK_BeKinh_CanUatKhieuTre": {
+    hc: "Bế kinh do Can khí uất trệ",
+    phanloai: ["Phụ Khoa", "Bình", "Thực", "Khí trệ"],
+    tc: ["Bế kinh do căng thẳng uất hận", "Tinh thần u uất, hay thở dài", "Ngực sườn trướng đau", "Mạch huyền dằn xóc"],
+    pdt: "Sơ can giải uất, lý khí thông kinh",
+    bt: "Sài hồ sơ can tán gia Hồng hoa, Hương phụ",
+    tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Xuyên khung", "Hương phụ", "Hồng hoa", "Chích cam thảo"]
+  },
+  "PK_BeKinh_HuyetU": {
+    hc: "Bế kinh do Huyết ứ bào cung",
+    phanloai: ["Phụ Khoa", "Bình", "Thực", "Huyết ứ"],
+    tc: ["Bế kinh đột ngột, bụng dưới trướng đau cự án", "Ấn vào bụng đau nhói, mặt u ám", "Lưỡi tím sẫm có điểm ứ huyết", "Mạch trầm sáp"],
+    pdt: "Hoạt huyết hóa ứ, phá trệ thông kinh",
+    bt: "Huyết phủ trục ứ thang gia Nga truật",
+    tpbt: ["Đương quy", "Sinh địa", "Đào nhân", "Hồng hoa", "Chỉ xác", "Xích thược", "Sài hồ", "Xuyên khung", "Nga truật"]
+  },
+  "PK_BeKinh_DamThapTrangKy": {
+    hc: "Bế kinh do Đàm thấp trở trệ bào mạch",
+    phanloai: ["Phụ Khoa", "Bình", "Thực", "Đàm thấp"],
+    tc: ["Bế kinh ở người thể trạng béo trệ", "Khí hư ra nhiều đặc dính", "Ngực bụng đầy tức, hay nôn nao đờm dãi", "Rêu lưỡi dầy dính trắng", "Mạch nhu hoạt"],
+    pdt: "Táo thấp hóa đàm, thông kinh hoạt lạc",
+    bt: "Bán hạ ma hoàng hoàn gia giảm",
+    tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Ma hoàng", "Thương truật", "Hương phụ", "Thần khúc"]
+  },
+  "PK_BeKinh_HanNgungHuyetU": {
+    hc: "Bế kinh do Hàn ngưng huyết ứ",
+    phanloai: ["Phụ Khoa", "Hàn", "Thực", "Hàn ngưng huyết ứ"],
+    tc: ["Bế kinh sau khi bị nhiễm lạnh/ăn đồ lạnh kỳ kinh", "Bụng dưới đau quặn lạnh ngắt, gặp ấm bớt đau", "Tay chân lạnh ngắt", "Mạch trầm khẩn"],
+    pdt: "Ôn kinh tán hàn, hoạt huyết thông kinh",
+    bt: "Ôn kinh thang (Kim quỹ)",
+    tpbt: ["Ngô thù du", "Mạch môn", "Đương quy", "Xuyên khung", "Bạch thược", "Nhân sâm", "Quế chi", "A giao", "Mẫu đơn bì", "Bán hạ"]
+  },
+
+  // =========================================================================
+  // 4. THỐNG KINH (ĐAU BỤNG KINH)
+  // =========================================================================
+  "PK_ThongKinh_KhiTreHuyetU": {
+    hc: "Thống kinh do Khí trệ huyết ứ",
+    phanloai: ["Phụ Khoa", "Bình", "Thực", "Khí trệ huyết ứ"],
+    tc: ["Bụng dưới trướng đau quặn trước/trong kỳ kinh", "Kinh nguyệt ra cục tím đen, ra cục bớt đau", "Ngực sườn trướng căng", "Mạch huyền sáp"],
+    pdt: "Hành khí hoạt huyết, trừ ứ chỉ thống",
+    bt: "Cách hạ trục ứ thang",
+    tpbt: ["Đương quy", "Xuyên khung", "Xích thược", "Đào nhân", "Hồng hoa", "Chỉ xác", "Hương phụ", "Ô dược", "Ngũ linh chi", "Đan bì"]
+  },
+  "PK_ThongKinh_HanNgungHuyetU": {
+    hc: "Thống kinh do Hàn ngưng huyết ứ",
+    phanloai: ["Phụ Khoa", "Hàn", "Thực", "Hàn ngưng huyết ứ"],
+    tc: ["Bụng dưới đau dữ dội như đâm trước/trong kỳ kinh", "Gặp lạnh đau tăng, chườm ấm giảm đau", "Kinh nguyệt ít sắc tối có cục", "Mạch trầm khẩn"],
+    pdt: "Ôn kinh tán hàn, hóa ứ chỉ thống",
+    bt: "Thiếu bụng trục ứ thang",
+    tpbt: ["Can khương", "Nhục quế", "Tiểu hồi hương", "Đương quy", "Xuyên khung", "Xích thược", "Đào nhân", "Hồng hoa", "Bồ hoàng", "Ngũ linh chi"]
+  },
+  "PK_ThongKinh_ThapNhietUanKet": {
+    hc: "Thống kinh do Thấp nhiệt uẩn kết",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Thấp nhiệt uẩn kết"],
+    tc: ["Bụng dưới đau rát dữ dội trước kỳ kinh cự án", "Kinh nguyệt đỏ sẫm đặc hôi", "Sốt nhẹ, tiểu ngắn đỏ", "Khí hư vàng hôi", "Mạch nhu sác"],
+    pdt: "Thanh nhiệt lợi thấp, hóa ứ chỉ thống",
+    bt: "Thanh nhiệt điều huyết thang",
+    tpbt: ["Hoàng liên", "Sinh địa", "Đương quy", "Xuyên khung", "Xích thược", "Đào nhân", "Hồng hoa", "Hương phụ", "Nga truật", "Diên hồ索"]
+  },
+  "PK_ThongKinh_ThanKhieuHu": {
+    hc: "Thống kinh do Thận hư bào mạch thất dưỡng",
+    phanloai: ["Phụ Khoa", "Bình", "Hư", "Thận hư"],
+    tc: ["Bụng dưới đau âm ỉ dai dẳng sau kỳ kinh", "Thích xoa bóp và chườm ấm", "Đau lưng mỏi gối, kinh ít sắc nhạt", "Mạch trầm tế vô lực"],
+    pdt: "Bổ thận dưỡng huyết, hoãn cấp chỉ thống",
+    bt: "Điều can tán gia giảm",
+    tpbt: ["Sơn thù nhục", "Hoài sơn", "Thục địa", "Đương quy", "Bạch thược", "A giao", "Tục đoạn", "Cam thảo"]
+  },
+  "PK_ThongKinh_KhiHuyetHu": {
+    hc: "Thống kinh do Khí huyết hư suy",
+    phanloai: ["Phụ Khoa", "Bình", "Hư", "Khí huyết hư suy"],
+    tc: ["Bụng dưới đau âm ỉ liên miên sau khi sạch kinh", "Sắc mặt nhợt nhạt, mệt mỏi hụt hơi", "Kinh ít sắc nhạt loãng", "Mạch tế nhược"], pdt: "Bổ khí dưỡng huyết, hòa dinh chỉ thống",
+    bt: "Thánh dũ thang gia giảm",
+    tpbt: ["Nhân sâm", "Hoàng kỳ", "Thục địa", "Đương quy", "Bạch thược", "Xuyên khung"]
+  },
+  "PK_ThongKinh_CanHoaHoa": {
+    hc: "Thống kinh do Can uất hóa hỏa",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Can uất hóa hỏa"],
+    tc: ["Bụng dưới trướng đau rát trước kỳ kinh", "Mặt đỏ mắt đỏ, dễ giận dữ", "Kinh ra đỏ đặc, miệng đắng", "Mạch huyền sác"],
+    pdt: "Sơ can thanh nhiệt, hóa ứ chỉ thống",
+    bt: "Gia vị tiêu dao tán gia Diên hồ索",
+    tpbt: ["Sài hồ", "Đương quy", "Bạch thược", "Bạch truật", "Phục linh", "Cam thảo", "Đan bì", "Chi tử", "Diên hồ索"]
+  },
+  "PK_ThongKinh_TyViHuHan": {
+    hc: "Thống kinh do Tỳ Vị hư hàn",
+    phanloai: ["Phụ Khoa", "Hàn", "Hư", "Tỳ Vị hư hàn"],
+    tc: ["Bụng dưới kèm thượng vị đau âm ỉ khi hành kinh", "Thích ấm, nôn ra nước trong", "Tay chân cold, tiêu chảy nhào", "Mạch trầm tế hoãn"],
+    pdt: "Ôn trung kiện tỳ, tán hàn chỉ thống",
+    bt: "Tiểu kiến trung thang gia Đương quy",
+    tpbt: ["Quế chi", "Bạch thược", "Sinh khương", "Đại táo", "Chích cam thảo", "Di đường", "Đương quy"]
+  },
+
+  // =========================================================================
+  // 5. BỆNH ĐỚI HẠ (KHÍ HƯ PHỤ KHOA)
+  // =========================================================================
+  "PK_DoiHa_TyHuThapThinh": {
+    hc: "Đới hạ do Tỳ hư thấp thịnh (Bạch đới)",
+    phanloai: ["Phụ Khoa", "Bình", "Hư thực thác tạp", "Tỳ hư thấp trệ"],
+    tc: ["Khí hư ra nhiều màu trắng đục như mỡ hoặc lòng trắng trứng", "Không mùi hôi, âm hộ không ngứa", "Mệt mỏi, sắc mặt nhợt", "Đại tiện lỏng nhão", "Mạch nhu nhược hoãn"],
+    pdt: "Kiện tỳ ích khí, thăng dương trừ thấp chỉ đới",
+    bt: "Hoàn đới thang",
+    tpbt: ["Bạch truật", "Sơn dược", "Nhân sâm", "Bạch thược", "Thương truật", "Cam thảo", "Trần bì", "Kinh giới tuệ", "Sài hồ"]
+  },
+  "PK_DoiHa_ThanDuongHu": {
+    hc: "Đới hạ do Thận dương hư suy (Bạch đới lạnh)",
+    phanloai: ["Phụ Khoa", "Hàn", "Hư suy", "Thận dương hư"],
+    tc: ["Khí hư ra dai dẳng trong loãng như nước", "Bụng dưới cold ngắt, thắt lưng lạnh mỏi", "Đi tiểu đêm nhiều lần, sợ lạnh", "Mạch trầm tế trì"],
+    pdt: "Ôn bổ thận dương, cố sáp chỉ đới",
+    bt: "Nội bổ hoàn",
+    tpbt: ["Thục địa", "Lộc nhung", "Bổ cốt chỉ", "Phụ tử chế", "Nhục quế", "Hoài sơn", "Thỏ ty tử", "Tang phiêu tiêu"]
+  },
+  "PK_DoiHa_ThanAmHu": {
+    hc: "Đới hạ do Thận âm hư (Khí hư nhầy dính đỏ trắng)",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Hư", "Thận âm hư"],
+    tc: ["Khí hư ra dầm dề màu đỏ trắng xen kẽ hoặc dính đặc", "Âm hộ khô rát, triều nhiệt đạo hãn", "Đau lưng mỏi gối, tai ù", "Mạch tế sác"],
+    pdt: "Tư bổ thận âm, thanh nhiệt chỉ đới",
+    bt: "Tri bá địa hoàng hoàn gia Mẫu lệ, Khiếm thực",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Tri mẫu", "Hoàng bá", "Mẫu lệ"]
+  },
+  "PK_DoiHa_ThapNhietHaChu": {
+    hc: "Đới hạ do Thấp nhiệt hạ chú (Hoàng đới / Xích đới)",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Thấp nhiệt hạ chú"],
+    tc: ["Khí hư ra nhiều màu vàng xanh hôi đặc", "Âm hộ nóng rát ngứa ngáy dữ dội", "Tiểu dắt tiểu buốt", "Rêu lưỡi vàng nhớt", "Mạch nhu sác"],
+    pdt: "Thanh nhiệt táo thấp, giải độc chỉ đới",
+    bt: "Chỉ đới thang",
+    tpbt: ["Hoàng bá", "Tri mẫu", "Trúc nhự", "Phục linh", "Trạch tả", "Xa tiền tử", "Dâm dương hoắc"]
+  },
+  "PK_DoiHa_CanHoaTietTuc": {
+    hc: "Đới hạ do Can kinh hỏa uất thấp nhiệt",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Can hỏa thấp nhiệt"],
+    tc: ["Khí hư ra đục màu vàng đắng tanh hôi", "Dễ cáu gắt, miệng đắng họng khô", "Ngực sườn trướng đầy, tiểu đỏ", "Mạch huyền sác"],
+    pdt: "Thanh can tả hỏa, lợi thấp chỉ đới",
+    bt: "Long đởm tả can thang gia Khổ sâm",
+    tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Trạch tả", "Mộc thông", "Xa tiền tử", "Đương quy", "Sinh địa", "Sài hồ", "Khổ sâm"]
+  },
+  "PK_DoiHa_HanThapUanBao": {
+    hc: "Đới hạ do Hàn thấp uẩn kết bào cung",
+    phanloai: ["Phụ Khoa", "Hàn", "Thực", "Hàn thấp"],
+    tc: ["Khí hư ra nhiều loãng trắng như lòng trắng trứng", "Bụng dưới cold đau âm ỉ, chườm ấm bớt", "Thân thể mỏi nặng, sợ cold", "Mạch trầm nhu hoãn"],
+    pdt: "Ôn kinh tán hàn, trừ thấp chỉ đới",
+    bt: "Xung hòa tán gia giảm",
+    tpbt: ["Thương truật", "Can khương", "Nhục quế", "Bạch truật", "Phục linh", "Phụ tử chế", "Cam thảo"]
+  },
+  "PK_DoiHa_DocHietTrangNhiet": {
+    hc: "Đới hạ do Nhiệt độc uẩn kết (Khí hư mủ máu)",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Hỏa độc"],
+    tc: ["Khí hư ra như mủ lẫn máu hôi thối dữ dội", "Bụng dưới đau dữ dội cự án", "Sốt cao, bứt rứt khát nước", "Lưỡi đỏ rêu vàng khô", "Mạch sác hữu lực"],
+    pdt: "Thanh nhiệt giải độc, bài nùng chỉ đới",
+    bt: "Ngũ vị tiêu độc ẩm gia Hoàng liên, Bồ công anh",
+    tpbt: ["Kim ngân hoa", "Cúc hoa", "Bồ công anh", "Tử hoa địa đinh", "Tử bối thiên quỳ", "Hoàng liên", "Thổ phục linh"]
+  },
+
+  // =========================================================================
+  // 6. VIÊM NHIỄM SINH DỤC NỮ & ÂM NGỨA / ÂM SANG
+  // =========================================================================
+  "PK_AmNgua_ThapNhiet": {
+    hc: "Âm hộ mẩn ngứa do Thấp nhiệt uẩn kết (Viêm âm đạo)",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Thấp nhiệt"],
+    tc: ["Ngứa rát dữ dội âm hộ âm đạo", "Khí hư ra nhiều như cặn sữa/vàng hôi", "Niêm mạc đỏ sưng rát, tiểu buốt", "Mạch nhu sác"],
+    pdt: "Thanh nhiệt lợi thấp, sát trùng chỉ ngứa",
+    bt: "Bội lan tán hợp Nhị diệu tán gia Khổ sâm",
+    tpbt: ["Hoàng bá", "Thương truật", "Khổ sâm", "Bội lan", "Xa tiền tử", "Xà sàng tử"]
+  },
+  "PK_AmNgua_GanThucHoa": {
+    hc: "Âm hộ ngứa do Can kinh hỏa độc",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Can hỏa"],
+    tc: ["Âm hộ nóng rát gãi rớm máu", "Tâm phiền dễ giận, miệng đắng", "Tiểu tiện đỏ dắt", "Mạch huyền sác"],
+    pdt: "Thanh can tả hỏa, thanh nhiệt chỉ ngứa",
+    bt: "Long đởm tả can thang gia Xà sàng tử",
+    tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Sinh địa", "Sài hồ", "Xà sàng tử"]
+  },
+  "PK_AmNgua_PhongTaoHuyetHu": {
+    hc: "Âm hộ ngứa do Huyết hư phong táo (Âm hộ khô ngứa)",
+    phanloai: ["Phụ Khoa", "Bình", "Hư thực thác tạp", "Huyết hư phong táo"],
+    tc: ["Âm hộ khô teo ngứa ngáy dai dẳng mạn tính", "Càng về đêm ngứa càng tăng", "Da âm hộ khô nẻ mất độ đàn hồi", "Mạch tế sáp"],
+    pdt: "Dưỡng huyết nhuận táo, khu phong chỉ ngứa",
+    bt: "Dưỡng tiêu phong tán gia Hà thủ ô",
+    tpbt: ["Đương quy", "Thục địa", "Bạch thược", "Xuyên khung", "Phòng phong", "Kinh giới", "Hà thủ ô", "Thuyền thoái"]
+  },
+  "PK_AmNgua_ThanAmHu": {
+    hc: "Âm hộ ngứa do Thận âm hư suy",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Hư", "Thận âm hư"],
+    tc: ["Âm hộ khô rát ngứa nhẹ dầm dề lâu ngày", "Triều nhiệt đạo hãn, đau lưng mỏi gối", "Lưỡi đỏ ít rêu", "Mạch tế sác vô lực"],
+    pdt: "Tư bổ thận âm, nhuận táo chỉ ngứa",
+    bt: "Tả quy hoàn gia Dâm dương hoắc, Xà sàng tử",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Đan bì", "Dâm dương hoắc", "Xà sàng tử"]
+  },
+  "PK_AmSang_ThapNhietDoc": {
+    hc: "Âm sang do Thấp nhiệt hỏa độc (Loét âm hộ / Áp xe tuyến Bartholin)",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Hỏa độc uẩn kết"],
+    tc: ["Âm hộ nổi mụn nhọt sưng nóng đỏ đau dữ dội", "Mưng mủ chảy dịch hôi hám", "Sốt cao rét run, tiểu khó", "Mạch hoạt sác hữu lực"],
+    pdt: "Thanh nhiệt giải độc, trừ thấp bài nùng",
+    bt: "Tiên phương hoạt mệnh hãn gia giảm",
+    tpbt: ["Kim ngân hoa", "Trần bì", "Phòng phong", "Bạch chỉ", "Cam thảo", "Bối mẫu", "Nhũ hương", "Một dược", "Cát cánh"]
+  },
+  "PK_AmSang_NhietDocSieuPhu": {
+    hc: "Âm sang do Nhiệt độc dư uẩn hoại tử",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Nhiệt độc nhung huyết"],
+    tc: ["Niêm mạc âm hộ loét sâu hoại tử", "Máu mủ hôi thối dầm dề", "Thân thể mệt mỏi, sốt dai dẳng", "Mạch tế sác hữu lực"], pdt: "Thanh nhiệt lương huyết, giải độc sinh cơ", bt: "Thanh nhiệt giải độc thang gia giảm",
+    tpbt: ["Hoàng liên", "Hoàng cầm", "Hoàng bá", "Kim ngân hoa", "Liên kiều", "Sinh địa", "Đan bì", "Bồ công anh"]
+  },
+  "PK_AmSang_HuyetHuKhieuTao": {
+    hc: "Âm sang do Huyết hư mụn loét lâu liền",
+    phanloai: ["Phụ Khoa", "Bình", "Hư", "Huyết hư không sinh cơ"],
+    tc: ["Vết loét âm hộ đáy bệch nhợt chảy dịch trong", "Lâu ngày không liền miệng", "Mệt mỏi sắc mặt nhợt", "Mạch tế nhược vô lực"],
+    pdt: "Bổ huyết ích khí,托độc sinh cơ",
+    bt: "Thấu quốc tán gia giảm",
+    tpbt: ["Hoàng kỳ", "Đương quy", "Bạch truật", "Phục linh", "Bạch chỉ", "Xuyên khung", "Cam thảo"]
+  },
+  "PK_ViemCoTuCung_ThapNhiet": {
+    hc: "Viêm cổ tử cung do Thấp nhiệt uẩn kết",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Thấp nhiệt"],
+    tc: ["Khí hư ra nhiều như mủ màu vàng xanh hôi", "Cổ tử cung đỏ loét rớm máu khi chạm", "Bụng dưới đau trướng rát", "Mạch nhu sác"],
+    pdt: "Thanh nhiệt táo thấp, chỉ đới tiêu thũng",
+    bt: "Long đởm tả can thang hợp Nhị diệu tán",
+    tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Hoàng bá", "Thương truật", "Trạch tả", "Xa tiền tử"]
+  },
+  "PK_ViemCoTuCung_NhietDoc": {
+    hc: "Viêm cổ tử cung do Nhiệt độc hỏa thịnh",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Hỏa độc"],
+    tc: ["Cổ tử cung sưng phù loét nặng chảy mủ máu", "Bụng dưới đau nhói dữ dội", "Sốt, miệng khát, tiểu đỏ", "Mạch sác dũng mãnh"],
+    pdt: "Thanh nhiệt giải độc, lương huyết tiêu sang",
+    bt: "Ngũ vị tiêu độc ẩm gia Hoàng bá, Đan bì",
+    tpbt: ["Kim ngân hoa", "Cúc hoa", "Bồ công anh", "Tử hoa địa đinh", "Hoàng bá", "Mẫu đơn bì"]
+  },
+  "PK_ViemCoTuCung_KhieuHu": {
+    hc: "Viêm cổ tử cung mạn tính do Khí hư thấp trệ",
+    phanloai: ["Phụ Khoa", "Bình", "Hư thực thác tạp", "Tỳ hư thấp trệ"],
+    tc: ["Khí hư ra dai dẳng màu trắng vàng loãng", "Cổ tử cung lộn tuyến loét nhẹ bệch", "Mệt mỏi, đau lưng", "Mạch nhu hoãn"],
+    pdt: "Kiện tỳ ích khí, thanh nhiệt trừ thấp",
+    bt: "Hoàn đới thang gia Hoàng bá, Khổ sâm",
+    tpbt: ["Bạch truật", "Sơn dược", "Nhân sâm", "Bạch thược", "Thương truật", "Hoàng bá", "Khổ sâm"]
+  },
+  "PK_ViemCoTuCung_HuyetU": {
+    hc: "Viêm cổ tử cung mạn do Huyết ứ trệ",
+    phanloai: ["Phụ Khoa", "Bình", "Thực", "Huyết ứ"],
+    tc: ["Cổ tử cung phì đại tím tái", "Xuất huyết nhẹ sau quan hệ", "Bụng dưới đau nhói cố định", "Mạch sáp"],
+    pdt: "Hoạt huyết hóa ứ, tiêu thũng chỉ thống",
+    bt: "Quế chi phục linh hoàn gia Nga truật",
+    tpbt: ["Quế chi", "Phục linh", "Mẫu đơn bì", "Xích thược", "Đào nhân", "Nga truật"]
+  },
+  "PK_ViemPhanPhu_ThapNhiet": {
+    hc: "Viêm phần phụ cấp do Thấp nhiệt uẩn kết",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Thấp nhiệt"],
+    tc: ["Bụng dưới hai bên đau quặn rát cự án", "Sốt nhẹ hoặc sốt cao, khát nước", "Khí hư vàng hôi ra nhiều", "Mạch nhu sác dũng mãnh"],
+    pdt: "Thanh nhiệt lợi thấp, hành khí hóa ứ chỉ thống",
+    bt: "Đại hoàng mẫu đơn bì thang gia giảm",
+    tpbt: ["Đại hoàng", "Mẫu đơn bì", "Đào nhân", "Hạt dưa qua lâu", "Mang tiêu", "Kim ngân hoa", "Bồ công anh"]
+  },
+  "PK_ViemPhanPhu_KhiTreHuyetU": {
+    hc: "Viêm phần phụ mạn do Khí trệ huyết ứ",
+    phanloai: ["Phụ Khoa", "Bình", "Thực", "Khí trệ huyết ứ"],
+    tc: ["Đau âm ỉ quặn hai bên hố chậu kéo dài", "Đau tăng khi đi lại hoặc quan hệ", "Kinh nguyệt có cục máu đông", "Mạch huyền sáp"],
+    pdt: "Hành khí hoạt huyết, hóa ứ khu mẫn chỉ thống",
+    bt: "Cách hạ trục ứ thang gia Cát cánh, Hương phụ",
+    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Chỉ xác", "Hương phụ", "Ngũ linh chi"]
+  },
+  "PK_ViemPhanPhu_HanThap": {
+    hc: "Viêm phần phụ mạn do Hàn thấp ngưng trệ",
+    phanloai: ["Phụ Khoa", "Hàn", "Hư thực thác tạp", "Hàn thấp ngưng trệ"],
+    tc: ["Bụng dưới hai bên đau cold âm ỉ, chườm ấm bớt", "Khí hư ra trong loãng nhiều", "Tay chân cold, sợ cold", "Mạch trầm trì"],
+    pdt: "Ôn kinh tán hàn, trừ thấp hóa ứ chỉ thống",
+    bt: "Thiếu bụng trục ứ thang gia giảm",
+    tpbt: ["Can khương", "Nhục quế", "Tiểu hồi hương", "Đương quy", "Xuyên khung", "Xích thược", "Bồ hoàng"]
+  },
+  "PK_ViemPhanPhu_NhietDoc": {
+    hc: "Viêm phần phụ cấp biến chứng Khối áp xe do Nhiệt độc",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Hỏa độc bài nùng"],
+    tc: ["Sốt cao rét run, bụng dưới đau quặn dữ dội", "Sờ thấy khối căng đau ở hố chậu", "Khí hư mủ máu hôi thối", "Mạch sác dũng mãnh"],
+    pdt: "Thanh nhiệt giải độc, bài nùng tiêu ứ",
+    bt: "Thiên kim vị kinh thang hợp Tiên phương hoạt mệnh hãn",
+    tpbt: ["Vĩ kinh", "Đ đông qua nhân", "Ý dĩ", "Đào nhân", "Kim ngân hoa", "Bồ công anh", "Nhũ hương", "Một dược"]
+  },
+  "PK_ViemKhungChau_KhieuHuHuyetU": {
+    hc: "Viêm vùng chậu mạn do Khí hư huyết ứ",
+    phanloai: ["Phụ Khoa", "Bình", "Hư thực thác tạp", "Khí hư huyết ứ"],
+    tc: ["Bụng dưới trướng đau dai dẳng lâu ngày", "Lao động nặng đau tăng, mệt mỏi hụt hơi", "Kinh nguyệt kéo dài sắc nhạt có cục", "Mạch tế sáp vô lực"],
+    pdt: "Bổ khí hoạt huyết, hóa ứ chỉ thống",
+    bt: "Bổ dương hoàn ngũ thang gia Đan sâm, Hương phụ",
+    tpbt: ["Hoàng kỳ", "Đương quy vĩ", "Xích thược", "Đào nhân", "Hồng hoa", "Địa long", "Đan sâm", "Hương phụ"]
+  },
+  "PK_ViemKhungChau_ThapNhietUan": {
+    hc: "Viêm vùng chậu mạn do Thấp nhiệt dư uẩn",
+    phanloai: ["Phụ Khoa", "Nhiệt", "Hư thực thác tạp", "Thấp nhiệt uẩn kết"],
+    tc: ["Bụng dưới trướng nặng đau rát hằng ngày", "Mệt mỏi sốt nhẹ về chiều", "Khí hư vàng dính", "Mạch nhu sác"],
+    pdt: "Thanh nhiệt lợi thấp, thông lạc chỉ thống",
+    bt: "Ý dĩ nhân phụ tử bại tiếu tán gia giảm",
+    tpbt: ["Ý dĩ nhân", "Phụ tử chế", "Bại tiếu thảo", "Kim ngân hoa", "Bồ công anh", "Xích thược"]
+  },
+  "PK_ViemKhungChau_HanNgung": {
+    hc: "Viêm vùng chậu mạn do Thận hư hàn ngưng",
+    phanloai: ["Phụ Khoa", "Hàn", "Hư thực thác tạp", "Thận hư hàn ngưng"],
+    tc: ["Bụng dưới và thắt lưng đau cold dai dẳng", "Gặp cold đau tăng, chườm ấm dễ chịu", "Tiểu đêm nhiều, sợ cold", "Mạch trầm tế trì"],
+    pdt: "Bổ thận ôn kinh, tán hàn chỉ thống",
+    bt: "Noãn can tiễn hợp Thiếu bụng trục ứ thang",
+    tpbt: ["Tiểu hồi hương", "Nhục quế", "Đương quy", "Ô dược", "Can khương", "Xích thược", "Đào nhân"]
+  },
+
+  // =========================================================================
+  // 7. BỆNH THAI KỲ (THAI LẬU, THAI ĐỘNG, ÁC TRỞ, TỬ GIẬT)
+  // =========================================================================
+  "PK_ThaiLau_ThanHu": {
+    hc: "Thai lậu (Dọa sảy thai) do Thận hư bất cố",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Thận hư bất cố"],
+    tc: ["Mang thai ra chút ít máu tươi/dịch hồng âm đạo", "Bụng dưới và thắt lưng đau mỏi âm ỉ", "Tiểu đêm nhiều lần, tai ù", "Mạch trầm tế nhược"],
+    pdt: "Bổ thận cố xung, an thai chỉ huyết",
+    bt: "Thọ thai hoàn",
+    tpbt: ["Thỏ ty tử", "Tang ký sinh", "Tục đoạn", "A giao"]
+  },
+  "PK_ThaiLau_KhieuHu": {
+    hc: "Thai lậu do Khí hư không nhiếp huyết",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Khí hư không nhiếp huyết"],
+    tc: ["Mang thai ra máu nhạt loãng ở âm đạo", "Bụng dưới nặng trướng chèn xuống", "Sắc mặt nhợt nhạt, mệt mỏi hụt hơi", "Mạch hư nhược"],
+    pdt: "Bổ khí kiện tỳ, cố xung an thai",
+    bt: "Cử nguyên thang gia A giao, Tục đoạn",
+    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Chích cam thảo", "Thăng ma", "A giao", "Tục đoạn"]
+  },
+  "PK_ThaiLau_HuyetNhiet": {
+    hc: "Thai lậu do Huyết nhiệt bức thai",
+    phanloai: ["Sản Khoa", "Nhiệt", "Thực", "Huyết nhiệt"],
+    tc: ["Mang thai ra máu đỏ tươi hoặc đỏ sẫm đặc", "Mặt đỏ, tâm phiền bứt rứt, miệng khát", "Tiểu đỏ, đại tiện táo", "Lưỡi đỏ rêu vàng", "Mạch sác hữu lực"],
+    pdt: "Thanh nhiệt lương huyết, an thai chỉ huyết",
+    bt: "Bảo âm sản gia Ngó sen sao đen",
+    tpbt: ["Sinh địa", "Thục địa", "Bạch thược", "Hoàng bá", "Tri mẫu", "Mẫu đơn bì", "Tục đoạn", "Cam thảo"]
+  },
+  "PK_ThaiLau_HuyetU": {
+    hc: "Thai lậu do Huyết ứ bao thai",
+    phanloai: ["Sản Khoa", "Bình", "Thực", "Huyết ứ"],
+    tc: ["Mang thai ra máu ra đợt màu tím đen có cục", "Bụng dưới đau nhói cố định cự án", "Lưỡi tím sẫm", "Mạch sáp"],
+    pdt: "Hoạt huyết hòa huyết, an thai chỉ huyết",
+    bt: "Quế chi phục linh hoàn gia Tục đoạn, A giao",
+    tpbt: ["Quế chi", "Phục linh", "Mẫu đơn bì", "Xích thược", "Đào nhân", "Tục đoạn", "A giao"]
+  },
+  "PK_ThaiLau_NgoaiThuong": {
+    hc: "Thai lậu do Ngoại thương dằn xóc",
+    phanloai: ["Sản Khoa", "Bình", "Thực", "Ngoại thương chấn động"],
+    tc: ["Mang thai sau té ngã/dằn xóc bụng dưới đau quặn", "Âm đạo xuất huyết đỏ tươi", "Mệt mỏi bàng hoàng", "Mạch huyền tế"],
+    pdt: "Hòa huyết an thai, chỉ thống chỉ huyết",
+    bt: "Thánh dũ thang gia A giao, Tục đoạn, Ngó sen",
+    tpbt: ["Nhân sâm", "Hoàng kỳ", "Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "A giao", "Tục đoạn"]
+  },
+  "PK_ThaiDong_ThanHu": {
+    hc: "Thai động bất an do Thận hư suy",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Thận hư"],
+    tc: ["Mang thai bụng dưới đau quặn, thai trồi sụt bất an", "Đau mỏi thắt lưng dữ dội", "Ra rỉ rả dịch hồng âm đạo", "Mạch trầm tế nhược"],
+    pdt: "Bổ thận ích tinh, cố xung an thai",
+    bt: "Cố thai hoàn",
+    tpbt: ["Thỏ ty tử", "Tang ký sinh", "Tục đoạn", "A giao", "Bạch truật", "Hoài sơn", "Đỗ trọng"]
+  },
+  "PK_ThaiDong_TyKhieuHu": {
+    hc: "Thai động bất an do Tỳ khí hư nhược",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Tỳ hư"],
+    tc: ["Mang thai bụng dưới trướng chèn đau", "Ăn uống kém, đại tiện lỏng nhão", "Mệt mỏi vô lực, mặt vàng nhợt", "Mạch hoãn nhược"],
+    pdt: "Kiện tỳ ích khí, bổ trung an thai",
+    bt: "Hương sa lục quân tử thang gia Tục đoạn",
+    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Trần bì", "Bán hạ", "Mộc hương", "Sa nhân", "Tục đoạn"]
+  },
+  "PK_ThaiDong_HuyetNhiet": {
+    hc: "Thai động bất an do Huyết nhiệt hỏa bức",
+    phanloai: ["Sản Khoa", "Nhiệt", "Thực", "Huyết nhiệt"],
+    tc: ["Thai động máy đạp liên tục đau quặn bụng", "Ngực phiền nhiệt, mặt đỏ miệng khô", "Tiểu vàng đại tiện táo", "Mạch sác hữu lực"],
+    pdt: "Thanh nhiệt lương huyết, dưỡng can an thai",
+    bt: "Đương quy thược dược tán gia Hoàng cầm, Bạch truật",
+    tpbt: ["Đương quy", "Bạch thược", "Xuyên khung", "Bạch truật", "Phục linh", "Hoàng cầm"]
+  },
+  "PK_ThaiDong_KhieuTre": {
+    hc: "Thai động bất an do Khí trệ uất kết",
+    phanloai: ["Sản Khoa", "Bình", "Thực", "Khí trệ"],
+    tc: ["Mang thai ngực sườn trướng đau, bụng trướng căng", "Thai động xốc lên trên làm khó thở", "Tinh thần u uất hay cáu giận", "Mạch huyền"],
+    pdt: "Sơ can lý khí, hòa vị an thai",
+    bt: "Tử tô ẩm",
+    tpbt: ["Tô diệp", "Đương quy", "Bạch thược", "Xuyên khung", "Trần bì", "Phục linh", "Đại phúc bì", "Chích cam thảo"]
+  },
+  "PK_ThaiDong_DamThap": {
+    hc: "Thai động bất an do Đàm thấp ứ trệ",
+    phanloai: ["Sản Khoa", "Bình", "Thực", "Đàm thấp"],
+    tc: ["Mang thai thai động đau bụng trướng nặng", "Nôn nao ra nhiều đờm dãi, lợm mửa", "Thân thể mỏi nặng", "Mạch nhu hoạt"],
+    pdt: "Táo thấp hóa đàm, hòa vị an thai",
+    bt: "Chưng đàm hoàn gia Tục đoạn, Tô diệp",
+    tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Cam thảo", "Tô diệp", "Tục đoạn", "Sa nhân"]
+  },
+  "PK_AcTro_TyViHuHan": {
+    hc: "Ác trở (Ốm nghén nặng) do Tỳ Vị hư hàn",
+    phanloai: ["Sản Khoa", "Hàn", "Hư", "Tỳ Vị hư hàn"],
+    tc: ["Mang thai nôn mửa liên tục ra nước trong nhạt miệng", "Ăn vào nôn ra ngay, sợ mùi thức ăn", "Sợ cold tay chân cold", "Mạch trầm tế hoãn"],
+    pdt: "Ôn trung kiện tỳ, giáng nghịch chỉ nôn an thai",
+    bt: "Can khương nhân sâm bán hạ thang",
+    tpbt: ["Can khương", "Nhân sâm", "Bán hạ chế", "Sinh khương", "Bạch truật"]
+  },
+  "PK_AcTro_CanViBatHoa": {
+    hc: "Ác trở do Can Vị bất hòa (Can hỏa thượng nghịch)",
+    phanloai: ["Sản Khoa", "Nhiệt", "Hư thực thác tạp", "Can Vị bất hòa"],
+    tc: ["Ốm nghén nôn ra nước đắng vàng hoặc nước chua", "Miệng đắng họng khô, ngực sườn trướng đau", "Dễ giận dữ cáu gắt", "Mạch huyền sác"],
+    pdt: "Sơ can hòa vị, thanh nhiệt giáng nghịch chỉ nôn",
+    bt: "Túc quái thang gia Hoàng liên, Trúc nhự",
+    tpbt: ["Bán hạ chế", "Trần bì", "Phục linh", "Sinh khương", "Hoàng liên", "Trúc nhự", "Bạch thược", "Cam thảo"]
+  },
+  "PK_AcTro_DamThapTrungTro": {
+    hc: "Ác trở do Đàm thấp trung trở",
+    phanloai: ["Sản Khoa", "Bình", "Thực", "Đàm thấp"],
+    tc: ["Ốm nghén nôn ra nhiều đờm dãi dính nhớt", "Đầu choáng nặng như bó, ngực bụng trướng đầy", "Miệng nhạt dính, không khát", "Rêu dầy dính trắng", "Mạch hoạt"],
+    pdt: "Kiện tỳ hóa đàm, giáng nghịch chỉ nôn",
+    bt: "Tiểu bán hạ gia phục linh thang gia Trần bì, Sa nhân",
+    tpbt: ["Bán hạ chế", "Phục linh", "Sinh khương", "Trần bì", "Sa nhân"]
+  },
+  "PK_AcTro_ViHoaSuongNghich": {
+    hc: "Ác trở do Vị hỏa xí thịnh (Ốm nghén nôn mửa rát ngực)",
+    phanloai: ["Sản Khoa", "Nhiệt", "Thực", "Vị hỏa thượng nghịch"],
+    tc: ["Nôn mửa ra thức ăn lẫn máu tươi/dịch đen rát ngực", "Khát nước thích uống lạnh", "Miệng hôi, táo bón nặng", "Mạch hoạt sác hữu lực"],
+    pdt: "Thanh vị tả hỏa, giáng nghịch sinh tân",
+    bt: "Thanh vị tán gia Trúc nhự, Bán hạ chế",
+    tpbt: ["Hoàng liên", "Thăng ma", "Sinh địa", "Mẫu đơn bì", "Trúc nhự", "Bán hạ chế"]
+  },
+  "PK_ThaiPhu_TyHuThuyThung": {
+    hc: "Thai thủy / Thai phù do Tỳ hư thủy thũng",
+    phanloai: ["Sản Khoa", "Bình", "Hư thực thác tạp", "Tỳ hư thủy trệ"],
+    tc: ["Mang thai tháng cuối hai chân phù thũng ấn lõm", "Mặt và mi mắt phù nhẹ vào buổi sáng", "Bụng trướng, ăn kém tiêu chảy", "Mạch nhu hoãn"],
+    pdt: "Kiện tỳ lợi thủy, thẩm thấp tiêu thũng an thai",
+    bt: "Phòng kỷ phục linh thang gia Bạch truật",
+    tpbt: ["Phòng kỷ", "Phục linh", "Quế chi", "Bạch truật", "Cam thảo"]
+  },
+  "PK_ThaiPhu_ThanDuongHu": {
+    hc: "Thai phù do Thận dương hư suy",
+    phanloai: ["Sản Khoa", "Hàn", "Hư", "Thận dương hư thủy thũng"],
+    tc: ["Mang thai phù toàn thân bắt đầu từ chân căng mọng", "Sợ cold, tay chân cold ngắt, thắt lưng cold đau", "Tiểu tiện rất ít, sắc mặt bệch", "Mạch trầm tế trì vô lực"],
+    pdt: "Ôn thận trợ dương, hóa khí lợi thủy tiêu thũng",
+    bt: "Chân vũ thang gia Đỗ trọng, Tang ký sinh",
+    tpbt: ["Phụ tử chế", "Bạch truật", "Phục linh", "Bạch thược", "Sinh khương", "Đỗ trọng", "Tang ký sinh"]
+  },
+  "PK_ThaiPhu_KhieuTreThuyTre": {
+    hc: "Thai phù do Khí trệ thủy ngưng",
+    phanloai: ["Sản Khoa", "Bình", "Thực", "Khí trệ thủy ngưng"],
+    tc: ["Mang thai phù thũng kèm ngực sườn trướng đau", "Da vùng phù căng bóng không ấn lõm sâu", "Hay thở dài, tâm trạng bất an", "Mạch huyền nhu"],
+    pdt: "Lý khí hành thủy, tiêu trướng an thai",
+    bt: "Thiên kim tử tô ẩm",
+    tpbt: ["Tô diệp", "Đại phúc bì", "Trần bì", "Phục linh", "Bạch truật", "Mộc hương", "Cam thảo"]
+  },
+  "PK_ThaiSuyen_PheKhieuHu": {
+    hc: "Thai suyễn do Phế khí hư suy",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Phế khí hư"],
+    tc: ["Mang thai ho hen thở gấp khi vận động nhẹ", "Tiếng ho nhỏ yếu, hụt hơi tự hãn", "Mệt mỏi sắc mặt nhợt", "Mạch hư nhược"],
+    pdt: "Bổ phế ích khí, bình suyễn an thai",
+    bt: "Bổ phế thang gia Sa nhân, Tục đoạn",
+    tpbt: ["Nhân sâm", "Hoàng kỳ", "Thục địa", "Ngũ vị tử", "Tang bạch bì", "Tử uyển", "Sa nhân", "Tục đoạn"]
+  },
+  "PK_ThaiSuyen_DamNhiet": {
+    hc: "Thai suyễn do Đàm nhiệt ủng phế",
+    phanloai: ["Sản Khoa", "Nhiệt", "Thực", "Đàm nhiệt"],
+    tc: ["Mang thai ho hen thở khò khè", "Đờm nhiều đặc vàng hôi khó khạc", "Tức ngực sốt nhẹ khát nước", "Mạch hoạt sác"],
+    pdt: "Thanh nhiệt tuyên phế, hóa đàm bình suyễn an thai",
+    bt: "Định suyễn thang gia giảm",
+    tpbt: ["Ma hoàng", "Hạnh nhân", "Tang bạch bì", "Hoàng cầm", "Khoản đông hoa", "Tô tử", "Bán hạ", "Cam thảo"]
+  },
+  "PK_ThaiGiat_CanPhongNoiDong": {
+    hc: "Tử giật (Tiền giật / Co giật thai kỳ) do Can phong nội động",
+    phanloai: ["Sản Khoa", "Nhiệt", "Thực", "Can phong nội động"],
+    tc: ["Mang thai nhức đầu chóng mặt dữ dội rồi co giật", "Hai mắt trợn ngược, răng cắn chặt, hôn mê", "Mặt đỏ, huyết áp tăng cao", "Mạch huyền sác dũng mãnh"],
+    pdt: "Bình can tức phong, trấn tĩnh khai khiếu an thai",
+    bt: "Linh dương câu đằng ẩm gia Thạch quyết minh",
+    tpbt: ["Linh dương giác", "Câu đằng", "Tang diệp", "Cúc hoa", "Bạch thược", "Sinh địa", "Mẫu đơn bì", "Thạch quyết minh"]
+  },
+  "PK_ThaiGiat_AmHuHoaVuong": {
+    hc: "Tử giật do Âm hư hỏa vượng phong động",
+    phanloai: ["Sản Khoa", "Nhiệt", "Hư", "Âm hư hỏa vượng"],
+    tc: ["Mang thai hoa mắt chóng mặt, triều nhiệt đạo hãn", "Chân tay giật nhẹ, mặt gò má đỏ", "Phù nhẹ hai chân, lưỡi đỏ ít rêu", "Mạch tế sác"],
+    pdt: "Tư âm giáng hỏa, tức phong an thai",
+    bt: "Tri bá địa hoàng hoàn gia Câu đằng, Bạch thược",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Tri mẫu", "Hoàng bá", "Phục linh", "Câu đằng", "Bạch thược"]
+  },
+  "PK_ThaiGiat_DamHoaNhieuTam": {
+    hc: "Tử giật do Đàm hỏa nhiễu tâm bế khiếu",
+    phanloai: ["Sản Khoa", "Nhiệt", "Thực", "Đàm hỏa bế khiếu"], tc: ["Mang thai sốt, tâm phiền cuồng loạn rồi co giật", "Cổ họng lọc sọc đờm dãi, mê muội", "Rêu dầy vàng nhớt", "Mạch hoạt sác"],
+    pdt: "Thanh nhiệt hóa đàm, thanh tâm khai khiếu định giật",
+    bt: "An cung ngưu hoàng hoàn hợp Ôn đởm thang",
+    tpbt: ["Ngưu hoàng", "Thủy ngưu giác", "Xạ hương", "Bán hạ", "Trần bì", "Phục linh", "Chỉ thực", "Trúc nhự"]
+  },
+  "PK_ThaiToa_KhiHuyetLuongHu": {
+    hc: "Thai tọa không phát triển (Thai chậm phát triển) do Khí huyết lưỡng hư",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Khí huyết hư suy"],
+    tc: ["Mang thai tử cung nhỏ hơn tuổi thai", "Sắc mặt nhợt nhạt gầy còm", "Thân thể mệt mỏi hụt hơi", "Mạch tế nhược"],
+    pdt: "Song bổ khí huyết, dưỡng thai điền tủy",
+    bt: "Bát trân thang gia Thỏ ty tử, Tục đoạn",
+    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Thỏ ty tử", "Tục đoạn"]
+  },
+  "PK_ThaiToa_ThanTinhBatTuc": {
+    hc: "Thai chậm phát triển do Thận tinh bất túc",
+    phanloai: ["Sản Khoa", "Bình", "Hư suy", "Thận tinh bất túc"],
+    tc: ["Mang thai thai nhi chậm lớn", "Thắt lưng đau mỏi yếu mềm, tai ù", "Tóc bạc rụng, sợ cold", "Mạch trầm tế vô lực"],
+    pdt: "Bổ thận điền tinh, ích tủy an thai",
+    bt: "Tả quy hoàn gia Lộc giác giao, Thỏ ty tử",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Thỏ ty tử", "Lộc giác giao", "Quy bản giao", "Đỗ trọng"]
+  },
+
+  // =========================================================================
+  // 8. BỆNH SẢN HẬU (SAU SINH)
+  // =========================================================================
+  "PK_SanHau_PhatSot_HuyetHu": {
     hc: "Sản hậu phát sốt do Huyết hư",
     phanloai: ["Sản Khoa", "Bình", "Hư", "Huyết hư phát sốt"],
-    tc: ["Sau sinh sốt nhẹ, triều nhiệt", "Mặt nhợt, chóng mặt, tâm quý", "Sản dịch ra ít, sắc nhạt", "Lưỡi nhợt", "Mạch tế nhược"],
+    tc: ["Sau sinh sốt nhẹ, triều nhiệt về chiều", "Sắc mặt nhợt, hoa mắt chóng mặt, tâm quý", "Sản dịch ra ít sắc nhạt loãng", "Mạch tế nhược"],
     pdt: "Dưỡng huyết ích khí, hòa doanh thoái nhiệt",
     bt: "Bát trân thang gia Ngân hoa, Địa cốt bì",
     tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Kim ngân hoa", "Địa cốt bì"]
   },
-
-  // =========================================================================
-  // 22. NGOẠI KHOA & DA LIỄU (BỔ SUNG)
-  // =========================================================================
-  "Mun_Nhot_Thap_Nhiet": {
-    hc: "Mụn nhọt / Nhang độc do Thấp nhiệt uẩn kết",
-    phanloai: ["Ngoại Khoa", "Nhiệt", "Thực", "Thấp nhiệt hỏa độc"],
-    tc: ["Mụn nhọt sưng nóng đỏ đau", "Cục cứng mau hóa mủ", "Sốt nhẹ, miệng đắng, nước tiểu vàng", "Rêu lưỡi vàng nhớt", "Mạch sác"],
-    pdt: "Thanh nhiệt giải độc, tiêu thũng bài nùng",
-    bt: "Ngũ vị tiêu độc ẩm gia Giáp sơn, Cát cánh",
-    tpbt: ["Kim ngân hoa", "Cúc hoa", "Bồ công anh", "Tử hoa địa đinh", "Tử bối thiên quỳ", "Cát cánh"]
+  "PK_SanHau_PhatSot_HuyetU": {
+    hc: "Sản hậu phát sốt do Huyết ứ ngưng trệ (Sản dịch ứ)",
+    phanloai: ["Sản Khoa", "Bình", "Thực", "Huyết ứ phát sốt"],
+    tc: ["Sau sinh sốt cao hoặc phát sốt rét run từng cơn", "Bụng dưới đau quặn cự án", "Sản dịch ra ít tím đen hôi hám", "Lưỡi tím sẫm điểm ứ huyết", "Mạch trầm sáp"],
+    pdt: "Hoạt huyết hóa ứ, thông trệ thoái nhiệt",
+    bt: "Sanh hóa thang gia Đan sâm, Ngưu tất, Kim ngân hoa",
+    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Can khương sao", "Chích cam thảo", "Đan sâm", "Ngưu tất", "Kim ngân hoa"]
   },
-  "Tri_Thap_Nhiet_Ha_Chu": {
-    hc: "Trĩ do Thấp nhiệt hạ chú",
-    phanloai: ["Ngoại Khoa / Hạ Tiêu", "Nhiệt", "Thực", "Thấp nhiệt hạ chú"],
-    tc: ["Búi trĩ sưng đau nóng rát", "Đại tiện ra máu tươi", "Hậu môn ngứa ngáy, chảy nước", "Đại tiện táo hoặc nhão hôi", "Mạch nhu sác"],
-    pdt: "Thanh nhiệt lợi thấp, lương huyết chỉ huyết",
-    bt: "Chỉ thang tán gia giảm",
-    tpbt: ["Hoàng liên", "Hoàng bá", "Đại hoàng", "Trắc bách diệp", "Hòe hoa", "Đương quy", "Chỉ xác"]
-  },
-
-  // =========================================================================
-  // 23. THẦN KINH & TÂM THẦN / TẠP BỆNH (BỔ SUNG)
-  // =========================================================================
-  
-  "Ach_Nghich_Ty_Vi_Hu_Han": {
-    hc: "Ách nghịch (Nấc cụt) do Tỳ Vị hư hàn",
-    phanloai: ["Phủ Vị", "Hàn", "Hư", "Tỳ Vị hư hàn"],
-    tc: ["Nấc cụt tiếng nhỏ yếu, liên tục", "Chườm ấm thì đỡ, gặp lạnh nấc tăng", "Bụng đau âm ỉ, tay chân lạnh", "Mạch trầm trì vô lực"],
-    pdt: "Ôn trung kiện vị, giáng nghịch chỉ ách",
-    bt: "Đinh hương thị đế thang",
-    tpbt: ["Đinh hương", "Thị đế", "Nhân sâm", "Sinh khương"]
-  }
-});
-
-
-// Tiếp tục window.database (Đợt 6)
-
-Object.assign(window.database, {
-
-  // =========================================================================
-  // 31. ĐẦU VAI GÁY & CƠ XƯƠNG KHỚP (BỔ SUNG)
-  // =========================================================================
-  "Phong_Han_Dau_Vai_Gay": {
-    hc: "Đau vai gáy do Phong hàn",
-    phanloai: ["Cơ Xương Khớp / Đầu Mặt", "Hàn", "Thực", "Phong hàn kinh lạc"],
-    tc: ["Cổ gáy vai đau co cứng, quay cổ khó khăn", "Gặp lạnh đau tăng, chườm ấm giảm", "Sợ gió sợ lạnh", "Rêu lưỡi trắng mỏng", "Mạch phù khẩn"],
-    pdt: "Khu phong tán hàn, thông kinh hoạt lạc",
-    bt: "Quyên thống thang gia giảm",
-    tpbt: ["Khương hoạt", "Độc hoạt", "Phòng phong", "Xuyên khung", "Đương quy", "Xích thược", "Khương hoàng", "Cam thảo"]
-  },
-  "Huyet_U_Dau_Vai_Gay": {
-    hc: "Đau vai gáy do Huyết ứ",
-    phanloai: ["Cơ Xương Khớp / Đầu Mặt", "Bình", "Thực", "Huyết ứ kinh lạc"],
-    tc: ["Đau nhói vùng vai gáy cố định, cự án", "Đau nhiều về đêm", "Tiền sử chấn thương hoặc dằn xóc cổ", "Lưỡi có điểm ứ huyết", "Mạch sáp"],
-    pdt: "Hoạt huyết hóa ứ, thông kinh chỉ thống",
-    bt: "Thân thống trục ứ thang gia giảm",
-    tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Hương phụ", "Địa long", "Khương hoàng"]
-  },
-  "Thap_Nhiet_Dau_Vai_Gay": {
-    hc: "Đau vai gáy do Thấp nhiệt",
-    phanloai: ["Cơ Xương Khớp / Đầu Mặt", "Nhiệt", "Thực", "Thấp nhiệt kinh lạc"],
-    tc: ["Vùng cổ vai sưng nóng đau rát", "Vận động hạn chế, da vùng đau hơi đỏ", "Sốt nhẹ, miệng đắng", "Rêu lưỡi vàng nhớt", "Mạch nhu sác"],
-    pdt: "Thanh nhiệt lợi thấp, thông kinh hoạt lạc",
-    bt: "Nhị diệu tán gia Khương hoạt, Tang chi",
-    tpbt: ["Hoàng bá", "Thương truật", "Khương hoạt", "Tang chi", "Ngưu tất", "Mộc thông"]
-  },
-
-  // =========================================================================
-  // 32. TIÊU KHÁT (ĐỂ ĐƯỜNG / ĐTĐ) CHI TIẾT
-  // =========================================================================
-  "Tieu_Khat_Thuong_Tieu_Phe_Nhiet": {
-    hc: "Tiêu khát Thượng tiêu (Phế nhiệt thương tân)",
-    phanloai: ["Tạng Phế", "Nhiệt", "Thực", "Táo nhiệt thương tân"],
-    tc: ["Khát nước uống nhiều liên tục không đỡ", "Miệng khô lưỡi rát", "Đi tiểu nhiều lần", "Mặt đỏ, phân khô", "Mạch phù sác"],
-    pdt: "Thanh phế nhuận táo, sinh tân chỉ khát",
-    bt: "Tiêu khát phương",
-    tpbt: ["Hoàng liên", "Thiên hoa phấn", "Sinh địa", "Mạch môn", "Cát căn", "Cam thảo"]
-  },
-  "Tieu_Khat_Trung_Tieu_Vi_Nhiet": {
-    hc: "Tiêu khát Trung tiêu (Vị nhiệt xí thịnh)",
-    phanloai: ["Phủ Vị", "Nhiệt", "Thực", "Vị hỏa xí thịnh"],
-    tc: ["Ăn nhiều mau đói, gầy còm nhanh", "Miệng hôi, khát nước", "Đại tiện táo kết lâu ngày", "Lưỡi đỏ rêu vàng khô", "Mạch hoạt sác"],
-    pdt: "Thanh vị tả hỏa, dưỡng âm sinh tân",
-    bt: "Ngọc nữ chiên",
-    tpbt: ["Thạch cao", "Thục địa", "Mạch môn", "Tri mẫu", "Ngưu tất"]
-  },
-  "Tieu_Khat_Ha_Tieu_Than_Am_Hu": {
-    hc: "Tiêu khát Hạ tiêu (Thận âm hư)",
-    phanloai: ["Tạng Thận", "Nhiệt", "Hư", "Âm hư"],
-    tc: ["Đi tiểu đêm nhiều lần, nước tiểu dính đục", "Lòng bàn tay chân nóng, mỏi lưng gối", "Da khô, tóc rụng", "Mạch tế sác"],
-    pdt: "Tư bổ thận âm, cố sáp sinh tân",
-    bt: "Lục vị địa hoàng hoàn gia Mạch môn, Ngũ vị tử",
-    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Mạch môn", "Ngũ vị tử"]
-  },
-
-  // =========================================================================
-  // 33. NGOẠI CẢM THƯƠNG THỬ (BỆNH MÙA HÈ / NẮNG NÓNG)
-  // =========================================================================
-  "Thu_Nhiet_Pham_Phe": {
-    hc: "Thương thử (Trúng nắng) do Thu nhiệt",
-    phanloai: ["Ngoại cảm", "Nhiệt", "Thực", "Thử nhiệt"],
-    tc: ["Sốt cao, vã mồ hôi nhiều", "Mặt đỏ, hoa mắt chóng mặt", "Khát nước dữ dội, thở gấp", "Rêu lưỡi vàng khô", "Mạch hồng sác"],
-    pdt: "Thanh thử giải nhiệt, ích khí sinh tân",
-    bt: "Thanh nhiệt bảo mộc thang / Lục nhất tán",
-    tpbt: ["Hoạt thạch", "Cam thảo", "Tây qua bì", "Thiên hoa phấn", "Mạch môn"]
-  },
-  "Thu_Thap_Pham_Vi": {
-    hc: "Thử thấp phạm Vị (Nắng nóng kết hợp ẩm thấp)",
-    phanloai: ["Ngoại cảm / Phủ Vị", "Nhiệt", "Thực", "Thử thấp"],
-    tc: ["Sốt hầm hập, ngực bụng trướng đầy", "Nôn mửa, tiêu chảy, mệt mỏi", "Thân thể nặng nề, miệng dính", "Rêu lưỡi vàng dính", "Mạch nhu sác"],
-    pdt: "Thanh thử hóa thấp, hòa vị chỉ nôn",
-    bt: "Tân gia hương nhu tính gia giảm",
-    tpbt: ["Hương nhu", "Bạch biển đậu", "Hậu phác", "Bán hạ", "Trần bì", "Hoắc hương"]
-  },
-  // =========================================================================
-  // 34. THẦN KINH & TẬP BỆNH (BỔ SUNG)
-  // =========================================================================
-  "Thien_Dau_Thong_Can_Hoa": {
-    hc: "Thiên đầu thống (Đau nửa đầu) do Can hỏa",
-    phanloai: ["Đầu Mục / Tạng Can", "Nhiệt", "Thực", "Can hỏa"],
-    tc: ["Đau giật nửa đầu dữ dội", "Mắt đỏ, tai ù, miệng đắng", "Dễ cáu gắt, gặp tiếng động đau tăng", "Rêu vàng khô", "Mạch huyền sác"],
-    pdt: "Thanh can tả hỏa, thông lạc chỉ thống",
-    bt: "Long đởm tả can thang gia Xuyên khung, Cúc hoa",
-    tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Sài hồ", "Xuyên khung", "Cúc hoa", "Sinh địa"]
-  },
-  "Thien_Dau_Thong_Dam_Tre": {
-    hc: "Thiên đầu thống (Đau nửa đầu) do Đàm trệ",
-    phanloai: ["Đầu Mục", "Bình", "Thực", "Đàm trọc"],
-    tc: ["Đau nặng nửa đầu như bị nén ép", "Buồn nôn hoặc nôn ra đờm dãi", "Thân thể nặng nề, ăn kém", "Rêu lưỡi trắng dính", "Mạch hoạt"],
-    pdt: "Hóa đàm giáng nghịch, thông lạc chỉ thống",
-    bt: "Bán hạ bạch truật thiên ma thang gia Xuyên khung",
-    tpbt: ["Bán hạ", "Bạch truật", "Thiên ma", "Trần bì", "Phục linh", "Xuyên khung", "Sinh khương"]
-  },
-  "Toa_Cot_Phong_Huyet_U": {
-    hc: "Tọa cốt phong (Đau thần kinh tọa) do Huyết ứ",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Thực", "Huyết ứ kinh lạc"],
-    tc: ["Đau nhói từ thắt lưng lan xuống chân cố định", "Cự án, đau tăng khi ho hoặc xoay người", "Lưỡi tím có điểm ứ huyết", "Mạch sáp"],
-    pdt: "Hoạt huyết hóa ứ, thông kinh chỉ thống",
-    bt: "Thân thống trục ứ thang",
-    tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Địa long", "Ngũ linh chi", "Chích cam thảo"]
-  },
-  
-
-  // =========================================================================
-  // 35. PHỤ KHOA & SẢN KHOA (BỔ SUNG)
-  // =========================================================================
-  "Thong_Kinh_Khi_Tre_Huyet_U": {
-    hc: "Thống kinh (Đau bụng kinh) do Khí trệ huyết ứ",
-    phanloai: ["Phụ Khoa", "Bình", "Thực", "Khí trệ huyết ứ"],
-    tc: ["Bụng dưới đau quặn trước/trong kỳ kinh", "Sản dịch/Kinh nguyệt ra cục tím đen", "Sau khi ra máu cục thì bớt đau", "Mạch huyền sáp"],
-    pdt: "Hành khí hoạt huyết, trừ ứ chỉ thống",
-    bt: "Cách hạ trục ứ thang gia giảm",
-    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Chỉ xác", "Hương phụ", "Ngũ linh chi", "Ô dược"]
-  },
-  "Thong_Kinh_Thap_Nhiet": {
-    hc: "Thống kinh (Đau bụng kinh) do Thấp nhiệt",
-    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Thấp nhiệt uẩn kết"],
-    tc: ["Bụng dưới đau rát trước kỳ kinh, ấn vào đau", "Kinh nguyệt ra màu đỏ sẫm đặc hôi", "Khí hư vàng dính", "Sốt nhẹ, tiểu ngắn đỏ", "Mạch sác"],
-    pdt: "Thanh nhiệt lợi thấp, hóa ứ chỉ thống",
-    bt: "Thanh nhiệt điều huyết thang",
-    tpbt: ["Hoàng liên", "Sinh địa", "Đương quy", "Xuyên khung", "Xích thược", "Đào nhân", "Hồng hoa", "Hương phụ"]
-  },
-  "Bang_Lau_Ty_Hu": {
-    hc: "Băng lậu (Rong kinh / Chảy máu bất thường) do Tỳ hư",
-    phanloai: ["Phụ Khoa", "Bình", "Hư", "Khí hư không nhiếp huyết"],
-    tc: ["Kinh nguyệt ra ồ ạt hoặc rỉ rả dai dẳng", "Sắc kinh nhạt loãng", "Mệt mỏi hụt hơi, bụng dưới nặng chèn", "Sắc mặt nhợt", "Mạch hư nhược"],
-    pdt: "Bổ khí kiện tỳ, cố kinh chỉ huyết",
-    bt: "Cử nguyênhợp Bổ trung ích khí thang",
-    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Cam thảo", "Thăng ma", "Sài hồ", "A giao", "Mộc hương"]
-  },
-
-  // =========================================================================
-  // 36. NHI KHOA & BỆNH LÝ MỞ RỘNG
-  // =========================================================================
-  "Thuong_Phong_Cam_Mao_Nhi_Dong": {
-    hc: "Cảm mạo phong hàn ở trẻ em",
-    phanloai: ["Nhi Khoa", "Hàn", "Thực", "Phong hàn"],
-    tc: ["Sốt nhẹ, sợ lạnh, không mồ hôi", "Mũi nghẹt chảy nước trong", "Ho hắt hơi liên tục", "Lưỡi nhợt rêu trắng mỏng", "Mạch phù khẩn"],
-    pdt: "Tán hàn giải biểu, tuyên phế chỉ khái",
+  "PK_SanHau_PhatSot_NgoaiCam": {
+    hc: "Sản hậu phát sốt do Ngoại cảm phong hàn/phong nhiệt",
+    phanloai: ["Sản Khoa", "Nhiệt", "Thực", "Ngoại cảm tà khí"],
+    tc: ["Sau sinh sốt sợ gió sợ lạnh, đau đầu đau mỏi thân thể", "Ho hắt hơi chảy nước mũi", "Mạch phù sác hoặc phù khẩn"],
+    pdt: "Thấu biểu giải tà, hòa doanh chỉ sốt",
     bt: "Kinh phòng bại độc tán gia giảm",
     tpbt: ["Kinh giới", "Phòng phong", "Khương hoạt", "Độc hoạt", "Sài hồ", "Cát cánh", "Chỉ xác", "Cam thảo"]
   },
-  "Thap_Nhiet_Tieu_Thuy_Nhi_Dong": {
-    hc: "Tiêu chảy do Thấp nhiệt ở trẻ em",
-    phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt"],
-    tc: ["Tiêu chảy phân vàng bắn tóe hôi thối", "Bụng đau quặn, hậu môn nóng đỏ", "Sốt, khát nước", "Rêu vàng nhớt", "Mạch hoạt sác"],
-    pdt: "Thanh nhiệt lợi thấp, hòa vị chỉ tả",
-    bt: "Cát căn hoàng liên hoàng bá thang",
-    tpbt: ["Cát căn", "Hoàng liên", "Hoàng bá", "Cam thảo"]
+  "PK_SanHau_PhatSot_NhietDoc": {
+    hc: "Sản hậu phát sốt do Nhiệt độc nhiễm trùng (Nhiễm trùng sản hậu)",
+    phanloai: ["Sản Khoa", "Nhiệt", "Thực", "Nhiệt độc hỏa thịnh"],
+    tc: ["Sau sinh sốt cao rét run dữ dội, nói lảm nhảm", "Bụng dưới đau quặn không cho chạm vào", "Sản dịch mủ máu hôi thối dữ dội", "Mạch sác hữu lực dũng mãnh"],
+    pdt: "Thanh nhiệt giải độc, lương huyết hóa ứ",
+    bt: "Giải độc tiễn hợp Tê giác địa hoàng thang",
+    tpbt: ["Hoàng liên", "Hoàng cầm", "Hoàng bá", "Chi tử", "Thủy ngưu giác", "Sinh địa", "Xích thược", "Mẫu đơn bì"]
   },
-  "Ty_Hu_Ma_Tieu_Thuy_Nhi_Dong": {
-    hc: "Tiêu chảy kéo dài do Tỳ hư ở trẻ em",
-    phanloai: ["Nhi Khoa", "Bình", "Hư", "Tỳ hư"],
-    tc: ["Tiêu chảy kéo dài phân lỏng có thức ăn thối", "Sắc mặt úa vàng, gầy còm", "Ăn kém nôn trớ", "Thần tinh mệt mỏi", "Mạch hoãn nhược"],
-    pdt: "Kiện tỳ ích khí, thẩm thấp chỉ tả",
-    bt: "Sâm linh bạch truật tán gia giảm",
-    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Liên nhục", "Ý dĩ", "Cam thảo"]
+  "PK_SanHau_DauBung_HuyetU": {
+    hc: "Sản hậu đau bụng do Huyết ứ (Sản hậu nhiễu thống)",
+    phanloai: ["Sản Khoa", "Bình", "Thực", "Huyết ứ"],
+    tc: ["Sau sinh bụng dưới đau quặn từng cơn cự án", "Sản dịch ra màu tím đen có cục", "Ra cục máu bớt đau hẳn", "Mạch trầm sáp"],
+    pdt: "Hoạt huyết hóa ứ, ôn kinh chỉ thống",
+    bt: "Sanh hóa thang",
+    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Can khương sao", "Chích cam thảo"]
   },
-
-  // =========================================================================
-  // 37. BIỆN CHỨNG KHÁC & TẠP BỆNH
-  // =========================================================================
-  "Doanh_Phan_Thuong_Tan": {
-    hc: "Nhiệt nhập Doanh phận thương tân",
-    phanloai: ["Vệ Khí Dinh Huyết", "Nhiệt", "Thực", "Dinh phận nhiệt thương tân"],
-    tc: ["Sốt cao về đêm, khát không muốn uống", "Tâm phiền bứt rứt, mất ngủ", "Lưỡi đỏ thẫm ít rêu", "Mạch tế sác"],
-    pdt: "Thanh dinh thấu nhiệt, dưỡng âm sinh tân",
-    bt: "Thanh dinh thang gia Mạch môn, Sinh địa",
-    tpbt: ["Thủy ngưu giác", "Sinh địa", "Huyền sâm", "Trúc diệp tâm", "Mạch môn", "Đan sâm", "Kim ngân hoa", "Liên kiều"]
+  "PK_SanHau_DauBung_HuyetHu": {
+    hc: "Sản hậu đau bụng do Huyết hư bào cung thất dưỡng",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Huyết hư"],
+    tc: ["Sau sinh bụng dưới đau âm ỉ dai dẳng", "Thích chườm ấm xoa bóp", "Sản dịch ra ít sắc nhạt loãng", "Sắc mặt nhợt nhạt", "Mạch tế nhược"],
+    pdt: "Bổ huyết ích khí, ôn kinh chỉ thống",
+    bt: "Đương quy kiến trung thang",
+    tpbt: ["Đương quy", "Quế chi", "Bạch thược", "Sinh khương", "Đại táo", "Chích cam thảo", "Di đường"]
   },
-  "Huyet_Nhiet_Vong_Hanh": {
-    hc: "Huyết nhiệt vọng hành (Xuất huyết cấp)",
-    phanloai: ["Khí Huyết Tân Dịch", "Nhiệt", "Thực", "Huyết nhiệt xuất huyết"],
-    tc: ["Xuất huyết cấp (chảy máu cam, nôn ra máu, đi tiểu ra máu)", "Máu đỏ tươi lượng nhiều", "Sốt, tâm phiền, mặt đỏ", "Mạch sác hữu lực"],
-    pdt: "Thanh nhiệt lương huyết, chỉ huyết",
-    bt: "Thập toàn đại bổ gia Giảm / Bồ hoàng tán",
-    tpbt: ["Sinh địa", "Xích thược", "Mẫu đơn bì", "Trắc bách diệp", "Bồ hoàng", "A giao"]
+  "PK_SanHau_DauBung_HanNgung": {
+    hc: "Sản hậu đau bụng do Hàn ngưng huyết trệ",
+    phanloai: ["Sản Khoa", "Hàn", "Thực", "Hàn ngưng huyết ứ"],
+    tc: ["Sau sinh bụng dưới đau quặn lạnh ngắt khi gặp gió/nước lạnh", "Chườm ấm đau giảm, tay chân lạnh", "Sản dịch tím đen ít", "Mạch trầm khẩn"],
+    pdt: "Ôn kinh tán hàn, hoạt huyết chỉ thống",
+    bt: "Sanh hóa thang gia Nhục quế, Ngô thù du",
+    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Can khương sao", "Nhục quế", "Ngô thù du", "Chích cam thảo"]
   },
-  "Nhiet_Cuc_Sinh_Phong_Kinh_Khuyen": {
-    hc: "Kinh quyết (Co giật do Nhiệt cực sinh phong)",
-    phanloai: ["Thần Kinh / Nội Khoa", "Nhiệt", "Thực", "Nhiệt cực sinh phong"],
-    tc: ["Sốt cao dữ dội, co giật toàn thân", "Hai mắt trợn ngược, răng cắn chặt", "Cổ gáy cứng còng", "Hôn mê bất tỉnh", "Mạch huyền sác"],
-    pdt: "Thanh nhiệt tả hỏa, tức phong止kinh",
+  "PK_SanHau_DauBung_ThucTich": {
+    hc: "Sản hậu đau bụng do Thực tích trệ Vị quản",
+    phanloai: ["Sản Khoa", "Bình", "Thực", "Thực tích"],
+    tc: ["Sau sinh bụng thượng vị và bụng dưới trướng đau cự án", "Ợ hôi chua, buồn nôn trớ thức ăn thối", "Đại tiện hôi thối bế kết", "Rêu dầy nhớt", "Mạch hoạt sác"],
+    pdt: "Tiêu thực đạo trệ, hòa vị chỉ thống",
+    bt: "Bảo hòa hoàn gia Đương quy",
+    tpbt: ["Sơn tra", "Thần khúc", "Lai phục tử", "Bán hạ", "Trần bì", "Phục linh", "Liên kiều", "Đương quy"]
+  },
+  "PK_SanHau_SanDichKhongDut_KhieuHu": {
+    hc: "Sản dịch không dứt do Khí hư thất thu",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Khí hư không nhiếp huyết"],
+    tc: ["Sau sinh sản dịch chảy rỉ rả dai dẳng quá 3 tuần", "Sắc dịch nhạt loãng không hôi", "Mệt mỏi hụt hơi, bụng nặng chèn", "Mạch hư nhược"],
+    pdt: "Bổ khí kiện tỳ, cố xung sáp dịch",
+    bt: "Bổ trung ích khí thang gia A giao, Tục đoạn",
+    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Trần bì", "Thăng ma", "Sài hồ", "A giao", "Tục đoạn", "Cam thảo"]
+  },
+  "PK_SanHau_SanDichKhongDut_HuyetNhiet": {
+    hc: "Sản dịch không dứt do Huyết nhiệt vọng hành",
+    phanloai: ["Sản Khoa", "Nhiệt", "Thực", "Huyết nhiệt"],
+    tc: ["Sản dịch ra rỉ rả không ngừng sắc đỏ tươi đặc", "Miệng khát khát nước, mặt đỏ", "Tiểu đỏ, đại tiện táo", "Mạch sác hữu lực"],
+    pdt: "Thanh nhiệt lương huyết, chỉ huyết chỉ dịch",
+    bt: "Bảo âm sản gia Ngó sen sao",
+    tpbt: ["Sinh địa", "Thục địa", "Bạch thược", "Hoàng bá", "Tri mẫu", "Mẫu đơn bì", "Tục đoạn", "Ngó sen"]
+  },
+  "PK_SanHau_SanDichKhongDut_HuyetU": {
+    hc: "Sản dịch không dứt do Huyết ứ bao cung",
+    phanloai: ["Sản Khoa", "Bình", "Thực", "Huyết ứ"],
+    tc: ["Sản dịch chảy kéo dài sắc tím đen có cục nhỏ hôi", "Bụng dưới đau nhói cự án", "Lưỡi tím sẫm", "Mạch sáp"],
+    pdt: "Hoạt huyết hóa ứ, trừ cũ sinh mới",
+    bt: "Sanh hóa thang gia Bồ hoàng, Tam thất",
+    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Can khương sao", "Chích cam thảo", "Bồ hoàng", "Tam thất"]
+  },
+  "PK_SanHau_SanDichKhongDut_HanThung": {
+    hc: "Sản dịch không dứt do Hàn ngưng bao cung",
+    phanloai: ["Sản Khoa", "Hàn", "Thực", "Hàn ngưng"],
+    tc: ["Sản dịch chảy dai dẳng sắc xám đen loãng cold", "Bụng dưới cold đau âm ỉ, sợ cold", "Tay chân cold", "Mạch trầm trì"],
+    pdt: "Ôn kinh tán hàn, hoạt huyết sáp dịch",
+    bt: "Sanh hóa thang gia Nhục quế, Ngô thù du",
+    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Can khương sao", "Nhục quế", "Ngô thù du", "Cam thảo"]
+  },
+  "PK_SanHau_KhuyetNhu_KhiHuyetHu": {
+    hc: "Sản hậu khuyết nhũ (Mất sữa/Thiếu sữa) do Khí huyết hư suy",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Khí huyết hư suy"],
+    tc: ["Sau sinh sữa không có hoặc ra rất ít loãng", "Vú mềm nhão không trướng đau", "Sắc mặt nhợt nhạt, mệt mỏi hụt hơi", "Mạch tế nhược"],
+    pdt: "Song bổ khí huyết, thông lạc hạ sữa",
+    bt: "Thông nhũ đan",
+    tpbt: ["Nhân sâm", "Hoàng kỳ", "Đương quy", "Mạch môn", "Mộc thông", "Vương bất lưu hành", "Xuyên sơn giáp gia thay thế"]
+  },
+  "PK_SanHau_KhuyetNhu_CanUatKhieuTre": {
+    hc: "Sản hậu khuyết nhũ do Can khí uất trệ (Tắc tia sữa)",
+    phanloai: ["Sản Khoa", "Bình", "Thực", "Can uất khí trệ"],
+    tc: ["Sau sinh vú trướng căng cứng đau dữ dội nhưng sữa không ra", "Sốt nhẹ, tinh thần u uất cáu giận", "Ngực sườn đầy tức", "Mạch huyền"],
+    pdt: "Sơ can giải uất, thông lạc hạ sữa tiêu trướng",
+    bt: "Ngưng nhũ thang gia Hương phụ, Vương bất lưu hành",
+    tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Thăng ma", "Mộc thông", "Vương bất lưu hành", "Hương phụ"]
+  },
+  "PK_SanHau_KhuyetNhu_DamThap": {
+    hc: "Sản hậu khuyết nhũ do Đàm thấp trở trệ nhũ mạch",
+    phanloai: ["Sản Khoa", "Bình", "Thực", "Đàm thấp"],
+    tc: ["Sữa không ra hoặc ra rất ít dính đặc nghẽn", "Người béo bệu, vú to nhão trướng nặng", "Nôn nao đờm dãi, rêu dầy nhớt", "Mạch nhu hoạt"],
+    pdt: "Kiện tỳ hóa đàm, thông lạc hạ sữa",
+    bt: "Thương truật đạo đàm thang gia Mộc thông, Thông thảo",
+    tpbt: ["Thương truật", "Bán hạ", "Trần bì", "Phục linh", "Mộc thông", "Thông thảo", "Hương phụ"]
+  },
+  "PK_SanHau_KhuyetNhu_ThapNhiet": {
+    hc: "Sản hậu khuyết nhũ do Thấp nhiệt uẩn kết tuyến vú",
+    phanloai: ["Sản Khoa", "Nhiệt", "Thực", "Thấp nhiệt"],
+    tc: ["Sữa tắc bết vàng hôi, vú nóng đỏ sưng đau", "Sốt, miệng đắng, tiểu vàng ngắn", "Lưỡi đỏ rêu vàng nhớt", "Mạch nhu sác"],
+    pdt: "Thanh nhiệt lợi thấp, thông lạc bài sữa",
+    bt: "Long đởm tả can thang gia Mộc thông, Bồ công anh",
+    tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Mộc thông", "Bồ công anh", "Sài hồ"]
+  },
+  "PK_SanHau_ApxeVu_NhietDoc": {
+    hc: "Sản hậu áp xe vú (Áp xe tuyến vú) do Hỏa độc uẩn kết",
+    phanloai: ["Sản Khoa", "Nhiệt", "Thực", "Hỏa độc bài nùng"],
+    tc: ["Vú sưng to tấy đỏ nóng đau dữ dội cự án", "Hóa mủ mưng đau nhói, sốt cao rét run", "Miệng khát, nước tiểu đỏ", "Mạch sác hữu lực dũng mãnh"],
+    pdt: "Thanh nhiệt giải độc, tiêu thũng bài nùng chỉ thống",
+    bt: "Vũ dung tán gia Kim ngân hoa, Bồ công anh",
+    tpbt: ["Kim ngân hoa", "Bồ công anh", "Cúc hoa", "Tử hoa địa đinh", "Bạch chỉ", "Xuyên sơn giáp gia", "Nhũ hương"]
+  },
+  "PK_SanHau_ApxeVu_CanHoa": {
+    hc: "Sản hậu áp xe vú do Can uất hóa hỏa",
+    phanloai: ["Sản Khoa", "Nhiệt", "Thực", "Can hỏa độc"],
+    tc: ["Vú sưng đau rát bứt rứt sau xúc động cáu giận", "Mặt đỏ, miệng đắng, sốt cao", "Tiểu tiện đỏ táo bón", "Mạch huyền sác"],
+    pdt: "Sơ can thanh nhiệt, giải độc tiêu ung",
+    bt: "Sài hồ thanh can thang gia Bồ công anh",
+    tpbt: ["Sài hồ", "Hoàng cầm", "Chi tử", "Sinh địa", "Xích thược", "Bồ công anh", "Kim ngân hoa", "Cam thảo"]
+  },
+  "PK_SanHau_BongVu_KhieuTre": {
+    hc: "Sản hậu bóng vú (Trướng sữa) do Khí trệ nhũ mạch",
+    phanloai: ["Sản Khoa", "Bình", "Thực", "Khí trệ"],
+    tc: ["Hai bầu vú căng bóng cứng như đá đau nhức", "Sữa rỉ rả không chảy thành dòng", "Sốt nhẹ do ứ sữa", "Mạch huyền hoãn"],
+    pdt: "Sơ thông nhũ mạch, hành khí tiêu trướng",
+    bt: "Tô diệp tán gia Vương bất lưu hành, Mộc thông",
+    tpbt: ["Tô diệp", "Trần bì", "Chỉ xác", "Mộc thông", "Vương bất lưu hành", "Cam thảo"]
+  },
+  "PK_SanHau_TuHan_KhiHu": {
+    hc: "Sản hậu tự hãn do Khí hư biểu bất cố",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Khí hư biểu hư"],
+    tc: ["Sau sinh mồ hôi vã ra liên tục bất kể ngày đêm", "Vận động nhẹ mồ hôi ra như tắm", "Sợ gió, mệt mỏi hụt hơi, mặt nhợt", "Mạch nhược hoãn"],
+    pdt: "Ích khí cố biểu, liễm hãn chỉ mồ hôi",
+    bt: "Ngọc bình phong tán gia Mẫu lệ, Phù tiểu mạch",
+    tpbt: ["Hoàng kỳ", "Bạch truật", "Phòng phong", "Mẫu lệ", "Phù tiểu mạch", "Chích cam thảo"]
+  },
+  "PK_SanHau_DaoHan_AmHu": {
+    hc: "Sản hậu đạo hãn do Âm hư nội nhiệt",
+    phanloai: ["Sản Khoa", "Nhiệt", "Hư", "Âm hư"],
+    tc: ["Sau sinh khi ngủ mồ hôi trộm chảy ra ướt áo", "Tỉnh giấc mồ hôi dừng ngay", "Triều nhiệt gò má đỏ, lòng bàn tay chân nóng", "Mạch tế sác"],
+    pdt: "Tư âm thanh nhiệt, liễm hãn an thần",
+    bt: "Đương quy lục hoàng thang gia Phù tiểu mạch",
+    tpbt: ["Đương quy", "Thục địa", "Sinh địa", "Hoàng kỳ", "Hoàng liên", "Hoàng cầm", "Hoàng bá", "Phù tiểu mạch"]
+  },
+  "PK_SanHau_TieuTienKhongThong_KhieuHu": {
+    hc: "Sản hậu bí tiểu (Tiểu tiện không thông) do Khí hư bất hóa",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Khí hư bất hóa"],
+    tc: ["Sau sinh bụng dưới trướng căng nhưng không tiểu được", "Muốn tiểu mà rặn không ra", "Thần tinh mệt mỏi hụt hơi", "Mạch hư nhược hoãn"],
+    pdt: "Bổ khí thăng dương, hóa khí lợi thủy",
+    bt: "Bổ trung ích khí thang gia Thông thảo, Mộc thông",
+    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Trần bì", "Thăng ma", "Sài hồ", "Thông thảo", "Mộc thông"]
+  },
+  "PK_SanHau_TieuTienKhongThong_HuyetU": {
+    hc: "Sản hậu bí tiểu do Huyết ứ chèn ép bàng quang",
+    phanloai: ["Sản Khoa", "Bình", "Thực", "Huyết ứ"],
+    tc: ["Sau sinh bụng dưới đau quặn cự án không tiểu được", "Sản dịch tím đen ra ít", "Lưỡi tím sẫm", "Mạch sáp"],
+    pdt: "Hoạt huyết hóa ứ, thông lâm lợi niệu",
+    bt: "Sanh hóa thang gia Ngưu tất, Mộc thông, Xa tiền tử",
+    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Can khương sao", "Ngưu tất", "Mộc thông", "Xa tiền tử"]
+  },
+  "PK_SanHau_DaiDam_ThanHu": {
+    hc: "Sản hậu đái dầm (Tiểu tiện không tự chủ) do Thận khí hư suy",
+    phanloai: ["Sản Khoa", "Bình", "Hư suy", "Thận khí hư"],
+    tc: ["Sau sinh đi tiểu rỉ rả dầm dề không kiểm soát được", "Nước tiểu trong dài", "Thắt lưng mỏi cold, sợ cold", "Mạch trầm tế trì"],
+    pdt: "Bổ thận ích khí, ôn bàng quang sáp niệu",
+    bt: "Sang phiêu tiêu tán hợp Củng đái hoàn",
+    tpbt: ["Tang phiêu tiêu", "Ích trí nhân", "Bổ cốt chỉ", "Hoài sơn", "Phục linh", "Long cốt", "Mẫu lệ"]
+  },
+  "PK_SanHau_TaoBon_HuyetHu": {
+    hc: "Sản hậu táo bón do Huyết hư tràng táo",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Huyết hư tràng táo"],
+    tc: ["Sau sinh nhiều ngày không đi tiêu được", "Phân khô cứng như phân dê rặn khó", "Sắc mặt nhợt nhạt khô xơ", "Mạch tế sáp"],
+    pdt: "Dưỡng huyết nhuận tràng, thông tiện",
+    bt: "Tứ vật thang gia Ma tử nhân, Bá tử nhân",
+    tpbt: ["Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Ma tử nhân", "Bá tử nhân"]
+  },
+  "PK_SanHau_TaoBon_KhieuHu": {
+    hc: "Sản hậu táo bón do Khí hư tràng nhược",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Khí hư tràng nhược"],
+    tc: ["Sau sinh có cảm giác muốn tiêu nhưng rặn không ra", "Rặn nhiều vã mồ hôi hụt hơi", "Phân mềm không khô cứng", "Mạch hư nhược hoãn"],
+    pdt: "Bổ khí nhuận tràng, ích khí thông tiện",
+    bt: "Hoàng kỳ thang gia Ma tử nhân",
+    tpbt: ["Hoàng kỳ", "Trần bì", "Bạch truật", "Đương quy", "Hỏa ma nhân", "Chích cam thảo"]
+  },
+  "PK_SanHau_ThieuMau_KhiHuyetSuy": {
+    hc: "Sản hậu thiếu máu suy nhược do Khí huyết kiệt suy",
+    phanloai: ["Sản Khoa", "Bình", "Hư suy", "Khí huyết suy kiệt"],
+    tc: ["Sau sinh mất máu nhiều, sắc mặt bệch tái như ngà", "Mệt mỏi kiệt sức, đầu choáng mắt hoa", "Môi móng tay chân nhợt trắng", "Mạch vi tế nhược"],
+    pdt: "Đại bổ khí huyết, hồi sinh bổ hư",
+    bt: "Thập toàn đại bổ thang gia A giao",
+    tpbt: ["Nhân sâm", "Bạch truật", "Phục linh", "Cam thảo", "Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Hoàng kỳ", "Nhục quế", "A giao"]
+  },
+  "PK_SanHau_ChongMat_HuyetHu": {
+    hc: "Sản hậu huyễn vựng (Chóng mặt sau sinh) do Huyết hư bốc đầu",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Huyết hư huyễn vựng"],
+    tc: ["Sau sinh ngồi dậy choáng váng hoa mắt té ngã", "Tâm quý hồi hộp hay quên", "Sắc mặt nhợt nhạt", "Mạch tế nhược"],
+    pdt: "Bổ huyết bổ khí, định vựng an thần",
+    bt: "Thánh dũ thang gia Viễn chí, Toan táo nhân",
+    tpbt: ["Nhân sâm", "Hoàng kỳ", "Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Viễn chí", "Toan táo nhân"]
+  },
+  "PK_SanHau_ThongPhong_KhongKhi": {
+    hc: "Sản hậu trúng phong (Trúng gió sau sinh) do Vệ ngoại không cố",
+    phanloai: ["Sản Khoa", "Hàn", "Hư thực thác tạp", "Phong hàn xâm nhập kinh lạc"],
+    tc: ["Sau sinh ra gió lạnh bị méo miệng lệch mắt", "Cổ gáy vai đau co cứng", "Sợ gió sợ cold, mệt mỏi nhợt", "Mạch phù hư nhược"],
+    pdt: "Sơ phong tán hàn, bổ khí dưỡng huyết thông lạc",
+    bt: "Bổ trung ích khí thang hợp K牵chánh tán",
+    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Bạch phụ tử", "Toàn yết", "Cương tàm", "Đương quy", "Sài hồ"]
+  },
+  "PK_SanHau_KhuyetHoa_VongAm": {
+    hc: "Sản hậu vong âm do Xuất huyết cấp (Sản dịch ra quá nhiều)",
+    phanloai: ["Sản Khoa", "Nhiệt", "Hư suy", "Vong âm nguy cấp"],
+    tc: ["Sau sinh chảy máu xối xả không dừng", "Vã mồ hôi nóng dính, da khô nóng", "Thở gấp nông, môi nẻ", "Mạch tế sác vô lực Muốn tuyệt"],
+    pdt: "Tư âm cứu thoát, liễm hãn chỉ huyết",
+    bt: "Sinh mạch tán gia Mẫu lệ, Quy bản, A giao",
+    tpbt: ["Nhân sâm", "Mạch môn", "Ngũ vị tử", "Mẫu lệ", "Quy bản", "A giao"]
+  },
+  "PK_SanHau_CoGiat_VongDuong": {
+    hc: "Sản hậu vong dương do Mất máu kiệt khí",
+    phanloai: ["Sản Khoa", "Hàn", "Hư suy", "Vong dương nguy cấp"],
+    tc: ["Sau sinh vã mồ hôi lạnh như giọt sương đầm đìa", "Chân tay cold ngắt quá gối, mặt tái bệch", "Thở yếu ớt lơ mơ", "Mạch vi vi muốn tuyệt"],
+    pdt: "Hồi dương cứu nghịch, đại bổ nguyên khí cố thoát",
+    bt: "Sâm phụ thang hợp Tứ nghịch thang",
+    tpbt: ["Nhân sâm", "Phụ tử chế", "Can khương", "Chích cam thảo"]
+  },
+  "PK_SanHau_CoQuap_HuyetHuSinhPhong": {
+    hc: "Sản hậu phong kinh (Co giật sau sinh) do Huyết hư sinh phong",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Huyết hư sinh phong"],
+    tc: ["Sau sinh tay chân tê dại co quắp run rẩy", "Cổ gáy cứng nhẹ, chóng mặt", "Sắc mặt bệch nhợt", "Mạch tế huyền nhược"],
+    pdt: "Dưỡng huyết nhuận can, tức phong chỉ kính",
+    bt: "Tam giáp phục mạch thang gia giảm",
+    tpbt: ["Sinh địa", "Bạch thược", "A giao", "Mạch môn", "Ma nhân", "Mẫu lệ", "Quy bản", "Chích cam thảo"]
+  },
+  "PK_SanHau_CoGiat_ThapNhiet": {
+    hc: "Sản hậu co giật do Nhiệt cực sinh phong (Sản giật sau sinh)",
+    phanloai: ["Sản Khoa", "Nhiệt", "Thực", "Nhiệt cực sinh phong"],
+    tc: ["Sau sinh sốt cao dữ dội rồi co giật toàn thân", "Hai mắt trợn ngược, răng cắn chặt, hôn mê", "Mặt đỏ gừ", "Mạch huyền sác hữu lực"],
+    pdt: "Thanh nhiệt tả hỏa, tức phong chỉ kinh khai khiếu",
     bt: "Linh dương câu đằng ẩm hợp An cung ngưu hoàng hoàn",
-    tpbt: ["Linh dương giác", "Câu đằng", "Cúc hoa", "Trúc nhự", "Bạch thược", "Băng phiến", "Ngưu hoàng"]
+    tpbt: ["Linh dương giác", "Câu đằng", "Tang diệp", "Cúc hoa", "Bạch thược", "Sinh địa", "Ngưu hoàng"]
   },
-  "Khuyet_Chung_Thap_Nhiet": {
-    hc: "Khuyết chứng / Tê liệt chân tay do Thấp nhiệt",
-    phanloai: ["Cơ Xương Khớp / Thần Kinh", "Nhiệt", "Thực", "Thấp nhiệt khuyết chứng"],
-    tc: ["Chân tay mềm yếu không sức, teo cơ", "Chân tay nóng rát, sốt nhẹ", "Tiểu đỏ ngắn, đại tiện táo", "Rêu vàng nhớt", "Mạch nhu sác"],
-    pdt: "Thanh nhiệt táo thấp, dưỡng gân nhuận lạc",
-    bt: "Gia vị nhị diệu tán",
-    tpbt: ["Hoàng bá", "Thương truật", "Ngưu tất", "Ý dĩ", "Quy bản", "Đỗ trọng"]
+  "PK_SanHau_DauKhop_PhongHanThap": {
+    hc: "Sản hậu khớp thống (Đau khớp sau sinh) do Phong hàn thấp tý",
+    phanloai: ["Sản Khoa", "Hàn", "Hư thực thác tạp", "Phong hàn thấp tý"],
+    tc: ["Sau sinh các khớp xương vai cổ tay gối đau nhức", "Gặp gió cold đau tăng, chườm ấm bớt", "Thân thể mỏi nặng", "Mạch nhu trì"],
+    pdt: "Khu phong tán hàn, trừ thấp thông lạc, dưỡng huyết",
+    bt: "Độc hoạt ký sinh thang gia Hoàng kỳ",
+    tpbt: ["Độc hoạt", "Tang ký sinh", "Đỗ trọng", "Ngưu tất", "Phòng phong", "Xuyên khung", "Đương quy", "Thục địa", "Hoàng kỳ"]
   },
-  "Khuyet_Chung_Khieu_Hu": {
-    hc: "Khuyết chứng / Tê liệt do Khí huyết hư",
-    phanloai: ["Thần Kinh / Khí Huyết", "Bình", "Hư", "Khí huyết hư khuyết chứng"],
-    tc: ["Chân tay mềm yếu lâu ngày không lực", "Sắc mặt nhợt nhạt, mệt mỏi hụt hơi", "Teo cơ nhẹ, ăn uống kém", "Mạch tế nhược"],
-    pdt: "Bổ khí dưỡng huyết, ích tủy trác cốt",
-    bt: "Bát trân thang gia Hoàng kỳ, Ngưu tất",
-    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Hoàng kỳ", "Ngưu tất"]
+  "PK_SanHau_DauLung_ThanHu": {
+    hc: "Sản hậu yêu thống (Đau lưng sau sinh) do Thận hư bào mạch nhão",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Thận hư"],
+    tc: ["Sau sinh thắt lưng đau mỏi âm ỉ không sức", "Lao động đau tăng, nằm nghỉ giảm", "Gối yếu chân mềm", "Mạch trầm tế"],
+    pdt: "Bổ thận tráng yêu, cường gân trác cốt",
+    bt: "Dưỡng thận hoàn gia Đỗ trọng, Tục đoạn",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Thỏ ty tử", "Đỗ trọng", "Tục đoạn", "Cẩu tích"]
   },
-  "Can_Hoa_Pham_Vi_Anh_Huong": {
-    hc: "Can hỏa trệ Vị",
-    phanloai: ["Tạng Can & Phủ Vị", "Nhiệt", "Thực", "Can hỏa phạm vị"],
-    tc: ["Thượng vị đau rát dữ dội", "Ợ chua nôn ra nước đắng", "Dễ cáu gắt, miệng đắng", "Tiểu đỏ, đại tiện táo", "Mạch huyền sác"],
-    pdt: "Thanh can tả hỏa, hòa vị giáng nghịch",
-    bt: "Tả kim hoàn hợp Thanh vị tán",
-    tpbt: ["Hoàng liên", "Ngô thù du", "Thăng ma", "Sinh địa", "Mẫu đơn bì", "Đương quy"]
+  "PK_SanHau_NguyCuc_VongAmVongDuong": {
+    hc: "Sản hậu nguy kịch thể Khí huyết âm dương câu thoát",
+    phanloai: ["Sản Khoa", "Hàn nhiệt thác tạp", "Hư suy", "Âm dương lưỡng thoát"],
+    tc: ["Sau sinh hôn mê sâu, thở nông yếu đứt đoạn", "Vã mồ hôi cold nhạt dính, tay chân cold ngắt", "Môi tím tái, da bệch xám", "Mạch vi vi muốn tuyệt"],
+    pdt: "Đại bổ khí huyết, hồi dương tư âm cứu thoát",
+    bt: "Sâm phụ thang hợp Sinh mạch tán gia A giao, Mẫu lệ",
+    tpbt: ["Nhân sâm", "Phụ tử chế", "Mạch môn", "Ngũ vị tử", "A giao", "Mẫu lệ"]
   },
-
-  // =========================================================================
-  // 38. BỆNH NGOẠI KHOA & DA LIỄU (BỔ SUNG)
-  // =========================================================================
-  "Ngua_Da_Phong_Thap": {
-    hc: "Mẩn ngứa ngoài da do Phong thấp",
-    phanloai: ["Ngoại Khoa / Da Liễu", "Bình", "Thực", "Phong thấp uẩn kết"],
-    tc: ["Nổi mẩn đỏ gờ trên da, ngứa ngáy dữ dội", "Gặp gió ẩm ngứa tăng", "Da chảy nước nhẹ khi gãi", "Rêu lưỡi trắng dính", "Mạch phù nhu"],
-    pdt: "Khu phong trừ thấp, chỉ ngứa",
-    bt: "Tiêu phong tán gia giảm",
-    tpbt: ["Kinh giới", "Phòng phong", "Thuyền thoái", "Thương truật", "Khổ sâm", "Mộc thông", "Thạch cao", "Cam thảo"]
+  "PK_SanHau_TramCam_CanUat": {
+    hc: "Sản hậu trầm cảm do Can khí uất kết",
+    phanloai: ["Sản Khoa", "Bình", "Thực", "Khí uất"],
+    tc: ["Sau sinh tinh thần u uất, không muốn chăm con", "Khóc lóc vô cớ, hay thở dài", "Ngực sườn trướng đầy, mất ngủ", "Mạch huyền"],
+    pdt: "Sơ can giải uất, lý khí an thần",
+    bt: "Bán hạ hậu phác thang hợp Tiêu dao tán",
+    tpbt: ["Sài hồ", "Bạch thược", "Đương quy", "Bạch truật", "Phục linh", "Bán hạ chế", "Hậu phác", "Tô diệp"]
   },
-  "Ngua_Da_Huyet_Nhiet": {
-    hc: "Mẩn ngứa / Mề đay do Huyết nhiệt",
-    phanloai: ["Ngoại Khoa / Da Liễu", "Nhiệt", "Thực", "Huyết nhiệt phong táo"],
-    tc: ["Da nổi ban đỏ sưng rát ngứa", "Nóng nực ngứa tăng, gãi chảy máu", "Miệng khát, tiểu đỏ", "Lưỡi đỏ rêu vàng", "Mạch sác"],
-    pdt: "Thanh nhiệt lương huyết, khu phong chỉ ngứa",
-    bt: "Lương huyết tiêu phong tán",
-    tpbt: ["Sinh địa", "Xích thược", "Mẫu đơn bì", "Kim ngân hoa", "Cúc hoa", "Kinh giới", "Phòng phong"]
-  }
-});
-// Bổ sung 200 hội chứng YHCT không trùng lặp vào window.database
-
-Object.assign(window.database, {
-
-  // =========================================================================
-  // I. NGOẠI CẢM - ÔN BỆNH & THƯƠNG HÀN
-  // =========================================================================
-  
-  
-  
-  "Thu_Thap_Thuong_Khi": {
-    hc: "Thương thử kiêm thấp thương khí",
-    phanloai: ["Ngoại cảm", "Nhiệt", "Hư thực thác tạp", "Thử thấp thương khí"],
-    tc: ["Sốt hầm hập, sợ lạnh nhẹ", "Thân thể nặng nề mệt mỏi", "Tâm phiền khát nước nhưng uống ít", "Tiểu đỏ ngắn", "Mạch nhu sác"],
-    pdt: "Thanh thử hóa thấp, ích khí sinh tân",
-    bt: "Thanh thư ích khí thang",
-    tpbt: ["Thái tử sâm", "Hoàng kỳ", "Thương truật", "Trần bì", "Bán hạ", "Tây qua bì", "Mạch môn", "Cam thảo"]
+  "PK_SanHau_TramCam_TamTyHu": {
+    hc: "Sản hậu trầm cảm do Tâm Tỳ lưỡng hư",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Tâm Tỳ hư suy"],
+    tc: ["Sau sinh lo âu sợ hãi hốt hoảng", "Mất ngủ kéo dài, hay quên, gầy còm", "Sắc mặt nhợt nhạt, ăn kém tiêu chảy", "Mạch tế nhược"],
+    pdt: "Song bổ tâm tỳ, dưỡng huyết an thần định chí",
+    bt: "Quy tỳ thang gia Viễn chí, Toan táo nhân",
+    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Hoàng kỳ", "Đương quy", "Long nhãn", "Toan táo nhân", "Viễn chí"]
   },
-  "Thu_Thuong_Tan_Dich": {
-    hc: "Thử nhiệt thương tân",
-    phanloai: ["Ngoại cảm", "Nhiệt", "Thực", "Thử nhiệt thương tân"],
-    tc: ["Sốt cao, đại hãn vã mồ hôi", "Khát nước dữ dội thích uống lạnh", "Thở gấp mệt mỏi", "Rêu lưỡi vàng khô", "Mạch hồng sác vô lực"],
-    pdt: "Thanh thử tả hỏa, sinh tân chỉ khát",
-    bt: "Vương thị thanh thư ích khí thang",
-    tpbt: ["Tây qua bì", "Thái tử sâm", "Mạch môn", "Thiên hoa phấn", "Trúc diệp", "Hoạt thạch", "Cam thảo"]
+  "PK_SanHau_MatNgu_TamHuyetHu": {
+    hc: "Sản hậu thất miên (Mất ngủ sau sinh) do Tâm huyết hư",
+    phanloai: ["Sản Khoa", "Bình", "Hư", "Tâm huyết hư"],
+    tc: ["Sau sinh trằn trọc khó ngủ cả đêm", "Hồi hộp trống ngực hay giật mình", "Môi lưỡi nhợt", "Mạch tế nhược"],
+    pdt: "Bổ huyết dưỡng tâm, an thần định chí",
+    bt: "Dưỡng tâm thang gia giảm",
+    tpbt: ["Nhân sâm", "Hoàng kỳ", "Bạch truật", "Phục linh", "Đương quy", "Thục địa", "Toan táo nhân", "Viễn chí"]
   },
-  "Thap_On_Ve_Khi": {
-    hc: "Thấp ôn bệnh thuộc Vệ Khí phân",
-    phanloai: ["Vệ Khí Dinh Huyết", "Nhiệt", "Thực", "Thấp nhiệt uẩn uất"],
-    tc: ["Sốt hầm hập về chiều, ớn lạnh", "Đầu nặng như bó, mình mẩy đau nhức", "Ngực bụng đầy trướng, không khát", "Rêu lưỡi trắng nhớt", "Mạch nhu hoãn"],
-    pdt: "Tuyên thấu biểu thấp, thanh nhiệt hóa trọc",
-    bt: "Tam nhân thang gia Kinh giới, Phòng phong",
-    tpbt: ["Hạnh nhân", "Bạch đậu khấu", "Ý dĩ nhân", "Bán hạ", "Hậu phác", "Kinh giới", "Phòng phong"]
-  },
-  "Thap_Nhiet_Phuc_Mac_Nguyen": {
-    hc: "Thấp nhiệt phục uẩn mạc nguyên",
-    phanloai: ["Bán Biểu Bán Lý", "Nhiệt", "Thực", "Thấp nhiệt phục uẩn"],
-    tc: ["Rét run sốt cao thay đổi từng cơn", "Ngực sườn trướng đau, buồn nôn", "Lưỡi đóng rêu dầy dính như phấn trắng", "Mạch huyền hoạt sác"],
-    pdt: "Khai mạc nguyên, tống tà xuất biểu",
-    bt: "Đạt nguyên ẩm",
-    tpbt: ["Binh lang", "Hậu phác", "Thảo quả", "Hoàng cầm", "Tri mẫu", "Xích thược", "Cam thảo"]
+  "PK_SanHau_PhuThung_TyThanDuongHu": {
+    hc: "Sản hậu phù thũng do Tỳ Thận dương hư",
+    phanloai: ["Sản Khoa", "Hàn", "Hư suy", "Tỳ Thận dương hư thủy thũng"],
+    tc: ["Sau sinh phù thũng toàn thân hai chân ấn lõm sâu", "Sợ cold, tay chân cold ngắt, tiêu chảy sáng", "Tiểu tiện rất ít", "Mạch trầm tế trì"],
+    pdt: "Ôn bổ tỳ thận, hóa khí lợi thủy tiêu thũng",
+    bt: "Chân vũ thang hợp Lý trung hoàn gia Mộc thông",
+    tpbt: ["Phụ tử chế", "Nhân sâm", "Can khương", "Bạch truật", "Phục linh", "Bạch thược", "Mộc thông"]
   },
 
   // =========================================================================
-  // II. NỘI KHOA - TẠNG PHỦ NÂNG CAO
+  // 9. TẠP BỆNH PHỤ KHOA, U XƠ, U NANG, SA TỬ CUNG & VÔ SINH NỮ
   // =========================================================================
-  
-  "Can_Dom_Hu_Dung": {
-    hc: "Can Đởm hư nhút nhát",
-    phanloai: ["Tạng Can & Phủ Đờm", "Bình", "Hư", "Khí hư"],
-    tc: ["Tâm thần bàng hoàng, hay sợ hãi", "Nghi ngờ lo âu, ngủ mơ nhiều", "Chóng mặt, hoa mắt, thở dài", "Mạch huyền nhược"],
-    pdt: "Ích khí ôn đởm, an thần định chí",
-    bt: "Nhân sâm định chí hoàn gia Câu kỷ tử",
-    tpbt: ["Nhân sâm", "Phục linh", "Phục thần", "Viễn chí", "Thạch xương bồ", "Câu kỷ tử"]
+  "PK_TrungHa_KhiTreHuyetU": {
+    hc: "Trưng hà (U xơ tử cung / U nang buồng trứng) do Khí trệ huyết ứ",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Thực", "Khí trệ huyết ứ"],
+    tc: ["Bụng dưới sờ thấy u cục cứng cố định", "Đau nhói bụng dưới, cự án", "Kinh nguyệt ra nhiều sắc tím đen có cục", "Mạch huyền sáp"],
+    pdt: "Hành khí hoạt huyết, nhuyễn kiên tiêu trưng",
+    bt: "Cách hạ trục ứ thang gia Cốt khí củ, Nga truật",
+    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Chỉ xác", "Hương phụ", "Nga truật", "Mẫu lệ"]
   },
-  "Can_Than_Huyet_Hu": {
-    hc: "Can Thận huyết hư",
-    phanloai: ["Tạng Can & Tạng Thận", "Bình", "Hư", "Huyết hư"],
-    tc: ["Đau lưng mỏi gối, tóc bạc sớm", "Chóng mặt ù tai, nhìn mờ", "Móng tay móng chân khô nhợt", "Kinh nguyệt ít sắc nhạt", "Mạch tế nhược"],
-    pdt: "Tư bổ can thận, dưỡng huyết điền tinh",
-    bt: "Hà thủ ô hoán tán",
-    tpbt: ["Hà thủ ô chế", "Thục địa", "Đương quy", "Bạch thược", "Thỏ ty tử", "Ngưu tất"]
+  "PK_TrungHa_DamThap": {
+    hc: "Trưng hà do Đàm thấp ứ ngưng bao cung",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Thực", "Đàm thấp ứ kết"],
+    tc: ["Bụng dưới khối u mềm ấn không đau nhói", "Khí hư ra nhiều dính đặc hôi nhẹ", "Thân thể mập mạp béo bệu, nôn nao", "Mạch nhu hoạt"],
+    pdt: "Táo thấp hóa đàm, trừ ứ tiêu trưng",
+    bt: "Thương truật đạo đàm thang gia Hải tảo, Côn bố",
+    tpbt: ["Thương truật", "Bán hạ chế", "Trần bì", "Phục linh", "Chỉ thực", "Nam tinh", "Hải tảo", "Côn bố"]
   },
-  "Can_Than_Khi_Hu": {
-    hc: "Can Thận khí hư",
-    phanloai: ["Tạng Can & Tạng Thận", "Bình", "Hư", "Khí hư"],
-    tc: ["Thắt lưng hạ sườn mỏi đau âm ỉ", "Sức yếu mệt mỏi, thở ngắn", "Nhìn vật mờ ảo, di tinh rỉ rả", "Mạch trầm hư nhược"],
-    pdt: "Bổ ích can thận, cố bản bồi nguyên",
-    bt: "Đỗ trọng hoàn gia Nhân sâm",
-    tpbt: ["Đỗ trọng", "Tục đoạn", "Nhân sâm", "Cẩu tích", "Hoài sơn", "Kỷ tử"]
+  "PK_TrungHa_HanNgung": {
+    hc: "Trưng hà do Hàn ngưng huyết ứ",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Hàn", "Thực", "Hàn ngưng huyết ứ"],
+    tc: ["Bụng dưới có u cục cold cứng", "Gặp cold đau quặn tăng dữ dội, chườm ấm dễ chịu", "Sợ cold, tay chân cold ngắt", "Mạch trầm khẩn sáp"],
+    pdt: "Ôn kinh tán hàn, hoạt huyết tiêu trưng",
+    bt: "Thiếu bụng trục ứ thang gia Tam thất, Nga truật",
+    tpbt: ["Can khương", "Nhục quế", "Tiểu hồi hương", "Đương quy", "Xuyên khung", "Xích thược", "Nga truật", "Tam thất"]
   },
-  "Ty_Than_Hoa_Suy": {
-    hc: "Tỳ Thận hỏa suy (Dương hư trệ thủy)",
-    phanloai: ["Tạng Tỳ & Tạng Thận", "Hàn", "Hư", "Dương hư suy"],
-    tc: ["Bụng dưới lạnh đau, ngũ canh tả", "Toàn thân phù thũng ấn lõm sâu", "Tay chân lạnh ngắt, sợ lạnh", "Mạch trầm tế vi"],
-    pdt: "Ôn thận trợ dương, kiện tỳ lợi thủy",
-    bt: "Tứ thần hoàn hợp Chân vũ thang",
-    tpbt: ["Bổ cốt chỉ", "Nhục đậu khấu", "Ngũ vị tử", "Ngô thù du", "Phụ tử chế", "Bạch truật", "Phục linh"]
+  "PK_TrungHa_NhietDoc": {
+    hc: "Trưng hà do Nhiệt độc uẩn kết gây viêm dính",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Nhiệt", "Thực", "Hỏa độc uẩn kết"],
+    tc: ["Khối u bụng dưới nóng đau rát cự án", "Sốt nhẹ hoặc sốt dai dẳng, tiểu đỏ", "Khí hư vàng hôi như mủ", "Mạch nhu sác hữu lực"],
+    pdt: "Thanh nhiệt giải độc, hoạt huyết tiêu trưng",
+    bt: "Đại hoàng mẫu đơn bì thang gia Kim ngân hoa, Thổ phục linh",
+    tpbt: ["Đại hoàng", "Mẫu đơn bì", "Đào nhân", "Mang tiêu", "Kim ngân hoa", "Thổ phục linh"]
   },
-  "Vi_Khi_Thuong_Nghich": {
-    hc: "Vị khí thượng nghịch",
-    phanloai: ["Phủ Vị", "Bình", "Thực", "Khí nghịch"],
-    tc: ["Nôn mửa, ợ hơi, nấc cụt liên tục", "Thượng vị trướng đầy khó chịu", "Ăn vào muốn nôn ngay", "Mạch huyền hoặc hoạt"],
-    pdt: "Hòa vị giáng nghịch, hóa đàm chỉ nôn",
-    bt: "Bán hạ hựu sinh thang / Tuyên phục đại giả thang",
-    tpbt: ["Bán hạ", "Đại giả thạch", "Nhân sâm", "Sinh khương", "Chích cam thảo", "Đại táo"]
+  "PK_UXoTuCung_HuyetU": {
+    hc: "U xơ tử cung do Huyết ứ trệ",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Thực", "Huyết ứ"],
+    tc: ["Tử cung phì đại u cục cứng, kinh nguyệt ra rất nhiều ồ ạt", "Sắc kinh tím đen có cục lớn", "Bụng dưới trướng đau", "Mạch sáp dũng mãnh"],
+    pdt: "Hoạt huyết hóa ứ, tiệm tiêu phì đại",
+    bt: "Quế chi phục linh hoàn gia Tam thất, Nga truật",
+    tpbt: ["Quế chi", "Phục linh", "Mẫu đơn bì", "Xích thược", "Đào nhân", "Tam thất", "Nga truật"]
   },
-  "Vi_Nhiet_Sat_Coc": {
-    hc: "Vị nhiệt sát cốc (Nhiệt thịnh mau đói)",
-    phanloai: ["Phủ Vị", "Nhiệt", "Thực", "Vị hỏa"],
-    tc: ["Ăn nhiều mau đói, thân hình gầy sút", "Miệng hôi khát nước uống lạnh", "Sưng đau chân răng", "Đại tiện táo kết", "Mạch hoạt sác"],
-    pdt: "Thanh vị tả hỏa, dưỡng âm sinh tân",
-    bt: "Điều vị thừa khí thang gia Thạch cao",
-    tpbt: ["Thạch cao", "Đại hoàng", "Mang tiêu", "Chích cam thảo"]
+  "PK_UXoTuCung_KhiTre": {
+    hc: "U xơ tử cung do Khí trệ can uất",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Thực", "Khí trệ"],
+    tc: ["Khối u xơ trướng đau khi căng thẳng cáu giận", "Kinh nguyệt không đều, trướng ngực sườn", "Mạch huyền"],
+    pdt: "Sơ can giải uất, hành khí tiêu u",
+    bt: "Sài hồ sơ can tán gia Mẫu lệ, Côn bố",
+    tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Xuyên khung", "Hương phụ", "Mẫu lệ", "Côn bố"]
   },
-  "Vi_Trung_Hu_Han": {
-    hc: "Vị trung hư hàn",
-    phanloai: ["Phủ Vị", "Hàn", "Hư", "Hư hàn"],
-    tc: ["Thượng vị đau âm ỉ liên miên", "Chườm ấm xoa bóp bớt đau", "Nôn ra nước trong nhạt miệng", "Sợ lạnh tay chân lạnh", "Mạch trầm trì nhược"],
-    pdt: "Ôn trung hòa vị, hoãn cấp chỉ thống",
-    bt: "Tiểu kiến trung thang gia Can khương",
-    tpbt: ["Quế chi", "Bạch thược", "Sinh khương", "Can khương", "Đại táo", "Chích cam thảo", "Di đường"]
+  "PK_UXoTuCung_DamThap": {
+    hc: "U xơ tử cung do Đàm thấp kết khối",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Thực", "Đàm thấp"],
+    tc: ["U xơ tử cung kèm thể trạng béo trệ, kinh ít dính nhầy", "Khí hư dầm dề trắng đục", "Rêu dầy dính", "Mạch nhu hoạt"],
+    pdt: "Kiện tỳ hóa đàm, nhuyễn kiên tán kết",
+    bt: "Nhị trần thang gia Hải tảo, Côn bố, Bạch giới tử",
+    tpbt: ["Bán hạ chế", "Trần bì", "Phục linh", "Hải tảo", "Côn bố", "Bạch giới tử", "Cam thảo"]
   },
-  "Phe_Khi_Uat_Tre": {
-    hc: "Phế khí uất trệ",
-    phanloai: ["Tạng Phế", "Bình", "Thực", "Khí trệ"],
-    tc: ["Ho hắng nghẽn cổ họng, ngực trướng tức", "Hơi thở ngắn ngột ngạt", "Xúc động ho tăng", "Rêu lưỡi trắng mỏng", "Mạch huyền"],
-    pdt: "Tuyên phế lý khí, giáng nghịch chỉ khái",
-    bt: "Chỉ khái tán gia Giảm",
-    tpbt: ["Cát cánh", "Kinh giới", "Bách bộ", "Tử uyển", "Trần bì", "Chỉ xác", "Cam thảo"]
+  "PK_UXoTuCung_KhieuHu": {
+    hc: "U xơ tử cung mạn tính do Khí hư huyết ứ",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Hư thực thác tạp", "Khí hư huyết ứ"],
+    tc: ["U xơ tử cung kéo dài gây rong kinh rong huyết mệt mỏi", "Sắc mặt nhợt nhạt, hụt hơi", "Lưỡi nhợt điểm ứ huyết", "Mạch tế sáp vô lực"],
+    pdt: "Bổ khí kiện tỳ, hoạt huyết hóa ứ tiêu u",
+    bt: "Bổ dương hoàn ngũ thang gia Quế chi phục linh hoàn",
+    tpbt: ["Hoàng kỳ", "Đương quy", "Xích thược", "Đào nhân", "Hồng hoa", "Quế chi", "Phục linh", "Mẫu đơn bì"]
   },
-  "Phe_Tan_Bat_Tuc": {
-    hc: "Phế tân bất túc",
-    phanloai: ["Tạng Phế", "Nhiệt", "Hư", "Tân dịch khuy tổn"],
-    tc: ["Ho khan không đờm, họng khô miệng nẻ", "Tiếng nói khàn, da khô bong tróc", "Tiểu ít, đại tiện khô", "Mạch tế sác"],
-    pdt: "Tư dưỡng phế tân, nhuận táo chỉ khái",
-    bt: "Sa sâm mạch đông thang",
-    tpbt: ["Sa sâm", "Mạch môn", "Ngọc trúc", "Sinh địa", "Thiên hoa phấn", "Cam thảo"]
+  "PK_NangBuongTrung_DamThap": {
+    hc: "U nang buồng trứng do Đàm thấp ngưng trệ",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Thực", "Đàm thấp"],
+    tc: ["Nang buồng trứng mọc vỏ dày dịch dính", "Bụng dưới trướng nặng, kinh nguyệt chậm", "Thể trạng mập mạp", "Mạch nhu hoạt"],
+    pdt: "Táo thấp hóa đàm, tiêu nang tán kết",
+    bt: "Chưng đàm hoàn gia Hải tảo, Côn bố, Hương phụ",
+    tpbt: ["Bán hạ chế", "Trần bì", "Phục linh", "Hải tảo", "Côn bố", "Hương phụ", "Cam thảo"]
   },
-  "Dai_Truong_Trang_Tao": {
-    hc: "Đại trường tràng táo tân khô",
-    phanloai: ["Phủ Đại trường", "Bình", "Hư", "Tân dịch khuy tổn"],
-    tc: ["Đại tiện phân khô cứng như phân dê", "Nhiều ngày không đi tiêu, bụng trướng nhẹ", "Miệng khô họng rát", "Mạch tế sáp"],
-    pdt: "Nhuận tràng thông tiện, sinh tân bổ dịch",
-    bt: "Ngũ nhân hoàn",
-    tpbt: ["Đào nhân", "Hạnh nhân", "Bá tử nhân", "Uất lý nhân", "Tùng tử nhân", "Trần bì"]
+  "PK_NangBuongTrung_KhiTreHuyetU": {
+    hc: "U nang buồng trứng do Khí trệ huyết ứ",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Thực", "Khí trệ huyết ứ"],
+    tc: ["Nang buồng trứng đau nhói một bên hố chậu", "Kinh nguyệt tím đen có cục", "Lưỡi tím sẫm", "Mạch huyền sáp"],
+    pdt: "Hành khí hoạt huyết, tiêu nang chỉ thống",
+    bt: "Cách hạ trục ứ thang gia Tam thất, Nga truật",
+    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Chỉ xác", "Hương phụ", "Tam thất", "Nga truật"]
   },
-  "Dai_Truong_Hu_Ham": {
-    hc: "Đại trường hư hãm (Tiêu chảy mãn tính)",
-    phanloai: ["Phủ Đại trường", "Bình", "Hư", "Khí hư hạ hãm"],
-    tc: ["Tiêu chảy dai dẳng lâu ngày không khỏi", "Hậu môn sa lệch (Trĩ nội sa)", "Bụng dưới nặng chèn, mệt mỏi hụt hơi", "Mạch trầm hoãn vô lực"],
-    pdt: "Ôn tràng cố sáp, ích khí thăng dương",
-    bt: "Bổ trung ích khí thang gia Kha tử, Ngũ vị tử",
-    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Trần bì", "Thăng ma", "Sài hồ", "Kha tử", "Ngũ vị tử", "Cam thảo"]
+  "PK_NangBuongTrung_ThanAmHu": {
+    hc: "U nang buồng trứng do Thận âm hư suy",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Nhiệt", "Hư", "Thận âm hư"],
+    tc: ["U nang buồng trứng ở người gầy triều nhiệt", "Đau lưng mỏi gối, kinh nguyệt ít sắc đỏ", "Mắt khô, tai ù", "Mạch tế sác"],
+    pdt: "Tư bổ thận âm, nhuyễn kiên tiêu nang",
+    bt: "Lục vị địa hoàng hoàn gia Mẫu lệ, Côn bố",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Mẫu lệ", "Côn bố"]
   },
-  "Bang_Quang_Phao_Chuyen": {
-    hc: "Bàng quang phao chuyển (Bí tiểu khí hóa thất thường)",
-    phanloai: ["Phủ Bàng quang", "Bình", "Hư thực thác tạp", "Khí hóa thất thấu"],
-    tc: ["Bụng dưới trướng căng đau dữ dội", "Muốn đi tiểu mà không ra giọt nào", "Mệt mỏi hụt hơi hoặc rên hừ hừ", "Mạch trầm huyền"],
-    pdt: "Thăng thanh giáng trọc, hóa khí lợi thủy",
-    bt: "Cửu tiêu tán / Ngũ linh tán gia Thăng ma",
-    tpbt: ["Thăng ma", "Sài hồ", "Bạch truật", "Phục linh", "Trạch tả", "Trư linh", "Quế chi"]
+  "PK_NangBuongTrung_ThanDuongHu": {
+    hc: "U nang buồng trứng do Thận dương hư hàn",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Hàn", "Hư", "Thận dương hư"],
+    tc: ["Nang buồng trứng kèm bụng dưới cold đau âm ỉ", "Sợ cold tay chân cold ngắt, kinh đến muộn", "Mạch trầm tế trì"],
+    pdt: "Ôn bổ thận dương, hóa khí tiêu nang",
+    bt: "Thận khí hoàn gia Nhục quế, Tam thất",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Trạch tả", "Đan bì", "Tam thất"]
   },
-
-  // =========================================================================
-  // III. THẦN KINH - TÂM THẦN & ĐẦU MẶT
-  // =========================================================================
-  "Mat_Ngu_Can_Khi_Uat": {
-    hc: "Thất miên (Mất ngủ) do Can khí uất trệ",
-    phanloai: ["Thần Kinh / Tâm Thần", "Bình", "Thực", "Khí trệ"],
-    tc: ["Khó vào giấc ngủ, tâm thần bứt rứt", "Ngực sườn đầy trướng, hay thở dài", "Tinh thần u uất, lo âu", "Mạch huyền"],
-    pdt: "Sơ can giải uất, an thần định chí",
-    bt: "Sài hồ sơ can tán gia Táo nhân, Dạ giao đằng",
-    tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Xuyên khung", "Trần bì", "Toan táo nhân", "Dạ giao đằng", "Cam thảo"]
+  "PK_PCOS_DamThapNhiet": {
+    hc: "Hội chứng buồng trứng đa nang (PCOS) do Đàm thấp uẩn nhiệt",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Nhiệt", "Thực", "Đàm thấp nhiệt"],
+    tc: ["Bế kinh kéo dài hoặc vài tháng mới có kinh 1 lần", "Mụn trứng cá nổi nhiều, rậm lông, da nhờn", "Thân thể mập bệu", "Rêu dầy vàng nhớt", "Mạch hoạt sác"],
+    pdt: "Thanh nhiệt hóa đàm, thông kinh tán kết",
+    bt: "Cang tiễn đạo đàm thang gia Hoàng liên, Khổ sâm",
+    tpbt: ["Bán hạ chế", "Trần bì", "Phục linh", "Thương truật", "Chỉ thực", "Hoàng liên", "Khổ sâm", "Hương phụ"]
   },
-  "Mat_Ngu_Vi_Bat_Hoa": {
-    hc: "Thất miên (Mất ngủ) do Vị bất hòa (Vị uổng mất ngủ)",
-    phanloai: ["Thần Kinh / Tâm Thần", "Bình", "Thực", "Thực tích trệ vị"],
-    tc: ["Trằn trọc khó ngủ sau khi ăn no", "Bụng trướng đầy, ợ hơi ợ chua", "Miệng dính nhớt, buồn nôn", "Rêu lưỡi dầy nhớt", "Mạch hoạt"],
-    pdt: "Hòa vị tiêu tích, hóa đàm an thần",
-    bt: "Bảo hòa hoàn gia Bán hạ, Trúc nhự",
-    tpbt: ["Sơn tra", "Thần khúc", "Lai phục tử", "Bán hạ", "Trần bì", "Phục linh", "Trúc nhự"]
+  "PK_PCOS_ThanDuongHu": {
+    hc: "Hội chứng buồng trứng đa nang do Thận dương hư",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Hàn", "Hư suy", "Thận dương hư"],
+    tc: ["Bế kinh lâu ngày không thai, sợ cold tay chân cold", "Thắt lưng cold đau, tiểu đêm nhiều", "Thể trạng béo trệ cold", "Mạch trầm tế vi"],
+    pdt: "Ôn bổ thận dương, hóa đàm thông kinh",
+    bt: "Hữu quy hoàn hợp Ôn đởm thang",
+    tpbt: ["Thục địa", "Nhục quế", "Phụ tử chế", "Sơn thù nhục", "Bán hạ chế", "Trần bì", "Phục linh"]
   },
-  "Huyen_Vung_Dam_Troc": {
-    hc: "Huyễn vựng (Chóng mặt) do Đàm trọc trung trở",
-    phanloai: ["Đầu Mục", "Bình", "Thực", "Đàm trọc"],
-    tc: ["Chóng mặt quay mòng mòng, đầu nặng như bó", "Ngực bụng đầy trướng, buồn nôn ra đờm", "Ăn kém, mệt mỏi", "Rêu lưỡi trắng dày nhớt", "Mạch hoạt"],
-    pdt: "Táo thấp hóa đàm, kiện tỳ hòa vị, định vựng",
-    bt: "Bán hạ bạch truật thiên ma thang",
-    tpbt: ["Bán hạ", "Bạch truật", "Thiên ma", "Phục linh", "Trần bì", "Cam thảo", "Sinh khương"]
+  "PK_PCOS_CanUatKhieuTre": {
+    hc: "Hội chứng buồng trứng đa nang do Can khí uất trệ",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Thực", "Khí trệ"],
+    tc: ["Kinh nguyệt ít muộn thất thường, lo âu xúc động", "Trướng căng vú ngực sườn", "Mạch huyền dằn xóc"],
+    pdt: "Sơ can giải uất, thông kinh hoạt huyết",
+    bt: "Sài hồ sơ can tán gia Đào nhân, Hồng hoa",
+    tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Xuyên khung", "Hương phụ", "Đào nhân", "Hồng hoa"]
   },
-  "Huyen_Vung_Can_Than_Am_Hu": {
-    hc: "Huyễn vựng (Chóng mặt) do Can Thận âm hư",
-    phanloai: ["Đầu Mục", "Nhiệt", "Hư", "Âm hư"],
-    tc: ["Chóng mặt hoa mắt dai dẳng", "Tai ù như ve kêu, mắt khô xót", "Đau lưng mỏi gối, triều nhiệt đạo hãn", "Mạch tế sác"],
-    pdt: "Tư bổ can thận, dưỡng âm minh mục",
-    bt: "Kỷ cúc địa hoàng hoàn gia Câu đằng",
-    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Kỷ tử", "Cúc hoa", "Câu đằng"]
-  },
-  "Trung_Phong_Am_Be": {
-    hc: "Trúng phong tạng phủ - Âm bế chứng",
-    phanloai: ["Thần Kinh / Nội Khoa", "Hàn", "Thực", "Đàm hàn khai khiếu bế"],
-    tc: ["Hôn mê đột ngột, hai tay nắm chặt", "Mặt bệch tái, môi tím lạnh", "Thở khò khè đờm dãi, chân tay lạnh", "Rêu lưỡi trắng dính", "Mạch trầm hoạt hoặc trì"],
-    pdt: "Tán hàn hóa đàm, tuyên thông khai khiếu",
-    bt: "Tô hợp hương hoàn",
-    tpbt: ["Tô hợp hương", "Mộc hương", "Trầm hương", "Đinh hương", "Sa nhân", "Xạ hương", "Băng phiến"]
-  },
-  "Trung_Phong_Duong_Be": {
-    hc: "Trúng phong tạng phủ - Dương bế chứng",
-    phanloai: ["Thần Kinh / Nội Khoa", "Nhiệt", "Thực", "Đàm nhiệt khai khiếu bế"],
-    tc: ["Hôn mê đột ngột, răng cắn chặt", "Sốt cao, mặt đỏ hưng hưng", "Thở khò khè tiếng đờm lọc sọc", "Táo kết đại tiểu tiện", "Mạch huyền sác hữu lực"],
-    pdt: "Thanh nhiệt giải độc, hóa đàm khai khiếu",
-    bt: "An cung ngưu hoàng hoàn",
-    tpbt: ["Ngưu hoàng", "Thủy ngưu giác", "Xạ hương", "Uất kim", "Băng phiến", "Hoàng liên", "Hoàng cầm", "Chi tử"]
-  },
-  "Cuong_Chung_Dam_Hoa": {
-    hc: "Cuồng chứng do Đàm hỏa thịnh",
-    phanloai: ["Thần Kinh / Tâm Thần", "Nhiệt", "Thực", "Đàm hỏa cuồng loạn"],
-    tc: ["Nói năng xối xả, mắng chửi bất luận người thân", "Đập phá đồ đạc, sức khỏe phi thường", "Mất ngủ, mắt đỏ mồm khô", "Rêu lưỡi vàng dầy nhớt", "Mạch hoạt sác hữu lực"],
-    pdt: "Thanh tâm tả hỏa, địch đàm định cuồng",
-    bt: "Sinh thiết lạc đản hợp Địch đàm thang",
-    tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Chỉ thực", "Đởm nam tinh", "Sinh thiết lạc", "Hoàng liên", "Thạch xương bồ"]
-  },
-
-  // =========================================================================
-  // IV. NGŨ QUAN (TAI, MẮT, MŨI, HỌNG, RĂNG MIỆNG)
-  // =========================================================================
-  "Ty_Uyen_Phong_Nhiet": {
-    hc: "Tỵ uyên (Viêm xoang cấp) do Phong nhiệt phạm Phế",
-    phanloai: ["Ngũ Quan - Mũi", "Nhiệt", "Thực", "Phong nhiệt"],
-    tc: ["Mũi chảy nước đặc vàng hôi", "Đau trướng vùng trán hốc mắt", "Nghẹt mũi, sốt nhẹ, sợ gió", "Lưỡi đỏ rêu vàng", "Mạch phù sác"],
-    pdt: "Sơ phong thanh nhiệt, thông khiếu chỉ thống",
-    bt: "Tân di tán gia Kim ngân hoa, Ké đầu ngựa",
-    tpbt: ["Tân di hoa", "Bạch chỉ", "Thăng ma", "Phòng phong", "Cát cánh", "Kim ngân hoa", "Thương nhĩ tử", "Cam thảo"]
-  },
-  "Ty_Uyen_Dom_Nhiet": {
-    hc: "Tỵ uyên (Viêm xoang) do Can Đởm uất nhiệt",
-    phanloai: ["Ngũ Quan - Mũi", "Nhiệt", "Thực", "Can Đởm hỏa nhiệt"],
-    tc: ["Mũi chảy mủ đục vàng xanh tanh hôi dữ dội", "Đau đầu dữ dội vùng thái dương", "Miệng đắng, mắt đỏ, dễ cáu gắt", "Mạch huyền sác"],
-    pdt: "Thanh can tả đởm, tuyên thông ty khiếu",
-    bt: "Long đởm tả can thang gia Tân di, Thương nhĩ tử",
-    tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Trạch tả", "Sài hồ", "Tân di hoa", "Thương nhĩ tử", "Sinh địa"]
-  },
-  "Ty_Man_Phong_Han": {
-    hc: "Tỵ mẫn (Viêm mũi dị ứng) do Phong hàn phế hư",
-    phanloai: ["Ngũ Quan - Mũi", "Hàn", "Hư thực thác tạp", "Phong hàn Phế hư"],
-    tc: ["Hắt hơi liên tục khi gặp lạnh", "Mũi ngứa chảy nước trong loãng nhiều", "Nghẹt mũi, sợ gió lạnh", "Mạch phù hoãn hoặc nhược"],
-    pdt: "Ôn bổ phế khí, khu phong tán hàn",
-    bt: "Ôn phế chỉ lưu tán gia giảm",
-    tpbt: ["Đảng sâm", "Hoàng kỳ", "Bạch truật", "Tân di hoa", "Tế tân", "Phòng phong", "Bạch chỉ", "Cam thảo"]
-  },
-  "Hau_Ty_Phong_Nhiet": {
-    hc: "Hầu tý (Viêm họng cấp) do Phong nhiệt",
-    phanloai: ["Ngũ Quan - Họng", "Nhiệt", "Thực", "Phong nhiệt"],
-    tc: ["Họng sưng đỏ đau rát, nuốt khó", "Sốt nhẹ, sợ gió, đau đầu", "Mũi khô họng khát", "Mạch phù sác"],
-    pdt: "Sơ phong thanh nhiệt, lợi họng giải độc",
-    bt: "Cát cánh thang gia Ngân hoa, Liên kiều",
-    tpbt: ["Cát cánh", "Cam thảo", "Kim ngân hoa", "Liên kiều", "Ngưu bàng tử", "Bạc hà"]
-  },
-  
-  "Khau_Sang_Ty_Vi_Nhiet": {
-    hc: "Khẩu sang (Loét miệng) do Tỳ Vị tích nhiệt",
-    phanloai: ["Ngũ Quan - Miệng", "Nhiệt", "Thực", "Tỳ Vị hỏa nhiệt"],
-    tc: ["Niêm mạc miệng lưỡi nổi vết loét đỏ sưng đau", "Hơi thở hôi, chân răng rát", "Khát nước thích uống lạnh", "Đại tiện táo kết", "Mạch sác hữu lực"],
-    pdt: "Thanh tỳ tả vị, giải độc tiêu thũng",
-    bt: "Tả tỳ tán hợp Thanh vị tán",
-    tpbt: ["Hoàng liên", "Hoàng cầm", "Thạch cao", "Thăng ma", "Mẫu đơn bì", "Phòng phong", "Cam thảo"]
-  },
-  "Xi_Nuc_Vi_Hoa": {
-    hc: "Xỉ nục (Chảy máu chân răng) do Vị hỏa xí thịnh",
-    phanloai: ["Ngũ Quan - Răng", "Nhiệt", "Thực", "Vị hỏa"],
-    tc: ["Chân răng sưng đỏ, chảy máu màu đỏ tươi", "Hơi thở hôi thối dữ dội", "Thượng vị nóng rát, khát nước", "Mạch hoạt sác"],
-    pdt: "Thanh vị tả hỏa, lương huyết chỉ huyết",
-    bt: "Thanh vị tán gia Bồ hoàng, Trắc bách diệp",
-    tpbt: ["Hoàng liên", "Thăng ma", "Sinh địa", "Đan bì", "Đương quy", "Bồ hoàng", "Trắc bách diệp"]
-  },
-
-  // =========================================================================
-  // V. PHỤ KHOA & SẢN KHOA
-  // =========================================================================
-  "Kinh_Nguyet_Truoc_Ky_Khi_Hu": {
-    hc: "Kinh nguyệt trước kỳ do Khí hư",
-    phanloai: ["Phụ Khoa", "Bình", "Hư", "Khí hư không nhiếp huyết"],
-    tc: ["Kinh nguyệt đến sớm, lượng nhiều", "Sắc kinh nhạt loãng", "Mệt mỏi hụt hơi, sắc mặt nhợt", "Mạch hư nhược"],
-    pdt: "Bổ khí kiện tỳ, cố kinh chỉ huyết",
-    bt: "Bổ trung ích khí thang gia A giao, Ngó sen sao",
-    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Trần bì", "Thăng ma", "Sài hồ", "A giao", "Cam thảo"]
-  },
-  "Kinh_Nguyet_Sau_Ky_Huyet_Hu": {
-    hc: "Kinh nguyệt sau kỳ do Huyết hư",
-    phanloai: ["Phụ Khoa", "Bình", "Hư", "Huyết hư"],
-    tc: ["Kinh nguyệt đến chậm, lượng ít", "Sắc kinh hồng nhạt loãng", "Bụng dưới đau nhẹ âm ỉ", "Mặt nhợt, chóng mặt", "Mạch tế nhược"],
-    pdt: "Bổ huyết hòa kinh",
-    bt: "Tứ vật thang gia Hoàng kỳ",
-    tpbt: ["Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Hoàng kỳ"]
-  },
-  "Kinh_Nguyet_Sau_Ky_Huyet_U": {
-    hc: "Kinh nguyệt sau kỳ do Huyết ứ",
-    phanloai: ["Phụ Khoa", "Bình", "Thực", "Huyết ứ"],
-    tc: ["Kinh nguyệt đến muộn, lượng rất ít", "Sắc kinh tím đen có cục máu đông", "Bụng dưới đau quặn cự án", "Mạch trầm sáp"],
-    pdt: "Hoạt huyết hóa ứ, thông kinh chỉ thống",
-    bt: "Đào hồng tứ vật thang gia Hương phụ",
-    tpbt: ["Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Đào nhân", "Hồng hoa", "Hương phụ"]
-  },
-  "Be_Kinh_Khi_Huyet_Hu": {
-    hc: "Bế kinh do Khí huyết hư suy",
-    phanloai: ["Phụ Khoa", "Bình", "Hư", "Khí huyết hư suy"],
-    tc: ["Kinh nguyệt mất nhiều tháng không có", "Sắc mặt nhợt vàng úa", "Thân thể mệt mỏi, hoa mắt chóng mặt", "Mạch tế nhược vô lực"],
-    pdt: "Bổ khí dưỡng huyết, điều kinh",
+  "PK_PCOS_KhiHuyetLuuHu": {
+    hc: "Hội chứng buồng trứng đa nang do Khí huyết lưỡng hư",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Hư", "Khí huyết hư suy"],
+    tc: ["Kinh nguyệt ít nhạt loãng muộn kỳ dài", "Sắc mặt nhợt nhạt, gầy còm mệt mỏi", "Hoa mắt chóng mặt", "Mạch tế nhược"],
+    pdt: "Song bổ khí huyết, điều kinh tị thai",
     bt: "Bát trân thang gia Kỷ tử, Thỏ ty tử",
     tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Kỷ tử", "Thỏ ty tử"]
   },
-  "Bang_Lau_Huyet_Nhiet": {
-    hc: "Băng lậu do Huyết nhiệt vọng hành",
-    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Huyết nhiệt"],
-    tc: ["Kinh nguyệt ra ồ ạt hoặc rỉ rả không ngừng", "Sắc kinh đỏ tươi sẫm đặc", "Mặt đỏ miệng khát, tâm phiền", "Mạch sác hữu lực"],
-    pdt: "Thanh nhiệt lương huyết, chỉ huyết điều kinh",
-    bt: "Bảo âm sản gia Ngũ vị, Mẫu đơn bì",
-    tpbt: ["Sinh địa", "Thục địa", "Bạch thược", "Mẫu đơn bì", "Hoàng bá", "Tri mẫu", "Tục đoạn", "Cam thảo"]
-  },
-  "Thai_Dong_Bat_An_Than_Hu": {
-    hc: "Thai động bất an do Thận hư",
-    phanloai: ["Sản Khoa", "Bình", "Hư", "Thận hư bất cố"],
-    tc: ["Mang thai đau mỏi thắt lưng bụng dưới", "Ra ít máu tươi hoặc dịch hồng ở âm đạo", "Mệt mỏi, tiểu đêm nhiều", "Mạch trầm tế nhược"],
-    pdt: "Bổ thận an thai, cố sáp",
-    bt: "Thọ thai hoàn",
-    tpbt: ["Thỏ ty tử", "Tang ký sinh", "Tục đoạn", "A giao"]
-  },
-
-  // =========================================================================
-  // VI. NAM KHOA & SINH DỤC
-  // =========================================================================
-  "Liet_Duong_Can_Uat": {
-    hc: "Liệt dương do Can khí uất kết",
-    phanloai: ["Nam Khoa", "Bình", "Thực", "Khí trệ"],
-    tc: ["Dương vật khó cương cứng khi quan hệ", "Tinh thần u uất, dễ giận dữ cáu gắt", "Ngực sườn trướng đầy", "Mạch huyền"],
-    pdt: "Sơ can giải uất, thông lạc tráng dương",
-    bt: "Sài hồ sơ can tán gia Dâm dương hoắc, Ngưu tất",
-    tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Xuyên khung", "Dâm dương hoắc", "Ngưu tất", "Cam thảo"]
-  },
-  
-  "Thoai_San_Han_Tre": {
-    hc: "Thoái sán (Sưng đau tinh hoàn) do Hàn trệ can mạch",
-    phanloai: ["Nam Khoa", "Hàn", "Thực", "Hàn trệ"],
-    tc: ["Tinh hoàn đau co rút lên bụng dưới", "Gặp lạnh đau tăng, chườm ấm giảm", "Bì bìu lạnh rét", "Mạch trầm khẩn hoặc huyền khẩn"],
-    pdt: "Ôn kinh tán hàn, noãn can chỉ thống",
-    bt: "Noãn can tiễn gia Ngô thù du",
-    tpbt: ["Tiểu hồi hương", "Nhục quế", "Đương quy", "Ô dược", "Trầm hương", "Ngô thù du", "Phục linh"]
-  },
-  "Tien_Liet_Tuyen_Thap_Nhiet": {
-    hc: "Viêm tiền liệt tuyến do Thấp nhiệt hạ chú",
-    phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt hạ chú"],
-    tc: ["Tiểu dắt, tiểu buốt, nước tiểu đục vàng", "Đau rát vùng tầng sinh môn và bẹn", "Hậu môn nóng trướng", "Mạch nhu sác"],
-    pdt: "Thanh nhiệt lợi thấp, giải độc thông lâm",
-    bt: "Bát chính tán gia Hoàng bá, Đan sâm",
-    tpbt: ["Xa tiền tử", "Mộc thông", "Cù mạch", "Biển súc", "Hoạt thạch", "Chi tử", "Hoàng bá", "Đan sâm", "Cam thảo"]
-  },
-
-  // =========================================================================
-  // VII. CƠ XƯƠNG KHỚP & TÝ CHỨNG
-  // =========================================================================
-  "Yeu_Thong_Than_Hu": {
-    hc: "Yêu thống (Đau thắt lưng) do Thận hư",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Hư", "Thận hư"],
-    tc: ["Đau mỏi vùng thắt lưng âm ỉ dai dẳng", "Lao động nặng đau tăng, nằm nghỉ giảm", "Gối yếu chân mềm", "Mạch trầm tế"],
-    pdt: "Bổ thận tráng yêu, cường gân trác cốt",
-    bt: "Tả quy hoàn gia Đỗ trọng, Tục đoạn",
-    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Thỏ ty tử", "Đỗ trọng", "Tục đoạn"]
-  },
-  "Yeu_Thong_Huyet_U": {
-    hc: "Yêu thống (Đau thắt lưng) do Huyết ứ",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Thực", "Huyết ứ"],
-    tc: ["Đau lưng dữ dội cố định như kim đâm", "Cúi ngửa xoay người rất khó khăn", "Ấn vào điểm đau cự án", "Lưỡi tím sẫm", "Mạch sáp"],
-    pdt: "Hoạt huyết hóa ứ, thông lạc chỉ thống",
-    bt: "Thân thống trục ứ thang gia giảm",
-    tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Hương phụ", "Địa long"]
-  },
-
-  // =========================================================================
-  // VIII. NGOẠI KHOA - DA LIỄU & NHI KHOA
-  // =========================================================================
-  "Trung_Ca_Phe_Vi_Nhiet": {
-    hc: "Mụn trứng cá do Phế Vị nhiệt thịnh",
-    phanloai: ["Ngoại Khoa / Da Liễu", "Nhiệt", "Thực", "Phế Vị nhiệt"],
-    tc: ["Mụn đỏ, mụn mủ nổi nhiều ở mặt ngực lưng", "Sưng đau rát, da mặt nhờn nóng", "Miệng khô khát, đại tiện táo", "Mạch sác"],
-    pdt: "Thanh phế tả vị, giải độc tiêu mụn",
-    bt: "Tỳ bà diệp thanh phế ẩm gia giảm",
-    tpbt: ["Tỳ bà diệp", "Tang bạch bì", "Hoàng liên", "Hoàng cầm", "Sinh địa", "Cát cánh", "Cam thảo"]
-  },
-  "Zona_Can_Dom_Hoa": {
-    hc: "Zona thần kinh do Can Đởm hỏa thịnh",
-    phanloai: ["Ngoại Khoa / Da Liễu", "Nhiệt", "Thực", "Can Đởm hỏa độc"],
-    tc: ["Mụn nước mọc thành chùm dọc dây thần kinh", "Nóng rát đau nhói dữ dội như lửa đốt", "Mặt đỏ, miệng đắng, bứt rứt", "Mạch huyền sác"],
-    pdt: "Thanh can tả hỏa, giải độc chỉ thống",
-    bt: "Long đởm tả can thang gia Kim ngân hoa",
-    tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Trạch tả", "Sài hồ", "Sinh địa", "Kim ngân hoa", "Cam thảo"]
-  },
-  "Da_De_Ty_Han": {
-    hc: "Dạ đề (Trẻ em khóc đêm) do Tỳ hư hàn",
-    phanloai: ["Nhi Khoa", "Hàn", "Hư", "Tỳ hư hàn"],
-    tc: ["Trẻ khóc ngặt nghèo về đêm, ngày ngủ yên", "Bụng lạnh, chườm ấm bớt khóc", "Chân tay lạnh, phân lỏng nhão", "Mạch trầm trì"],
-    pdt: "Ôn trung tán hàn, an thần chỉ đề",
-    bt: "Hương nhu tán gia Can khương",
-    tpbt: ["Mộc hương", "Đinh hương", "Trần bì", "Bán hạ", "Phục linh", "Can khương", "Cam thảo"]
-  },
-  "Suy_Dinh_Duong_Ty_Vi_Hu": {
-    hc: "Cam tích / Suy dinh dưỡng do Tỳ Vị hư nhược",
-    phanloai: ["Nhi Khoa", "Bình", "Hư", "Tỳ Vị hư nhược"],
-    tc: ["Trẻ gầy còm, da nhăn nheo, bụng to gân xanh", "Ăn kém không tiêu, phân sống nhão", "Tinh thần mệt mỏi hay cáu gắt", "Mạch tế hoãn"],
-    pdt: "Kiện tỳ hòa vị, tiêu tích kiện tiêu",
-    bt: "Sâm linh bạch truật tán gia Kê nội kim",
-    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Liên nhục", "Ý dĩ", "Kê nội kim", "Cam thảo"]
-  },
-
-  // =========================================================================
-  // IX. NỘI KHOA TẠP BỆNH (TIÊU HÓA, HÔ HẤP, TIẾT NIỆU)
-  // =========================================================================
-  "Dau_Nguc_Khi_Tre_Huyet_U": {
-    hc: "Đau ngực (Tâm thống) do Khí trệ huyết ứ",
-    phanloai: ["Tạng Tâm", "Bình", "Thực", "Khí trệ huyết ứ"],
-    tc: ["Đau nhói vùng ngực trái lan ra vai lưng", "Đau cố định như kim đâm, cự án", "Môi móng tay tím tái", "Lưỡi tím sẫm có điểm ứ huyết", "Mạch sáp hoặc kết đại"],
-    pdt: "Hoạt huyết hóa ứ, hành khí thông dương, chỉ thống",
-    bt: "Huyết phủ trục ứ thang gia Đan sâm",
-    tpbt: ["Đương quy", "Sinh địa", "Đào nhân", "Hồng hoa", "Chỉ xác", "Xích thược", "Sài hồ", "Đan sâm"]
-  },
-  "Ho_Keo_Dai_Phe_Khi_Hu": {
-    hc: "Ho kéo dài do Phế khí hư suy",
-    phanloai: ["Tạng Phế", "Bình", "Hư", "Khí hư"],
-    tc: ["Ho hắng lâu ngày không khỏi, tiếng ho nhỏ yếu", "Đờm trắng loãng dễ khạc", "Thở ngắn, ngại nói, mệt mỏi, tự hãn", "Mạch hư nhược"],
-    pdt: "Bổ phế ích khí, chỉ khái hóa đàm",
-    bt: "Bổ phế thang gia Bách bộ",
-    tpbt: ["Nhân sâm", "Hoàng kỳ", "Thục địa", "Ngũ vị tử", "Tang bạch bì", "Tử uyển", "Bách bộ"]
-  },
-  "Phuy_Thung_Phong_Thuy": {
-    hc: "Phù thũng do Phong thủy tương bác (Viêm thận cấp)",
-    phanloai: ["Tạng Phế & Phủ Bàng quang", "Bình", "Thực", "Phong thủy"],
-    tc: ["Phù đột ngột bắt đầu từ mi mắt và mặt", "Nhanh chóng lan ra toàn thân, tiểu ít", "Sợ gió sốt nhẹ, ho thở gấp", "Rêu lưỡi trắng", "Mạch phù sác hoặc phù khẩn"],
-    pdt: "Tuyên phế phát hãn, lợi thủy tiêu thũng",
-    bt: "Việt tỳ gia truật thang",
-    tpbt: ["Ma hoàng", "Thạch cao", "Bạch truật", "Sinh khương", "Cam thảo", "Đại táo"]
-  },
-  "Chay_Mau_Cam_Phe_Nhiet": {
-    hc: "Xuất huyết cam (Chảy máu mũi) do Phế nhiệt",
-    phanloai: ["Ngũ Quan - Mũi", "Nhiệt", "Thực", "Phế nhiệt"],
-    tc: ["Mũi chảy máu màu đỏ tươi", "Mũi khô họng rát, ho khan", "Thân nhiệt tăng, sốt nhẹ", "Lưỡi đỏ rêu vàng mỏng", "Mạch phù sác"],
-    pdt: "Thanh phế tỳ nhiệt, lương huyết chỉ huyết",
-    bt: "Tang cúc ẩm gia Mao căn, Trắc bách diệp",
-    tpbt: ["Tang diệp", "Cúc hoa", "Hạnh nhân", "Liên kiều", "Bạc hà", "Bạch mao căn", "Trắc bách diệp", "Cam thảo"]
-  }
-
-});
-// Bổ sung các hội chứng YHCT hoàn toàn mới (Khóa chuẩn hóa chống trùng lặp)
-
-Object.assign(window.database, {
-
-  // =========================================================================
-  // 1. NGOẠI CẢM & BỆNH LÝ MÙA / KHÍ HẬU
-  // =========================================================================
-  "HC_ADD_001": {
-    hc: "Cảm mạo phong thấp thương phế",
-    phanloai: ["Ngoại cảm", "Bình", "Thực", "Phong thấp"],
-    tc: ["Sợ gió sợ lạnh, đầu nặng như bó", "Mũi nghẹt tắc chảy nước mũi đục", "Thân thể mỏi nặng, đau các khớp", "Rêu lưỡi trắng dính", "Mạch phù nhu"],
-    pdt: "Khu phong thắng thấp, giải biểu thông khiếu",
-    bt: "Khương hoạt thắng thấp thang gia Giảm",
-    tpbt: ["Khương hoạt", "Độc hoạt", "Phòng phong", "Mạn kinh tử", "Xuyên khung", "Cam thảo"]
-  },
-  "HC_ADD_002": {
-    hc: "Thử ẩm tổn thương Trung tiêu",
-    phanloai: ["Ngoại cảm", "Nhiệt", "Thực", "Thử ẩm"],
-    tc: ["Sốt cao về mùa hè, ngực bụng trướng tức", "Buồn nôn, tiêu chảy phân loãng hôi", "Khát nước không muốn uống nhiều", "Rêu vàng dính", "Mạch nhu sác"],
-    pdt: "Thanh thử hóa thấp, hòa vị chỉ tả",
-    bt: "Hoắc hương chính khí tán gia Tây qua bì",
-    tpbt: ["Hoắc hương", "Hậu phác", "Trần bì", "Bán hạ", "Tây qua bì", "Bạch truật", "Phục linh"]
-  },
-  "HC_ADD_003": {
-    hc: "Thu táo tổn thương Phế tân",
-    phanloai: ["Ngoại cảm", "Nhiệt", "Thực", "Táo nhiệt"],
-    tc: ["Ho khan không đờm, họng khô nẻ", "Mũi khô chảy máu cam nhẹ", "Sốt nhẹ sợ gió, môi khô", "Lưỡi đỏ ít rêu", "Mạch phù sác"],
-    pdt: "Thanh nhiệt nhuận táo, tuyên phế sinh tân",
-    bt: "Tang hạnh thang gia Sa sâm",
-    tpbt: ["Tang diệp", "Hạnh nhân", "Sa sâm", "Tượng bối mẫu", "Chi tử", "Đạm đậu xị"]
-  },
-
-  // =========================================================================
-  // 2. TIM MẠCH & TÂM THẦN
-  // =========================================================================
-  "HC_ADD_004": {
-    hc: "Tâm dương bế tắc (Tâm thống cấp)",
-    phanloai: ["Tạng Tâm", "Hàn", "Thực", "Tâm dương bế tắc"],
-    tc: ["Đau thắt vùng ngực trái đột ngột", "Đau lan ra vai lưng và tay trái", "Sợ lạnh tay chân lạnh ngắt, mặt tái", "Mạch trầm khẩn hoặc kết đại"],
-    pdt: "Ôn thông tâm dương, thông lạc chỉ thống",
-    bt: "Chỉ thực bối mẫu quế chi thang hợp Tô hợp hương hoàn",
-    tpbt: ["Chỉ thực", "Bối mẫu", "Quế chi", "Trầm hương", "Mộc hương", "Tô hợp hương"]
-  },
-  "HC_ADD_005": {
-    hc: "Tâm khí bất túc kiêm đàm trệ",
-    phanloai: ["Tạng Tâm", "Bình", "Hư thực thác tạp", "Khí hư đàm trệ"],
-    tc: ["Hồi hộp trống ngực khi vận động", "Ngực trướng ngột ngạt khó thở", "Đờm nhiều vướng họng, mệt mỏi", "Mạch tế hoãn hoặc hoạt"],
-    pdt: "Ích khí dưỡng tâm, hóa đàm thông lạc",
-    bt: "Bán hạ hậu phác thang hợp Bảo nguyên thang",
-    tpbt: ["Nhân sâm", "Hoàng kỳ", "Bán hạ", "Hậu phác", "Phục linh", "Sinh khương", "Cam thảo"]
-  },
-
-  // =========================================================================
-  // 3. TIÊU HÓA & GAN MẬT
-  // =========================================================================
-  
-  "HC_ADD_007": {
-    hc: "Tỳ Vị hư hàn trệ khí",
-    phanloai: ["Tạng Tỳ & Phủ Vị", "Hàn", "Hư thực thác tạp", "Tỳ Vị hư hàn"],
-    tc: ["Bụng trướng đau âm ỉ lâu ngày", "Chườm ấm bớt đau, ăn lạnh đau tăng", "Ợ hơi, nôn ra nước trong", "Phân lỏng nhão", "Mạch trầm trì nhược"],
-    pdt: "Ôn trung kiện tỳ, lý khí hoãn cấp",
-    bt: "Lý trung hoàn gia Hương phụ, Trầm hương",
-    tpbt: ["Đảng sâm", "Bạch truật", "Can khương", "Cam thảo", "Hương phụ", "Trầm hương"]
-  },
-  "HC_ADD_008": {
-    hc: "Trĩ đố / Nhược tràng do khí hư",
-    phanloai: ["Phủ Đại trường", "Bình", "Hư", "Khí hư hạ hãm"],
-    tc: ["Búi trĩ sa ra ngoài khó tự co lên", "Đại tiện rặn không ra dù phân mềm", "Sắc mặt nhợt nhạt, mệt mỏi", "Mạch hư hoãn"],
-    pdt: "Bổ khí thăng dương, cố sáp thăng đề",
-    bt: "Bổ trung ích khí thang gia Thăng ma, Chỉ xác sao",
-    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Trần bì", "Thăng ma", "Sài hồ", "Chỉ xác", "Cam thảo"]
-  },
-
-  // =========================================================================
-  // 4. THẬN & TIẾT NIỆU
-  // =========================================================================
-  "HC_ADD_009": {
-    hc: "Thận âm hư kiêm thấp nhiệt bàng quang",
-    phanloai: ["Tạng Thận & Phủ Bàng quang", "Nhiệt", "Hư thực thác tạp", "Âm hư thấp nhiệt"],
-    tc: ["Đau lưng mỏi gối, triều nhiệt đạo hãn", "Tiểu dắt, tiểu buốt, tiểu ra máu nhẹ", "Nước tiểu vàng đục", "Lưỡi đỏ ít rêu", "Mạch tế sác"],
-    pdt: "Tư bổ thận âm, thanh nhiệt lợi thấp",
-    bt: "Tri bá địa hoàng hoàn hợp Bát chính tán gia giảm",
-    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Tri mẫu", "Hoàng bá", "Xa tiền tử", "Mộc thông"]
-  },
-  "HC_ADD_010": {
-    hc: "Thận dương suy kiệt (Nhiệt ứ hạ tiêu)",
-    phanloai: ["Tạng Thận", "Hàn", "Hư", "Dương hư suy"],
-    tc: ["Bụng dưới lạnh ngắt đau co rút", "Liệt dương, di tinh rỉ rả không ngừng", "Đi tiểu đêm 5-7 lần, nước tiểu trong", "Sợ lạnh vã mồ hôi lạnh", "Mạch vi vi muốn tuyệt"],
-    pdt: "Hồi dương cứu nghịch, ôn bổ mệnh môn",
-    bt: "Hữu quy hoàn hợp Tứ nghịch thang",
-    tpbt: ["Thục địa", "Nhục quế", "Phụ tử chế", "Can khương", "Sơn thù nhục", "Đỗ trọng", "Chích cam thảo"]
-  },
-
-  // =========================================================================
-  // 5. CƠ XƯƠNG KHỚP & THẦN KINH
-  // =========================================================================
-  "HC_ADD_011": {
-    hc: "Tọa cốt phong do khí trệ huyết ứ",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Thực", "Khí trệ huyết ứ"],
-    tc: ["Đau dọc dây thần kinh tọa cố định như kim đâm", "Đau tăng khi ho, hắt hơi hoặc vận động", "Mông và đùi đau cự án", "Lưỡi tím sẫm", "Mạch sáp"],
-    pdt: "Hành khí hoạt huyết, thông kinh chỉ thống",
-    bt: "Thân thống trục ứ thang gia Ngưu tất",
-    tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Hương phụ", "Địa long", "Chích cam thảo"]
-  },
-  "HC_ADD_012": {
-    hc: "Tam xoa thần kinh thống do Can hỏa",
-    phanloai: ["Thần Kinh / Đầu Mặt", "Nhiệt", "Thực", "Can hỏa phong nhiệt"],
-    tc: ["Đau giật dữ dội một bên mặt từng cơn ngắn", "Mặt đỏ, mắt đỏ, miệng đắng họng khô", "Dễ cáu gắt, nhai hoặc chạm vào mặt đau tăng", "Mạch huyền sác"],
-    pdt: "Thanh can tả hỏa, khu phong chỉ thống",
-    bt: "Long đởm tả can thang gia Bạch chỉ, Cúc hoa",
-    tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Sài hồ", "Bạch chỉ", "Cúc hoa", "Sinh địa"]
-  },
-
-  // =========================================================================
-  // 6. PHỤ KHOA & NAM KHOA
-  // =========================================================================
-  "HC_ADD_013": {
-    hc: "Thống kinh do Thận hư huyết giáp",
-    phanloai: ["Phụ Khoa", "Bình", "Hư", "Thận hư huyết nhợt"],
-    tc: ["Bụng dưới đau âm ỉ sau khi hành kinh", "Kinh nguyệt lượng ít, sắc nhạt loãng", "Đau lưng mỏi gối, chóng mặt", "Mạch trầm tế vô lực"],
-    pdt: "Bổ thận dưỡng huyết, hoãn cấp chỉ thống",
-    bt: "Đương quy thược dược tán gia Tục đoạn, Đỗ trọng",
-    tpbt: ["Đương quy", "Bạch thược", "Xuyên khung", "Bạch truật", "Phục linh", "Tục đoạn", "Đỗ trọng"]
-  },
-  "HC_ADD_014": {
-    hc: "Chất tinh loãng lạnh do Thận dương hư",
-    phanloai: ["Nam Khoa", "Hàn", "Hư", "Dương hư tinh lạnh"],
-    tc: ["Tinh dịch loãng như nước, lạnh", "Khó có con, suy giảm ham muốn", "Sợ lạnh, tay chân lạnh, đau lưng", "Mạch trầm tế trì"],
-    pdt: "Ôn bổ thận dương, ích tinh điền tủy",
-    bt: "Ngũ vị tử hoàn hợp Hữu quy hoàn",
-    tpbt: ["Bổ cốt chỉ", "Thỏ ty tử", "Ngũ vị tử", "Nhục quế", "Phụ tử chế", "Thục địa", "Hoài sơn"]
-  }
-});
-// Bổ sung đợt mới với mã định danh không trùng lặp (HC_BATCH2_...)
-
-Object.assign(window.database, {
-  "HC_BATCH2_001": {
-    hc: "Tâm Phế khí âm lưỡng hư",
-    phanloai: ["Tạng Tâm & Tạng Phế", "Nhiệt", "Hư", "Khí âm lưỡng hư"],
-    tc: ["Ho khan ít đờm, hồi hộp hụt hơi", "Ra mồ hôi trộm, gò má đỏ", "Miệng khô họng rát", "Mạch tế sác vô lực"],
-    pdt: "Bổ tâm phế, ích khí dưỡng âm",
-    bt: "Sinh mạch tán hợp Bách hợp cố kim thang gia giảm",
-    tpbt: ["Nhân sâm", "Mạch môn", "Ngũ vị tử", "Bách hợp", "Sinh địa", "Huyền sâm"]
-  },
-  
-  "HC_BATCH2_003": {
-    hc: "Tỳ Thận dương hư thủy thũng nặng",
-    phanloai: ["Tạng Tỳ & Tạng Thận", "Hàn", "Hư thực thác tạp", "Dương hư thủy trệ"],
-    tc: ["Phù toàn thân ấn lõm sâu", "Sợ lạnh, tay chân lạnh ngắt", "Bụng trướng, tiểu rất ít", "Mạch trầm tế vi"],
-    pdt: "Ôn thận trợ dương, kiện tỳ lợi thủy",
-    bt: "Chân vũ thang hợp Thực tỳ ẩm",
-    tpbt: ["Phụ tử chế", "Bạch truật", "Phục linh", "Mộc qua", "Hậu phác", "Thảo quả", "Can khương"]
-  },
-  "HC_BATCH2_004": {
-    hc: "Phế táo thương tân đờm dính máu",
-    phanloai: ["Tạng Phế", "Nhiệt", "Thực", "Táo nhiệt"],
-    tc: ["Ho khan đau ngực", "Đờm dính ít có vệt máu tươi", "Họng khô miệng nẻ", "Mạch phù sác"],
-    pdt: "Thanh phế nhuận táo, lương huyết chỉ huyết",
-    bt: "Thanh táo cứu phế thang gia Bồ hoàng",
-    tpbt: ["Tang diệp", "Thạch cao", "A giao", "Mạch môn", "Hạnh nhân", "Bồ hoàng"]
-  },
-  "HC_BATCH2_005": {
-    hc: "Đại tràng hư hàn tiêu chảy kéo dài",
-    phanloai: ["Phủ Đại trường", "Hàn", "Hư", "Tràng hư hàn"],
-    tc: ["Tiêu chảy dai dẳng nhiều tháng", "Bụng đau âm ỉ thích chườm ấm", "Sa trực tràng, mệt mỏi", "Mạch trầm nhược"],
-    pdt: "Ôn tràng cố sáp, kiện tỳ chỉ tả",
-    bt: "Kha tử tán hợp Bổ trung ích khí thang",
-    tpbt: ["Kha tử", "Anh túc xác", "Hoàng kỳ", "Đảng sâm", "Bạch truật", "Nhục đậu khấu"]
-  },
-  "HC_BATCH2_006": {
-    hc: "Bàng quang khí hóa thất thường bí niệu",
-    phanloai: ["Phủ Bàng quang", "Bình", "Thực", "Khí trệ bí niệu"],
-    tc: ["Bụng dưới căng trướng dữ dội", "Tiểu tiện rỉ rả hoặc bí hẳn", "Tinh thần lo âu phiền bứt rứt", "Mạch trầm huyền"],
-    pdt: "Hành khí hóa trệ, thông lợi bàng quang",
-    bt: "Trầm hương tán",
-    tpbt: ["Trầm hương", "Mộc hương", "Đương quy", "Vương bất lưu hành", "Thạch韋", "Tế tân"]
-  },
-  "HC_BATCH2_007": {
-    hc: "Tâm đàm hỏa nhiễu cuồng loạn",
-    phanloai: ["Tạng Tâm", "Nhiệt", "Thực", "Đàm hỏa cuồng loạn"],
-    tc: ["Cuồng loạn, đập phá, chửi mắng", "Mất ngủ dai dẳng", "Mặt đỏ mắt đỏ, lưỡi đỏ rêu vàng nhớt", "Mạch hoạt sác hữu lực"],
-    pdt: "Thanh tâm tả hỏa, địch đàm khai khiếu",
-    bt: "Sinh thiết lạc đản hợp Địch đàm thang",
-    tpbt: ["Sinh thiết lạc", "Bán hạ", "Trần bì", "Phục linh", "Chỉ thực", "Đởm nam tinh", "Thạch xương bồ"]
-  },
-  
-  "HC_BATCH2_009": {
-    hc: "Thận khí bất cố di tinh đêm",
-    phanloai: ["Tạng Thận", "Bình", "Hư", "Thận khí hư"],
-    tc: ["Mộng tinh di tinh liên tục", "Lưng mỏi gối yếu, tai ù", "Sắc mặt nhợt nhạt", "Mạch trầm nhược"],
-    pdt: "Cố tinh sáp niệu, bổ thận ích khí",
-    bt: "Kim tỏa cố tinh hoàn gia Bổ cốt chỉ",
-    tpbt: ["Sa uyển tử", "Liên tu", "Khiếm thực", "Long cốt", "Mẫu lệ", "Bổ cốt chỉ"]
-  },
-  "HC_BATCH2_010": {
-    hc: "Trúng phong kinh lạc do đàm nhiệt",
-    phanloai: ["Thần Kinh", "Nhiệt", "Thực", "Đàm nhiệt thông lạc"],
-    tc: ["Méo miệng lệch mắt, nửa người tê dại", "Nói ngọng, đờm dãi nhiều", "Rêu vàng dính, lưỡi đỏ", "Mạch huyền hoạt sác"],
-    pdt: "Thanh nhiệt hóa đàm, khu phong thông lạc",
-    bt: "Hóa đàm thông lạc thang",
-    tpbt: ["Bán hạ", "Đởm nam tinh", "Trúc nhự", "Chỉ thực", "Phục linh", "Địa long", "Xuyên khung"]
-  },
-  "HC_BATCH2_011": {
-    hc: "Phế Tỳ hư hàn ho hen kéo dài",
-    phanloai: ["Tạng Phế & Tạng Tỳ", "Hàn", "Hư", "Phế Tỳ hư hàn"],
-    tc: ["Ho khạc đờm trắng loãng bọt", "Ăn kém, bụng trướng, tiêu chảy", "Sợ lạnh, tay chân lạnh", "Mạch trầm trì nhược"],
-    pdt: "Ôn tỳ bổ phế, hóa đàm chỉ khái",
-    bt: "Lục quân tử thang gia Can khương, Tế tân",
-    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Trần bì", "Bán hạ", "Can khương", "Tế tân", "Cam thảo"]
-  },
-  "HC_BATCH2_012": {
-    hc: "Đau vai gáy do Huyết hư phong thấp",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Hư thực thác tạp", "Huyết hư phong thấp"],
-    tc: ["Cổ vai gáy đau âm ỉ dai dẳng", "Tay tê dại, cơ vai teo nhẹ", "Sắc mặt nhợt, mệt mỏi", "Mạch tế hoãn"],
-    pdt: "Dưỡng huyết khu phong, thông kinh hoạt lạc",
-    bt: "Dưỡng huyết thông lạc thang",
-    tpbt: ["Đương quy", "Bạch thược", "Thục địa", "Khương hoạt", "Mộc qua", "Tang chi", "Kê huyết đằng"]
-  },
-  "HC_BATCH2_013": {
-    hc: "Thắt lưng đau do Hàn thấp ngưng trệ",
-    phanloai: ["Cơ Xương Khớp", "Hàn", "Thực", "Hàn thấp"],
-    tc: ["Lưng đau như đeo đá nặng", "Gặp lạnh mưa ẩm đau tăng dữ dội", "Cúi ngửa khó khăn, tay chân lạnh", "Mạch trầm khẩn"],
-    pdt: "Ôn kinh tán hàn, trừ thấp chỉ thống",
-    bt: "Can khương thương truật thang (Thận trước thang)",
-    tpbt: ["Can khương", "Thương truật", "Phục linh", "Cam thảo"]
-  },
-  "HC_BATCH2_014": {
-    hc: "Mất ngủ do Đờm thấp trở trệ",
-    phanloai: ["Thần Kinh / Tâm Thần", "Bình", "Thực", "Đàm thấp"],
-    tc: ["Trằn trọc khó ngủ, đầu nặng như bó", "Ngực bụng trướng đầy, nôn nao", "Rêu dầy dính trắng", "Mạch hoạt"],
-    pdt: "Táo thấp hóa đàm, hòa vị an thần",
-    bt: "Ôn đởm thang gia Trầm hương",
-    tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Chỉ thực", "Trúc nhự", "Trầm hương", "Cam thảo"]
-  },
-  "HC_BATCH2_015": {
-    hc: "Đau đầu do Can uất hỏa vượng",
-    phanloai: ["Đầu Mục", "Nhiệt", "Thực", "Can hỏa"],
-    tc: ["Đau giật hai bên thái dương", "Mắt đỏ, tai ù, miệng đắng", "Dễ giận cáu, sốt bứt rứt", "Mạch huyền sác"],
-    pdt: "Thanh can tả hỏa, thông lạc chỉ thống",
-    bt: "Long đởm tả can thang gia Cúc hoa",
-    tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Sài hồ", "Cúc hoa", "Xuyên khung", "Sinh địa"]
-  },
-  "HC_BATCH2_016": {
-    hc: "Rong kinh do Âm hư huyết nhiệt",
-    phanloai: ["Phụ Khoa", "Nhiệt", "Hư", "Âm hư huyết nhiệt"],
-    tc: ["Kinh nguyệt ra rỉ rả dai dẳng", "Sắc kinh đỏ tươi đặc", "Triều nhiệt, lòng bàn tay chân nóng", "Mạch tế sác"],
-    pdt: "Tư âm thanh nhiệt, cố kinh chỉ huyết",
-    bt: "Thanh hải hoán thai đan gia giảm",
-    tpbt: ["Thục địa", "Sinh địa", "Bạch thược", "Mẫu đơn bì", "Tri mẫu", "Hoàng bá", "A giao"]
-  },
-  "HC_BATCH2_017": {
-    hc: "Sản hậu đau bụng do Huyết ứ ngưng trệ",
-    phanloai: ["Sản Khoa", "Bình", "Thực", "Huyết ứ"],
-    tc: ["Sau sinh bụng dưới đau quặn cự án", "Sản dịch ra ít màu tím đen có cục", "Ra cục máu thì bớt đau", "Mạch sáp"],
-    pdt: "Hoạt huyết hóa ứ, ôn kinh chỉ thống",
-    bt: "Sanh hóa thang gia Hương phụ",
-    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Can khương", "Hương phụ", "Chích cam thảo"]
-  },
-  "HC_BATCH2_018": {
-    hc: "Mụn nhọt do Nhiệt độc nhập dinh huyết",
-    phanloai: ["Ngoại Khoa", "Nhiệt", "Thực", "Huyết nhiệt độc"],
-    tc: ["Mụn nhọt sưng to tấy đỏ dữ dội", "Sốt cao, bứt rứt, khát nước", "Lưỡi đỏ thẫm rêu vàng khô", "Mạch sác hữu lực"],
-    pdt: "Thanh nhiệt lương huyết, giải độc tiêu thũng",
-    bt: "Hoàng liên giải độc thang hợp Ngũ vị tiêu độc ẩm",
-    tpbt: ["Hoàng liên", "Hoàng cầm", "Hoàng bá", "Chi tử", "Kim ngân hoa", "Bồ công anh"]
-  },
-  "HC_BATCH2_019": {
-    hc: "Trĩ sưng đau do Khí trệ huyết ứ",
-    phanloai: ["Ngoại Khoa", "Bình", "Thực", "Khí trệ huyết ứ"],
-    tc: ["Búi trĩ sưng to, bầm tím, đau nhói", "Ấn vào rất đau, đại tiện khó", "Mạch sáp hoặc huyền"],
-    pdt: "Hành khí hoạt huyết, tiêu thũng chỉ thống",
-    bt: "Đào hồng tứ vật thang gia Mộc hương, Chỉ xác",
-    tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Bạch thược", "Thục địa", "Mộc hương", "Chỉ xác"]
-  },
-  "HC_BATCH2_020": {
-    hc: "Viêm mũi dị ứng do Tỳ Phế khí hư",
-    phanloai: ["Ngũ Quan", "Bình", "Hư", "Tỳ Phế khí hư"],
-    tc: ["Hắt hơi liên tục khi thời tiết đổi", "Chảy nước mũi trong loãng nhiều", "Mệt mỏi, ăn kém, phân lỏng", "Mạch hư hoãn"],
-    pdt: "Bổ tỳ ích phế, cố biểu thông khiếu",
-    bt: "Ngọc bình phong tán hợp Cửu vị khương hoạt tán",
-    tpbt: ["Hoàng kỳ", "Bạch truật", "Phòng phong", "Tân di hoa", "Bạch chỉ", "Đảng sâm"]
-  },
-  "HC_BATCH2_021": {
-    hc: "Viêm tai giữa do Can Đởm thấp nhiệt",
-    phanloai: ["Ngũ Quan", "Nhiệt", "Thực", "Thấp nhiệt"],
-    tc: ["Tai sưng đau nhói, chảy mủ đặc vàng hôi", "Sốt, miệng đắng, đau đầu", "Mạch huyền sác"],
-    pdt: "Thanh can lợi đởm, giải độc bài nùng",
-    bt: "Long đởm tả can thang gia Yến hoa, Cát cánh",
-    tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Trạch tả", "Kim ngân hoa", "Cát cánh", "Sài hồ"]
-  },
-  "HC_BATCH2_022": {
-    hc: "Liệt dây VII ngoại biên do Huyết ứ kinh lạc",
-    phanloai: ["Thần Kinh", "Bình", "Thực", "Huyết ứ"],
-    tc: ["Méo miệng lệch mắt sau chấn thương hoặc mổ", "Vùng sau tai có điểm đau nhói cố định", "Mạch sáp"],
-    pdt: "Hoạt huyết hóa ứ, thông kinh hoạt lạc",
-    bt: "Thông khiếu trục ứ thang gia Ngưu tất",
-    tpbt: ["Xuyên khung", "Xích thược", "Đào nhân", "Hồng hoa", "Thạch xương bồ", "Ngưu tất"]
-  },
-  "HC_BATCH2_023": {
-    hc: "Đau dây V do Phong nhiệt đàm hỏa",
-    phanloai: ["Thần Kinh", "Nhiệt", "Thực", "Phong nhiệt đàm hỏa"],
-    tc: ["Đau nhói vùng mặt như giật điện", "Mặt đỏ, nóng rát, đờm dãi dính", "Rêu vàng nhớt", "Mạch hoạt sác"],
-    pdt: "Khu phong thanh nhiệt, hóa đàm chỉ thống",
-    bt: "Thanh thượng thấu không tán gia Bán hạ, Nam tinh",
-    tpbt: ["Bạch chỉ", "Xuyên khung", "Phòng phong", "Cúc hoa", "Bán hạ", "Đởm nam tinh", "Hoàng cầm"]
-  },
-  "HC_BATCH2_024": {
-    hc: "Tê thắt lưng do Can Thận khí huyết hư",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Hư", "Can Thận Khí Huyết hư"],
-    tc: ["Đau mỏi thắt lưng gối dai dẳng", "Chân tay yếu mệt, teo cơ nhẹ", "Mặt nhợt, chóng mặt, tai ù", "Mạch trầm tế vô lực"],
-    pdt: "Bổ can thận, ích khí huyết, cường gân cốt",
-    bt: "Độc hoạt ký sinh thang gia Hoàng kỳ",
-    tpbt: ["Độc hoạt", "Tang ký sinh", "Đỗ trọng", "Ngưu tất", "Thục địa", "Đương quy", "Hoàng kỳ", "Đảng sâm"]
-  },
-  "HC_BATCH2_025": {
-    hc: "Trúng phong tạng phủ - Thoát chứng cấp",
-    phanloai: ["Thần Kinh", "Hàn", "Hư", "Vong dương"],
-    tc: ["Hôn mê, mắt nhắm miệng há", "Vã mồ hôi lạnh đầm đìa, tay chân lạnh ngắt", "Mạch vi vi muốn tuyệt"],
-    pdt: "Hồi dương cứu nghịch, đại bổ nguyên khí",
-    bt: "Sâm phụ thang hợp Tứ nghịch thang",
-    tpbt: ["Nhân sâm", "Phụ tử chế", "Can khương", "Chích cam thảo"]
-  }
-});
-// Bổ sung 50 hội chứng YHCT (HC_BATCH3_001 -> HC_BATCH3_050)
-
-Object.assign(window.database, {
-
-  
-  "HC_BATCH3_003": {
-    hc: "Phế Thận âm hư khái huyết",
-    phanloai: ["Tạng Phế & Tạng Thận", "Nhiệt", "Hư", "Phế Thận âm hư"],
-    tc: ["Ho khan kéo dài, đờm dính vệt máu tươi", "Gò má đỏ, triều nhiệt về chiều", "Lòng bàn tay chân nóng, đau lưng mỏi gối", "Mạch tế sác"],
-    pdt: "Tư âm nhuận phế, tư bổ thận thủy, chỉ huyết",
-    bt: "Bách hợp cố kim thang gia Bồ hoàng",
-    tpbt: ["Bách hợp", "Sinh địa", "Thục địa", "Mạch môn", "Huyền sâm", "Bối mẫu", "Cát cánh", "A giao", "Bồ hoàng"]
-  },
-  "HC_BATCH3_004": {
-    hc: "Tỳ Vị khí hư thấp nhiệt nội sinh",
-    phanloai: ["Tạng Tỳ & Phủ Vị", "Nhiệt", "Hư thực thác tạp", "Khí hư thấp nhiệt"],
-    tc: ["Thân thể mệt mỏi, gầy còm", "Bụng trướng đầy sau ăn, đại tiện nhão hôi", "Miệng đắng dính, rêu dầy nhớt", "Mạch nhu sác vô lực"],
-    pdt: "Kiện tỳ ích khí, thanh nhiệt trừ thấp",
-    bt: "Sâm linh bạch truật tán hợp Tam nhân thang gia giảm",
-    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Ý dĩ", "Bạch đậu khấu", "Bán hạ", "Cam thảo"]
-  },
-  "HC_BATCH3_005": {
-    hc: "Thận dương hư di niệu đái dầm",
-    phanloai: ["Tạng Thận", "Hàn", "Hư", "Dương hư bất cố"],
-    tc: ["Đi tiểu đêm nhiều lần, nước tiểu trong dài", "Đái dầm ở trẻ em hoặc tiểu rỉ rả ở người già", "Sợ lạnh, chân tay lạnh, thắt lưng mỏi lạnh", "Mạch trầm tế trì"],
-    pdt: "Ôn thận tráng dương, sáp niệu cố bản",
-    bt: "Sang phiêu tiêu tán hợp Củng đái hoàn",
-    tpbt: ["Tang phiêu tiêu", "Ích trí nhân", "Bổ cốt chỉ", "Thỏ ty tử", "Phụ tử chế", "Hoài sơn"]
-  },
-  "HC_BATCH3_006": {
-    hc: "Đàm nhiệt uất kết hung cách",
-    phanloai: ["Tạng Phế & Tạng Tâm", "Nhiệt", "Thực", "Đàm nhiệt uất kết"],
-    tc: ["Tức ngực bức bối, ho khạc đờm đặc vàng dính", "Tâm phiền bứt rứt, mất ngủ", "Cổ họng vướng đờm, khát nước", "Lưỡi đỏ rêu vàng nhớt", "Mạch hoạt sác"],
-    pdt: "Thanh nhiệt hóa đàm, khoan trung lý khí",
-    bt: "Tiểu sài hồ thang hợp Cùng ngực đàm nhiệt thang",
-    tpbt: ["Hoàng cầm", "Chi tử", "Bán hạ", "Trần bì", "Chỉ thực", "Trúc nhự", "Phục linh", "Bối mẫu"]
-  },
-  "HC_BATCH3_007": {
-    hc: "Phong hàn thấp tý trệ kinh lạc",
-    phanloai: ["Cơ Xương Khớp", "Hàn", "Thực", "Phong hàn thấp tý"],
-    tc: ["Các khớp đau nhức di chuyển hoặc cố định", "Gặp lạnh đau tăng, chườm ấm giảm", "Chân tay tê dại nặng nề", "Mạch phù khẩn hoặc nhu trì"],
-    pdt: "Khu phong tán hàn, trừ thấp thông lạc",
-    bt: "Độc hoạt ký sinh thang gia giảm",
-    tpbt: ["Độc hoạt", "Tang ký sinh", "Khương hoạt", "Phòng phong", "Tế tân", "Tần giao", "Xuyên khung", "Đương quy", "Ngưu tất"]
-  },
-  "HC_BATCH3_008": {
-    hc: "Can âm hư mắt khô mờ",
-    phanloai: ["Tạng Can", "Nhiệt", "Hư", "Can âm hư"],
-    tc: ["Mắt khô rát, nhìn mờ, hoa mắt", "Lòng bàn tay chân nóng nhẹ", "Móng tay khô xơ, hay cáu nhẹ", "Mạch tế sác"],
-    pdt: "Tư dưỡng can âm, nhuận mục chỉ thống",
-    bt: "Kỷ cúc địa hoàng hoàn gia Dạ minh cát",
-    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Kỷ tử", "Cúc hoa"]
-  },
-  "HC_BATCH3_009": {
-    hc: "Thấp nhiệt uẩn kết tràng vị tả hạ",
-    phanloai: ["Phủ Đại trường", "Nhiệt", "Thực", "Thấp nhiệt tả hạ"],
-    tc: ["Tiêu chảy phân vàng bắn tóe hôi thối", "Bụng đau quặn mót rặn, hậu môn nóng rát", "Tiểu ngắn đỏ, sốt nhẹ", "Rêu vàng nhớt", "Mạch nhu sác"],
-    pdt: "Thanh nhiệt lợi thấp, chỉ tả hóa trệ",
-    bt: "Bạch đầu ông thang hợp Cát căn hoàng liên hoàng bá thang",
-    tpbt: ["Bạch đầu ông", "Hoàng liên", "Hoàng bá", "Tần bì", "Cát căn", "Cam thảo"]
-  },
-  "HC_BATCH3_010": {
-    hc: "Vị hỏa thượng viêm đau răng sưng lợi",
-    phanloai: ["Phủ Vị", "Nhiệt", "Thực", "Vị hỏa thượng viêm"],
-    tc: ["Răng đau nhói, lợi sưng đỏ mủ", "Hơi thở hôi thối, khát nước uống lạnh", "Mặt sưng rát, đại tiện táo", "Mạch hoạt sác hữu lực"],
-    pdt: "Thanh vị tả hỏa, lương huyết tiêu thũng",
-    bt: "Thanh vị tán gia Bồ công anh",
-    tpbt: ["Hoàng liên", "Thăng ma", "Sinh địa", "Mẫu đơn bì", "Đương quy", "Bồ công anh"]
-  },
-  "HC_BATCH3_012": {
-    hc: "Tâm khí hư suy tâm quý hụt hơi",
-    phanloai: ["Tạng Tâm", "Bình", "Hư", "Tâm khí hư"],
-    tc: ["Hồi hộp trống ngực, thở ngắn hụt hơi", "Động làm triệu chứng tăng lên", "Mệt mỏi, tự hãn, sắc mặt nhợt", "Mạch hư nhược hoặc kết đại"],
-    pdt: "Ích khí dưỡng tâm, an thần định chí",
-    bt: "Chích cam thảo thang gia Hoàng kỳ",
-    tpbt: ["Chích cam thảo", "Nhân sâm", "Hoàng kỳ", "Sinh địa", "Quế chi", "A giao", "Mạch môn", "Đại táo"]
-  },
-  "HC_BATCH3_013": {
-    hc: "Tỳ dương hư trướng mãn tiêu lỏng",
-    phanloai: ["Tạng Tỳ", "Hàn", "Hư", "Tỳ dương hư"],
-    tc: ["Bụng trướng đau âm ỉ, thích chườm ấm", "Ăn kém không tiêu, tiêu chảy phân lỏng", "Tay chân lạnh, sợ lạnh", "Mạch trầm trì nhược"],
-    pdt: "Ôn trung kiện tỳ, tán hàn chỉ tả",
-    bt: "Lý trung hoàn gia Nhục quế",
-    tpbt: ["Đảng sâm", "Can khương", "Bạch truật", "Chích cam thảo", "Nhục quế"]
-  },
-  "HC_BATCH3_014": {
-    hc: "Phế âm hư ho khan lâu ngày",
-    phanloai: ["Tạng Phế", "Nhiệt", "Hư", "Phế âm hư"],
-    tc: ["Ho khan không đờm hoặc ít đờm dính", "Họng khô rát, giọng khàn", "Triều nhiệt, đạo hãn về chiều", "Mạch tế sác"],
-    pdt: "Tư âm nhuận phế, chỉ khái sinh tân",
-    bt: "Sa sâm mạch đông thang hợp Bách hợp cố kim thang",
-    tpbt: ["Sa sâm", "Mạch môn", "Ngọc trúc", "Bách hợp", "Bối mẫu", "Sinh địa", "Cam thảo"]
-  },
-  "HC_BATCH3_015": {
-    hc: "Thận khí bất cố hoạt tinh di tinh",
-    phanloai: ["Tạng Thận", "Bình", "Hư", "Thận khí hư"],
-    tc: ["Hoạt tinh, di tinh rỉ rả nhiều lần", "Thắt lưng mỏi yếu, tai ù", "Tiểu tiện rỉ rả không tự chủ", "Mạch trầm nhược"],
-    pdt: "Bổ thận ích khí, cố tinh sáp niệu",
-    bt: "Kim tỏa cố tinh hoàn gia Bổ cốt chỉ",
-    tpbt: ["Sa uyển tử", "Liên tu", "Khiếm thực", "Long cốt", "Mẫu lệ", "Bổ cốt chỉ"]
-  },
-  "HC_BATCH3_017": {
-    hc: "Bàng quang thấp nhiệt huyết lâm",
-    phanloai: ["Phủ Bàng quang", "Nhiệt", "Thực", "Thấp nhiệt huyết lâm"],
-    tc: ["Tiểu buốt dắt, nước tiểu đỏ lẫn máu tươi", "Bụng dưới trướng đau", "Sốt nhẹ, miệng khô khát", "Mạch hoạt sác"],
-    pdt: "Thanh nhiệt lợi thấp, lương huyết chỉ huyết",
-    bt: "Tiểu kế ẩm gia Mộc thông",
-    tpbt: ["Sinh địa", "Mộc thông", "Hoạt thạch", "Xa tiền tử", "Trắc bách diệp", "Tiểu kế", "Cam thảo"]
-  },
-  "HC_BATCH3_018": {
-    hc: "Khí huyết hư huyễn vựng chóng mặt",
-    phanloai: ["Đầu Mục", "Bình", "Hư", "Khí huyết hư"],
-    tc: ["Chóng mặt hoa mắt khi đứng dậy", "Sắc mặt nhợt nhạt, mệt mỏi hụt hơi", "Tâm quý, ngủ kém", "Mạch tế nhược vô lực"],
-    pdt: "Song bổ khí huyết, định vựng an thần",
-    bt: "Bát trân thang gia Hoàng kỳ, Viễn chí",
-    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Hoàng kỳ", "Viễn chí"]
-  },
-  "HC_BATCH3_019": {
-    hc: "Khí trệ huyết ứ đau thắt lưng",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Thực", "Khí trệ huyết ứ"],
-    tc: ["Đau thắt lưng dữ dội cố định như kim đâm", "Cúi ngửa khó khăn, điểm đau cự án", "Lưỡi tím hoặc có điểm ứ huyết", "Mạch sáp"],
-    pdt: "Hành khí hoạt huyết, hóa ứ thông lạc chỉ thống",
-    bt: "Thân thống trục ứ thang gia giảm",
-    tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Hương phụ", "Địa long"]
-  },
-  "HC_BATCH3_020": {
-    hc: "Can Vị bất hòa ợ chua trướng bụng",
-    phanloai: ["Tạng Can & Phủ Vị", "Bình", "Hư thực thác tạp", "Khí trệ Vị bất hòa"],
-    tc: ["Ngực sườn trướng đau, hay thở dài", "Thượng vị đau trướng, ợ chua ợ hơi", "Buồn nôn, ăn kém", "Mạch huyền"],
-    pdt: "Sơ can hòa vị, giáng nghịch chỉ thống",
-    bt: "Sài hồ sơ can tán hợp Tả kim hoàn",
-    tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Xuyên khung", "Trần bì", "Hoàng liên", "Ngô thù du", "Cam thảo"]
-  },
-  "HC_BATCH3_021": {
-    hc: "Đàm trọc nội nhiễu huyễn vựng quay mòng",
-    phanloai: ["Đầu Mục", "Bình", "Thực", "Đàm trọc"],
-    tc: ["Chóng mặt dữ dội quay mòng mòng, đầu nặng như bó", "Ngực bụng đầy trướng, nôn ra đờm dãi", "Thân thể nặng nề", "Rêu lưỡi trắng dầy nhớt", "Mạch hoạt"],
-    pdt: "Táo thấp hóa đàm, kiện tỳ hòa vị, định vựng",
-    bt: "Bán hạ bạch truật thiên ma thang",
-    tpbt: ["Bán hạ", "Bạch truật", "Thiên ma", "Phục linh", "Trần bì", "Cam thảo", "Sinh khương"]
-  },
-  "HC_BATCH3_022": {
-    hc: "Thử thấp phạm biểu sốt mùa hè",
-    phanloai: ["Ngoại cảm", "Nhiệt", "Thực", "Thử thấp"],
-    tc: ["Sốt cao về mùa hè, sợ lạnh nhẹ", "Thân thể nặng nề, đau đầu trướng", "Tâm phiền khát nước, tiểu đỏ", "Rêu dính vàng", "Mạch nhu sác"],
-    pdt: "Thanh thử giải nhiệt, hóa thấp giải biểu",
-    bt: "Tân gia hương nhu tính gia giảm",
-    tpbt: ["Hương nhu", "Bạch biển đậu", "Hậu phác", "Hoàng liên", "Tây qua bì"]
-  },
-  "HC_BATCH3_023": {
-    hc: "Phong nhiệt biểu chứng ho họng đau",
-    phanloai: ["Ngoại cảm", "Nhiệt", "Thực", "Phong nhiệt"],
-    tc: ["Sốt cao, sợ gió, đau họng sưng rát", "Ho đờm vàng dính, mũi chảy nước đặc", "Khát nước thích uống lạnh", "Mạch phù sác"],
-    pdt: "Sơ phong thanh nhiệt, tuyên phế giải biểu",
-    bt: "Ngân kiều tán hợp Tang cúc ẩm",
-    tpbt: ["Kim ngân hoa", "Liên kiều", "Cát cánh", "Bạc hà", "Tang diệp", "Cúc hoa", "Cam thảo"]
-  },
-  "HC_BATCH3_024": {
-    hc: "Hàn thấp khốn Tỳ tiêu chảy nặng",
-    phanloai: ["Tạng Tỳ", "Hàn", "Thực", "Hàn thấp"],
-    tc: ["Đi tiêu chảy phân lỏng như nước", "Bụng đau sôi ùng ục, thích ấm", "Thân thể mỏi nặng, miệng nhạt không khát", "Rêu trắng dính", "Mạch nhu trì"],
-    pdt: "Ôn trung tán hàn, hóa thấp chỉ tả",
-    bt: "Bình vị tán gia Can khương, Nhục quế",
-    tpbt: ["Thương truật", "Hậu phác", "Trần bì", "Can khương", "Nhục quế", "Cam thảo"]
-  },
-  "HC_BATCH3_025": {
-    hc: "Tâm Thận dương hư phù thũng nặng",
-    phanloai: ["Tạng Tâm & Tạng Thận", "Hàn", "Hư thực thác tạp", "Dương hư thủy trệ"],
-    tc: ["Phù thũng toàn thân ấn lõm sâu", "Hồi hộp khó thở dữ dội khi nằm", "Sợ lạnh, tay chân lạnh ngắt, tiểu ít", "Mạch trầm tế vi"],
-    pdt: "Ôn thông tâm thận, hóa khí lợi thủy",
-    bt: "Chân vũ thang hợp Bảo nguyên thang gia giảm",
-    tpbt: ["Phụ tử chế", "Bạch truật", "Phục linh", "Bạch thược", "Nhân sâm", "Nhục quế", "Sinh khương"]
-  },
-  "HC_BATCH3_026": {
-    hc: "Can hỏa phạm Phế ho ra máu",
-    phanloai: ["Tạng Can & Tạng Phế", "Nhiệt", "Thực", "Can hỏa phạm Phế"],
-    tc: ["Ho ngực sườn đau rát, ho ra máu tươi", "Mặt đỏ, miệng đắng họng khô", "Dễ giận dữ, sốt bứt rứt", "Mạch huyền sác"],
-    pdt: "Thanh can tả hỏa, thanh phế chỉ huyết",
-    bt: "Thanh kim hóa đàm thang gia Bồ hoàng, Mẫu đơn bì",
-    tpbt: ["Hoàng cầm", "Chi tử", "Tang bạch bì", "Bối mẫu", "Mạch môn", "Bồ hoàng", "Mẫu đơn bì"]
-  },
-  "HC_BATCH3_027": {
-    hc: "Vệ khí hư yếu tự hãn vã mồ hôi",
-    phanloai: ["Toàn thân", "Bình", "Hư", "Vệ khí hư"],
-    tc: ["Tự hãn mồ hôi tự chảy ra bất kể ngày đêm", "Vận động nhẹ mồ hôi ra đầm đìa", "Sợ gió dễ cảm mạo, mệt mỏi", "Mạch hư nhược"],
-    pdt: "Ích khí cố biểu, liễm hãn",
-    bt: "Ngọc bình phong tán gia Mẫu lệ",
-    tpbt: ["Hoàng kỳ", "Bạch truật", "Phòng phong", "Mẫu lệ"]
-  },
-  
-  "HC_BATCH3_029": {
-    hc: "Nhiệt nhập dinh huyết ban chẩn xuất huyết",
-    phanloai: ["Vệ Khí Dinh Huyết", "Nhiệt", "Thực", "Huyết phận nhiệt độc"],
-    tc: ["Sốt cao nội nhiệt về đêm", "Nổi ban chẩn tím đỏ trên da", "Nôn ra máu, chảy máu cam", "Cuồng loạn, lưỡi đỏ thẫm", "Mạch tế sác hữu lực"],
-    pdt: "Thanh nhiệt lương huyết, giải độc tán ứ",
-    bt: "Tê giác địa hoàng thang gia giảm",
-    tpbt: ["Thủy ngưu giác", "Sinh địa", "Xích thược", "Đan bì", "Kim ngân hoa"]
-  },
-  
-  
-  
-  "HC_BATCH3_033": {
-    hc: "Đàm mê tâm khiếu điên chứng trầm cảm",
-    phanloai: ["Thần Kinh", "Bình", "Thực", "Đàm trọc"],
-    tc: ["Tinh thần trầm uất, đần độn ngơ ngác", "Thích ở một mình, cười khóc bất thường", "Nói lảm nhảm, rêu dầy nhớt", "Mạch hoạt nhu"],
-    pdt: "Thuận khí hóa đàm, thanh tâm khai khiếu",
-    bt: "Thuận khí đạo đàm thang gia Thạch xương bồ",
-    tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Chỉ thực", "Nam tinh", "Thạch xương bồ", "Mộc hương"]
-  },
-  "HC_BATCH3_034": {
-    hc: "Phong hàn phạm Phế hen suyễn thở gấp",
-    phanloai: ["Tạng Phế", "Hàn", "Thực", "Phong hàn đàm ẩm"],
-    tc: ["Ho hen thở gấp, ngực trướng đầy", "Đờm trắng loãng bọt dễ khạc", "Sợ lạnh, sốt nhẹ, không mồ hôi", "Mạch phù khẩn"],
-    pdt: "Giải biểu tán hàn, ôn phế hóa ẩm bình suyễn",
-    bt: "Tiểu thanh long thang",
-    tpbt: ["Ma hoàng", "Quế chi", "Tế tân", "Can khương", "Bán hạ", "Ngũ vị tử", "Bạch thược", "Chích cam thảo"]
-  },
-  
-  "HC_BATCH3_036": {
-    hc: "Hàn thấp uẩn kết âm hoàng vàng tối",
-    phanloai: ["Tạng Tỳ", "Hàn", "Hư thực thác tạp", "Thấp hàn âm hoàng"],
-    tc: ["Da và mắt vàng tối u ám", "Sợ lạnh, tay chân lạnh ngắt", "Ăn kém, bụng trướng, tiêu chảy", "Mạch trầm trì hoãn"],
-    pdt: "Ôn trung tán hàn, kiện tỳ trừ thấp thoái hoàng",
-    bt: "Nhân trần phụ tử thang",
-    tpbt: ["Nhân trần", "Phụ tử chế", "Can khương", "Bạch truật", "Phục linh", "Cam thảo"]
-  },
-  
-  "HC_BATCH3_038": {
-    hc: "Huyết ứ bào cung bế kinh ra cục",
-    phanloai: ["Phụ Khoa", "Bình", "Thực", "Huyết ứ bào cung"],
-    tc: ["Bế kinh hoặc kinh nguyệt ít ra cục màu tím đen", "Bụng dưới đau quặn cự án", "Lưỡi tím sẫm có điểm ứ huyết", "Mạch trầm sáp"],
-    pdt: "Hoạt huyết hóa ứ, thông kinh chỉ thống",
-    bt: "Sanh hóa thang hợp Cách hạ trục ứ thang",
-    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Chỉ xác", "Hương phụ", "Can khương", "Cam thảo"]
-  },
-  "HC_BATCH3_039": {
-    hc: "Thấp nhiệt đới hạ khí hư vàng hôi",
-    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Thấp nhiệt đới hạ"],
-    tc: ["Khí hư ra nhiều màu vàng xanh, đặc hôi", "Âm hộ nóng rát ngứa ngáy", "Tiểu dắt buốt, tiểu đỏ", "Rêu vàng nhớt", "Mạch nhu sác"],
-    pdt: "Thanh nhiệt táo thấp, chỉ đới giải độc",
-    bt: "Chỉ đới thang gia Hoàng bá, Tri mẫu",
-    tpbt: ["Hoàng bá", "Tri mẫu", "Trúc nhự", "Phục linh", "Trạch tả", "Xa tiền tử"]
-  },
-  "HC_BATCH3_041": {
-    hc: "Liệt dương do Thận dương hư suy nặng",
-    phanloai: ["Nam Khoa", "Hàn", "Hư", "Dương hư suy"],
-    tc: ["Dương vật không cương cứng, mất ham muốn", "Sợ lạnh, tay chân lạnh ngắt, đau lưng", "Tiểu đêm nhiều, mệt mỏi", "Mạch trầm tế vi"],
-    pdt: "Ôn bổ thận dương, tráng dương khởi uất",
-    bt: "Hữu quy hoàn gia Dâm dương hoắc, Ba kích",
-    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Dâm dương hoắc", "Ba kích", "Đỗ trọng"]
-  },
-  "HC_BATCH3_042": {
-    hc: "Thoái sán tinh hoàn sưng đau do hàn",
-    phanloai: ["Nam Khoa", "Hàn", "Thực", "Hàn trệ can mạch"],
-    tc: ["Tinh hoàn đau co rút lan lên bụng dưới", "Gặp lạnh đau tăng, chườm ấm bớt đau", "Bì bìu lạnh rét", "Mạch trầm khẩn"],
-    pdt: "Ôn kinh tán hàn, noãn can chỉ thống",
-    bt: "Noãn can tiễn gia Ngô thù du",
-    tpbt: ["Tiểu hồi hương", "Nhục quế", "Đương quy", "Ô dược", "Trầm hương", "Ngô thù du", "Phục linh"]
-  },
-  "HC_BATCH3_043": {
-    hc: "Tỵ uyên viêm xoang do Phế nhiệt",
-    phanloai: ["Ngũ Quan", "Nhiệt", "Thực", "Phế nhiệt"],
-    tc: ["Mũi chảy nước đặc vàng hôi", "Đau trướng vùng trán và hốc mắt", "Nghẹt mũi, sốt nhẹ, sợ gió", "Mạch phù sác"],
-    pdt: "Thanh phế tả nhiệt, thông khiếu chỉ thống",
-    bt: "Tân di tán gia Kim ngân hoa, Ké đầu ngựa",
-    tpbt: ["Tân di hoa", "Bạch chỉ", "Thăng ma", "Phòng phong", "Cát cánh", "Kim ngân hoa", "Thương nhĩ tử"]
-  },
-  
-  "HC_BATCH3_045": {
-    hc: "Khẩu sang loét miệng do Vị nhiệt",
-    phanloai: ["Ngũ Quan", "Nhiệt", "Thực", "Vị hỏa tích nhiệt"],
-    tc: ["Niêm mạc miệng lưỡi nổi vết loét sưng đỏ đau", "Hơi thở hôi, chân răng rát", "Khát nước uống lạnh, táo bón", "Mạch sác hữu lực"],
-    pdt: "Thanh tỳ tả vị, giải độc tiêu thũng",
-    bt: "Tả tỳ tán hợp Thanh vị tán",
-    tpbt: ["Hoàng liên", "Hoàng cầm", "Thạch cao", "Thăng ma", "Mẫu đơn bì", "Phòng phong", "Cam thảo"]
-  },
-  "HC_BATCH3_046": {
-    hc: "Zona thần kinh Can Đởm hỏa thịnh",
-    phanloai: ["Ngoại Khoa", "Nhiệt", "Thực", "Can Đởm hỏa độc"],
-    tc: ["Mụn nước mọc thành chùm dọc dây thần kinh", "Nóng rát đau nhói dữ dội như lửa đốt", "Mặt đỏ, miệng đắng, bứt rứt", "Mạch huyền sác"],
-    pdt: "Thanh can tả hỏa, giải độc chỉ thống",
-    bt: "Long đởm tả can thang gia Kim ngân hoa",
-    tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Trạch tả", "Sài hồ", "Sinh địa", "Kim ngân hoa"]
-  },
-  "HC_BATCH3_047": {
-    hc: "Mụn nhọt do hỏa độc uẩn kết",
-    phanloai: ["Ngoại Khoa", "Nhiệt", "Thực", "Hỏa độc uẩn kết"],
-    tc: ["Mụn nhọt sưng nóng đỏ đau dữ dội", "Cục cứng mau hóa mủ", "Sốt nhẹ, nước tiểu vàng", "Mạch sác hữu lực"],
-    pdt: "Thanh nhiệt giải độc, tiêu thũng bài nùng",
-    bt: "Ngũ vị tiêu độc ẩm gia Giáp sơn",
-    tpbt: ["Kim ngân hoa", "Cúc hoa", "Bồ công anh", "Tử hoa địa đinh", "Tử bối thiên quỳ"]
-  },
-  "HC_BATCH3_048": {
-    hc: "Trĩ sưng đau do thấp nhiệt hạ chú",
-    phanloai: ["Ngoại Khoa", "Nhiệt", "Thực", "Thấp nhiệt hạ chú"],
-    tc: ["Búi trĩ sưng đau nóng rát", "Đại tiện ra máu tươi", "Hậu môn ngứa ngáy chảy nước", "Mạch nhu sác"],
-    pdt: "Thanh nhiệt lợi thấp, lương huyết chỉ huyết",
-    bt: "Chỉ thang tán gia Hoàng bá, Hòe hoa",
-    tpbt: ["Hoàng liên", "Hoàng bá", "Đại hoàng", "Trắc bách diệp", "Hòe hoa", "Đương quy"]
-  },
-  "HC_BATCH3_049": {
-    hc: "Tọa cốt phong đau thắt lưng do Can Thận hư",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Hư", "Can Thận hư"],
-    tc: ["Đau dây thần kinh tọa dai dẳng lâu ngày", "Chân tay teo cơ nhẹ, yếu sức", "Đau lưng mỏi gối, tai ù", "Mạch trầm tế nhược"],
-    pdt: "Bổ can thận, cường gân cốt, thông kinh lạc",
-    bt: "Bổ thận tráng cốt hoàn hợp Độc hoạt ký sinh thang",
-    tpbt: ["Thục địa", "Đỗ trọng", "Cốt toái bổ", "Tục đoạn", "Ngưu tất", "Độc hoạt", "Tang ký sinh"]
-  },
-  "HC_BATCH3_050": {
-    hc: "Khuyết chứng tê liệt chân tay do Tỳ hư",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Hư", "Tỳ hư không vận hóa"],
-    tc: ["Chân tay mềm yếu lâu ngày không lực", "Teo cơ nhẹ, ăn uống kém", "Mệt mỏi hụt hơi, sắc mặt nhợt", "Mạch hoãn nhược"],
-    pdt: "Kiện tỳ ích khí, dưỡng gân trác cốt",
-    bt: "Sâm linh bạch truật tán gia Hoàng kỳ, Ngưu tất",
-    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Ý dĩ", "Hoàng kỳ", "Ngưu tất", "Cam thảo"]
-  }
-});
-// Bổ sung đợt 4 (Nâng tổng số hội chứng lên 500+)
-Object.assign(window.database, {
-  "HC_BATCH4_001": {
-    hc: "Can khí uất trệ kiêm đàm trọc",
-    phanloai: ["Tạng Can", "Bình", "Thực", "Khí trệ đàm trọc"],
-    tc: ["Ngực sườn trướng đau", "Họng vướng đờm", "Hay thở dài", "Mạch huyền hoạt"],
-    pdt: "Sơ can giải uất, hóa đàm giáng nghịch",
-    bt: "Bán hạ hậu phác thang hợp Sài hồ sơ can tán",
-    tpbt: ["Sài hồ", "Bạch thược", "Bán hạ", "Hậu phác", "Phục linh", "Sinh khương", "Tô diệp"]
-  },
-  "HC_BATCH4_002": {
-    hc: "Can hỏa bốc kiêm phong nhiệt đầu mục",
-    phanloai: ["Tạng Can / Đầu Mặt", "Nhiệt", "Thực", "Can hỏa phong nhiệt"],
-    tc: ["Đau đầu dữ dội", "Mắt đỏ sưng rát", "Miệng đắng họng khô", "Mạch huyền sác"],
-    pdt: "Thanh can tả hỏa, khu phong minh mục",
-    bt: "Long đởm tả can thang gia Cúc hoa, Mạn kinh tử",
-    tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Cúc hoa", "Mạn kinh tử", "Sài hồ", "Sinh địa"]
-  },
-  "HC_BATCH4_003": {
-    hc: "Can Tỳ uất nhiệt kiêm thấp trệ",
-    phanloai: ["Tạng Can & Tạng Tỳ", "Nhiệt", "Hư thực thác tạp", "Thấp nhiệt uất kết"],
-    tc: ["Bụng trướng đầy", "Miệng đắng dính", "Đại tiện nhão hôi", "Mạch nhu sác"],
-    pdt: "Sơ can kiện tỳ, thanh nhiệt hóa thấp",
-    bt: "Tiêu dao tán hợp Tam nhân thang gia giảm",
-    tpbt: ["Sài hồ", "Bạch truật", "Phục linh", "Bán hạ", "Bạch đậu khấu", "Ý dĩ", "Cam thảo"]
-  },
-  "HC_BATCH4_004": {
-    hc: "Can Thận âm hư kiêm huyết ứ kinh lạc",
-    phanloai: ["Tạng Can & Tạng Thận", "Nhiệt", "Hư thực thác tạp", "Âm hư huyết ứ"],
-    tc: ["Đau lưng mỏi gối cố định", "Tai ù mắt mờ", "Triều nhiệt đạo hãn", "Mạch tế sáp"],
-    pdt: "Tư bổ can thận, hoạt huyết thông lạc",
-    bt: "Kỷ cúc địa hoàng hoàn hợp Đào hồng tứ vật thang",
-    tpbt: ["Thục địa", "Sơn thù nhục", "Kỷ tử", "Cúc hoa", "Đào nhân", "Hồng hoa", "Đương quy"]
-  },
-  "HC_BATCH4_005": {
-    hc: "Tâm huyết ứ trở kiêm khí hư hụt hơi",
-    phanloai: ["Tạng Tâm", "Bình", "Hư thực thác tạp", "Khí hư huyết ứ"],
-    tc: ["Đau nhói vùng tim", "Hồi hộp hụt hơi", "Môi móng tím nhợt", "Mạch tế sáp"],
-    pdt: "Ích khí dưỡng tâm, hoạt huyết hóa ứ",
-    bt: "Bổ dương hoàn ngũ thang hợp Huyết phủ trục ứ thang",
-    tpbt: ["Hoàng kỳ", "Đương quy", "Đào nhân", "Hồng hoa", "Xuyên khung", "Đan sâm"]
-  },
-  "HC_BATCH4_006": {
-    hc: "Tâm Thận bất giao kiêm đàm nhiệt nhiễu tâm",
-    phanloai: ["Tạng Tâm & Tạng Thận", "Nhiệt", "Hư thực thác tạp", "Đàm nhiệt âm hư"],
-    tc: ["Mất ngủ trằn trọc", "Đờm dính cổ họng", "Lòng bàn tay chân nóng", "Mạch tế hoạt sác"],
-    pdt: "Tư âm giáng hỏa, thanh tâm hóa đàm an thần",
-    bt: "Hoàng liên A giao thang hợp Hoàng liên ôn đởm thang",
-    tpbt: ["Hoàng liên", "A giao", "Bán hạ", "Trúc nhự", "Chỉ thực", "Toan táo nhân"]
-  },
-  "HC_BATCH4_007": {
-    hc: "Tỳ Vị hư hàn kiêm thực tích trệ",
-    phanloai: ["Tạng Tỳ & Phủ Vị", "Hàn", "Hư thực thác tạp", "Hư hàn thực tích"],
-    tc: ["Bụng trướng đau thích ấm", "Ợ chua nôn ra thức ăn cũ", "Tay chân lạnh", "Mạch trầm trì hoãn"],
-    pdt: "Ôn trung kiện tỳ, tiêu thực đạo trệ",
-    bt: "Lý trung hoàn hợp Bảo hòa hoàn gia giảm",
-    tpbt: ["Đảng sâm", "Bạch truật", "Can khương", "Sơn tra", "Thần khúc", "Trần bì", "Cam thảo"]
-  },
-  "HC_BATCH4_008": {
-    hc: "Tỳ hư thấp thịnh kiêm khí trệ trướng mãn",
-    phanloai: ["Tạng Tỳ", "Bình", "Hư thực thác tạp", "Tỳ hư thấp trệ"],
-    tc: ["Bụng trướng căng sau ăn", "Đại tiện lỏng nát", "Thân thể nặng nề", "Mạch nhu hoãn"],
-    pdt: "Kiện tỳ mẫn thấp, hành khí tiêu trướng",
-    bt: "Sâm linh bạch truật tán hợp Bình vị tán",
-    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Thương truật", "Hậu phác", "Trần bì", "Cam thảo"]
-  },
-  "HC_BATCH4_009": {
-    hc: "Phế Phế khí âm lưỡng hư kiêm ho hen",
-    phanloai: ["Tạng Phế", "Nhiệt", "Hư", "Khí âm lưỡng hư"],
-    tc: ["Ho khan hoặc ít đờm", "Mệt mỏi hụt hơi", "Gò má đỏ, mồ hôi trộm", "Mạch tế nhược sác"],
-    pdt: "Bổ phế ích khí, dưỡng âm sinh tân",
-    bt: "Sinh mạch tán hợp Bổ phế thang",
-    tpbt: ["Nhân sâm", "Hoàng kỳ", "Mạch môn", "Ngũ vị tử", "Thục địa", "Tang bạch bì"]
-  },
-  "HC_BATCH4_010": {
-    hc: "Phế Thận khí hư kiêm đàm ẩm đình lưu",
-    phanloai: ["Tạng Phế & Tạng Thận", "Hàn", "Hư thực thác tạp", "Khí hư đàm ẩm"],
-    tc: ["Ho hen thở gấp khi vận động", "Đờm trắng loãng bọt", "Thắt lưng lạnh mỏi", "Mạch trầm tế nhược"],
-    pdt: "Bổ phế nạp thận, ôn hóa đàm ẩm",
-    bt: "Thất vị đô khí hoàn hợp Linh cam ngũ vị khương tân thang",
-    tpbt: ["Thục địa", "Sơn thù", "Phục linh", "Can khương", "Tế tân", "Ngũ vị tử"]
-  },
-  "HC_BATCH4_011": {
-    hc: "Thận dương hư kiêm thủy khí lăng tâm",
-    phanloai: ["Tạng Thận & Tạng Tâm", "Hàn", "Hư thực thác tạp", "Dương hư thủy ứ"],
-    tc: ["Tâm quý ho hen", "Toàn thân phù nặng", "Tay chân lạnh ngắt", "Mạch trầm vi tế"],
-    pdt: "Ôn thận trợ dương, hóa khí lợi thủy",
-    bt: "Chân vũ thang gia Mộc thông, Quế chi",
-    tpbt: ["Phụ tử chế", "Bạch truật", "Phục linh", "Bạch thược", "Quế chi", "Mộc thông"]
-  },
-  "HC_BATCH4_012": {
-    hc: "Thận tinh bất túc kiêm can huyết khuy tổn",
-    phanloai: ["Tạng Thận & Tạng Can", "Bình", "Hư", "Tinh huyết khuy tổn"],
-    tc: ["Đầu óc đần độn hay quên", "Tóc bạc sớm, móng khô nhợt", "Chân gối yếu mềm", "Mạch tế vô lực"],
-    pdt: "Bổ thận điền tinh, dưỡng huyết bổ não",
-    bt: "Tả quy hoàn hợp Tứ vật thang",
-    tpbt: ["Thục địa", "Sơn thù", "Kỷ tử", "Thỏ ty tử", "Đương quy", "Bạch thược", "Xuyên khung"]
-  },
-  "HC_BATCH4_013": {
-    hc: "Đại tràng thấp nhiệt kiêm khí trệ quặn bụng",
-    phanloai: ["Phủ Đại trường", "Nhiệt", "Thực", "Thấp nhiệt khí trệ"],
-    tc: ["Đau bụng quặn mót rặn", "Đại tiện ra máu mủ nhầy", "Hậu môn nóng rát", "Mạch hoạt sác"],
-    pdt: "Thanh nhiệt trừ thấp, hành khí hóa trệ",
-    bt: "Bạch đầu ông thang gia Mộc hương, Chỉ xác",
-    tpbt: ["Bạch đầu ông", "Hoàng liên", "Hoàng bá", "Tần bì", "Mộc hương", "Chỉ xác"]
-  },
-  "HC_BATCH4_014": {
-    hc: "Đại tràng hư hàn kiêm trĩ nội sa",
-    phanloai: ["Phủ Đại trường", "Hàn", "Hư", "Hư hàn hạ hãm"],
-    tc: ["Đại tiện lỏng dai dẳng", "Trĩ nội sa ra ngoài", "Sợ lạnh, mệt mỏi hụt hơi", "Mạch trầm nhược"],
-    pdt: "Ôn tràng cố sáp, bổ khí thăng đề",
-    bt: "Bổ trung ích khí thang gia Kha tử, Anh túc xác",
-    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Thăng ma", "Sài hồ", "Kha tử"]
-  },
-  "HC_BATCH4_015": {
-    hc: "Bàng quang thấp nhiệt kiêm thạch lâm sỏi",
-    phanloai: ["Phủ Bàng quang", "Nhiệt", "Thực", "Thấp nhiệt thạch lâm"],
-    tc: ["Tiểu buốt ngắt quãng", "Đau quặn thắt lưng lan bẹn", "Nước tiểu đục đỏ ra sỏi", "Mạch hoạt sác"],
-    pdt: "Thanh nhiệt lợi thấp, thông lâm bài thạch",
-    bt: "Tam kim thang hợp Bát chính tán",
-    tpbt: ["Kim tiền thảo", "Hải kim sa", "Kê nội kim", "Xa tiền tử", "Mộc thông", "Chi tử"]
-  },
-  "HC_BATCH4_016": {
-    hc: "Bàng quang khí hư kiêm tiểu đêm di niệu",
-    phanloai: ["Phủ Bàng quang", "Bình", "Hư", "Khí hư bất cố"],
-    tc: ["Tiểu đêm nhiều lần", "Tiểu rỉ rả không tự chủ", "Nước tiểu trong dài", "Mạch trầm nhược"],
-    pdt: "Ôn thận bổ bàng quang, sáp niệu",
-    bt: "Tang phiêu tiêu tán gia Bổ cốt chỉ",
-    tpbt: ["Tang phiêu tiêu", "Viễn chí", "Long cốt", "Mẫu lệ", "Bổ cốt chỉ", "Ích trí nhân"]
-  },
-  "HC_BATCH4_017": {
-    hc: "Khí huyết lưỡng hư kiêm đàm trệ kinh lạc",
-    phanloai: ["Khí Huyết Tân Dịch", "Bình", "Hư thực thác tạp", "Khí huyết hư đàm trệ"],
-    tc: ["Tê dại tay chân", "Sắc mặt nhợt mệt mỏi", "Hoa mắt chóng mặt", "Mạch tế hoãn"],
-    pdt: "Bổ khí dưỡng huyết, hóa đàm thông lạc",
-    bt: "Bát trân thang gia Bán hạ, Trần bì, Khương hoàng",
-    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Thục địa", "Đương quy", "Bán hạ", "Khương hoàng"]
-  },
-  "HC_BATCH4_018": {
-    hc: "Khí trệ huyết ứ kiêm hàn ngưng trệ",
-    phanloai: ["Khí Huyết Tân Dịch", "Hàn", "Thực", "Hàn trệ huyết ứ"],
-    tc: ["Đau nhói cố định gặp lạnh đau tăng", "Sợ lạnh tay chân lạnh", "Lưỡi tím xám", "Mạch trầm sáp khẩn"],
-    pdt: "Ôn kinh tán hàn, hoạt huyết hóa ứ",
-    bt: "Cách hạ trục ứ thang gia Nhục quế, Can khương",
-    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Nhục quế", "Can khương"]
-  },
-  "HC_BATCH4_019": {
-    hc: "Phong hàn biểu chứng kiêm thấp đau mỏi",
-    phanloai: ["Ngoại cảm", "Hàn", "Thực", "Phong hàn thấp"],
-    tc: ["Sợ lạnh sốt nhẹ không mồ hôi", "Đau mỏi toàn thân các khớp", "Nghẹt mũi chảy nước trong", "Mạch phù khẩn"],
-    pdt: "Tán hàn khu phong, trừ thấp giải biểu",
-    bt: "Cửu vị khương hoạt tán",
-    tpbt: ["Khương hoạt", "Phòng phong", "Tế tân", "Thương truật", "Bạch chỉ", "Xuyên khung", "Cam thảo"]
-  },
-  "HC_BATCH4_020": {
-    hc: "Phong nhiệt biểu chứng kiêm độc sưng họng",
-    phanloai: ["Ngoại cảm", "Nhiệt", "Thực", "Phong nhiệt hỏa độc"],
-    tc: ["Sốt cao sợ gió", "Họng sưng đỏ đau nuốt khó", "Mũi chảy nước đặc vàng", "Mạch phù sác"],
-    pdt: "Sơ phong thanh nhiệt, giải độc lợi họng",
-    bt: "Ngân kiều tán gia Ngưu bàng tử, Mạn kinh tử",
-    tpbt: ["Kim ngân hoa", "Liên kiều", "Cát cánh", "Bạc hà", "Ngưu bàng tử", "Mạn kinh tử"]
-  },
-  "HC_BATCH4_021": {
-    hc: "Thái dương thương hàn kiêm đàm ẩm hen suyễn",
-    phanloai: ["Lục Kinh - Thái Dương", "Hàn", "Thực", "Phong hàn đàm ẩm"],
-    tc: ["Sợ lạnh không mồ hôi", "Ho hen thở gấp ngực trướng", "Đờm trắng loãng bọt", "Mạch phù khẩn"],
-    pdt: "Giải biểu tán hàn, ôn phế hóa ẩm bình suyễn",
-    bt: "Tiểu thanh long thang",
-    tpbt: ["Ma hoàng", "Quế chi", "Tế tân", "Can khương", "Bán hạ", "Ngũ vị tử", "Chích cam thảo"]
-  },
-  "HC_BATCH4_022": {
-    hc: "Dương minh kinh chứng kiêm táo nhiệt đại khát",
-    phanloai: ["Lục Kinh - Dương Minh", "Nhiệt", "Thực", "Nhiệt thịnh thương tân"],
-    tc: ["Sốt cao sợ nhiệt", "Vã mồ hôi nhiều", "Đại khát thích uống lạnh", "Mạch hồng đại sác"],
-    pdt: "Thanh nhiệt tả hỏa, sinh tân chỉ khát",
-    bt: "Bạch hổ thang gia Thiên hoa phấn",
-    tpbt: ["Tri mẫu", "Thạch cao", "Cam thảo", "Ngạnh mễ", "Thiên hoa phấn"]
-  },
-  "HC_BATCH4_023": {
-    hc: "Thiếu dương bệnh kiêm tỳ hư ăn kém",
-    phanloai: ["Lục Kinh - Thiếu Dương", "Hàn nhiệt thác tạp", "Hư thực thác tạp", "Bán biểu bán lý Tỳ hư"],
-    tc: ["Hàn nhiệt qua lại", "Miệng đắng họng khô", "Bụng trướng ăn kém tiêu chảy", "Mạch huyền hoãn"],
-    pdt: "Hòa giải thiếu dương, kiện tỳ hòa vị",
-    bt: "Tiểu sài hồ thang hợp Tứ quân tử thang",
-    tpbt: ["Sài hồ", "Hoàng cầm", "Bán hạ", "Nhân sâm", "Bạch truật", "Phục linh", "Cam thảo"]
-  },
-  "HC_BATCH4_024": {
-    hc: "Thái âm bệnh kiêm hàn thấp bụng đau",
-    phanloai: ["Lục Kinh - Thái Âm", "Hàn", "Hư thực thác tạp", "Tỳ hư hàn thấp"],
-    tc: ["Bụng trướng đau thích ấm", "Tiêu chảy phân lỏng", "Nôn mửa nhạt miệng", "Mạch trầm trì hoãn"],
-    pdt: "Ôn trung tán hàn, mẫn thấp chỉ tả",
-    bt: "Lý trung hoàn hợp Bình vị tán",
-    tpbt: ["Nhân sâm", "Can khương", "Bạch truật", "Thương truật", "Hậu phác", "Cam thảo"]
-  },
-  
-  "HC_BATCH4_026": {
-    hc: "Thiếu âm hàn hóa kiêm vong dương quyết lạnh",
-    phanloai: ["Lục Kinh - Thiếu Âm", "Hàn", "Hư suy", "Dương hư nguy cấp"],
-    tc: ["Tinh thần mệt mỏi thích nằm", "Tay chân lạnh ngắt quá gối", "Mồ hôi lạnh vã ra", "Mạch vi tế muốn tuyệt"],
-    pdt: "Hồi dương cứu nghịch, cố thoát",
-    bt: "Tứ nghịch thang hợp Sâm phụ thang",
-    tpbt: ["Phụ tử chế", "Can khương", "Nhân sâm", "Chích cam thảo"]
-  },
-  "HC_BATCH4_027": {
-    hc: "Quyết âm bệnh kiêm thượng nhiệt hạ hàn",
-    phanloai: ["Lục Kinh - Quyết Âm", "Hàn nhiệt thác tạp", "Hư thực thác tạp", "Thượng nhiệt hạ hàn"],
-    tc: ["Khát nước đau rát ngực", "Bụng đói không muốn ăn nôn ra giun", "Tay chân lạnh", "Mạch trầm huyền"],
-    pdt: "Ôn hạ thanh thượng, khu trùng chỉ thống",
-    bt: "Ô mai hoàn",
-    tpbt: ["Ô mai", "Tế tân", "Can khương", "Phụ tử", "Đương quy", "Hoàng liên", "Hoàng bá"]
-  },
-  "HC_BATCH4_028": {
-    hc: "Vệ phận phong nhiệt kiêm ho ngứa họng",
-    phanloai: ["Vệ Khí Dinh Huyết", "Nhiệt", "Thực", "Vệ phân phong nhiệt"],
-    tc: ["Sốt sợ gió sợ lạnh nhẹ", "Ho ngứa họng đau đầu", "Mũi chảy nước đặc", "Mạch phù sác"],
-    pdt: "Thanh nhiệt giải biểu, tuyên phế chỉ khái",
-    bt: "Tang cúc ẩm hợp Ngân kiều tán",
-    tpbt: ["Tang diệp", "Cúc hoa", "Kim ngân hoa", "Liên kiều", "Cát cánh", "Cam thảo"]
-  },
-  "HC_BATCH4_029": {
-    hc: "Khí phận nhiệt thịnh kiêm táo kết đại tiện",
-    phanloai: ["Vệ Khí Dinh Huyết", "Nhiệt", "Thực", "Khí phân táo nhiệt"],
-    tc: ["Sốt cao triều nhiệt về chiều", "Bụng trướng đau cứng cự án", "Táo bón lâu ngày", "Mạch trầm thực sác"],
-    pdt: "Thanh khí tả hạ, thông phủ tiêu tích",
-    bt: "Đại thừa khí thang hợp Bạch hổ thang",
-    tpbt: ["Thạch cao", "Tri mẫu", "Đại hoàng", "Mang tiêu", "Hậu phác", "Chỉ thực"]
-  },
-  "HC_BATCH4_030": {
-    hc: "Dinh phận nhiệt nhập kiêm mê tâm bao",
-    phanloai: ["Vệ Khí Dinh Huyết", "Nhiệt", "Thực", "Dinh phận đàm nhiệt"],
-    tc: ["Sốt cao về đêm", "Nói lảm nhảm hôn mê", "Lưỡi đỏ thẫm khô", "Mạch tế sác"],
-    pdt: "Thanh dinh thấu nhiệt, thanh tâm khai khiếu",
-    bt: "Thanh dinh thang hợp An cung ngưu hoàng hoàn",
-    tpbt: ["Thủy ngưu giác", "Sinh địa", "Huyền sâm", "Trúc diệp tâm", "Mạch môn", "Ngưu hoàng"]
-  },
-  "HC_BATCH4_031": {
-    hc: "Huyết phận nhiệt độc kiêm phát ban xuất huyết",
-    phanloai: ["Vệ Khí Dinh Huyết", "Nhiệt", "Thực", "Huyết phận nhiệt độc"],
-    tc: ["Sốt cao nội nhiệt", "Nổi ban chẩn xuất huyết", "Nôn ra máu chảy máu cam", "Mạch tế sác hữu lực"],
-    pdt: "Thanh nhiệt lương huyết, giải độc tán ứ",
-    bt: "Tê giác địa hoàng thang gia Kim ngân hoa",
-    tpbt: ["Thủy ngưu giác", "Sinh địa", "Xích thược", "Đan bì", "Kim ngân hoa"]
-  },
-  "HC_BATCH4_032": {
-    hc: "Trúng phong kinh lạc do phong đàm huyết ứ",
-    phanloai: ["Thần Kinh", "Bình", "Thực", "Phong đàm huyết ứ"],
-    tc: ["Méo miệng lệch mắt", "Tay chân tê yếu nửa người", "Nói ngọng đờm dãi", "Mạch huyền sáp"],
-    pdt: "Sơ phong hóa đàm, hoạt huyết thông lạc",
-    bt: "Đại tần giao thang hợp Bổ dương hoàn ngũ thang",
-    tpbt: ["Tần giao", "Hoàng kỳ", "Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Bán hạ"]
-  },
-  "HC_BATCH4_033": {
-    hc: "Trúng phong bế chứng do nhiệt độc đàm mê",
-    phanloai: ["Thần Kinh", "Nhiệt", "Thực", "Đàm nhiệt khai khiếu bế"],
-    tc: ["Hôn mê đột ngột hai tay nắm chặt", "Mặt đỏ thở khò khè đờm dãi", "Đại tiểu tiện bí kết", "Mạch huyền sác hữu lực"],
-    pdt: "Khai khiếu thông bế, thanh nhiệt hóa đàm",
-    bt: "An cung ngưu hoàng hoàn hợp Địch đàm thang",
-    tpbt: ["Ngưu hoàng", "Xạ hương", "Hoàng liên", "Bán hạ", "Chỉ thực", "Đởm nam tinh"]
-  },
-  "HC_BATCH4_034": {
-    hc: "Trúng phong thoát chứng do vong dương nguy cấp",
-    phanloai: ["Thần Kinh", "Hàn", "Hư suy", "Vong dương thoát chứng"],
-    tc: ["Hôn mê sâu mắt nhắm miệng há", "Vã mồ hôi lạnh như dầu", "Chân tay lạnh ngắt", "Mạch vi tế muốn tuyệt"],
-    pdt: "Hồi dương cứu thoát, đại bổ nguyên khí",
-    bt: "Sâm phụ thang hợp Sinh mạch tán",
-    tpbt: ["Nhân sâm", "Phụ tử chế", "Mạch môn", "Ngũ vị tử"]
-  },
-  "HC_BATCH4_035": {
-    hc: "Nhiệt cực sinh phong kiêm sốt cao co giật",
-    phanloai: ["Thần Kinh", "Nhiệt", "Thực", "Nhiệt cực sinh phong"],
-    tc: ["Sốt cao dọa co giật", "Mắt trợn ngược cổ cứng", "Thần chí mê muội", "Mạch huyền sác hữu lực"],
-    pdt: "Thanh nhiệt tả hỏa, tức phong止kinh",
-    bt: "Linh dương câu đằng ẩm",
-    tpbt: ["Linh dương giác", "Câu đằng", "Tang diệp", "Cúc hoa", "Bạch thược", "Sinh địa"]
-  },
-  "HC_BATCH4_036": {
-    hc: "Huyễn vựng do can dương thượng kháng kiêm âm hư",
-    phanloai: ["Đầu Mục", "Nhiệt", "Hư thực thác tạp", "Can dương thượng kháng"],
-    tc: ["Chóng mặt đầu choáng váng", "Dễ cáu gắt mặt đỏ tai ù", "Đau lưng mỏi gối mất ngủ", "Mạch huyền tế sác"],
-    pdt: "Tư âm bình can, tiềm dương định vựng",
-    bt: "Thiên ma câu đằng ẩm hợp Kỷ cúc địa hoàng hoàn",
-    tpbt: ["Thiên ma", "Câu đằng", "Thạch quyết minh", "Thục địa", "Sơn thù", "Kỷ tử", "Cúc hoa"]
-  },
-  "HC_BATCH4_037": {
-    hc: "Huyễn vựng do đàm trọc trung trở kiêm tỳ hư",
-    phanloai: ["Đầu Mục", "Bình", "Hư thực thác tạp", "Tỳ hư đàm trọc"],
-    tc: ["Chóng mặt quay mòng mòng đầu nặng", "Buồn nôn ra đờm dãi", "Ăn kém mệt mỏi bụng trướng", "Mạch hoạt nhu"],
-    pdt: "Kiện tỳ mẫn thấp, hóa đàm giáng nghịch định vựng",
-    bt: "Bán hạ bạch truật thiên ma thang",
-    tpbt: ["Bán hạ", "Bạch truật", "Thiên ma", "Phục linh", "Trần bì", "Cam thảo"]
-  },
-  
-  
-  
-  "HC_BATCH4_041": {
-    hc: "Bào cung hư hàn kiêm thống kinh quặn bụng",
-    phanloai: ["Phụ Khoa", "Hàn", "Hư", "Bào cung hư hàn"],
-    tc: ["Đau bụng kinh dữ dội chườm ấm giảm", "Kinh nguyệt chậm sắc tối có cục", "Tay chân lạnh sợ lạnh", "Mạch trầm trì"],
-    pdt: "Ôn kinh tán hàn, dưỡng huyết điều kinh",
-    bt: "Ôn kinh thang",
-    tpbt: ["Ngô thù du", "Mạch môn", "Đương quy", "Xuyên khung", "Bạch thược", "Nhân sâm", "Quế chi"]
-  },
-  "HC_BATCH4_042": {
-    hc: "Huyết ứ bào cung kiêm bế kinh đau cự án",
-    phanloai: ["Phụ Khoa", "Bình", "Thực", "Huyết ứ bào cung"],
-    tc: ["Bụng dưới đau dữ dội cự án", "Kinh ra ít hoặc bế kinh màu tím đen", "Ra cục máu bớt đau", "Mạch trầm sáp"],
-    pdt: "Hoạt huyết hóa ứ, thông kinh chỉ thống",
-    bt: "Sanh hóa thang hợp Cách hạ trục ứ thang",
-    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Chỉ xác", "Hương phụ", "Can khương"]
-  },
-  "HC_BATCH4_043": {
-    hc: "Khí hư đới hạ kiêm tỳ hư bạch đới",
-    phanloai: ["Phụ Khoa", "Bình", "Hư", "Khí hư đới hạ"],
-    tc: ["Khí hư ra nhiều màu trắng đục", "Không hôi không ngứa", "Mệt mỏi tiêu lỏng", "Mạch nhu nhược"],
-    pdt: "Kiện tỳ ích khí, thăng dương trừ thấp",
-    bt: "Hoàn đới thang",
-    tpbt: ["Bạch truật", "Sơn dược", "Nhân sâm", "Bạch thược", "Thương truật", "Cam thảo"]
-  },
-  "HC_BATCH4_044": {
-    hc: "Thấp nhiệt đới hạ kiêm khí hư vàng hôi",
-    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Thấp nhiệt đới hạ"],
-    tc: ["Khí hư ra nhiều vàng xanh hôi đặc", "Âm hộ nóng rát ngứa ngáy", "Tiểu dắt buốt", "Mạch nhu sác"],
-    pdt: "Thanh nhiệt táo thấp, chỉ đới giải độc",
-    bt: "Chỉ đới thang gia Hoàng bá, Tri mẫu",
-    tpbt: ["Hoàng bá", "Tri mẫu", "Trúc nhự", "Phục linh", "Trạch tả", "Xa tiền tử"]
-  },
-  "HC_BATCH4_045": {
-    hc: "Kinh nguyệt trước kỳ do huyết nhiệt vọng hành",
-    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Huyết nhiệt"],
-    tc: ["Kinh nguyệt đến sớm lượng nhiều", "Sắc kinh đỏ sẫm đặc", "Mặt đỏ miệng khát", "Mạch sác hữu lực"],
-    pdt: "Thanh nhiệt lương huyết, điều kinh",
-    bt: "Thanh kinh thang",
-    tpbt: ["Hoàng bá", "Sinh địa", "Bạch thược", "Mẫu đơn bì", "Nga truật", "Địa cốt bì"]
-  },
-  "HC_BATCH4_046": {
-    hc: "Kinh nguyệt sau kỳ do hư hàn khí huyết yếu",
-    phanloai: ["Phụ Khoa", "Hàn", "Hư", "Hư hàn khí huyết hư"],
-    tc: ["Kinh nguyệt đến muộn lượng ít", "Sắc kinh nhạt loãng", "Bụng dưới đau âm ỉ thích ấm", "Mạch trầm tế trì"],
-    pdt: "Ôn kinh tán hàn, bổ huyết điều kinh",
-    bt: "Ôn kinh thang gia Tứ vật thang",
-    tpbt: ["Đương quy", "Xuyên khung", "Bạch thược", "Thục địa", "Nhục quế", "Ngô thù du"]
-  },
-  "HC_BATCH4_047": {
-    hc: "Băng lậu do tỳ hư không nhiếp huyết",
-    phanloai: ["Phụ Khoa", "Bình", "Hư", "Khí hư không nhiếp huyết"],
-    tc: ["Kinh ra ồ ạt hoặc rỉ rả dai dẳng", "Sắc kinh nhạt loãng", "Mệt mỏi hụt hơi bụng nặng", "Mạch hư nhược"],
-    pdt: "Bổ khí kiện tỳ, cố kinh chỉ huyết",
-    bt: "Bổ trung ích khí thang gia A giao, Ngó sen sao",
-    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Thăng ma", "Sài hồ", "A giao"]
-  },
-  "HC_BATCH4_048": {
-    hc: "Liệt dương do thận dương hư suy nặng",
-    phanloai: ["Nam Khoa", "Hàn", "Hư", "Dương hư suy"],
-    tc: ["Dương vật không cương cứng", "Sợ lạnh tay chân lạnh ngắt", "Đau lưng mỏi gối tiểu đêm", "Mạch trầm tế vi"],
-    pdt: "Ôn bổ thận dương, tráng dương khởi uất",
-    bt: "Hữu quy hoàn gia Dâm dương hoắc, Ba kích",
-    tpbt: ["Thục địa", "Sơn thù", "Nhục quế", "Phụ tử chế", "Dâm dương hoắc", "Ba kích"]
-  },
-  "HC_BATCH4_049": {
-    hc: "Di tinh mộng tinh do thận khí bất cố",
-    phanloai: ["Nam Khoa", "Bình", "Hư", "Khí hư bất cố"],
-    tc: ["Mộng tinh di tinh nhiều lần", "Thắt lưng mỏi yếu tai ù", "Tiểu tiện rỉ rả", "Mạch trầm nhược"],
-    pdt: "Cố tinh sáp niệu, bổ thận ích khí",
-    bt: "Kim tỏa cố tinh hoàn",
-    tpbt: ["Sa uyển tử", "Liên tu", "Khiếm thực", "Long cốt", "Mẫu lệ", "Liên nhục"]
-  },
-  "HC_BATCH4_050": {
-    hc: "Thoái sán tinh hoàn sưng đau do hàn trệ can mạch",
-    phanloai: ["Nam Khoa", "Hàn", "Thực", "Hàn trệ can mạch"],
-    tc: ["Tinh hoàn đau co rút lên bụng dưới", "Gặp lạnh đau tăng chườm ấm bớt", "Bì bìu lạnh rét", "Mạch trầm khẩn"],
-    pdt: "Ôn kinh tán hàn, noãn can chỉ thống",
-    bt: "Noãn can tiễn gia Ngô thù du",
-    tpbt: ["Tiểu hồi hương", "Nhục quế", "Đương quy", "Ô dược", "Trầm hương", "Ngô thù du"]
-  },
-});
-// Bổ sung đợt 5 (Đưa tổng số hội chứng lên 500+)
-Object.assign(window.database, {
-  "HC_BATCH5_001": {
-    hc: "Phong hàn uất Phế",
-    phanloai: ["Tạng Phế", "Hàn", "Thực", "Phong hàn"],
-    tc: ["Ho ngứa họng nhiều", "Đờm trắng loãng bọt", "Nghẹt mũi sợ lạnh", "Rêu lưỡi trắng mỏng", "Mạch phù khẩn"],
-    pdt: "Sơ phong tán hàn, tuyên phế chỉ khái",
-    bt: "Hạnh tô tán gia Bách bộ",
-    tpbt: ["Tô diệp", "Hạnh nhân", "Tiền hồ", "Cát cánh", "Chỉ xác", "Trần bì", "Bách bộ", "Cam thảo"]
-  },
-  "HC_BATCH5_002": {
-    hc: "Phong nhiệt uất Phế sinh mụn mặt",
-    phanloai: ["Tạng Phế & Ngũ Quan", "Nhiệt", "Thực", "Phong nhiệt"],
-    tc: ["Mụn đỏ nổi nhiều ở mặt trán", "Mũi rát họng khô", "Mặt nóng sốt nhẹ", "Mạch phù sác"],
-    pdt: "Thanh phế sơ phong, giải độc tiêu mụn",
-    bt: "Tỳ bà diệp thanh phế ẩm",
-    tpbt: ["Tỳ bà diệp", "Tang bạch bì", "Hoàng liên", "Hoàng cầm", "Sinh địa", "Cát cánh", "Cam thảo"]
-  },
-  "HC_BATCH5_003": {
-    hc: "Phế khí hư cảm mạo tái phát",
-    phanloai: ["Tạng Phế", "Bình", "Hư", "Khí hư biểu hư"],
-    tc: ["Dễ bị cảm mạo khi gặp gió lạnh", "Ho khạc không lực", "Tự hãn hụt hơi", "Mạch nhược"],
-    pdt: "Ích khí cố biểu, bổ phế tán hàn",
-    bt: "Ngọc bình phong tán hợp Bổ phế thang",
-    tpbt: ["Hoàng kỳ", "Bạch truật", "Phòng phong", "Nhân sâm", "Thục địa", "Ngũ vị tử"]
-  },
-  "HC_BATCH5_004": {
-    hc: "Phế âm hư ho rát ngực",
-    phanloai: ["Tạng Phế", "Nhiệt", "Hư", "Âm hư"],
-    tc: ["Ho khan đau rát vùng ngực", "Đờm dính khó khạc", "Miệng khô triều nhiệt", "Mạch tế sác"],
-    pdt: "Tư âm nhuận phế, chỉ khái thanh nhiệt",
-    bt: "Bách hợp cố kim thang gia Sa sâm",
-    tpbt: ["Bách hợp", "Sinh địa", "Thục địa", "Mạch môn", "Sa sâm", "Bối mẫu", "Cát cánh"]
-  },
-  "HC_BATCH5_005": {
-    hc: "Phế Đàm nhiệt ủng tắc suyễn thở",
-    phanloai: ["Tạng Phế", "Nhiệt", "Thực", "Đàm nhiệt"],
-    tc: ["Thở gấp khò khè", "Đờm vàng đặc dính mùi hôi", "Tức ngực sốt khát", "Mạch hoạt sác"],
-    pdt: "Thanh nhiệt tuyên phế, hóa đàm bình suyễn",
-    bt: "Định suyễn thang gia Hoàng liên",
-    tpbt: ["Ma hoàng", "Hạnh nhân", "Tang bạch bì", "Hoàng cầm", "Hoàng liên", "Tô tử", "Bán hạ"]
-  },
-  "HC_BATCH5_006": {
-    hc: "Phế Thấp đàm trở trệ ho dai dẳng",
-    phanloai: ["Tạng Phế", "Hàn", "Thực", "Đàm thấp"],
-    tc: ["Ho đờm trắng dính nhiều", "Ngực đầy tức, ăn không ngon", "Thân thể mỏi nặng", "Mạch nhu hoạt"],
-    pdt: "Táo thấp hóa đàm, lý khí chỉ khái",
-    bt: "Nhị trần thang gia Tam tử dưỡng thân thang",
-    tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Bạch giới tử", "Tô tử", "Lai phục tử", "Cam thảo"]
-  },
-  "HC_BATCH5_007": {
-    hc: "Phế Táo thương tân ho khô chảy máu mũi",
-    phanloai: ["Tạng Phế", "Nhiệt", "Thực", "Táo nhiệt"],
-    tc: ["Ho khan không đờm", "Mũi khô rát chảy máu cam", "Sốt nhẹ môi nẻ", "Mạch phù sác"],
-    pdt: "Thanh phế nhuận táo, lương huyết chỉ huyết",
-    bt: "Tang hạnh thang gia Bạch mao căn",
-    tpbt: ["Tang diệp", "Hạnh nhân", "Sa sâm", "Chi tử", "Bạch mao căn", "Trắc bách diệp"]
-  },
-  "HC_BATCH5_008": {
-    hc: "Phế Tỳ khí hư ho thở tiêu chảy",
-    phanloai: ["Tạng Phế & Tạng Tỳ", "Bình", "Hư", "Phế Tỳ khí hư"],
-    tc: ["Ho lâu ngày hụt hơi", "Ăn kém bụng trướng", "Đại tiện lỏng nhão", "Mạch hư nhược"],
-    pdt: "Kiện tỳ ích khí, bổ phế hóa đàm",
-    bt: "Lục quân tử thang gia Bổ phế thang",
-    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Trần bì", "Bán hạ", "Hoàng kỳ", "Cam thảo"]
-  },
-  "HC_BATCH5_009": {
-    hc: "Phế Thận khí hư hen suyễn động làm khó thở",
-    phanloai: ["Tạng Phế & Tạng Thận", "Bình", "Hư", "Phế Thận khí hư"],
-    tc: ["Hen suyễn lâu ngày", "Thở vào khó hơn thở ra", "Động làm thở gấp vã mồ hôi", "Mạch trầm tế nhược"],
-    pdt: "Bổ phế ích khí, nạp thận bình suyễn",
-    bt: "Thất vị đô khí hoàn gia Hồ đào nhục",
-    tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Phục linh", "Ngũ vị tử", "Hồ đào nhục", "Nhân sâm"]
-  },
-  "HC_BATCH5_010": {
-    hc: "Phế Thận âm hư ho hắt hơi triều nhiệt",
-    phanloai: ["Tạng Phế & Tạng Thận", "Nhiệt", "Hư", "Âm hư"],
-    tc: ["Ho khan ít đờm có vệt máu", "Triều nhiệt đạo hãn về chiều", "Lưng mỏi gối yếu", "Mạch tế sác"],
-    pdt: "Tư âm nhuận phế, tư bổ thận thủy",
-    bt: "Bách hợp cố kim thang hợp Lục vị địa hoàng hoàn",
-    tpbt: ["Bách hợp", "Thục địa", "Sinh địa", "Mạch môn", "Huyền sâm", "Bối mẫu", "Trạch tả"]
-  },
-  
-  
-  "HC_BATCH5_013": {
-    hc: "Can Huyết hư hoa mắt móng khô",
-    phanloai: ["Tạng Can", "Bình", "Hư", "Huyết hư"],
-    tc: ["Hoa mắt chóng mặt", "Móng tay chân khô nhợt", "Kinh nguyệt ít sắc nhạt", "Mạch tế nhược"],
-    pdt: "Bổ huyết dưỡng can",
-    bt: "Tứ vật thang gia Kỷ tử",
-    tpbt: ["Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Kỷ tử"]
-  },
-  "HC_BATCH5_014": {
-    hc: "Can Âm hư mắt khô nhìn mờ",
-    phanloai: ["Tạng Can", "Nhiệt", "Hư", "Âm hư"],
-    tc: ["Mắt khô nhìn mờ xót", "Chóng mặt ù tai", "Lòng bàn tay chân nóng", "Mạch tế sác"],
-    pdt: "Tư dưỡng can âm, minh mục",
-    bt: "Kỷ cúc địa hoàng hoàn",
-    tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Kỷ tử", "Cúc hoa"]
-  },
-  "HC_BATCH5_015": {
-    hc: "Can Dương thượng kháng đầu choáng bứt rứt",
-    phanloai: ["Tạng Can", "Nhiệt", "Hư thực thác tạp", "Can dương thượng kháng"],
-    tc: ["Đau đầu chóng mặt bứt rứt", "Mặt đỏ tai ù ve kêu", "Dễ giận mất ngủ", "Mạch huyền lực"],
-    pdt: "Bình can tiềm dương, thanh nhiệt an thần",
-    bt: "Thiên ma câu đằng ẩm",
-    tpbt: ["Thiên ma", "Câu đằng", "Thạch quyết minh", "Chi tử", "Hoàng cầm", "Ngưu tất", "Đỗ trọng"]
-  },
-  "HC_BATCH5_017": {
-    hc: "Can Tỳ bất hòa bụng trướng phân lỏng",
-    phanloai: ["Tạng Can & Tạng Tỳ", "Bình", "Hư thực thác tạp", "Khí trệ Tỳ hư"],
-    tc: ["Ngực sườn trướng đau", "Ăn kém bụng trướng", "Đại tiện lúc lỏng lúc táo", "Mạch huyền tế"],
-    pdt: "Sơ can lý tỳ, hòa vị chỉ thống",
-    bt: "Tiêu dao tán gia giảm",
-    tpbt: ["Sài hồ", "Đương quy", "Bạch thược", "Bạch truật", "Phục linh", "Cam thảo", "Bạc hà"]
-  },
-  
-  "HC_BATCH5_019": {
-    hc: "Can Đởm thấp nhiệt vàng da vàng mắt",
-    phanloai: ["Tạng Can & Phủ Đờm", "Nhiệt", "Thực", "Thấp nhiệt"],
-    tc: ["Da vàng mắt vàng tươi", "Đau hạ sườn phải", "Miệng đắng buồn nôn, tiểu đỏ", "Mạch huyền sác"],
-    pdt: "Thanh nhiệt lợi thấp, sơ can lợi đởm",
-    bt: "Long đởm tả can thang hợp Nhân trần cao thang",
-    tpbt: ["Long đởm thảo", "Nhân trần", "Chi tử", "Đại hoàng", "Hoàng cầm", "Trạch tả"]
-  },
-  "HC_BATCH5_020": {
-    hc: "Hàn trệ Can mạch đau quặn bụng dưới",
-    phanloai: ["Tạng Can", "Hàn", "Thực", "Hàn trệ"],
-    tc: ["Đau quặn bụng dưới lan bộ phận sinh dục", "Gặp lạnh đau tăng, chườm ấm bớt", "Bì bìu lạnh", "Mạch trầm khẩn"],
-    pdt: "Ôn kinh tán hàn, noãn can chỉ thống",
-    bt: "Noãn can tiễn",
-    tpbt: ["Tiểu hồi hương", "Nhục quế", "Đương quy", "Ô dược", "Trầm hương", "Phục linh"]
-  },
-  
-  "HC_BATCH5_022": {
-    hc: "Tỳ Dương hư sợ lạnh tiêu chảy sáng",
-    phanloai: ["Tạng Tỳ", "Hàn", "Hư", "Dương hư"],
-    tc: ["Bụng đau âm ỉ thích ấm", "Ăn kém đại tiện phân sống", "Sợ lạnh tay chân lạnh", "Mạch trầm trì nhược"],
-    pdt: "Ôn trung kiện tỳ, tán hàn chỉ tả",
-    bt: "Lý trung hoàn",
-    tpbt: ["Nhân sâm", "Can khương", "Bạch truật", "Cam thảo"]
-  },
-  "HC_BATCH5_023": {
-    hc: "Trung khí hạ hãm sa nội tạng",
-    phanloai: ["Tạng Tỳ", "Bình", "Hư", "Khí hư hạ hãm"],
-    tc: ["Bụng dưới nặng tức", "Sa dạ dày tử cung hoặc trĩ", "Mệt mỏi hụt hơi ăn kém", "Mạch hoãn nhược"],
-    pdt: "Bổ khí thăng dương, cử hãm",
-    bt: "Bổ trung ích khí thang",
-    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Cam thảo", "Đương quy", "Trần bì", "Thăng ma", "Sài hồ"]
-  },
-  "HC_BATCH5_024": {
-    hc: "Tỳ không thống huyết xuất huyết dưới da",
-    phanloai: ["Tạng Tỳ", "Bình", "Hư", "Khí hư không nhiếp huyết"],
-    tc: ["Xuất huyết dưới da, chảy máu cam", "Rong kinh, đại tiện ra máu nhạt", "Mệt mỏi phân lỏng nhão", "Mạch tế nhược"],
-    pdt: "Kiện tỳ ích khí, nhiếp huyết chỉ huyết",
-    bt: "Quy tỳ thang gia Bồ hoàng",
-    tpbt: ["Nhân sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Long nhãn", "Toan táo nhân"]
-  },
-  "HC_BATCH5_025": {
-    hc: "Tỳ Âm hư miệng khô ăn không ngon",
-    phanloai: ["Tạng Tỳ", "Nhiệt", "Hư", "Âm hư"],
-    tc: ["Thân hình gầy còm", "Miệng khô môi nẻ không muốn ăn", "Đại tiện khô dính", "Mạch tế sác"],
-    pdt: "Tư dưỡng tỳ âm, ích vị sinh tân",
-    bt: "Tư âm kiện tỳ thang",
-    tpbt: ["Sa sâm", "Mạch môn", "Bạch truật", "Hoài sơn", "Bạch thược", "Cam thảo"]
-  },
-  "HC_BATCH5_026": {
-    hc: "Hàn thấp khốn Tỳ bụng trướng nôn nao",
-    phanloai: ["Tạng Tỳ", "Hàn", "Thực", "Hàn thấp"],
-    tc: ["Bụng đầy chướng nôn nao", "Miệng nhạt dính không khát", "Đại tiện lỏng nhão", "Mạch nhu trì"],
-    pdt: "Ôn trung hóa thấp, kiện tỳ hòa vị",
-    bt: "Bình vị tán gia Can khương",
-    tpbt: ["Thương truật", "Hậu phác", "Trần bì", "Cam thảo", "Sinh khương", "Can khương"]
-  },
-  "HC_BATCH5_027": {
-    hc: "Thấp nhiệt uẩn Tỳ sốt hầm hập da vàng",
-    phanloai: ["Tạng Tỳ", "Nhiệt", "Thực", "Thấp nhiệt"],
-    tc: ["Bụng trướng đầy tức", "Sốt hầm hập không lui", "Da mắt vàng khè, tiểu ngắn đỏ", "Mạch nhu sác"],
-    pdt: "Thanh nhiệt trừ thấp, thoái hoàng",
-    bt: "Nhân trần cao thang",
-    tpbt: ["Nhân trần", "Chi tử", "Đại hoàng"]
-  },
-  "HC_BATCH5_028": {
-    hc: "Tỳ Thận dương hư ngũ canh tả",
-    phanloai: ["Tạng Tỳ & Tạng Thận", "Hàn", "Hư", "Dương hư"],
-    tc: ["Tiêu chảy lúc sáng sớm (ngũ canh tả)", "Bụng dưới đau lạnh thích ấm", "Sợ lạnh tay chân lạnh", "Mạch trầm tế trì"],
-    pdt: "Ôn bổ tỳ thận, cố sáp chỉ tả",
-    bt: "Tứ thần hoàn",
-    tpbt: ["Bổ cốt chỉ", "Ngũ vị tử", "Nhục đậu khấu", "Ngô thù du"]
-  },
-  "HC_BATCH5_029": {
-    hc: "Tỳ Thận âm hư tiểu nhiều gầy còm",
-    phanloai: ["Tạng Tỳ & Tạng Thận", "Nhiệt", "Hư", "Âm hư"],
-    tc: ["Miệng khô khát uống nhiều", "Ăn nhiều mau đói, đi tiểu nhiều", "Đau lưng mỏi gối gầy sút", "Mạch tế sác"],
-    pdt: "Tư dưỡng tỳ thận, sinh tân chỉ khát",
-    bt: "Tả quy hoàn hợp Ích vị thang",
-    tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Kỷ tử", "Sa sâm", "Mạch môn", "Ngọc trúc"]
-  },
-  "HC_BATCH5_030": {
-    hc: "Tỳ hư thủy trệ phù mi mắt chân tay nặng",
-    phanloai: ["Tạng Tỳ", "Bình", "Hư thực thác tạp", "Thủy thũng"],
-    tc: ["Phù mi mắt vào buổi sáng", "Bụng trướng ăn kém, tiểu ít", "Tay chân nặng nề mệt mỏi", "Mạch nhu hoãn"],
-    pdt: "Kiện tỳ lợi thủy, thẩm thấp tiêu thũng",
-    bt: "Ngũ linh tán hợp Tứ quân tử thang",
-    tpbt: ["Bạch truật", "Phục linh", "Trạch tả", "Trư linh", "Quế chi", "Đảng sâm"]
-  },
-  "HC_BATCH5_031": {
-    hc: "Tâm Hỏa kháng thịnh loét lưỡi bứt rứt",
-    phanloai: ["Tạng Tâm", "Nhiệt", "Thực", "Tâm hỏa"],
-    tc: ["Tâm phiền mất ngủ", "Loét miệng lưỡi sưng đau", "Tiểu đỏ tiểu buốt", "Mạch sác hữu lực"],
-    pdt: "Thanh tâm tả hỏa, lợi thủy thông lâm",
-    bt: "Đạo xích tán",
-    tpbt: ["Sinh địa", "Mộc thông", "Cam thảo", "Trúc diệp"]
-  },
-  "HC_BATCH5_032": {
-    hc: "Tâm Âm hư hồi hộp mất ngủ",
-    phanloai: ["Tạng Tâm", "Nhiệt", "Hư", "Âm hư"],
-    tc: ["Tâm quý (hồi hộp) hay quên", "Mất ngủ nhiều mộng", "Triều nhiệt đạo hãn", "Mạch tế sác"],
-    pdt: "Tư âm thanh nhiệt, dưỡng tâm an thần",
-    bt: "Thiên vương bổ tâm đan",
-    tpbt: ["Sinh địa", "Huyền sâm", "Cát cánh", "Viễn chí", "Đương quy", "Ngũ vị tử", "Toan táo nhân"]
-  },
-  "HC_BATCH5_033": {
-    hc: "Tâm Dương hư sợ lạnh tim đập nhanh",
-    phanloai: ["Tạng Tâm", "Hàn", "Hư", "Dương hư"],
-    tc: ["Tâm quý ngực khó chịu", "Sợ lạnh tay chân lạnh ngắt", "Sắc mặt trắng bệch", "Mạch trầm tế vô lực"],
-    pdt: "Ôn thông tâm dương, ích khí an thần",
-    bt: "Bảo nguyên thang gia Quế chi",
-    tpbt: ["Nhân sâm", "Hoàng kỳ", "Nhục quế", "Cam thảo", "Quế chi"]
-  },
-  "HC_BATCH5_034": {
-    hc: "Tâm Huyết hư môi lưỡi nhợt hay quên",
-    phanloai: ["Tạng Tâm", "Bình", "Hư", "Huyết hư"],
-    tc: ["Hồi hộp trống ngực, hay quên", "Mất ngủ mộng mị, mặt nhợt", "Môi lưỡi nhợt", "Mạch tế nhược"],
-    pdt: "Bổ huyết dưỡng tâm, an thần",
-    bt: "Quy tỳ thang",
-    tpbt: ["Nhân sâm", "Bạch truật", "Phục linh", "Đương quy", "Long nhãn", "Toan táo nhân", "Viễn chí"]
-  },
-  "HC_BATCH5_035": {
-    hc: "Tâm Khí hư hụt hơi thở ngắn",
-    phanloai: ["Tạng Tâm", "Bình", "Hư", "Khí hư"],
-    tc: ["Tâm quý hồi hộp", "Hụt hơi thở ngắn khi vận động", "Mệt mỏi tự hãn", "Mạch hư nhược"],
-    pdt: "Ích khí dưỡng tâm, an thần",
-    bt: "Chích cam thảo thang",
-    tpbt: ["Chích cam thảo", "Nhân sâm", "Sinh địa", "Quế chi", "A giao", "Mạch môn"]
-  },
-  "HC_BATCH5_036": {
-    hc: "Tâm Huyết ứ trở đau nhói vùng tim",
-    phanloai: ["Tạng Tâm", "Bình", "Thực", "Huyết ứ"],
-    tc: ["Đau nhói vùng tim lan vai lưng", "Môi móng tím tái", "Lưỡi có điểm ứ huyết", "Mạch sáp hoặc kết đại"],
-    pdt: "Hoạt huyết hóa ứ, thông dương chỉ thống",
-    bt: "Huyết phủ trục ứ thang",
-    tpbt: ["Đương quy", "Sinh địa", "Đào nhân", "Hồng hoa", "Chỉ xác", "Xích thược", "Xuyên khung"]
-  },
-  "HC_BATCH5_037": {
-    hc: "Đàm mê Tâm khiếu nói năng lảm nhảm",
-    phanloai: ["Tạng Tâm", "Bình", "Thực", "Đàm trọc"],
-    tc: ["Thần chí mê muội hôn mê", "Nói năng lảm nhảm đờm lọc sọc", "Rêu dầy nhớt", "Mạch hoạt"],
-    pdt: "Địch đàm khai khiếu, giải uất hóa trọc",
-    bt: "Địch đàm thang",
-    tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Chỉ thực", "Trúc nhự", "Thạch xương bồ", "Đởm nam tinh"]
-  },
-  
-  "HC_BATCH5_039": {
-    hc: "Tâm Đàm hỏa nhiễu cuồng loạn bứt rứt",
-    phanloai: ["Tạng Tâm", "Nhiệt", "Thực", "Đàm hỏa"],
-    tc: ["Tâm phiền cuồng loạn đập phá", "Nói năng huyên náo mất ngủ", "Lưỡi đỏ rêu vàng nhớt", "Mạch hoạt sác"],
-    pdt: "Thanh tâm tả hỏa, hóa đàm an thần",
-    bt: "Hoàng liên ôn đởm thang",
-    tpbt: ["Hoàng liên", "Bán hạ", "Trần bì", "Phục linh", "Chỉ thực", "Trúc nhự", "Thạch xương bồ"]
-  },
-  "HC_BATCH5_040": {
-    hc: "Tâm Thận dương hư phù thũng sợ lạnh",
-    phanloai: ["Tạng Tâm & Tạng Thận", "Hàn", "Hư", "Dương hư"],
-    tc: ["Hồi hộp khó thở dữ dội", "Sợ lạnh tay chân lạnh ngắt", "Bụng dưới lạnh phù hai chân", "Mạch trầm tế vi"],
-    pdt: "Ôn thông tâm thận, trợ dương lợi thủy",
-    bt: "Chân vũ thang hợp Bảo nguyên thang",
-    tpbt: ["Phụ tử chế", "Nhân sâm", "Bạch truật", "Phục linh", "Nhục quế", "Sinh khương"]
-  },
-  "HC_BATCH5_109": {
-    hc: "Thương thử trúng nắng do Thử nhiệt",
-    phanloai: ["Ngoại cảm", "Nhiệt", "Thực", "Thử nhiệt"],
-    tc: ["Sốt cao vã mồ hôi nhiều", "Mặt đỏ hoa mắt chóng mặt", "Khát nước dữ dội thở gấp", "Mạch hồng sác"],
-    pdt: "Thanh thử giải nhiệt, ích khí sinh tân",
-    bt: "Lục nhất tán gia Tây qua bì",
-    tpbt: ["Hoạt thạch", "Cam thảo", "Tây qua bì", "Thiên hoa phấn", "Mạch môn"]
-  },
-  "HC_BATCH5_110": {
-    hc: "Thử thấp phạm Vị nôn mửa tiêu chảy mùa hè",
-    phanloai: ["Ngoại cảm / Phủ Vị", "Nhiệt", "Thực", "Thử thấp"],
-    tc: ["Sốt hầm hập ngực bụng trướng", "Nôn mửa tiêu chảy mệt mỏi", "Thân thể nặng nề miệng dính", "Mạch nhu sác"],
-    pdt: "Thanh thử hóa thấp, hòa vị chỉ nôn",
-    bt: "Tân gia hương nhu tính gia giảm",
-    tpbt: ["Hương nhu", "Bạch biển đậu", "Hậu phác", "Bán hạ", "Trần bì", "Hoắc hương"]
-  },
-  "HC_BATCH5_111": {
-    hc: "Thiên đầu thống đau nửa đầu do Can hỏa",
-    phanloai: ["Đầu Mục / Tạng Can", "Nhiệt", "Thực", "Can hỏa"],
-    tc: ["Đau giật nửa đầu dữ dội", "Mắt đỏ tai ù miệng đắng", "Dễ cáu gắt gặp tiếng động đau tăng", "Mạch huyền sác"],
-    pdt: "Thanh can tả hỏa, thông lạc chỉ thống",
-    bt: "Long đởm tả can thang gia Xuyên khung Cúc hoa",
-    tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Sài hồ", "Xuyên khung", "Cúc hoa"]
-  },
-  "HC_BATCH5_112": {
-    hc: "Thiên đầu thống đau nửa đầu do Đàm trệ",
-    phanloai: ["Đầu Mục", "Bình", "Thực", "Đàm trọc"],
-    tc: ["Đau nặng nửa đầu như bị ép", "Buồn nôn hoặc nôn đờm dãi", "Thân thể nặng nề ăn kém", "Mạch hoạt"],
-    pdt: "Hóa đàm giáng nghịch, thông lạc chỉ thống",
-    bt: "Bán hạ bạch truật thiên ma thang gia Xuyên khung",
-    tpbt: ["Bán hạ", "Bạch truật", "Thiên ma", "Trần bì", "Phục linh", "Xuyên khung"]
-  },
-  "HC_BATCH5_113": {
-    hc: "Tọa cốt phong đau thần kinh tọa do Huyết ứ",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Thực", "Huyết ứ kinh lạc"],
-    tc: ["Đau nhói từ thắt lưng lan xuống chân cố định", "Cự án đau tăng khi ho xoay người", "Lưỡi tím có điểm ứ huyết", "Mạch sáp"],
-    pdt: "Hoạt huyết hóa ứ, thông kinh chỉ thống",
-    bt: "Thân thống trục ứ thang",
-    tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Địa long"]
-  },
-  "HC_BATCH5_114": {
-    hc: "Liệt dương do Tâm Tỳ hư ăn kém",
-    phanloai: ["Nam Khoa", "Bình", "Hư", "Tâm Tỳ hư"],
-    tc: ["Dương vật khó cương suy giảm ham muốn", "Hồi hộp mất ngủ hay quên", "Sắc mặt úa vàng ăn kém", "Mạch tế nhược"],
-    pdt: "Bổ ích tâm tỳ, dưỡng huyết tráng dương",
-    bt: "Quy tỳ thang gia Ba kích Dâm dương hoắc",
-    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Ba kích"]
-  },
-  "HC_BATCH5_115": {
-    hc: "Thống kinh đau bụng kinh do Khí trệ huyết ứ",
-    phanloai: ["Phụ Khoa", "Bình", "Thực", "Khí trệ huyết ứ"],
-    tc: ["Bụng dưới đau quặn trước/trong kỳ kinh", "Kinh nguyệt ra cục tím đen", "Sau khi ra máu cục bớt đau", "Mạch huyền sáp"],
-    pdt: "Hành khí hoạt huyết, trừ ứ chỉ thống",
-    bt: "Cách hạ trục ứ thang gia giảm",
-    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Chỉ xác", "Hương phụ"]
-  },
-  "HC_BATCH5_116": {
-    hc: "Thống kinh đau bụng kinh do Thấp nhiệt",
-    phanloai: ["Phụ Khoa", "Nhiệt", "Thực", "Thấp nhiệt uẩn kết"],
-    tc: ["Bụng dưới đau rát trước kỳ kinh ấn đau", "Kinh nguyệt ra mầu đỏ sẫm đặc hôi", "Khí hư vàng dính tiểu ngắn", "Mạch sác"],
+  "PK_LacNoiMacTuCung_HuyetU": {
+    hc: "Lạc nội mạc tử cung do Huyết ứ bao cung (Đau bụng kinh dữ dội)",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Thực", "Huyết ứ"],
+    tc: ["Bụng dưới đau quặn quằn quại dữ dội khi hành kinh", "Đau lan xuống bẹn hậu môn, cự án", "Kinh nguyệt tím đen có cục", "Mạch sáp dũng mãnh"],
+    pdt: "Hoạt huyết hóa ứ, phá trệ chỉ thống",
+    bt: "Cách hạ trục ứ thang gia Diên hồ索, Tam thất",
+    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Chỉ xác", "Hương phụ", "Ngũ linh chi", "Diên hồ索", "Tam thất"]
+  },
+  "PK_LacNoiMacTuCung_HanNgung": {
+    hc: "Lạc nội mạc tử cung do Hàn ngưng huyết ứ",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Hàn", "Thực", "Hàn ngưng huyết ứ"],
+    tc: ["Đau bụng kinh quặn như đâm chườm ấm giảm", "Tay chân cold ngắt vã mồ hôi cold khi đau", "Mạch trầm khẩn sáp"],
+    pdt: "Ôn kinh tán hàn, hóa ứ chỉ thống",
+    bt: "Thiếu bụng trục ứ thang gia Tam thất",
+    tpbt: ["Can khương", "Nhục quế", "Tiểu hồi hương", "Đương quy", "Xuyên khung", "Xích thược", "Bồ hoàng", "Tam thất"]
+  },
+  "PK_LacNoiMacTuCung_ThapNhiet": {
+    hc: "Lạc nội mạc tử cung do Thấp nhiệt uẩn kết",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Nhiệt", "Thực", "Thấp nhiệt uẩn kết"],
+    tc: ["Bụng dưới đau rát kéo dài trước trong kỳ kinh", "Giao hợp đau rát, tiểu ngắn đỏ", "Khí hư vàng hôi", "Mạch nhu sác"],
     pdt: "Thanh nhiệt lợi thấp, hóa ứ chỉ thống",
-    bt: "Thanh nhiệt điều huyết thang",
-    tpbt: ["Hoàng liên", "Sinh địa", "Đương quy", "Xuyên khung", "Xích thược", "Đào nhân"]
+    bt: "Thanh nhiệt điều huyết thang gia Diên hồ索",
+    tpbt: ["Hoàng liên", "Sinh địa", "Đương quy", "Xuyên khung", "Xích thược", "Đào nhân", "Hồng hoa", "Diên hồ索"]
   },
-  "HC_BATCH5_117": {
-    hc: "Băng lậu rong kinh do Tỳ hư khí yếu",
-    phanloai: ["Phụ Khoa", "Bình", "Hư", "Khí hư không nhiếp huyết"],
-    tc: ["Kinh nguyệt ra ồ ạt hoặc rỉ rả dai dẳng", "Sắc kinh nhạt loãng mệt mỏi", "Mệt mỏi hụt hơi bụng nặng", "Mạch hư nhược"],
-    pdt: "Bổ khí kiện tỳ, cố kinh chỉ huyết",
-    bt: "Cử nguyên thang hợp Bổ trung ích khí thang",
-    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Cam thảo", "Thăng ma", "Sài hồ"]
+  "PK_SaTuCung_TrungKhiHaHam": {
+    hc: "Sa tử cung (Âm trĩ) do Trung khí hạ hãm",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Hư", "Khí hư hạ hãm"],
+    tc: ["Khối tử cung sa xệ tụt ra ngoài âm đạo", "Cảm giác trướng nặng âm hộ, đứng lâu đau tăng", "Sắc mặt nhợt nhạt, mệt mỏi hụt hơi", "Mạch hoãn nhược"],
+    pdt: "Bổ khí thăng dương, cử hãm thăng đề",
+    bt: "Bổ trung ích khí thang gia Chỉ xác sao",
+    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Trần bì", "Thăng ma", "Sài hồ", "Chỉ xác sao", "Chích cam thảo"]
   },
-  "HC_BATCH5_118": {
-    hc: "Cảm mạo phong hàn ở trẻ em ho hắt hơi",
-    phanloai: ["Nhi Khoa", "Hàn", "Thực", "Phong hàn"],
-    tc: ["Sốt nhẹ sợ lạnh không mồ hôi", "Mũi nghẹt chảy nước trong", "Ho hắt hơi liên tục", "Mạch phù khẩn"],
-    pdt: "Tán hàn giải biểu, tuyên phế chỉ khái",
-    bt: "Kinh phòng bại độc tán gia giảm",
-    tpbt: ["Kinh giới", "Phòng phong", "Khương hoạt", "Độc hoạt", "Sài hồ", "Cát cánh"]
+  "PK_SaTuCung_ThanDuongHu": {
+    hc: "Sa tử cung do Thận dương hư suy thất đề",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Hàn", "Hư suy", "Thận dương hư"],
+    tc: ["Tử cung sa lệch kéo dài, cọ xát chảy dịch", "Thắt lưng cold đau không lực, sợ cold", "Tiểu đêm nhiều, tiêu chảy sáng", "Mạch trầm tế trì vô lực"],
+    pdt: "Ôn bổ thận dương, sáp niệu thăng đề",
+    bt: "Thận khí hoàn gia Thăng ma, Lộc giác giao",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Thăng ma", "Lộc giác giao", "Đỗ trọng"]
   },
-  "HC_BATCH5_119": {
-    hc: "Tiêu chảy do Thấp nhiệt ở trẻ em phân bắn tóe",
-    phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt"],
-    tc: ["Tiêu chảy phân vàng bắn tóe hôi thối", "Bụng đau quặn hậu môn nóng đỏ", "Sốt khát nước", "Mạch hoạt sác"],
-    pdt: "Thanh nhiệt lợi thấp, hòa vị chỉ tả",
-    bt: "Cát căn hoàng liên hoàng bá thang",
-    tpbt: ["Cát căn", "Hoàng liên", "Hoàng bá", "Cam thảo"]
+  "PK_SaTuCung_TyThanKhieuHu": {
+    hc: "Sa tử cung mạn tính do Tỳ Thận khí hư",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Hư suy", "Tỳ Thận khí hư"],
+    tc: ["Sa tử cung lâu ngày không tự co lên được", "Toàn thân mệt mỏi suy nhược kiệt sức", "Đau lưng, ăn kém, tiêu chảy", "Mạch trầm nhược vô lực"],
+    pdt: "Song bổ tỳ thận, bổ khí cử hãm",
+    bt: "Sâm linh bạch truật tán hợp Bổ trung ích khí thang gia giảm",
+    tpbt: ["Đảng sâm", "Hoàng kỳ", "Bạch truật", "Phục linh", "Hoài sơn", "Thăng ma", "Sài hồ", "Cam thảo"]
   },
-  "HC_BATCH5_120": {
-    hc: "Mẩn ngứa ngoài da do Phong thấp uẩn kết",
-    phanloai: ["Ngoại Khoa / Da Liễu", "Bình", "Thực", "Phong thấp uẩn kết"],
-    tc: ["Da nổi mẩn đỏ gờ ngứa dữ dội", "Gặp gió ẩm ngứa tăng", "Da chảy nước nhẹ khi gãi", "Mạch phù nhu"],
-    pdt: "Khu phong trừ thấp, chỉ ngứa",
-    bt: "Tiêu phong tán gia giảm",
-    tpbt: ["Kinh giới", "Phòng phong", "Thuyền thoái", "Thương truật", "Khổ sâm", "Mộc thông"]
-  }
-});
-// Bổ sung đợt 6 (Đưa tổng số hội chứng lên 514)
-Object.assign(window.database, {
-  "HC_BATCH6_001": {
-    hc: "Can Đởm khí uất (Đởm trướng)",
-    phanloai: ["Tạng Can & Phủ Đờm", "Bình", "Thực", "Khí trệ"],
-    tc: ["Vùng hạ sườn trướng đau", "Miệng đắng, hay thở dài", "Ăn uống kém, đầy bụng", "Mạch huyền"],
-    pdt: "Sơ can lý khí, hòa đởm chỉ thống",
-    bt: "Sài hồ sơ can tán gia Mộc hương, Hương phụ",
-    tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Xuyên khung", "Mộc hương", "Hương phụ", "Cam thảo"]
+  "PK_VoSinh_ThanDuongHu": {
+    hc: "Vô sinh nữ do Thận dương hư (Bào cung hư hàn)",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Hàn", "Hư suy", "Thận dương hư vô sinh"],
+    tc: ["Kết hôn lâu năm không thai", "Bụng dưới cold, kinh nguyệt chậm ít sắc nhạt", "Sợ cold, tay chân cold ngắt, giảm ham muốn", "Mạch trầm tế trì"],
+    pdt: "Ôn bổ thận dương, noãn bào cung tư thai",
+    bt: "D温bào hoàn",
+    tpbt: ["Thục địa", "Ba kích", "Dâm dương hoắc", "Nhục quế", "Phụ tử chế", "Đỗ trọng", "Thỏ ty tử", "Sơn thù nhục"]
   },
-  "HC_BATCH6_002": {
-    hc: "Can Tỳ hỏa uất sinh mụn nhọt",
-    phanloai: ["Tạng Can & Tạng Tỳ", "Nhiệt", "Thực", "Hỏa độc"],
-    tc: ["Mụn đỏ sưng rát ở vùng lưng ngực", "Miệng đắng khô, dễ cáu gắt", "Bụng trướng đầy, đại tiện táo", "Mạch huyền sác"],
-    pdt: "Sơ can thanh tỳ, giải độc tiêu mụn",
-    bt: "Gia vị tiêu dao tán gia Bồ công anh",
-    tpbt: ["Sài hồ", "Đương quy", "Bạch thược", "Bạch truật", "Đan bì", "Chi tử", "Bồ công anh"]
+  "PK_VoSinh_ThanAmHu": {
+    hc: "Vô sinh nữ do Thận âm hư (Tinh huyết khuy tổn)",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Nhiệt", "Hư", "Thận âm hư vô sinh"],
+    tc: ["Không thai kéo dài, kinh nguyệt sớm lượng ít sắc đỏ", "Thắt lưng mỏi gối, hoa mắt tai ù", "Triều nhiệt đạo hãn, khô âm đạo", "Mạch tế sác"],
+    pdt: "Tư bổ thận âm, dưỡng huyết điền tinh tư thai",
+    bt: "Dưỡng tinh chủng ngọc đan",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Đương quy", "Bạch thược"]
   },
-  "HC_BATCH6_003": {
-    hc: "Phế Vị âm hư khàn tiếng lâu ngày",
-    phanloai: ["Tạng Phế & Phủ Vị", "Nhiệt", "Hư", "Âm hư"],
-    tc: ["Giọng nói khàn, mất tiếng", "Họng khô miệng rát", "Ho khan ít đờm", "Lưỡi đỏ ít rêu", "Mạch tế sác"],
-    pdt: "Tư âm nhuận phế, dưỡng vị sinh tân",
-    bt: "Sa sâm mạch đông thang gia Kha tử",
-    tpbt: ["Sa sâm", "Mạch môn", "Ngọc trúc", "Sinh địa", "Thiên hoa phấn", "Kha tử", "Cam thảo"]
+  "PK_VoSinh_CanUat": {
+    hc: "Vô sinh nữ do Can khí uất kết (Căng thẳng hiếm muộn)",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Thực", "Khí uất vô sinh"],
+    tc: ["Hiếm muộn kèm tâm lý căng thẳng âu lo", "Kinh nguyệt không đều, trướng ngực sườn", "Dễ giận dữ hay thở dài", "Mạch huyền dằn xóc"],
+    pdt: "Sơ can giải uất, dưỡng huyết điều kinh tư thai",
+    bt: "Khai uất chủng ngọc đan",
+    tpbt: ["Sài hồ", "Bạch thược", "Đương quy", "Bạch truật", "Phục linh", "Hương phụ", "Mẫu đơn bì", "Chi tử"]
   },
-  "HC_BATCH6_004": {
-    hc: "Tâm Phế dương hư suy nhược",
-    phanloai: ["Tạng Tâm & Tạng Phế", "Hàn", "Hư", "Dương hư"],
-    tc: ["Tâm quý khó thở khi vận động", "Sợ lạnh, tay chân lạnh ngắt", "Mệt mỏi tự hãn, mặt bệch", "Mạch trầm tế trì"],
-    pdt: "Ôn thông tâm phế dương khí",
-    bt: "Bảo nguyên thang gia Quế chi, Phụ tử",
-    tpbt: ["Nhân sâm", "Hoàng kỳ", "Nhục quế", "Phụ tử chế", "Quế chi", "Cam thảo"]
+  "PK_VoSinh_DamThap": {
+    hc: "Vô sinh nữ do Đàm thấp trệ bào cung",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Thực", "Đàm thấp vô sinh"],
+    tc: ["Vô sinh ở nữ giới thể trạng mập bệu", "Bế kinh hoặc kinh chậm dính nhầy", "Khí hư ra nhiều đặc dính, nôn nao", "Mạch nhu hoạt"],
+    pdt: "Táo thấp hóa đàm, lý khí thông mạch tư thai",
+    bt: "Tích linh hoàn",
+    tpbt: ["Thương truật", "Bán hạ chế", "Trần bì", "Phục linh", "Hương phụ", "Thần khúc", "Xuyên khung"]
   },
-  "HC_BATCH6_005": {
-    hc: "Tỳ Vị khí trệ trướng đau thượng vị",
-    phanloai: ["Tạng Tỳ & Phủ Vị", "Bình", "Thực", "Khí trệ"],
-    tc: ["Thượng vị trướng đầy đau ỉ", "Ợ hơi nhiều, trung tiện được thì giảm đau", "Rêu lưỡi trắng mỏng", "Mạch huyền hoãn"],
-    pdt: "Hành khí hòa vị, tiêu trướng chỉ thống",
-    bt: "Mộc hương chỉ thực tán gia Hậu phác",
-    tpbt: ["Mộc hương", "Chỉ thực", "Trần bì", "Hậu phác", "Sa nhân", "Cam thảo"]
+  "PK_VoSinh_HuyetU": {
+    hc: "Vô sinh nữ do Huyết ứ trệ bao mạch",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Thực", "Huyết ứ vô sinh"],
+    tc: ["Không thai kèm thống kinh dữ dội", "Kinh nguyệt tím đen có cục máu đông", "Bụng dưới đau nhói cự án", "Mạch sáp dũng mãnh"],
+    pdt: "Hoạt huyết hóa ứ, thông xung điều kinh tư thai",
+    bt: "Thiếu bụng trục ứ thang gia Tam thất",
+    tpbt: ["Can khương", "Nhục quế", "Tiểu hồi hương", "Đương quy", "Xuyên khung", "Xích thược", "Bồ hoàng", "Tam thất"]
   },
-  
-  "HC_BATCH6_007": {
-    hc: "Bàng quang khí hóa bất túc đái dầm",
-    phanloai: ["Phủ Bàng quang", "Hàn", "Hư", "Khí hư suy"],
-    tc: ["Đái dầm đêm không biết", "Tiểu tiện rỉ rả không tự chủ", "Sợ lạnh, thắt lưng mỏi", "Mạch trầm nhược"],
-    pdt: "Ôn bổ bàng quang, sáp niệu cố bản",
-    bt: "Tang phiêu tiêu tán hợp Ích trí nhân tán",
-    tpbt: ["Tang phiêu tiêu", "Ích trí nhân", "Bổ cốt chỉ", "Hoài sơn", "Long cốt", "Mẫu lệ"]
+  "PK_VoSinh_KhiHuyetHu": {
+    hc: "Vô sinh nữ do Khí huyết hư suy",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Hư suy", "Khí huyết hư vô sinh"],
+    tc: ["Không thai, sắc mặt nhợt nhạt gầy yếu", "Kinh nguyệt ít sắc nhạt loãng", "Mệt mỏi hụt hơi chóng mặt", "Mạch tế nhược"],
+    pdt: "Song bổ khí huyết, dưỡng xung tư thai",
+    bt: "Thánh dũ thang gia Kỷ tử, Thỏ ty tử",
+    tpbt: ["Nhân sâm", "Hoàng kỳ", "Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Kỷ tử", "Thỏ ty tử"]
   },
-  "HC_BATCH6_008": {
-    hc: "Tam tiêu thấp nhiệt sốt dai dẳng",
-    phanloai: ["Tam tiêu", "Nhiệt", "Thực", "Thấp nhiệt"],
-    tc: ["Sốt hầm hập kéo dài không lui", "Thân thể nặng nề, ngực tức", "Tiểu đỏ ngắn, đại tiện dính", "Rêu vàng dính dày", "Mạch nhu sác"],
-    pdt: "Thanh nhiệt lợi thấp tam tiêu",
-    bt: "Tam nhân thang hợp Hoắc hương chính khí tán",
-    tpbt: ["Hạnh nhân", "Bạch đậu khấu", "Ý dĩ", "Bán hạ", "Hậu phác", "Hoắc hương", "Hoạt thạch"]
+  "PK_VoSinh_BaoCungHuHan": {
+    hc: "Vô sinh nữ do Bào cung hư hàn (Lạnh tử cung)",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Hàn", "Hư", "Bào cung hư hàn vô sinh"],
+    tc: ["Không thai, bụng dưới luôn cold đau âm ỉ", "Chườm ấm bớt đau, tay chân cold ngắt", "Sợ cold, kinh muộn sắc nhợt", "Mạch trầm trì nhược"],
+    pdt: "Ôn kinh tán hàn, noãn bào cung dưỡng thai",
+    bt: "Ôn kinh thang gia Ba kích, Dâm dương hoắc",
+    tpbt: ["Ngô thù du", "Mạch môn", "Đương quy", "Xuyên khung", "Bạch thược", "Nhân sâm", "Quế chi", "A giao", "Ba kích", "Dâm dương hoắc"]
   },
-  "HC_BATCH6_009": {
-    hc: "Khí trệ đàm ngưng u cục vùng cổ (Bướu cổ)",
-    phanloai: ["Khí Huyết Tân Dịch", "Bình", "Thực", "Đàm khí uất"],
-    tc: ["Vùng cổ nổi u cục mềm không đau", "Cảm giác vướng nghẹn cổ họng", "Ngực trướng, tinh thần u uất", "Mạch huyền hoạt"],
-    pdt: "Hành khí giải uất, hóa đàm nhuyễn kiên",
-    bt: "Hải tảo ngọc hủ thang",
-    tpbt: ["Hải tảo", "Côn bố", "Bối mẫu", "Trần bì", "Bán hạ", "Liên kiều", "Đương quy", "Xuyên khung"]
+  "PK_VoSinh_BaoCungThapNhiet": {
+    hc: "Vô sinh nữ do Thấp nhiệt uẩn kết bào cung",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Nhiệt", "Thực", "Thấp nhiệt vô sinh"],
+    tc: ["Không thai kèm khí hư vàng xanh hôi dầm dề", "Bụng dưới đau rát, tiểu dắt buốt", "Rêu lưỡi vàng nhớt", "Mạch nhu sác"],
+    pdt: "Thanh nhiệt lợi thấp, giải độc thông mạch tư thai",
+    bt: "Chỉ đới thang gia Hoàng bá, Đào nhân",
+    tpbt: ["Hoàng bá", "Tri mẫu", "Trúc nhự", "Phục linh", "Trạch tả", "Xa tiền tử", "Đào nhân"]
   },
-  "HC_BATCH6_010": {
-    hc: "Huyết uất ngực sườn đau nhói",
-    phanloai: ["Khí Huyết Tân Dịch", "Bình", "Thực", "Huyết ứ"],
-    tc: ["Đau nhói vùng ngực sườn cố định", "Đau tăng khi ho hoặc hít sâu", "Môi móng tím, lưỡi tím sẫm", "Mạch sáp"],
-    pdt: "Hoạt huyết hóa ứ, lý khí chỉ thống",
-    bt: "Huyết phủ trục ứ thang gia Sài hồ",
-    tpbt: ["Đương quy", "Sinh địa", "Đào nhân", "Hồng hoa", "Chỉ xác", "Xích thược", "Sài hồ", "Xuyên khung"]
+  "PK_ManKinh_CanThanAmHu": {
+    hc: "Hội chứng tiền mãn kinh / Mãn kinh do Can Thận âm hư",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Nhiệt", "Hư", "Can Thận âm hư mãn kinh"],
+    tc: ["Mãn kinh xuất hiện bốc hỏa vã mồ hôi gò má đỏ", "Chóng mặt hoa mắt, tai ù, đau lưng mỏi gối", "Bứt rứt mất ngủ, khô âm đạo", "Mạch tế sác"],
+    pdt: "Tư bổ can thận, bình can giáng hỏa",
+    bt: "Kỷ cúc địa hoàng hoàn gia Mẫu lệ, Câu đằng",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Kỷ tử", "Cúc hoa", "Mẫu lệ", "Câu đằng"]
   },
-  "HC_BATCH6_011": {
-    hc: "Dinh vệ bất hòa dễ cảm mạo",
-    phanloai: ["Toàn thân", "Bình", "Hư thực thác tạp", "Biểu hư"],
-    tc: ["Dễ bị cảm khi gặp gió nhẹ", "Sốt sợ gió, vã mồ hôi tự nhiên", "Cổ gáy cứng mỏi", "Mạch phù hoãn"],
-    pdt: "Điều hòa doanh vệ, giải cơ tán hàn",
-    bt: "Quế chi thang",
-    tpbt: ["Quế chi", "Bạch thược", "Sinh khương", "Đại táo", "Chích cam thảo"]
+  "PK_ManKinh_ThanDuongHu": {
+    hc: "Hội chứng mãn kinh do Thận dương hư suy",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Hàn", "Hư suy", "Thận dương hư mãn kinh"], tc: ["Mãn kinh sợ cold, tay chân cold ngắt", "Mệt mỏi suy nhược, thắt lưng cold đau", "Phù nhẹ mi mắt mi chân, tiểu đêm nhiều", "Mạch trầm tế trì"],
+    pdt: "Ôn bổ thận dương, ích tinh cố bản",
+    bt: "Thận khí hoàn gia Nhục quế, Lộc giác giao",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Nhục quế", "Phụ tử chế", "Lộc giác giao"]
   },
-  "HC_BATCH6_012": {
-    hc: "Thập nhị kinh lạc khí huyết ứ trệ toàn thân",
-    phanloai: ["Kinh Lạc", "Bình", "Thực", "Khí trệ huyết ứ"],
-    tc: ["Toàn thân đau mỏi nhức nhối", "Chân tay tê dại, có mảng bầm tím", "Lưỡi tím sẫm có điểm ứ huyết", "Mạch sáp huyền"],
-    pdt: "Thông kinh hoạt lạc, hành khí hóa ứ toàn thân",
-    bt: "Thân thống trục ứ thang gia Khương hoàng",
-    tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Địa long", "Khương hoàng"]
+  "PK_ManKinh_TamThanBatGiao": {
+    hc: "Hội chứng mãn kinh do Tâm Thận bất giao",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Nhiệt", "Hư thực thác tạp", "Tâm Thận bất giao"],
+    tc: ["Cơn bốc hỏa kèm trằn trọc mất ngủ dai dẳng", "Hồi hộp hoảng hốt, hay quên, lo âu", "Lòng bàn tay chân nóng", "Lưỡi đỏ ít rêu", "Mạch tế sác"],
+    pdt: "Tư âm giáng hỏa, thanh tâm an thần",
+    bt: "Thiên vương bổ tâm đan hợp Giao thái hoàn",
+    tpbt: ["Sinh địa", "Huyền sâm", "Cát cánh", "Viễn chí", "Đương quy", "Toan táo nhân", "Hoàng liên", "Nhục quế"]
   },
-  "HC_BATCH6_013": {
-    hc: "Phong hàn thấp trệ đau mỏi vai tay",
-    phanloai: ["Cơ Xương Khớp", "Hàn", "Thực", "Phong hàn thấp"],
-    tc: ["Đau nhức khớp vai lan xuống cánh tay", "Khó nhấc tay, gặp lạnh đau tăng", "Tê dại đầu ngón tay", "Mạch phù khẩn"],
-    pdt: "Khu phong tán hàn, trừ thấp thông lạc",
-    bt: "Quyen thông thang gia Khương hoàng, Tang chi",
-    tpbt: ["Khương hoạt", "Độc hoạt", "Phòng phong", "Khương hoàng", "Tang chi", "Đương quy", "Xích thược"]
+  "PK_ManKinh_CanUatHoaHoa": {
+    hc: "Hội chứng mãn kinh do Can uất hóa hỏa",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Nhiệt", "Thực", "Can hỏa mãn kinh"],
+    tc: ["Tính tình thay đổi dữ dội, dễ cáu giận cáu gắt", "Cơn bốc hỏa nóng rát mặt, đau đầu giật", "Miệng đắng, tiểu tiện đỏ", "Mạch huyền sác hữu lực"],
+    pdt: "Sơ can giải uất, thanh nhiệt tả hỏa",
+    bt: "Gia vị tiêu dao tán gia Câu đằng",
+    tpbt: ["Sài hồ", "Đương quy", "Bạch thược", "Bạch truật", "Phục linh", "Cam thảo", "Đan bì", "Chi tử", "Câu đằng"]
   },
-  "HC_BATCH6_014": {
-    hc: "Phong nhiệt uất Mắt đau sưng đỏ",
-    phanloai: ["Ngũ Quan", "Nhiệt", "Thực", "Phong nhiệt"],
-    tc: ["Mắt sưng đỏ đau rát dữ dội", "Nhiều gỉ mắt đặc vàng, sợ ánh sáng", "Đau đầu sốt nhẹ", "Mạch phù sác"],
-    pdt: "Sơ phong thanh nhiệt, minh mục tiêu thũng",
-    bt: "Cúc hoa xài hồ tán gia Ngân hoa, Thạch quyết minh",
-    tpbt: ["Cúc hoa", "Tang diệp", "Bạc hà", "Sài hồ", "Thạch quyết minh", "Kim ngân hoa", "Cam thảo"]
+  "PK_ManKinh_TyThanDuongHu": {
+    hc: "Hội chứng mãn kinh do Tỳ Thận dương hư",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Hàn", "Hư suy", "Tỳ Thận dương hư"],
+    tc: ["Mãn kinh sợ cold, ăn uống kém không tiêu", "Tiêu chảy sáng sớm, phù thũng hai chân", "Mệt mỏi kiệt sức", "Mạch trầm tế hoãn"],
+    pdt: "Ôn bổ tỳ thận, kiện tỳ chỉ tả",
+    bt: "Tứ thần hoàn hợp Lý trung hoàn",
+    tpbt: ["Bổ cốt chỉ", "Ngũ vị tử", "Nhục đậu khấu", "Ngô thù du", "Nhân sâm", "Can khương", "Bạch truật"]
   },
-  "HC_BATCH6_015": {
-    hc: "Thấp nhiệt uẩn Tai chảy mủ hôi",
-    phanloai: ["Ngũ Quan", "Nhiệt", "Thực", "Thấp nhiệt"],
-    tc: ["Tai đau nhói, chảy mủ đặc vàng mùi hôi", "Sức nghe giảm đáng kể, tai ù", "Miệng đắng, sốt nhẹ", "Mạch huyền sác"],
-    pdt: "Thanh nhiệt lợi thấp, giải độc bài nùng thông nhĩ",
-    bt: "Long đởm tả can thang gia Yến hoa, Bồ công anh",
-    tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Trạch tả", "Kim ngân hoa", "Bồ công anh", "Cát cánh"]
+  "PK_NhiPhuKhoa_ThapNhiet": {
+    hc: "Viêm âm đạo ở trẻ em (Nhi khoa phụ khoa) do Thấp nhiệt dính bẩn",
+    phanloai: ["Phụ Khoa Nhi", "Nhiệt", "Thực", "Thấp nhiệt"],
+    tc: ["Trẻ nhỏ ngứa ngáy vùng âm hộ, quấy khóc", "Niêm mạc âm hộ đỏ sưng, chảy dịch đục vàng", "Tiểu dắt buốt khóc khi tiểu", "Rêu dầy dính"],
+    pdt: "Thanh nhiệt lợi thấp, giải độc chỉ ngứa",
+    bt: "Đạo xích tán gia Khổ sâm, Kim ngân hoa",
+    tpbt: ["Sinh địa", "Mộc thông", "Cam thảo", "Trúc diệp", "Khổ sâm", "Kim ngân hoa"]
   },
-  "HC_BATCH6_016": {
-    hc: "Táo nhiệt uất Mũi chảy máu tươi",
-    phanloai: ["Ngũ Quan", "Nhiệt", "Thực", "Táo nhiệt"],
-    tc: ["Mũi khô rát chảy máu tươi", "Môi nẻ, họng khô khát nước", "Lưỡi đỏ rêu vàng khô", "Mạch phù sác"],
-    pdt: "Thanh nhiệt nhuận táo, lương huyết chỉ huyết",
-    bt: "Tang hạnh thang gia Bạch mao căn, Trắc bách diệp",
-    tpbt: ["Tang diệp", "Hạnh nhân", "Sa sâm", "Chi tử", "Bạch mao căn", "Trắc bách diệp"]
+  "PK_NhiPhuKhoa_KhieuHu": {
+    hc: "Viêm âm đạo trẻ em do Tỳ hư thấp trệ",
+    phanloai: ["Phụ Khoa Nhi", "Bình", "Hư thực thác tạp", "Tỳ hư"],
+    tc: ["Trẻ gầy còm chảy dịch trắng loãng âm hộ dai dẳng", "Ăn kém tiêu chảy, sắc mặt vàng nhợt", "Mệt mỏi hay nằm", "Mạch hoãn nhược"],
+    pdt: "Kiện tỳ mẫn thấp, hòa vị chỉ đới",
+    bt: "Sâm linh bạch truật tán gia giảm",
+    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Liên nhục", "Ý dĩ", "Cam thảo"]
   },
-  "HC_BATCH6_017": {
-    hc: "Hỏa độc uẩn Họng sưng loét đau",
-    phanloai: ["Ngũ Quan", "Nhiệt", "Thực", "Hỏa độc"],
-    tc: ["Niêm mạc họng sưng đỏ loét mủ", "Nuốt đau dữ dội, sốt cao", "Mặt đỏ miệng hôi", "Mạch sác hữu lực"],
-    pdt: "Tả hỏa giải độc, thanh họng bài nùng",
-    bt: "Hoàng liên giải độc thang gia Cát cánh, Ngưu bàng tử",
-    tpbt: ["Hoàng liên", "Hoàng cầm", "Hoàng bá", "Chi tử", "Cát cánh", "Ngưu bàng tử"]
-  },
-  
-  "HC_BATCH6_019": {
-    hc: "Tỳ hư thấp trệ Đới hạ trắng đục",
-    phanloai: ["Phụ Khoa", "Bình", "Hư thực thác tạp", "Tỳ hư thấp trệ"],
-    tc: ["Khí hư ra nhiều màu trắng đục như mỡ", "Không mùi hôi, âm hộ không ngứa", "Mệt mỏi, phân nhão lỏng", "Mạch nhu hoãn"],
-    pdt: "Kiện tỳ ích khí, thăng dương trừ thấp chỉ đới",
-    bt: "Hoàn đới thang",
-    tpbt: ["Bạch truật", "Sơn dược", "Nhân sâm", "Bạch thược", "Thương truật", "Trần bì", "Cam thảo"]
-  },
-  "HC_BATCH6_020": {
-    hc: "Thận hư Đới hạ đục kéo dài",
-    phanloai: ["Phụ Khoa", "Bình", "Hư", "Thận hư bất cố"],
-    tc: ["Khí hư ra dai dẳng như lòng trắng trứng", "Thắt lưng lạnh mỏi, tiểu đêm nhiều", "Sợ lạnh, da mặt nhợt", "Mạch trầm tế nhược"],
-    pdt: "Ôn bổ thận dương, cố sáp chỉ đới",
-    bt: "Nội bổ hoàn gia Bổ cốt chỉ",
-    tpbt: ["Thục địa", "Lộc nhung", "Bổ cốt chỉ", "Phụ tử chế", "Nhục quế", "Hoài sơn"]
-  },
-  "HC_BATCH6_021": {
-    hc: "Bào cung huyết ứ sinh u xơ",
-    phanloai: ["Phụ Khoa", "Bình", "Thực", "Huyết ứ"],
-    tc: ["Sờ thấy u cục ở bụng dưới", "Bụng dưới đau quặn cự án", "Kinh nguyệt ra cục tím đen", "Mạch sáp"],
-    pdt: "Hoạt huyết hóa ứ, nhuyễn kiên tiêu u",
-    bt: "Quế chi phục linh hoàn",
-    tpbt: ["Quế chi", "Phục linh", "Mẫu đơn bì", "Xích thược", "Đào nhân"]
-  },
-  "HC_BATCH6_022": {
-    hc: "Sản hậu huyết hư Đau đầu chóng mặt",
-    phanloai: ["Sản Khoa", "Bình", "Hư", "Huyết hư"],
-    tc: ["Sau sinh đau đầu âm ỉ, hoa mắt", "Sắc mặt nhợt nhạt, mệt mỏi", "Sản dịch ra ít sắc nhạt loãng", "Mạch tế nhược"],
-    pdt: "Bổ huyết hòa doanh, ích khí chỉ thống",
-    bt: "Tứ vật thang gia Hoàng kỳ, Đảng sâm",
-    tpbt: ["Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Hoàng kỳ", "Đảng sâm"]
-  },
-  "HC_BATCH6_023": {
-    hc: "Sản hậu uất khí Mất sữa (Thiếu sữa)",
-    phanloai: ["Sản Khoa", "Bình", "Thực", "Can uất khí trệ"],
-    tc: ["Sau sinh vú trướng đau không ra sữa", "Tinh thần u uất, dễ cáu gắt", "Ngực sườn trướng đầy", "Mạch huyền"],
-    pdt: "Sơ can giải uất, thông lạt hạ sữa",
-    bt: "Thông nhũ đan gia Hương phụ, Vương bất lưu hành",
-    tpbt: ["Mộc thông", "Vương bất lưu hành", "Hương phụ", "Xuyên sơn giáp", "Đương quy", "Sài hồ"]
-  },
-  "HC_BATCH6_024": {
-    hc: "Mang thai ốm nghén do Vị nhiệt",
-    phanloai: ["Sản Khoa", "Nhiệt", "Thực", "Vị hỏa thượng nghịch"],
-    tc: ["Mang thai nôn mửa ra nước chua vàng", "Miệng đắng họng khô, khát nước", "Tiểu đỏ đại tiện táo", "Mạch hoạt sác"],
-    pdt: "Thanh vị tả hỏa, giáng nghịch an thai",
-    bt: "Túc quái thang gia Hoàng liên, Trúc nhự",
-    tpbt: ["Hoàng liên", "Trúc nhự", "Bán hạ chế", "Trần bì", "Sinh khương", "Cam thảo"]
-  },
-  "HC_BATCH6_025": {
-    hc: "Mang thai ốm nghén do Tỳ Vị hư hàn",
-    phanloai: ["Sản Khoa", "Hàn", "Hư", "Tỳ Vị hư hàn"],
-    tc: ["Mang thai nôn ra nước trong nhạt miệng", "Ăn vào nôn ra ngay, mệt mỏi", "Sợ lạnh, tay chân lạnh", "Mạch trầm tế hoãn"],
-    pdt: "Ôn trung kiện tỳ, giáng nghịch an thai",
-    bt: "Lý trung hoàn gia Bán hạ, Sinh khương",
-    tpbt: ["Đảng sâm", "Bạch truật", "Can khương", "Bán hạ chế", "Sinh khương", "Cam thảo"]
-  },
-  "HC_BATCH6_026": {
-    hc: "Nam giới di tinh do Tâm hỏa quấy rối",
-    phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Tâm hỏa"],
-    tc: ["Nhiều mộng mị thấy quan hệ rồi di tinh", "Tâm phiền bứt rứt, mất ngủ", "Loét miệng lưỡi sưng đau", "Mạch sác hữu lực"],
-    pdt: "Thanh tâm tả hỏa, an thần cố tinh",
-    bt: "Đạo xích tán gia Toan táo nhân, Mẫu lệ",
-    tpbt: ["Sinh địa", "Mộc thông", "Trúc diệp", "Toan táo nhân", "Mẫu lệ", "Cam thảo"]
-  },
-  "HC_BATCH6_027": {
-    hc: "Nam giới xuất tinh sớm do Thận khí hư",
-    phanloai: ["Nam Khoa", "Bình", "Hư", "Thận khí bất cố"],
-    tc: ["Vừa tiếp xúc đã xuất tinh", "Lưng mỏi gối yếu, tai ù", "Sắc mặt nhợt nhạt, mệt mỏi", "Mạch trầm nhược"],
-    pdt: "Bổ thận ích khí, cố tinh sáp niệu",
-    bt: "Kim tỏa cố tinh hoàn gia Ích trí nhân",
-    tpbt: ["Sa uyển tử", "Liên tu", "Khiếm thực", "Long cốt", "Mẫu lệ", "Ích trí nhân"]
-  },
-  "HC_BATCH6_028": {
-    hc: "Nam giới xuất tinh sớm do Thấp nhiệt hạ chú",
-    phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Thấp nhiệt"],
-    tc: ["Dương vật dễ kích thích xuất tinh ngay", "Bì bìu ẩm ngứa hôi, tiểu đỏ dắt", "Miệng đắng, rêu vàng nhớt", "Mạch nhu sác"],
-    pdt: "Thanh nhiệt lợi thấp, thanh can thanh tinh",
-    bt: "Long đởm tả can thang gia Hoàng bá",
-    tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Trạch tả", "Hoàng bá", "Sài hồ"]
-  },
-  "HC_BATCH6_029": {
-    hc: "Nam giới vô sinh do Tinh lạnh tinh loãng",
-    phanloai: ["Nam Khoa", "Hàn", "Hư", "Dương hư tinh lạnh"],
-    tc: ["Tinh dịch loãng trong như nước, số lượng ít", "Sợ lạnh, tay chân lạnh ngắt", "Đau thắt lưng gối, liệt dương nhẹ", "Mạch trầm tế trì"],
-    pdt: "Ôn bổ thận dương, ích tinh điền tủy",
-    bt: "Hữu quy hoàn gia Ba kích, Dâm dương hoắc",
-    tpbt: ["Thục địa", "Nhục quế", "Phụ tử chế", "Sơn thù", "Ba kích", "Dâm dương hoắc", "Đỗ trọng"]
-  },
-  "HC_BATCH6_030": {
-    hc: "Nam giới sưng bẹn bìu do Can Đởm hỏa",
-    phanloai: ["Nam Khoa", "Nhiệt", "Thực", "Can Đởm hỏa độc"],
-    tc: ["Tinh hoàn sưng nóng đỏ đau dữ dội", "Mặt đỏ, miệng đắng, sốt cao", "Tiểu đỏ buốt", "Mạch huyền sác hữu lực"],
-    pdt: "Thanh can tả đởm, giải độc tiêu thũng",
-    bt: "Long đởm tả can thang gia Kim ngân hoa, Bồ công anh",
-    tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Trạch tả", "Kim ngân hoa", "Bồ công anh", "Sài hồ"]
-  },
-  "HC_BATCH6_031": {
-    hc: "Trẻ em chậm lớn do Thận tinh khuy tổn",
-    phanloai: ["Nhi Khoa", "Bình", "Hư", "Thận tinh bất túc"],
-    tc: ["Chậm mọc răng, chậm biết đi, thóp lâu đóng", "Xương khớp mềm yếu, tinh thần đần độn", "Tóc thưa thớt xơ vàng", "Mạch tế vô lực"],
-    pdt: "Bổ thận điền tinh, cường gân trác cốt",
+  "PK_TeNhi_ThanTinhBatTuc": {
+    hc: "Dị tật sinh dục / Phát triển muộn sinh dục nữ do Thận tinh bất túc",
+    phanloai: ["Phụ Khoa Nhi", "Bình", "Hư suy", "Thận tinh bất túc"],
+    tc: ["Tuổi dậy thì không có kinh nguyệt, vú không phát triển", "Thân thể lùn thấp, xương khớp mềm yếu", "Đần độn chậm hiểu", "Mạch tế vô lực"],
+    pdt: "Bổ thận điền tinh, ích tủy trác cốt",
     bt: "Lục vị địa hoàng hoàn gia Cốt toái bổ, Lộc giác giao",
-    tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Cốt toái bổ", "Lộc giác giao"]
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Cốt toái bổ", "Lộc giác giao"]
   },
-  
-  "HC_BATCH6_033": {
-    hc: "Trẻ em sốt đêm do Thực tích trệ",
-    phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thực tích hóa nhiệt"],
-    tc: ["Chiều tối sốt cao, bụng trướng cứng", "Ợ chua, nôn ra thức ăn thối", "Đại tiện hôi thối hoặc bế kết", "Mạch hoạt sác"],
-    pdt: "Tiêu thực đạo trệ, thanh nhiệt hòa vị",
-    bt: "Bảo hòa hoàn gia Hoàng liên",
-    tpbt: ["Sơn tra", "Thần khúc", "Lai phục tử", "Bán hạ", "Trần bì", "Phục linh", "Hoàng liên"]
+  "PK_GiaiDoanTienManKinh_KhiHoa": {
+    hc: "Rối loạn vasomotor tiền mãn kinh do Bào cung khí hỏa uất",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Nhiệt", "Hư thực thác tạp", "Khí hỏa uất"],
+    tc: ["Cơn nóng bừng từ ngực bốc lên mặt, vã mồ hôi đầm đìa", "Tâm phiền bứt rứt khó chịu đột ngột", "Mạch huyền sác"],
+    pdt: "Sơ can thanh nhiệt, trấn tĩnh giáng hỏa",
+    bt: "Gia vị tiêu dao tán gia Mẫu lệ, Quy bản",
+    tpbt: ["Sài hồ", "Đương quy", "Bạch thược", "Bạch truật", "Phục linh", "Đan bì", "Chi tử", "Mẫu lệ", "Quy bản"]
   },
-  "HC_BATCH6_034": {
-    hc: "Trẻ em ho gà do Phong nhiệt uất phế",
-    phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Phong nhiệt đàm độc"],
-    tc: ["Ho rít từng cơn kéo dài, mặt đỏ tím", "Sau cơn ho nôn ra đờm dãi dính", "Sốt nhẹ, họng sưng đỏ", "Mạch phù sác"],
-    pdt: "Sơ phong thanh nhiệt, tuyên phế chỉ khái",
-    bt: "Tang cúc ẩm gia Bối mẫu, Bách bộ",
-    tpbt: ["Tang diệp", "Cúc hoa", "Hạnh nhân", "Cát cánh", "Bối mẫu", "Bách bộ", "Cam thảo"]
-  },
-  "HC_BATCH6_035": {
-    hc: "Trẻ em chốc đầu mụn mủ do Thấp nhiệt",
-    phanloai: ["Nhi Khoa / Da Liễu", "Nhiệt", "Thực", "Thấp nhiệt hỏa độc"],
-    tc: ["Da đầu nổi mụn mủ vỡ chảy dịch vàng", "Vảy đóng dày hôi, ngứa ngáy rát", "Sốt nhẹ, tiểu đỏ", "Mạch nhu sác"],
-    pdt: "Thanh nhiệt giải độc, trừ thấp chỉ ngứa",
-    bt: "Ngũ vị tiêu độc ẩm gia Hoàng bá, Khổ sâm",
-    tpbt: ["Kim ngân hoa", "Cúc hoa", "Bồ công anh", "Hoàng bá", "Khổ sâm", "Cam thảo"]
-  },
-  "HC_BATCH6_036": {
-    hc: "Người già bế niệu do Thận dương suy",
-    phanloai: ["Phủ Bàng quang", "Hàn", "Hư", "Dương hư khí hóa thất thường"],
-    tc: ["Bụng dưới trướng căng nhưng không tiểu được", "Chân tay lạnh ngắt, sợ lạnh", "Đau lưng mỏi gối dữ dội", "Mạch trầm vi nhược"],
-    pdt: "Ôn thận tráng dương, hóa khí lợi thủy",
-    bt: "Tế sinh Thận khí hoàn",
-    tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Nhục quế", "Phụ tử chế", "Ngưu tất", "Xa tiền tử"]
-  },
-  "HC_BATCH6_037": {
-    hc: "Người già táo bón do Khí huyết hư",
-    phanloai: ["Phủ Đại trường", "Bình", "Hư", "Khí huyết hư tràng táo"],
-    tc: ["Đại tiện khó đi, nhiều ngày không đi tiêu", "Phân không quá cứng nhưng rặn không ra", "Mệt mỏi hụt hơi, sắc mặt nhợt", "Mạch hư nhược"],
-    pdt: "Bổ khí dưỡng huyết, nhuận tràng thông tiện",
-    bt: "Hoàng kỳ thang hợp Tứ vật thang gia Ma nhân",
-    tpbt: ["Hoàng kỳ", "Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Hỏa ma nhân", "Trần bì"]
-  },
-  "HC_BATCH6_038": {
-    hc: "Người già run tay chân do Can Thận hư",
-    phanloai: ["Thần Kinh", "Bình", "Hư", "Can Thận âm hư phong động"],
-    tc: ["Tay chân run rẩy không tự chủ", "Đầu choáng mắt hoa, bước đi không vững", "Đau lưng mỏi gối, tai ù", "Mạch tế huyền nhược"],
-    pdt: "Tư bổ can thận, tắt phong chỉ run",
-    bt: "Trấn can tức phong thang gia Thục địa, Kỷ tử",
-    tpbt: ["Ngưu tất", "Đại giả thạch", "Long cốt", "Mẫu lệ", "Quy bản", "Thục địa", "Kỷ tử"]
-  },
-  "HC_BATCH6_039": {
-    hc: "Người già sa trực tràng do Trung khí hư",
-    phanloai: ["Phủ Đại trường", "Bình", "Hư", "Khí hư hạ hãm"],
-    tc: ["Trực tràng (hậu môn) sa ra ngoài khi đi tiêu", "Khó tự co lên, phải dùng tay đẩy", "Mệt mỏi hụt hơi, sắc mặt nhợt", "Mạch hoãn nhược"],
-    pdt: "Bổ trung ích khí, thăng dương cử hãm",
-    bt: "Bổ trung ích khí thang gia Chỉ xác sao, Kha tử",
-    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Trần bì", "Thăng ma", "Sài hồ", "Chỉ xác", "Kha tử"]
-  },
-  "HC_BATCH6_040": {
-    hc: "Viêm khớp gout cấp do Thấp nhiệt độc",
-    phanloai: ["Cơ Xương Khớp", "Nhiệt", "Thực", "Thấp nhiệt hỏa độc"],
-    tc: ["Khớp ngón chân cái sưng nóng đỏ đau dữ dội", "Đau tấy không cho chạm vào", "Sốt, sốt nhẹ, tiểu đỏ", "Mạch hoạt sác hữu lực"],
-    pdt: "Thanh nhiệt lợi thấp, giải độc thông lạc chỉ thống",
-    bt: "Bạch hổ quế chi thang gia Thổ phục linh, Ý dĩ",
-    tpbt: ["Tri mẫu", "Thạch cao", "Quế chi", "Thổ phục linh", "Ý dĩ", "Cam thảo"]
-  },
-  "HC_BATCH6_041": {
-    hc: "Viêm khớp gout mạn do Đàm ứ kết hạt tophi",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Thực", "Đàm ứ ngưng trệ"],
-    tc: ["Xuất hiện hạt tophi quanh khớp cứng đau", "Khớp biến dạng co duỗi khó khăn", "Lưỡi tím xám rêu dầy nhớt", "Mạch sáp hoạt"],
-    pdt: "Hóa đàm tán kết, hoạt huyết thông lạc chỉ thống",
-    bt: "Đào hồng tứ vật thang gia Bạch giới tử, Thổ phục linh",
-    tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Bạch giới tử", "Thổ phục linh", "Ngưu tất"]
-  },
-  "HC_BATCH6_042": {
-    hc: "Viêm gân co rút do Phong hàn trệ",
-    phanloai: ["Cơ Xương Khớp", "Hàn", "Thực", "Phong hàn trệ"],
-    tc: ["Gân cơ co quắp đau nhức, khó duỗi", "Gặp lạnh đau tăng, chườm ấm dễ chịu", "Sợ gió, tay chân lạnh", "Mạch trầm khẩn"],
-    pdt: "Khu phong tán hàn, thư gân thông lạc",
-    bt: "Quyên thống thang gia Mộc qua, Ngô thù du",
-    tpbt: ["Khương hoạt", "Độc hoạt", "Phòng phong", "Mộc qua", "Ngô thù du", "Đương quy", "Cam thảo"]
-  },
-  "HC_BATCH6_043": {
-    hc: "Đau cột sống do Khí trệ huyết ứ",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Thực", "Khí trệ huyết ứ"],
-    tc: ["Đau thắt lưng cột sống nhói như kim đâm", "Điểm đau cố định cự án", "Xoay người cúi ngửa rất khó", "Lưỡi tím điểm ứ huyết", "Mạch sáp"],
-    pdt: "Hành khí hoạt huyết, thông kinh chỉ thống cột sống",
-    bt: "Thân thống trục ứ thang gia Cẩu tích",
-    tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Cẩu tích", "Địa long"]
-  },
-  "HC_BATCH6_044": {
-    hc: "Thoái hóa khớp gối do Thận hư thấp trệ",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Hư thực thác tạp", "Thận hư thấp tý"],
-    tc: ["Khớp gối đau mỏi, phát ra tiếng kêu khi đi", "Thắt lưng yếu, gối sưng nhẹ nặng nề", "Thời tiết thay đổi đau tăng", "Mạch trầm tế hoãn"],
-    pdt: "Bổ thận cường gân, trừ thấp thông lạc",
-    bt: "Bổ thận tráng cốt hoàn hợp Ý dĩ nhân tán",
-    tpbt: ["Thục địa", "Đỗ trọng", "Cốt toái bổ", "Tục đoạn", "Ý dĩ", "Thương truật", "Ngưu tất"]
-  },
-  "HC_BATCH6_045": {
-    hc: "Khớp sưng to trệ do Đàm thấp uẩn kết",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Thực", "Đàm thấp tý"],
-    tc: ["Khớp sưng to biến dạng nhưng không đỏ nóng", "Cảm giác nặng nề uể ả toàn thân", "Rêu lưỡi trắng dầy nhớt", "Mạch hoạt nhu"],
-    pdt: "Táo thấp hóa đàm, thông lạc tiêu thũng",
-    bt: "Nhị trần thang gia Bạch giới tử, Mộc qua, Phòng kỷ",
-    tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Bạch giới tử", "Mộc qua", "Phòng kỷ", "Cam thảo"]
-  },
-  "HC_BATCH6_046": {
-    hc: "Da nổi mề đay do Phong hàn uất biểu",
-    phanloai: ["Ngoại Khoa / Da Liễu", "Hàn", "Thực", "Phong hàn"],
-    tc: ["Mẩn ngứa màu trắng nhạt mọc thành mảng", "Gặp gió lạnh ngứa tăng, ấm giảm", "Sợ lạnh, rêu lưỡi trắng mỏng", "Mạch phù khẩn"],
-    pdt: "Sơ phong tán hàn, hòa doanh chỉ ngứa",
-    bt: "Ma hoàng quế chi các bán thang gia Kinh giới, Phòng phong",
-    tpbt: ["Ma hoàng", "Quế chi", "Bạch thược", "Kinh giới", "Phòng phong", "Cam thảo"]
-  },
-  "HC_BATCH6_047": {
-    hc: "Da vảy nến do Huyết nhiệt phong táo",
-    phanloai: ["Ngoại Khoa / Da Liễu", "Nhiệt", "Thực", "Huyết nhiệt phong táo"],
-    tc: ["Mảng đỏ trên da đóng vảy trắng nhiều lớp", "Bóc vảy ra rớm máu, ngứa rát dữ dội", "Miệng khô khát, tiểu đỏ", "Mạch sác"],
-    pdt: "Thanh nhiệt lương huyết, khu phong nhuận táo",
-    bt: "Lương huyết tiêu phong tán gia Thổ phục linh",
-    tpbt: ["Sinh địa", "Xích thược", "Đan bì", "Kim ngân hoa", "Kinh giới", "Thổ phục linh", "Cam thảo"]
-  },
-  "HC_BATCH6_048": {
-    hc: "Da Chàm (Eczema) do Thấp nhiệt uẩn kết",
-    phanloai: ["Ngoại Khoa / Da Liễu", "Nhiệt", "Thực", "Thấp nhiệt"],
-    tc: ["Da đỏ sưng nổi mụn nước nhỏ liti", "Mụn vỡ chảy dịch dính hôi, ngứa dữ dội", "Tiểu đỏ, đại tiện dính", "Mạch nhu sác"],
-    pdt: "Thanh nhiệt lợi thấp, khu phong chỉ ngứa",
-    bt: "Long đởm tả can thang gia Khổ sâm, Hoàng bá",
-    tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Khổ sâm", "Hoàng bá", "Trạch tả", "Cam thảo"]
-  },
-  "HC_BATCH6_049": {
-    hc: "Mụn nhọt đầu đinh do Hỏa độc uẩn kết",
-    phanloai: ["Ngoại Khoa", "Nhiệt", "Thực", "Hỏa độc"],
-    tc: ["Mụn nhỏ có ngòi tím đỏ sưng đau dữ dội", "Nóng rát nhanh chóng lan rộng", "Sốt cao rét run, khát nước", "Mạch sác hữu lực"],
-    pdt: "Thực hỏa giải độc, tiêu thũng tán kết",
+  "PK_MocNgoaiAm_NhietDoc": {
+    hc: "Mụn nhọt mọc ngoài âm hộ do Hỏa độc độc khí",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Nhiệt", "Thực", "Hỏa độc"],
+    tc: ["Nổi u mụn nhọt sưng đau rát ngoài môi lớn/môi bé", "Có ngòi mủ, sốt nhẹ, tiểu tiện buốt", "Mạch sác hữu lực"],
+    pdt: "Thanh nhiệt giải độc, tiêu thũng tán kết",
     bt: "Ngũ vị tiêu độc ẩm gia Hoàng liên",
-    tpbt: ["Kim ngân hoa", "Cúc hoa", "Bồ công anh", "Tử hoa địa đinh", "Hoàng liên"]
+    tpbt: ["Kim ngân hoa", "Cúc hoa", "Bồ công anh", "Tử hoa địa đinh", "Tử bối thiên quỳ", "Hoàng liên"]
   },
-  "HC_BATCH6_050": {
-    hc: "Áp xé tuyến vú do Can uất hỏa độc",
-    phanloai: ["Ngoại Khoa", "Nhiệt", "Thực", "Can hỏa độc"],
-    tc: ["Vú sưng to nóng đỏ đau nhói cự án", "Sốt cao bứt rứt, miệng đắng", "Có thể mưng mủ vỡ dịch hôi", "Mạch huyền sác"],
-    pdt: "Sơ can thanh nhiệt, giải độc bài nùng",
-    bt: "Thanh can giải độc thang gia Cát cánh",
-    tpbt: ["Sài hồ", "Hoàng cầm", "Chi tử", "Kim ngân hoa", "Bồ công anh", "Cát cánh", "Cam thảo"]
+  "PK_TuyenBartholin_ViemCapThapNhiet": {
+    hc: "Viêm tuyến Bartholin cấp do Thấp nhiệt hỏa độc",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Nhiệt", "Thực", "Thấp nhiệt hỏa độc"],
+    tc: ["Một bên mép âm hộ sưng to như quả trứng gà nóng đỏ đau dữ dội", "Đi lại ngồi rất khó khăn", "Sốt, khát nước", "Mạch nhu sác hữu lực"],
+    pdt: "Thanh nhiệt táo thấp, giải độc tiêu thũng",
+    bt: "Tiên phương hoạt mệnh hãn gia Bồ công anh, Khổ sâm",
+    tpbt: ["Kim ngân hoa", "Trần bì", "Phòng phong", "Bạch chỉ", "Bồ công anh", "Khổ sâm", "Nhũ hương", "Một dược"]
   },
-  "HC_BATCH6_051": {
-    hc: "Viêm dạ dày do Tỳ Vị hư hàn trệ",
-    phanloai: ["Phủ Vị", "Hàn", "Hư thực thác tạp", "Hư hàn"],
-    tc: ["Đau vùng thượng vị âm ỉ liên miên", "Thích chườm ấm xoa bóp, ăn lạnh đau tăng", "Ợ hơi nôn ra nước trong", "Mạch trầm trì"],
-    pdt: "Ôn trung kiện vị, hoãn cấp chỉ thống",
-    bt: "Hoàng kỳ kiến trung thang gia Can khương",
-    tpbt: ["Hoàng kỳ", "Quế chi", "Bạch thược", "Sinh khương", "Can khương", "Di đường", "Cam thảo"]
+  "PK_TuyenBartholin_HoaDaiNhung": {
+    hc: "Nang / Áp xe tuyến Bartholin mưng mủ do Bài nùng nhiệt độc",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Nhiệt", "Thực", "Bài nùng hỏa độc"],
+    tc: ["Khối viêm sưng hóa mủ phập phồng", "Đau nhói buốt dữ dội không ngủ được", "Mạch hoạt sác"],
+    pdt: "Thanh nhiệt giải độc, thác độc bài nùng",
+    bt: "Thấu quốc tán gia Kim ngân hoa, Cát cánh",
+    tpbt: ["Hoàng kỳ", "Đương quy", "Bạch chỉ", "Xuyên khung", "Kim ngân hoa", "Cát cánh", "Xuyên sơn giáp gia"]
   },
-  "HC_BATCH6_052": {
-    hc: "Viêm đại tràng co thắt do Can Tỳ bất hòa",
-    phanloai: ["Tạng Can & Phủ Đại trường", "Bình", "Hư thực thác tạp", "Khí trệ Tỳ hư"],
-    tc: ["Đau bụng quặn trước khi đi tiêu", "Đi tiêu xong thì hết đau", "Đại tiện lúc phân lỏng lúc táo", "Lo âu xúc động đau tăng", "Mạch huyền tế"],
-    pdt: "Sơ can nhuận tỳ, chỉ thống chỉ tả",
-    bt: "Thống tả yếu phương",
-    tpbt: ["Bạch truật", "Bạch thược", "Trần bì", "Phòng phong"]
+  "PK_XuatHuyetGiaiDoanRungThuc_HuyetNhiet": {
+    hc: "Xuất huyết giữa kỳ kinh (Xuất huyết giai đoạn rụng trứng) do Huyết nhiệt",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Nhiệt", "Thực", "Huyết nhiệt"],
+    tc: ["Xuất huyết ít đỏ tươi giữa 2 kỳ kinh kéo dài 2-3 ngày", "Không đau bụng, ngực hơi trướng nhẹ", "Mạch tế sác"],
+    pdt: "Thanh nhiệt lương huyết, cố xung chỉ huyết",
+    bt: "Lưỡng địa thang gia Trắc bách diệp sao",
+    tpbt: ["Sinh địa", "Địa cốt bì", "Huyền sâm", "Mạch môn", "Bạch thược", "A giao", "Trắc bách diệp sao"]
   },
-  
-  "HC_BATCH6_054": {
-    hc: "Suy nhược thần kinh do Tâm Can âm hư",
-    phanloai: ["Thần Kinh", "Nhiệt", "Hư", "Âm hư"],
-    tc: ["Mất ngủ kéo dài, dễ giật mình", "H hồi hộp hay quên, mắt khô xót", "Triều nhiệt đạo hãn, tai ù", "Mạch tế sác"],
-    pdt: "Tư âm dưỡng tâm, bổ can an thần",
-    bt: "Bổ tâm đan hợp Kỷ cúc địa hoàng hoàn",
-    tpbt: ["Sinh địa", "Huyền sâm", "Thục địa", "Kỷ tử", "Cúc hoa", "Toan táo nhân", "Viễn chí"]
+  "PK_XuatHuyetGiaiDoanRungThuc_ThieuAm": {
+    hc: "Xuất huyết giữa kỳ kinh do Thiếu âm âm hư hỏa động",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Nhiệt", "Hư", "Âm hư"],
+    tc: ["Giữa kỳ kinh ra ít máu hồng nhạt dính", "Lòng bàn tay chân nóng, đau lưng mỏi gối", "Mạch tế sác vô lực"],
+    pdt: "Tư bổ thận âm, dưỡng xung chỉ huyết",
+    bt: "Tả quy hoàn gia A giao, Địa cốt bì",
+    tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "A giao", "Địa cốt bì"]
   },
-  "HC_BATCH6_055": {
-    hc: "Suy nhược thần kinh do Tâm Tỳ lưỡng hư",
-    phanloai: ["Thần Kinh", "Bình", "Hư", "Khí huyết hư"],
-    tc: ["Mệt mỏi toàn thân, ngại nói", "Khó ngủ, ngủ hay mơ tỉnh giấc", "Ăn uống không ngon, sắc mặt nhợt", "Mạch tế nhược"],
-    pdt: "Song bổ khí huyết, an thần định chí",
-    bt: "Quy tỳ thang gia Viễn chí",
-    tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Long nhãn", "Toan táo nhân", "Viễn chí"]
+  "PK_XuatHuyetGiaiDoanRungThuc_HuyetU": {
+    hc: "Xuất huyết giữa kỳ kinh do Huyết ứ trệ",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Thực", "Huyết ứ"],
+    tc: ["Giữa kỳ kinh ra ít máu tím đen có cục nhỏ", "Bụng dưới đau nhói nhẹ", "Mạch sáp"],
+    pdt: "Hoạt huyết hóa ứ, chỉ huyết điều kinh",
+    bt: "Đào hồng tứ vật thang gia Tam thất",
+    tpbt: ["Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Đào nhân", "Hồng hoa", "Tam thất"]
   },
-  "HC_BATCH6_056": {
-    hc: "Đau dây thần kinh liên sườn do Can khí uất",
-    phanloai: ["Thần Kinh / Tạng Can", "Bình", "Thực", "Khí trệ"],
-    tc: ["Đau tức trướng dọc theo mạng sườn", "Đau di chuyển không cố định, xoay người đau", "Hay thở dài, cáu gắt", "Mạch huyền"],
-    pdt: "Sơ can giải uất, thông lạc chỉ thống",
-    bt: "Sài hồ sơ can tán gia Uất kim, Hương phụ",
-    tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Xuyên khung", "Uất kim", "Hương phụ", "Cam thảo"]
+  "PK_DauThietSinhDuc_KhiTre": {
+    hc: "Đau rát vùng sinh dục ngoài do Khí trệ kinh lạc",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Thực", "Khí trệ"],
+    tc: ["Âm hộ âm đạo đau tức trướng di chuyển", "Xúc động cáu giận đau tăng", "Mạch huyền"],
+    pdt: "Sơ can lý khí, thông lạc chỉ thống",
+    bt: "Sài hồ sơ can tán gia Hương phụ, Ô dược",
+    tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Xuyên khung", "Hương phụ", "Ô dược", "Cam thảo"]
   },
-  "HC_BATCH6_057": {
-    hc: "Đau dây thần kinh liên sườn do Huyết ứ",
-    phanloai: ["Thần Kinh", "Bình", "Thực", "Huyết ứ"],
-    tc: ["Đau nhói vùng liên sườn cố định như kim đâm", "Cự án đau tăng về đêm", "Lưỡi tím sẫm có điểm ứ huyết", "Mạch sáp"],
-    pdt: "Hoạt huyết hóa ứ, thông lạc chỉ thống",
-    bt: "Cách hạ trục ứ thang gia Ngưu tất",
-    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Chỉ xác", "Hương phụ", "Ngưu tất"]
+  "PK_DauThietSinhDuc_HanNgung": {
+    hc: "Đau rát âm hộ do Hàn ngưng huyết trệ",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Hàn", "Thực", "Hàn ngưng"],
+    tc: ["Âm hộ đau co quắp lạnh ngắt", "Gặp cold đau tăng, chườm ấm bớt", "Mạch trầm khẩn"],
+    pdt: "Ôn kinh tán hàn, thông lạc chỉ thống",
+    bt: "Noãn can tiễn gia Quế chi",
+    tpbt: ["Tiểu hồi hương", "Nhục quế", "Đương quy", "Ô dược", "Trầm hương", "Phục linh", "Quế chi"]
   },
-  "HC_BATCH6_058": {
-    hc: "Tai biến di chứng do Khí hư huyết ứ (Bán thân bất toại)",
-    phanloai: ["Thần Kinh", "Bình", "Hư thực thác tạp", "Khí hư huyết ứ"],
-    tc: ["Liệt nửa người tay chân mềm yếu", "Méo miệng chảy nước dãi, nói ngọng", "Sắc mặt nhợt, mệt mỏi", "Mạch tế sáp vô lực"],
-    pdt: "Đại bổ khí huyết, hoạt huyết thông kinh lạc",
-    bt: "Bổ dương hoàn ngũ thang",
-    tpbt: ["Hoàng kỳ", "Đương quy vĩ", "Xích thược", "Đào nhân", "Hồng hoa", "Địa long", "Xuyên khung"]
+  "PK_BaoCungCoThat_CanKhieuBatHoa": {
+    hc: "Co thắt tử cung (Bào cung co thắt) do Can Vị bất hòa",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Thực", "Can Vị bất hòa"],
+    tc: ["Tử cung co thắt quặn đau từng cơn dữ dội ngoài kỳ kinh", "Buồn nôn, ợ chua, trướng ngực", "Mạch huyền"],
+    pdt: "Sơ can hòa vị, hoãn cấp chỉ thống",
+    bt: "Thược dược cam thảo thang hợp Tả kim hoàn",
+    tpbt: ["Bạch thược", "Chích cam thảo", "Hoàng liên", "Ngô thù du"]
   },
-  "HC_BATCH6_059": {
-    hc: "Tai biến di chứng do Phong đàm trở lạc",
-    phanloai: ["Thần Kinh", "Bình", "Thực", "Phong đàm thông lạc"],
-    tc: ["Liệt nửa người chân tay co quắp cứng", "Cổ họng vướng đờm, nói rất ngọng", "Rêu lưỡi trắng dầy nhớt", "Mạch huyền hoạt"],
-    pdt: "Sơ phong hóa đàm, thông kinh hoạt lạc",
-    bt: "Bán hạ bạch truật thiên ma thang gia Đởm nam tinh, Địa long",
-    tpbt: ["Bán hạ", "Bạch truật", "Thiên ma", "Trần bì", "Đởm nam tinh", "Địa long", "Phục linh"]
-  },
-  "HC_BATCH6_060": {
-    hc: "Suy tim do Tâm Thận dương hư thủy lăng",
-    phanloai: ["Tạng Tâm & Tạng Thận", "Hàn", "Hư thực thác tạp", "Dương hư thủy trệ"],
-    tc: ["Tâm quý khó thở không thể nằm ngửa", "Toàn thân phù nặng ấn lõm sâu", "Tay chân lạnh ngắt, tiểu rất ít", "Mạch vi tế Muốn tuyệt"],
-    pdt: "Ôn thông tâm thận, trợ dương lợi thủy cố thoát",
-    bt: "Chân vũ thang hợp Sâm phụ thang",
-    tpbt: ["Phụ tử chế", "Nhân sâm", "Bạch truật", "Phục linh", "Bạch thược", "Nhục quế", "Sinh khương"]
-  },
-  "HC_BATCH6_061": {
-    hc: "Cao huyết áp do Can dương thượng kháng",
-    phanloai: ["Tạng Can", "Nhiệt", "Hư thực thác tạp", "Can dương thượng kháng"],
-    tc: ["Đau đầu choáng váng bứt rứt", "Mặt đỏ mắt đỏ, tai ù ve kêu", "Dễ giận dữ cáu gắt, mất ngủ", "Mạch huyền lực"],
-    pdt: "Bình can tiềm dương, thanh nhiệt trấn tĩnh",
-    bt: "Thiên ma câu đằng ẩm",
-    tpbt: ["Thiên ma", "Câu đằng", "Thạch quyết minh", "Ngưu tất", "Đỗ trọng", "Tang ký sinh", "Chi tử", "Hoàng cầm"]
-  },
-  
-  "HC_BATCH6_063": {
-    hc: "Thiếu máu cơ tim do Tâm huyết ứ trệ",
-    phanloai: ["Tạng Tâm", "Bình", "Thực", "Huyết ứ"],
-    tc: ["Đau thắt ngực trái nhói cố định", "Đau lan xuống vai arm trái", "Môi móng tay tím tái", "Mạch sáp hoặc kết đại"],
-    pdt: "Hoạt huyết hóa ứ, thông dương chỉ thống",
-    bt: "Huyết phủ trục ứ thang gia Đan sâm",
-    tpbt: ["Đương quy", "Sinh địa", "Đào nhân", "Hồng hoa", "Chỉ xác", "Xích thược", "Đan sâm"]
-  },
-  "HC_BATCH6_064": {
-    hc: "Rối loạn nhịp tim do Tâm khí hư suy",
-    phanloai: ["Tạng Tâm", "Bình", "Hư", "Khí hư"],
-    tc: ["Hồi hộp trống ngực đập bỏ nhịp", "Thở ngắn hụt hơi khi vận động", "Mệt mỏi tự hãn", "Mạch hư nhược hoặc kết đại"],
-    pdt: "Bổ ích tâm khí, dưỡng huyết định tâm",
-    bt: "Chích cam thảo thang gia Hoàng kỳ",
-    tpbt: ["Chích cam thảo", "Nhân sâm", "Hoàng kỳ", "Sinh địa", "Quế chi", "A giao", "Mạch môn"]
-  },
-  "HC_BATCH6_065": {
-    hc: "Béo phì do Tỳ hư đàm thấp tích tụ",
-    phanloai: ["Tạng Tỳ", "Bình", "Hư thực thác tạp", "Tỳ hư đàm thấp"],
-    tc: ["Thân thể béo bệu bệu, cơ bắp mềm", "Mệt mỏi uể ả, ngực bụng trướng đầy", "Ăn kém tiêu chảy, rêu dầy dính", "Mạch nhu hoãn"],
-    pdt: "Kiện tỳ vận hóa, hóa đàm trừ thấp tiêu mỡ",
-    bt: "Bình vị tán hợp Nhị trần thang gia Trạch tả",
-    tpbt: ["Thương truật", "Hậu phác", "Trần bì", "Bán hạ", "Phục linh", "Trạch tả", "Cam thảo"]
-  },
-  "HC_BATCH6_066": {
-    hc: "Rối loạn mỡ máu do Tỳ hư đàm trọc",
-    phanloai: ["Tạng Tỳ", "Bình", "Hư thực thác tạp", "Đàm trọc"],
-    tc: ["Xơ vữa mạch, người mập mạp", "Đầu nặng choáng váng, ngực tức", "Thân thể mệt mỏi, rêu dầy nhớt", "Mạch hoạt hoãn"],
-    pdt: "Kiện tỳ mẫn thấp, trừ đàm giáng mỡ",
-    bt: "Bán hạ bạch truật thiên ma thang gia Sơn tra",
-    tpbt: ["Bán hạ", "Bạch truật", "Thiên ma", "Trần bì", "Phục linh", "Sơn tra", "Cam thảo"]
-  },
-  "HC_BATCH6_067": {
-    hc: "Gút mạn tính do Can Thận hư đàm ứ",
-    phanloai: ["Cơ Xương Khớp", "Bình", "Hư thực thác tạp", "Đàm ứ Thận hư"],
-    tc: ["Khớp biến dạng hạt tophi nổi nhiều", "Đau nhức khớp dai dẳng lâu ngày", "Đau lưng mỏi gối, tai ù", "Mạch trầm tế sáp"],
-    pdt: "Bổ can thận, hóa đàm trừ ứ, thông lạc chỉ thống",
-    bt: "Độc hoạt ký sinh thang gia Bạch giới tử, Thổ phục linh",
-    tpbt: ["Độc hoạt", "Tang ký sinh", "Thục địa", "Đỗ trọng", "Ngưu tất", "Bạch giới tử", "Thổ phục linh"]
-  },
-  "HC_BATCH6_068": {
-    hc: "Viêm xoang mạn do Phế Tỳ khí hư",
-    phanloai: ["Ngũ Quan", "Bình", "Hư", "Phế Tỳ khí hư"],
-    tc: ["Mũi chảy dịch trắng đục loãng kéo dài", "Nghẹt mũi tái đi tái lại khi gặp lạnh", "Mệt mỏi, ăn kém, phân nhão", "Mạch hư hoãn"],
-    pdt: "Bổ tỳ ích phế, thăng dương thông khiếu",
-    bt: "Bổ trung ích khí thang gia Tân di, Thương nhĩ tử",
-    tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Trần bì", "Thăng ma", "Sài hồ", "Tân di hoa", "Thương nhĩ tử"]
-  },
-  "HC_BATCH6_069": {
-    hc: "Viêm họng mạn do Phế Thận âm hư",
-    phanloai: ["Ngũ Quan", "Nhiệt", "Hư", "Âm hư"],
-    tc: ["Cổ họng khô rát ngứa vướng lâu ngày", "Ho khan ít đờm, ho nhiều về đêm", "Triều nhiệt gò má đỏ", "Mạch tế sác"],
-    pdt: "Tư âm nhuận phế, tư bổ thận thủy, lợi họng",
-    bt: "Bách hợp cố kim thang gia Huyền sâm, Sa sâm",
-    tpbt: ["Bách hợp", "Thục địa", "Sinh địa", "Mạch môn", "Huyền sâm", "Sa sâm", "Bối mẫu", "Cát cánh"]
-  },
-  "HC_BATCH6_070": {
-    hc: "Sỏi mật do Can Đởm thấp nhiệt uẩn kết",
-    phanloai: ["Phủ Đờm", "Nhiệt", "Thực", "Thấp nhiệt thạch lâm"],
-    tc: ["Đau quặn dữ dội hạ sườn phải lan vai", "Mắt vàng da vàng, sốt rét run từng cơn", "Miệng đắng buồn nôn", "Mạch huyền sác"],
-    pdt: "Thanh nhiệt lợi thấp, sơ can lợi đởm bài thạch",
-    bt: "Đại sài hồ thang gia Kim tiền thảo, Kê nội kim",
-    tpbt: ["Sài hồ", "Hoàng cầm", "Bán hạ", "Đại hoàng", "Chỉ thực", "Kim tiền thảo", "Kê nội kim"]
-  },
-  "HC_BATCH6_071": {
-    hc: "Viêm tụy cấp do Tỳ Vị thực nhiệt tích trệ",
-    phanloai: ["Tạng Tỳ & Phủ Vị", "Nhiệt", "Thực", "Thực nhiệt bí kết"],
-    tc: ["Đau bụng vùng thượng vị dữ dội lan lưng", "Bụng trướng cứng cự án không cho chạm", "Nôn mửa liên tục, táo bón nặng", "Mạch trầm thực sác"],
-    pdt: "Thanh nhiệt tả hạ, thông phủ tiêu tích chỉ thống",
-    bt: "Đại thừa khí thang gia Hoàng liên, Hoàng cầm",
-    tpbt: ["Đại hoàng", "Mang tiêu", "Hậu phác", "Chỉ thực", "Hoàng liên", "Hoàng cầm"]
-  },
-  "HC_BATCH6_072": {
-    hc: "Xuất huyết tiêu hóa do Vị hỏa trào nôn ra máu",
-    phanloai: ["Phủ Vị", "Nhiệt", "Thực", "Vị hỏa xuất huyết"],
-    tc: ["Nôn ra máu tươi hoặc máu đục đen", "Thượng vị đau rát cự án", "Miệng hôi khát nước, phân đen hôi", "Mạch hoạt sác hữu lực"],
-    pdt: "Thanh vị tả hỏa, lương huyết chỉ huyết",
-    bt: "Thanh vị tán gia Bồ hoàng, Tam thất",
-    tpbt: ["Hoàng liên", "Thăng ma", "Sinh địa", "Đan bì", "Bồ hoàng", "Tam thất"]
-  },
-  "HC_BATCH6_073": {
-    hc: "Suy thận mạn do Thận dương kiệt thủy thũng",
-    phanloai: ["Tạng Thận", "Hàn", "Hư suy", "Dương hư suy kị"],
-    tc: ["Toàn thân phù nặng, da bệch xám", "Chân tay lạnh ngắt, sợ lạnh vã mồ hôi", "Tiểu rất ít hoặc vô niệu", "Mạch vi tế Muốn tuyệt"],
-    pdt: "Ôn bổ thận dương, hồi dương cứu nghịch lợi thủy",
-    bt: "Tứ nghịch thang hợp Chân vũ thang",
-    tpbt: ["Phụ tử chế", "Can khương", "Bạch truật", "Phục linh", "Bạch thược", "Chích cam thảo"]
-  },
-  "HC_BATCH6_074": {
-    hc: "Viêm bàng quang mạn do Thận âm hư thấp nhiệt",
-    phanloai: ["Phủ Bàng quang", "Nhiệt", "Hư thực thác tạp", "Âm hư thấp nhiệt"],
-    tc: ["Tiểu dắt, tiểu buốt nhẹ dai dẳng", "Nước tiểu vàng đục hay tái phát", "Thắt lưng mỏi, lòng bàn tay chân nóng", "Mạch tế sác"],
-    pdt: "Tư bổ thận âm, thanh nhiệt lợi thấp",
-    bt: "Tri bá địa hoàng hoàn hợp Bát chính tán gia giảm",
-    tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Tri mẫu", "Hoàng bá", "Xa tiền tử", "Mộc thông"]
-  },
-  "HC_BATCH6_075": {
-    hc: "Viêm da cơ địa do Huyết hư phong táo",
-    phanloai: ["Ngoại Khoa / Da Liễu", "Bình", "Hư thực thác tạp", "Huyết hư phong táo"],
-    tc: ["Da khô nẻ bong tróc vảy mỏng", "Ngứa ngáy dữ dội kéo dài mạn tính", "Móng tay xơ khô, da dầy sừng", "Mạch tế sáp"],
-    pdt: "Dưỡng huyết nhuận táo, khu phong chỉ ngứa",
-    bt: "Dưỡng tiêu phong tán gia Hà thủ ô",
-    tpbt: ["Đương quy", "Thục địa", "Bạch thược", "Xuyên khung", "Kinh giới", "Phòng phong", "Hà thủ ô"]
-  },
-  "HC_BATCH6_076": {
-    hc: "Rụng tóc hói đầu do Thận tinh suy tổn",
-    phanloai: ["Toàn thân", "Bình", "Hư", "Thận tinh bất túc"],
-    tc: ["Tóc rụng từng mảng hoặc rụng xơ xác", "Tóc sớm bạc, da đầu khô ngứa", "Đau lưng mỏi gối, tai ù", "Mạch tế nhược"],
-    pdt: "Bổ thận điền tinh, dưỡng huyết sinh tóc",
-    bt: "Thất bảo mỹ nhiệm đan",
-    tpbt: ["Hà thủ ô chế", "Bạch phục linh", "Ngưu tất", "Đương quy", "Thỏ ty tử", "Bổ cốt chỉ", "Câu kỷ tử"]
-  },
-  "HC_BATCH6_077": {
-    hc: "Mất ngủ mạn do Can hỏa quấy rối tâm thần",
-    phanloai: ["Thần Kinh", "Nhiệt", "Thực", "Can hỏa quấy rối"],
-    tc: ["Mất ngủ dai dẳng mạn tính bứt rứt", "Dễ giận dữ, đầu trướng đau dữ dội", "Miệng đắng họng khô, tiểu đỏ", "Mạch huyền sác"],
-    pdt: "Thanh can tả hỏa, trấn tĩnh an thần",
-    bt: "Long đởm tả can thang gia Toan táo nhân, Dạ giao đằng",
-    tpbt: ["Long đởm thảo", "Hoàng cầm", "Chi tử", "Sài hồ", "Toan táo nhân", "Dạ giao đằng", "Sinh địa"]
-  },
-  "HC_BATCH6_078": {
-    hc: "Lo âu sợ hãi do Tâm Đởm khí hư",
-    phanloai: ["Thần Kinh", "Bình", "Hư", "Khí hư"],
-    tc: ["Tâm thần bàng hoàng hay lo âu sợ hãi", "Dễ giật mình, ngủ mơ nhiều", "Hồi hộp hụt hơi, thở dài", "Mạch hư nhược"],
-    pdt: "Bổ khí dưỡng tâm, ích đởm an thần định chí",
-    bt: "An thần định chí hoàn gia Hoàng kỳ",
-    tpbt: ["Nhân sâm", "Hoàng kỳ", "Phục linh", "Phục thần", "Viễn chí", "Long cốt", "Mẫu lệ"]
-  },
-  "HC_BATCH6_079": {
-    hc: "Hay quên giảm trí nhớ do Thận tinh bất túc",
-    phanloai: ["Thần Kinh", "Bình", "Hư", "Thận tinh khuy tổn"],
-    tc: ["Trí nhớ giảm sút nghiêm trọng, đần độn", "Đau lưng mỏi gối, tai ù điếc sớm", "Chân tay yếu mệt, tóc bạc", "Mạch trầm tế vô lực"],
-    pdt: "Bổ thận điền tinh, dưỡng tủy bổ brain",
-    bt: "Tả quy hoàn gia Thạch xương bồ, Viễn chí",
-    tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Kỷ tử", "Thỏ ty tử", "Thạch xương bồ", "Viễn chí"]
-  },
-  "HC_BATCH6_080": {
-    hc: "Thắt lưng đau dai dẳng do Mệnh môn hỏa suy",
-    phanloai: ["Cơ Xương Khớp", "Hàn", "Hư suy", "Mệnh môn hỏa suy"],
-    tc: ["Đau mỏi thắt lưng gối co rút lạnh", "Sợ lạnh, tay chân lạnh ngắt quá gối", "Liệt dương, di tinh, ngũ canh tả", "Mạch trầm tế vi"],
-    pdt: "Ôn bổ mệnh môn hỏa, tư âm trợ dương",
-    bt: "Hữu quy hoàn gia Ba kích, Dâm dương hoắc",
-    tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Kỷ tử", "Đỗ trọng", "Phụ tử chế", "Nhục quế", "Ba kích", "Dâm dương hoắc"]
+  "PK_KhieuHuyetKinhLac_HoatHuyet": {
+    hc: "Dính buồng tử cung (Hội chứng Asherman) do Huyết ứ trệ bào mạch",
+    phanloai: ["Tạp Bệnh Phụ Khoa", "Bình", "Thực", "Huyết ứ dính bao cung"],
+    tc: ["Sau nạo hút thai bị bế kinh hoặc kinh ra rất ít sắc tím đen", "Bụng dưới đau nhói cự án hằng tháng", "Mạch sáp"],
+    pdt: "Hoạt huyết hóa ứ, thông bào mạch giải dính",
+    bt: "Cách hạ trục ứ thang gia Nga truật, Tam thất, Đan sâm",
+    tpbt: ["Đương quy", "Xuyên khung", "Đào nhân", "Hồng hoa", "Chỉ xác", "Hương phụ", "Nga truật", "Tam thất", "Đan sâm"]
   }
+
+});
+Object.assign(window.database, {
+
+  // =========================================================================
+  // BỆNH NHI KHOA (NKH_001 -> NKH_200)
+  // =========================================================================
+
+  // 1. NGOẠI CẢM & PHẾ KHOA TRẺ EM (NKH_001 -> NKH_030)
+  "NKH_001": { hc: "Cảm mạo phong hàn ở trẻ em", phanloai: ["Nhi Khoa", "Hàn", "Thực", "Phong hàn"], tc: ["Sốt nhẹ, sợ lạnh, không mồ hôi", "Ho ngứa họng, nước mũi trong", "Thắt lưng và mình đau mỏi", "Trẻ quấy khóc, bú kém", "Rêu lưỡi trắng mỏng", "Mạch phù khẩn"], pdt: "Tán hàn giải biểu, tuyên phế chỉ khái", bt: "Hạnh tô tán gia giảm", tpbt: ["Tô diệp", "Hạnh nhân", "Tiền hồ", "Cát cánh", "Trần bì", "Phục linh", "Cam thảo"] },
+  "NKH_002": { hc: "Cảm mạo phong nhiệt ở trẻ em", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Phong nhiệt"], tc: ["Sốt cao, sợ gió, vã mồ hôi nhẹ", "Ho đờm đặc vàng, đau họng đỏ", "Chảy nước mũi đặc, khát nước", "Lưỡi đỏ rêu vàng mỏng", "Mạch phù sác"], pdt: "Sơ phong thanh nhiệt, tuyên phế giải biểu", bt: "Ngân kiều tán gia giảm", tpbt: ["Kim ngân hoa", "Liên kiều", "Cát cánh", "Bạc hà", "Trúc diệp", "Kinh giới", "Cam thảo"] },
+  "NKH_003": { hc: "Cảm mạo thử thấp ở trẻ em", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thử thấp"], tc: ["Sốt hầm hập không lui về mùa hè", "Thân thể nặng nề, nôn mửa", "Bụng trướng, đại tiện lỏng nhão", "Rêu lưỡi vàng nhớt", "Mạch nhu sác"], pdt: "Thanh thử hóa thấp, hòa trung giải biểu", bt: "Tân加hương nhu ẩm gia giảm", tpbt: ["Hương nhu", "Biển đậu", "Hậu phác", "Bạch truật", "Phục linh", "Cam thảo"] },
+  "NKH_004": { hc: "Khái đàm phong hàn ở trẻ em", phanloai: ["Nhi Khoa", "Hàn", "Thực", "Phong hàn đàm ẩm"], tc: ["Ho hen thở gấp, ngực trướng", "Đờm trắng loãng nhiều bọt dễ khạc", "Tiếng ho trong, sợ lạnh", "Rêu lưỡi trắng nhuận", "Mạch phù khẩn"], pdt: "Ôn phế tán hàn, hóa đàm chỉ khái", bt: "Tiểu thanh long thang gia giảm", tpbt: ["Ma hoàng", "Quế chi", "Tế tân", "Can khương", "Bán hạ", "Bạch thược", "Cam thảo"] },
+  "NKH_005": { hc: "Khái đàm đàm nhiệt ung phế ở trẻ em", phanloai: ["Nhiệt", "Nhiệt", "Thực", "Đàm nhiệt"], tc: ["Ho hen thở gấp, cánh mũi phập phồng", "Đờm dính vàng đặc hôi", "Sốt cao bứt rứt, miệng khát", "Rêu lưỡi vàng dày nhớt", "Mạch hoạt sác"], pdt: "Thanh nhiệt tuyên phế, hóa đàm định suyễn", bt: "Định suyễn thang gia giảm", tpbt: ["Ma hoàng", "Hạnh nhân", "Tang bạch bì", "Hoàng cầm", "Khoản đông hoa", "Tô tử", "Bán hạ", "Cam thảo"] },
+  "NKH_006": { hc: "Khái đàm đàm thấp uẩn phế ở trẻ em", phanloai: ["Nhi Khoa", "Bình", "Thực", "Đàm thấp"], tc: ["Ho hắng kéo dài, đờm trắng dính nhiều", "Ăn kém, bụng trướng đầy", "Sắc mặt úa vàng, mệt mỏi", "Rêu lưỡi trắng nhớt", "Mạch nhu hoạt"], pdt: "Kiện tỳ táo thấp, hóa đàm chỉ khái", bt: "Nhị trần thang hợp Tam tử dưỡng thân thang", tpbt: ["Bán hạ", "Trần bì", "Phục linh", "Bạch giới tử", "Tô tử", "Lai phục tử", "Cam thảo"] },
+  "NKH_007": { hc: "Phế khí hư khái khái ở trẻ em", phanloai: ["Nhi Khoa", "Bình", "Hư", "Phế khí hư"], tc: ["Ho kéo dài không lực, tiếng ho nhỏ", "Thở ngắn, vã mồ hôi khi vận động", "Dễ cảm mạo, sắc mặt bệch nhợt", "Lưỡi nhợt", "Mạch tế nhược"], pdt: "Bổ phế ích khí, chỉ khái", bt: "Bổ phế thang gia giảm", tpbt: ["Nhân sâm", "Hoàng kỳ", "Thục địa", "Ngũ vị tử", "Tang bạch bì", "Tử uyển"] },
+  "NKH_008": { hc: "Phế âm hư khái khái ở trẻ em", phanloai: ["Nhi Khoa", "Nhiệt", "Hư", "Phế âm hư"], tc: ["Ho khan ít đờm, đờm dính máu nhẹ", "Họng khô miệng rát, gò má đỏ", "Triều nhiệt đạo hãn về chiều", "Lưỡi đỏ ít rêu", "Mạch tế sác"], pdt: "Tư âm nhuận phế, chỉ khái", bt: "Bách hợp cố kim thang gia giảm", tpbt: ["Bách hợp", "Sinh địa", "Mạch môn", "Huyền sâm", "Bối mẫu", "Cát cánh", "Bạch thược"] },
+  "NKH_009": { hc: "Bách nhật khái (Ho gà) thể Đàm hỏa nhiệt ngưng", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Đàm hỏa"], tc: ["Ho cơn dữ dội rít như tiếng gà gáy", "Mặt đỏ mắt đỏ sau cơn ho, nôn ra đờm dãi", "Chảy máu cam, tiểu đỏ", "Rêu lưỡi vàng nhớt", "Mạch hoạt sác"], pdt: "Thanh phế hóa đàm, giáng nghịch chỉ khái", bt: "Tả bạch tán hợp Đình lịch đại táo tả phế thang", tpbt: ["Tang bạch bì", "Địa cốt bì", "Đình lịch tử", "Đại táo", "Hạnh nhân", "Cam thảo"] },
+  "NKH_010": { hc: "Bách nhật khái thể Phế âm khuy tổn", phanloai: ["Nhi Khoa", "Nhiệt", "Hư", "Phế âm hư"], tc: ["Ho cơn thưa dần nhưng ho khan kéo dài", "Giọng nói khàn, miệng khô họng rát", "Sốt nhẹ về chiều, vã mồ hôi trộm", "Lưỡi đỏ khô", "Mạch tế sác"], pdt: "Tư âm nhuận phế, chỉ khái hóa đàm", bt: "Sa sâm mạch đông thang gia giảm", tpbt: ["Sa sâm", "Mạch môn", "Ngọc trúc", "Sinh địa", "Thiên hoa phấn", "Cam thảo"] },
+  "NKH_011": { hc: "Đại khái hen thể Phong hàn外 bọc Hàn đàm nội đình", phanloai: ["Nhi Khoa", "Hàn", "Thực", "Phong hàn đàm ẩm"], tc: ["Ho hen hốt hoảng thở gấp, tiếng cò cử", "Đờm trắng loãng bọt, sợ lạnh", "Sốt nhẹ, không mồ hôi", "Rêu lưỡi trắng dính", "Mạch phù khẩn"], pdt: "Tán hàn tuyên phế, ôn đàm bình suyễn", bt: "Xạ can bán hạ thang gia giảm", tpbt: ["Xạ can", "Bán hạ", "Tế tân", "Can khương", "Tô tử", "Ma hoàng", "Cam thảo"] },
+  "NKH_012": { hc: "Đại khái hen thể Đàm nhiệt ủng phế", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Đàm nhiệt"], tc: ["Thở hen khò khè kêu to, vã mồ hôi nóng", "Đờm vàng dính quánh khó khạc", "Mặt đỏ, miệng khát thích uống lạnh", "Lưỡi đỏ rêu vàng nhớt", "Mạch hoạt sác"], pdt: "Thanh nhiệt tuyên phế, hóa đàm bình suyễn", bt: "Ma hạnh thạch cam thang gia giảm", tpbt: ["Ma hoàng", "Hạnh nhân", "Thạch cao", "Cam thảo", "Tang bạch bì", "Hoàng cầm"] },
+  "NKH_013": { hc: "Đại khái hen giai đoạn mạn thể Phế Tỳ khí hư", phanloai: ["Nhi Khoa", "Bình", "Hư", "Phế Tỳ khí hư"], tc: ["Cơn hen đã đỡ nhưng thở ngắn hụt hơi", "Ăn uống kém, đại tiện nhão lỏng", "Sắc mặt bệch úa, mệt mỏi", "Lưỡi nhợt rêu trắng", "Mạch hư nhược"], pdt: "Kiện tỳ ích khí, bổ phế hóa đàm", bt: "Lục quân tử thang gia giảm", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Trần bì", "Bán hạ"] },
+  "NKH_014": { hc: "Đại khái hen giai đoạn mạn thể Thận bất nạp khí", phanloai: ["Nhi Khoa", "Hàn", "Hư suy", "Thận bất nạp khí"], tc: ["Thở gấp khi vận động, thở vào khó hơn thở ra", "Tay chân lạnh, sợ lạnh, mệt mỏi kiệt sức", "Chân gối yếu mềm", "Mạch trầm tế vô lực"], pdt: "Bổ thận nạp khí, bình suyễn định chí", bt: "Kim quỹ Thận khí hoàn gia Hồ đào nhục", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Hồ đào nhục"] },
+  "NKH_015": { hc: "Phế ung ở trẻ em thể Phong nhiệt ủng phế", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Phong nhiệt hỏa độc"], tc: ["Sốt cao rét run, Ho ho hen ngực đau", "Đờm nhiều dính đặc vàng hôi", "Miệng khô khát nước", "Rêu lưỡi vàng dày", "Mạch sác hữu lực"], pdt: "Sơ phong thanh nhiệt, tuyên phế giải độc", bt: "Ngân kiều tán hợp Tả bạch tán", tpbt: ["Kim ngân hoa", "Liên kiều", "Tang bạch bì", "Địa cốt bì", "Hạnh nhân", "Cam thảo"] },
+  "NKH_016": { hc: "Phế ung ở trẻ em thể Hỏa độc thành nùng", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Nhiệt độc bài nùng"], tc: ["Ho khạc ra nhiều đờm mủ lẫn máu mùi tanh hôi", "Sốt cao không lui, ngực đau quặn", "Mặt đỏ, tiểu đỏ đại tiện táo", "Lưỡi đỏ thẫm rêu vàng nhớt", "Mạch hoạt sác"], pdt: "Thanh nhiệt giải độc, bài nùng tiêu ung", bt: "Thiên kim vị kinh thang gia giảm", tpbt: ["Vĩ kinh", "Đông qua nhân", "Ý dĩ nhân", "Đào nhân", "Bồ công anh", "Kim ngân hoa"] },
+  "NKH_017": { hc: "Khai họng sưng đau do Phong nhiệt uất họng", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Phong nhiệt"], tc: ["Trẻ kêu đau họng, nuốt sặc quấy khóc", "Cổ họng đỏ sưng, sốt nhẹ sợ gió", "Mũi chảy nước đặc", "Mạch phù sác"], pdt: "Sơ phong thanh nhiệt, lợi họng tiêu thũng", bt: "Cát cánh thang gia Ngân hoa, Liên kiều", tpbt: ["Cát cánh", "Cam thảo", "Kim ngân hoa", "Liên kiều", "Bạc hà", "Ngưu bàng tử"] },
+  "NKH_018": { hc: "Khai họng sưng loét do Nhiệt độc hỏa thịnh (Viêm họng mủ)", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Hỏa độc"], tc: ["Sốt cao 39-40 độ, họng sưng đỏ nổi mủ trắng", "Nuốt đau dữ dội, không ăn uống được", "Mặt đỏ, hôi miệng", "Mạch sác hữu lực"], pdt: "Thanh nhiệt giải độc, lợi họng bài nùng", bt: "Hoàng liên giải độc thang gia Cát cánh, Bồ công anh", tpbt: ["Hoàng liên", "Hoàng cầm", "Hoàng bá", "Chi tử", "Cát cánh", "Bồ công anh"] },
+  "NKH_019": { hc: "Khô họng kéo dài do Can Thận âm hư phế tân kiệt", phanloai: ["Nhi Khoa", "Nhiệt", "Hư", "Âm hư"], tc: ["Niêm mạc họng khô đỏ rát dai dẳng", "Ho khan không đờm, gò má đỏ về chiều", "Sốt nhẹ, vã mồ hôi trộm", "Mạch tế sác"], pdt: "Tư âm thanh nhiệt, nhuận phế lợi họng", bt: "Dưỡng âm thanh phế thang gia giảm", tpbt: ["Bách hợp", "Mạch môn", "Huyền sâm", "Sinh địa", "Bối mẫu", "Bạch thược"] },
+  "NKH_020": { hc: "Mũi chảy nước trong do Phong hàn phạm phế", phanloai: ["Nhi Khoa", "Hàn", "Thực", "Phong hàn"], tc: ["Mũi nghẹt, chảy nước mũi trong rỉ rả", "Hắt hơi liên tục, ho hắng nhẹ", "Sợ lạnh, không mồ hôi", "Mạch phù khẩn"], pdt: "Tán hàn giải biểu, thông khiếu chỉ súc", bt: "Thương nhĩ tử tán gia Kinh giới, Phòng phong", tpbt: ["Thương nhĩ tử", "Tân di hoa", "Bạch chỉ", "Bạc hà", "Kinh giới", "Phòng phong"] },
+  "NKH_021": { hc: "Mũi chảy mủ vàng do Phong nhiệt uất phế (Viêm xoang nhi)", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Phong nhiệt"], tc: ["Mũi nghẹt đặc, chảy dịch mủ vàng hôi", "Đau trướng vùng trán và hốc mũi", "Sốt nhẹ, miệng khát", "Mạch phù sác"], pdt: "Sơ phong thanh nhiệt, thông khiếu bài nùng", bt: "Thương nhĩ tử tán gia Ngân hoa, Liên kiều", tpbt: ["Thương nhĩ tử", "Tân di hoa", "Bạch chỉ", "Bạc hà", "Kim ngân hoa", "Liên kiều"] },
+  "NKH_022": { hc: "Tị nục (Chảy máu cam) do Phế nhiệt vọng hành", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Phế nhiệt"], tc: ["Máu cam chảy ra đỏ tươi từng giọt hoặc dòng", "Khô mũi, ho khan nhẹ, sốt nhẹ", "Mặt đỏ, tiểu vàng", "Mạch sác"], pdt: "Thanh phế tả hỏa, lương huyết chỉ huyết", bt: "Tang cúc ẩm gia Bồ hoàng sao, Mao căn", tpbt: ["Tang diệp", "Cúc hoa", "Hạnh nhân", "Liên kiều", "Bạc hà", "Bồ hoàng", "Bạch mao căn"] },
+  "NKH_023": { hc: "Tị nục do Vị hỏa xí thịnh", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Vị hỏa"], tc: ["Chảy máu cam nhiều máu đỏ sẫm, chân răng sưng", "Miệng hôi khát nước, bụng trướng", "Táo bón, tiểu đỏ", "Mạch hoạt sác"], pdt: "Thanh vị tả hỏa, lương huyết chỉ huyết", bt: "Thanh vị tán gia Tam thất, Bạch mao căn", tpbt: ["Hoàng liên", "Thăng ma", "Sinh địa", "Đan bì", "Tam thất", "Bạch mao căn"] },
+  "NKH_024": { hc: "Tị nục do Can hỏa bốc trào", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Can hỏa"], tc: ["Chảy máu cam sau khi quấy khóc tức giận", "Mắt đỏ, miệng đắng, đau đầu", "Trẻ cáu gắt, ngủ trằn trọc", "Mạch huyền sác"], pdt: "Thanh can tả hỏa, lương huyết chỉ huyết", bt: "Long đởm tả can thang gia Bồ hoàng", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Sài hồ", "Bồ hoàng"] },
+  "NKH_025": { hc: "Tị nục do Khí hư không nhiếp huyết", phanloai: ["Nhi Khoa", "Bình", "Hư", "Khí hư không nhiếp huyết"], tc: ["Chảy máu cam tái đi tái lại lượng ít sắc hồng nhạt", "Sắc mặt bệch tái, mệt mỏi hụt hơi", "Ăn kém tiêu chảy", "Mạch hư nhược"], pdt: "Bổ khí kiện tỳ, nhiếp huyết chỉ huyết", bt: "Quy tỳ thang gia Bồ hoàng sao", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Long nhãn", "Bồ hoàng"] },
+  "NKH_026": { hc: "Trúng phong ngoại cảm ở trẻ em thể Thấp nhiệt trở kinh", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt"], tc: ["Sốt hầm hập, chân tay co giật nhẹ", "Cổ gáy cứng mỏi, mệt mỏi lơ mơ", "Rêu dầy vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, thư gân thông lạc", bt: "Tam nhân thang gia Khương hoạt, Tần giao", tpbt: ["Hạnh nhân", "Ý dĩ", "Bán hạ", "Khương hoạt", "Tần giao", "Cam thảo"] },
+  "NKH_027": { hc: "Hội chứng ho biến chứng suy hô hấp thể Phế Thận khí kiệt", phanloai: ["Nhi Khoa", "Bình", "Hư suy", "Khí kiệt"], tc: ["Thở nông gấp đứt đoạn, vã mồ hôi lạnh", "Cánh mũi phập phồng, môi tím tái", "Trẻ lơ mơ kiệt sức", "Mạch vi tế muốn tuyệt"], pdt: "Đại bổ nguyên khí, nạp thận bình suyễn cố thoát", bt: "Sâm phụ thang hợp Sinh mạch tán", tpbt: ["Nhân sâm", "Phụ tử chế", "Mạch môn", "Ngũ vị tử"] },
+  "NKH_028": { hc: "Sốt cao co giật thể Nhiệt cực sinh phong", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Nhiệt cực sinh phong"], tc: ["Trẻ sốt cao 39.5-40.5 độ đột ngột co giật", "Hai mắt trợn ngược, răng cắn chặt", "Thần chí mê muội, mặt đỏ gừ", "Mạch huyền sác hữu lực"], pdt: "Thanh nhiệt tả hỏa, tức phong chỉ kinh", bt: "Linh dương câu đằng ẩm gia giảm", tpbt: ["Linh dương giác", "Câu đằng", "Tang diệp", "Cúc hoa", "Bạch thược", "Sinh địa", "Cam thảo"] },
+  "NKH_029": { hc: "Sốt cao co giật thể Đàm nhiệt hãm tâm bao", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Đàm nhiệt bế khiếu"], tc: ["Sốt cao co giật kèm cổ họng lọc sọc đờm dãi", "Miệng sùi bọt đờm, hôn mê", "Rêu dầy vàng nhớt", "Mạch hoạt sác"], pdt: "Thanh nhiệt hóa đàm, thanh tâm khai khiếu", bt: "An cung ngưu hoàng hoàn hợp Địch đàm thang", tpbt: ["Ngưu hoàng", "Trúc nhự", "Bán hạ", "Chỉ thực", "Đởm nam tinh", "Thạch xương bồ"] },
+  "NKH_030": { hc: "Sốt cao co giật tái phát thể Can Thận âm hư phong động", phanloai: ["Nhi Khoa", "Nhiệt", "Hư", "Âm hư phong động"], tc: ["Hay bị co giật khi sốt nhẹ hoặc giật cơ nhẹ", "Gò má đỏ, triều nhiệt, lòng bàn tay chân nóng", "Trẻ gầy gộc, ngủ chập chờn", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, bình can tức phong", bt: "Tri bá địa hoàng hoàn gia Câu đằng, Mẫu lệ", tpbt: ["Thục địa", "Tri mẫu", "Hoàng bá", "Sơn thù", "Câu đằng", "Mẫu lệ"] },
+
+  // 2. TỲ VỊ & TIÊU HÓA TRẺ EM (NKH_031 -> NKH_070)
+  "NKH_031": { hc: "Thích ăn chán ăn (Tích trệ) do Tỳ Vị khí hư", phanloai: ["Nhi Khoa", "Bình", "Hư", "Tỳ Vị khí hư"], tc: ["Trẻ lười ăn, ăn không ngon miệng", "Bụng trướng nhẹ sau ăn, tiêu chảy nhão", "Mệt mỏi, sắc mặt úa vàng, gầy còm", "Mạch hoãn nhược"], pdt: "Kiện tỳ ích khí, hòa vị tiêu thực", bt: "Dị công tán gia giảm", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Trần bì", "Cam thảo", "Sơn tra"] },
+  "NKH_032": { hc: "Tích trệ (Thực tích) do Bội thực ăn uống", phanloai: ["Nhi Khoa", "Bình", "Thực", "Thực tích"], tc: ["Bụng trướng cứng đau cự án, ợ chua hôi thối", "Nôn ra thức ăn chưa tiêu, nôn xong bớt đau", "Đại tiện hôi thối hoặc bế kết", "Rêu dầy nhớt", "Mạch hoạt"], pdt: "Tiêu thực đạo trệ, hòa vị giáng nghịch", bt: "Bảo hòa hoàn gia giảm", tpbt: ["Sơn tra", "Thần khúc", "Lai phục tử", "Bán hạ", "Trần bì", "Phục linh", "Liên kiều"] },
+  "NKH_033": { hc: "Thương thực nôn mửa do Vị nhiệt thượng nghịch", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Vị nhiệt"], tc: ["Nôn ra thức ăn chua hôi rát cổ họng", "Miệng hôi, khát nước thích uống lạnh", "Mặt đỏ, táo bón", "Rêu vàng nhớt", "Mạch hoạt sác"], pdt: "Thanh vị tả hỏa, giáng nghịch chỉ nôn", bt: "Thanh vị tán gia Bán hạ, Trúc nhự", tpbt: ["Hoàng liên", "Thăng ma", "Sinh địa", "Đan bì", "Bán hạ chế", "Trúc nhự"] },
+  "NKH_034": { hc: "Nôn mửa ở trẻ em do Tỳ Vị hư hàn", phanloai: ["Nhi Khoa", "Hàn", "Hư", "Tỳ Vị hư hàn"], tc: ["Nôn ra nước trong nhạt miệng sau khi ăn bú", "Bụng đau âm ỉ thích ấm và xoa bóp", "Sợ lạnh, tay chân lạnh ngắt", "Mạch trầm tế hoãn"], pdt: "Ôn trung kiện tỳ, giáng nghịch chỉ nôn", bt: "Can khương nhân sâm bán hạ thang", tpbt: ["Can khương", "Nhân sâm", "Bán hạ chế", "Sinh khương", "Bạch truật"] },
+  "NKH_035": { hc: "Nôn mửa ở trẻ em do Can Vị bất hòa", phanloai: ["Nhi Khoa", "Bình", "Hư thực thác tạp", "Khí nghịch"], tc: ["Trẻ nôn trớ mỗi khi khóc giận dữ", "Ợ chua, ngực trướng bức bối", "Miệng đắng, dễ quấy khóc", "Mạch huyền hoãn"], pdt: "Sơ can hòa vị, giáng nghịch chỉ nôn", bt: "Tiêu dao tán hợp Tả kim hoàn", tpbt: ["Sài hồ", "Bạch thược", "Bạch truật", "Phục linh", "Hoàng liên", "Ngô thù du"] },
+  "NKH_036": { hc: "Nôn mửa ở trẻ em do Đàm thấp trung trở", phanloai: ["Nhi Khoa", "Bình", "Thực", "Đàm thấp"], tc: ["Nôn ra nhiều đờm dãi dính nhớt", "Đầu nặng trướng, ngực bụng đầy trướng", "Rêu dầy dính trắng", "Mạch nhu hoạt"], pdt: "Táo thấp hóa đàm, hòa vị chỉ nôn", bt: "Nhị trần thang gia Sinh khương, Sa nhân", tpbt: ["Bán hạ chế", "Trần bì", "Phục linh", "Sinh khương", "Sa nhân", "Cam thảo"] },
+  "NKH_037": { hc: "Tiêu chảy ở trẻ em (Thương thực tả) do Tích trệ", phanloai: ["Nhi Khoa", "Bình", "Thực", "Thực tích tả"], tc: ["Đi tiêu lỏng nhiều lần, phân lổ nhổ chua hôi", "Bụng trướng đau trước khi tiêu, tiêu xong bớt đau", "Ợ hơi hôi, không muốn ăn", "Rêu dầy dính"], pdt: "Tiêu thực đạo trệ, hòa trung chỉ tả", bt: "Bảo hòa hoàn gia Bạch truật, Phục linh", tpbt: ["Sơn tra", "Thần khúc", "Lai phục tử", "Bán hạ", "Trần bì", "Phục linh", "Bạch truật"] },
+  "NKH_038": { hc: "Tiêu chảy ở trẻ em (Thấp nhiệt tả) do Thấp nhiệt hạ chú", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt tả"], tc: ["Đi tiêu lỏng như xối, phân vàng bắn vọt hôi nồng", "Hậu môn nóng đỏ rát, trẻ quấy khóc", "Sốt, tiểu ngắn đỏ", "Rêu vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, chỉ tả", bt: "Cát căn hoàng liên hoàng bá thang", tpbt: ["Cát căn", "Hoàng liên", "Hoàng cầm", "Cam thảo"] },
+  "NKH_039": { hc: "Tiêu chảy ở trẻ em (Phong hàn tả) do Phong hàn ngoại cảm", phanloai: ["Nhi Khoa", "Hàn", "Thực", "Phong hàn tả"], tc: ["Đi tiêu phân lỏng nhiều bọt nước trong", "Bụng đau quặn lạnh, gặp ấm bớt", "Trẻ sợ lạnh, sốt nhẹ", "Rêu trắng mỏng nhuận", "Mạch phù khẩn"], pdt: "Sơ phong tán hàn, ôn trung chỉ tả", bt: "Hạnh tô tán hợp Hoắc hương chính khí tán", tpbt: ["Tô diệp", "Hoắc hương", "Bán hạ", "Trần bì", "Phục linh", "Can khương", "Cam thảo"] },
+  "NKH_040": { hc: "Tiêu chảy ở trẻ em (Tỳ hư tả) do Tỳ vị suy nhược", phanloai: ["Nhi Khoa", "Bình", "Hư", "Tỳ hư tả"], tc: ["Tiêu chảy kéo dài dai dẳng, phân lỏng lẫn thức ăn sống", "Sau khi ăn là muốn đi tiêu ngay", "Sắc mặt vàng nhợt, gầy còm mệt mỏi", "Mạch hoãn nhược"], pdt: "Kiện tỳ ích khí, thẩm thấp chỉ tả", bt: "Sâm linh bạch truật tán gia giảm", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Liên nhục", "Ý dĩ", "Cát cánh", "Cam thảo"] },
+  "NKH_041": { hc: "Tiêu chảy ở trẻ em (Tỳ Thận dương hư tả) do Mệnh môn hỏa suy", phanloai: ["Nhi Khoa", "Hàn", "Hư suy", "Tỳ Thận dương hư"], tc: ["Tiêu chảy sáng sớm hoặc đi tiêu liên tục phân sống lạnh", "Tay chân cold ngắt, sợ cold, bụng dưới cold đau", "Trẻ suy nhược nặng, da bệch tái", "Mạch trầm tế trì"], pdt: "Ôn bổ tỳ thận, cố sáp chỉ tả", bt: "Tứ thần hoàn gia Phụ tử, Can khương", tpbt: ["Bổ cốt chỉ", "Ngũ vị tử", "Nhục đậu khấu", "Ngô thù du", "Phụ tử chế", "Can khương"] },
+  "NKH_042": { hc: "Lỵ chứng ở trẻ em thể Thấp nhiệt lỵ", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt lỵ"], tc: ["Đau bụng quặn mót rặn, đi tiêu ra máu mủ dính nhầy", "Hậu môn nóng rát, sốt, tiểu ngắn đỏ", "Rêu lưỡi vàng nhớt", "Mạch hoạt sác"], pdt: "Thanh nhiệt trừ thấp, hòa vinh hành khí chỉ lỵ", bt: "Bạch đầu ông thang gia Hoàng liên, Đương quy", tpbt: ["Bạch đầu ông", "Hoàng liên", "Hoàng bá", "Tần bì", "Đương quy", "Mộc hương"] },
+  "NKH_043": { hc: "Lỵ chứng ở trẻ em thể Hàn thấp lỵ", phanloai: ["Nhi Khoa", "Hàn", "Thực", "Hàn thấp lỵ"], tc: ["Đau bụng âm ỉ mót rặn đi tiêu ra chất nhầy trắng như mỡ", "Trẻ sợ lạnh, tay chân lạnh, không khát", "Rêu dầy dính trắng", "Mạch nhu trì"], pdt: "Ôn trung hóa thấp, lý khí chỉ lỵ", bt: "Vị linh tán gia Mộc hương, Nhục đậu khấu", tpbt: ["Thương truật", "Hậu phác", "Trần bì", "Bạch truật", "Phục linh", "Quế chi", "Mộc hương"] },
+  "NKH_044": { hc: "Lỵ chứng ở trẻ em thể Khí hư cấm khẩu lỵ", phanloai: ["Nhi Khoa", "Bình", "Hư thực thác tạp", "Khí hư lỵ"], tc: ["Đi tiêu lỵ dai dẳng kèm nôn mửa không ăn được", "Thần tinh mệt mỏi kiệt sức, mặt bệch nhợt", "Mạch hư nhược hoãn"], pdt: "Bổ trung ích khí, hòa vị chỉ lỵ", bt: "Bổ trung ích khí thang hợp Mộc hương binh lang hoàn", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Thăng ma", "Sài hồ", "Mộc hương", "Binh lang"] },
+  "NKH_045": { hc: "Dịch tả ở trẻ em (Thổ tả cấp) do Thử thấp ngột ngạt", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thử thấp hỏa độc"], tc: ["Nôn mửa xối xả kèm tiêu chảy lỏng như nước gội gạo", "Bụng đau quặn, mắt trũng sâu, da nhăn", "Chân tay co rút, sốt cao", "Mạch nhu sác dũng mãnh"], pdt: "Thanh nhiệt giải độc, hóa thấp kiên tán chỉ thổ tả", bt: "Nhiên chiếu tán gia giảm", tpbt: ["Hoắc hương", "Bội lan", "Bán hạ", "Hoàng liên", "Mộc hương", "Bạch truật"] },
+  "NKH_046": { hc: "Dịch tả biến chứng Vong dương nguy cấp", phanloai: ["Nhi Khoa", "Hàn", "Hư suy", "Vong dương"], tc: ["Sau nôn mửa tiêu chảy xối xả tay chân cold ngắt quá gối", "Vã mồ hôi cold đầm đìa, mắt nhắm lơ mơ", "Mạch vi tế muốn tuyệt"], pdt: "Hồi dương cứu nghịch, đại bổ nguyên khí", bt: "Tứ nghịch thang hợp Sâm phụ thang", tpbt: ["Phụ tử chế", "Can khương", "Nhân sâm", "Chích cam thảo"] },
+  "NKH_047": { hc: "Tỳ cam (Bệnh cam trẻ em) do Tỳ Vị khí hư tích trệ", phanloai: ["Nhi Khoa", "Bình", "Hư thực thác tạp", "Tỳ hư thực tích"], tc: ["Trẻ gầy còm đít teo bụng to bện gân xanh", "Sắc mặt úa vàng, tóc thưa xơ xác", "Bội thực nôn mửa, ăn dốt đồ lạ", "Mạch tế nhược"], pdt: "Kiện tỳ tiêu tích, thanh nhiệt sát trùng", bt: "Tỳ cam hoàn gia giảm", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Sơn tra", "Thần khúc", "Sử quân tử", "Hoàng liên"] },
+  "NKH_048": { hc: "Can cam ở trẻ em do Can hỏa uất kết nhiệt thịnh", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Can hỏa cam"], tc: ["Trẻ gầy gộc bực bội hay cáu giận đập phá", "Mắt đỏ sưng rát, hay dụi mắt (quáng gà)", "Tiểu đỏ, đại tiện táo hôi", "Mạch huyền sác"], pdt: "Thanh can tả hỏa, tiêu tích minh mục", bt: "Long đởm tả can thang hợp Bát bảo quang minh tán", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Kỷ tử", "Cúc hoa", "Thạch quyết minh"] },
+  "NKH_049": { hc: "Tâm cam ở trẻ em do Tâm hỏa xí thịnh", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Tâm hỏa cam"], tc: ["Trẻ gầy còm phiền bứt rứt, mất ngủ quấy đêm", "Loét miệng lưỡi đỏ rát, nghiến răng", "Tiểu buốt đỏ", "Mạch sác hữu lực"], pdt: "Thanh tâm tả hỏa, an thần tiêu cam", bt: "Đạo xích tán gia Hoàng liên, Sơn tra", tpbt: ["Sinh địa", "Mộc thông", "Trúc diệp", "Hoàng liên", "Sơn tra", "Cam thảo"] },
+  "NKH_050": { hc: "Thận cam ở trẻ em do Thận tinh bất túc", phanloai: ["Nhi Khoa", "Bình", "Hư suy", "Thận tinh bất túc"], tc: ["Trẻ gầy khô xương sống lộ rõ, chậm mọc răng", "Chân yếu không đi được, tóc rụng khô bối", "Mệt mỏi đần độn", "Mạch trầm tế vô lực"], pdt: "Bổ thận điền tinh, ích tủy tiêu cam", bt: "Lục vị địa hoàng hoàn gia Lộc giác giao, Tử hà xe", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Lộc giác giao"] },
+  "NKH_051": { hc: "Thất tiêu (Chán ăn dai dẳng) do Tỳ Vị bất hòa", phanloai: ["Nhi Khoa", "Bình", "Hư", "Tỳ Vị bất hòa"], tc: ["Trẻ hoàn toàn không có cảm giác muốn ăn", "Ép ăn thì nôn, bụng không trướng đau", "Sắc mặt bình thường hoặc hơi úa", "Mạch hoãn nhược"], pdt: "Vận tỳ hòa vị, khai vị tiêu thực", bt: "Dưỡng vị thăng bỉnh tán gia giảm", tpbt: ["Bạch truật", "Thương truật", "Trần bì", "Bán hạ", "Sa nhân", "Thần khúc", "Cam thảo"] },
+  "NKH_052": { hc: "Thất tiêu do Vị âm hư suy", phanloai: ["Nhi Khoa", "Nhiệt", "Hư", "Vị âm hư"], tc: ["Chán ăn kèm miệng khô họng rát, khát nước", "Đại tiện khô bế kết, da khô gầy", "Lưỡi đỏ ít rêu hoặc lưỡi bản đồ", "Mạch tế sác"], pdt: "Tư dưỡng vị âm, sinh tân khai vị", bt: "Sa sâm mạch đông thang gia Sa nhân", tpbt: ["Sa sâm", "Mạch môn", "Ngọc trúc", "Sinh địa", "Thiên hoa phấn", "Sa nhân"] },
+  "NKH_053": { hc: "Phúc thống (Đau bụng nhi) do Tỳ Vị hư hàn", phanloai: ["Nhi Khoa", "Hàn", "Hư", "Tỳ Vị hư hàn"], tc: ["Đau bụng quanh rốn âm ỉ tái đi tái lại", "Thích chườm ấm xoa bóp, gặp cold đau tăng", "Sợ cold, tay chân cold, tiêu lỏng", "Mạch trầm tế hoãn"], pdt: "Ôn trung kiện tỳ, hoãn cấp chỉ thống", bt: "Tiểu kiến trung thang gia giảm", tpbt: ["Quế chi", "Bạch thược", "Sinh khương", "Đại táo", "Chích cam thảo", "Di đường"] },
+  "NKH_054": { hc: "Phúc thống do Thực tích uẩn trệ", phanloai: ["Nhi Khoa", "Bình", "Thực", "Thực tích đau bụng"], tc: ["Bụng trướng đau căng cự án, không cho chạm vào", "Ợ chua, hôi miệng, nôn trớ", "Trung tiện hôi thối xong bớt đau", "Rêu dầy nhớt"], pdt: "Tiêu thực đạo trệ, hành khí chỉ thống", bt: "Bảo hòa hoàn gia Mộc hương, Chỉ thực", tpbt: ["Sơn tra", "Thần khúc", "Lai phục tử", "Bán hạ", "Trần bì", "Mộc hương", "Chỉ thực"] },
+  "NKH_055": { hc: "Phúc thống do Khí trệ can tỳ bất hòa", phanloai: ["Nhi Khoa", "Bình", "Thực", "Khí trệ"], tc: ["Đau quặn bụng mỗi khi cáu khóc căng thẳng", "Ngực sườn trướng căng, hay thở dài", "Mạch huyền"], pdt: "Sơ can giải uất, lý khí chỉ thống", bt: "Sài hồ sơ can tán gia Mộc hương, Diên hồ索", tpbt: ["Sài hồ", "Bạch thược", "Chỉ xác", "Xuyên khung", "Mộc hương", "Diên hồ索"] },
+  "NKH_056": { hc: "Phúc thống do Trùng tích (Sán dây / Giun chui ống mật)", phanloai: ["Nhi Khoa", "Hàn nhiệt thác tạp", "Thực", "Giun gây đau bụng"], tc: ["Đau quặn thắt vùng thượng vị nôn ra nước chua/giun", "Nằm co quắp khóc thảm thiết", "Nôn mửa, mặt xanh tái từng cơn", "Mạch huyền khẩn"], pdt: "Ôn trung an trùng, khu trùng chỉ thống", bt: "Ô mai hoàn gia giảm", tpbt: ["Ô mai", "Tế tân", "Can khương", "Phụ tử", "Đương quy", "Hoàng liên", "Hoàng bá", "Xuyên tiêu"] },
+  "NKH_057": { hc: "Táo bón ở trẻ em do Vị nhiệt tích trệ", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Vị nhiệt táo bón"], tc: ["Đại tiện 3-5 ngày/lần, phân khô cứng như phân dê", "Bụng trướng đau cự án, rặn khóc", "Mặt đỏ miệng hôi, khát nước", "Mạch hoạt sác"], pdt: "Thanh nhiệt nhuận tràng, thông tiện", bt: "Thanh vị tán hợp Ma tử nhân hoàn", tpbt: ["Hoàng liên", "Thăng ma", "Sinh địa", "Ma tử nhân", "Bạch thược", "Đại hoàng"] },
+  "NKH_058": { hc: "Táo bón ở trẻ em do Khí hư tràng nhược", phanloai: ["Nhi Khoa", "Bình", "Hư", "Khí hư táo bón"], tc: ["Có cảm giác muốn tiêu nhưng rặn không ra", "Trẻ vã mồ hôi hụt hơi khi rặn", "Phân không quá khô cứng, sắc mặt nhợt", "Mạch hư nhược hoãn"], pdt: "Bổ khí nhuận tràng, thông tiện", bt: "Hoàng kỳ thang gia Ma tử nhân", tpbt: ["Hoàng kỳ", "Trần bì", "Bạch truật", "Đương quy", "Hỏa ma nhân", "Cam thảo"] },
+  "NKH_059": { hc: "Táo bón ở trẻ em do Huyết hư tân kiệt", phanloai: ["Nhi Khoa", "Bình", "Hư", "Huyết hư tràng táo"], tc: ["Đại tiện khô kết kéo dài ở trẻ gầy còm", "Da khô, tóc khô xơ, móng nhợt", "Hoa mắt chóng mặt", "Mạch tế sáp"], pdt: "Dưỡng huyết nhuận táo, thông tiện", bt: "Tứ vật thang gia Ma tử nhân, Sa sâm", tpbt: ["Thục địa", "Đương quy", "Bạch thược", "Xuyên khung", "Ma tử nhân", "Sa sâm"] },
+  "NKH_060": { hc: "Sa trực tràng ở trẻ em (Trĩ sa) do Trung khí hạ hãm", phanloai: ["Nhi Khoa", "Bình", "Hư", "Trung khí hạ hãm"], tc: ["Trực tràng lòi ra ngoài hậu môn sau khi đại tiện", "Trẻ mệt mỏi hụt hơi, sắc mặt nhợt nhạt", "Ăn kém tiêu chảy", "Mạch hoãn nhược"], pdt: "Bổ trung ích khí, thăng dương cử trĩ", bt: "Bổ trung ích khí thang gia Chỉ xác sao", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Trần bì", "Thăng ma", "Sài hồ", "Chỉ xác"] },
+  "NKH_061": { hc: "Nhiệt口 sang (Loét miệng lưỡi nhi) do Tâm Vị hỏa thịnh", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Hỏa độc khoang miệng"], tc: ["Niêm mạc miệng lưỡi nổi nhiều vết loét viền đỏ rát", "Trẻ đau không nuốt được bú quấy khóc", "Hơi thở hôi thối, sốt", "Mạch sác hữu lực"], pdt: "Thanh tâm tả hỏa, giải độc tiêu sang", bt: "Đạo xích tán hợp Thanh vị tán", tpbt: ["Sinh địa", "Mộc thông", "Trúc diệp", "Hoàng liên", "Thăng ma", "Cam thảo"] },
+  "NKH_062": { hc: "Nhiệt口 sang do Hư hỏa thượng viêm (Âm hư loét miệng)", phanloai: ["Nhiệt", "Nhiệt", "Hư", "Âm hư hỏa vượng"], tc: ["Vết loét miệng lưỡi màu xám nhạt dai dẳng lâu lành", "Trẻ sốt nhẹ về chiều, lòng bàn tay chân nóng", "Miệng khô không khát", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, thanh nhiệt tiêu sang", bt: "Tri bá địa hoàng hoàn gia giảm", tpbt: ["Thục địa", "Tri mẫu", "Hoàng bá", "Sơn thù", "Hoài sơn", "Phục linh"] },
+  "NKH_063": { hc: "Nấm miệng (Tuyết khẩu) do Thấp nhiệt uẩn uất", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt tuyết khẩu"], tc: ["Lớp màng trắng dầy như cặn sữa bám đầy lưỡi má", "Lột ra niêm mạc rớm máu đau quấy", "Rêu dầy vàng dính", "Mạch nhu sác"], pdt: "Thanh nhiệt táo thấp, giải độc sát trùng", bt: "Tam nhân thang gia Hoàng liên, Khổ sâm", tpbt: ["Hạnh nhân", "Ý dĩ", "Bán hạ chế", "Hoàng liên", "Khổ sâm", "Cam thảo"] },
+  "NKH_064": { hc: "Trúng độc thức ăn ở trẻ em thể Thấp nhiệt hỏa độc", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Nhiệt độc trúng độc"], tc: ["Đột ngột nôn mửa tiêu chảy xối xả sau ăn đồ lạ", "Bụng đau quặn dữ dội, sốt cao", "Tiểu ngắn đỏ, bứt rứt", "Mạch hoạt sác dũng mãnh"], pdt: "Thanh nhiệt giải độc, giải độc hòa trung", bt: "Hoàng liên giải độc thang hợp Bình vị tán", tpbt: ["Hoàng liên", "Hoàng cầm", "Hoàng bá", "Thương truật", "Hậu phác", "Trần bì"] },
+  "NKH_065": { hc: "Xuất huyết tiêu hóa trẻ em do Vị hỏa trào huyết", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Vị hỏa xuất huyết"], tc: ["Nôn ra máu tươi/dịch đen hoặc đi tiêu phân đen như hắc ín", "Thượng vị đau rát cự án, miệng hôi", "Sốt, khát nước", "Mạch hoạt sác"], pdt: "Thanh vị tả hỏa, lương huyết chỉ huyết", bt: "Thanh vị tán gia Tam thất, Bồ hoàng", tpbt: ["Hoàng liên", "Thăng ma", "Sinh địa", "Đan bì", "Tam thất", "Bồ hoàng"] },
+  "NKH_066": { hc: "Xuất huyết tiêu hóa trẻ em do Tỳ không thống huyết", phanloai: ["Nhi Khoa", "Bình", "Hư", "Khí hư không nhiếp huyết"], tc: ["Đi tiêu ra máu màu hồng nhạt/tiêu phân xám đen kéo dài", "Sắc mặt bệch nhợt, mệt mỏi kiệt sức", "Ăn kém tiêu chảy phân nhão", "Mạch tế nhược vô lực"], pdt: "Kiện tỳ ích khí, nhiếp huyết chỉ huyết", bt: "Quy tỳ thang gia Tam thất, A giao", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Long nhãn", "Tam thất", "A giao"] },
+  "NKH_067": { hc: "Bảo trệ chèn ứ ở trẻ sơ sinh (Trớ sữa) do Tỳ Vị lạnh", phanloai: ["Nhi Khoa", "Hàn", "Hư", "Sơ sinh Tỳ hư hàn"], tc: ["Trẻ sơ sinh trớ sữa liên tục sau bú, sữa ra lỏng", "Chân tay cold, bụng lạnh trướng", "Quấy khóc đêm", "Mạch trầm tế"], pdt: "Ôn trung kiện tỳ, giáng nghịch止 trớ", bt: "Tứ quân tử thang gia Can khương, Bán hạ chế", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Can khương", "Bán hạ chế", "Cam thảo"] },
+  "NKH_068": { hc: "Trớ sữa do Vị nhiệt tích uất", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Sơ sinh Vị nhiệt"], tc: ["Trẻ trớ ra sữa vón cục chua hôi rát họng", "Mặt đỏ, môi đỏ khô, táo bón", "Trẻ khóc gừ bứt rứt", "Mạch hoạt sác"], pdt: "Thanh vị tả nhiệt, giáng nghịch chỉ trớ", bt: "Thanh vị tán gia Bán hạ chế, Trúc nhự", tpbt: ["Hoàng liên", "Thăng ma", "Sinh địa", "Bán hạ chế", "Trúc nhự"] },
+  "NKH_069": { hc: "Tỳ Vị thấp nhiệt uẩn kết ở trẻ em", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt Tỳ Vị"], tc: ["Ăn kém, bụng trướng đầy khó chịu", "Miệng đắng dính, nôn nao", "Đại tiện nhão hôi thối, tiểu đỏ", "Rêu dầy vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt táo thấp, kiện tỳ hòa vị", bt: "Tam nhân thang gia giảm", tpbt: ["Hạnh nhân", "Ý dĩ", "Bán hạ chế", "Hậu phác", "Bạch đậu khấu", "Hoạt thạch"] },
+  "NKH_070": { hc: "Tỳ Thận khí hư tiêu hóa mạn tính ở trẻ em", phanloai: ["Nhi Khoa", "Bình", "Hư suy", "Tỳ Thận khí hư"], tc: ["Gầy còm suy dinh dưỡng nặng, ăn vào trớ ra", "Đi tiêu phân sống rỉ rả, đau lưng mỏi gối", "Sắc mặt nhợt nhạt đần độn", "Mạch trầm nhược vô lực"], pdt: "Song bổ tỳ thận, Bổ khí kiện tỳ", bt: "Sâm linh bạch truật tán hợp Thận khí hoàn", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Thục địa", "Sơn thù", "Bổ cốt chỉ"] },
+
+  // 3. THẬN & TIẾT NIỆU TRẺ EM (NKH_071 -> NKH_100)
+  "NKH_071": { hc: "Di niệu (Đái dầm) do Thận khí bất cố", phanloai: ["Nhi Khoa", "Bình", "Hư", "Thận khí hư di niệu"], tc: ["Đái dầm đêm khi ngủ 1-2 lần/đêm, không biết", "Nước tiểu trong dài, thắt lưng cold mỏi", "Sợ lạnh, tóc thưa răng yếu", "Mạch trầm nhược"], pdt: "Bổ thận cố tinh, ôn bàng quang sáp niệu", bt: "Tang phiêu tiêu tán gia Bổ cốt chỉ, Ích trí nhân", tpbt: ["Tang phiêu tiêu", "Viễn chí", "Thạch xương bồ", "Long cốt", "Nhân sâm", "Bổ cốt chỉ", "Ích trí nhân"] },
+  "NKH_072": { hc: "Di niệu do Tỳ Phế khí hư hạ hãm", phanloai: ["Nhi Khoa", "Bình", "Hư", "Phế Tỳ khí hư"], tc: ["Đái dầm đêm kèm hay đái dắt ban ngày", "Trẻ mệt mỏi hụt hơi, ngại nói", "Sắc mặt bệch nhợt, ăn kém tiêu chảy", "Mạch hư nhược hoãn"], pdt: "Bổ phế kiện tỳ, thăng dương cố niệu", bt: "Bổ trung ích khí thang gia Ích trí nhân, Kha tử", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Trần bì", "Thăng ma", "Sài hồ", "Ích trí nhân", "Kha tử"] },
+  "NKH_073": { hc: "Di niệu do Can kinh sinh thấp nhiệt bàng quang", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt bàng quang"], tc: ["Đái dầm đợt ngắn nước tiểu vàng đục hôi", "Trẻ dễ giận dữ cáu gắt, nghiến răng khi ngủ", "Hậu môn ngứa đỏ, rêu vàng nhớt", "Mạch nhu sác"], pdt: "Thanh can tả hỏa, lợi thấp sáp niệu", bt: "Long đởm tả can thang gia Tang phiêu tiêu", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Mộc thông", "Tang phiêu tiêu"] },
+  "NKH_074": { hc: "Tiểu buốt dắt (Nhiệu lâm) do Bàng quang thấp nhiệt", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt nhiệu lâm"], tc: ["Tiểu buốt dắt, khóc ré lên mỗi lần tiểu", "Nước tiểu đục vàng hoặc rỉ máu", "Bụng dưới trướng căng, sốt nhẹ", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, thông lâm chỉ thống", bt: "Bát chính tán gia giảm", tpbt: ["Xa tiền tử", "Mộc thông", "Cù mạch", "Biển súc", "Chi tử", "Hoạt thạch", "Cam thảo"] },
+  "NKH_075": { hc: "Tiểu ra máu (Huyết lâm) do Huyết nhiệt hạ chú bàng quang", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Huyết nhiệt huyết lâm"], tc: ["Tiểu buốt dắt nước tiểu đỏ tươi hoặc có cục máu", "Bụng dưới đau rát cự án", "Mặt đỏ, tâm phiền khát nước", "Mạch sác hữu lực"], pdt: "Thanh nhiệt lương huyết, thông lâm chỉ huyết", bt: "Tiểu kế ẩm gia Hoàng bá", tpbt: ["Tiểu kế", "Sinh địa", "Mộc thông", "Hoạt thạch", "Trắc bách diệp", "Hoàng bá", "Cam thảo"] },
+  "NKH_076": { hc: "Tiểu ra sỏi (Thạch lâm) do Thấp nhiệt chưng đọng sỏi", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thạch lâm"], tc: ["Đau quặn vùng thắt lưng lan xuống bẹn khi tiểu", "Tiểu ngắt quãng, đái dắt đục", "Có thể ra sỏi nhỏ liti", "Mạch hoạt sác"], pdt: "Thanh nhiệt lợi thấp, thông lâm bài thạch", bt: "Tam kim thang gia giảm", tpbt: ["Kim tiền thảo", "Hải kim sa", "Kê nội kim", "Xa tiền tử", "Trạch tả", "Cam thảo"] },
+  "NKH_077": { hc: "Bí tiểu ở trẻ em (Lung闭) do Bàng quang thấp nhiệt bế tắc", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt lung闭"], tc: ["Bụng dưới trướng căng to đau quặn, không tiểu được", "Muốn tiểu rặn khóc không ra", "Mặt đỏ, sốt, bứt rứt", "Mạch nhu sác dũng mãnh"], pdt: "Thanh nhiệt lợi thấp, hành khí thông niệu", bt: "Bát chính tán gia Hoàng bá, Mộc thông", tpbt: ["Xa tiền tử", "Mộc thông", "Cù mạch", "Biển súc", "Chi tử", "Hoàng bá"] },
+  "NKH_078": { hc: "Bí tiểu ở trẻ em do Phế khí uất trệ không giáng", phanloai: ["Nhi Khoa", "Bình", "Thực", "Phế khí uất lung闭"], tc: ["Bí tiểu kèm ho hen ho khan tức ngực", "Bụng dưới trướng căng nhưng không đau rát", "Trẻ lo âu khóc quấy", "Mạch huyền"], pdt: "Tuyên phế lợi thủy, thăng thanh giáng trọc", bt: "Hoàng cầm tả phế thang gia Cát cánh, Mộc thông", tpbt: ["Hoàng cầm", "Tang bạch bì", "Cát cánh", "Chỉ xác", "Mộc thông", "Trạch tả"] },
+  "NKH_079": { hc: "Phù thũng ở trẻ em (Thận viêm) do Phong thủy tương bác", phanloai: ["Nhi Khoa", "Bình", "Thực", "Phong thủy thũng"], tc: ["Phù đột ngột bắt đầu từ mi mắt và mặt rồi lan nhanh", "Sợ gió, sốt nhẹ, ho hắt hơi", "Tiểu tiện ít, nước tiểu đục", "Mạch phù sác hoặc phù khẩn"], pdt: "Sơ phong tuyên phế, phát hãn lợi thủy", bt: "Ma hoàng liên kiều xích tiểu đậu thang", tpbt: ["Ma hoàng", "Liên kiều", "Xích tiểu đậu", "Tang bạch bì", "Hạnh nhân", "Cam thảo"] },
+  "NKH_080": { hc: "Phù thũng ở trẻ em do Thấp nhiệt uẩn kết hạ tiêu", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt thũng"], tc: ["Phù toàn thân da căng bóng rát", "Tiểu ngắn đỏ buốt dắt, mặt đỏ", "Thân thể mỏi nặng, rêu vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt táo thấp, lợi thủy tiêu thũng", bt: "Ngũ linh tán hợp Bát chính tán gia giảm", tpbt: ["Bạch truật", "Phục linh", "Trạch tả", "Xa tiền tử", "Mộc thông", "Chi tử"] },
+  "NKH_081": { hc: "Phù thũng ở trẻ em mạn do Tỳ hư thủy trệ", phanloai: ["Nhi Khoa", "Bình", "Hư thực thác tạp", "Tỳ hư thủy thũng"], tc: ["Phù nhẹ tái đi tái lại hai chân và mi mắt", "Ấn lõm sâu, sắc mặt vàng nhợt mệt mỏi", "Ăn kém tiêu chảy, tiểu ít", "Mạch nhu hoãn"], pdt: "Kiện tỳ ích khí, lợi thủy tiêu thũng", bt: "Bổ trung ích khí thang hợp Ngũ linh tán", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Phục linh", "Trạch tả", "Trư linh"] },
+  "NKH_082": { hc: "Phù thũng ở trẻ em mạn do Thận dương hư suy", phanloai: ["Nhi Khoa", "Hàn", "Hư suy", "Thận dương hư thủy thũng"], tc: ["Phù nặng toàn thân căng mọng ấn lõm lâu hồi", "Sợ cold, tay chân cold ngắt, sắc mặt bệch tái", "Mệt mỏi thở ngắn, tiểu rỉ rả", "Mạch trầm tế trì vô lực"], pdt: "Ôn thận trợ dương, hóa khí lợi thủy tiêu thũng", bt: "Chân vũ thang gia giảm", tpbt: ["Phụ tử chế", "Bạch truật", "Phục linh", "Bạch thược", "Sinh khương", "Xa tiền tử"] },
+  "NKH_083": { hc: "Hội chứng thận hư nhi khoa thể Tỳ Thận âm hư", phanloai: ["Nhi Khoa", "Nhiệt", "Hư", "Tỳ Thận âm hư"], tc: ["Phù nhẹ dai dẳng, lòng bàn tay chân nóng", "Triều nhiệt đạo hãn, miệng khô khát nước", "Lưỡi đỏ ít rêu, đái ra protein kéo dài", "Mạch tế sác"], pdt: "Tư bổ tỳ thận, dưỡng âm lợi thủy", bt: "Tả quy hoàn gia Mạch môn, Xa tiền tử", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Trạch tả", "Đan bì", "Mạch môn", "Xa tiền tử"] },
+  "NKH_084": { hc: "Hội chứng thận hư nhi khoa thể Khí trệ huyết ứ kinh lạc", phanloai: ["Nhi Khoa", "Bình", "Thực", "Huyết ứ thủy thũng"], tc: ["Phù thũng kèm da chân tím tái có điểm ứ huyết", "Bụng trướng to, gan lách to nhẹ", "Lưỡi tím sẫm", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, lợi thủy tiêu thũng", bt: "Thân thống trục ứ thang hợp Ngũ linh tán", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Bạch truật", "Phục linh", "Trạch tả"] },
+  "NKH_085": { hc: "Hội chứng thận hư nhi khoa thể Khí âm lưỡng hư kiệt sức", phanloai: ["Nhi Khoa", "Nhiệt", "Hư suy", "Khí âm lưỡng hư"], tc: ["Phù kéo dài ở trẻ gầy suy nhược kiệt sức", "Miệng khô họng rát, vã mồ hôi trộm kèm mệt mỏi", "Sắc mặt nhợt gò má đỏ", "Mạch tế nhược sác"], pdt: "Ích khí sinh tân, tư âm lợi thủy", bt: "Sinh mạch tán gia Hoàng kỳ, Trạch tả", tpbt: ["Nhân sâm", "Mạch môn", "Ngũ vị tử", "Hoàng kỳ", "Trạch tả", "Phục linh"] },
+  "NKH_086": { hc: "Thận tinh bất túc ở trẻ em (Chậm phát triển sinh dục)", phanloai: ["Nhi Khoa", "Bình", "Hư suy", "Thận tinh bất túc"], tc: ["Bộ phận sinh dục nhỏ, tinh hoàn teo/chưa xuống bìu", "Trí nhớ kém, đần độn chậm biết nói đi", "Răng lung lay tóc bạc thưa", "Mạch trầm tế vô lực"], pdt: "Bổ thận điền tinh, ích tủy bổ não", bt: "Tả quy hoàn gia Lộc nhung, Tử hà xe", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Kỷ tử", "Thỏ ty tử", "Lộc nhung", "Tử hà xe"] },
+  "NKH_087": { hc: "Tiểu đục ở trẻ em (Gao lâm) do Thấp nhiệt hạ chú bàng quang", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt gao lâm"], tc: ["Nước tiểu đục như nước vôi/nước gội gạo", "Tiểu dắt buốt, hậu môn nóng rát", "Rêu dầy vàng nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, phân thanh hạ trọc", bt: "Tỳ giải phân thanh tán gia Hoàng bá", tpbt: ["Tỳ giải", "Ô dược", "Ích trí nhân", "Phục linh", "Hoàng bá", "Cam thảo"] },
+  "NKH_088": { hc: "Tiểu đục ở trẻ em do Thận khí hư bất cố", phanloai: ["Nhi Khoa", "Bình", "Hư", "Thận khí hư gao lâm"], tc: ["Nước tiểu đục dai dẳng không đau rát khi tiểu", "Thắt lưng mỏi yếu, sợ cold, mệt mỏi", "Mạch trầm nhược vô lực"], pdt: "Bổ thận ích khí, cố sáp phân trọc", bt: "Tỳ giải phân thanh tán hợp Kim tỏa cố tinh hoàn", tpbt: ["Tỳ giải", "Ô dược", "Ích trí nhân", "Phục linh", "Sa uyển tử", "Khiếm thực"] },
+  "NKH_089": { hc: "Tiểu tiện rỉ rả không tự chủ do Thận dương hư suy", phanloai: ["Nhi Khoa", "Hàn", "Hư suy", "Thận dương hư"], tc: ["Tiểu tiện rỉ chảy liên tục cả ngày lẫn đêm", "Chân tay cold ngắt, sợ cold, đái dầm", "Sắc mặt bệch tái", "Mạch trầm tế vi"], pdt: "Ôn bổ thận dương, sáp niệu chỉ rỉ", bt: "Hữu quy hoàn gia Tang phiêu tiêu, Ích trí nhân", tpbt: ["Thục địa", "Nhục quế", "Phụ tử chế", "Sơn thù", "Tang phiêu tiêu", "Ích trí nhân"] },
+  "NKH_090": { hc: "Viêm bao quy đầu trẻ em do Thấp nhiệt hỏa độc", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt hỏa độc"], tc: ["Quy đầu bao quy đầu sưng đỏ mưng mủ loét đau khóc", "Trẻ sợ tiểu, đái buốt khóc ré", "Mủ hôi thối", "Mạch nhu sác"], pdt: "Thanh nhiệt giải độc, trừ thấp chỉ sang", bt: "Ngũ vị tiêu độc ẩm gia Hoàng bá, Khổ sâm", tpbt: ["Kim ngân hoa", "Cúc hoa", "Bồ công anh", "Hoàng bá", "Khổ sâm", "Cam thảo"] },
+  "NKH_091": { hc: "Thoát vị bẹn ở trẻ em (Sán khí) do Hàn trệ can mạch", phanloai: ["Nhi Khoa", "Hàn", "Thực", "Hàn trệ sán khí"], tc: ["Khối thoát vị bẹn bìu sưng to co rút khi gặp cold", "Gặp cold đau quặn khóc thảm, chườm ấm dễ chịu", "Bì bìu cold ngắt", "Mạch trầm khẩn"], pdt: "Ôn kinh tán hàn, noãn can chỉ thống", bt: "Noãn can tiễn gia Tiểu hồi hương, Ô dược", tpbt: ["Tiểu hồi hương", "Nhục quế", "Đương quy", "Ô dược", "Trầm hương", "Phục linh"] },
+  "NKH_092": { hc: "Thoát vị bẹn ở trẻ em do Trung khí hạ hãm sa bìu", phanloai: ["Nhi Khoa", "Bình", "Hư", "Trung khí hạ hãm"], tc: ["Khối bẹn sa thõng xuống bìu khi đứng khóc chạy nhảy", "Nằm nghỉ tự co lên, trẻ mệt mỏi hụt hơi", "Sắc mặt nhợt", "Mạch hoãn nhược"], pdt: "Bổ khí thăng dương, cử sán chỉ thống", bt: "Bổ trung ích khí thang gia Ô dược, Tiểu hồi hương", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Thăng ma", "Sài hồ", "Ô dược", "Tiểu hồi hương"] },
+  "NKH_093": { hc: "Tràn dịch màng tinh hoàn nhi (Âm nang thũng) do Thủy thấp trệ", phanloai: ["Nhi Khoa", "Bình", "Thực", "Thủy thấp âm nang thũng"], tc: ["Bì bìu sưng to mọng nước trong suốt không đỏ nóng", "Cảm giác nặng tức kéo bẹn", "Mệt mỏi ăn kém", "Mạch nhu hoãn"], pdt: "Kiện tỳ mẫn thấp, lợi thủy tiêu thũng", bt: "Ngũ linh tán gia Thương truật, Xa tiền tử", tpbt: ["Bạch truật", "Phục linh", "Trạch tả", "Trư linh", "Quế chi", "Thương truật", "Xa tiền tử"] },
+  "NKH_094": { hc: "Tràn dịch màng tinh hoàn nhi do Thận dương hư suy", phanloai: ["Nhi Khoa", "Hàn", "Hư suy", "Thận dương hư âm nang thũng"], tc: ["Bì bìu mọng nước kèm phù hai chân, sợ cold", "Chân tay cold ngắt, tiểu ít nước tiểu trong", "Mệt mỏi lơ mơ", "Mạch trầm tế vi"], pdt: "Ôn thận trợ dương, hóa khí lợi thủy tiêu thũng", bt: "Chân vũ thang gia Xa tiền tử, Ngưu tất", tpbt: ["Phụ tử chế", "Bạch truật", "Phục linh", "Bạch thược", "Sinh khương", "Xa tiền tử"] },
+  "NKH_095": { hc: "Viêm tinh hoàn sau quai bị (Quai bị sán khí) do Thấp nhiệt độc", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt hỏa độc"], tc: ["Tinh hoàn bì bìu sưng to nóng đỏ đau quặn cự án", "Sốt cao rét run sau quai bị 3-5 ngày", "Tiểu đỏ, rêu vàng nhớt", "Mạch hoạt sác dũng mãnh"], pdt: "Thanh nhiệt giải độc, thanh can tiêu thũng chỉ thống", bt: "Long đởm tả can thang gia Kim ngân hoa, Bồ công anh", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Kim ngân hoa", "Bồ công anh"] },
+  "NKH_096": { hc: "Viêm tinh hoàn sau quai bị do Khí trệ huyết ứ", phanloai: ["Nhi Khoa", "Bình", "Thực", "Khí trệ huyết ứ"], tc: ["Tinh hoàn có cục cứng sưng tím đau nhói cố định", "Sắc mặt u uất, lưỡi tím điểm ứ huyết", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, tiêu thũng chỉ thống", bt: "Thân thống trục ứ thang gia Ngưu tất, Ô dược", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Ngưu tất", "Ô dược"] },
+  "NKH_097": { hc: "Đau thắt lưng trẻ em do Thận hư bào mạch nhão", phanloai: ["Nhi Khoa", "Bình", "Hư", "Thận hư yêu thống"], tc: ["Thắt lưng đau mỏi không muốn vận động chạy nhảy", "Đứng lâu đau tăng, thích xoa bóp", "Chân yếu hay ngã", "Mạch trầm tế vô lực"], pdt: "Bổ thận tráng yêu, cường gân trác cốt", bt: "Dưỡng thận hoàn gia Đỗ trọng, Tục đoạn", tpbt: ["Thục địa", "Sơn thù nhục", "Hoài sơn", "Kỷ tử", "Thỏ ty tử", "Đỗ trọng", "Tục đoạn"] },
+  "NKH_098": { hc: "Khí hư ở trẻ em (Nhi khoa phụ khoa) do Tỳ hư thấp trệ", phanloai: ["Nhi Khoa", "Bình", "Hư thực thác tạp", "Tỳ hư đới hạ"], tc: ["Bé gái chảy dịch trắng loãng âm hộ dầm dề", "Ăn kém tiêu chảy, mệt mỏi sắc mặt nhợt", "Mạch hoãn nhược"], pdt: "Kiện tỳ mẫn thấp, hòa vị chỉ đới", bt: "Sâm linh bạch truật tán gia giảm", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Liên nhục", "Ý dĩ", "Cam thảo"] },
+  "NKH_099": { hc: "Khí hư ở trẻ em do Thấp nhiệt dính bẩn âm hộ", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt đới hạ"], tc: ["Chảy dịch vàng xanh hôi dính ở âm hộ bé gái", "Niêm mạc âm hộ đỏ sưng ngứa khóc", "Tiểu dắt buốt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, giải độc chỉ ngứa", bt: "Đạo xích tán gia Khổ sâm, Kim ngân hoa", tpbt: ["Sinh địa", "Mộc thông", "Cam thảo", "Trúc diệp", "Khổ sâm", "Kim ngân hoa"] },
+  "NKH_100": { hc: "Suy thận mạn trẻ em thể Âm dương lưỡng hư kiệt suy", phanloai: ["Nhi Khoa", "Hàn nhiệt thác tạp", "Hư suy", "Âm dương lưỡng hư suy thận"], tc: ["Phù nhẹ mệt mỏi kiệt sức, gầy đần độn", "Vừa sợ cold tay chân cold vừa gò má đỏ triều nhiệt", "Tiểu đêm nhiều, tiêu chảy phân sống", "Mạch vi tế muốn tuyệt"], pdt: "Âm dương song bổ, đại bổ nguyên khí cố bản", bt: "Bát vị hoàn gia Kỷ tử, Thỏ ty tử, Nhân sâm", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Kỷ tử", "Nhân sâm"] },
+
+  // 4. BỆNH LỤC DÂM, TRUYỀN NHIỄM & NGOẠI KHOA NHI (NKH_101 -> NKH_140)
+  "NKH_101": { hc: "Thủy đậu (Thủy pha) thể Phong nhiệt nhẹ", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Phong nhiệt thủy đậu"], tc: ["Sốt nhẹ, sợ gió, mụn nước mọc rải rác trong trong", "Chân mụn đỏ nhẹ, ngứa ngáy quấy khóc", "Chảy nước mũi nhẹ", "Mạch phù sác"], pdt: "Sơ phong thanh nhiệt, tuyên phế giải độc", bt: "Ngân kiều tán gia giảm", tpbt: ["Kim ngân hoa", "Liên kiều", "Cát cánh", "Bạc hà", "Trúc diệp", "Kinh giới", "Cam thảo"] },
+  "NKH_102": { hc: "Thủy đậu thể Nhiệt độc hỏa thịnh (Thủy đậu bội nhiễm)", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Hỏa độc thủy đậu"], tc: ["Sốt cao 39-40 độ, mụn nước mọc dày đặc hóa mủ", "Mụn có vệt đỏ sưng rát, mủ hôi", "Miệng khát, bứt rứt, tiểu đỏ táo bón", "Mạch sác hữu lực"], pdt: "Thanh nhiệt giải độc, lương huyết tiêu thũng", bt: "Hoàng liên giải độc thang gia Ngũ vị tiêu độc ẩm", tpbt: ["Hoàng liên", "Hoàng cầm", "Hoàng bá", "Chi tử", "Kim ngân hoa", "Bồ công anh"] },
+  "NKH_103": { hc: "Ma chẩn (Sởi) giai đoạn đầu thể Phong nhiệt biểu chứng", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Sởi khởi phát"], tc: ["Sốt, sợ gió, ho hắng hắt hơi chảy nước mũi", "Mắt đỏ chảy nước mắt nóng, mủ mắt", "Nổi hạt trắng nhỏ niêm mạc má (Koplik)", "Mạch phù sác"], pdt: "Sơ phong thanh nhiệt, thấu chẩn giải độc", bt: "Thăng ma sài hồ thang gia giảm", tpbt: ["Thăng ma", "Sài hồ", "Cát cánh", "Ngưu bàng tử", "Kinh giới", "Bạc hà", "Cam thảo"] },
+  "NKH_104": { hc: "Ma chẩn giai đoạn mọc thể Phế Vị nhiệt thịnh", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Sởi mọc"], tc: ["Sốt cao không lui, ban sởi mọc tuần tự từ mặt xuống thân", "Ban đỏ nổi mẩn mịn, ho hen thở gấp", "Miệng khát, bứt rứt, tiểu đỏ", "Mạch hồng sác"], pdt: "Thanh nhiệt giải độc, tuyên phế thấu chẩn", bt: "Thanh khí thấu chẩn thang gia giảm", tpbt: ["Thạch cao", "Tri mẫu", "Kim ngân hoa", "Liên kiều", "Cát cánh", "Hạnh nhân", "Cam thảo"] },
+  "NKH_105": { hc: "Ma chẩn giai đoạn lặn thể Phế Vị âm hư dư nhiệt", phanloai: ["Nhi Khoa", "Nhiệt", "Hư", "Sởi lặn dư nhiệt"], tc: ["Sốt lặn, ban sởi bay để lại vết thâm tróc vảy", "Ho khan ít đờm, miệng khô họng rát", "Ăn kém mệt mỏi, sốt nhẹ về chiều", "Mạch tế sác"], pdt: "Tư âm dưỡng vị, thanh giải dư nhiệt", bt: "Sa sâm mạch đông thang gia Mạch môn, Sinh địa", tpbt: ["Sa sâm", "Mạch môn", "Ngọc trúc", "Sinh địa", "Thiên hoa phấn", "Cam thảo"] },
+  "NKH_106": { hc: "Ma chẩn biến chứng Sởi hãm (Chẩn hãm) thể Nhiệt độc nhập tâm bao", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Sởi hãm bế khiếu"], tc: ["Ban sởi đột ngột lặn mất hoặc biến tím đen", "Sốt cao cuồng loạn, co giật, hôn mê", "Thở xối xả khò khè, mặt tím tái", "Mạch tế sác dũng mãnh"], pdt: "Thanh nhiệt giải độc, lương huyết khai khiếu cứu hãm", bt: "Tê giác địa hoàng thang gia An cung ngưu hoàng hoàn", tpbt: ["Thủy ngưu giác", "Sinh địa", "Xích thược", "Đan bì", "Ngưu hoàng"] },
+  "NKH_107": { hc: "Sạ mộc (Quai bị) thể Phong nhiệt uất gáy tai", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Quai bị khởi phát"], tc: ["Sốt nhẹ sợ gió, sưng đau một/hai bên góc hàm gáy tai", "Há miệng nuốt đau rát, đau lan ra tai", "Miệng khô, chảy nước dãi", "Mạch phù sác"], pdt: "Sơ phong thanh nhiệt, tán kết tiêu thũng", bt: "Sài hồ cát cánh thang gia giảm", tpbt: ["Sài hồ", "Cát cánh", "Ngưu bàng tử", "Kim ngân hoa", "Liên kiều", "Bạc hà", "Cam thảo"] },
+  "NKH_108": { hc: "Sạ mộc thể Nhiệt độc hỏa thịnh (Quai bị bội nhiễm mủ)", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Quai bị hỏa độc"], tc: ["Sốt cao 39-40 độ, vùng mang tai sưng to tấy đỏ nóng đau", "Không há miệng được, sốt bứt rứt", "Tiểu đỏ, táo bón nặng", "Mạch sác hữu lực dũng mãnh"], pdt: "Thanh nhiệt giải độc, hỏa độc tiêu thũng", bt: "Hoàng liên giải độc thang gia Bồ công anh, Thổ phục linh", tpbt: ["Hoàng liên", "Hoàng cầm", "Hoàng bá", "Chi tử", "Bồ công anh", "Thổ phục linh"] },
+  "NKH_109": { hc: "Sạ mộc biến chứng Nhiệt độc hãm can kinh gây co giật", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Quai bị biến chứng nảo"], tc: ["Sưng mang tai kèm sốt cao dữ dội rồi co giật", "Đau đầu quằn quại, nôn mửa vọt", "Mắt trợn ngược, hôn mê", "Mạch huyền sác hữu lực"], pdt: "Thanh nhiệt giải độc, bình can tức phong khai khiếu", bt: "Linh dương câu đằng ẩm hợp An cung ngưu hoàng hoàn", tpbt: ["Linh dương giác", "Câu đằng", "Tang diệp", "Cúc hoa", "Bạch thược", "Sinh địa", "Ngưu hoàng"] },
+  "NKH_110": { hc: "Nha cam (Viêm lợi lở loét nhi) do Tâm Vị tích nhiệt", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Viêm lợi nhiệt"], tc: ["Lợi răng sưng đỏ chảy máu rớm mủ, hơi thở hôi thối", "Niêm mạc loét đau trẻ không bú ăn được", "Sốt, bứt rứt, tiểu đỏ", "Mạch hoạt sác"], pdt: "Thanh vị tả hỏa, giải độc tiêu sang", bt: "Thanh vị tán gia Bồ công anh, Hoàng liên", tpbt: ["Hoàng liên", "Thăng ma", "Sinh địa", "Đan bì", "Bồ công anh", "Cam thảo"] },
+  "NKH_111": { hc: "Nha cam do Hư hỏa bốc lợi (Âm hư viêm lợi)", phanloai: ["Nhi Khoa", "Nhiệt", "Hư", "Âm hư viêm lợi"], tc: ["Chân răng sưng nhợt rớm máu dai dẳng lâu lành", "Răng lung lay nhẹ, miệng khô không khát", "Triều nhiệt gò má đỏ về chiều", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, dưỡng gân cố răng", bt: "Tri bá địa hoàng hoàn gia giảm", tpbt: ["Thục địa", "Tri mẫu", "Hoàng bá", "Sơn thù", "Hoài sơn", "Phục linh"] },
+  "NKH_112": { hc: "Khổ sang (Mụn nhọt độc) do Nhiệt độc hỏa thịnh", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Nhiệt độc mụn nhọt"], tc: ["Da nổi mụn nhọt sưng nóng đỏ đau dữ dội hóa mủ", "Mủ vỡ chảy dịch hôi hám", "Sốt, bứt rứt, tiểu đỏ", "Mạch sác hữu lực"], pdt: "Thanh nhiệt giải độc, tiêu thũng bài nùng", bt: "Ngũ vị tiêu độc ẩm gia giảm", tpbt: ["Kim ngân hoa", "Cúc hoa", "Bồ công anh", "Tử hoa địa đinh", "Tử bối thiên quỳ", "Cam thảo"] },
+  "NKH_113": { hc: "Chàm trẻ em (Tỳ vị thấp nhiệt chàm)", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt chàm"], tc: ["Mặt và thân mình nổi mẩn đỏ mụn nước ngứa ngáy", "Mụn vỡ chảy dịch vàng dính, đóng vảy dày", "Trẻ quấy khóc không ngủ", "Mạch nhu sác"], pdt: "Thanh nhiệt táo thấp, khu phong chỉ ngứa", bt: "Tiêu phong tán gia Khổ sâm, Hoàng bá", tpbt: ["Kinh giới", "Phòng phong", "Thuyền thoái", "Khổ sâm", "Hoàng bá", "Thạch cao"] },
+  "NKH_114": { hc: "Chàm trẻ em mạn do Huyết hư phong táo", phanloai: ["Nhi Khoa", "Bình", "Hư", "Huyết hư phong táo chàm"], tc: ["Da khô nẻ tróc vảy mỏng ngứa ngáy mạn tính", "Vùng da chàm dày sừng thâm xạm", "Sắc mặt nhợt nhạt", "Mạch tế sáp"], pdt: "Dưỡng huyết nhuận táo, khu phong chỉ ngứa", bt: "Dưỡng tiêu phong tán gia Hà thủ ô", tpbt: ["Đương quy", "Thục địa", "Bạch thược", "Phòng phong", "Hà thủ ô", "Cam thảo"] },
+  "NKH_115": { hc: "Mề đay ở trẻ em (Tẩy chẩn) do Phong hàn phạm biểu", phanloai: ["Nhi Khoa", "Hàn", "Thực", "Phong hàn mề đay"], tc: ["Da nổi mảng mề đay màu trắng nhợt/hồng ngứa ngáy", "Gặp cold ngứa tăng, chườm ấm bớt ngứa", "Sợ cold, hắt hơi chảy nước mũi", "Mạch phù khẩn"], pdt: "Khu phong tán hàn, điều hòa doanh vệ chỉ ngứa", bt: "Quế chi thang gia Kinh giới, Phòng phong", tpbt: ["Quế chi", "Bạch thược", "Sinh khương", "Kinh giới", "Phòng phong", "Chích cam thảo"] },
+  "NKH_116": { hc: "Mề đay ở trẻ em do Phong nhiệt uất da", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Phong nhiệt mề đay"], tc: ["Da nổi mảng mề đay màu đỏ tươi nóng rát ngứa ngáy", "Gặp nóng ngứa tăng, khát nước", "Tiểu đỏ, rêu vàng mỏng", "Mạch phù sác"], pdt: "Sơ phong thanh nhiệt, lương huyết chỉ ngứa", bt: "Tiêu phong tán gia Ngân hoa, Thạch cao", tpbt: ["Kinh giới", "Phòng phong", "Thuyền thoái", "Kim ngân hoa", "Thạch cao", "Cam thảo"] },
+  "NKH_117": { hc: "Bệnh Tay Chân Miệng (Thủy bào chẩn) thể Thấp nhiệt uất da", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt tay chân miệng"], tc: ["Sốt nhẹ, nổi mụn nước nhỏ lòng bàn tay chân mông", "Niêm mạc miệng nổi mụn nước loét đau trớ sữa", "Rêu dầy dính nhớt", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, giải độc thấu chẩn", bt: "甘Lộ tiêu độc tán gia giảm", tpbt: ["Hoàng cầm", "Bán hạ chế", "Thương truật", "Hậu phác", "Bạch đậu khấu", "Cam thảo"] },
+  "NKH_118": { hc: "Bệnh Tay Chân Miệng thể Nhiệt độc hãm tâm bao biến chứng", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Hỏa độc tay chân miệng biến chứng"], tc: ["Sốt cao liên tục 39-40 độ không hạ, giật mình chới với", "Chân tay run rẩy co giật, thở gấp nông", "Vã mồ hôi cold, lơ mơ hôn mê", "Mạch tế sác vi dũng"], pdt: "Thanh nhiệt giải độc, bình can tức phong khai khiếu cứu hãm", bt: "An cung ngưu hoàng hoàn hợp Linh dương câu đằng ẩm", tpbt: ["Ngưu hoàng", "Thủy ngưu giác", "Linh dương giác", "Câu đằng", "Tang diệp", "Cúc hoa"] },
+  "NKH_119": { hc: "Lao nhiệt trẻ em (Cốt chưng) do Âm hư hỏa vượng", phanloai: ["Nhi Khoa", "Nhiệt", "Hư", "Âm hư cốt chưng"], tc: ["Sốt hầm hập về chiều tối kéo dài nhiều tuần", "Triều nhiệt, vã mồ hôi trộm chảy sương đầm đìa", "Trẻ gầy khô xương, gò má đỏ", "Lưỡi đỏ ít rêu", "Mạch tế sác"], pdt: "Tư âm thanh nhiệt, trừ chưng thoái nhiệt", bt: "Thanh cốt tán gia giảm", tpbt: ["Ngân sài hồ", "Hồ hoàng liên", "Địa cốt bì", "Tần giao", "Bạch thược", "Tri mẫu", "Chích cam thảo"] },
+  "NKH_120": { hc: "Họ nhiệt đàng (Sốt xuất huyết Dengue) giai đoạn đầu thể Vệ khí đồng bệnh", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Sốt xuất huyết khởi phát"], tc: ["Sốt cao đột ngột 39-40 độ, đau đầu quằn quại", "Đau hốc mắt đau mỏi cơ xương khớp", "Mặt đỏ, da xung huyết đỏ", "Mạch phù sác hữu lực"], pdt: "Thanh khí thấu nhiệt, giải độc thấu biểu", bt: "Ngân kiều tán hợp Bạch hổ thang", tpbt: ["Kim ngân hoa", "Liên kiều", "Tri mẫu", "Thạch cao", "Cát cánh", "Cam thảo"] },
+  "NKH_121": { hc: "Sốt xuất huyết Dengue giai đoạn xuất huyết thể Nhiệt nhập huyết phân", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Huyết nhiệt xuất huyết"], tc: ["Nổi ban chẩn xuất huyết dưới da tím đỏ", "Chảy máu cam, chảy máu chân răng, nôn ra máu", "Tiểu đỏ, sốt cao bứt rứt", "Lưỡi đỏ thẫm", "Mạch tế sác hữu lực"], pdt: "Thanh nhiệt lương huyết, giải độc chỉ huyết", bt: "Tê giác địa hoàng thang gia giảm", tpbt: ["Thủy ngưu giác", "Sinh địa", "Xích thược", "Mẫu đơn bì", "Tam thất", "Bồ hoàng"] },
+  "NKH_122": { hc: "Sốt xuất huyết Dengue giai đoạn sốc thể Khí âm lưỡng thoát", phanloai: ["Nhi Khoa", "Nhiệt", "Hư suy", "Sốc sốt xuất huyết"], tc: ["Sốt tụt đột ngột, chân tay cold ngắt, vã mồ hôi cold", "Mạch nhanh nhỏ khó bắt/vi tế muốn tuyệt", "Huyết áp kẹt/tụt, trẻ lơ mơ kiệt sức", "Da bệch tái"], pdt: "Ích khí sinh tân, hồi dương cứu thoát", bt: "Sinh mạch tán hợp Sâm phụ thang", tpbt: ["Nhân sâm", "Phụ tử chế", "Mạch môn", "Ngũ vị tử"] },
+  "NKH_123": { hc: "Rong huyết ở trẻ em (Thiếu niên băng lậu) do Huyết nhiệt", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Huyết nhiệt băng lậu nhi"], tc: ["Bé gái dậy thì máu kinh ra xối xả hoặc rỉ rả không dừng", "Sắc kinh đỏ tươi hoặc tím đặc hôi", "Sốt nhẹ, khát nước, tiểu đỏ", "Mạch sác hữu lực"], pdt: "Thanh nhiệt lương huyết, chỉ huyết điều kinh", bt: "Bảo âm sản gia Ngó sen sao", tpbt: ["Sinh địa", "Thục địa", "Bạch thược", "Hoàng bá", "Tri mẫu", "Mẫu đơn bì", "Ngó sen sao"] },
+  "NKH_124": { hc: "Rong huyết ở trẻ em do Thận khí bất cố", phanloai: ["Nhi Khoa", "Bình", "Hư", "Thận khí hư băng lậu nhi"], tc: ["Máu kinh chảy rỉ rả dầm dề nhạt loãng kéo dài", "Mệt mỏi hụt hơi, đau thắt lưng mỏi gối", "Sắc mặt nhợt nhạt", "Mạch trầm tế nhược"], pdt: "Bổ thận cố xung, nhiếp huyết chỉ huyết", bt: "Thọ thai hoàn gia A giao, Hoàng kỳ", tpbt: ["Thỏ ty tử", "Tang ký sinh", "Tục đoạn", "A giao", "Hoàng kỳ"] },
+  "NKH_125": { hc: "Trĩ hậu môn trẻ em do Thấp nhiệt hạ chú", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt trĩ nhi"], tc: ["Búi trĩ sưng đỏ nóng rát hậu môn khi đại tiện", "Chảy máu tươi thành tia/giọt sau phân", "Táo bón, tiểu đỏ", "Mạch nhu sác"], pdt: "Thanh nhiệt lợi thấp, lương huyết tiêu trũng trĩ", bt: "Tán trĩ tán gia Hòe hoa, Địa dữu", tpbt: ["Hoàng liên", "Hoàng bá", "Trắc bách diệp", "Hòe hoa", "Địa dữu", "Đương quy"] },
+  "NKH_126": { hc: "Trĩ hậu môn trẻ em do Trung khí hạ hãm sa búi", phanloai: ["Nhi Khoa", "Bình", "Hư", "Trung khí hạ hãm trĩ"], tc: ["Búi trĩ sa ra ngoài hậu môn rặn tiêu không co lên được", "Không sưng nóng đỏ đau, mệt mỏi hụt hơi", "Sắc mặt nhợt nhạt", "Mạch hoãn nhược"], pdt: "Bổ trung ích khí, thăng dương cử trĩ", bt: "Bổ trung ích khí thang gia Chỉ xác sao", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Trần bì", "Thăng ma", "Sài hồ", "Chỉ xác sao"] },
+  "NKH_127": { hc: "Nổi hạch trẻ em (Lạc trĩ / Thối hạch) do Đàm nhiệt kết hạch", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Đàm nhiệt kết hạch"], tc: ["Hạch cổ vai bẹn sưng to đau nhói cự án", "Da trên hạch hới đỏ nóng, sốt nhẹ", "Mạch hoạt sác"], pdt: "Thanh nhiệt hóa đàm, nhuyễn kiên tán kết", bt: "Tiêu tràng hoàn gia Hải tảo, Côn bố", tpbt: ["Bán hạ chế", "Trần bì", "Phục linh", "Hải tảo", "Côn bố", "Hạ khô thảo"] },
+  "NKH_128": { hc: "Nổi hạch trẻ em mạn do Âm hư đàm ngưng", phanloai: ["Nhi Khoa", "Nhiệt", "Hư thực thác tạp", "Âm hư đàm hạch"], tc: ["Hạch sưng cứng dai dẳng nhiều tháng không đỏ không nóng", "Trẻ gầy triều nhiệt, vã mồ hôi trộm", "Mạch tế sác"], pdt: "Tư âm thanh nhiệt, hóa đàm tán kết", bt: "Lục vị địa hoàng hoàn gia Hạ khô thảo, Mẫu lệ", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Trạch tả", "Đan bì", "Hạ khô thảo", "Mẫu lệ"] },
+  "NKH_129": { hc: "Sốt chu kỳ ở trẻ em do Can Đởm uất nhiệt qua lại", phanloai: ["Nhi Khoa", "Hàn nhiệt thác tạp", "Hư thực thác tạp", "Thiếu dương qua lại"], tc: ["Sốt rét run từng cơn chu kỳ 3-5 ngày/lần", "Miệng đắng, họng khô, mắt hoa", "Tâm phiền hay nôn trớ, ngực trướng", "Mạch huyền"], pdt: "Hòa giải thiếu dương, thanh nhiệt thoái nhiệt", bt: "Tiểu sài hồ thang gia giảm", tpbt: ["Sài hồ", "Hoàng cầm", "Bán hạ chế", "Sinh khương", "Nhân sâm", "Cam thảo"] },
+  "NKH_130": { hc: "Sốt kéo dài không rõ nguyên nhân thể Âm hư triều nhiệt", phanloai: ["Nhi Khoa", "Nhiệt", "Hư", "Âm hư triều nhiệt sốt"], tc: ["Sốt hầm hập 37.5-38.3 độ kéo dài nhiều tuần về chiều", "Lòng bàn tay chân nóng, vã mồ hôi trộm", "Trẻ gầy khô, lưỡi đỏ ít rêu", "Mạch tế sác"], pdt: "Tư âm thanh nhiệt, thoái chưng chỉ sốt", bt: "Tri bá địa hoàng hoàn gia Địa cốt bì, Tần giao", tpbt: ["Thục địa", "Tri mẫu", "Hoàng bá", "Sơn thù", "Địa cốt bì", "Tần giao"] },
+  "NKH_131": { hc: "Sốt kéo dài thể Khí hư phát sốt", phanloai: ["Nhi Khoa", "Bình", "Hư", "Khí hư phát sốt"], tc: ["Sốt nhẹ kéo dài dai dẳng, vận động sốt tăng", "Trẻ mệt mỏi hụt hơi, ngại nói ngại chạy nhảy", "Vã mồ hôi nhiều, sắc mặt nhợt", "Mạch hư đại vô lực"], pdt: "Bổ trung ích khí, châm dương thoái nhiệt", bt: "Bổ trung ích khí thang gia liều Hoàng kỳ cao", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Trần bì", "Thăng ma", "Sài hồ", "Cam thảo"] },
+  "NKH_132": { hc: "Bệnh Hoại tử da do Thấp nhiệt hỏa độc hoại tử", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Hỏa độc hoại tử da"], tc: ["Vùng da lở loét hoại tử chảy dịch mủ hôi thối dữ dội", "Xung quanh sưng nóng đỏ đau quặn", "Sốt cao rét run, bứt rứt", "Mạch sác hữu lực dũng mãnh"], pdt: "Thanh nhiệt giải độc, trừ thấp bài nùng sinh cơ", bt: "Ngũ vị tiêu độc ẩm hợp Tiên phương hoạt mệnh hãn", tpbt: ["Kim ngân hoa", "Cúc hoa", "Bồ công anh", "Bạch chỉ", "Bối mẫu", "Cam thảo"] },
+  "NKH_133": { hc: "Bệnh Lở ngứa dai dẳng (Chàm bội nhiễm) do Thấp nhiệt dư uẩn", phanloai: ["Nhi Khoa", "Nhiệt", "Hư thực thác tạp", "Thấp nhiệt dư uẩn"], tc: ["Các vết loét ngứa chảy mủ rỉ rả dai dẳng không lành", "Da thâm xạm dày sừng ngứa dữ dội", "Rêu dầy dính vàng", "Mạch nhu sác"], pdt: "Thanh nhiệt táo thấp, giải độc chỉ ngứa sinh cơ", bt: "Nhị diệu tán gia Khổ sâm, Thổ phục linh", tpbt: ["Hoàng bá", "Thương truật", "Khổ sâm", "Thổ phục linh", "Xa tiền tử"] },
+  "NKH_134": { hc: "Bệnh Bỏng lửa/nước ở trẻ em thể Nhiệt độc thương tân", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Bỏng nhiệt độc"], tc: ["Da bỏng phồng mộp mụn nước sưng đỏ đau dữ dội khóc ré", "Sốt, khát nước bứt rứt", "Tiểu ngắn đỏ", "Mạch hoạt sác"], pdt: "Thanh nhiệt giải độc, lương huyết sinh tân chỉ thống", bt: "Thanh nhiệt giải độc thang gia Mạch môn, Sinh địa", tpbt: ["Hoàng liên", "Hoàng cầm", "Hoàng bá", "Sinh địa", "Mạch môn", "Cam thảo"] },
+  "NKH_135": { hc: "Bệnh Bỏng biến chứng Vong âm nguy cấp", phanloai: ["Nhi Khoa", "Nhiệt", "Hư suy", "Bỏng vong âm"], tc: ["Bỏng diện rộng vã mồ hôi nóng dính đầm đìa", "Thở gấp nông, da khô nhăn, khát xối xả", "Trẻ lơ mơ kiệt sức", "Mạch tế sác vô lực muốn tuyệt"], pdt: "Tư âm cứu thoát, sinh tân liễm hãn", bt: "Sinh mạch tán gia Mẫu lệ, Quy bản, A giao", tpbt: ["Nhân sâm", "Mạch môn", "Ngũ vị tử", "Mẫu lệ", "Quy bản", "A giao"] },
+  "NKH_136": { hc: "Bệnh Bỏng biến chứng Vong dương nguy cấp", phanloai: ["Nhi Khoa", "Hàn", "Hư suy", "Bỏng vong dương"], tc: ["Sau bỏng nặng vã mồ hôi cold đầm đìa", "Chân tay cold ngắt quá gối, sắc mặt bệch tái", "Thở yếu ớt mắt nhắm lơ mơ", "Mạch vi tế muốn tuyệt"], pdt: "Hồi dương cứu nghịch, đại bổ nguyên khí cố thoát", bt: "Sâm phụ thang hợp Tứ nghịch thang", tpbt: ["Nhân sâm", "Phụ tử chế", "Can khương", "Chích cam thảo"] },
+  "NKH_137": { hc: "Chấn thương phần mềm nhi do Huyết ứ sưng đau", phanloai: ["Nhi Khoa", "Bình", "Thực", "Huyết ứ chấn thương"], tc: ["Vùng chấn thương sưng to bầm tím đau nhói cự án", "Khó vận động, trẻ quấy khóc", "Lưỡi tím sẫm", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, tiêu thũng chỉ thống", bt: "Đào hồng tứ vật thang gia Tam thất, Ngưu tất", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Tam thất", "Ngưu tất"] },
+  "NKH_138": { hc: "Viêm xương tủy xương trẻ em (Cốt phụ mủ) do Hỏa độc uẩn xương", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Hỏa độc cốt phụ"], tc: ["Xương sưng to nóng đau dữ dội quằn quại, sốt cao rét run", "Da trên xương đỏ tấy, mưng mủ vỡ lỗ rò", "Mạch hoạt sác dũng mãnh"], pdt: "Thanh nhiệt giải độc, tiêu thũng bài nùng trác cốt", bt: "Tiên phương hoạt mệnh hãn gia Thổ phục linh", tpbt: ["Kim ngân hoa", "Bạch chỉ", "Bối mẫu", "Trần bì", "Cam thảo", "Thổ phục linh"] },
+  "NKH_139": { hc: "Viêm xương tủy mạn do Khí huyết hư hoại tử rò mủ", phanloai: ["Nhi Khoa", "Bình", "Hư suy", "Khí huyết hư rò mủ"], tc: ["Lỗ rò xương chảy mủ nhạt loãng dai dẳng lâu lành", "Mảnh xương chết đọng, trẻ gầy còm bệch nhợt", "Ăn kém mệt mỏi", "Mạch tế nhược vô lực"], pdt: "Đại bổ khí huyết,托độc sinh cơ trác cốt", bt: "Thập toàn đại bổ thang gia Hoàng kỳ liều cao", tpbt: ["Nhân sâm", "Bạch truật", "Phục linh", "Cam thảo", "Thục địa", "Đương quy", "Hoàng kỳ"] },
+  "NKH_140": { hc: "Trúng độc nấm/đồ ăn biến chứng Can Thận hư suy", phanloai: ["Nhi Khoa", "Hàn nhiệt thác tạp", "Hư suy", "Độc tố hoại tử can thận"], tc: ["Vàng da mắt vàng đục sau nôn mửa tiêu chảy", "Tiểu tiện ít/vô niệu, xuất huyết dưới da", "Trẻ lơ mơ hôn mê", "Mạch vi tế sác"], pdt: "Thanh nhiệt giải độc, bảo can dưỡng thận cứu kiệt", bt: "Nhân trần cao thang hợp Tả quy hoàn gia giảm", tpbt: ["Nhân trần", "Chi tử", "Đại hoàng", "Thục địa", "Sơn thù", "Hoài sơn"] },
+
+  // 5. THẦN KINH, TÂM THẦN & DỊ TẬT BẨM SINH NHI (NKH_141 -> NKH_180)
+  "NKH_141": { hc: "Động kinh ở trẻ em (Giản chứng) thể Đàm hỏa phong động", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Đàm hỏa động kinh"], tc: ["Đột ngột ngã gục co giật toàn thân kêu tiếng heo/chó", "Mắt trợn ngược, miệng sùi bọt đờm, đái dầm", "Tỉnh dậy mệt mỏi không nhớ", "Mạch hoạt sác hữu lực"], pdt: "Thanh nhiệt hóa đàm, bình can tức phong định giản", bt: "Địch đàm thang hợp Định giản hoàn", tpbt: ["Bán hạ chế", "Trần bì", "Phục linh", "Chỉ thực", "Đởm nam tinh", "Thạch xương bồ", "Thiên ma"] },
+  "NKH_142": { hc: "Động kinh ở trẻ em thể Can phong nội động", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Can phong động kinh"], tc: ["Nhiều cơn co giật ngắn trong ngày, chân tay giật nẩy", "Mặt đỏ, cáu gắt trước cơn giật", "Trẻ quấy khóc nghiến răng", "Mạch huyền sác"], pdt: "Bình can tức phong, trấn tĩnh chỉ giật", bt: "Linh dương câu đằng ẩm gia giảm", tpbt: ["Linh dương giác", "Câu đằng", "Tang diệp", "Cúc hoa", "Bạch thược", "Sinh địa", "Cam thảo"] },
+  "NKH_143": { hc: "Động kinh ở trẻ em thể Tỳ hư đàm trọc", phanloai: ["Nhi Khoa", "Bình", "Hư thực thác tạp", "Tỳ hư đàm trọc động kinh"], tc: ["Nổi cơn động kinh nhẹ lơ mơ ngơ ngác vài giây", "Sắc mặt vàng nhợt, ăn kém tiêu chảy", "Nôn nao đờm dãi nhiều", "Mạch nhu hoạt nhược"], pdt: "Kiện tỳ hóa đàm, khai khiếu định giản", bt: "Lục quân tử thang gia Thiên ma, Thạch xương bồ", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Trần bì", "Bán hạ chế", "Thiên ma", "Thạch xương bồ"] },
+  "NKH_144": { hc: "Động kinh ở trẻ em thể Thận tinh khuy tổn", phanloai: ["Nhi Khoa", "Bình", "Hư suy", "Thận tinh bất túc động kinh"], tc: ["Cơn động kinh tái đi tái lại gây sa sút trí tuệ đần độn", "Chân tay yếu mềm, tóc rụng răng yếu", "Đau lưng mỏi gối", "Mạch trầm tế vô lực"], pdt: "Bổ thận điền tinh, dưỡng tủy bổ brain định giản", bt: "Tả quy hoàn gia Lộc giác giao, Thạch xương bồ", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Kỷ tử", "Thỏ ty tử", "Lộc giác giao", "Thạch xương bồ"] },
+  "NKH_145": { hc: "Bại não nhi khoa (Ngũ trì ngũ nhuyễn) thể Tỳ Thận dương hư", phanloai: ["Nhi Khoa", "Hàn", "Hư suy", "Tỳ Thận dương hư bại não"], tc: ["Cơ bắp duỗi mềm không sức (Nhuyễn), chậm biết đi ngồi", "Sợ cold tay chân cold ngắt, tiêu chảy phân sống", "Thần chí đần độn chảy dãi", "Mạch trầm tế trì vô lực"], pdt: "Ôn bổ tỳ thận, cường gân trác cốt khai khiếu", bt: "Hữu quy hoàn hợp Lục quân tử thang", tpbt: ["Thục địa", "Nhục quế", "Phụ tử chế", "Sơn thù", "Đảng sâm", "Bạch truật", "Phục linh"] },
+  "NKH_146": { hc: "Bại não nhi khoa thể Can Thận âm hư gân cơ co cứng", phanloai: ["Nhi Khoa", "Nhiệt", "Hư thực thác tạp", "Can Thận âm hư bại não"], tc: ["Tay chân co quắp cứng đờ khó co duỗi", "Mắt lác, quấy khóc đêm, triều nhiệt đạo hãn", "Lưỡi đỏ ít rêu", "Mạch tế sác"], pdt: "Tư bổ can thận, nhuận gân thư lạc", bt: "Lục vị địa hoàng hoàn gia Mộc qua, Bạch thược, Câu đằng", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Trạch tả", "Đan bì", "Mộc qua", "Bạch thược", "Câu đằng"] },
+  "NKH_147": { hc: "Bại não nhi khoa thể Khí huyết hư suy teo cơ", phanloai: ["Nhi Khoa", "Bình", "Hư suy", "Khí huyết hư bại não"], tc: ["Chân tay gầy teo cơ nhão mềm không lực", "Mệt mỏi sắc mặt nhợt nhạt đần độn", "Ăn kém tiêu chảy", "Mạch tế nhược vô lực"], pdt: "Đại bổ khí huyết, cường gân trác cốt", bt: "Bát trân thang gia Hoàng kỳ, Ngưu tất, Đỗ trọng", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Thục địa", "Đương quy", "Hoàng kỳ", "Ngưu tất"] },
+  "NKH_148": { hc: "Bại não nhi khoa thể Đàm trọc bế khiếu sa sút trí tuệ", phanloai: ["Nhi Khoa", "Bình", "Thực", "Đàm trọc bế khiếu bại não"], tc: ["Nói ú ớ không thành tiếng, chảy dãi liên tục cả ngày", "Thờ ơ ngơ ngác cười khóc bất thường", "Rêu dầy nhớt", "Mạch hoạt nhu"], pdt: "Hóa đàm khai khiếu, bổ não định chí", bt: "Thuận khí đạo đàm thang gia Thạch xương bồ, Viễn chí", tpbt: ["Bán hạ chế", "Trần bì", "Phục linh", "Chỉ thực", "Nam tinh", "Thạch xương bồ", "Viễn chí"] },
+  "NKH_149": { hc: "Tăng động giảm chú ý (ADHD) thể Can hỏa uất bốc", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Can hỏa ADHD"], tc: ["Trẻ chay nhảy liên tục không ngừng, hay đập phá", "Tính nết nóng nảy dễ giận dữ, khó tập trung", "Mặt đỏ, tiểu đỏ táo bón", "Mạch huyền sác"], pdt: "Thanh can tả hỏa, trấn tĩnh an thần", bt: "Long đởm tả can thang gia Mẫu lệ, Câu đằng", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Sài hồ", "Mẫu lệ", "Câu đằng"] },
+  "NKH_150": { hc: "Tăng động giảm chú ý thể Tâm Thận bất giao", phanloai: ["Nhi Khoa", "Nhiệt", "Hư thực thác tạp", "Tâm Thận bất giao ADHD"], tc: ["Cựa quậy không ngồi yên một chỗ, mất ngủ trằn trọc", "Bứt rứt hay quên, lòng bàn tay chân nóng", "Lưỡi đỏ ít rêu", "Mạch tế sác"], pdt: "Tư âm giáng hỏa, thanh tâm an thần định chí", bt: "Thiên vương bổ tâm đan hợp Giao thái hoàn", tpbt: ["Sinh địa", "Huyền sâm", "Cát cánh", "Viễn chí", "Toan táo nhân", "Hoàng liên", "Nhục quế"] },
+  "NKH_151": { hc: "Tăng động giảm chú ý thể Đàm nhiệt nhiễu tâm", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Đàm nhiệt ADHD"], tc: ["Nói năng huyên náo lảm nhảm, trêu chọc bạn bè", "Cổ họng đờm dãi dính nhớt, hay quên", "Rêu dầy vàng nhớt", "Mạch hoạt sác"], pdt: "Thanh nhiệt hóa đàm, thanh tâm định chí", bt: "Hoàng liên ôn đởm thang gia Thạch xương bồ", tpbt: ["Hoàng liên", "Bán hạ chế", "Trần bì", "Phục linh", "Trúc nhự", "Chỉ thực", "Thạch xương bồ"] },
+  "NKH_152": { hc: "Tự kỷ ở trẻ em (Tự kỷ chứng) thể Can uất tỳ hư", phanloai: ["Nhi Khoa", "Bình", "Hư thực thác tạp", "Khí trệ Tỳ hư tự kỷ"], tc: ["Thích ở một mình không giao tiếp ánh mắt, không nói", "Khóc lóc thờ ơ xúc động bất thường", "Ăn kém tiêu chảy", "Mạch huyền tế"], pdt: "Sơ can giải uất, kiện tỳ an thần khai khiếu", bt: "Tiêu dao tán gia Thạch xương bồ, Viễn chí", tpbt: ["Sài hồ", "Bạch thược", "Đương quy", "Bạch truật", "Phục linh", "Thạch xương bồ", "Viễn chí"] },
+  "NKH_153": { hc: "Tự kỷ ở trẻ em thể Thận tinh bất túc đần độn", phanloai: ["Nhi Khoa", "Bình", "Hư suy", "Thận tinh bất túc tự kỷ"], tc: ["Chậm phát triển trí tuệ nghiêm trọng, không nhận biết bố mẹ", "Hai chân yếu mềm, tóc bạc rụng", "Mạch trầm tế vô lực"], pdt: "Bổ thận điền tinh, dưỡng tủy bổ não khai âm", bt: "Tả quy hoàn gia Lộc giác giao, Thạch xương bồ, Tử hà xe", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Kỷ tử", "Lộc giác giao", "Thạch xương bồ", "Tử hà xe"] },
+  "NKH_154": { hc: "Rối loạn giấc ngủ nhi (Dạ đề / Trằn trọc đêm) do Tâm nhiệt bứt rứt", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Tâm nhiệt dạ đề"], tc: ["Ban đêm khóc ré liên tục mặt đỏ gay", "Lòng bàn tay chân nóng, loét lưỡi đỏ", "Tiểu buốt đỏ", "Mạch sác hữu lực"], pdt: "Thanh tâm tả hỏa, an thần chỉ khóc", bt: "Đạo xích tán gia Toan táo nhân, Đan sâm", tpbt: ["Sinh địa", "Mộc thông", "Trúc diệp", "Toan táo nhân", "Đan sâm", "Cam thảo"] },
+  "NKH_155": { hc: "Trằn trọc đêm ở trẻ em do Tỳ Vị hư hàn đau bụng đêm", phanloai: ["Nhi Khoa", "Hàn", "Hư", "Tỳ Vị hư hàn dạ đề"], tc: ["Đêm ngủ trằn trọc khóc hầm hập nằm co quắp", "Thích áp bụng vào bụng mẹ hay chườm ấm", "Sợ cold, tay chân cold, tiêu lỏng", "Mạch trầm tế hoãn"], pdt: "Ôn trung tán hàn, kiện tỳ an thần chỉ khóc", bt: "Lý trung hoàn gia Cúc hoa, Toan táo nhân", tpbt: ["Đảng sâm", "Can khương", "Bạch truật", "Cam thảo", "Toan táo nhân"] },
+  "NKH_156": { hc: "Trằn trọc đêm ở trẻ em do Kinh hãi hoảng sợ", phanloai: ["Nhi Khoa", "Bình", "Thực", "Kinh hãi dạ đề"], tc: ["Ban đêm tỉnh giấc giật mình khóc ré thảm thiết", "Nghiến răng, vã mồ hôi cold", "Trẻ hoảng hốt bám chặt lấy mẹ", "Mạch huyền tế"], pdt: "Trấn kinh an thần, định chí chỉ khóc", bt: "An thần định chí hoàn gia Mẫu lệ, Long cốt", tpbt: ["Nhân sâm", "Phục linh", "Phục thần", "Viễn chí", "Long cốt", "Mẫu lệ"] },
+  "NKH_157": { hc: "Thối nhược trẻ sơ sinh (Khóc dạ đề sơ sinh) do Bào thai tích nhiệt", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Sơ sinh tích nhiệt"], tc: ["Trẻ sơ sinh vừa sinh ra quấy khóc liên tục ngày đêm", "Mặt đỏ môi đỏ khô, táo bón", "Trớ sữa chua hôi", "Mạch hoạt sác"], pdt: "Thanh nhiệt giải độc, hòa trung an thần", bt: "Thanh nhiệt giải độc tán gia giảm", tpbt: ["Hoàng liên", "Hoàng cầm", "Sinh địa", "Trúc diệp", "Cam thảo"] },
+  "NKH_158": { hc: "Thối nhược trẻ sơ sinh do Mẹ ăn lạnh lây tỳ hàn", phanloai: ["Nhi Khoa", "Hàn", "Hư", "Sơ sinh Tỳ hư hàn"], tc: ["Sơ sinh bú khóc yếu ớt, người cold ngắt", "Nôn ra sữa loãng, tiêu phân sống lỏng", "Da bệch tái", "Mạch trầm vi nhược"], pdt: "Ôn trung tán hàn, kiện tỳ trợ dương", bt: "Tứ quân tử thang gia Can khương, Nhục quế", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Can khương", "Nhục quế", "Cam thảo"] },
+  "NKH_159": { hc: "Ngũ trì (Chậm đứng, đi, mọc răng, tóc, nói) do Thận tinh bất túc", phanloai: ["Nhi Khoa", "Bình", "Hư suy", "Thận tinh bất túc ngũ trì"], tc: ["Trẻ 2-3 tuổi chưa biết đi đứng, chưa mọc răng", "Tóc thưa thớt bạc khô, xương sọ chưa khép (Giải thóp)", "Đần độn chậm nói", "Mạch trầm tế vô lực"], pdt: "Bổ thận điền tinh, ích tủy bổ não cường gân", bt: "Gia vị Địa hoàng hoàn gia Lộc nhung, Ngưu tất", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Lộc nhung", "Ngưu tất"] },
+  "NKH_160": { hc: "Ngũ trì do Tỳ Vị khí huyết hư suy", phanloai: ["Nhi Khoa", "Bình", "Hư suy", "Khí huyết hư ngũ trì"], tc: ["Cơ bắp teo nhão không lực đứng, gầy còm", "Sắc mặt úa vàng nhợt nhạt, ăn kém tiêu chảy", "Mệt mỏi không chạy nhảy", "Mạch tế nhược vô lực"], pdt: "Song bổ khí huyết, kiện tỳ thăng dưỡng", bt: "Bát trân thang gia Hoàng kỳ, Ngưu tất", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Thục địa", "Đương quy", "Hoàng kỳ", "Ngưu tất"] },
+  "NKH_161": { hc: "Ngũ nhuyễn (Mềm cổ, cơ, tay, chân, miệng) do Tỳ Thận hư suy", phanloai: ["Nhi Khoa", "Bình", "Hư suy", "Tỳ Thận hư suy ngũ nhuyễn"], tc: ["Cổ ngoẹo không gượng lên được (Cổ nhuyễn), tay chân mềm rũ", "Miệng nhão trễ chảy dãi liên tục không nhai bú tốt", "Trẻ mệt mỏi đần độn", "Mạch trầm nhược vô lực"], pdt: "Song bổ tỳ thận, cường gân trác cốt thăng đề", bt: "Bổ trung ích khí thang hợp Hữu quy hoàn", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Thục địa", "Nhục quế", "Phụ tử chế", "Thăng ma"] },
+  "NKH_162": { hc: "Giải thóp (Thóp đỉnh đầu không khép) do Thận tinh bất túc", phanloai: ["Nhi Khoa", "Bình", "Hư suy", "Thận tinh bất túc giải thóp"], tc: ["Trẻ 2-4 tuổi thóp đầu vẫn phập phồng rộng không khép", "Xương sọ mềm nhão, đầu to đần độn", "Chân yếu chậm đi, mọc răng chậm", "Mạch trầm tế vô lực"], pdt: "Bổ thận điền tinh, trác cốt điền tủy", bt: "Lục vị địa hoàng hoàn gia Lộc giác giao, Ngưu tất, Quy bản", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Lộc giác giao", "Ngưu tất"] },
+  "NKH_163": { hc: "Thóp hõm (Thóp lõm sâu xuống) do Âm tân khuy kiệt", phanloai: ["Nhi Khoa", "Nhiệt", "Hư suy", "Âm tân khuy tổn thóp hõm"], tc: ["Thóp đỉnh đầu lõm sâu do nôn mửa tiêu chảy xối xả", "Mắt trũng sâu, da khô nhăn, khát nước", "Trẻ lơ mơ kiệt sức", "Mạch tế sác vô lực"], pdt: "Tư âm sinh tân, ích khí cứu thoát", bt: "Sinh mạch tán gia Mạch môn, Sinh địa, A giao", tpbt: ["Nhân sâm", "Mạch môn", "Ngũ vị tử", "Sinh địa", "A giao"] },
+  "NKH_164": { hc: "Thóp nhô (Thóp phồng to) do Nhiệt độc hỏa bốc não", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Hỏa độc thóp phồng"], tc: ["Thóp đầu phồng căng cứng đau, sốt cao quằn quại", "Co giật, mắt trợn ngược, nôn vọt", "Mặt đỏ gừ, bứt rứt", "Mạch hoạt sác dũng mãnh"], pdt: "Thanh nhiệt giải độc, giáng hỏa trấn kinh", bt: "Hoàng liên giải độc thang gia An cung ngưu hoàng hoàn", tpbt: ["Hoàng liên", "Hoàng cầm", "Hoàng bá", "Chi tử", "Ngưu hoàng"] },
+  "NKH_165": { hc: "Vàng da sơ sinh (Hoàng đản) do Thấp nhiệt uẩn kết (Dương hoàng)", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Dương hoàng sơ sinh"], tc: ["Mắt vàng, da toàn thân vàng tươi sáng sau sinh 2-3 ngày", "Trẻ sốt nhẹ, bú quấy, bứt rứt", "Tiểu tiện đỏ ngắn, phân vàng đục", "Rêu vàng nhớt"], pdt: "Thanh nhiệt lợi thấp, thoái hoàng", bt: "Nhân trần cao thang gia giảm", tpbt: ["Nhân trần", "Chi tử", "Đại hoàng"] },
+  "NKH_166": { hc: "Vàng da sơ sinh do Hàn thấp trệ tỳ (Âm hoàng)", phanloai: ["Nhi Khoa", "Hàn", "Hư thực thác tạp", "Âm hoàng sơ sinh"], tc: ["Da và mắt vàng tối u ám kéo dài nhiều tuần", "Trẻ sợ cold, tay chân cold, bú kém lơ mơ", "Phân bạc màu/trắng nhạt, tiêu lỏng", "Mạch trầm trì nhược"], pdt: "Ôn trung tán hàn, kiện tỳ trừ thấp thoái hoàng", bt: "Nhân trần phụ tử thang gia giảm", tpbt: ["Nhân sâm", "Phụ tử chế", "Can khương", "Bạch truật", "Nhân trần"] },
+  "NKH_167": { hc: "Vàng da sơ sinh do Huyết ứ bế tắc mật", phanloai: ["Nhi Khoa", "Bình", "Thực", "Huyết ứ hoàng đản"], tc: ["Da vàng tím sẫm dai dẳng, bụng trướng gan lách to", "Nổi mạch máu tím vùng bụng", "Phân xám xịt, lưỡi tím điểm ứ huyết", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, lợi đởm thoái hoàng", bt: "Đào hồng tứ vật thang gia Nhân trần, Trạch tả", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Nhân trần", "Trạch tả"] },
+  "NKH_168": { hc: "Cảm phong chảy dãi ở trẻ em do Tỳ khí hư bất cố", phanloai: ["Nhi Khoa", "Bình", "Hư", "Tỳ khí hư chảy dãi"], tc: ["Nước dãi chảy dầm dề lòng thòng không tự chủ được", "Trẻ ăn kém tiêu chảy, mệt mỏi sắc mặt nhợt", "Cơ miệng nhão", "Mạch hoãn nhược"], pdt: "Kiện tỳ ích khí, nhiếp tân chỉ dãi", bt: "Tứ quân tử thang gia Ích trí nhân, Kha tử", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Cam thảo", "Ích trí nhân", "Kha tử"] },
+  "NKH_169": { hc: "Chảy dãi ở trẻ em do Tỳ Vị hư hàn tràng dịch", phanloai: ["Nhi Khoa", "Hàn", "Hư", "Tỳ Vị hư hàn chảy dãi"], tc: ["Nước dãi chảy ra trong loãng cold ngắt gáy cổ", "Sợ cold, tay chân cold, bụng đau âm ỉ", "Mạch trầm trì vô lực"], pdt: "Ôn trung kiện tỳ, sáp tân chỉ dãi", bt: "Lý trung hoàn gia Ích trí nhân, Bán hạ chế", tpbt: ["Nhân sâm", "Can khương", "Bạch truật", "Cam thảo", "Ích trí nhân", "Bán hạ chế"] },
+  "NKH_170": { hc: "Chảy dãi ở trẻ em do Vị nhiệt tích nhiệt bốc dịch", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Vị nhiệt chảy dãi"], tc: ["Nước dãi chảy ra dính hôi, miệng hôi rát", "Sưng lợi, táo bón, tiểu đỏ", "Trẻ quấy bứt rứt", "Mạch hoạt sác"], pdt: "Thanh vị tả hỏa, giáng nghịch chỉ dãi", bt: "Thanh vị tán gia Ích trí nhân", tpbt: ["Hoàng liên", "Thăng ma", "Sinh địa", "Đan bì", "Ích trí nhân"] },
+  "NKH_171": { hc: "Sưng vú sơ sinh do Thai nhiệt chưa giải", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Sơ sinh sưng vú"], tc: ["Trẻ sơ sinh hai bầu vú sưng to bằng hạt đậu đỏ nóng nhẹ", "Trẻ quấy khóc khi sờ vào", "Sốt nhẹ, rêu vàng mỏng", "Mạch sác"], pdt: "Thanh nhiệt giải độc, tán kết tiêu thũng", bt: "Ngũ vị tiêu độc ẩm gia giảm", tpbt: ["Kim ngân hoa", "Cúc hoa", "Bồ công anh", "Cam thảo"] },
+  "NKH_172": { hc: "Bảo thai co giật sơ sinh do Phong hỏa nhập vinh", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Sơ sinh co giật phong hỏa"], tc: ["Trẻ vừa sinh 1-2 ngày co giật liên tục, mắt trợn", "Thở xối xả khò khè, mặt đỏ gừ", "Mắt trợn ngược", "Mạch huyền sác"], pdt: "Thanh nhiệt giải độc, bình can tức phong khai khiếu", bt: "Linh dương câu đằng ẩm gia An cung ngưu hoàng hoàn", tpbt: ["Linh dương giác", "Câu đằng", "Bạch thược", "Sinh địa", "Ngưu hoàng"] },
+  "NKH_173": { hc: "Xuất huyết rốn sơ sinh do Tỳ không thống huyết", phanloai: ["Nhi Khoa", "Bình", "Hư", "Sơ sinh Tỳ hư rỉ máu rốn"], tc: ["Cuống rốn chảy máu hồng nhạt rỉ rả không ngừng", "Da trẻ bệch nhợt, bú yếu lơ mơ", "Chân tay cold", "Mạch vi nhược"], pdt: "Kiện tỳ ích khí, nhiếp huyết chỉ huyết rốn", bt: "Quy tỳ thang gia Tam thất, A giao", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Tam thất", "A giao"] },
+  "NKH_174": { hc: "Xuất huyết rốn sơ sinh do Thấp nhiệt hỏa độc rốn", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thấp nhiệt rốn rỉ máu"], tc: ["Vùng rốn sưng đỏ chảy mủ lẫn máu tươi hôi thối", "Trẻ sốt cao, quấy khóc dữ dội", "Tiểu đỏ", "Mạch nhu sác"], pdt: "Thanh nhiệt giải độc, trừ thấp chỉ huyết", bt: "Ngũ vị tiêu độc ẩm gia Hoàng liên, Tam thất", tpbt: ["Kim ngân hoa", "Cúc hoa", "Bồ công anh", "Hoàng liên", "Tam thất"] },
+  "NKH_175": { hc: "Rốn ướt không khô (Chảy dịch rốn sơ sinh) do Tỳ hư thấp trệ", phanloai: ["Nhi Khoa", "Bình", "Hư thực thác tạp", "Tỳ hư rốn rỉ dịch"], tc: ["Cuống rốn rụng lâu ngày vẫn rỉ dịch trong dính", "Xung quanh rốn không sưng nóng đỏ", "Ăn bú kém tiêu lỏng", "Mạch hoãn nhược"], pdt: "Kiện tỳ mẫn thấp, sáp rốn sinh cơ", bt: "Sâm linh bạch truật tán gia Bạch chỉ", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Ý dĩ", "Bạch chỉ"] },
+  "NKH_176": { hc: "Khóc sưng mắt ở trẻ em do Can hỏa bốc trào mắt", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Can hỏa sưng mắt"], tc: ["Mắt sưng to đỏ gừ dính mủ mắt vàng dầy", "Nước mắt nóng chảy rỉ rả, trẻ sợ ánh sáng", "Dễ cáu giận quấy khóc", "Mạch huyền sác"], pdt: "Thanh can tả hỏa, minh mục tiêu thũng", bt: "Long đởm tả can thang gia Cúc hoa, Mẫu lệ", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Cúc hoa", "Mẫu lệ"] },
+  "NKH_177": { hc: "Liệt dây VII ngoại biên nhi do Phong hàn xâm nhập mặt", phanloai: ["Nhi Khoa", "Hàn", "Thực", "Phong hàn lệch mặt nhi"], tc: ["Méo miệng lệch mắt đột ngột sau khi gặp gió cold", "Mắt nhắm không kín, chảy nước dãi bên liệt", "Gáy cổ đau co cứng", "Mạch phù khẩn"], pdt: "Khu phong tán hàn, thông kinh hoạt lạc cơ mặt", bt: "K牵chánh tán gia Kinh giới, Phòng phong", tpbt: ["Bạch phụ tử", "Toàn yết", "Cương tàm", "Kinh giới", "Phòng phong", "Gừng tươi"] },
+  "NKH_178": { hc: "Liệt dây VII ngoại biên nhi do Phong nhiệt uất gáy tai", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Phong nhiệt lệch mặt nhi"], tc: ["Méo miệng lệch mắt kèm đau nhói rát sau tai", "Sốt nhẹ, họng sưng đỏ nhẹ", "Mắt đỏ chảy nước mắt nóng", "Mạch phù sác"], pdt: "Sơ phong thanh nhiệt, thông kinh hoạt lạc mặt", bt: "Đại tần giao thang gia Ngân hoa, Bạch chỉ", tpbt: ["Tần giao", "Hoàng cầm", "Kim ngân hoa", "Bạch chỉ", "Thạch cao"] },
+  "NKH_179": { hc: "Tật vẹo cổ bẩm sinh trẻ em do Huyết ứ co rút cơ cơ cổ", phanloai: ["Nhi Khoa", "Bình", "Thực", "Huyết ứ vẹo cổ bẩm sinh"], tc: ["Sờ thấy khối xơ cứng đau nhẹ ở cơ ức đòn chũm cổ", "Đầu trẻ nghiêng lệch hẳn sang một bên", "Lưỡi tím sẫm nhẹ", "Mạch sáp"], pdt: "Hoạt huyết hóa ứ, nhuyễn kiên thư gân thông lạc cổ", bt: "Đào hồng tứ vật thang gia Bạch giới tử, Mộc qua", tpbt: ["Đào nhân", "Hồng hoa", "Đương quy", "Xuyên khung", "Bạch giới tử", "Mộc qua"] },
+  "NKH_180": { hc: "Suy nhược toàn thân trẻ em sau bệnh nặng do Khí huyết kiệt suy", phanloai: ["Nhi Khoa", "Bình", "Hư suy", "Khí huyết kiệt suy sau bệnh"], tc: ["Sau sốt cao/viêm phổi nặng trẻ gầy còm trơ xương", "Sắc mặt bệch tái úa, không bò chạy nhảy được", "Mệt mỏi thở nông, ăn kém tiêu lỏng", "Mạch vi tế nhược"], pdt: "Đại bổ khí huyết, hồi sinh bổ hư cố bản", bt: "Thập toàn đại bổ thang gia Hoàng kỳ liều cao", tpbt: ["Nhân sâm", "Bạch truật", "Phục linh", "Cam thảo", "Thục địa", "Đương quy", "Hoàng kỳ"] },
+
+  // 6. DƯỠNG SINH, THỂ TRẠNG VÀ PHÒNG BỆNH NHI KHOA (NKH_181 -> NKH_200)
+  "NKH_181": { hc: "Thể trạng Tỳ hư thấp thịnh ở trẻ em", phanloai: ["Nhi Khoa", "Bình", "Hư thực thác tạp", "Thể trạng Tỳ hư thấp"], tc: ["Trẻ người béo bệu nhão mềm, dễ bị tiêu chảy", "Đờm dãi nhiều, hay trớ trớ sữa", "Mệt mỏi ngại vận động, sắc mặt vàng nhợt", "Mạch nhu hoãn"], pdt: "Kiện tỳ ích khí, táo thấp hóa đàm", bt: "Sâm linh bạch truật tán gia giảm", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Ý dĩ", "Bán hạ chế"] },
+  "NKH_182": { hc: "Thể trạng Âm hư nội nhiệt ở trẻ em", phanloai: ["Nhi Khoa", "Nhiệt", "Hư", "Thể trạng Âm hư"], tc: ["Trẻ gầy khô, lòng bàn tay chân luôn nóng rát", "Triều nhiệt, vã mồ hôi trộm khi ngủ ướt áo", "Hay bị táo bón, chảy máu cam", "Mạch tế sác"], pdt: "Tư âm thanh nhiệt, sinh tân nhuận táo", bt: "Lục vị địa hoàng hoàn gia Mạch môn, Kỷ tử", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Mạch môn", "Kỷ tử"] },
+  "NKH_183": { hc: "Thể trạng Khí hư dễ cảm mạo ở trẻ em", phanloai: ["Nhi Khoa", "Bình", "Hư", "Thể trạng Khí hư"], tc: ["Rất hay bị cảm mạo ho hắt hơi mỗi khi đổi thời tiết", "Tự hãn (vã mồ hôi ngày) liên tục, sợ gió", "Sắc mặt bệch nhợt, mệt mỏi", "Mạch hư nhược"], pdt: "Ích khí cố biểu, củng cố vệ ngoại", bt: "Ngọc bình phong tán gia Hoàng kỳ liều cao", tpbt: ["Hoàng kỳ", "Bạch truật", "Phòng phong", "Cam thảo"] },
+  "NKH_184": { hc: "Thể trạng Dương hư sợ lạnh ở trẻ em", phanloai: ["Nhi Khoa", "Hàn", "Hư", "Thể trạng Dương hư"], tc: ["Chân tay cold ngắt quanh năm, sợ cold sợ gió", "Thường xuyên tiêu chảy phân sống khi ăn đồ cold", "Tiểu đêm đái dầm nhiều lần", "Mạch trầm tế trì"], pdt: "Ôn bổ thận dương, kiện tỳ trợ dương", bt: "Thận khí hoàn gia Phụ tử, Nhục quế", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Phục linh"] },
+  "NKH_185": { hc: "Thể trạng Can hỏa xí thịnh ở trẻ em", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thể trạng Can hỏa"], tc: ["Tính tình cực kỳ bứt rứt, dễ giận dữ cáu gắt đập phá", "Mặt đỏ mắt đỏ, hay cuồng nhảy ngót", "Tiểu tiện đỏ ngắn, táo bón", "Mạch huyền sác"], pdt: "Thanh can tả hỏa, bình can trấn tĩnh", bt: "Long đởm tả can thang gia Mẫu lệ", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Sài hồ", "Mẫu lệ"] },
+  "NKH_186": { hc: "Thể trạng Đàm nhiệt uẩn kết ở trẻ em", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Thể trạng Đàm nhiệt"], tc: ["Trẻ béo mập cứng, họng luôn vướng đờm đặc vàng", "Hay bị nổi mụn nhọt, rôm sẩy hôi thối", "Lưỡi đỏ rêu vàng nhớt", "Mạch hoạt sác"], pdt: "Thanh nhiệt hóa đàm, thông phủ giáng hỏa", bt: "Hoàng liên ôn đởm thang gia giảm", tpbt: ["Hoàng liên", "Bán hạ chế", "Trần bì", "Phục linh", "Trúc nhự", "Chỉ thực"] },
+  "NKH_187": { hc: "Rối loạn chuyển hóa canxi (Rạch xương nhi) do Thận tinh hư suy", phanloai: ["Nhi Khoa", "Bình", "Hư suy", "Thận tinh bất túc rạch xương"], tc: ["Xương lồng ngực biến dạng (Ngực gà), chân vòng kiềng O/X", "Đầu to thóp lâu khép, mọc răng muộn", "Tóc bạc thưa, chân tay yếu", "Mạch trầm tế vô lực"], pdt: "Bổ thận điền tinh, trác cốt điền tủy", bt: "Tả quy hoàn gia Lộc giác giao, Ngưu tất, Đỗ trọng", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Kỷ tử", "Thỏ ty tử", "Lộc giác giao", "Ngưu tất", "Đỗ trọng"] },
+  "NKH_188": { hc: "Rạch xương nhi do Tỳ hư không dưỡng cơ xương", phanloai: ["Nhi Khoa", "Bình", "Hư", "Tỳ hư rạch xương"], tc: ["Cơ bắp nhão mềm không gượng đi đứng được", "Bụng to bện gân xanh, ăn kém tiêu chảy", "Sắc mặt vàng nhợt mệt mỏi", "Mạch hoãn nhược"], pdt: "Kiện tỳ ích khí, thăng dương bổ xương", bt: "Sâm linh bạch truật tán gia Hoàng kỳ, Ngưu tất", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoài sơn", "Hoàng kỳ", "Ngưu tất"] },
+  "NKH_189": { hc: "Suy dinh dưỡng thể Teo đét (Marasmus) do Khí huyết âm dương kiệt suy", phanloai: ["Nhi Khoa", "Bình", "Hư suy", "Kiệt suy teo đét"], tc: ["Trẻ chỉ còn da bọc xương, mặt già như người già", "Mất hết mỡ dưới da, da nhăn nheo tróc vảy", "Bú ăn không tiêu, tiêu chảy liên tục", "Mạch vi tế muốn tuyệt"], pdt: "Đại bổ khí huyết, bồi nguyên cố bản cứu kiệt", bt: "Thập toàn đại bổ thang gia A giao, Tử hà xe", tpbt: ["Nhân sâm", "Bạch truật", "Phục linh", "Cam thảo", "Thục địa", "Đương quy", "A giao", "Tử hà xe"] },
+  "NKH_190": { hc: "Suy dinh dưỡng thể Phù (Kwashiorkor) do Tỳ hư thủy trệ nặng", phanloai: ["Nhi Khoa", "Bình", "Hư thực thác tạp", "Tỳ hư thũng suy dinh dưỡng"], tc: ["Toàn thân phù thũng mọng ấn lõm sâu, gan to", "Tóc đỏ thưa dễ gãy, da lở loét thâm xạm", "Ăn vào trớ ra tiêu chảy xối xả", "Mạch nhu hoãn vô lực"], pdt: "Đại bổ tỳ vị, lợi thủy tiêu thũng sinh cơ", bt: "Bổ trung ích khí thang hợp Ngũ linh tán gia A giao", tpbt: ["Hoàng kỳ", "Đảng sâm", "Bạch truật", "Phục linh", "Trạch tả", "A giao"] },
+  "NKH_191": { hc: "Cuồng sảng ở trẻ em do Đàm hỏa nhiễu tâm bế khiếu", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Đàm hỏa cuồng sảng nhi"], tc: ["Trẻ nói năng huyên náo đập phá đồ đạc bất ngờ", "Cười khóc không lý do, không ngủ ban đêm", "Mặt đỏ mắt đỏ, nôn ra đờm vàng", "Mạch hoạt sác dũng mãnh"], pdt: "Thanh tâm tả hỏa, địch đàm khai khiếu định cuồng", bt: "Sinh thiết lạc đản hợp Địch đàm thang", tpbt: ["Sinh thiết lạc", "Bán hạ chế", "Trần bì", "Phục linh", "Chỉ thực", "Đởm nam tinh", "Thạch xương bồ"] },
+  "NKH_192": { hc: "Cảm ho mùa lạnh ở trẻ em thể Hàn ngưng phế vị", phanloai: ["Nhi Khoa", "Hàn", "Thực", "Hàn ngưng phế vị"], tc: ["Sốt nhẹ sợ cold, ho hen nôn ra nước trong nhạt miệng", "Bụng đau lạnh, hắt hơi chảy nước mũi trong", "Rêu lưỡi trắng dính nhuận", "Mạch trầm khẩn"], pdt: "Ôn phế tán hàn, giáng nghịch chỉ khái chỉ nôn", bt: "Hạnh tô tán gia Can khương, Bán hạ chế", tpbt: ["Tô diệp", "Hạnh nhân", "Tiền hồ", "Can khương", "Bán hạ chế", "Trần bì"] },
+  "NKH_193": { hc: "Cảm ho mùa nóng ở trẻ em thể Phong nhiệt thử thấp", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Phong nhiệt thử thấp"], tc: ["Sốt cao về mùa hè, ho hen thở khò khè", "Đờm vàng dính, thân thể mỏi nặng, nôn nao", "Tiểu đỏ ngắn, rêu vàng nhớt", "Mạch nhu sác"], pdt: "Thanh thử giải biểu, tuyên phế hóa đàm", bt: "Tân hương nhu ẩm gia Hạnh nhân, Hoàng cầm", tpbt: ["Hương nhu", "Biển đậu", "Hậu phác", "Hạnh nhân", "Hoàng cầm", "Cam thảo"] },
+  "NKH_194": { hc: "Ứ nhiệt sau tiêm chủng ở trẻ em do Hỏa độc uẩn kết", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Hỏa độc tiêm chủng"], tc: ["Sốt cao 38.5-39.5 độ sau tiêm vắc xin 1-2 ngày", "Vùng tiêm sưng đỏ nóng đau tấy", "Trẻ quấy khóc bứt rứt, bỏ bú", "Mạch hoạt sác"], pdt: "Thanh nhiệt giải độc, tiêu thũng chỉ thống", bt: "Hoàng liên giải độc thang gia Kim ngân hoa", tpbt: ["Hoàng liên", "Hoàng cầm", "Hoàng bá", "Chi tử", "Kim ngân hoa", "Cam thảo"] },
+  "NKH_195": { hc: "Biến chứng dị ứng thuốc/vắc xin thể Huyết nhiệt phát ban", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Huyết nhiệt dị ứng ban"], tc: ["Da nổi mẩn đỏ ngứa rát toàn thân sau dùng thuốc", "Sốt bứt rứt, khát nước", "Tiểu đỏ, lưỡi đỏ thẫm", "Mạch sác hữu lực"], pdt: "Thanh nhiệt lương huyết, giải độc chỉ ngứa", bt: "Tê giác địa hoàng thang gia Tiêu phong tán", tpbt: ["Thủy ngưu giác", "Sinh địa", "Xích thược", "Đan bì", "Kinh giới", "Phòng phong"] },
+  "NKH_196": { hc: "Rối loạn nhận thức sau sốt cao thể Đàm trọc lưu trệ não", phanloai: ["Nhi Khoa", "Bình", "Hư thực thác tạp", "Đàm trọc lưu trệ não"], tc: ["Sau đợt sốt cao co giật trẻ phản ứng chậm chạp ngơ ngác", "Nói ngọng ú ớ, chảy dãi liên tục", "Rêu dầy nhớt", "Mạch nhu hoạt"], pdt: "Táo thấp hóa đàm, thông kinh khai khiếu bổ brain", bt: "Địch đàm thang gia Thạch xương bồ, Viễn chí", tpbt: ["Bán hạ chế", "Trần bì", "Phục linh", "Chỉ thực", "Nam tinh", "Thạch xương bồ", "Viễn chí"] },
+  "NKH_197": { hc: "Rối loạn hành vi trẻ em do Can uất hóa hỏa quấy rối", phanloai: ["Nhi Khoa", "Nhiệt", "Thực", "Can hỏa rối loạn hành vi"], tc: ["Hay cắn xé quần áo đồ chơi, vô cớ đánh bạn", "Nói năng cộc lốc cáu giận, gào khóc", "Mặt đỏ, táo bón", "Mạch huyền sác dũng mãnh"], pdt: "Thanh can tả hỏa, trấn tĩnh trừ phiền", bt: "Long đởm tả can thang gia Chi tử, Hoàng cầm", tpbt: ["Long đởm thảo", "Chi tử", "Hoàng cầm", "Trạch tả", "Sài hồ", "Sinh địa"] },
+  "NKH_198": { hc: "Thiếu máu dinh dưỡng trẻ em do Tỳ Vị hư suy không sinh huyết", phanloai: ["Nhi Khoa", "Bình", "Hư", "Tỳ hư thiếu máu"], tc: ["Sắc mặt bệch úa vàng nhợt, móng tay chân nhợt nhạt", "Mệt mỏi không chạy nhảy, ăn kém tiêu chảy", "Hoa mắt chóng mặt", "Mạch tế nhược vô lực"], pdt: "Kiện tỳ ích khí, sinh huyết dưỡng vinh", bt: "Quy tỳ thang gia Hoàng kỳ liều cao", tpbt: ["Đảng sâm", "Bạch truật", "Phục linh", "Hoàng kỳ", "Đương quy", "Long nhãn", "Cam thảo"] },
+  "NKH_199": { hc: "Chậm mọc răng và tóc ở trẻ em do Thận tinh bất túc", phanloai: ["Nhi Khoa", "Bình", "Hư suy", "Thận tinh bất túc mọc răng chậm"], tc: ["Trẻ > 1 tuổi chưa mọc răng hoặc chỉ mọc 1-2 răng", "Tóc thưa thớt xơ xơ vàng, thóp lâu khép", "Chân yếu mềm", "Mạch trầm tế vô lực"], pdt: "Bổ thận điền tinh, ích tủy bổ xương", bt: "Lục vị địa hoàng hoàn gia Lộc nhung, Quy bản", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Trạch tả", "Đan bì", "Phục linh", "Lộc nhung", "Quy bản"] },
+  "NKH_200": { hc: "Trẻ em thể trạng hư yếu toàn thân do Tỳ Thận âm dương lưỡng hư", phanloai: ["Nhi Khoa", "Hàn nhiệt thác tạp", "Hư suy", "Tỳ Thận âm dương lưỡng hư nhi"], tc: ["Hay ốm vặt dai dẳng, gầy gộc còm cõi", "Vừa sợ cold tay chân cold lại vừa triều nhiệt trộm mồ hôi", "Ăn kém tiêu chảy phân sống, đái dầm đêm", "Mạch vi tế nhược"], pdt: "Bổ tỳ trợ thận, âm dương song bổ cố bản bồi nguyên", bt: "Bát vị hoàn hợp Sâm linh bạch truật tán gia giảm", tpbt: ["Thục địa", "Sơn thù", "Hoài sơn", "Nhục quế", "Phụ tử chế", "Đảng sâm", "Bạch truật", "Phục linh"] }
+
 });
 
 
 
+// Hàm tự động lọc trùng lặp dựa trên tên hội chứng (hc)
+function removeDuplicateObjects(obj) {
+  const seen = new Set();
+  const result = {};
 
+  for (const [key, item] of Object.entries(obj)) {
+    const identifier = item.hc || item.cau_hoi;
+    if (identifier && !seen.has(identifier)) {
+      seen.add(identifier);
+      result[key] = item;
+    }
+  }
+  return result;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+window.database = removeDuplicateObjects(window.database);
+console.log("Tổng số hội chứng YHCT hợp lệ trong database:", Object.keys(window.database).length);
