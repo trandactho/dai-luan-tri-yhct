@@ -13,9 +13,169 @@ function escapeHTML(str) {
 
 let quizActive = false;
 let isQuizDL = false, isQuizHV = false;
+function startQuizMode() {
+    if (typeof database === 'undefined' || !database) return;
+    quizActive = true;
+    
+    const boLoc = document.getElementById('bo-loc-tam-truc');
+    if (boLoc) boLoc.classList.add('blur-sm', 'pointer-events-none', 'opacity-40');
+    const input = document.getElementById('search-input');
+    if (input) {
+        input.classList.add('blur-sm', 'pointer-events-none', 'opacity-40');
+        input.disabled = true;
+    }
+    
+    const controls = document.getElementById('quiz-controls');
+    if (controls) {
+        controls.innerHTML = `
+            <button onclick="loadRandomCase()" class="flex-1 px-4 py-2 bg-purple-900 hover:bg-purple-800 text-purple-300 border border-purple-700 font-bold rounded text-xs flex items-center justify-center gap-2 transition-all cursor-pointer">
+                <i class="fa-solid fa-shuffle"></i> Ca Tiếp Theo
+            </button>
+            <button onclick="stopQuizMode()" class="flex-1 px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-400 border border-stone-700 font-bold rounded text-xs flex items-center justify-center gap-2 transition-all cursor-pointer">
+                <i class="fa-solid fa-xmark"></i> Thoát
+            </button>
+        `;
+    }
+    loadRandomCase();
+}
+
+function loadRandomCase() {
+    if (!quizActive || typeof database === 'undefined' || !database) return;
+    const keys = Object.keys(database);
+    if (keys.length === 0) return;
+    const randomKey = keys[Math.floor(Math.random() * keys.length)];
+    const data = database[randomKey];
+    if (data) {
+        const parts = randomKey.split('_');
+        if (parts.length === 3) {
+            const tp = document.getElementById('tang-phu');
+            const hn = document.getElementById('han-nhiet');
+            const ht = document.getElementById('hu-thuc');
+            if (tp) tp.value = parts[0];
+            if (hn) hn.value = parts[1];
+            if (ht) ht.value = parts[2];
+        }
+        const hcEl = document.getElementById('hoi-chung');
+        const pdtEl = document.getElementById('phap-dieu-tri');
+        const btEl = document.getElementById('bai-thuoc');
+        if (hcEl) hcEl.innerText = data.hc || "Chưa rõ hội chứng";
+        if (pdtEl) pdtEl.innerText = data.pdt || "Chưa rõ pháp trị";
+        if (btEl) btEl.innerText = data.bt || "Chưa rõ cổ phương";
+
+        const ul = document.getElementById('trieu-chung'); 
+        if (ul) {
+            ul.innerHTML = "";
+            if (data.tc && Array.isArray(data.tc)) {
+                const frag = document.createDocumentFragment();
+                data.tc.forEach(t => { let li = document.createElement('li'); li.innerText = t; frag.appendChild(li); });
+                ul.appendChild(frag);
+            }
+        }
+        const divBt = document.getElementById('chi-tiet-bai-thuoc'); 
+        if (divBt) {
+            divBt.innerHTML = "";
+            if (data.tpbt && Array.isArray(data.tpbt)) {
+                const frag = document.createDocumentFragment();
+                data.tpbt.forEach(v => {
+                    let b = document.createElement('button');
+                    b.className = "px-2.5 py-1 text-xs bg-stone-800 text-amber-400 border border-stone-700 rounded transition-all font-medium";
+                    b.innerHTML = `<i class="fa-solid fa-leaf text-[10px] mr-1 text-emerald-500"></i>${v}`;
+                    b.onclick = () => xemDuocLieu(v); frag.appendChild(b);
+                });
+                divBt.appendChild(frag);
+            }
+        }
+        
+        const boLoc = document.getElementById('bo-loc-tam-truc');
+        if (boLoc) boLoc.classList.add('blur-sm', 'pointer-events-none', 'opacity-40');
+        if (hcEl) hcEl.className = "text-xl font-bold text-primary transition-all blur-sm select-none cursor-pointer";
+        if (pdtEl) pdtEl.className = "text-base font-semibold text-emerald-500 transition-all blur-sm select-none cursor-pointer";
+        if (btEl) btEl.className = "text-lg font-bold text-amber-500 transition-all blur-sm select-none cursor-pointer";
+        const chiTietBT = document.getElementById('chi-tiet-bai-thuoc');
+        if (chiTietBT) chiTietBT.className = "flex flex-wrap gap-2 transition-all blur-sm select-none";
+        
+        const revealAction = () => {
+            if (hcEl) hcEl.classList.remove('blur-sm', 'select-none');
+            if (pdtEl) hcEl.classList.remove('blur-sm', 'select-none');
+            if (btEl) btEl.classList.remove('blur-sm', 'select-none');
+            if (chiTietBT) chiTietBT.classList.remove('blur-sm', 'select-none');
+            if (boLoc) boLoc.classList.remove('blur-sm', 'opacity-40');
+        };
+        if (hcEl) hcEl.onclick = revealAction;
+        if (pdtEl) pdtEl.onclick = revealAction;
+        if (btEl) btEl.onclick = revealAction;
+    }
+}
 
 function stopQuizMode() {
     quizActive = false;
+    const boLoc = document.getElementById('bo-loc-tam-truc');
+    if (boLoc) boLoc.classList.remove('blur-sm', 'pointer-events-none', 'opacity-40');
+    const input = document.getElementById('search-input');
+    if (input) {
+        input.classList.remove('blur-sm', 'pointer-events-none', 'opacity-40');
+        input.disabled = false;
+    }
+    
+    const controls = document.getElementById('quiz-controls');
+    if (controls) {
+        controls.innerHTML = `
+            <button onclick="startQuizMode()" class="w-full px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded text-xs flex items-center justify-center gap-2 transition-all cursor-pointer">
+                <i class="fa-solid fa-graduation-cap"></i> Chế độ Ôn Tập
+            </button>
+        `;
+    }
+    const hcEl = document.getElementById('hoi-chung');
+    const pdtEl = document.getElementById('phap-dieu-tri');
+    const btEl = document.getElementById('bai-thuoc');
+    const chiTietBT = document.getElementById('chi-tiet-bai-thuoc');
+    if (hcEl) { hcEl.className = "text-xl font-bold text-primary transition-all"; hcEl.onclick = null; }
+    if (pdtEl) { pdtEl.className = "text-base font-semibold text-emerald-500 transition-all"; pdtEl.onclick = null; }
+    if (btEl) { btEl.className = "text-lg font-bold text-amber-500 transition-all"; btEl.onclick = null; }
+    if (chiTietBT) chiTietBT.className = "flex flex-wrap gap-2 transition-all";
+    updateLuanTri();
+}
+
+function moCheDoOnTap() {
+    switchTab('tracnghiem');
+}
+
+// Hàm chuẩn dùng cho nút Chế độ Ôn Tập ở tab Luận Trị
+function moOnTapLuanTri() {
+    const catSelect = document.getElementById('quiz-category');
+    if (catSelect) {
+        catSelect.value = 'luantri';
+    }
+    switchTab('tracnghiem');
+    batDauTracNghiem();
+}
+
+let isQuizLT = false;
+function toggleQuizLuanTri(btnEl) {
+    isQuizLT = !isQuizLT;
+    const btn = btnEl || event?.currentTarget || document.querySelector('button[onclick*="toggleQuizLuanTri"]');
+    if (btn) {
+        if (isQuizLT) {
+            btn.className = "w-full px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-2 transition-all flex-shrink-0 shadow-lg shadow-amber-900/50 cursor-pointer";
+        } else {
+            btn.className = "w-full px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center justify-center gap-2 transition-all flex-shrink-0 cursor-pointer";
+        }
+    }
+    
+    ['lt-card-hc', 'lt-card-pdt', 'lt-card-bt'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            if (isQuizLT) {
+                el.classList.add('blur-md', 'transition-all', 'duration-300', 'cursor-pointer');
+                el.title = "Bấm vào để lật xem đáp án";
+                el.onclick = () => el.classList.remove('blur-md');
+            } else {
+                el.classList.remove('blur-md', 'cursor-pointer');
+                el.title = "";
+                el.onclick = null;
+            }
+        }
+    });
 }
 
 function toggleQuizDL(btnEl) {
@@ -43,6 +203,7 @@ function toggleQuizHV(btnEl) {
     }
     filterHuyetVi();
 }
+
 
 function capNhatTongSoTracNghiem() {
     let total = 0;
@@ -118,17 +279,18 @@ function getItemTamTruc(item) {
     const pBC = removeAccents(pl[3] || title);
 
     let tp = '';
+    // Liên kết cả thuật ngữ YHCT lẫn ngôn ngữ thông dụng trong ngoặc
     if (pTP.includes('tam tieu')) tp = 'Tam_Tieu';
     else if (pTP.includes('dai truong')) tp = 'Dai_Truong';
     else if (pTP.includes('tieu truong')) tp = 'Tieu_Truong';
     else if (pTP.includes('bang quang')) tp = 'Bang_Quang';
-    else if (pTP.includes('can')) tp = 'Can';
-    else if (pTP.includes('tam')) tp = 'Tam';
-    else if (pTP.includes('ty')) tp = 'Ty';
-    else if (pTP.includes('phe')) tp = 'Phe';
-    else if (pTP.includes('than')) tp = 'Than';
-    else if (pTP.includes('dom')) tp = 'Dom';
-    else if (pTP.includes('vi')) tp = 'Vi';
+    else if (pTP.includes('can') || pTP.includes('gan')) tp = 'Can';
+    else if (pTP.includes('tam') || pTP.includes('tim')) tp = 'Tam';
+    else if (pTP.includes('ty') || pTP.includes('tieu hoa')) tp = 'Ty';
+    else if (pTP.includes('phe') || pTP.includes('phoi')) tp = 'Phe';
+    else if (pTP.includes('than') || pTP.includes('noi tiet')) tp = 'Than';
+    else if (pTP.includes('dom') || pTP.includes('mat')) tp = 'Dom';
+    else if (pTP.includes('vi') || pTP.includes('da day')) tp = 'Vi';
 
     let hn = 'Binh';
     if (pHN.includes('hiep tap')) hn = 'Han nhiet hiep tap';
@@ -151,18 +313,55 @@ function getItemTamTruc(item) {
     return { tp, hn, ht, bc };
 }
 
-function syncSelectsWithItem(item) {
-    const tp = document.getElementById('tang-phu');
-    const hn = document.getElementById('han-nhiet');
-    const ht = document.getElementById('hu-thuc');
-    const bc = document.getElementById('benh-co');
-
+function checkMatchFilter(item, tp, hn, ht, bc) {
     const info = getItemTamTruc(item);
-    if (tp) tp.value = info.tp;
-    if (hn) hn.value = info.hn;
-    if (ht) ht.value = info.ht;
-    if (bc) bc.value = info.bc;
+    
+    let matchTP = true;
+    if (tp && tp !== "" && !tp.includes('Tất cả')) {
+        const normTP = removeAccents(tp);
+        const normInfoTP = removeAccents(info.tp);
+        
+        // Quy đổi giá trị trong thẻ chọn (có ngoặc) về mã chuẩn để so khớp
+        let targetTP = normTP;
+        if (normTP.includes('phe') || normTP.includes('phoi')) targetTP = 'phe';
+        else if (normTP.includes('can') || normTP.includes('gan')) targetTP = 'can';
+        else if (normTP.includes('tam') || normTP.includes('tim')) targetTP = 'tam';
+        else if (normTP.includes('ty') || normTP.includes('tieu hoa')) targetTP = 'ty';
+        else if (normTP.includes('than') || normTP.includes('noi tiet')) targetTP = 'than';
+        else if (normTP.includes('vi') || normTP.includes('da day')) targetTP = 'vi';
+        else if (normTP.includes('dom') || normTP.includes('mat')) targetTP = 'dom';
+        else if (normTP.includes('tam tieu')) targetTP = 'tam_tieu';
+        else if (normTP.includes('dai truong')) targetTP = 'dai_truong';
+        else if (normTP.includes('tieu truong')) targetTP = 'tieu_truong';
+        else if (normTP.includes('bang quang')) targetTP = 'bang_quang';
+
+        matchTP = (normInfoTP === targetTP || normTP.includes(normInfoTP));
+    }
+
+    let matchHN = true;
+    if (hn && hn !== "" && !hn.includes('Tất cả')) {
+        const normHN = removeAccents(hn);
+        const normInfoHN = removeAccents(info.hn);
+        matchHN = (normInfoHN === normHN || normHN.includes(normInfoHN));
+    }
+
+    let matchHT = true;
+    if (ht && ht !== "" && !ht.includes('Tất cả')) {
+        const normHT = removeAccents(ht);
+        const normInfoHT = removeAccents(info.hu_thuc || info.ht);
+        matchHT = (normInfoHT === normHT || normHT.includes(normInfoHT));
+    }
+
+    let matchBC = true;
+    if (bc && bc !== "" && !bc.includes('Tất cả')) {
+        const normBC = removeAccents(bc);
+        const normInfoBC = removeAccents(info.bc);
+        matchBC = (normInfoBC === normBC || normBC.includes(normInfoBC));
+    }
+
+    return matchTP && matchHN && matchHT && matchBC;
 }
+
 
 function updateLuanTri(query = "") {
     if (quizActive || typeof database === 'undefined' || !database) return;
@@ -176,38 +375,30 @@ function updateLuanTri(query = "") {
 
     let bestMatchData = null;
 
-    if (!tp && !hn && !ht && !bc && !activeQuery) {
-        bestMatchData = Object.values(database)[0] || null;
-    } else {
-        for (let key in database) {
-            const item = database[key];
-            if (!item) continue;
+    for (let key in database) {
+        const item = database[key];
+        if (!item) continue;
 
-            const info = getItemTamTruc(item);
+        if (!checkMatchFilter(item, tp, hn, ht, bc)) continue;
 
-            const matchTP = !tp || info.tp === tp;
-            const matchHN = !hn || info.hn === hn;
-            const matchHT = !ht || info.ht === ht;
-            const matchBC = !bc || info.bc === bc;
+        let matchSearch = true;
+        if (activeQuery) {
+            const matchHC = (item.hc || '').toLowerCase().includes(activeQuery);
+            const matchTC = (item.tc || []).some(t => (t || '').toLowerCase().includes(activeQuery));
+            const matchBT = (item.bt || '').toLowerCase().includes(activeQuery);
+            const matchTPBT = (item.tpbt || []).some(v => (v || '').toLowerCase().includes(activeQuery));
+            matchSearch = matchHC || matchTC || matchBT || matchTPBT;
+        }
 
-            let matchSearch = true;
-            if (activeQuery) {
-                const matchHC = (item.hc || '').toLowerCase().includes(activeQuery);
-                const matchTC = (item.tc || []).some(t => (t || '').toLowerCase().includes(activeQuery));
-                const matchBT = (item.bt || '').toLowerCase().includes(activeQuery);
-                const matchTPBT = (item.tpbt || []).some(v => (v || '').toLowerCase().includes(activeQuery));
-                matchSearch = matchHC || matchTC || matchBT || matchTPBT;
-            }
-
-            if (matchTP && matchHN && matchHT && matchBC && matchSearch) {
-                bestMatchData = item;
-                break;
-            }
+        if (matchSearch) {
+            bestMatchData = item;
+            break;
         }
     }
 
     renderDetailLuanTri(bestMatchData, activeQuery);
 }
+
 
 function renderDetailLuanTri(data, query = "", isEnter = false) {
     const hcEl = document.getElementById('hoi-chung');
@@ -261,6 +452,46 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
         if (ul) ul.innerHTML = `<li class='text-amber-500/80 italic text-xs col-span-full flex items-center gap-1.5'>${msg}</li>`;
         if (divBt) divBt.innerHTML = "";
     }
+    // Thêm đoạn này vào cuối hàm renderDetailLuanTri
+    ['lt-card-hc', 'lt-card-pdt', 'lt-card-bt'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            if (isQuizLT) {
+                el.classList.add('blur-md', 'transition-all', 'duration-300', 'cursor-pointer');
+                el.title = "Bấm vào để lật xem đáp án";
+                el.onclick = () => el.classList.remove('blur-md');
+            } else {
+                el.classList.remove('blur-md', 'cursor-pointer');
+                el.title = "";
+                el.onclick = null;
+            }
+        }
+    });
+
+}
+
+function setDropdownSpacer(show) {
+    let spacer = document.getElementById('dropdown-spacer');
+    const searchInput = document.getElementById('search-input');
+    if (!spacer && searchInput) {
+        const searchWrapper = searchInput.closest('.relative') || searchInput.parentElement;
+        if (searchWrapper && searchWrapper.parentElement) {
+            spacer = document.createElement('div');
+            spacer.id = 'dropdown-spacer';
+            spacer.style.transition = 'height 0.2s ease';
+            searchWrapper.parentElement.insertBefore(spacer, searchWrapper.nextSibling);
+        }
+    }
+    if (spacer) {
+        spacer.style.height = show ? '240px' : '0px';
+    }
+
+    const dropdown = document.getElementById('search-dropdown');
+    if (dropdown) {
+        dropdown.style.zIndex = '99999';
+        dropdown.style.position = 'absolute';
+        dropdown.style.width = '100%';
+    }
 }
 
 function searchLuanTri(isEnter = false) {
@@ -270,8 +501,16 @@ function searchLuanTri(isEnter = false) {
     const dropdown = document.getElementById('search-dropdown');
     const query = (input ? input.value : '').toLowerCase().trim();
 
-    if (!query) {
+    const tp = getVal('tang-phu');
+    const hn = getVal('han-nhiet');
+    const ht = getVal('hu-thuc');
+    const bc = getVal('benh-co');
+
+    const hasFilter = (tp && tp !== "") || (hn && !hn.includes('Tất cả')) || (ht && !ht.includes('Tất cả')) || (bc && !bc.includes('Tất cả'));
+
+    if (!query && !hasFilter) {
         if (dropdown) dropdown.classList.add('hidden');
+        setDropdownSpacer(false);
         updateLuanTri();
         return;
     }
@@ -280,12 +519,19 @@ function searchLuanTri(isEnter = false) {
     for (let key in database) {
         const item = database[key];
         if (!item) continue;
-        const matchHoiChung = (item.hc || '').toLowerCase().includes(query);
-        const matchTrieuChung = (item.tc || []).some(t => (t || '').toLowerCase().includes(query));
-        const matchBaiThuoc = (item.bt || '').toLowerCase().includes(query);
-        const matchViThuoc = (item.tpbt || []).some(v => (v || '').toLowerCase().includes(query));
 
-        if (matchHoiChung || matchTrieuChung || matchBaiThuoc || matchViThuoc) {
+        if (!checkMatchFilter(item, tp, hn, ht, bc)) continue;
+
+        let matchSearch = true;
+        if (query) {
+            const matchHoiChung = (item.hc || '').toLowerCase().includes(query);
+            const matchTrieuChung = (item.tc || []).some(t => (t || '').toLowerCase().includes(query));
+            const matchBaiThuoc = (item.bt || '').toLowerCase().includes(query);
+            const matchViThuoc = (item.tpbt || []).some(v => (v || '').toLowerCase().includes(query));
+            matchSearch = matchHoiChung || matchTrieuChung || matchBaiThuoc || matchViThuoc;
+        }
+
+        if (matchSearch) {
             matches.push({ key, ...item });
             if (matches.length >= 30) break;
         }
@@ -300,17 +546,20 @@ function searchLuanTri(isEnter = false) {
                 </div>
             `).join('');
             dropdown.classList.remove('hidden');
+            setDropdownSpacer(true);
         } else {
             dropdown.innerHTML = `<div class="p-3 text-xs text-stone-500 text-center">Không tìm thấy hội chứng phù hợp</div>`;
             dropdown.classList.remove('hidden');
+            setDropdownSpacer(true);
         }
     }
 
     if (isEnter && matches.length > 0) {
         if (dropdown) dropdown.classList.add('hidden');
+        setDropdownSpacer(false);
         selectSearchResult(matches[0].key, false);
-    } else if (matches.length === 0) {
-        renderDetailLuanTri(null, query, isEnter);
+    } else {
+        updateLuanTri(query);
     }
 }
 
@@ -325,8 +574,20 @@ function selectSearchResult(key, hideDropdown = true) {
     if (hideDropdown) {
         const dropdown = document.getElementById('search-dropdown');
         if (dropdown) dropdown.classList.add('hidden');
+        setDropdownSpacer(false);
     }
 }
+
+// Gắn sự kiện tự động cập nhật khi thay đổi các thẻ chọn Tam trục
+['tang-phu', 'han-nhiet', 'hu-thuc', 'benh-co'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+        el.addEventListener('change', () => {
+            searchLuanTri(false);
+        });
+    }
+});
+
 
 function huyBoChuanDoan() {
     updateLuanTri();
@@ -1224,7 +1485,27 @@ async function exportPDF() {
     btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang xuất PDF...';
     btn.classList.add('opacity-75', 'pointer-events-none');
 
-    html2pdf().from(element).save('Phac-Do-YHCT.pdf').then(() => {
+    // Chờ render ổn định
+    await new Promise(resolve => setTimeout(resolve, 600));
+
+    const opt = {
+        margin:       [10, 10, 10, 10], // Lề an toàn tránh bị cắt cụt (mm)
+        filename:     'Phac-Do-YHCT.pdf',
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { 
+            scale: 2,           // Tăng độ nét, chữ không bị mờ
+            useCORS: true, 
+            letterRendering: true,
+            scrollY: 0
+        },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+
+    html2pdf().set(opt).from(element).save().then(() => {
+        btn.innerHTML = oldHtml;
+        btn.classList.remove('opacity-75', 'pointer-events-none');
+    }).catch(() => {
         btn.innerHTML = oldHtml;
         btn.classList.remove('opacity-75', 'pointer-events-none');
     });

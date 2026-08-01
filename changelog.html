@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+html_content = """<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhật Ký Cập Nhật - Đại Luận Trị & Tra Cứu YHCT v1.3.0 Premium</title>
+    <title>Nhật Ký Cập Nhật - Đại Luận Trị & Tra Cứu YHCT v1.3.1 Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -24,7 +24,7 @@
     <main class="flex-grow space-y-6">
         <div class="bg-dark-box p-6 rounded-xl text-center space-y-3 shadow-lg">
             <div class="inline-flex items-center gap-1.5 bg-amber-950/60 border border-amber-800/80 px-3 py-1 rounded-full text-xs font-bold text-amber-400">
-                <i class="fa-solid fa-code-branch"></i> Phiên bản hiện tại: v1.3.0 Premium
+                <i class="fa-solid fa-code-branch"></i> Phiên bản hiện tại: v1.3.1 Premium
             </div>
             <h2 class="text-xl sm:text-2xl font-bold text-amber-400">Lịch Sử Thay Đổi & Nâng Cấp</h2>
             <p class="text-xs text-stone-400 leading-relaxed">
@@ -33,18 +33,20 @@
         </div>
 
         <div class="space-y-6 relative border-l-2 border-stone-800 ml-3 sm:ml-6 pl-6">
-            <!-- v1.3.0 -->
+            <!-- v1.3.1 -->
             <div class="relative group space-y-3">
                 <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-amber-500 border-4 border-[#0a0908] ring-2 ring-amber-500/40"></span>
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <h3 class="text-sm font-bold text-amber-400 flex items-center gap-2">
-                        Phiên bản v1.3.0 <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800 font-bold uppercase">Mới nhất</span>
+                        Phiên bản v1.3.1 <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800 font-bold uppercase">Mới nhất</span>
                     </h3>
-                    <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 7, 2026</span>
+                    <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 8, 2026</span>
                 </div>
                 <div class="bg-dark-box p-4 rounded-xl space-y-2 text-xs text-stone-300">
-                    <p>• <strong>Mở rộng cơ sở dữ liệu quy mô lớn:</strong> Cập nhật lên 1.465 hội chứng Biện chứng, 4.478 câu hỏi Trắc nghiệm, 2.559 vị Dược liệu, 392 Huyệt vị và 531 bài Trà dược trị liệu.</p>
-                    <p>• <strong>Tối ưu hóa hiệu năng & Giao diện:</strong> Nâng cao tốc độ xử lý mảng dữ liệu lớn, chuẩn hóa bộ đếm dữ liệu trực quan trên Header và tối ưu trải nghiệm thao tác di động.</p>
+                    <p>• <strong>Hệ thống phản hồi từ khóa thông minh:</strong> Tự động ghi nhận và gửi phản hồi các từ khóa tra cứu chưa có trong cơ sở dữ liệu về hệ thống qua Netlify Forms.</p>
+                    <p>• <strong>Mở rộng chuyên mục Trắc nghiệm chuyên sâu:</strong> Tích hợp thêm các nhóm chủ đề ôn tập mới gồm Lý luận cơ bản, Phương tễ học, Chẩn đoán, Châm cứu - Xoa bóp, Dưỡng sinh Khí công và Dược học.</p>
+                    <p>• <strong>Cơ chế Nạp dữ liệu động (Lazy Loading):</strong> Tối ưu hóa hiệu năng khởi động ứng dụng bằng cách tải bất đồng bộ các tệp dữ liệu chuyên ngành theo tab.</p>
+                    <p>• <strong>Tính năng Tải Offline:</strong> Bổ sung công cụ cho phép người dùng lưu trữ toàn bộ dữ liệu ứng dụng vào bộ nhớ cache để chạy ngoại tuyến mượt mà.</p>
                 </div>
             </div>
 
@@ -70,38 +72,8 @@
                     <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 7, 2026</span>
                 </div>
                 <div class="bg-dark-box p-4 rounded-xl space-y-2 text-xs text-stone-300">
-                    <p>• <strong>Mở rộng dữ liệu Dược liệu học:</strong> Hoàn tất cập nhật cơ sở dữ liệu lên 1.600 vị thuốc YHCT chuẩn hóa (đầy đủ phân nhóm, công năng, kiêng kỵ và phương pháp chế biến).</p>
-                    <p>• <strong>Trắc nghiệm tự động (Dynamic Quiz):</strong> Tích hợp thuật toán tự động tạo câu hỏi trắc nghiệm trực tiếp từ dữ liệu Biện chứng, Dược liệu, Huyệt vị và Trà dược.</p>
-                    <p>• <strong>Tối ưu hóa hiệu năng:</strong> Tăng tốc độ nạp dữ liệu mảng lớn và tối ưu bộ nhớ ứng dụng trên các thiết bị di động.</p>
-                </div>
-            </div>
-
-            <!-- v1.2.2 -->
-            <div class="relative group space-y-3">
-                <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-stone-700 border-4 border-[#0a0908]"></span>
-                <div class="flex flex-wrap items-center justify-between gap-2">
-                    <h3 class="text-sm font-bold text-stone-200">Phiên bản v1.2.2</h3>
-                    <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 7, 2026</span>
-                </div>
-                <div class="bg-dark-box p-4 rounded-xl space-y-2 text-xs text-stone-300">
-                    <p>• <strong>Chế độ Ôn tập chuyên sâu:</strong> Thêm tính năng làm mờ/mở khóa thông minh nội dung cho tab Dược liệu và Huyệt vị.</p>
-                    <p>• <strong>Cải tiến Trắc nghiệm:</strong> Xáo trộn đáp án linh hoạt kết hợp cố định logic các tùy chọn đặc biệt (như "tất cả", "cả a và b").</p>
-                    <p>• <strong>Giao diện & Thông báo:</strong> Tích hợp popup thông báo nhật ký cập nhật và tối ưu trải nghiệm vuốt màn hình (Swipe Navigation).</p>
-                </div>
-            </div>
-
-            <!-- v1.2.1 -->
-            <div class="relative group space-y-3">
-                <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-stone-700 border-4 border-[#0a0908]"></span>
-                <div class="flex flex-wrap items-center justify-between gap-2">
-                    <h3 class="text-sm font-bold text-stone-200">Phiên bản v1.2.1</h3>
-                    <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 7, 2026</span>
-                </div>
-                <div class="bg-dark-box p-4 rounded-xl space-y-2 text-xs text-stone-300">
-                    <p>• <strong>Cải tiến toàn diện Tab Trắc Nghiệm:</strong> Tùy chọn 5, 10, 20, 30 câu, xáo trộn đáp án ngẫu nhiên và lưu lịch sử làm bài.</p>
-                    <p>• <strong>Chế độ Ôn Tập Dược Liệu & Huyệt Vị:</strong> Thêm tính năng làm mờ thông minh để kiểm tra trí nhớ tên vị thuốc và chủ trị huyệt vị.</p>
-                    <p>• <strong>Tối ưu hóa Tra cứu Ảnh:</strong> Tự động làm sạch từ khóa kết hợp liên kết DuckDuckGo, Google, Bing.</p>
-                    <p>• <strong>Hỗ trợ thao tác vuốt màn hình (Swipe Navigation):</strong> Chuyển tab mượt mà trên thiết bị di động.</p>
+                    <p>• <strong>Mở rộng dữ liệu Dược liệu học:</strong> Hoàn tất cập nhật cơ sở dữ liệu lên 1.600 vị thuốc YHCT chuẩn hóa.</p>
+                    <p>• <strong>Trắc nghiệm tự động (Dynamic Quiz):</strong> Tích hợp thuật toán tự động tạo câu hỏi trắc nghiệm trực tiếp từ dữ liệu.</p>
                 </div>
             </div>
 
@@ -115,7 +87,6 @@
                 <div class="bg-dark-box p-4 rounded-xl space-y-2 text-xs text-stone-300">
                     <p>• Mở rộng cơ sở dữ liệu cổ phương quân thần tá sứ, bổ sung chuyên mục trà dược trị liệu.</p>
                     <p>• Tích hợp xuất file PDF phác đồ điều trị trực tiếp bằng thư viện client-side.</p>
-                    <p>• Nâng cấp giao diện Dark Mode toàn diện với các tông màu trầm ấm đặc trưng của YHCT.</p>
                 </div>
             </div>
 
@@ -127,7 +98,7 @@
                     <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 5, 2026</span>
                 </div>
                 <div class="bg-dark-box p-4 rounded-xl space-y-2 text-xs text-stone-300">
-                    <p>• Xây dựng bộ lọc tam trục (Tạng phủ - Hàn nhiệt - Hư thực) chuẩn hóa trong biện chứng luận trị.</p>
+                    <p>• Xây dựng bộ lọc tam trục chuẩn hóa trong biện chứng luận trị.</p>
                     <p>• Tích hợp trợ lý AI tư vấn YHCT trực tuyến qua máy chủ API.</p>
                 </div>
             </div>
@@ -135,7 +106,7 @@
             <!-- v1.0.0 -->
             <div class="relative group space-y-3">
                 <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-stone-700 border-4 border-[#0a0908]"></span>
-                <div class="flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center justify-between gap-2">
                     <h3 class="text-sm font-bold text-stone-200">Phiên bản v1.0.0 (Khởi đầu)</h3>
                     <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 4, 2026</span>
                 </div>
@@ -155,6 +126,10 @@
     <footer class="text-center text-xs text-stone-600 py-4 border-t border-stone-800">
         © 2026 Đại Luận Trị YHCT. Phát triển bởi Trần Đắc Thọ.
     </footer>
-
 </body>
 </html>
+"""
+
+with open("changelog.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+print("Đã làm sạch và cập nhật changelog.html thành công!")
