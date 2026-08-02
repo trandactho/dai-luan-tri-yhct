@@ -1821,25 +1821,28 @@ document.addEventListener('keydown', function(e) {
 async function taiDuLieuOffline() {
     if (!('caches' in window)) return alert('Trình duyệt không hỗ trợ tính năng lưu offline.');
 
-    const xacNhan = confirm('Bạn có muốn tải toàn bộ dữ liệu ứng dụng về máy để sử dụng offline không?');
+    const xacNhan = confirm('Bạn có muốn tải toàn bộ dữ liệu ứng dụng về máy và kích hoạt chế độ offline không?');
     if (!xacNhan) return;
 
     try {
+        // 1. Tải và lưu cache dữ liệu
         const cache = await caches.open('dailuantri-v1.3.0');
         await cache.addAll([
             './', './index.html', './style.css', './app.js',
             './luantridata.js', './duoclieudata.js', './huyetvidata.js',
             './tradata.js', './questiondata.js', './manifest.json'
         ]);
-        alert('Đã lưu dữ liệu chạy offline thành công!');
+
+        // 2. Kích hoạt Service Worker sau khi người dùng đồng ý tải offline
+        if ('serviceWorker' in navigator) {
+            await navigator.serviceWorker.register('./sw.js');
+        }
+
+        alert('Đã tải dữ liệu và kích hoạt chế độ offline thành công!');
     } catch (err) {
         console.error("Lỗi tải offline:", err);
         alert('Cần có mạng ổn định để tải dữ liệu lần đầu.');
     }
 }
 
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').catch(err => {
-        console.error("Lỗi đăng ký ServiceWorker:", err);
-    });
-}
+// Đã loại bỏ khối đăng ký Service Worker tự động ở cuối tệp app.js để Service Worker chỉ bật khi bấm nút Tải Offline.
