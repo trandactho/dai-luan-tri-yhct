@@ -1,3 +1,22 @@
+// --- QUẢN LÝ TRẠNG THÁI ỨNG DỤNG ---
+const AppState = {
+    quizActive: false,
+    isQuizDL: false,
+    isQuizHV: false,
+    isQuizLT: false
+};
+
+// Giữ lại các biến tương thích ngược nếu có module ngoài tham chiếu trực tiếp
+let quizActive = false;
+let isQuizDL = false, isQuizHV = false, isQuizLT = false;
+
+function syncState() {
+    quizActive = AppState.quizActive;
+    isQuizDL = AppState.isQuizDL;
+    isQuizHV = AppState.isQuizHV;
+    isQuizLT = AppState.isQuizLT;
+}
+
 function escapeHTML(str) {
     if (!str) return '';
     return String(str).replace(/[&<>'"]/g, 
@@ -11,11 +30,10 @@ function escapeHTML(str) {
     );
 }
 
-let quizActive = false;
-let isQuizDL = false, isQuizHV = false;
 function startQuizMode() {
     if (typeof database === 'undefined' || !database) return;
-    quizActive = true;
+    AppState.quizActive = true;
+    syncState();
     
     const boLoc = document.getElementById('bo-loc-tam-truc');
     if (boLoc) boLoc.classList.add('blur-sm', 'pointer-events-none', 'opacity-40');
@@ -40,7 +58,7 @@ function startQuizMode() {
 }
 
 function loadRandomCase() {
-    if (!quizActive || typeof database === 'undefined' || !database) return;
+    if (!AppState.quizActive || typeof database === 'undefined' || !database) return;
     const keys = Object.keys(database);
     if (keys.length === 0) return;
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
@@ -96,7 +114,7 @@ function loadRandomCase() {
         
         const revealAction = () => {
             if (hcEl) hcEl.classList.remove('blur-sm', 'select-none');
-            if (pdtEl) hcEl.classList.remove('blur-sm', 'select-none');
+            if (pdtEl) pdtEl.classList.remove('blur-sm', 'select-none');
             if (btEl) btEl.classList.remove('blur-sm', 'select-none');
             if (chiTietBT) chiTietBT.classList.remove('blur-sm', 'select-none');
             if (boLoc) boLoc.classList.remove('blur-sm', 'opacity-40');
@@ -108,7 +126,8 @@ function loadRandomCase() {
 }
 
 function stopQuizMode() {
-    quizActive = false;
+    AppState.quizActive = false;
+    syncState();
     const boLoc = document.getElementById('bo-loc-tam-truc');
     if (boLoc) boLoc.classList.remove('blur-sm', 'pointer-events-none', 'opacity-40');
     const input = document.getElementById('search-input');
@@ -140,7 +159,6 @@ function moCheDoOnTap() {
     switchTab('tracnghiem');
 }
 
-// Hàm chuẩn dùng cho nút Chế độ Ôn Tập ở tab Luận Trị
 function moOnTapLuanTri() {
     const catSelect = document.getElementById('quiz-category');
     if (catSelect) {
@@ -150,12 +168,12 @@ function moOnTapLuanTri() {
     batDauTracNghiem();
 }
 
-let isQuizLT = false;
 function toggleQuizLuanTri(btnEl) {
-    isQuizLT = !isQuizLT;
-    const btn = btnEl || event?.currentTarget || document.querySelector('button[onclick*="toggleQuizLuanTri"]');
+    AppState.isQuizLT = !AppState.isQuizLT;
+    syncState();
+    const btn = btnEl || document.querySelector('button[onclick*="toggleQuizLuanTri"]');
     if (btn) {
-        if (isQuizLT) {
+        if (AppState.isQuizLT) {
             btn.className = "w-full px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-2 transition-all flex-shrink-0 shadow-lg shadow-amber-900/50 cursor-pointer";
         } else {
             btn.className = "w-full px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center justify-center gap-2 transition-all flex-shrink-0 cursor-pointer";
@@ -165,7 +183,7 @@ function toggleQuizLuanTri(btnEl) {
     ['lt-card-hc', 'lt-card-pdt', 'lt-card-bt'].forEach(id => {
         const el = document.getElementById(id);
         if (el) {
-            if (isQuizLT) {
+            if (AppState.isQuizLT) {
                 el.classList.add('blur-md', 'transition-all', 'duration-300', 'cursor-pointer');
                 el.title = "Bấm vào để lật xem đáp án";
                 el.onclick = () => el.classList.remove('blur-md');
@@ -179,10 +197,11 @@ function toggleQuizLuanTri(btnEl) {
 }
 
 function toggleQuizDL(btnEl) {
-    isQuizDL = !isQuizDL;
-    const btn = btnEl || event?.currentTarget || document.querySelector('button[onclick*="toggleQuizDL"]');
+    AppState.isQuizDL = !AppState.isQuizDL;
+    syncState();
+    const btn = btnEl || document.querySelector('button[onclick*="toggleQuizDL"]');
     if (btn) {
-        if (isQuizDL) {
+        if (AppState.isQuizDL) {
             btn.className = "px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0 shadow-lg shadow-amber-900/50";
         } else {
             btn.className = "px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0";
@@ -192,10 +211,11 @@ function toggleQuizDL(btnEl) {
 }
 
 function toggleQuizHV(btnEl) {
-    isQuizHV = !isQuizHV;
-    const btn = btnEl || event?.currentTarget || document.querySelector('button[onclick*="toggleQuizHV"]');
+    AppState.isQuizHV = !AppState.isQuizHV;
+    syncState();
+    const btn = btnEl || document.querySelector('button[onclick*="toggleQuizHV"]');
     if (btn) {
-        if (isQuizHV) {
+        if (AppState.isQuizHV) {
             btn.className = "px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0 shadow-lg shadow-amber-900/50";
         } else {
             btn.className = "px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all flex-shrink-0";
@@ -203,7 +223,6 @@ function toggleQuizHV(btnEl) {
     }
     filterHuyetVi();
 }
-
 
 function capNhatTongSoTracNghiem() {
     let total = 0;
@@ -220,8 +239,6 @@ function capNhatTongSoTracNghiem() {
     const el = document.getElementById('total-quiz');
     if (el) el.innerText = total;
 }
-
-const getVal = (id) => document.getElementById(id)?.value ?? '';
 
 function debounce(func, delay = 100) {
     let timer;
@@ -268,108 +285,174 @@ function removeAccents(str) {
     return (str || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 }
 
+const TCM_RULES = {
+    'Than': {
+        strictHuThuc: 'Thuc',
+        fallbackBC: 'thuy khi'
+    },
+    'Can': {
+        fallbackBC: 'khi' 
+    },
+    'Ty': {
+        fallbackBC: 'dam' 
+    },
+    'Tam': {
+        fallbackBC: 'huyet u'
+    },
+    'Phe': {
+        fallbackBC: 'dam'
+    },
+    'Vi': {
+        fallbackBC: 'nhiet'
+    },
+    'Dom': {
+        fallbackBC: 'thap nhiet'
+    },
+    'Dai_Truong': {
+        fallbackBC: 'thap nhiet'
+    },
+    'Tieu_Truong': {
+        fallbackBC: 'thap nhiet'
+    },
+    'Bang_Quang': {
+        fallbackBC: 'thap nhiet'
+    },
+    'Tam_Tieu': {
+        fallbackBC: 'thap nhiet'
+    }
+};
+
 function getItemTamTruc(item) {
     if (!item) return { tp: '', hn: '', ht: '', bc: '' };
     
     const pl = Array.isArray(item.phanloai) ? item.phanloai : [];
     const title = removeAccents(item.hc || '');
-    const pTP = removeAccents(pl[0] || title);
-    const pHN = removeAccents(pl[1] || item.han_nhiet || title);
-    const pHT = removeAccents(pl[2] || item.hu_thuc || title);
-    const pBC = removeAccents(pl[3] || title);
+    
+    let pTP = removeAccents(pl[0] || title);
+    let pHN = removeAccents(pl[1] || item.han_nhiet || title);
+    let pHT = removeAccents(pl[2] || item.hu_thuc || title);
+    let pBC = removeAccents(pl[3] || title);
 
-    let tp = '';
-    // Liên kết cả thuật ngữ YHCT lẫn ngôn ngữ thông dụng trong ngoặc
-    if (pTP.includes('tam tieu')) tp = 'Tam_Tieu';
-    else if (pTP.includes('dai truong')) tp = 'Dai_Truong';
-    else if (pTP.includes('tieu truong')) tp = 'Tieu_Truong';
-    else if (pTP.includes('bang quang')) tp = 'Bang_Quang';
-    else if (pTP.includes('can') || pTP.includes('gan')) tp = 'Can';
-    else if (pTP.includes('tam') || pTP.includes('tim')) tp = 'Tam';
-    else if (pTP.includes('ty') || pTP.includes('tieu hoa')) tp = 'Ty';
-    else if (pTP.includes('phe') || pTP.includes('phoi')) tp = 'Phe';
-    else if (pTP.includes('than') || pTP.includes('noi tiet')) tp = 'Than';
-    else if (pTP.includes('dom') || pTP.includes('mat')) tp = 'Dom';
-    else if (pTP.includes('vi') || pTP.includes('da day')) tp = 'Vi';
+    const mapTP = { 
+        'tam tieu': 'Tam_Tieu', 'dai truong': 'Dai_Truong', 'tieu truong': 'Tieu_Truong', 
+        'bang quang': 'Bang_Quang', 'can': 'Can', 'gan': 'Can', 'tam': 'Tam', 'tim': 'Tam', 
+        'ty': 'Ty', 'tieu hoa': 'Ty', 'phe': 'Phe', 'phoi': 'Phe', 'than': 'Than', 
+        'noi tiet': 'Than', 'dom': 'Dom', 'mat': 'Dom', 'vi': 'Vi', 'da day': 'Vi' 
+    };
+    const mapHN = { 'hiep tap': 'Han nhiet hiep tap', 'nhiet': 'Nhiet', 'hoa': 'Nhiet', 'han': 'Han', 'lanh': 'Han', 'binh': 'Binh' };
+    const mapHT = { 'hiep tap': 'Hu thuc hiep tap', 'thuc': 'Thuc', 'hu': 'Hu', 'suy': 'Hu' };
+    const mapBC = { 'thap nhiet': 'thap nhiet', 'thuy khi': 'thuy khi', 'thuy thung': 'thuy khi', 'khi': 'khi', 'uat': 'khi', 'tre': 'khi', 'huyet': 'huyet u', 'u': 'huyet u', 'dam': 'dam', 'thap': 'dam', 'hoa': 'hoa', 'nhiet': 'nhiet' };
 
-    let hn = 'Binh';
-    if (pHN.includes('hiep tap')) hn = 'Han nhiet hiep tap';
-    else if (pHN.includes('nhiet') || pHN.includes('hoa')) hn = 'Nhiet';
-    else if (pHN.includes('han') || pHN.includes('lanh')) hn = 'Han';
-    else if (pHN.includes('binh')) hn = 'Binh';
+    const getMatch = (str, map, def) => {
+        const foundKey = Object.keys(map).find(k => str.includes(k));
+        return foundKey ? map[foundKey] : def;
+    };
 
-    let ht = 'Thuc';
-    if (pHT.includes('hiep tap')) ht = 'Hu thuc hiep tap';
-    else if (pHT.includes('hu') || pHT.includes('suy')) ht = 'Hu';
-    else if (pHT.includes('thuc')) ht = 'Thuc';
+    let resolvedTP = getMatch(pTP, mapTP, '');
+    let resolvedHN = getMatch(pHN, mapHN, 'Binh');
+    let resolvedHT = getMatch(pHT, mapHT, 'Thuc');
+    let resolvedBC = getMatch(pBC, mapBC, '');
 
-    let bc = '';
-    if (pBC.includes('thap nhiet')) bc = 'thap nhiet';
-    else if (pBC.includes('khi') || pBC.includes('uat') || pBC.includes('tre')) bc = 'khi';
-    else if (pBC.includes('huyet') || pBC.includes('u')) bc = 'huyet u';
-    else if (pBC.includes('dam') || pBC.includes('thap')) bc = 'dam';
-    else if (pBC.includes('hoa')) bc = 'hoa';
+    if (TCM_RULES[resolvedTP]) {
+        const rule = TCM_RULES[resolvedTP];
+        if (rule.strictHuThuc && resolvedHT === rule.strictHuThuc) {
+            if (!resolvedBC) {
+                if (title.includes('thuy') || title.includes('thung')) resolvedBC = 'thuy khi';
+                else if (title.includes('thap') || title.includes('nhiet')) resolvedBC = 'thap nhiet';
+                else if (title.includes('huyet') || title.includes('u')) resolvedBC = 'huyet u';
+                else resolvedBC = rule.fallbackBC;
+            }
+        } else if (resolvedHT === 'Thuc' && !resolvedBC) {
+            if (title.includes('hoa') || title.includes('duong')) resolvedBC = 'hoa';
+            else if (title.includes('thap') || title.includes('dam')) resolvedBC = 'dam';
+            else if (title.includes('khi') || title.includes('uat')) resolvedBC = 'khi';
+            else if (title.includes('nhiet')) resolvedBC = 'nhiet';
+            else resolvedBC = rule.fallbackBC;
+        }
+    }
 
-    return { tp, hn, ht, bc };
+    return {
+        tp: resolvedTP,
+        hn: resolvedHN,
+        ht: resolvedHT,
+        bc: resolvedBC
+    };
+}
+
+const getVal = (id) => document.getElementById(id)?.value ?? '';
+
+function getFilterVal(id) {
+    const el = document.getElementById(id);
+    if (!el) return '';
+    const val = el.value !== undefined ? el.value : '';
+    const text = el.selectedIndex >= 0 ? el.options[el.selectedIndex].text : '';
+    const combined = removeAccents(val + ' ' + text);
+    if (combined.includes('tat ca') || combined.includes('--') || combined === '') {
+        return '';
+    }
+    return val || text;
 }
 
 function checkMatchFilter(item, tp, hn, ht, bc) {
     const info = getItemTamTruc(item);
     
     let matchTP = true;
-    if (tp && tp !== "" && !tp.includes('Tất cả')) {
+    if (tp && tp !== "" && !removeAccents(tp).includes('tat ca') && !tp.includes('--')) {
         const normTP = removeAccents(tp);
-        const normInfoTP = removeAccents(info.tp);
         
-        // Quy đổi giá trị trong thẻ chọn (có ngoặc) về mã chuẩn để so khớp
-        let targetTP = normTP;
-        if (normTP.includes('phe') || normTP.includes('phoi')) targetTP = 'phe';
+        let targetTP = '';
+        if (normTP.includes('than') || normTP.includes('noi tiet')) targetTP = 'than';
+        else if (normTP.includes('phe') || normTP.includes('phoi')) targetTP = 'phe';
         else if (normTP.includes('can') || normTP.includes('gan')) targetTP = 'can';
         else if (normTP.includes('tam') || normTP.includes('tim')) targetTP = 'tam';
         else if (normTP.includes('ty') || normTP.includes('tieu hoa')) targetTP = 'ty';
-        else if (normTP.includes('than') || normTP.includes('noi tiet')) targetTP = 'than';
         else if (normTP.includes('vi') || normTP.includes('da day')) targetTP = 'vi';
         else if (normTP.includes('dom') || normTP.includes('mat')) targetTP = 'dom';
         else if (normTP.includes('tam tieu')) targetTP = 'tam_tieu';
         else if (normTP.includes('dai truong')) targetTP = 'dai_truong';
         else if (normTP.includes('tieu truong')) targetTP = 'tieu_truong';
         else if (normTP.includes('bang quang')) targetTP = 'bang_quang';
+        else targetTP = normTP;
 
-        matchTP = (normInfoTP === targetTP || normTP.includes(normInfoTP));
+        const cleanTargetTP = targetTP.replace(/[_]/g, '').split(' ')[0];
+        
+        const rawItemText = removeAccents((item.hc || '') + ' ' + (Array.isArray(item.phanloai) ? item.phanloai.join(' ') : ''));
+        const normInfoTP = removeAccents(info.tp).toLowerCase().replace(/[_]/g, '');
+
+        matchTP = rawItemText.includes(cleanTargetTP) || normInfoTP.includes(cleanTargetTP);
     }
 
     let matchHN = true;
-    if (hn && hn !== "" && !hn.includes('Tất cả')) {
+    if (hn && hn !== "" && !removeAccents(hn).includes('tat ca') && !hn.includes('--')) {
         const normHN = removeAccents(hn);
         const normInfoHN = removeAccents(info.hn);
-        matchHN = (normInfoHN === normHN || normHN.includes(normInfoHN));
+        matchHN = normInfoHN !== "" && normInfoHN.includes(normHN);
     }
 
     let matchHT = true;
-    if (ht && ht !== "" && !ht.includes('Tất cả')) {
+    if (ht && ht !== "" && !removeAccents(ht).includes('tat ca') && !ht.includes('--')) {
         const normHT = removeAccents(ht);
-        const normInfoHT = removeAccents(info.hu_thuc || info.ht);
-        matchHT = (normInfoHT === normHT || normHT.includes(normInfoHT));
+        const normInfoHT = removeAccents(info.hu_thuc || info.ht || ''); 
+        matchHT = normInfoHT !== "" && normInfoHT.includes(normHT);
     }
 
     let matchBC = true;
-    if (bc && bc !== "" && !bc.includes('Tất cả')) {
+    if (bc && bc !== "" && !removeAccents(bc).includes('tat ca') && !bc.includes('--')) {
         const normBC = removeAccents(bc);
         const normInfoBC = removeAccents(info.bc);
-        matchBC = (normInfoBC === normBC || normBC.includes(normInfoBC));
+        matchBC = normInfoBC !== "" && normInfoBC.includes(normBC);
     }
 
     return matchTP && matchHN && matchHT && matchBC;
 }
 
-
 function updateLuanTri(query = "") {
-    if (quizActive || typeof database === 'undefined' || !database) return;
+    if (AppState.quizActive || typeof database === 'undefined' || !database) return;
 
-    const tp = getVal('tang-phu');
-    const hn = getVal('han-nhiet');
-    const ht = getVal('hu-thuc');
-    const bc = getVal('benh-co');
+    const tp = getFilterVal('tang-phu');
+    const hn = getFilterVal('han-nhiet');
+    const ht = getFilterVal('hu-thuc');
+    const bc = getFilterVal('benh-co');
     const searchInput = getVal('search-input').toLowerCase().trim();
     const activeQuery = query || searchInput;
 
@@ -398,7 +481,6 @@ function updateLuanTri(query = "") {
 
     renderDetailLuanTri(bestMatchData, activeQuery);
 }
-
 
 function renderDetailLuanTri(data, query = "", isEnter = false) {
     const hcEl = document.getElementById('hoi-chung');
@@ -452,11 +534,11 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
         if (ul) ul.innerHTML = `<li class='text-amber-500/80 italic text-xs col-span-full flex items-center gap-1.5'>${msg}</li>`;
         if (divBt) divBt.innerHTML = "";
     }
-    // Thêm đoạn này vào cuối hàm renderDetailLuanTri
+
     ['lt-card-hc', 'lt-card-pdt', 'lt-card-bt'].forEach(id => {
         const el = document.getElementById(id);
         if (el) {
-            if (isQuizLT) {
+            if (AppState.isQuizLT) {
                 el.classList.add('blur-md', 'transition-all', 'duration-300', 'cursor-pointer');
                 el.title = "Bấm vào để lật xem đáp án";
                 el.onclick = () => el.classList.remove('blur-md');
@@ -467,7 +549,6 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
             }
         }
     });
-
 }
 
 function setDropdownSpacer(show) {
@@ -495,20 +576,20 @@ function setDropdownSpacer(show) {
 }
 
 function searchLuanTri(isEnter = false) {
-    if (quizActive) stopQuizMode();
+    if (AppState.quizActive) stopQuizMode();
 
     const input = document.getElementById('search-input');
     const dropdown = document.getElementById('search-dropdown');
     const query = (input ? input.value : '').toLowerCase().trim();
 
-    const tp = getVal('tang-phu');
-    const hn = getVal('han-nhiet');
-    const ht = getVal('hu-thuc');
-    const bc = getVal('benh-co');
+    const tp = getFilterVal('tang-phu');
+    const hn = getFilterVal('han-nhiet');
+    const ht = getFilterVal('hu-thuc');
+    const bc = getFilterVal('benh-co');
 
-    const hasFilter = (tp && tp !== "") || (hn && !hn.includes('Tất cả')) || (ht && !ht.includes('Tất cả')) || (bc && !bc.includes('Tất cả'));
+    const hasTamTrucFilter = (tp !== "") || (hn !== "") || (ht !== "") || (bc !== "");
 
-    if (!query && !hasFilter) {
+    if (!query && !hasTamTrucFilter) {
         if (dropdown) dropdown.classList.add('hidden');
         setDropdownSpacer(false);
         updateLuanTri();
@@ -569,25 +650,54 @@ function selectSearchResult(key, hideDropdown = true) {
 
     const item = database[key];
     renderDetailLuanTri(item, query);
-    syncSelectsWithItem(item);
-
-    if (hideDropdown) {
-        const dropdown = document.getElementById('search-dropdown');
-        if (dropdown) dropdown.classList.add('hidden');
-        setDropdownSpacer(false);
+    
+    if (typeof syncSelectsWithItem === 'function') {
+        syncSelectsWithItem(item);
     }
+
+    const dropdown = document.getElementById('search-dropdown');
+    if (dropdown) {
+        dropdown.classList.add('hidden');
+    }
+    setDropdownSpacer(false);
 }
 
-// Gắn sự kiện tự động cập nhật khi thay đổi các thẻ chọn Tam trục
-['tang-phu', 'han-nhiet', 'hu-thuc', 'benh-co'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-        el.addEventListener('change', () => {
-            searchLuanTri(false);
-        });
-    }
-});
+function syncSelectsWithItem(item) {
+    if (!item || !Array.isArray(item.phanloai)) return;
+    const pl = item.phanloai;
 
+    const setSelect = (selectId, val) => {
+        const el = document.getElementById(selectId);
+        if (!el || !val) return;
+        const target = removeAccents(val);
+
+        for (let i = 0; i < el.options.length; i++) {
+            const optVal = removeAccents(el.options[i].value);
+            const optTxt = removeAccents(el.options[i].text);
+            if (!optVal || optVal.includes('tat ca')) continue;
+
+            if (optVal === target || optTxt === target) {
+                el.selectedIndex = i;
+                return;
+            }
+        }
+
+        for (let i = 0; i < el.options.length; i++) {
+            const optVal = removeAccents(el.options[i].value);
+            if (!optVal || optVal.includes('tat ca')) continue;
+
+            if (target.includes(optVal) || optVal.includes(target)) {
+                el.selectedIndex = i;
+                return;
+            }
+        }
+    };
+
+    setSelect('tang-phu', pl[0]);
+    setSelect('han-nhiet', pl[1]);
+    setSelect('hu-thuc', pl[2]);
+    setSelect('benh-co', pl[3]);
+}
 
 function huyBoChuanDoan() {
     updateLuanTri();
@@ -609,7 +719,9 @@ function xuLyKhongTimThay(tabName, query) {
         method: 'POST',
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: params.toString()
-    }).catch(() => {});
+    }).catch(err => {
+        console.error("Lỗi kết nối khi gửi phản hồi từ khóa thiếu:", err);
+    });
 
     hienThongBaoGhiNhan(tabName, cleanQuery);
 }
@@ -697,7 +809,7 @@ function filterDuocLieu(isEnter = false) {
             </div>
         `;
 
-        const blurDL = typeof isQuizDL !== 'undefined' && isQuizDL ? 'blur-md transition-all duration-300' : '';
+        const blurDL = AppState.isQuizDL ? 'blur-md transition-all duration-300' : '';
 
         card.innerHTML = `
             <div class="absolute top-0 right-0 bg-emerald-950 text-emerald-400 font-bold px-2 py-0.5 text-[10px] uppercase rounded-bl border-b border-l border-stone-800/60 tracking-wider">${escapeHTML(d.nhom || 'Dược liệu')}</div>
@@ -719,9 +831,7 @@ function filterDuocLieu(isEnter = false) {
 
         card.onclick = (e) => {
             const isTitle = e.target.closest('.card-title-el');
-            const activeQuiz = typeof isQuizDL !== 'undefined' && isQuizDL;
-
-            if (activeQuiz) {
+            if (AppState.isQuizDL) {
                 const blurEl = card.querySelector('.blur-target');
                 if (blurEl) blurEl.classList.remove('blur-md');
                 if (isTitle) {
@@ -790,7 +900,7 @@ function filterHuyetVi(isEnter = false) {
         let card = document.createElement('div'); 
         card.className = `bg-dark-box p-4 rounded-lg space-y-3 relative cursor-pointer ${theme.border} shadow-md shadow-black/40`;
         
-        const blurHV = typeof isQuizHV !== 'undefined' && isQuizHV ? 'blur-md transition-all duration-300' : '';
+        const blurHV = AppState.isQuizHV ? 'blur-md transition-all duration-300' : '';
 
         card.innerHTML = `
             <div class="absolute top-0 right-0 ${theme.tag} font-bold px-2 py-0.5 text-[9px] uppercase rounded-bl border-b border-l border-stone-800/60">${escapeHTML(h.kinh || '')}</div>
@@ -815,9 +925,7 @@ function filterHuyetVi(isEnter = false) {
 
         card.onclick = (e) => {
             const isTitle = e.target.closest('.card-title-el');
-            const activeQuiz = typeof isQuizHV !== 'undefined' && isQuizHV;
-
-            if (activeQuiz) {
+            if (AppState.isQuizHV) {
                 const blurEl = card.querySelector('.blur-target');
                 if (blurEl) blurEl.classList.remove('blur-md');
                 if (isTitle) {
@@ -946,6 +1054,20 @@ window.addEventListener("DOMContentLoaded", () => {
             setTimeout(() => loader.remove(), 300);
         }
     });
+
+    ['tang-phu', 'han-nhiet', 'hu-thuc', 'benh-co'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('change', () => {
+                searchLuanTri();
+                const dropdown = document.getElementById('search-dropdown');
+                if (dropdown) {
+                    dropdown.classList.remove('hidden');
+                    setDropdownSpacer(true);
+                }
+            });
+        }
+    });
 });
 
 async function switchTab(tabName) {
@@ -1010,7 +1132,14 @@ let quizScore = 0;
 let userAnswers = [];
 
 function capNhatDiemGanNhat() {
-    const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
+    let history = [];
+    try {
+        history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
+        if (!Array.isArray(history)) history = [];
+    } catch (e) {
+        history = [];
+    }
+    
     const el = document.getElementById('quiz-last-score');
     if (el && history.length > 0) {
         el.innerHTML = `⏱️ Lần gần nhất (${history[0].date}): <strong class="text-amber-400">${history[0].score}</strong> (${history[0].percent})`;
@@ -1019,13 +1148,29 @@ function capNhatDiemGanNhat() {
 
 function taoCauHoiTamTuDuLieu(category) {
     let generated = [];
+
+    const getRandomWrongOptions = (sourceArray, correctValue, count) => {
+        const wrongOptions = [];
+        const maxTries = count * 5;
+        let tries = 0;
+        
+        while (wrongOptions.length < count && tries < maxTries) {
+            const randomVal = sourceArray[Math.floor(Math.random() * sourceArray.length)];
+            if (randomVal !== correctValue && !wrongOptions.includes(randomVal)) {
+                wrongOptions.push(randomVal);
+            }
+            tries++;
+        }
+        return wrongOptions;
+    };
+
     if ((category === 'luantri' || category === 'all') && typeof database !== 'undefined') {
+        const allHC = Object.values(database).map(d => d.hc).filter(Boolean);
+        
         Object.keys(database).forEach(key => {
             const item = database[key];
             if (item && item.hc && item.tc && item.tc.length > 0) {
-                const wrongOptions = Object.values(database)
-                    .map(d => d.hc).filter(hc => hc !== item.hc)
-                    .sort(() => 0.5 - Math.random()).slice(0, 3);
+                const wrongOptions = getRandomWrongOptions(allHC, item.hc, 3);
                 
                 if (wrongOptions.length >= 3) {
                     const options = [item.hc, ...wrongOptions].sort(() => 0.5 - Math.random());
@@ -1042,11 +1187,11 @@ function taoCauHoiTamTuDuLieu(category) {
     }
 
     if ((category === 'duoclieu' || category === 'all') && typeof duocLieuData !== 'undefined' && Array.isArray(duocLieuData)) {
+        const allCongDung = duocLieuData.map(item => item.cong_dung).filter(Boolean);
+        
         duocLieuData.forEach(d => {
             if (d && d.ten && d.cong_dung) {
-                const wrongOptions = duocLieuData
-                    .map(item => item.cong_dung).filter(cd => cd !== d.cong_dung)
-                    .sort(() => 0.5 - Math.random()).slice(0, 3);
+                const wrongOptions = getRandomWrongOptions(allCongDung, d.cong_dung, 3);
 
                 if (wrongOptions.length >= 3) {
                     const options = [d.cong_dung, ...wrongOptions].sort(() => 0.5 - Math.random());
@@ -1063,11 +1208,11 @@ function taoCauHoiTamTuDuLieu(category) {
     }
 
     if ((category === 'huyetvi' || category === 'all') && typeof huyetViData !== 'undefined' && Array.isArray(huyetViData)) {
+        const allChuTri = huyetViData.map(item => item.chu_tri).filter(Boolean);
+        
         huyetViData.forEach(h => {
             if (h && h.ten && h.chu_tri) {
-                const wrongOptions = huyetViData
-                    .map(item => item.chu_tri).filter(ct => ct !== h.chu_tri)
-                    .sort(() => 0.5 - Math.random()).slice(0, 3);
+                const wrongOptions = getRandomWrongOptions(allChuTri, h.chu_tri, 3);
 
                 if (wrongOptions.length >= 3) {
                     const options = [h.chu_tri, ...wrongOptions].sort(() => 0.5 - Math.random());
@@ -1084,11 +1229,11 @@ function taoCauHoiTamTuDuLieu(category) {
     }
 
     if ((category === 'tra' || category === 'all') && typeof traData !== 'undefined' && Array.isArray(traData)) {
+        const allCongDungTra = traData.map(item => item.cong_dung).filter(Boolean);
+        
         traData.forEach(t => {
             if (t && t.ten && t.cong_dung) {
-                const wrongOptions = traData
-                    .map(item => item.cong_dung).filter(cd => cd !== t.cong_dung)
-                    .sort(() => 0.5 - Math.random()).slice(0, 3);
+                const wrongOptions = getRandomWrongOptions(allCongDungTra, t.cong_dung, 3);
 
                 if (wrongOptions.length >= 3) {
                     const options = [t.cong_dung, ...wrongOptions].sort(() => 0.5 - Math.random());
@@ -1135,29 +1280,37 @@ function batDauTracNghiem() {
         pool = rawData;
     }
 
-    currentQuizQuestions = [...pool]
-        .sort(() => 0.5 - Math.random())
-        .slice(0, count)
-        .map(q => {
-            const specialKeywords = ['cả a và b', 'tất cả', 'không có', 'cả hai', 'đều đúng', 'đều sai'];
-            const hasSpecialOpt = q.lua_chon && q.lua_chon.some(text => 
-                specialKeywords.some(keyword => text.toLowerCase().includes(keyword))
-            );
+    let selectedQuestions = [];
+    let poolCopy = [...pool];
+    let actualCount = Math.min(count, poolCopy.length);
 
-            if (hasSpecialOpt) {
-                return { ...q };
-            } else {
-                const shuffled = q.lua_chon
-                    .map((text, idx) => ({ text, isCorrect: idx === q.dap_an }))
-                    .sort(() => 0.5 - Math.random());
+    for (let i = 0; i < actualCount; i++) {
+        let randomIndex = Math.floor(Math.random() * poolCopy.length);
+        selectedQuestions.push(poolCopy[randomIndex]);
+        poolCopy[randomIndex] = poolCopy[poolCopy.length - 1];
+        poolCopy.pop();
+    }
 
-                return {
-                    ...q,
-                    lua_chon: shuffled.map(item => item.text),
-                    dap_an: shuffled.findIndex(item => item.isCorrect)
-                };
-            }
-        });
+    currentQuizQuestions = selectedQuestions.map(q => {
+        const specialKeywords = ['cả a và b', 'tất cả', 'không có', 'cả hai', 'đều đúng', 'đều sai'];
+        const hasSpecialOpt = q.lua_chon && q.lua_chon.some(text => 
+            specialKeywords.some(keyword => text.toLowerCase().includes(keyword))
+        );
+
+        if (hasSpecialOpt) {
+            return { ...q };
+        } else {
+            const shuffled = q.lua_chon
+                .map((text, idx) => ({ text, isCorrect: idx === q.dap_an }))
+                .sort(() => 0.5 - Math.random());
+
+            return {
+                ...q,
+                lua_chon: shuffled.map(item => item.text),
+                dap_an: shuffled.findIndex(item => item.isCorrect)
+            };
+        }
+    });
 
     currentQuizIndex = 0;
     quizScore = 0;
@@ -1283,7 +1436,14 @@ function hienThiKetQuaTracNghiem() {
     }
     document.getElementById('quiz-evaluation').innerText = evaluationText;
 
-    const history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
+    let history = [];
+    try {
+        history = JSON.parse(localStorage.getItem('quizHistory') || '[]');
+        if (!Array.isArray(history)) history = [];
+    } catch (e) {
+        history = [];
+    }
+    
     history.unshift({
         date: new Date().toLocaleDateString('vi-VN'),
         score: `${quizScore}/${total}`,
@@ -1485,15 +1645,14 @@ async function exportPDF() {
     btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang xuất PDF...';
     btn.classList.add('opacity-75', 'pointer-events-none');
 
-    // Chờ render ổn định
     await new Promise(resolve => setTimeout(resolve, 600));
 
     const opt = {
-        margin:       [10, 10, 10, 10], // Lề an toàn tránh bị cắt cụt (mm)
+        margin:       [10, 10, 10, 10],
         filename:     'Phac-Do-YHCT.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
         html2canvas:  { 
-            scale: 2,           // Tăng độ nét, chữ không bị mờ
+            scale: 2,
             useCORS: true, 
             letterRendering: true,
             scrollY: 0
@@ -1505,7 +1664,8 @@ async function exportPDF() {
     html2pdf().set(opt).from(element).save().then(() => {
         btn.innerHTML = oldHtml;
         btn.classList.remove('opacity-75', 'pointer-events-none');
-    }).catch(() => {
+    }).catch(err => {
+        console.error("Lỗi xuất PDF:", err);
         btn.innerHTML = oldHtml;
         btn.classList.remove('opacity-75', 'pointer-events-none');
     });
@@ -1599,6 +1759,7 @@ async function sendAIWebMessage() {
     } catch (err) {
         const loadingEl = document.getElementById(loadingId);
         if (loadingEl) loadingEl.remove();
+        console.error("Lỗi kết nối AI:", err);
         chatBox.innerHTML += `
             <div class="bg-red-950/40 p-3 rounded-lg border border-red-800 text-red-300 text-xs">
                 <i class="fa-solid fa-plug-circle-xmark mr-1"></i> Lỗi kết nối máy chủ AI. Vui lòng thử lại.
@@ -1672,10 +1833,13 @@ async function taiDuLieuOffline() {
         ]);
         alert('Đã lưu dữ liệu chạy offline thành công!');
     } catch (err) {
+        console.error("Lỗi tải offline:", err);
         alert('Cần có mạng ổn định để tải dữ liệu lần đầu.');
     }
 }
 
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
+    navigator.serviceWorker.register('./sw.js').catch(err => {
+        console.error("Lỗi đăng ký ServiceWorker:", err);
+    });
 }
