@@ -1,3 +1,10 @@
+const DOMAIN_NETLIFY = 'https://dailuantriyhct.com';
+function getApiEndpoint() {
+    return (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+        ? `${DOMAIN_NETLIFY}/.netlify/functions/chat`
+        : '/.netlify/functions/chat';
+}
+
 // --- QUẢN LÝ TRẠNG THÁI ỨNG DỤNG ---
 const AppState = {
     quizActive: false,
@@ -71,25 +78,35 @@ function startQuizMode() {
     if (typeof database === 'undefined' || !database) return;
     AppState.quizActive = true;
     
-    const boLoc = document.getElementById('bo-loc-tam-truc');
-    if (boLoc) boLoc.classList.add('blur-sm', 'pointer-events-none', 'opacity-40');
-    const input = document.getElementById('search-input');
-    if (input) {
-        input.classList.add('blur-sm', 'pointer-events-none', 'opacity-40');
-        input.disabled = true;
+    // 1. Tắt AI Backup
+    const aiCheck = document.getElementById('ai-backup-luantri');
+    if (aiCheck) aiCheck.checked = false;
+    AppState.aiHcActive = false;
+    AppState.aiBtActive = false;
+
+    // 2. Đổi khu vực tích chọn AI thành nút "Ca Tiếp Theo"
+    const aiWrapper = aiCheck ? (aiCheck.closest('label') || aiCheck.parentElement) : null;
+    if (aiWrapper) {
+        if (!aiWrapper.dataset.originalHtml) {
+            aiWrapper.dataset.originalHtml = aiWrapper.innerHTML;
+        }
+        aiWrapper.innerHTML = `
+            <button onclick="loadRandomCase()" class="px-2.5 py-1 bg-purple-900 hover:bg-purple-800 text-purple-300 border border-purple-700 font-bold rounded-lg text-xs flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap shadow-sm">
+                <i class="fa-solid fa-shuffle"></i> Ca Tiếp Theo
+            </button>
+        `;
     }
-    
+
+    // 3. Đổi nút "Ôn tập" thành nút "Thoát"
     const controls = document.getElementById('quiz-controls');
     if (controls) {
         controls.innerHTML = `
-            <button onclick="loadRandomCase()" class="flex-1 px-4 py-2 bg-purple-900 hover:bg-purple-800 text-purple-300 border border-purple-700 font-bold rounded text-xs flex items-center justify-center gap-2 transition-all cursor-pointer">
-                <i class="fa-solid fa-shuffle"></i> Ca Tiếp Theo
-            </button>
-            <button onclick="stopQuizMode()" class="flex-1 px-4 py-2 bg-stone-800 hover:bg-stone-700 text-stone-400 border border-stone-700 font-bold rounded text-xs flex items-center justify-center gap-2 transition-all cursor-pointer">
+            <button onclick="stopQuizMode()" class="px-2.5 py-1 bg-stone-800 hover:bg-stone-700 text-stone-400 border border-stone-700 font-bold rounded-lg text-xs flex items-center justify-center gap-1 transition-all cursor-pointer whitespace-nowrap shadow-sm">
                 <i class="fa-solid fa-xmark"></i> Thoát
             </button>
         `;
     }
+
     loadRandomCase();
 }
 
@@ -140,8 +157,7 @@ function loadRandomCase() {
             }
         }
         
-        const boLoc = document.getElementById('bo-loc-tam-truc');
-        if (boLoc) boLoc.classList.add('blur-sm', 'pointer-events-none', 'opacity-40');
+        // Chỉ làm mờ phần đáp án, giữ nguyên Tam Trục & ô tìm kiếm
         if (hcEl) hcEl.className = "text-xl font-bold text-primary transition-all blur-sm select-none cursor-pointer";
         if (pdtEl) pdtEl.className = "text-base font-semibold text-emerald-500 transition-all blur-sm select-none cursor-pointer";
         if (btEl) btEl.className = "text-lg font-bold text-amber-500 transition-all blur-sm select-none cursor-pointer";
@@ -153,7 +169,6 @@ function loadRandomCase() {
             if (pdtEl) pdtEl.classList.remove('blur-sm', 'select-none');
             if (btEl) btEl.classList.remove('blur-sm', 'select-none');
             if (chiTietBT) chiTietBT.classList.remove('blur-sm', 'select-none');
-            if (boLoc) boLoc.classList.remove('blur-sm', 'opacity-40');
         };
         if (hcEl) hcEl.onclick = revealAction;
         if (pdtEl) pdtEl.onclick = revealAction;
@@ -163,22 +178,26 @@ function loadRandomCase() {
 
 function stopQuizMode() {
     AppState.quizActive = false;
-    const boLoc = document.getElementById('bo-loc-tam-truc');
-    if (boLoc) boLoc.classList.remove('blur-sm', 'pointer-events-none', 'opacity-40');
-    const input = document.getElementById('search-input');
-    if (input) {
-        input.classList.remove('blur-sm', 'pointer-events-none', 'opacity-40');
-        input.disabled = false;
-    }
-    
+
+    // 1. Khôi phục lại ô tích chọn AI bên trái
+    document.querySelectorAll('label').forEach(lbl => {
+        if (lbl.dataset.originalHtml) {
+            lbl.innerHTML = lbl.dataset.originalHtml;
+            delete lbl.dataset.originalHtml;
+        }
+    });
+
+    // 2. Khôi phục nút "Ôn tập" bên phải
     const controls = document.getElementById('quiz-controls');
     if (controls) {
         controls.innerHTML = `
-            <button onclick="startQuizMode()" class="w-full px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded text-xs flex items-center justify-center gap-2 transition-all cursor-pointer">
-                <i class="fa-solid fa-graduation-cap"></i> Chế độ Ôn Tập
+            <button onclick="startQuizMode()" class="px-3 py-1 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer whitespace-nowrap">
+                <i class="fa-solid fa-graduation-cap"></i> Ôn tập
             </button>
         `;
     }
+
+    // 3. Khôi phục trạng thái văn bản
     const hcEl = document.getElementById('hoi-chung');
     const pdtEl = document.getElementById('phap-dieu-tri');
     const btEl = document.getElementById('bai-thuoc');
@@ -187,6 +206,7 @@ function stopQuizMode() {
     if (pdtEl) { pdtEl.className = "text-base font-semibold text-emerald-500 transition-all"; pdtEl.onclick = null; }
     if (btEl) { btEl.className = "text-lg font-bold text-amber-500 transition-all"; btEl.onclick = null; }
     if (chiTietBT) chiTietBT.className = "flex flex-wrap gap-2 transition-all";
+    
     updateLuanTri();
 }
 
@@ -456,8 +476,6 @@ function checkMatchFilter(item, tp, hn, ht, bc) {
 }
 
 function updateLuanTri(query = "", isEnter = false) {
-    if (AppState.quizActive || typeof database === 'undefined' || !database) return;
-
     const tp = getFilterVal('tang-phu');
     const hn = getFilterVal('han-nhiet');
     const ht = getFilterVal('hu-thuc');
@@ -592,7 +610,7 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
             }
         }
 
-        // Kích hoạt AI Backup dựa trên trạng thái nút bấm siêu gọn
+        // Kích hoạt AI Backup dựa trên trạng thái nút bấm
         const needHcAI = AppState.aiHcActive && data.hc;
         const needBtAI = AppState.aiBtActive && data.bt;
 
@@ -607,8 +625,8 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
 
     } else {
         if (query && isEnter && document.getElementById('ai-backup-luantri')?.checked) {
-        fetchAIBackupResult(query, 'Biện chứng Luận Trị YHCT', document.getElementById('pdf-area'));
-        return;
+            fetchAIBackupResult(query, 'Biện chứng Luận Trị YHCT', document.getElementById('pdf-area'));
+            return;
         }
 
         if (query && isEnter) xuLyKhongTimThay('Luận Trị', query);
@@ -625,21 +643,40 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
         if (warningContainer) warningContainer.innerHTML = "";
     }
 
-    ['lt-card-hc', 'lt-card-pdt', 'lt-card-bt'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) {
-            if (AppState.isQuizLT) {
-                el.classList.add('blur-md', 'transition-all', 'duration-300', 'cursor-pointer');
-                el.title = "Bấm vào để lật xem đáp án";
-                el.onclick = () => el.classList.remove('blur-md');
-            } else {
-                el.classList.remove('blur-md', 'cursor-pointer');
-                el.title = "";
-                el.onclick = null;
+    // ⚡ TỰ ĐỘNG CHE MỜ ĐÁP ÁN NẾU ĐANG Ở CHẾ ĐỘ ÔN TẬP
+    if (AppState.quizActive && data) {
+        if (hcEl) hcEl.className = "text-xl font-bold text-primary transition-all blur-sm select-none cursor-pointer";
+        if (pdtEl) pdtEl.className = "text-base font-semibold text-emerald-500 transition-all blur-sm select-none cursor-pointer";
+        if (btEl) btEl.className = "text-lg font-bold text-amber-500 transition-all blur-sm select-none cursor-pointer";
+        if (divBt) divBt.className = "flex flex-wrap gap-2 transition-all blur-sm select-none";
+
+        const revealAction = () => {
+            if (hcEl) hcEl.classList.remove('blur-sm', 'select-none');
+            if (pdtEl) pdtEl.classList.remove('blur-sm', 'select-none');
+            if (btEl) btEl.classList.remove('blur-sm', 'select-none');
+            if (divBt) divBt.classList.remove('blur-sm', 'select-none');
+        };
+        if (hcEl) hcEl.onclick = revealAction;
+        if (pdtEl) pdtEl.onclick = revealAction;
+        if (btEl) btEl.onclick = revealAction;
+    } else {
+        ['lt-card-hc', 'lt-card-pdt', 'lt-card-bt'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                if (AppState.isQuizLT) {
+                    el.classList.add('blur-md', 'transition-all', 'duration-300', 'cursor-pointer');
+                    el.title = "Bấm vào để lật xem đáp án";
+                    el.onclick = () => el.classList.remove('blur-md');
+                } else {
+                    el.classList.remove('blur-md', 'cursor-pointer');
+                    el.title = "";
+                    el.onclick = null;
+                }
             }
-        }
-    });
+        });
+    }
 }
+
 
 
 function setDropdownSpacer(show) {
@@ -667,13 +704,10 @@ function setDropdownSpacer(show) {
 }
 
 function searchLuanTri(isEnter = false) {
-    if (AppState.quizActive) stopQuizMode();
-
     const input = document.getElementById('search-input');
     const dropdown = document.getElementById('search-dropdown');
     const queryStr = (input ? input.value : '').toLowerCase().trim();
     
-    // Làm sạch dấu câu để tách mảng từ khóa chính xác (khắc phục lỗi dính dấu phẩy, chấm)
     const cleanQueryStr = queryStr.replace(/[,\.;:?!()\[\]{}]/g, ' ');
     const queryWords = cleanQueryStr ? cleanQueryStr.split(/\s+/).filter(Boolean) : [];
 
@@ -744,7 +778,7 @@ function searchLuanTri(isEnter = false) {
         setDropdownSpacer(false);
         selectSearchResult(topMatches[0].key, false);
     } else {
-        updateLuanTri(queryStr, isEnter); // 👈 Thêm isEnter vào đây
+        updateLuanTri(queryStr, isEnter);
     }
 }
 
@@ -847,7 +881,10 @@ function hienThongBaoGhiNhan(tabName, query) {
         toast.classList.add('-translate-y-2', 'opacity-0');
     }, 3500);
 }
+// 1. AI Phân tích sâu Hội chứng & Cổ phương
 async function fetchLuanTriAIBackup(hcName, btName, fetchHc = true, fetchBt = true) {
+    if (AppState.quizActive) return;
+
     const aiHcEl = document.getElementById('ai-hc-desc');
     const aiBtEl = document.getElementById('ai-bt-desc');
     
@@ -880,11 +917,12 @@ async function fetchLuanTriAIBackup(hcName, btName, fetchHc = true, fetchBt = tr
             prompt = `Trong Y học cổ truyền (YHCT), hãy phân tích ngắn gọn, chuẩn chuyên môn về nguồn gốc, xuất xứ và đặc điểm nổi bật của cổ phương/bài thuốc "${btName}".`;
         }
 
-        const res = await fetch('/.netlify/functions/chat', {
+        const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ prompt, source: 'backup' })
         });
+        
         const data = await res.json();
         if (res.ok && data.reply) {
             if (fetchHc && fetchBt) {
@@ -929,6 +967,7 @@ async function fetchLuanTriAIBackup(hcName, btName, fetchHc = true, fetchBt = tr
         if (fetchBt && aiBtEl) aiBtEl.innerHTML = `<span class="text-red-400">Lỗi kết nối AI khi lấy thông tin cổ phương.</span>`;
     }
 }
+
 
 function filterDuocLieu(isEnter = false) {
     const grid = document.getElementById('gridDuocLieu'); 
@@ -1559,6 +1598,7 @@ function taoCauHoiTamTuDuLieu(category) {
     return generated;
 }
 
+// 2. AI Soạn bộ câu hỏi trắc nghiệm
 async function fetchAIQuizQuestions(category, count) {
     try {
         const prompt = `Hãy soạn chính xác ${count} câu hỏi trắc nghiệm khách quan về chuyên đề ${category} trong Y học cổ truyền (YHCT). 
@@ -1569,7 +1609,7 @@ async function fetchAIQuizQuestions(category, count) {
         - "giai_thich": Giải thích chi tiết ngắn gọn vì sao đáp án đó chính xác.
         Chỉ trả về định dạng JSON thuần túy, không kèm theo chữ giải thích nào khác ngoài JSON.`;
 
-        const res = await fetch('/.netlify/functions/chat', {
+        const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ prompt, source: 'quiz' })
@@ -2160,6 +2200,7 @@ function formatAIMessage(text) {
     return formattedLines.join('');
 }
 
+// 3. Trợ lý AI nhắn tin trực tiếp
 async function sendAIWebMessage() {
     const inputEl = document.getElementById('ai-input');
     const chatBox = document.getElementById('ai-chat-box');
@@ -2193,7 +2234,7 @@ async function sendAIWebMessage() {
     }
 
     try {
-        const res = await fetch('/.netlify/functions/chat', {
+        const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ prompt: query, source: 'assistant' })
@@ -2238,6 +2279,7 @@ async function sendAIWebMessage() {
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 }
+
 
 let touchstartX = 0, touchstartY = 0, touchendX = 0, touchendY = 0;                               
 function handleSwipe(startX, startY, endX, endY) {
@@ -2295,7 +2337,7 @@ async function taiDuLieuOffline() {
     if (!xacNhan) return;
 
     try {
-        const cache = await caches.open('dailuantri-v1.4.0');
+        const cache = await caches.open('dailuantri-v1.4.2');
         await cache.addAll([
             './', './index.html', './style.css', './app.js',
             './luantridata.js', './duoclieudata.js', './huyetvidata.js',
@@ -2380,6 +2422,7 @@ function kiemTraTuongKy(danhSachViThuoc) {
     }
     return [...new Set(canhBao)];
 }
+// 4. AI Backup tra cứu dữ liệu thiếu
 async function fetchAIBackupResult(query, tabName, containerEl) {
     if (!containerEl) return;
     containerEl.innerHTML = `
@@ -2391,7 +2434,7 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
     `;
     try {
         const prompt = `Người dùng đang tra cứu về "${query}" trong danh mục ${tabName} của Y học cổ truyền (YHCT) nhưng không có sẵn trong cơ sở dữ liệu offline. Hãy cung cấp thông tin chi tiết, chuẩn xác, đầy đủ chuyên môn về từ khóa này bằng tiếng Việt, định dạng rõ ràng, ngắn gọn, súc tích.`;
-        const res = await fetch('/.netlify/functions/chat', {
+        const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ prompt, source: 'backup' })
@@ -2417,6 +2460,7 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
         containerEl.innerHTML = `<div class="col-span-full text-center py-8 text-xs text-red-400">Lỗi kết nối khi gọi AI Backup.</div>`;
     }
 }
+
 // Tự động ẩn bàn phím khi chạm/vuốt ra ngoài ô nhập liệu
 document.addEventListener('pointerdown', (e) => {
     if (!e.target.closest('input, textarea, select')) {
