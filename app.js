@@ -1405,10 +1405,11 @@ async function fetchAIQuizQuestions(category, count) {
         Chỉ trả về định dạng JSON thuần túy, không kèm theo chữ giải thích nào khác ngoài JSON.`;
 
         const res = await fetch('/.netlify/functions/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt })
-        });
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prompt, source: 'quiz' }) // Đánh dấu nguồn là quiz để dùng key backup
+});
+
         const data = await res.json();
         
         if (res.ok && data.reply) {
@@ -1972,10 +1973,10 @@ async function sendAIWebMessage() {
 
     try {
         const res = await fetch('/.netlify/functions/chat', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: query })
-        });
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prompt: query, source: 'assistant' }) // Đánh dấu nguồn là assistant để dùng key chính
+});
         const data = await res.json();
 
         const loadingEl = document.getElementById(loadingId);
