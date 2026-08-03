@@ -1394,32 +1394,87 @@ function taoCauHoiTamTuDuLieu(category) {
     return generated;
 }
 
-function batDauTracNghiem() {
+async function fetchAIQuizQuestions(category, count) {
+    try {
+        const prompt = `Hãy soạn ${count} câu hỏi trắc nghiệm khách quan về chuyên đề ${category} trong Y học cổ truyền (YHCT). 
+        Yêu cầu trả về đúng định dạng JSON chuẩn gồm một mảng các object với các trường:
+        - "cau_hoi": Nội dung câu hỏi lâm sàng hoặc lý luận.
+        - "lua_chon": Mảng gồm 4 đáp án (A, B, C, D).
+        - "dap_an": Chỉ số đáp án đúng (từ 0 đến 3 ứng với 4 lựa chọn).
+        - "giai_thich": Giải thích chi tiết ngắn gọn vì sao đáp án đó chính xác.
+        Chỉ trả về định dạng JSON thuần túy, không kèm theo chữ giải thích nào khác ngoài JSON.`;
+
+        const res = await fetch('/.netlify/functions/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt })
+        });
+        const data = await res.json();
+        
+        if (res.ok && data.reply) {
+            let jsonStr = data.reply.trim();
+            if (jsonStr.startsWith('```json')) {
+                jsonStr = jsonStr.replace(/^```json/, '').replace(/```$/, '').trim();
+            } else if (jsonStr.startsWith('```')) {
+                jsonStr = jsonStr.replace(/^```/, '').replace(/```$/, '').trim();
+            }
+            return JSON.parse(jsonStr);
+        }
+    } catch (err) {
+        console.error("Lỗi khi tạo câu hỏi bằng AI:", err);
+    }
+    return [];
+}
+
+async function batDauTracNghiem() {
     const categorySelect = document.getElementById('quiz-category');
     const countSelect = document.getElementById('quiz-count');
+    const useAICheckbox = document.getElementById('use-ai-quiz');
     
     const category = categorySelect ? categorySelect.value : 'all';
     const count = countSelect ? parseInt(countSelect.value) : 10;
+    const isUseAI = useAICheckbox ? useAICheckbox.checked : false;
 
-    let rawData = [];
-    if (typeof questionsData !== 'undefined' && Array.isArray(questionsData)) {
-        rawData = [...questionsData];
-    } else if (Array.isArray(window.questionsData)) {
-        rawData = [...window.questionsData];
+    if (isUseAI) {
+        const setupBox = document.getElementById('quiz-setup');
+        if (setupBox) {
+            setupBox.innerHTML = `
+                <div class="text-center py-10 space-y-3">
+                    <i class="fa-solid fa-brain text-4xl text-amber-500 animate-spin"></i>
+                    <p class="text-sm font-bold text-amber-400">Trợ lý AI đang biên soạn bộ câu hỏi lâm sàng mới...</p>
+                    <p class="text-xs text-stone-500">Vui lòng đợi trong giây lát</p>
+                </div>
+            `;
+        }
     }
 
-    rawData = rawData.concat(taoCauHoiTamTuDuLieu(category));
-
     let pool = [];
-    if (category === 'all') {
-        pool = rawData;
-    } else {
-        pool = rawData.filter(q => q && q.category === category);
+    if (isUseAI) {
+        pool = await fetchAIQuizQuestions(category, count);
+    }
+
+    if (!pool || pool.length === 0) {
+        if (isUseAI) {
+            alert('AI đang bận hoặc phản hồi chậm, hệ thống chuyển về kho câu hỏi chuẩn có sẵn.');
+            location.reload(); 
+            return;
+        }
+
+        let rawData = [];
+        if (typeof questionsData !== 'undefined' && Array.isArray(questionsData)) {
+            rawData = [...questionsData];
+        } else if (Array.isArray(window.questionsData)) {
+            rawData = [...window.questionsData];
+        }
+
+        rawData = rawData.concat(taoCauHoiTamTuDuLieu(category));
+        pool = category === 'all' ? rawData : rawData.filter(q => q && q.category === category);
     }
 
     if (pool.length === 0) {
-        alert('Không tìm thấy câu hỏi, hệ thống chuyển sang chế độ Tổng hợp tất cả.');
-        pool = rawData;
+        alert('Không tìm thấy câu hỏi phù hợp.');
+        location.reload();
+        return;
     }
 
     let selectedQuestions = [];
@@ -1458,6 +1513,13 @@ function batDauTracNghiem() {
     quizScore = 0;
     userAnswers = [];
 
+    // Khôi phục lại giao diện setup nếu reload từ AI
+    const setupBox = document.getElementById('quiz-setup');
+    if (setupBox && isUseAI) {
+        location.reload();
+        return;
+    }
+
     document.getElementById('quiz-setup').classList.add('hidden');
     document.getElementById('quiz-result').classList.add('hidden');
     document.getElementById('quiz-review').classList.add('hidden');
@@ -1465,6 +1527,7 @@ function batDauTracNghiem() {
 
     hienThiCauHoiTracNghiem();
 }
+
 
 function hienThiCauHoiTracNghiem() {
     if (currentQuizIndex >= currentQuizQuestions.length) {
@@ -1476,21 +1539,37 @@ function hienThiCauHoiTracNghiem() {
     if (oldFeedback) oldFeedback.remove();
 
     const q = currentQuizQuestions[currentQuizIndex];
-    document.getElementById('quiz-progress').innerText = `Câu ${currentQuizIndex + 1}/${currentQuizQuestions.length}`;
-    document.getElementById('quiz-score-live').innerText = `Điểm: ${quizScore}`;
+    const total = currentQuizQuestions.length;
+    
+    // Cập nhật thông tin số câu và điểm
+    document.getElementById('quiz-progress').innerHTML = `<i class="fa-solid fa-fire text-amber-500"></i> Câu ${currentQuizIndex + 1}/${total}`;
+    document.getElementById('quiz-score-live').innerHTML = `<i class="fa-solid fa-star text-amber-400 mr-1"></i> Điểm: ${quizScore}`;
     document.getElementById('quiz-question').innerText = q.cau_hoi;
+
+    // Cập nhật thanh tiến trình phần trăm
+    const progressBar = document.getElementById('quiz-progress-bar');
+    if (progressBar) {
+        const percent = ((currentQuizIndex) / total) * 100;
+        progressBar.style.width = `${percent}%`;
+    }
 
     const optionsContainer = document.getElementById('quiz-options');
     optionsContainer.innerHTML = "";
 
     q.lua_chon.forEach((opt, idx) => {
         const btn = document.createElement('button');
-        btn.className = "w-full p-3 text-left bg-stone-900 hover:bg-stone-800 border border-stone-800 rounded text-xs text-stone-200 transition-all flex items-center gap-2";
-        btn.innerHTML = `<span class="w-5 h-5 rounded-full bg-stone-800 flex items-center justify-center text-[10px] font-bold text-amber-500">${String.fromCharCode(65 + idx)}</span> <span>${escapeHTML(opt)}</span>`;
+        btn.className = "w-full p-3.5 text-left bg-stone-900/90 hover:bg-stone-800 border border-stone-800 hover:border-amber-500/50 rounded-xl text-xs text-stone-200 transition-all duration-200 flex items-center gap-3 shadow-sm cursor-pointer group";
+        btn.innerHTML = `
+            <span class="w-6 h-6 rounded-lg bg-stone-800 group-hover:bg-amber-600 group-hover:text-white flex items-center justify-center text-xs font-bold text-amber-400 transition-colors shadow-sm flex-shrink-0">
+                ${String.fromCharCode(65 + idx)}
+            </span> 
+            <span class="leading-relaxed font-medium">${escapeHTML(opt)}</span>
+        `;
         btn.onclick = () => chonDapAnTracNghiem(idx);
         optionsContainer.appendChild(btn);
     });
 }
+
 
 function chonDapAnTracNghiem(selectedIndex) {
     const q = currentQuizQuestions[currentQuizIndex];
@@ -1990,7 +2069,11 @@ document.addEventListener('keydown', function(e) {
 async function taiDuLieuOffline() {
     if (!('caches' in window)) return alert('Trình duyệt không hỗ trợ tính năng lưu offline.');
 
-    const xacNhan = confirm('Bạn có muốn tải toàn bộ dữ liệu ứng dụng về máy và kích hoạt chế độ offline không?');
+    const xacNhan = confirm(
+        '📥 KÍCH HOẠT CHẾ ĐỘ OFFLINE\n\n' +
+        'Bạn có muốn tải toàn bộ dữ liệu ứng dụng về máy không?\n\n' +
+        '💡 Lưu ý: Cần thực hiện thao tác tải lại này để cập nhật phiên bản mới nhất khi ứng dụng có thay đổi.'
+    );
     if (!xacNhan) return;
 
     try {

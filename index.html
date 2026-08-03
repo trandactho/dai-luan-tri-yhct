@@ -204,19 +204,42 @@
                         </select>
                     </div>
                 </div>
+                <div class="space-y-3 pt-2 mb-3 border-t border-stone-800">
+    <label class="flex items-center gap-2 cursor-pointer text-xs text-amber-400 font-semibold">
+        <input type="checkbox" id="use-ai-quiz" class="rounded bg-stone-900 border-stone-700 text-amber-600 focus:ring-0 w-4 h-4 cursor-pointer">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Sử dụng AI sinh câu hỏi lâm sàng thông minh
+    </label>
+</div>
+
+
+
                 <div id="quiz-last-score" class="text-xs text-amber-500 font-medium pt-1"></div>
                 <button onclick="batDauTracNghiem()" class="w-full py-3 bg-primary hover:bg-orange-700 text-white font-bold rounded flex items-center justify-center gap-2 transition-colors">
                     <i class="fa-solid fa-play"></i> Bắt Đầu Kiểm Tra
                 </button>
             </div>
-            <div id="quiz-play" class="hidden bg-dark-box p-5 rounded-lg space-y-4 border border-stone-800">
-                <div class="flex justify-between items-center border-b border-stone-800 pb-2">
-                    <span id="quiz-progress" class="text-xs font-bold text-amber-500">Câu 1/10</span>
-                    <span id="quiz-score-live" class="text-xs text-stone-400">Điểm: 0</span>
-                </div>
-                <div id="quiz-question" class="text-sm font-semibold text-stone-200 min-h-[50px]"></div>
-                <div id="quiz-options" class="space-y-2"></div>
-            </div>
+            <div id="quiz-play" class="hidden bg-dark-box p-5 rounded-xl space-y-4 border border-stone-800 shadow-2xl relative overflow-hidden">
+    <!-- Thanh tiến trình màu sắc chạy mượt mà -->
+    <div class="absolute top-0 left-0 right-0 h-1 bg-stone-900">
+        <div id="quiz-progress-bar" class="bg-gradient-to-r from-amber-600 to-amber-400 h-full transition-all duration-300" style="width: 0%"></div>
+    </div>
+    
+    <div class="flex justify-between items-center border-b border-stone-800/80 pb-2.5 pt-1">
+        <span id="quiz-progress" class="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+            <i class="fa-solid fa-fire text-amber-500"></i> Câu 1/10
+        </span>
+        <span id="quiz-score-live" class="text-xs text-emerald-400 font-bold bg-emerald-950/40 px-2.5 py-1 rounded-full border border-emerald-900/50 shadow-inner">
+            <i class="fa-solid fa-star text-amber-400 mr-1"></i> Điểm: 0
+        </span>
+    </div>
+    
+    <!-- Khung chứa câu hỏi nổi bật -->
+    <div id="quiz-question" class="text-sm font-semibold text-stone-100 min-h-[50px] leading-relaxed bg-stone-900/70 p-4 rounded-xl border border-stone-800 shadow-inner flex items-center"></div>
+    
+    <!-- Các lựa chọn đáp án -->
+    <div id="quiz-options" class="space-y-2.5"></div>
+</div>
+
             <div id="quiz-result" class="hidden bg-dark-box p-6 rounded-lg text-center space-y-4 border border-stone-800">
                 <div class="text-stone-400 text-xs uppercase font-bold tracking-wider">KẾT QUẢ TRẮC NGHIỆM</div>
                 <div id="quiz-score-final" class="text-4xl font-black text-amber-500">0/10</div>
