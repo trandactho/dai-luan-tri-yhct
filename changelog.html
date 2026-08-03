@@ -1,9 +1,9 @@
-html_content = """<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhật Ký Cập Nhật - Đại Luận Trị & Tra Cứu YHCT v1.3.1 Premium</title>
+    <title>Nhật Ký Cập Nhật - Đại Luận Trị & Tra Cứu YHCT v1.3.4 Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -24,7 +24,7 @@ html_content = """<!DOCTYPE html>
     <main class="flex-grow space-y-6">
         <div class="bg-dark-box p-6 rounded-xl text-center space-y-3 shadow-lg">
             <div class="inline-flex items-center gap-1.5 bg-amber-950/60 border border-amber-800/80 px-3 py-1 rounded-full text-xs font-bold text-amber-400">
-                <i class="fa-solid fa-code-branch"></i> Phiên bản hiện tại: v1.3.1 Premium
+                <i class="fa-solid fa-code-branch"></i> Phiên bản hiện tại: v1.3.4 Premium
             </div>
             <h2 class="text-xl sm:text-2xl font-bold text-amber-400">Lịch Sử Thay Đổi & Nâng Cấp</h2>
             <p class="text-xs text-stone-400 leading-relaxed">
@@ -33,13 +33,28 @@ html_content = """<!DOCTYPE html>
         </div>
 
         <div class="space-y-6 relative border-l-2 border-stone-800 ml-3 sm:ml-6 pl-6">
-            <!-- v1.3.1 -->
+            <!-- v1.3.4 -->
             <div class="relative group space-y-3">
                 <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-amber-500 border-4 border-[#0a0908] ring-2 ring-amber-500/40"></span>
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <h3 class="text-sm font-bold text-amber-400 flex items-center gap-2">
-                        Phiên bản v1.3.1 <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800 font-bold uppercase">Mới nhất</span>
+                        Phiên bản v1.3.4 <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800 font-bold uppercase">Mới nhất</span>
                     </h3>
+                    <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 8, 2026</span>
+                </div>
+                <div class="bg-dark-box p-4 rounded-xl space-y-2 text-xs text-stone-300">
+                    <p>• <strong>Nâng cấp hệ thống & Tối ưu SEO:</strong> Tích hợp Google AdSense, hoàn thiện thẻ Meta tags chuẩn SEO và tối ưu hóa tốc độ tải trang toàn diện.</p>
+                    <p>• <strong>Cải tiến thuật toán tìm kiếm thông minh:</strong> Nâng cấp cơ chế lọc và sắp xếp kết quả tra cứu theo độ khớp nhiều từ giảm dần cho cả Luận Trị, Dược Liệu, Huyệt Vị và Trà Dược.</p>
+                    <p>• <strong>Mở rộng chuyên mục trắc nghiệm & ôn tập:</strong> Bổ sung đầy đủ các danh mục ôn tập chuyên sâu gồm Lý luận cơ bản, Phương tễ học, Chẩn đoán, Châm cứu - Xoa bóp, Dưỡng sinh Khí công và Dược học YHCT.</p>
+                    <p>• <strong>Hoàn thiện cơ chế Offline & PWA:</strong> Cập nhật Service Worker và bộ nhớ đệm phiên bản v1.3.4 giúp lưu trữ và chạy ứng dụng ngoại tuyến mượt mà.</p>
+                </div>
+            </div>
+
+            <!-- v1.3.1 -->
+            <div class="relative group space-y-3">
+                <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-stone-700 border-4 border-[#0a0908]"></span>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h3 class="text-sm font-bold text-stone-200">Phiên bản v1.3.1</h3>
                     <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 8, 2026</span>
                 </div>
                 <div class="bg-dark-box p-4 rounded-xl space-y-2 text-xs text-stone-300">
@@ -128,8 +143,3 @@ html_content = """<!DOCTYPE html>
     </footer>
 </body>
 </html>
-"""
-
-with open("changelog.html", "w", encoding="utf-8") as f:
-    f.write(html_content)
-print("Đã làm sạch và cập nhật changelog.html thành công!")

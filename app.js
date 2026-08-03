@@ -269,8 +269,11 @@ function capNhatTongSoTrieuChung() {
 function highlightText(text, query) {
     if (!query || !text) return escapeHTML(text);
     const safeText = String(text);
-    const safeQuery = query.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    const regex = new RegExp(`(${safeQuery})`, 'gi');
+    const words = query.trim().split(/\s+/).filter(Boolean);
+    if (words.length === 0) return escapeHTML(safeText);
+
+    const escapedWords = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    const regex = new RegExp(`(${escapedWords.join('|')})`, 'gi');
     
     const parts = safeText.split(regex);
     return parts.map((part, i) => {
@@ -280,6 +283,7 @@ function highlightText(text, query) {
         return escapeHTML(part);
     }).join('');
 }
+
 
 function removeAccents(str) {
     return (str || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -446,6 +450,7 @@ function checkMatchFilter(item, tp, hn, ht, bc) {
     return matchTP && matchHN && matchHT && matchBC;
 }
 
+// Cập nhật hàm updateLuanTri để tìm kết quả khớp nhiều từ nhất
 function updateLuanTri(query = "") {
     if (AppState.quizActive || typeof database === 'undefined' || !database) return;
 
@@ -455,8 +460,10 @@ function updateLuanTri(query = "") {
     const bc = getFilterVal('benh-co');
     const searchInput = getVal('search-input').toLowerCase().trim();
     const activeQuery = query || searchInput;
+    const queryWords = activeQuery ? activeQuery.split(/\s+/).filter(Boolean) : [];
 
     let bestMatchData = null;
+    let maxScore = -1;
 
     for (let key in database) {
         const item = database[key];
@@ -464,18 +471,29 @@ function updateLuanTri(query = "") {
 
         if (!checkMatchFilter(item, tp, hn, ht, bc)) continue;
 
-        let matchSearch = true;
-        if (activeQuery) {
-            const matchHC = (item.hc || '').toLowerCase().includes(activeQuery);
-            const matchTC = (item.tc || []).some(t => (t || '').toLowerCase().includes(activeQuery));
-            const matchBT = (item.bt || '').toLowerCase().includes(activeQuery);
-            const matchTPBT = (item.tpbt || []).some(v => (v || '').toLowerCase().includes(activeQuery));
-            matchSearch = matchHC || matchTC || matchBT || matchTPBT;
+        let matchCount = 0;
+        if (queryWords.length > 0) {
+            const hc = (item.hc || '').toLowerCase();
+            const tc = (item.tc || []).join(' ').toLowerCase();
+            const bt = (item.bt || '').toLowerCase();
+            const tpbt = (item.tpbt || []).join(' ').toLowerCase();
+            const fullText = `${hc} ${tc} ${bt} ${tpbt}`;
+
+            queryWords.forEach(word => {
+                if (fullText.includes(word)) {
+                    matchCount++;
+                    if (hc.includes(word)) matchCount += 0.5; // Ưu tiên nếu khớp trực tiếp tên hội chứng
+                }
+            });
+
+            if (matchCount === 0) continue;
+        } else {
+            matchCount = 1;
         }
 
-        if (matchSearch) {
+        if (matchCount > maxScore) {
+            maxScore = matchCount;
             bestMatchData = item;
-            break;
         }
     }
 
@@ -488,6 +506,13 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
     const btEl = document.getElementById('bai-thuoc');
     const ul = document.getElementById('trieu-chung');
     const divBt = document.getElementById('chi-tiet-bai-thuoc');
+
+    let warningContainer = document.getElementById('tuong-ky-warning');
+    if (!warningContainer && divBt && divBt.parentNode) {
+        warningContainer = document.createElement('div');
+        warningContainer.id = 'tuong-ky-warning';
+        divBt.parentNode.appendChild(warningContainer);
+    }
 
     if (data) {
         if (hcEl) hcEl.innerHTML = highlightText(data.hc || "Chưa rõ hội chứng", query);
@@ -521,6 +546,28 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
                 divBt.appendChild(frag);
             }
         }
+
+        if (warningContainer) {
+            if (data.tpbt && Array.isArray(data.tpbt)) {
+                const listCanhBao = kiemTraTuongKy(data.tpbt);
+                if (listCanhBao.length > 0) {
+                    warningContainer.innerHTML = `
+                        <div class="mt-3 p-3 bg-red-950/40 border border-red-800 rounded-lg text-xs space-y-1">
+                            <div class="text-red-400 font-bold flex items-center gap-1.5 uppercase">
+                                <i class="fa-solid fa-triangle-exclamation"></i> Cảnh báo tương kỵ lâm sàng:
+                            </div>
+                            <ul class="list-disc pl-5 text-red-300 font-medium">
+                                ${listCanhBao.map(cb => `<li>Phát hiện cặp vị thuốc xung khắc: <strong>${escapeHTML(cb)}</strong></li>`).join('')}
+                            </ul>
+                        </div>
+                    `;
+                } else {
+                    warningContainer.innerHTML = "";
+                }
+            } else {
+                warningContainer.innerHTML = "";
+            }
+        }
     } else {
         if (query && isEnter) xuLyKhongTimThay('Luận Trị', query);
 
@@ -533,6 +580,7 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
         if (btEl) btEl.innerText = "---";
         if (ul) ul.innerHTML = `<li class='text-amber-500/80 italic text-xs col-span-full flex items-center gap-1.5'>${msg}</li>`;
         if (divBt) divBt.innerHTML = "";
+        if (warningContainer) warningContainer.innerHTML = "";
     }
 
     ['lt-card-hc', 'lt-card-pdt', 'lt-card-bt'].forEach(id => {
@@ -550,6 +598,7 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
         }
     });
 }
+
 
 function setDropdownSpacer(show) {
     let spacer = document.getElementById('dropdown-spacer');
@@ -575,12 +624,14 @@ function setDropdownSpacer(show) {
     }
 }
 
+// Cập nhật hàm searchLuanTri để lọc và sắp xếp danh sách thả xuống theo số từ khớp giảm dần
 function searchLuanTri(isEnter = false) {
     if (AppState.quizActive) stopQuizMode();
 
     const input = document.getElementById('search-input');
     const dropdown = document.getElementById('search-dropdown');
-    const query = (input ? input.value : '').toLowerCase().trim();
+    const queryStr = (input ? input.value : '').toLowerCase().trim();
+    const queryWords = queryStr ? queryStr.split(/\s+/).filter(Boolean) : [];
 
     const tp = getFilterVal('tang-phu');
     const hn = getFilterVal('han-nhiet');
@@ -589,7 +640,7 @@ function searchLuanTri(isEnter = false) {
 
     const hasTamTrucFilter = (tp !== "") || (hn !== "") || (ht !== "") || (bc !== "");
 
-    if (!query && !hasTamTrucFilter) {
+    if (queryWords.length === 0 && !hasTamTrucFilter) {
         if (dropdown) dropdown.classList.add('hidden');
         setDropdownSpacer(false);
         updateLuanTri();
@@ -603,27 +654,38 @@ function searchLuanTri(isEnter = false) {
 
         if (!checkMatchFilter(item, tp, hn, ht, bc)) continue;
 
-        let matchSearch = true;
-        if (query) {
-            const matchHoiChung = (item.hc || '').toLowerCase().includes(query);
-            const matchTrieuChung = (item.tc || []).some(t => (t || '').toLowerCase().includes(query));
-            const matchBaiThuoc = (item.bt || '').toLowerCase().includes(query);
-            const matchViThuoc = (item.tpbt || []).some(v => (v || '').toLowerCase().includes(query));
-            matchSearch = matchHoiChung || matchTrieuChung || matchBaiThuoc || matchViThuoc;
-        }
+        let matchCount = 0;
+        if (queryWords.length > 0) {
+            const hc = (item.hc || '').toLowerCase();
+            const tc = (item.tc || []).join(' ').toLowerCase();
+            const bt = (item.bt || '').toLowerCase();
+            const tpbt = (item.tpbt || []).join(' ').toLowerCase();
+            const fullText = `${hc} ${tc} ${bt} ${tpbt}`;
 
-        if (matchSearch) {
-            matches.push({ key, ...item });
-            if (matches.length >= 30) break;
+            queryWords.forEach(word => {
+                if (fullText.includes(word)) {
+                    matchCount++;
+                    if (hc.includes(word)) matchCount += 0.5;
+                }
+            });
+
+            if (matchCount === 0) continue;
+            matches.push({ key, ...item, score: matchCount });
+        } else {
+            matches.push({ key, ...item, score: 1 });
         }
     }
 
-    if (dropdown) {
-        if (matches.length > 0) {
-            dropdown.innerHTML = matches.map(m => `
+    // Sắp xếp kết quả theo số lượng từ khớp nhiều nhất lên đầu
+    matches.sort((a, b) => b.score - a.score);
+    const topMatches = matches.slice(0, 30);
+
+        if (dropdown) {
+        if (topMatches.length > 0) {
+            dropdown.innerHTML = topMatches.map(m => `
                 <div onclick="selectSearchResult('${m.key}')" class="p-2.5 hover:bg-stone-800 border-b border-stone-800/80 cursor-pointer transition-colors text-xs text-left">
-                    <div class="font-bold text-amber-400">${highlightText(m.hc, query)}</div>
-                    <div class="text-stone-400 text-[11px] truncate mt-0.5">${escapeHTML(m.tc ? m.tc.join(', ') : '')}</div>
+                    <div class="font-bold text-amber-400">${highlightText(m.hc, queryStr)}</div>
+                    <div class="text-stone-400 text-[11px] truncate mt-0.5">${highlightText(m.tc ? m.tc.join(', ') : '', queryStr)}</div>
                 </div>
             `).join('');
             dropdown.classList.remove('hidden');
@@ -635,14 +697,15 @@ function searchLuanTri(isEnter = false) {
         }
     }
 
-    if (isEnter && matches.length > 0) {
+    if (isEnter && topMatches.length > 0) {
         if (dropdown) dropdown.classList.add('hidden');
         setDropdownSpacer(false);
-        selectSearchResult(matches[0].key, false);
+        selectSearchResult(topMatches[0].key, false);
     } else {
-        updateLuanTri(query);
+        updateLuanTri(queryStr);
     }
 }
+
 
 function selectSearchResult(key, hideDropdown = true) {
     const query = getVal('search-input').trim();
@@ -752,23 +815,46 @@ function filterDuocLieu(isEnter = false) {
     if (typeof duocLieuData === 'undefined' || !duocLieuData) return;
     const txtRaw = getVal('searchDuocLieu').trim().normalize('NFC');
     const txt = txtRaw.toLowerCase();
+    const queryWords = txt ? txt.split(/\s+/).filter(Boolean) : [];
     const group = getVal('filterNhomDuocLieu');
     const grid = document.getElementById('gridDuocLieu'); 
     if (!grid) return; 
     grid.innerHTML = "";
     
-    const filteredData = duocLieuData.filter(d => {
-        if (!d) return false;
+    const scoredData = [];
+
+    duocLieuData.forEach(d => {
+        if (!d) return;
         const nhom = d.nhom || '';
-        if (group !== "" && nhom !== group) return false;
-        if (!txt) return true;
+        if (group !== "" && nhom !== group) return;
+
+        if (queryWords.length === 0) {
+            scoredData.push({ item: d, score: 1 });
+            return;
+        }
 
         const ten = (d.ten || '').toLowerCase().normalize('NFC');
         const tenKhac = (d.ten_khac || '').toLowerCase().normalize('NFC');
         const congDung = (d.cong_dung || '').toLowerCase().normalize('NFC');
+        const kiengKy = (d.kieng_ky || d.dac_tinh || d.chong_chi_dinh || d.luu_y || '').toLowerCase().normalize('NFC');
+        const fullText = `${ten} ${tenKhac} ${congDung} ${kiengKy}`;
 
-        return ten.includes(txt) || tenKhac.includes(txt) || congDung.includes(txt);
+        let matchCount = 0;
+        queryWords.forEach(word => {
+            if (fullText.includes(word)) {
+                matchCount++;
+                if (ten.includes(word)) matchCount += 0.5; // Ưu tiên cao nếu khớp trực tiếp tên dược liệu
+            }
+        });
+
+        if (matchCount > 0) {
+            scoredData.push({ item: d, score: matchCount });
+        }
     });
+
+    // Sắp xếp kết quả theo số lượng từ khớp nhiều nhất giảm dần
+    scoredData.sort((a, b) => b.score - a.score);
+    const filteredData = scoredData.map(s => s.item);
 
     if (filteredData.length === 0) {
         if (txtRaw && isEnter) xuLyKhongTimThay('Dược Liệu', txtRaw);
@@ -849,9 +935,12 @@ function filterDuocLieu(isEnter = false) {
     grid.appendChild(frag);
 }
 
+
 function filterHuyetVi(isEnter = false) {
     if (typeof huyetViData === 'undefined' || !huyetViData) return;
-    const txt = getVal('searchHuyetVi').toLowerCase().trim();
+    const txtRaw = getVal('searchHuyetVi').trim();
+    const txt = txtRaw.toLowerCase();
+    const queryWords = txt ? txt.split(/\s+/).filter(Boolean) : [];
     const kinh = getVal('filterKinhLac');
     const grid = document.getElementById('gridHuyetVi'); 
     if (!grid) return; 
@@ -867,22 +956,47 @@ function filterHuyetVi(isEnter = false) {
         return { border: 'border-l-4 border-teal-500', bgBox: 'bg-teal-950/40 border-teal-900/60', text: 'text-teal-400', textLight: 'text-teal-200/90', tag: 'bg-teal-950 text-teal-400' };
     };
 
-    const filteredData = huyetViData.filter(h => {
-        if (!h) return false;
-        const matchTxt = (h.ten || '').toLowerCase().includes(txt) || 
-                         (h.chu_tri || '').toLowerCase().includes(txt) || 
-                         (h.vi_tri || '').toLowerCase().includes(txt) || 
-                         (h.dinh_vi || '').toLowerCase().includes(txt);
+    const scoredData = [];
+    huyetViData.forEach(h => {
+        if (!h) return;
         const matchKinh = (kinh === "" || h.kinh === kinh);
-        return matchTxt && matchKinh;
+        if (!matchKinh) return;
+
+        if (queryWords.length === 0) {
+            scoredData.push({ item: h, score: 1 });
+            return;
+        }
+
+        const ten = (h.ten || '').toLowerCase();
+        const chuTri = (h.chu_tri || '').toLowerCase();
+        const viTri = (h.vi_tri || '').toLowerCase();
+        const dinhVi = (h.dinh_vi || '').toLowerCase();
+        const kinhName = (h.kinh || '').toLowerCase();
+        const fullText = `${ten} ${chuTri} ${viTri} ${dinhVi} ${kinhName}`;
+
+        let matchCount = 0;
+        queryWords.forEach(word => {
+            if (fullText.includes(word)) {
+                matchCount++;
+                if (ten.includes(word)) matchCount += 0.5; // Ưu tiên cao nếu khớp tên huyệt
+            }
+        });
+
+        if (matchCount > 0) {
+            scoredData.push({ item: h, score: matchCount });
+        }
     });
 
-    if (filteredData.length === 0) {
-        if (txt && isEnter) xuLyKhongTimThay('Huyệt Vị', txt);
+    // Sắp xếp kết quả theo độ khớp nhiều từ nhất giảm dần
+    scoredData.sort((a, b) => b.score - a.score);
+    const filteredData = scoredData.map(s => s.item);
 
-        const feedbackMsg = (txt && isEnter) 
-            ? `<p class="text-xs text-amber-500/90 font-medium"><i class="fa-solid fa-paper-plane mr-1"></i>Đã tự động gửi phản hồi từ khóa "${escapeHTML(txt)}" về hệ thống.</p>`
-            : (txt ? `<p class="text-xs text-stone-500 font-medium"><i class="fa-solid fa-keyboard mr-1"></i>Nhấn <kbd class="px-1 py-0.5 bg-stone-800 border border-stone-700 rounded text-amber-400 font-mono">Enter</kbd> để gửi từ khóa "${escapeHTML(txt)}" về hệ thống.</p>` : '');
+    if (filteredData.length === 0) {
+        if (txtRaw && isEnter) xuLyKhongTimThay('Huyệt Vị', txtRaw);
+
+        const feedbackMsg = (txtRaw && isEnter) 
+            ? `<p class="text-xs text-amber-500/90 font-medium"><i class="fa-solid fa-paper-plane mr-1"></i>Đã tự động gửi phản hồi từ khóa "${escapeHTML(txtRaw)}" về hệ thống.</p>`
+            : (txtRaw ? `<p class="text-xs text-stone-500 font-medium"><i class="fa-solid fa-keyboard mr-1"></i>Nhấn <kbd class="px-1 py-0.5 bg-stone-800 border border-stone-700 rounded text-amber-400 font-mono">Enter</kbd> để gửi từ khóa "${escapeHTML(txtRaw)}" về hệ thống.</p>` : '');
 
         grid.innerHTML = `
             <div class="col-span-full text-center py-14 space-y-2 text-stone-500">
@@ -906,19 +1020,19 @@ function filterHuyetVi(isEnter = false) {
             <div class="absolute top-0 right-0 ${theme.tag} font-bold px-2 py-0.5 text-[9px] uppercase rounded-bl border-b border-l border-stone-800/60">${escapeHTML(h.kinh || '')}</div>
             <div class="mb-2">
                 <span class="font-bold ${theme.text} text-base inline-flex items-center gap-1.5 cursor-pointer hover:underline card-title-el">
-                    <i class="fa-solid fa-circle-dot text-xs"></i> Huyệt ${highlightText(h.ten || '', txt)}
+                    <i class="fa-solid fa-circle-dot text-xs"></i> Huyệt ${highlightText(h.ten || '', txtRaw)}
                 </span>
             </div>
             <div class="blur-target ${blurHV} transition-all duration-300">
                 <div>
                     <div class="text-stone-500 text-[10px] font-bold tracking-wider uppercase">ĐỊNH VỊ GIẢI PHẪU:</div>
-                    <p class="text-xs text-stone-400 mt-0.5 leading-relaxed">${highlightText(h.vi_tri || h.dinh_vi || 'Đang cập nhật', txt)}</p>
+                    <p class="text-xs text-stone-400 mt-0.5 leading-relaxed">${highlightText(h.vi_tri || h.dinh_vi || 'Đang cập nhật', txtRaw)}</p>
                 </div>
                 <div class="${theme.bgBox} border p-2.5 rounded-md mt-1.5">
                     <div class="${theme.text} text-[10px] font-bold tracking-wider uppercase flex items-center gap-1">
                         <i class="fa-solid fa-kit-medical text-[9px]"></i> CHỦ TRỊ ĐẶC HIỆU:
                     </div>
-                    <p class="text-sm ${theme.textLight} font-medium mt-0.5 leading-relaxed">${highlightText(h.chu_tri || '', txt)}</p>
+                    <p class="text-sm ${theme.textLight} font-medium mt-0.5 leading-relaxed">${highlightText(h.chu_tri || '', txtRaw)}</p>
                 </div>
             </div>
         `;
@@ -945,36 +1059,64 @@ function filterHuyetVi(isEnter = false) {
 
 function filterTra(isEnter = false) {
     if (typeof traData === 'undefined' || !traData) return;
-    let txt = getVal('searchTra').toLowerCase().trim();
+    const txtRaw = getVal('searchTra').trim();
+    const txt = txtRaw.toLowerCase();
+    const queryWords = txt ? txt.split(/\s+/).filter(Boolean) : [];
+    
+    // Mở rộng từ khóa với cặp từ đồng nghĩa đặc biệt (nếu có)
+    let expandedWords = [...queryWords];
+    if (txt.includes('dành dành') && !expandedWords.includes('chi tử')) {
+        expandedWords.push('chi tử');
+    } else if (txt.includes('chi tử') && !expandedWords.includes('dành dành')) {
+        expandedWords.push('dành dành');
+    }
+
     const nhom = getVal('filterNhomTra');
     const grid = document.getElementById('gridTra'); 
     if (!grid) return; 
     grid.innerHTML = "";
 
-    let altTxt = txt;
-    if (txt.includes('dành dành')) altTxt = 'chi tử';
-    else if (txt.includes('chi tử')) altTxt = 'dành dành';
+    const scoredData = [];
 
-    const filteredData = traData.filter(t => {
-        if (!t) return false;
-        const matchTxt = (t.ten || '').toLowerCase().includes(txt) || 
-                         (t.ten || '').toLowerCase().includes(altTxt) ||
-                         (t.cong_dung || '').toLowerCase().includes(txt) ||
-                         (t.cong_dung || '').toLowerCase().includes(altTxt) ||
-                         (t.thanh_phan || []).some(tp => {
-                             const tpLow = (tp || '').toLowerCase();
-                             return tpLow.includes(txt) || tpLow.includes(altTxt);
-                         });
-        const matchNhom = (nhom === "" || t.nhom === nhom);
-        return matchTxt && matchNhom;
+    traData.forEach(t => {
+        if (!t) return;
+        const nhomItem = t.nhom || '';
+        if (nhom !== "" && nhomItem !== nhom) return;
+
+        if (expandedWords.length === 0) {
+            scoredData.push({ item: t, score: 1 });
+            return;
+        }
+
+        const ten = (t.ten || '').toLowerCase();
+        const congDung = (t.cong_dung || '').toLowerCase();
+        const cachDung = (t.cach_dung || '').toLowerCase();
+        const thanhPhan = (t.thanh_phan || []).join(' ').toLowerCase();
+        const fullText = `${ten} ${congDung} ${cachDung} ${thanhPhan}`;
+
+        let matchCount = 0;
+        expandedWords.forEach(word => {
+            if (fullText.includes(word)) {
+                matchCount++;
+                if (ten.includes(word)) matchCount += 0.5; // Ưu tiên cao nếu khớp tên bài trà
+            }
+        });
+
+        if (matchCount > 0) {
+            scoredData.push({ item: t, score: matchCount });
+        }
     });
 
-    if (filteredData.length === 0) {
-        if (txt && isEnter) xuLyKhongTimThay('Trà Dược', txt);
+    // Sắp xếp kết quả theo độ khớp nhiều từ nhất giảm dần
+    scoredData.sort((a, b) => b.score - a.score);
+    const filteredData = scoredData.map(s => s.item);
 
-        const feedbackMsg = (txt && isEnter) 
-            ? `<p class="text-xs text-amber-500/90 font-medium"><i class="fa-solid fa-paper-plane mr-1"></i>Đã tự động gửi phản hồi từ khóa "${escapeHTML(txt)}" về hệ thống.</p>`
-            : (txt ? `<p class="text-xs text-stone-500 font-medium"><i class="fa-solid fa-keyboard mr-1"></i>Nhấn <kbd class="px-1 py-0.5 bg-stone-800 border border-stone-700 rounded text-amber-400 font-mono">Enter</kbd> để gửi từ khóa "${escapeHTML(txt)}" về hệ thống.</p>` : '');
+    if (filteredData.length === 0) {
+        if (txtRaw && isEnter) xuLyKhongTimThay('Trà Dược', txtRaw);
+
+        const feedbackMsg = (txtRaw && isEnter) 
+            ? `<p class="text-xs text-amber-500/90 font-medium"><i class="fa-solid fa-paper-plane mr-1"></i>Đã tự động gửi phản hồi từ khóa "${escapeHTML(txtRaw)}" về hệ thống.</p>`
+            : (txtRaw ? `<p class="text-xs text-stone-500 font-medium"><i class="fa-solid fa-keyboard mr-1"></i>Nhấn <kbd class="px-1 py-0.5 bg-stone-800 border border-stone-700 rounded text-amber-400 font-mono">Enter</kbd> để gửi từ khóa "${escapeHTML(txtRaw)}" về hệ thống.</p>` : '');
 
         grid.innerHTML = `
             <div class="col-span-full text-center py-14 space-y-2 text-stone-500">
@@ -993,22 +1135,22 @@ function filterTra(isEnter = false) {
         
         const tagsHtml = (t.thanh_phan || []).map(tp => 
             `<button onclick="xemDuocLieu('${escapeHTML(tp)}')" class="bg-stone-800 text-amber-400/90 font-semibold text-xs px-2.5 py-1 rounded border border-stone-700/60 flex items-center gap-1 shadow-sm shadow-black/20 hover:border-amber-500 active:scale-95 transition-all">
-                <i class="fa-solid fa-leaf text-[10px] text-emerald-500"></i> ${highlightText(tp, txt)}
+                <i class="fa-solid fa-leaf text-[10px] text-emerald-500"></i> ${highlightText(tp, txtRaw)}
             </button>`
         ).join(' ');
 
         card.innerHTML = `
             <div class="absolute top-0 right-0 bg-amber-950 text-amber-500 text-[10px] font-bold px-2 py-0.5 rounded-bl uppercase tracking-wider">${escapeHTML(t.nhom || '')}</div>
-            <h3 class="font-bold text-amber-500 text-base">☕ ${highlightText(t.ten || '', txt)}</h3>
+            <h3 class="font-bold text-amber-500 text-base">☕ ${highlightText(t.ten || '', txtRaw)}</h3>
             <div>
                 <div class="text-stone-500 text-[10px] font-bold tracking-wider uppercase">CÔNG DỤNG CHÍNH:</div>
-                <p class="text-sm text-stone-300 leading-relaxed mt-0.5">${highlightText(t.cong_dung || '', txt)}</p>
+                <p class="text-sm text-stone-300 leading-relaxed mt-0.5">${highlightText(t.cong_dung || '', txtRaw)}</p>
             </div>
             <div class="bg-amber-950/30 border border-amber-900/50 p-2.5 rounded-md text-xs leading-relaxed">
                 <div class="text-amber-500 text-[10px] font-bold tracking-wider uppercase flex items-center gap-1 mb-0.5">
                     <i class="fa-solid fa-lightbulb text-[9px]"></i> CÁCH PHA & DÙNG:
                 </div>
-                <p class="font-medium text-amber-200/90">${highlightText(t.cach_dung || '', txt)}</p>
+                <p class="font-medium text-amber-200/90">${highlightText(t.cach_dung || '', txtRaw)}</p>
             </div>
             <div class="space-y-1.5 pt-0.5">
                 <div class="text-stone-500 text-[10px] font-bold tracking-wider uppercase flex items-center gap-1">
@@ -1632,21 +1774,43 @@ function loadScript(src) {
 }
 
 async function exportPDF() {
-    await loadScript('html2pdf.bundle.min.js');
-    
-    const element = document.getElementById('pdf-area');
+    const btn = document.querySelector('button[onclick="exportPDF()"]');
+    const oldHtml = btn ? btn.innerHTML : '';
+
+    // Chỉ tải tệp thư viện từ thư mục cùng cấp khi chưa có sẵn trên trình duyệt
     if (typeof html2pdf === 'undefined') {
-        alert('Đang tải bộ công cụ xuất PDF, vui lòng thử lại sau vài giây.');
+        if (btn) {
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang tải thư viện PDF...';
+            btn.classList.add('opacity-75', 'pointer-events-none');
+        }
+        try {
+            await loadScript('html2pdf.bundle.min.js');
+        } catch (err) {
+            console.error("Lỗi tải thư viện html2pdf:", err);
+            alert('Không thể tải thư viện xuất PDF từ thư mục.');
+            if (btn) {
+                btn.innerHTML = oldHtml;
+                btn.classList.remove('opacity-75', 'pointer-events-none');
+            }
+            return;
+        }
+    }
+
+    if (typeof html2pdf === 'undefined') {
+        alert('Đang khởi tạo, vui lòng bấm lại nút xuất PDF sau 1 giây.');
+        if (btn) {
+            btn.innerHTML = oldHtml;
+            btn.classList.remove('opacity-75', 'pointer-events-none');
+        }
         return;
     }
 
-    const btn = document.querySelector('button[onclick="exportPDF()"]');
-    const oldHtml = btn.innerHTML;
-    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang xuất PDF...';
-    btn.classList.add('opacity-75', 'pointer-events-none');
+    if (btn) {
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang xuất PDF...';
+        btn.classList.add('opacity-75', 'pointer-events-none');
+    }
 
-    await new Promise(resolve => setTimeout(resolve, 600));
-
+    const element = document.getElementById('pdf-area');
     const opt = {
         margin:       [10, 10, 10, 10],
         filename:     'Phac-Do-YHCT.pdf',
@@ -1662,14 +1826,19 @@ async function exportPDF() {
     };
 
     html2pdf().set(opt).from(element).save().then(() => {
-        btn.innerHTML = oldHtml;
-        btn.classList.remove('opacity-75', 'pointer-events-none');
+        if (btn) {
+            btn.innerHTML = oldHtml;
+            btn.classList.remove('opacity-75', 'pointer-events-none');
+        }
     }).catch(err => {
         console.error("Lỗi xuất PDF:", err);
-        btn.innerHTML = oldHtml;
-        btn.classList.remove('opacity-75', 'pointer-events-none');
+        if (btn) {
+            btn.innerHTML = oldHtml;
+            btn.classList.remove('opacity-75', 'pointer-events-none');
+        }
     });
 }
+
 
 function formatAIMessage(text) {
     if (!text) return '';
@@ -1826,7 +1995,7 @@ async function taiDuLieuOffline() {
 
     try {
         // 1. Tải và lưu cache dữ liệu
-        const cache = await caches.open('dailuantri-v1.3.0');
+        const cache = await caches.open('dailuantri-v1.3.4');
         await cache.addAll([
             './', './index.html', './style.css', './app.js',
             './luantridata.js', './duoclieudata.js', './huyetvidata.js',
@@ -1844,5 +2013,38 @@ async function taiDuLieuOffline() {
         alert('Cần có mạng ổn định để tải dữ liệu lần đầu.');
     }
 }
+// Danh sách quy tắc tương kỵ (Thập Bát Phản & Thập Cửu Úy)
+const PHAN_UY_RULES = [
+    { a: 'Ô đầu', b: 'Bối mẫu', msg: 'Ô đầu phản Bối mẫu' },
+    { a: 'Ô đầu', b: 'Bán hạ', msg: 'Ô đầu phản Bán hạ' },
+    { a: 'Ô đầu', b: 'Qua lâu', msg: 'Ô đầu phản Qua lâu' },
+    { a: 'Cam thảo', b: 'Đại kích', msg: 'Cam thảo phản Đại kích' },
+    { a: 'Cam thảo', b: 'Hải tảo', msg: 'Cam thảo phản Hải tảo' },
+    { a: 'Cam thảo', b: 'Kích hoa', msg: 'Cam thảo phản Kích hoa' },
+    { a: 'Cam thảo', b: 'Nguyên hoa', msg: 'Cam thảo phản Nguyên hoa' },
+    { a: 'Nhân sâm', b: 'Ngũ linh chi', msg: 'Nhân sâm úy Ngũ linh chi' },
+    { a: 'Ba đậu', b: 'Khiên ngưu', msg: 'Ba đậu úy Khiên ngưu' },
+    { a: 'Đinh hương', b: 'Uất kim', msg: 'Đinh hương úy Uất kim' }
+];
 
-// Đã loại bỏ khối đăng ký Service Worker tự động ở cuối tệp app.js để Service Worker chỉ bật khi bấm nút Tải Offline.
+function kiemTraTuongKy(danhSachViThuoc) {
+    if (!Array.isArray(danhSachViThuoc)) return [];
+    let canhBao = [];
+    
+    for (let i = 0; i < danhSachViThuoc.length; i++) {
+        for (let j = i + 1; j < danhSachViThuoc.length; j++) {
+            let v1 = removeAccents(danhSachViThuoc[i]).toLowerCase();
+            let v2 = removeAccents(danhSachViThuoc[j]).toLowerCase();
+            
+            PHAN_UY_RULES.forEach(rule => {
+                let ra = removeAccents(rule.a).toLowerCase();
+                let rb = removeAccents(rule.b).toLowerCase();
+                if ((v1.includes(ra) && v2.includes(rb)) || (v1.includes(rb) && v2.includes(ra))) {
+                    canhBao.push(rule.msg);
+                }
+            });
+        }
+    }
+    return [...new Set(canhBao)];
+}
+
