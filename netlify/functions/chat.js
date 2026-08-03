@@ -1,8 +1,30 @@
 const delay = (ms) => new Promise(res => setTimeout(res, ms));
 
 exports.handler = async function(event, context) {
+    // 1. Khai báo CORS Headers cho tất cả các phản hồi
+    const headers = {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Methods': 'POST, OPTIONS',
+        'Content-Type': 'application/json'
+    };
+
+    // 2. Xử lý yêu cầu Preflight (OPTIONS) từ trình duyệt khi gọi từ Localhost
+    if (event.httpMethod === 'OPTIONS') {
+        return {
+            statusCode: 200,
+            headers,
+            body: ''
+        };
+    }
+
+    // 3. Chỉ cho phép phương thức POST
     if (event.httpMethod !== 'POST') {
-        return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
+        return { 
+            statusCode: 405, 
+            headers,
+            body: JSON.stringify({ error: 'Method Not Allowed' }) 
+        };
     }
 
     try {
@@ -22,7 +44,7 @@ exports.handler = async function(event, context) {
         if (keysToTry.length === 0) {
             return { 
                 statusCode: 500, 
-                headers: { 'Content-Type': 'application/json' },
+                headers,
                 body: JSON.stringify({ error: 'Chưa cấu hình API Key trên Netlify.' }) 
             };
         }
@@ -51,7 +73,7 @@ exports.handler = async function(event, context) {
                         if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
                             return {
                                 statusCode: 200,
-                                headers: { 'Content-Type': 'application/json' },
+                                headers,
                                 body: JSON.stringify({ reply: data.candidates[0].content.parts[0].text })
                             };
                         }
@@ -74,14 +96,14 @@ exports.handler = async function(event, context) {
 
         return { 
             statusCode: 500, 
-            headers: { 'Content-Type': 'application/json' },
+            headers,
             body: JSON.stringify({ error: `Máy chủ AI bận: ${lastError}` }) 
         };
 
     } catch (error) {
         return {
             statusCode: 500,
-            headers: { 'Content-Type': 'application/json' },
+            headers,
             body: JSON.stringify({ error: error.message })
         };
     }
