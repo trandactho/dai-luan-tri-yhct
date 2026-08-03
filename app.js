@@ -2013,19 +2013,62 @@ async function taiDuLieuOffline() {
         alert('Cần có mạng ổn định để tải dữ liệu lần đầu.');
     }
 }
-// Danh sách quy tắc tương kỵ (Thập Bát Phản & Thập Cửu Úy)
+// Danh sách quy tắc tương kỵ đầy đủ (Thập Bát Phản & Thập Cửu Úy)
 const PHAN_UY_RULES = [
+    // --- THẬP BÁT PHẢN ---
+    // 1. Nhóm Ô đầu (Xuyên ô, Thảo ô, Phụ tử) phản các vị: Bối mẫu, Bán hạ, Qua lâu, Bạch cập, Bạch liễm
     { a: 'Ô đầu', b: 'Bối mẫu', msg: 'Ô đầu phản Bối mẫu' },
     { a: 'Ô đầu', b: 'Bán hạ', msg: 'Ô đầu phản Bán hạ' },
     { a: 'Ô đầu', b: 'Qua lâu', msg: 'Ô đầu phản Qua lâu' },
-    { a: 'Cam thảo', b: 'Đại kích', msg: 'Cam thảo phản Đại kích' },
+    { a: 'Ô đầu', b: 'Bạch cập', msg: 'Ô đầu phản Bạch cập' },
+    { a: 'Ô đầu', b: 'Bạch liễm', msg: 'Ô đầu phản Bạch liễm' },
+    { a: 'Xuyên ô', b: 'Bối mẫu', msg: 'Xuyên ô phản Bối mẫu' },
+    { a: 'Xuyên ô', b: 'Bán hạ', msg: 'Xuyên ô phản Bán hạ' },
+    { a: 'Xuyên ô', b: 'Qua lâu', msg: 'Xuyên ô phản Qua lâu' },
+    { a: 'Xuyên ô', b: 'Bạch cập', msg: 'Xuyên ô phản Bạch cập' },
+    { a: 'Xuyên ô', b: 'Bạch liễm', msg: 'Xuyên ô phản Bạch liễm' },
+    { a: 'Thảo ô', b: 'Bối mẫu', msg: 'Thảo ô phản Bối mẫu' },
+    { a: 'Thảo ô', b: 'Bán hạ', msg: 'Thảo ô phản Bán hạ' },
+    { a: 'Thảo ô', b: 'Qua lâu', msg: 'Thảo ô phản Qua lâu' },
+    { a: 'Thảo ô', b: 'Bạch cập', msg: 'Thảo ô phản Bạch cập' },
+    { a: 'Thảo ô', b: 'Bạch liễm', msg: 'Thảo ô phản Bạch liễm' },
+    { a: 'Phụ tử', b: 'Bối mẫu', msg: 'Phụ tử phản Bối mẫu' },
+    { a: 'Phụ tử', b: 'Bán hạ', msg: 'Phụ tử phản Bán hạ' },
+    { a: 'Phụ tử', b: 'Qua lâu', msg: 'Phụ tử phản Qua lâu' },
+    { a: 'Phụ tử', b: 'Bạch cập', msg: 'Phụ tử phản Bạch cập' },
+    { a: 'Phụ tử', b: 'Bạch liễm', msg: 'Phụ tử phản Bạch liễm' },
+
+    // 2. Nhóm Cam thảo phản: Hải tảo, Đại kích, Nguyên hoa, Kích hoa
     { a: 'Cam thảo', b: 'Hải tảo', msg: 'Cam thảo phản Hải tảo' },
-    { a: 'Cam thảo', b: 'Kích hoa', msg: 'Cam thảo phản Kích hoa' },
+    { a: 'Cam thảo', b: 'Đại kích', msg: 'Cam thảo phản Đại kích' },
     { a: 'Cam thảo', b: 'Nguyên hoa', msg: 'Cam thảo phản Nguyên hoa' },
-    { a: 'Nhân sâm', b: 'Ngũ linh chi', msg: 'Nhân sâm úy Ngũ linh chi' },
+    { a: 'Cam thảo', b: 'Kích hoa', msg: 'Cam thảo phản Kích hoa' },
+
+    // 3. Nhóm Lê lô phản: Nhân sâm, Sa sâm, Đan sâm, Khổ sâm, Tế tân, Thược dược, Cát cánh
+    { a: 'Lê lô', b: 'Nhân sâm', msg: 'Lê lô phản Nhân sâm' },
+    { a: 'Lê lô', b: 'Sa sâm', msg: 'Lê lô phản Sa sâm' },
+    { a: 'Lê lô', b: 'Đan sâm', msg: 'Lê lô phản Đan sâm' },
+    { a: 'Lê lô', b: 'Khổ sâm', msg: 'Lê lô phản Khổ sâm' },
+    { a: 'Lê lô', b: 'Tế tân', msg: 'Lê lô phản Tế tân' },
+    { a: 'Lê lô', b: 'Thược dược', msg: 'Lê lô phản Thược dược' },
+    { a: 'Lê lô', b: 'Bạch thược', msg: 'Lê lô phản Bạch thược' },
+    { a: 'Lê lô', b: 'Xích thược', msg: 'Lê lô phản Xích thược' },
+    { a: 'Lê lô', b: 'Cát cánh', msg: 'Lê lô phản Cát cánh' },
+
+    // --- THẬP CỬU ÚY ---
+    { a: 'Lưu hoàng', b: 'Phác tiêu', msg: 'Lưu hoàng úy Phác tiêu' },
+    { a: 'Thủy ngân', b: 'Tỳ sương', msg: 'Thủy ngân úy Tỳ sương' },
+    { a: 'Hùng hoàng', b: 'Ba đậu', msg: 'Hùng hoàng úy Ba đậu' },
+    { a: 'Mật đà tăng', b: 'Lang độc', msg: 'Mật đà tăng úy Lang độc' },
     { a: 'Ba đậu', b: 'Khiên ngưu', msg: 'Ba đậu úy Khiên ngưu' },
-    { a: 'Đinh hương', b: 'Uất kim', msg: 'Đinh hương úy Uất kim' }
+    { a: 'Đinh hương', b: 'Uất kim', msg: 'Đinh hương úy Uất kim' },
+    { a: 'Nha tiêu', b: 'Tam lăng', msg: 'Nha tiêu úy Tam lăng' },
+    { a: 'Xuyên ô', b: 'Tê giác', msg: 'Xuyên ô úy Tê giác' },
+    { a: 'Thảo ô', b: 'Tê giác', msg: 'Thảo ô úy Tê giác' },
+    { a: 'Nhân sâm', b: 'Ngũ linh chi', msg: 'Nhân sâm úy Ngũ linh chi' },
+    { a: 'Nhục quế', b: 'Xích thạch chi', msg: 'Nhục quế úy Xích thạch chi' }
 ];
+
 
 function kiemTraTuongKy(danhSachViThuoc) {
     if (!Array.isArray(danhSachViThuoc)) return [];
