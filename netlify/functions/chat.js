@@ -11,12 +11,12 @@ exports.handler = async function(event, context) {
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const backupKey = process.env.BACKUP_API_KEY;
 
-        // Phân luồng Key: Tab Trợ lý AI ưu tiên key chính, các tab khác ưu tiên key backup
+        // Phân luồng Key: Tab Trợ lý AI giữ nguyên, các tab khác CHỈ dùng duy nhất AI Backup
         let keysToTry = [];
         if (source === 'assistant') {
             keysToTry = [primaryKey, backupKey].filter(Boolean);
         } else {
-            keysToTry = [backupKey, primaryKey].filter(Boolean);
+            keysToTry = [backupKey].filter(Boolean);
         }
 
         if (keysToTry.length === 0) {
@@ -27,7 +27,7 @@ exports.handler = async function(event, context) {
             };
         }
 
-        // Giữ nguyên 2 model cũ đang chạy ổn định của bạn[span_1](start_span)[span_1](end_span)
+        // Giữ nguyên 2 model cũ đang chạy ổn định của bạn
         const models = ['gemini-3.6-flash', 'gemini-3.5-flash'];
         let lastError = null;
 
