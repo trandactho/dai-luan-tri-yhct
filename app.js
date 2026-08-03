@@ -533,16 +533,20 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
             }
         }
 
-        // Tích hợp AI Backup phân tích sâu Hội chứng & Cổ phương
-        const aiCheck = document.getElementById('ai-backup-luantri');
+                // Tích hợp AI Backup phân tích sâu Hội chứng & Cổ phương
+        const aiCheckLt = document.getElementById('ai-backup-luantri');
+        const aiCheckBt = document.getElementById('ai-backup-baithuoc');
         const aiHcEl = document.getElementById('ai-hc-desc');
         const aiBtEl = document.getElementById('ai-bt-desc');
         
-        if (aiCheck && aiCheck.checked && data.hc) {
-            fetchLuanTriAIBackup(data.hc, data.bt);
+        const needHcAI = aiCheckLt && aiCheckLt.checked && data.hc;
+        const needBtAI = aiCheckBt && aiCheckBt.checked && data.bt;
+
+        if (needHcAI || needBtAI) {
+            fetchLuanTriAIBackup(data.hc, data.bt, needHcAI, needBtAI);
         } else {
-            if (aiHcEl) aiHcEl.classList.add('hidden');
-            if (aiBtEl) aiBtEl.classList.add('hidden');
+            if (aiHcEl && (!aiCheckLt || !aiCheckLt.checked)) aiHcEl.classList.add('hidden');
+            if (aiBtEl && (!aiCheckBt || !aiCheckBt.checked)) aiBtEl.classList.add('hidden');
         }
 
     } else {
@@ -791,26 +795,38 @@ function hienThongBaoGhiNhan(tabName, query) {
         toast.classList.add('-translate-y-2', 'opacity-0');
     }, 3500);
 }
-async function fetchLuanTriAIBackup(hcName, btName) {
+async function fetchLuanTriAIBackup(hcName, btName, fetchHc = true, fetchBt = true) {
     const aiHcEl = document.getElementById('ai-hc-desc');
     const aiBtEl = document.getElementById('ai-bt-desc');
     
-    if (aiHcEl) {
+    if (fetchHc && aiHcEl) {
         aiHcEl.classList.remove('hidden');
         aiHcEl.innerHTML = `<div class="text-amber-400/80 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang phân tích sâu về hội chứng...</div>`;
+    } else if (!fetchHc && aiHcEl) {
+        aiHcEl.classList.add('hidden');
     }
-    if (aiBtEl && btName && btName !== "Đối chứng nghiệm phương") {
+
+    if (fetchBt && aiBtEl && btName && btName !== "Đối chứng nghiệm phương") {
         aiBtEl.classList.remove('hidden');
         aiBtEl.innerHTML = `<div class="text-amber-400/80 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang tra cứu nguồn gốc và đặc điểm cổ phương...</div>`;
     } else if (aiBtEl) {
         aiBtEl.classList.add('hidden');
     }
 
+    if (!fetchHc && !fetchBt) return;
+
     try {
-        const prompt = `Trong Y học cổ truyền (YHCT), hãy phân tích ngắn gọn, chuẩn chuyên môn cho 2 phần sau:
-        PART1: Mô tả chi tiết về hội chứng "${hcName}" (cơ chế bệnh sinh, nguyên nhân cốt lõi, biểu hiện lâm sàng đặc trưng).
-        PART2: Nguồn gốc, xuất xứ và đặc điểm nổi bật của cổ phương/bài thuốc "${btName}".
-        Yêu cầu dùng từ "PART2:" để phân tách rõ ràng hai phần.`;
+        let prompt = "";
+        if (fetchHc && fetchBt) {
+            prompt = `Trong Y học cổ truyền (YHCT), hãy phân tích ngắn gọn, chuẩn chuyên môn cho 2 phần sau:
+            PART1: Mô tả chi tiết về hội chứng "${hcName}" (cơ chế bệnh sinh, nguyên nhân cốt lõi, biểu hiện lâm sàng đặc trưng).
+            PART2: Nguồn gốc, xuất xứ và đặc điểm nổi bật của cổ phương/bài thuốc "${btName}".
+            Yêu cầu dùng từ "PART2:" để phân tách rõ ràng hai phần.`;
+        } else if (fetchHc) {
+            prompt = `Trong Y học cổ truyền (YHCT), hãy phân tích ngắn gọn, chuẩn chuyên môn về mô tả chi tiết hội chứng "${hcName}" (cơ chế bệnh sinh, nguyên nhân cốt lõi, biểu hiện lâm sàng đặc trưng).`;
+        } else if (fetchBt) {
+            prompt = `Trong Y học cổ truyền (YHCT), hãy phân tích ngắn gọn, chuẩn chuyên môn về nguồn gốc, xuất xứ và đặc điểm nổi bật của cổ phương/bài thuốc "${btName}".`;
+        }
 
         const res = await fetch('/.netlify/functions/chat', {
             method: 'POST',
@@ -819,32 +835,49 @@ async function fetchLuanTriAIBackup(hcName, btName) {
         });
         const data = await res.json();
         if (res.ok && data.reply) {
-            const parts = data.reply.split('PART2:');
-            const hcText = parts[0] ? parts[0].replace('PART1:', '').trim() : data.reply;
-            const btText = parts[1] ? parts[1].trim() : '';
+            if (fetchHc && fetchBt) {
+                const parts = data.reply.split('PART2:');
+                const hcText = parts[0] ? parts[0].replace('PART1:', '').trim() : data.reply;
+                const btText = parts[1] ? parts[1].trim() : '';
 
-            if (aiHcEl) {
-                aiHcEl.innerHTML = `
-                    <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Mô tả chi tiết hội chứng:</div>
-                    <div class="space-y-1">${formatAIMessage(hcText)}</div>
-                `;
-            }
-            if (aiBtEl && btName && btName !== "Đối chứng nghiệm phương") {
-                aiBtEl.innerHTML = `
-                    <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Nguồn gốc & đặc điểm cổ phương:</div>
-                    <div class="space-y-1">${formatAIMessage(btText || 'Đang cập nhật thông tin bài thuốc.')}</div>
-                `;
+                if (aiHcEl) {
+                    aiHcEl.innerHTML = `
+                        <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Mô tả chi tiết hội chứng:</div>
+                        <div class="space-y-1">${formatAIMessage(hcText)}</div>
+                    `;
+                }
+                if (aiBtEl && btName && btName !== "Đối chứng nghiệm phương") {
+                    aiBtEl.innerHTML = `
+                        <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Nguồn gốc & đặc điểm cổ phương:</div>
+                        <div class="space-y-1">${formatAIMessage(btText || 'Đang cập nhật thông tin bài thuốc.')}</div>
+                    `;
+                }
+            } else if (fetchHc) {
+                if (aiHcEl) {
+                    aiHcEl.innerHTML = `
+                        <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Mô tả chi tiết hội chứng:</div>
+                        <div class="space-y-1">${formatAIMessage(data.reply)}</div>
+                    `;
+                }
+            } else if (fetchBt) {
+                if (aiBtEl && btName && btName !== "Đối chứng nghiệm phương") {
+                    aiBtEl.innerHTML = `
+                        <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Nguồn gốc & đặc điểm cổ phương:</div>
+                        <div class="space-y-1">${formatAIMessage(data.reply)}</div>
+                    `;
+                }
             }
         } else {
-            if (aiHcEl) aiHcEl.innerHTML = `<span class="text-stone-500">Không tải được mô tả AI cho hội chứng.</span>`;
-            if (aiBtEl) aiBtEl.innerHTML = `<span class="text-stone-500">Không tải được thông tin cổ phương từ AI.</span>`;
+            if (fetchHc && aiHcEl) aiHcEl.innerHTML = `<span class="text-stone-500">Không tải được mô tả AI cho hội chứng.</span>`;
+            if (fetchBt && aiBtEl) aiBtEl.innerHTML = `<span class="text-stone-500">Không tải được thông tin cổ phương từ AI.</span>`;
         }
     } catch (err) {
         console.error("Lỗi AI Backup Luận Trị:", err);
-        if (aiHcEl) aiHcEl.innerHTML = `<span class="text-red-400">Lỗi kết nối AI khi lấy mô tả hội chứng.</span>`;
-        if (aiBtEl) aiBtEl.innerHTML = `<span class="text-red-400">Lỗi kết nối AI khi lấy thông tin cổ phương.</span>`;
+        if (fetchHc && aiHcEl) aiHcEl.innerHTML = `<span class="text-red-400">Lỗi kết nối AI khi lấy mô tả hội chứng.</span>`;
+        if (fetchBt && aiBtEl) aiBtEl.innerHTML = `<span class="text-red-400">Lỗi kết nối AI khi lấy thông tin cổ phương.</span>`;
     }
 }
+
 function filterDuocLieu(isEnter = false) {
     const grid = document.getElementById('gridDuocLieu'); 
     if (!grid) return; 
@@ -2210,7 +2243,7 @@ async function taiDuLieuOffline() {
     if (!xacNhan) return;
 
     try {
-        const cache = await caches.open('dailuantri-v1.3.9');
+        const cache = await caches.open('dailuantri-v1.4.0');
         await cache.addAll([
             './', './index.html', './style.css', './app.js',
             './luantridata.js', './duoclieudata.js', './huyetvidata.js',
@@ -2345,6 +2378,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const aiCheckLt = document.getElementById('ai-backup-luantri');
     if (aiCheckLt) {
         aiCheckLt.addEventListener('change', () => {
+            updateLuanTri();
+        });
+    }
+    const aiCheckBt = document.getElementById('ai-backup-baithuoc');
+    if (aiCheckBt) {
+        aiCheckBt.addEventListener('change', () => {
             updateLuanTri();
         });
     }
