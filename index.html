@@ -156,24 +156,21 @@
                 </div>
             </div>
 
-            <!-- Khu vực kết quả phác đồ (Đã được khôi phục) -->
                 <!-- Khu vực kết quả phác đồ -->
     <div id="pdf-area" class="space-y-4 p-3 bg-stone-950 rounded-lg">
         <!-- Ô Hội chứng biện chứng -->
-        <div id="lt-card-hc" class="bg-dark-box p-5 rounded-lg border-l-4 border-amber-500 space-y-2 relative pb-10">
-            <div class="text-amber-400 text-xs font-bold uppercase tracking-wider mb-1">Hội chứng biện chứng</div>
-            <div id="hoi-chung" class="text-xl font-bold text-amber-200 transition-all">---</div>
-            <!-- Vùng hiển thị AI mô tả hội chứng -->
-            <div id="ai-hc-desc" class="hidden text-xs text-stone-300 pt-2 border-t border-stone-800/80 leading-relaxed"></div>
-            
-            <!-- Nút bật tắt AI góc phải dưới -->
-            <div class="absolute bottom-3 right-4">
-                <label class="flex items-center gap-1.5 text-[11px] text-amber-400/90 cursor-pointer select-none font-medium hover:text-amber-300 transition-colors bg-stone-900/80 px-2.5 py-1 rounded border border-stone-800 shadow">
-                    <input type="checkbox" id="ai-backup-luantri" class="w-3.5 h-3.5 rounded border-stone-700 bg-stone-900 text-amber-600 focus:ring-amber-500 cursor-pointer">
-                    <span>🤖 AI</span>
-                </label>
-            </div>
-        </div>
+<div id="lt-card-hc" class="bg-dark-box p-5 rounded-lg border-l-4 border-amber-500 space-y-2 relative pb-10">
+    <div class="text-amber-400 text-xs font-bold uppercase tracking-wider mb-1">Hội chứng biện chứng</div>
+    <div id="hoi-chung" class="text-xl font-bold text-amber-200 transition-all">---</div>
+    <div id="ai-hc-desc" class="hidden text-xs text-stone-300 pt-2 border-t border-stone-800/80 leading-relaxed"></div>
+    
+    <div class="absolute bottom-3 right-4 z-10">
+        <button id="ai-toggle-hc" onclick="toggleAiFeature('hc')" class="px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60">
+            <i class="fa-solid fa-robot text-[9px]"></i> AI
+        </button>
+    </div>
+</div>
+
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div class="bg-dark-box p-5 rounded-lg">
@@ -187,26 +184,24 @@
         </div>
 
         <!-- Ô Cổ phương / Bài thuốc -->
-        <div id="lt-card-bt" class="bg-dark-box p-5 rounded-lg space-y-2 relative pb-10">
-            <div class="flex justify-between items-center mb-3 border-b border-stone-800 pb-2">
-                <div>
-                    <div class="text-stone-300 text-xs font-bold uppercase tracking-wider">Đối chiếu cổ phương</div>
-                    <div id="bai-thuoc" class="text-lg font-bold text-amber-400 transition-all">---</div>
-                </div>
-            </div>
-            <div class="text-stone-300 text-xs font-bold uppercase mb-2">Thành phần quân thần tá sứ:</div>
-            <div id="chi-tiet-bai-thuoc" class="flex flex-wrap gap-2 transition-all"></div>
-            <!-- Vùng hiển thị AI thông tin cổ phương -->
-            <div id="ai-bt-desc" class="hidden text-xs text-stone-300 pt-2 border-t border-stone-800/80 leading-relaxed"></div>
-
-            <!-- Nút bật tắt AI góc phải dưới cho ô bài thuốc -->
-            <div class="absolute bottom-3 right-4">
-                <label class="flex items-center gap-1.5 text-[11px] text-amber-400/90 cursor-pointer select-none font-medium hover:text-amber-300 transition-colors bg-stone-900/80 px-2.5 py-1 rounded border border-stone-800 shadow">
-                    <input type="checkbox" id="ai-backup-baithuoc" class="w-3.5 h-3.5 rounded border-stone-700 bg-stone-900 text-amber-600 focus:ring-amber-500 cursor-pointer">
-                    <span>🤖 AI</span>
-                </label>
-            </div>
+<div id="lt-card-bt" class="bg-dark-box p-5 rounded-lg space-y-2 relative pb-10">
+    <div class="flex justify-between items-center mb-3 border-b border-stone-800 pb-2">
+        <div>
+            <div class="text-stone-300 text-xs font-bold uppercase tracking-wider">Đối chiếu cổ phương</div>
+            <div id="bai-thuoc" class="text-lg font-bold text-amber-400 transition-all">---</div>
         </div>
+    </div>
+    <div class="text-stone-300 text-xs font-bold uppercase mb-2">Thành phần quân thần tá sứ:</div>
+    <div id="chi-tiet-bai-thuoc" class="flex flex-wrap gap-2 transition-all"></div>
+    <div id="ai-bt-desc" class="hidden text-xs text-stone-300 pt-2 border-t border-stone-800/80 leading-relaxed"></div>
+
+    <div class="absolute bottom-3 right-4 z-10">
+        <button id="ai-toggle-bt" onclick="toggleAiFeature('bt')" class="px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60">
+            <i class="fa-solid fa-robot text-[9px]"></i> AI
+        </button>
+    </div>
+</div>
+
         </section>
         <!-- TAB 2: TRẮC NGHIỆM -->
         <section id="sectionTracNghiem" class="hidden space-y-5">

@@ -1,9 +1,11 @@
-// --- QUẢN LÝ TRẠNG THÁI ỨNG DỤNG (Hợp nhất tập trung) ---
+// --- QUẢN LÝ TRẠNG THÁI ỨNG DỤNG ---
 const AppState = {
     quizActive: false,
     isQuizDL: false,
     isQuizHV: false,
-    isQuizLT: false
+    isQuizLT: false,
+    aiHcActive: false, // Trạng thái AI Hội chứng
+    aiBtActive: false  // Trạng thái AI Bài thuốc
 };
 
 let originalQuizSetupHTML = ""; // Lưu giao diện cấu hình gốc[span_1](start_span)[span_1](end_span)
@@ -415,7 +417,7 @@ function checkMatchFilter(item, tp, hn, ht, bc) {
     return matchTP && matchHN && matchHT && matchBC;
 }
 
-function updateLuanTri(query = "") {
+function updateLuanTri(query = "", isEnter = false) {
     if (AppState.quizActive || typeof database === 'undefined' || !database) return;
 
     const tp = getFilterVal('tang-phu');
@@ -461,7 +463,7 @@ const queryWords = cleanActiveQuery ? cleanActiveQuery.split(/\s+/).filter(Boole
         }
     }
 
-    renderDetailLuanTri(bestMatchData, activeQuery);
+    renderDetailLuanTri(bestMatchData, activeQuery, isEnter);
 }
 
 function renderDetailLuanTri(data, query = "", isEnter = false) {
@@ -476,6 +478,18 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
         warningContainer = document.createElement('div');
         warningContainer.id = 'tuong-ky-warning';
         divBt.parentNode.appendChild(warningContainer);
+    }
+
+    // Cập nhật trạng thái nút AI Hội chứng
+    const btnHc = document.getElementById('ai-toggle-hc');
+    if (btnHc) {
+        btnHc.className = `px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer ${AppState.aiHcActive ? 'bg-amber-600 text-white shadow-amber-900/50' : 'bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60'}`;
+    }
+
+    // Cập nhật trạng thái nút AI Bài thuốc
+    const btnBt = document.getElementById('ai-toggle-bt');
+    if (btnBt) {
+        btnBt.className = `px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer ${AppState.aiBtActive ? 'bg-amber-600 text-white shadow-amber-900/50' : 'bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60'}`;
     }
 
     if (data) {
@@ -533,35 +547,27 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
             }
         }
 
-                // Tích hợp AI Backup phân tích sâu Hội chứng & Cổ phương
-        const aiCheckLt = document.getElementById('ai-backup-luantri');
-        const aiCheckBt = document.getElementById('ai-backup-baithuoc');
-        const aiHcEl = document.getElementById('ai-hc-desc');
-        const aiBtEl = document.getElementById('ai-bt-desc');
-        
-        const needHcAI = aiCheckLt && aiCheckLt.checked && data.hc;
-        const needBtAI = aiCheckBt && aiCheckBt.checked && data.bt;
+        // Kích hoạt AI Backup dựa trên trạng thái nút bấm siêu gọn
+        const needHcAI = AppState.aiHcActive && data.hc;
+        const needBtAI = AppState.aiBtActive && data.bt;
 
         if (needHcAI || needBtAI) {
             fetchLuanTriAIBackup(data.hc, data.bt, needHcAI, needBtAI);
         } else {
-            if (aiHcEl && (!aiCheckLt || !aiCheckLt.checked)) aiHcEl.classList.add('hidden');
-            if (aiBtEl && (!aiCheckBt || !aiCheckBt.checked)) aiBtEl.classList.add('hidden');
+            const aiHcEl = document.getElementById('ai-hc-desc');
+            const aiBtEl = document.getElementById('ai-bt-desc');
+            if (aiHcEl && !AppState.aiHcActive) aiHcEl.classList.add('hidden');
+            if (aiBtEl && !AppState.aiBtActive) aiBtEl.classList.add('hidden');
         }
 
     } else {
-        if (query && document.getElementById('ai-backup-luantri')?.checked) {
-            fetchAIBackupResult(query, 'Luận Trị Biện Chứng', ul);
-            if (hcEl) hcEl.innerHTML = `<span class='text-amber-400 font-bold text-base'>🔍 Đang tra cứu AI Backup cho: "${escapeHTML(query)}"</span>`;
-            if (pdtEl) pdtEl.innerText = "---";
-            if (btEl) btEl.innerText = "---";
-            if (divBt) divBt.innerHTML = "";
-            if (warningContainer) warningContainer.innerHTML = "";
-            return;
+        if (query && isEnter && document.getElementById('ai-backup-luantri')?.checked) {
+        fetchAIBackupResult(query, 'Biện chứng Luận Trị YHCT', document.getElementById('pdf-area'));
+        return;
         }
 
         if (query && isEnter) xuLyKhongTimThay('Luận Trị', query);
-
+            
         const msg = (query && isEnter)
             ? `<i class='fa-solid fa-paper-plane text-[10px]'></i> Đã tự động ghi nhận từ khóa "${escapeHTML(query)}" để bổ sung dữ liệu.`
             : (query ? `<i class='fa-solid fa-keyboard text-[10px]'></i> Nhấn <kbd class="px-1 py-0.5 bg-stone-800 border border-stone-700 rounded text-amber-400 font-mono">Enter</kbd> để gửi từ khóa "${escapeHTML(query)}".` : '');
@@ -589,6 +595,8 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
         }
     });
 }
+
+
 function setDropdownSpacer(show) {
     let spacer = document.getElementById('dropdown-spacer');
     const searchInput = document.getElementById('search-input');
@@ -691,10 +699,9 @@ function searchLuanTri(isEnter = false) {
         setDropdownSpacer(false);
         selectSearchResult(topMatches[0].key, false);
     } else {
-        updateLuanTri(queryStr);
+        updateLuanTri(queryStr, isEnter); // 👈 Thêm isEnter vào đây
     }
 }
-
 
 function selectSearchResult(key, hideDropdown = true) {
     const query = getVal('search-input').trim();
@@ -934,8 +941,8 @@ function filterDuocLieu(isEnter = false) {
     const filteredData = scoredData.map(s => s.item);
 
     if (filteredData.length === 0) {
-        if (txtRaw && document.getElementById('ai-backup-duoclieu')?.checked) {
-            fetchAIBackupResult(txtRaw, 'Dược Liệu YHCT', grid);
+        if (txtRaw && isEnter && document.getElementById('ai-backup-duoclieu')?.checked) {    
+fetchAIBackupResult(txtRaw, 'Dược Liệu YHCT', grid);
             return;
         }
 
@@ -1077,8 +1084,8 @@ function filterHuyetVi(isEnter = false) {
     const filteredData = scoredData.map(s => s.item);
 
     if (filteredData.length === 0) {
-        if (txtRaw && document.getElementById('ai-backup-huyetvi')?.checked) {
-            fetchAIBackupResult(txtRaw, 'Huyệt Vị YHCT', grid);
+        if (txtRaw && isEnter && document.getElementById('ai-backup-huyetvi')?.checked) {    
+fetchAIBackupResult(txtRaw, 'Huyệt Vị YHCT', grid);
             return;
         }
 
@@ -1207,8 +1214,8 @@ function filterTra(isEnter = false) {
     const filteredData = scoredData.map(s => s.item);
 
     if (filteredData.length === 0) {
-        if (txtRaw && document.getElementById('ai-backup-tra')?.checked) {
-            fetchAIBackupResult(txtRaw, 'Trà Dược YHCT', grid);
+        if (txtRaw && isEnter && document.getElementById('ai-backup-tra')?.checked) {    
+fetchAIBackupResult(txtRaw, 'Trà Dược YHCT', grid);
             return;
         }
 
@@ -2374,17 +2381,13 @@ document.addEventListener('pointerdown', (e) => {
         }
     }
 });
-document.addEventListener('DOMContentLoaded', () => {
-    const aiCheckLt = document.getElementById('ai-backup-luantri');
-    if (aiCheckLt) {
-        aiCheckLt.addEventListener('change', () => {
-            updateLuanTri();
-        });
+
+function toggleAiFeature(type) {
+    if (type === 'hc') {
+        AppState.aiHcActive = !AppState.aiHcActive;
+    } else if (type === 'bt') {
+        AppState.aiBtActive = !AppState.aiBtActive;
     }
-    const aiCheckBt = document.getElementById('ai-backup-baithuoc');
-    if (aiCheckBt) {
-        aiCheckBt.addEventListener('change', () => {
-            updateLuanTri();
-        });
-    }
-});
+    updateLuanTri();
+}
+
