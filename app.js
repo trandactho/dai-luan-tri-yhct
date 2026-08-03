@@ -1,4 +1,4 @@
-// --- QUẢN LÝ TRẠNG THÁI ỨNG DỤNG ---
+// --- QUẢN LÝ TRẠNG THÁI ỨNG DỤNG (Hợp nhất tập trung) ---
 const AppState = {
     quizActive: false,
     isQuizDL: false,
@@ -6,19 +6,13 @@ const AppState = {
     isQuizLT: false
 };
 
-let originalQuizSetupHTML = ""; // <--- Thêm biến toàn cục để lưu giao diện cấu hình gốc
+let originalQuizSetupHTML = ""; // Lưu giao diện cấu hình gốc[span_1](start_span)[span_1](end_span)
 
-
-// Giữ lại các biến tương thích ngược nếu có module ngoài tham chiếu trực tiếp
-let quizActive = false;
-let isQuizDL = false, isQuizHV = false, isQuizLT = false;
-
-function syncState() {
-    quizActive = AppState.quizActive;
-    isQuizDL = AppState.isQuizDL;
-    isQuizHV = AppState.isQuizHV;
-    isQuizLT = AppState.isQuizLT;
-}
+// Biến quản lý đồng hồ đếm ngược trắc nghiệm
+let quizTimerInterval = null;
+let quizTimeRemaining = 30;
+let isTimerEnabled = false;
+let timePerQuestion = 30;
 
 function escapeHTML(str) {
     if (!str) return '';
@@ -36,7 +30,6 @@ function escapeHTML(str) {
 function startQuizMode() {
     if (typeof database === 'undefined' || !database) return;
     AppState.quizActive = true;
-    syncState();
     
     const boLoc = document.getElementById('bo-loc-tam-truc');
     if (boLoc) boLoc.classList.add('blur-sm', 'pointer-events-none', 'opacity-40');
@@ -130,7 +123,6 @@ function loadRandomCase() {
 
 function stopQuizMode() {
     AppState.quizActive = false;
-    syncState();
     const boLoc = document.getElementById('bo-loc-tam-truc');
     if (boLoc) boLoc.classList.remove('blur-sm', 'pointer-events-none', 'opacity-40');
     const input = document.getElementById('search-input');
@@ -173,7 +165,6 @@ function moOnTapLuanTri() {
 
 function toggleQuizLuanTri(btnEl) {
     AppState.isQuizLT = !AppState.isQuizLT;
-    syncState();
     const btn = btnEl || document.querySelector('button[onclick*="toggleQuizLuanTri"]');
     if (btn) {
         if (AppState.isQuizLT) {
@@ -201,7 +192,6 @@ function toggleQuizLuanTri(btnEl) {
 
 function toggleQuizDL(btnEl) {
     AppState.isQuizDL = !AppState.isQuizDL;
-    syncState();
     const btn = btnEl || document.querySelector('button[onclick*="toggleQuizDL"]');
     if (btn) {
         if (AppState.isQuizDL) {
@@ -215,7 +205,6 @@ function toggleQuizDL(btnEl) {
 
 function toggleQuizHV(btnEl) {
     AppState.isQuizHV = !AppState.isQuizHV;
-    syncState();
     const btn = btnEl || document.querySelector('button[onclick*="toggleQuizHV"]');
     if (btn) {
         if (AppState.isQuizHV) {
@@ -272,7 +261,11 @@ function capNhatTongSoTrieuChung() {
 function highlightText(text, query) {
     if (!query || !text) return escapeHTML(text);
     const safeText = String(text);
-    const words = query.trim().split(/\s+/).filter(Boolean);
+    
+    // Loại bỏ dấu câu khỏi chuỗi truy vấn
+    const cleanQuery = query.replace(/[,\.;:?!()\[\]{}]/g, ' ');
+    const words = cleanQuery.trim().split(/\s+/).filter(Boolean);
+    
     if (words.length === 0) return escapeHTML(safeText);
 
     const escapedWords = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
@@ -293,45 +286,21 @@ function removeAccents(str) {
 }
 
 const TCM_RULES = {
-    'Than': {
-        strictHuThuc: 'Thuc',
-        fallbackBC: 'thuy khi'
-    },
-    'Can': {
-        fallbackBC: 'khi' 
-    },
-    'Ty': {
-        fallbackBC: 'dam' 
-    },
-    'Tam': {
-        fallbackBC: 'huyet u'
-    },
-    'Phe': {
-        fallbackBC: 'dam'
-    },
-    'Vi': {
-        fallbackBC: 'nhiet'
-    },
-    'Dom': {
-        fallbackBC: 'thap nhiet'
-    },
-    'Dai_Truong': {
-        fallbackBC: 'thap nhiet'
-    },
-    'Tieu_Truong': {
-        fallbackBC: 'thap nhiet'
-    },
-    'Bang_Quang': {
-        fallbackBC: 'thap nhiet'
-    },
-    'Tam_Tieu': {
-        fallbackBC: 'thap nhiet'
-    }
+    'Than': { strictHuThuc: 'Thuc', fallbackBC: 'thuy khi' },
+    'Can': { fallbackBC: 'khi' },
+    'Ty': { fallbackBC: 'dam' },
+    'Tam': { fallbackBC: 'huyet u' },
+    'Phe': { fallbackBC: 'dam' },
+    'Vi': { fallbackBC: 'nhiet' },
+    'Dom': { fallbackBC: 'thap nhiet' },
+    'Dai_Truong': { fallbackBC: 'thap nhiet' },
+    'Tieu_Truong': { fallbackBC: 'thap nhiet' },
+    'Bang_Quang': { fallbackBC: 'thap nhiet' },
+    'Tam_Tieu': { fallbackBC: 'thap nhiet' }
 };
 
 function getItemTamTruc(item) {
     if (!item) return { tp: '', hn: '', ht: '', bc: '' };
-    
     const pl = Array.isArray(item.phanloai) ? item.phanloai : [];
     const title = removeAccents(item.hc || '');
     
@@ -378,12 +347,7 @@ function getItemTamTruc(item) {
         }
     }
 
-    return {
-        tp: resolvedTP,
-        hn: resolvedHN,
-        ht: resolvedHT,
-        bc: resolvedBC
-    };
+    return { tp: resolvedTP, hn: resolvedHN, ht: resolvedHT, bc: resolvedBC };
 }
 
 const getVal = (id) => document.getElementById(id)?.value ?? '';
@@ -406,7 +370,6 @@ function checkMatchFilter(item, tp, hn, ht, bc) {
     let matchTP = true;
     if (tp && tp !== "" && !removeAccents(tp).includes('tat ca') && !tp.includes('--')) {
         const normTP = removeAccents(tp);
-        
         let targetTP = '';
         if (normTP.includes('than') || normTP.includes('noi tiet')) targetTP = 'than';
         else if (normTP.includes('phe') || normTP.includes('phoi')) targetTP = 'phe';
@@ -422,7 +385,6 @@ function checkMatchFilter(item, tp, hn, ht, bc) {
         else targetTP = normTP;
 
         const cleanTargetTP = targetTP.replace(/[_]/g, '').split(' ')[0];
-        
         const rawItemText = removeAccents((item.hc || '') + ' ' + (Array.isArray(item.phanloai) ? item.phanloai.join(' ') : ''));
         const normInfoTP = removeAccents(info.tp).toLowerCase().replace(/[_]/g, '');
 
@@ -453,7 +415,6 @@ function checkMatchFilter(item, tp, hn, ht, bc) {
     return matchTP && matchHN && matchHT && matchBC;
 }
 
-// Cập nhật hàm updateLuanTri để tìm kết quả khớp nhiều từ nhất
 function updateLuanTri(query = "") {
     if (AppState.quizActive || typeof database === 'undefined' || !database) return;
 
@@ -463,15 +424,15 @@ function updateLuanTri(query = "") {
     const bc = getFilterVal('benh-co');
     const searchInput = getVal('search-input').toLowerCase().trim();
     const activeQuery = query || searchInput;
-    const queryWords = activeQuery ? activeQuery.split(/\s+/).filter(Boolean) : [];
-
+    // Làm sạch dấu câu trước khi tách mảng từ khóa
+const cleanActiveQuery = activeQuery.replace(/[,\.;:?!()\[\]{}]/g, ' ');
+const queryWords = cleanActiveQuery ? cleanActiveQuery.split(/\s+/).filter(Boolean) : [];
     let bestMatchData = null;
     let maxScore = -1;
 
     for (let key in database) {
         const item = database[key];
         if (!item) continue;
-
         if (!checkMatchFilter(item, tp, hn, ht, bc)) continue;
 
         let matchCount = 0;
@@ -485,7 +446,7 @@ function updateLuanTri(query = "") {
             queryWords.forEach(word => {
                 if (fullText.includes(word)) {
                     matchCount++;
-                    if (hc.includes(word)) matchCount += 0.5; // Ưu tiên nếu khớp trực tiếp tên hội chứng
+                    if (hc.includes(word)) matchCount += 0.5;
                 }
             });
 
@@ -571,7 +532,30 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
                 warningContainer.innerHTML = "";
             }
         }
+
+        // Tích hợp AI Backup phân tích sâu Hội chứng & Cổ phương
+        const aiCheck = document.getElementById('ai-backup-luantri');
+        const aiHcEl = document.getElementById('ai-hc-desc');
+        const aiBtEl = document.getElementById('ai-bt-desc');
+        
+        if (aiCheck && aiCheck.checked && data.hc) {
+            fetchLuanTriAIBackup(data.hc, data.bt);
+        } else {
+            if (aiHcEl) aiHcEl.classList.add('hidden');
+            if (aiBtEl) aiBtEl.classList.add('hidden');
+        }
+
     } else {
+        if (query && document.getElementById('ai-backup-luantri')?.checked) {
+            fetchAIBackupResult(query, 'Luận Trị Biện Chứng', ul);
+            if (hcEl) hcEl.innerHTML = `<span class='text-amber-400 font-bold text-base'>🔍 Đang tra cứu AI Backup cho: "${escapeHTML(query)}"</span>`;
+            if (pdtEl) pdtEl.innerText = "---";
+            if (btEl) btEl.innerText = "---";
+            if (divBt) divBt.innerHTML = "";
+            if (warningContainer) warningContainer.innerHTML = "";
+            return;
+        }
+
         if (query && isEnter) xuLyKhongTimThay('Luận Trị', query);
 
         const msg = (query && isEnter)
@@ -601,8 +585,6 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
         }
     });
 }
-
-
 function setDropdownSpacer(show) {
     let spacer = document.getElementById('dropdown-spacer');
     const searchInput = document.getElementById('search-input');
@@ -627,14 +609,16 @@ function setDropdownSpacer(show) {
     }
 }
 
-// Cập nhật hàm searchLuanTri để lọc và sắp xếp danh sách thả xuống theo số từ khớp giảm dần
 function searchLuanTri(isEnter = false) {
     if (AppState.quizActive) stopQuizMode();
 
     const input = document.getElementById('search-input');
     const dropdown = document.getElementById('search-dropdown');
     const queryStr = (input ? input.value : '').toLowerCase().trim();
-    const queryWords = queryStr ? queryStr.split(/\s+/).filter(Boolean) : [];
+    
+    // Làm sạch dấu câu để tách mảng từ khóa chính xác (khắc phục lỗi dính dấu phẩy, chấm)
+    const cleanQueryStr = queryStr.replace(/[,\.;:?!()\[\]{}]/g, ' ');
+    const queryWords = cleanQueryStr ? cleanQueryStr.split(/\s+/).filter(Boolean) : [];
 
     const tp = getFilterVal('tang-phu');
     const hn = getFilterVal('han-nhiet');
@@ -654,7 +638,6 @@ function searchLuanTri(isEnter = false) {
     for (let key in database) {
         const item = database[key];
         if (!item) continue;
-
         if (!checkMatchFilter(item, tp, hn, ht, bc)) continue;
 
         let matchCount = 0;
@@ -679,11 +662,10 @@ function searchLuanTri(isEnter = false) {
         }
     }
 
-    // Sắp xếp kết quả theo số lượng từ khớp nhiều nhất lên đầu
     matches.sort((a, b) => b.score - a.score);
     const topMatches = matches.slice(0, 30);
 
-        if (dropdown) {
+    if (dropdown) {
         if (topMatches.length > 0) {
             dropdown.innerHTML = topMatches.map(m => `
                 <div onclick="selectSearchResult('${m.key}')" class="p-2.5 hover:bg-stone-800 border-b border-stone-800/80 cursor-pointer transition-colors text-xs text-left">
@@ -722,9 +704,7 @@ function selectSearchResult(key, hideDropdown = true) {
     }
 
     const dropdown = document.getElementById('search-dropdown');
-    if (dropdown) {
-        dropdown.classList.add('hidden');
-    }
+    if (dropdown) dropdown.classList.add('hidden');
     setDropdownSpacer(false);
 }
 
@@ -741,7 +721,6 @@ function syncSelectsWithItem(item) {
             const optVal = removeAccents(el.options[i].value);
             const optTxt = removeAccents(el.options[i].text);
             if (!optVal || optVal.includes('tat ca')) continue;
-
             if (optVal === target || optTxt === target) {
                 el.selectedIndex = i;
                 return;
@@ -751,7 +730,6 @@ function syncSelectsWithItem(item) {
         for (let i = 0; i < el.options.length; i++) {
             const optVal = removeAccents(el.options[i].value);
             if (!optVal || optVal.includes('tat ca')) continue;
-
             if (target.includes(optVal) || optVal.includes(target)) {
                 el.selectedIndex = i;
                 return;
@@ -813,15 +791,79 @@ function hienThongBaoGhiNhan(tabName, query) {
         toast.classList.add('-translate-y-2', 'opacity-0');
     }, 3500);
 }
+async function fetchLuanTriAIBackup(hcName, btName) {
+    const aiHcEl = document.getElementById('ai-hc-desc');
+    const aiBtEl = document.getElementById('ai-bt-desc');
+    
+    if (aiHcEl) {
+        aiHcEl.classList.remove('hidden');
+        aiHcEl.innerHTML = `<div class="text-amber-400/80 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang phân tích sâu về hội chứng...</div>`;
+    }
+    if (aiBtEl && btName && btName !== "Đối chứng nghiệm phương") {
+        aiBtEl.classList.remove('hidden');
+        aiBtEl.innerHTML = `<div class="text-amber-400/80 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang tra cứu nguồn gốc và đặc điểm cổ phương...</div>`;
+    } else if (aiBtEl) {
+        aiBtEl.classList.add('hidden');
+    }
 
+    try {
+        const prompt = `Trong Y học cổ truyền (YHCT), hãy phân tích ngắn gọn, chuẩn chuyên môn cho 2 phần sau:
+        PART1: Mô tả chi tiết về hội chứng "${hcName}" (cơ chế bệnh sinh, nguyên nhân cốt lõi, biểu hiện lâm sàng đặc trưng).
+        PART2: Nguồn gốc, xuất xứ và đặc điểm nổi bật của cổ phương/bài thuốc "${btName}".
+        Yêu cầu dùng từ "PART2:" để phân tách rõ ràng hai phần.`;
+
+        const res = await fetch('/.netlify/functions/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt, source: 'backup' })
+        });
+        const data = await res.json();
+        if (res.ok && data.reply) {
+            const parts = data.reply.split('PART2:');
+            const hcText = parts[0] ? parts[0].replace('PART1:', '').trim() : data.reply;
+            const btText = parts[1] ? parts[1].trim() : '';
+
+            if (aiHcEl) {
+                aiHcEl.innerHTML = `
+                    <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Mô tả chi tiết hội chứng:</div>
+                    <div class="space-y-1">${formatAIMessage(hcText)}</div>
+                `;
+            }
+            if (aiBtEl && btName && btName !== "Đối chứng nghiệm phương") {
+                aiBtEl.innerHTML = `
+                    <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Nguồn gốc & đặc điểm cổ phương:</div>
+                    <div class="space-y-1">${formatAIMessage(btText || 'Đang cập nhật thông tin bài thuốc.')}</div>
+                `;
+            }
+        } else {
+            if (aiHcEl) aiHcEl.innerHTML = `<span class="text-stone-500">Không tải được mô tả AI cho hội chứng.</span>`;
+            if (aiBtEl) aiBtEl.innerHTML = `<span class="text-stone-500">Không tải được thông tin cổ phương từ AI.</span>`;
+        }
+    } catch (err) {
+        console.error("Lỗi AI Backup Luận Trị:", err);
+        if (aiHcEl) aiHcEl.innerHTML = `<span class="text-red-400">Lỗi kết nối AI khi lấy mô tả hội chứng.</span>`;
+        if (aiBtEl) aiBtEl.innerHTML = `<span class="text-red-400">Lỗi kết nối AI khi lấy thông tin cổ phương.</span>`;
+    }
+}
 function filterDuocLieu(isEnter = false) {
-    if (typeof duocLieuData === 'undefined' || !duocLieuData) return;
-    const txtRaw = getVal('searchDuocLieu').trim().normalize('NFC');
-    const txt = txtRaw.toLowerCase();
-    const queryWords = txt ? txt.split(/\s+/).filter(Boolean) : [];
-    const group = getVal('filterNhomDuocLieu');
     const grid = document.getElementById('gridDuocLieu'); 
     if (!grid) return; 
+
+    if (typeof duocLieuData === 'undefined' || !duocLieuData) {
+        grid.innerHTML = `
+            <div class="col-span-full text-center py-14 space-y-2 text-stone-500">
+                <i class="fa-solid fa-spinner fa-spin text-3xl opacity-40 block mb-1 text-amber-500"></i>
+                <p class="text-sm font-medium">Đang tải dữ liệu dược liệu...</p>
+            </div>
+        `;
+        return;
+    }
+
+    const txtRaw = getVal('searchDuocLieu').trim().normalize('NFC');
+    const txt = txtRaw.toLowerCase();
+    const cleanTxt = txt.replace(/[,\.;:?!()\[\]{}]/g, ' ');
+    const queryWords = cleanTxt ? cleanTxt.split(/\s+/).filter(Boolean) : [];
+    const group = getVal('filterNhomDuocLieu');
     grid.innerHTML = "";
     
     const scoredData = [];
@@ -846,7 +888,7 @@ function filterDuocLieu(isEnter = false) {
         queryWords.forEach(word => {
             if (fullText.includes(word)) {
                 matchCount++;
-                if (ten.includes(word)) matchCount += 0.5; // Ưu tiên cao nếu khớp trực tiếp tên dược liệu
+                if (ten.includes(word)) matchCount += 0.5;
             }
         });
 
@@ -855,11 +897,15 @@ function filterDuocLieu(isEnter = false) {
         }
     });
 
-    // Sắp xếp kết quả theo số lượng từ khớp nhiều nhất giảm dần
     scoredData.sort((a, b) => b.score - a.score);
     const filteredData = scoredData.map(s => s.item);
 
     if (filteredData.length === 0) {
+        if (txtRaw && document.getElementById('ai-backup-duoclieu')?.checked) {
+            fetchAIBackupResult(txtRaw, 'Dược Liệu YHCT', grid);
+            return;
+        }
+
         if (txtRaw && isEnter) xuLyKhongTimThay('Dược Liệu', txtRaw);
 
         const feedbackMsg = (txtRaw && isEnter) 
@@ -912,9 +958,7 @@ function filterDuocLieu(isEnter = false) {
                     <div class="text-stone-500 text-[10px] font-bold tracking-wider uppercase">CÔNG NĂNG CHỦ TRỊ:</div>
                     <p class="text-sm text-stone-300 leading-relaxed mt-0.5">${highlightText(d.cong_dung || '', txtRaw)}</p>
                 </div>
-                <div class="mt-2">
-                    ${boxHTML}
-                </div>
+                <div class="mt-2">${boxHTML}</div>
             </div>
         `;
 
@@ -923,13 +967,9 @@ function filterDuocLieu(isEnter = false) {
             if (AppState.isQuizDL) {
                 const blurEl = card.querySelector('.blur-target');
                 if (blurEl) blurEl.classList.remove('blur-md');
-                if (isTitle) {
-                    kichHoatTimAnh(d.ten || '');
-                }
+                if (isTitle) kichHoatTimAnh(d.ten || '');
             } else {
-                if (isTitle) {
-                    kichHoatTimAnh(d.ten || '');
-                }
+                if (isTitle) kichHoatTimAnh(d.ten || '');
             }
         };
 
@@ -938,15 +978,25 @@ function filterDuocLieu(isEnter = false) {
     grid.appendChild(frag);
 }
 
-
 function filterHuyetVi(isEnter = false) {
-    if (typeof huyetViData === 'undefined' || !huyetViData) return;
-    const txtRaw = getVal('searchHuyetVi').trim();
-    const txt = txtRaw.toLowerCase();
-    const queryWords = txt ? txt.split(/\s+/).filter(Boolean) : [];
-    const kinh = getVal('filterKinhLac');
     const grid = document.getElementById('gridHuyetVi'); 
     if (!grid) return; 
+
+    if (typeof huyetViData === 'undefined' || !huyetViData) {
+        grid.innerHTML = `
+            <div class="col-span-full text-center py-14 space-y-2 text-stone-500">
+                <i class="fa-solid fa-spinner fa-spin text-3xl opacity-40 block mb-1 text-amber-500"></i>
+                <p class="text-sm font-medium">Đang tải dữ liệu huyệt vị...</p>
+            </div>
+        `;
+        return;
+    }
+
+    const txtRaw = getVal('searchHuyetVi').trim();
+    const txt = txtRaw.toLowerCase();
+    const cleanTxt = txt.replace(/[,\.;:?!()\[\]{}]/g, ' ');
+    const queryWords = cleanTxt ? cleanTxt.split(/\s+/).filter(Boolean) : [];    
+    const kinh = getVal('filterKinhLac');
     grid.innerHTML = "";
     
     const getKinhTheme = (kinhName) => {
@@ -981,7 +1031,7 @@ function filterHuyetVi(isEnter = false) {
         queryWords.forEach(word => {
             if (fullText.includes(word)) {
                 matchCount++;
-                if (ten.includes(word)) matchCount += 0.5; // Ưu tiên cao nếu khớp tên huyệt
+                if (ten.includes(word)) matchCount += 0.5;
             }
         });
 
@@ -990,11 +1040,15 @@ function filterHuyetVi(isEnter = false) {
         }
     });
 
-    // Sắp xếp kết quả theo độ khớp nhiều từ nhất giảm dần
     scoredData.sort((a, b) => b.score - a.score);
     const filteredData = scoredData.map(s => s.item);
 
     if (filteredData.length === 0) {
+        if (txtRaw && document.getElementById('ai-backup-huyetvi')?.checked) {
+            fetchAIBackupResult(txtRaw, 'Huyệt Vị YHCT', grid);
+            return;
+        }
+
         if (txtRaw && isEnter) xuLyKhongTimThay('Huyệt Vị', txtRaw);
 
         const feedbackMsg = (txtRaw && isEnter) 
@@ -1045,13 +1099,9 @@ function filterHuyetVi(isEnter = false) {
             if (AppState.isQuizHV) {
                 const blurEl = card.querySelector('.blur-target');
                 if (blurEl) blurEl.classList.remove('blur-md');
-                if (isTitle) {
-                    kichHoatTimAnh('Huyệt ' + (h.ten || ''));
-                }
+                if (isTitle) kichHoatTimAnh('Huyệt ' + (h.ten || ''));
             } else {
-                if (isTitle) {
-                    kichHoatTimAnh('Huyệt ' + (h.ten || ''));
-                }
+                if (isTitle) kichHoatTimAnh('Huyệt ' + (h.ten || ''));
             }
         };
 
@@ -1060,13 +1110,25 @@ function filterHuyetVi(isEnter = false) {
     grid.appendChild(frag);
 }
 
+
 function filterTra(isEnter = false) {
-    if (typeof traData === 'undefined' || !traData) return;
+    const grid = document.getElementById('gridTra'); 
+    if (!grid) return; 
+
+    if (typeof traData === 'undefined' || !traData) {
+        grid.innerHTML = `
+            <div class="col-span-full text-center py-14 space-y-2 text-stone-500">
+                <i class="fa-solid fa-spinner fa-spin text-3xl opacity-40 block mb-1 text-amber-500"></i>
+                <p class="text-sm font-medium">Đang tải dữ liệu trà dược...</p>
+            </div>
+        `;
+        return;
+    }
+
     const txtRaw = getVal('searchTra').trim();
     const txt = txtRaw.toLowerCase();
-    const queryWords = txt ? txt.split(/\s+/).filter(Boolean) : [];
-    
-    // Mở rộng từ khóa với cặp từ đồng nghĩa đặc biệt (nếu có)
+    const cleanTxt = txt.replace(/[,\.;:?!()\[\]{}]/g, ' ');
+    const queryWords = cleanTxt ? cleanTxt.split(/\s+/).filter(Boolean) : [];    
     let expandedWords = [...queryWords];
     if (txt.includes('dành dành') && !expandedWords.includes('chi tử')) {
         expandedWords.push('chi tử');
@@ -1075,8 +1137,6 @@ function filterTra(isEnter = false) {
     }
 
     const nhom = getVal('filterNhomTra');
-    const grid = document.getElementById('gridTra'); 
-    if (!grid) return; 
     grid.innerHTML = "";
 
     const scoredData = [];
@@ -1101,7 +1161,7 @@ function filterTra(isEnter = false) {
         expandedWords.forEach(word => {
             if (fullText.includes(word)) {
                 matchCount++;
-                if (ten.includes(word)) matchCount += 0.5; // Ưu tiên cao nếu khớp tên bài trà
+                if (ten.includes(word)) matchCount += 0.5;
             }
         });
 
@@ -1110,11 +1170,15 @@ function filterTra(isEnter = false) {
         }
     });
 
-    // Sắp xếp kết quả theo độ khớp nhiều từ nhất giảm dần
     scoredData.sort((a, b) => b.score - a.score);
     const filteredData = scoredData.map(s => s.item);
 
     if (filteredData.length === 0) {
+        if (txtRaw && document.getElementById('ai-backup-tra')?.checked) {
+            fetchAIBackupResult(txtRaw, 'Trà Dược YHCT', grid);
+            return;
+        }
+
         if (txtRaw && isEnter) xuLyKhongTimThay('Trà Dược', txtRaw);
 
         const feedbackMsg = (txtRaw && isEnter) 
@@ -1159,9 +1223,7 @@ function filterTra(isEnter = false) {
                 <div class="text-stone-500 text-[10px] font-bold tracking-wider uppercase flex items-center gap-1">
                     <i class="fa-solid fa-clipboard-list text-[9px]"></i> THÀNH PHẦN DƯỢC LIỆU:
                 </div>
-                <div class="flex flex-wrap gap-1.5">
-                    ${tagsHtml}
-                </div>
+                <div class="flex flex-wrap gap-1.5">${tagsHtml}</div>
             </div>
         `;
         frag.appendChild(card);
@@ -1169,10 +1231,30 @@ function filterTra(isEnter = false) {
     grid.appendChild(frag);
 }
 
+
 window.addEventListener("DOMContentLoaded", () => {
-    // Lưu lại giao diện cài đặt gốc trước khi bị AI ghi đè
     const setupBox = document.getElementById('quiz-setup');
     if (setupBox) {
+        if (!document.getElementById('use-quiz-timer')) {
+            const aiCheckContainer = setupBox.querySelector('label') || setupBox.querySelector('input[type="checkbox"]')?.parentElement;
+            if (aiCheckContainer) {
+                const timerDiv = document.createElement('div');
+                timerDiv.className = "flex items-center justify-between gap-2 pt-2 pb-1 border-t border-stone-800/80 mt-2";
+                timerDiv.innerHTML = `
+                    <label class="flex items-center gap-2 text-xs text-stone-300 cursor-pointer select-none">
+                        <input type="checkbox" id="use-quiz-timer" class="w-4 h-4 rounded border-stone-700 bg-stone-900 text-amber-600 focus:ring-amber-500">
+                        <span>⏱️ Giới hạn thời gian mỗi câu</span>
+                    </label>
+                    <select id="quiz-time-per-question" class="bg-stone-900 text-stone-200 border border-stone-800 rounded-lg px-2 py-1 text-xs focus:border-amber-500 outline-none">
+                        <option value="15">15 giây</option>
+                        <option value="30" selected>30 giây</option>
+                        <option value="45">45 giây</option>
+                        <option value="60">60 giây</option>
+                    </select>
+                `;
+                aiCheckContainer.parentNode.insertBefore(timerDiv, aiCheckContainer.nextSibling);
+            }
+        }
         originalQuizSetupHTML = setupBox.innerHTML;
     }
 
@@ -1219,7 +1301,6 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
-
 
 async function switchTab(tabName) {
     if (tabName === 'luantri') await loadScript('luantridata.js');
@@ -1277,7 +1358,6 @@ async function switchTab(tabName) {
     });
 }
 
-
 let currentQuizQuestions = [];
 let currentQuizIndex = 0;
 let quizScore = 0;
@@ -1300,12 +1380,10 @@ function capNhatDiemGanNhat() {
 
 function taoCauHoiTamTuDuLieu(category) {
     let generated = [];
-
     const getRandomWrongOptions = (sourceArray, correctValue, count) => {
         const wrongOptions = [];
         const maxTries = count * 5;
         let tries = 0;
-        
         while (wrongOptions.length < count && tries < maxTries) {
             const randomVal = sourceArray[Math.floor(Math.random() * sourceArray.length)];
             if (randomVal !== correctValue && !wrongOptions.includes(randomVal)) {
@@ -1318,12 +1396,10 @@ function taoCauHoiTamTuDuLieu(category) {
 
     if ((category === 'luantri' || category === 'all') && typeof database !== 'undefined') {
         const allHC = Object.values(database).map(d => d.hc).filter(Boolean);
-        
         Object.keys(database).forEach(key => {
             const item = database[key];
             if (item && item.hc && item.tc && item.tc.length > 0) {
                 const wrongOptions = getRandomWrongOptions(allHC, item.hc, 3);
-                
                 if (wrongOptions.length >= 3) {
                     const options = [item.hc, ...wrongOptions].sort(() => 0.5 - Math.random());
                     generated.push({
@@ -1340,11 +1416,9 @@ function taoCauHoiTamTuDuLieu(category) {
 
     if ((category === 'duoclieu' || category === 'all') && typeof duocLieuData !== 'undefined' && Array.isArray(duocLieuData)) {
         const allCongDung = duocLieuData.map(item => item.cong_dung).filter(Boolean);
-        
         duocLieuData.forEach(d => {
             if (d && d.ten && d.cong_dung) {
                 const wrongOptions = getRandomWrongOptions(allCongDung, d.cong_dung, 3);
-
                 if (wrongOptions.length >= 3) {
                     const options = [d.cong_dung, ...wrongOptions].sort(() => 0.5 - Math.random());
                     generated.push({
@@ -1361,11 +1435,9 @@ function taoCauHoiTamTuDuLieu(category) {
 
     if ((category === 'huyetvi' || category === 'all') && typeof huyetViData !== 'undefined' && Array.isArray(huyetViData)) {
         const allChuTri = huyetViData.map(item => item.chu_tri).filter(Boolean);
-        
         huyetViData.forEach(h => {
             if (h && h.ten && h.chu_tri) {
                 const wrongOptions = getRandomWrongOptions(allChuTri, h.chu_tri, 3);
-
                 if (wrongOptions.length >= 3) {
                     const options = [h.chu_tri, ...wrongOptions].sort(() => 0.5 - Math.random());
                     generated.push({
@@ -1382,11 +1454,9 @@ function taoCauHoiTamTuDuLieu(category) {
 
     if ((category === 'tra' || category === 'all') && typeof traData !== 'undefined' && Array.isArray(traData)) {
         const allCongDungTra = traData.map(item => item.cong_dung).filter(Boolean);
-        
         traData.forEach(t => {
             if (t && t.ten && t.cong_dung) {
                 const wrongOptions = getRandomWrongOptions(allCongDungTra, t.cong_dung, 3);
-
                 if (wrongOptions.length >= 3) {
                     const options = [t.cong_dung, ...wrongOptions].sort(() => 0.5 - Math.random());
                     generated.push({
@@ -1407,7 +1477,7 @@ function taoCauHoiTamTuDuLieu(category) {
 async function fetchAIQuizQuestions(category, count) {
     try {
         const prompt = `Hãy soạn chính xác ${count} câu hỏi trắc nghiệm khách quan về chuyên đề ${category} trong Y học cổ truyền (YHCT). 
-        Yêu cầu trả về đúng định dạng JSON chuẩn gồm một mảng đúng ${count} object (không thừa, không thiếu) với các trường:
+        Yêu cầu trả về đúng định dạng JSON chuẩn gồm một mảng đúng ${count} object với các trường:
         - "cau_hoi": Nội dung câu hỏi lâm sàng hoặc lý luận.
         - "lua_chon": Mảng gồm đúng 4 đáp án (A, B, C, D).
         - "dap_an": Chỉ số đáp án đúng (từ 0 đến 3 ứng với 4 lựa chọn).
@@ -1421,7 +1491,6 @@ async function fetchAIQuizQuestions(category, count) {
         });
 
         const data = await res.json();
-        
         if (res.ok && data.reply) {
             let jsonStr = data.reply.trim();
             if (jsonStr.startsWith('```json')) {
@@ -1430,7 +1499,6 @@ async function fetchAIQuizQuestions(category, count) {
                 jsonStr = jsonStr.replace(/^```/, '').replace(/```$/, '').trim();
             }
             const parsedArray = JSON.parse(jsonStr);
-            // Đảm bảo mảng trả về cắt đúng số lượng yêu cầu phòng trường hợp AI sinh thừa
             return Array.isArray(parsedArray) ? parsedArray.slice(0, count) : [];
         }
     } catch (err) {
@@ -1439,15 +1507,19 @@ async function fetchAIQuizQuestions(category, count) {
     return [];
 }
 
-
 async function batDauTracNghiem() {
     const categorySelect = document.getElementById('quiz-category');
     const countSelect = document.getElementById('quiz-count');
     const useAICheckbox = document.getElementById('use-ai-quiz');
+    const useTimerCheckbox = document.getElementById('use-quiz-timer');
+    const timeSelect = document.getElementById('quiz-time-per-question');
     
     const category = categorySelect ? categorySelect.value : 'all';
     const count = countSelect ? parseInt(countSelect.value) : 10;
     const isUseAI = useAICheckbox ? useAICheckbox.checked : false;
+    
+    isTimerEnabled = useTimerCheckbox ? useTimerCheckbox.checked : false;
+    timePerQuestion = timeSelect ? parseInt(timeSelect.value) : 30;
 
     if (isUseAI) {
         const setupBox = document.getElementById('quiz-setup');
@@ -1527,8 +1599,6 @@ async function batDauTracNghiem() {
     quizScore = 0;
     userAnswers = [];
 
-    // Khôi phục lại giao diện setup nếu reload từ AI
-
     document.getElementById('quiz-setup').classList.add('hidden');
     document.getElementById('quiz-result').classList.add('hidden');
     document.getElementById('quiz-review').classList.add('hidden');
@@ -1537,11 +1607,25 @@ async function batDauTracNghiem() {
     hienThiCauHoiTracNghiem();
 }
 
+function updateTimerDisplay() {
+    const progressEl = document.getElementById('quiz-progress');
+    if (progressEl) {
+        const total = currentQuizQuestions.length;
+        const timerColor = quizTimeRemaining <= 5 ? 'text-red-400 animate-pulse font-bold' : 'text-amber-400';
+        progressEl.innerHTML = `<i class="fa-solid fa-fire text-amber-500"></i> Câu ${currentQuizIndex + 1}/${total} <span class="ml-3 ${timerColor}"><i class="fa-solid fa-stopwatch"></i> ${quizTimeRemaining}s</span>`;
+    }
+}
 
 function hienThiCauHoiTracNghiem() {
     if (currentQuizIndex >= currentQuizQuestions.length) {
         hienThiKetQuaTracNghiem();
         return;
+    }
+
+    // Tối ưu: Dọn dẹp khoảng thời gian cũ triệt để tránh race condition
+    if (quizTimerInterval) {
+        clearInterval(quizTimerInterval);
+        quizTimerInterval = null;
     }
 
     const oldFeedback = document.getElementById('quiz-feedback-box');
@@ -1550,12 +1634,27 @@ function hienThiCauHoiTracNghiem() {
     const q = currentQuizQuestions[currentQuizIndex];
     const total = currentQuizQuestions.length;
     
-    // Cập nhật thông tin số câu và điểm
-    document.getElementById('quiz-progress').innerHTML = `<i class="fa-solid fa-fire text-amber-500"></i> Câu ${currentQuizIndex + 1}/${total}`;
     document.getElementById('quiz-score-live').innerHTML = `<i class="fa-solid fa-star text-amber-400 mr-1"></i> Điểm: ${quizScore}`;
     document.getElementById('quiz-question').innerText = q.cau_hoi;
 
-    // Cập nhật thanh tiến trình phần trăm
+    if (isTimerEnabled) {
+        quizTimeRemaining = timePerQuestion;
+        updateTimerDisplay();
+        quizTimerInterval = setInterval(() => {
+            quizTimeRemaining--;
+            updateTimerDisplay();
+            if (quizTimeRemaining <= 0) {
+                if (quizTimerInterval) {
+                    clearInterval(quizTimerInterval);
+                    quizTimerInterval = null;
+                }
+                chonDapAnTracNghiem(-1, true); // Hết giờ
+            }
+        }, 1000);
+    } else {
+        document.getElementById('quiz-progress').innerHTML = `<i class="fa-solid fa-fire text-amber-500"></i> Câu ${currentQuizIndex + 1}/${total}`;
+    }
+
     const progressBar = document.getElementById('quiz-progress-bar');
     if (progressBar) {
         const percent = ((currentQuizIndex) / total) * 100;
@@ -1574,15 +1673,19 @@ function hienThiCauHoiTracNghiem() {
             </span> 
             <span class="leading-relaxed font-medium">${escapeHTML(opt)}</span>
         `;
-        btn.onclick = () => chonDapAnTracNghiem(idx);
+        btn.onclick = () => chonDapAnTracNghiem(idx, false);
         optionsContainer.appendChild(btn);
     });
 }
 
+function chonDapAnTracNghiem(selectedIndex, isTimeout = false) {
+    if (quizTimerInterval) {
+        clearInterval(quizTimerInterval);
+        quizTimerInterval = null;
+    }
 
-function chonDapAnTracNghiem(selectedIndex) {
     const q = currentQuizQuestions[currentQuizIndex];
-    const isCorrect = selectedIndex === q.dap_an;
+    const isCorrect = !isTimeout && (selectedIndex === q.dap_an);
     
     if (isCorrect) quizScore++;
 
@@ -1590,7 +1693,7 @@ function chonDapAnTracNghiem(selectedIndex) {
         cau_hoi: q.cau_hoi,
         lua_chon: q.lua_chon,
         dap_an_dung: q.dap_an,
-        lua_chon_cua_ban: selectedIndex,
+        lua_chon_cua_ban: isTimeout ? undefined : selectedIndex,
         giai_thich: q.giai_thich,
         dung: isCorrect
     });
@@ -1603,7 +1706,7 @@ function chonDapAnTracNghiem(selectedIndex) {
         if (i === q.dap_an) {
             buttons[i].classList.remove('bg-stone-900', 'border-stone-800');
             buttons[i].classList.add('bg-emerald-950/80', 'border-emerald-600', 'text-emerald-300', 'font-bold');
-        } else if (i === selectedIndex && !isCorrect) {
+        } else if (i === selectedIndex && !isCorrect && !isTimeout) {
             buttons[i].classList.remove('bg-stone-900', 'border-stone-800');
             buttons[i].classList.add('bg-red-950/80', 'border-red-600', 'text-red-300', 'font-bold');
         }
@@ -1616,7 +1719,18 @@ function chonDapAnTracNghiem(selectedIndex) {
         optionsContainer.parentNode.appendChild(feedbackDiv);
     }
 
-    if (isCorrect) {
+    if (isTimeout) {
+        feedbackDiv.className = "mt-4 p-3.5 rounded-lg border border-amber-800 bg-amber-950/40 text-xs space-y-2 animate-fade-in";
+        feedbackDiv.innerHTML = `
+            <div class="font-bold text-amber-400 flex items-center gap-1.5 text-sm">
+                <i class="fa-solid fa-clock-rotate-left"></i> Hết thời gian!
+            </div>
+            <div class="text-stone-300 italic">💡 ${escapeHTML(q.giai_thich || 'Đã quá thời gian trả lời cho câu hỏi này.')}</div>
+            <button onclick="chuyenCauTiepTheo()" class="mt-2 w-full py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded transition-all flex items-center justify-center gap-2 cursor-pointer">
+                Câu tiếp theo <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        `;
+    } else if (isCorrect) {
         feedbackDiv.className = "mt-4 p-3.5 rounded-lg border border-emerald-800 bg-emerald-950/40 text-xs space-y-2 animate-fade-in";
         feedbackDiv.innerHTML = `
             <div class="font-bold text-emerald-400 flex items-center gap-1.5 text-sm">
@@ -1647,6 +1761,11 @@ function chuyenCauTiepTheo() {
 }
         
 function hienThiKetQuaTracNghiem() {
+    if (quizTimerInterval) {
+        clearInterval(quizTimerInterval);
+        quizTimerInterval = null;
+    }
+
     document.getElementById('quiz-play').classList.add('hidden');
     document.getElementById('quiz-result').classList.remove('hidden');
 
@@ -1719,19 +1838,21 @@ function kichHoatTimAnh(keyword = "") {
 }
 
 function quayLaiCauHinhQuiz() {
+    if (quizTimerInterval) {
+        clearInterval(quizTimerInterval);
+        quizTimerInterval = null;
+    }
     document.getElementById('quiz-result').classList.add('hidden');
     document.getElementById('quiz-review').classList.add('hidden');
     
     const setupBox = document.getElementById('quiz-setup');
     if (setupBox) {
-        // Khôi phục lại HTML cấu hình gốc ban đầu
         if (originalQuizSetupHTML) {
             setupBox.innerHTML = originalQuizSetupHTML;
         }
         setupBox.classList.remove('hidden');
     }
 }
-
 
 function hienThiXemLai() {
     document.getElementById('quiz-result').classList.add('hidden');
@@ -1745,7 +1866,7 @@ function hienThiXemLai() {
         const item = document.createElement('div');
         item.className = `p-3 rounded-lg border text-xs space-y-1.5 ${ans.dung ? 'bg-emerald-950/20 border-emerald-900/50' : 'bg-red-950/20 border-red-900/50'}`;
         
-        const yourChoiceText = ans.lua_chon_cua_ban !== undefined ? ans.lua_chon[ans.lua_chon_cua_ban] : "Chưa trả lời";
+        const yourChoiceText = (ans.lua_chon_cua_ban !== undefined && ans.lua_chon_cua_ban >= 0) ? ans.lua_chon[ans.lua_chon_cua_ban] : "Hết giờ / Chưa trả lời";
         const correctChoiceText = ans.lua_chon[ans.dap_an_dung];
 
         item.innerHTML = `
@@ -1874,7 +1995,6 @@ async function exportPDF() {
     const btn = document.querySelector('button[onclick="exportPDF()"]');
     const oldHtml = btn ? btn.innerHTML : '';
 
-    // Chỉ tải tệp thư viện từ thư mục cùng cấp khi chưa có sẵn trên trình duyệt
     if (typeof html2pdf === 'undefined') {
         if (btn) {
             btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang tải thư viện PDF...';
@@ -1912,12 +2032,7 @@ async function exportPDF() {
         margin:       [10, 10, 10, 10],
         filename:     'Phac-Do-YHCT.pdf',
         image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { 
-            scale: 2,
-            useCORS: true, 
-            letterRendering: true,
-            scrollY: 0
-        },
+        html2canvas:  { scale: 2, useCORS: true, letterRendering: true, scrollY: 0 },
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
         pagebreak:    { mode: ['avoid-all', 'css', 'legacy'] }
     };
@@ -1935,7 +2050,6 @@ async function exportPDF() {
         }
     });
 }
-
 
 function formatAIMessage(text) {
     if (!text) return '';
@@ -1995,10 +2109,10 @@ async function sendAIWebMessage() {
 
     try {
         const res = await fetch('/.netlify/functions/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ prompt: query, source: 'assistant' }) // Đánh dấu nguồn là assistant để dùng key chính
-});
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: query, source: 'assistant' })
+        });
         const data = await res.json();
 
         const loadingEl = document.getElementById(loadingId);
@@ -2078,8 +2192,9 @@ document.addEventListener('touchend', e => {
     handleSwipe(touchstartX, touchstartY, endX, endY);
 }, { passive: true });
 
+// Đã khắc phục lỗi xung đột phím Enter bằng cách kiểm tra loại trừ id của ô search
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT' && !e.target.id.includes('search')) {
         e.target.blur();
     }
 });
@@ -2095,15 +2210,13 @@ async function taiDuLieuOffline() {
     if (!xacNhan) return;
 
     try {
-        // 1. Tải và lưu cache dữ liệu
-        const cache = await caches.open('dailuantri-v1.3.5');
+        const cache = await caches.open('dailuantri-v1.3.9');
         await cache.addAll([
             './', './index.html', './style.css', './app.js',
             './luantridata.js', './duoclieudata.js', './huyetvidata.js',
             './tradata.js', './questiondata.js', './manifest.json'
         ]);
 
-        // 2. Kích hoạt Service Worker sau khi người dùng đồng ý tải offline
         if ('serviceWorker' in navigator) {
             await navigator.serviceWorker.register('./sw.js');
         }
@@ -2114,10 +2227,8 @@ async function taiDuLieuOffline() {
         alert('Cần có mạng ổn định để tải dữ liệu lần đầu.');
     }
 }
-// Danh sách quy tắc tương kỵ đầy đủ (Thập Bát Phản & Thập Cửu Úy)
+
 const PHAN_UY_RULES = [
-    // --- THẬP BÁT PHẢN ---
-    // 1. Nhóm Ô đầu (Xuyên ô, Thảo ô, Phụ tử) phản các vị: Bối mẫu, Bán hạ, Qua lâu, Bạch cập, Bạch liễm
     { a: 'Ô đầu', b: 'Bối mẫu', msg: 'Ô đầu phản Bối mẫu' },
     { a: 'Ô đầu', b: 'Bán hạ', msg: 'Ô đầu phản Bán hạ' },
     { a: 'Ô đầu', b: 'Qua lâu', msg: 'Ô đầu phản Qua lâu' },
@@ -2138,14 +2249,10 @@ const PHAN_UY_RULES = [
     { a: 'Phụ tử', b: 'Qua lâu', msg: 'Phụ tử phản Qua lâu' },
     { a: 'Phụ tử', b: 'Bạch cập', msg: 'Phụ tử phản Bạch cập' },
     { a: 'Phụ tử', b: 'Bạch liễm', msg: 'Phụ tử phản Bạch liễm' },
-
-    // 2. Nhóm Cam thảo phản: Hải tảo, Đại kích, Nguyên hoa, Kích hoa
     { a: 'Cam thảo', b: 'Hải tảo', msg: 'Cam thảo phản Hải tảo' },
     { a: 'Cam thảo', b: 'Đại kích', msg: 'Cam thảo phản Đại kích' },
     { a: 'Cam thảo', b: 'Nguyên hoa', msg: 'Cam thảo phản Nguyên hoa' },
     { a: 'Cam thảo', b: 'Kích hoa', msg: 'Cam thảo phản Kích hoa' },
-
-    // 3. Nhóm Lê lô phản: Nhân sâm, Sa sâm, Đan sâm, Khổ sâm, Tế tân, Thược dược, Cát cánh
     { a: 'Lê lô', b: 'Nhân sâm', msg: 'Lê lô phản Nhân sâm' },
     { a: 'Lê lô', b: 'Sa sâm', msg: 'Lê lô phản Sa sâm' },
     { a: 'Lê lô', b: 'Đan sâm', msg: 'Lê lô phản Đan sâm' },
@@ -2155,8 +2262,6 @@ const PHAN_UY_RULES = [
     { a: 'Lê lô', b: 'Bạch thược', msg: 'Lê lô phản Bạch thược' },
     { a: 'Lê lô', b: 'Xích thược', msg: 'Lê lô phản Xích thược' },
     { a: 'Lê lô', b: 'Cát cánh', msg: 'Lê lô phản Cát cánh' },
-
-    // --- THẬP CỬU ÚY ---
     { a: 'Lưu hoàng', b: 'Phác tiêu', msg: 'Lưu hoàng úy Phác tiêu' },
     { a: 'Thủy ngân', b: 'Tỳ sương', msg: 'Thủy ngân úy Tỳ sương' },
     { a: 'Hùng hoàng', b: 'Ba đậu', msg: 'Hùng hoàng úy Ba đậu' },
@@ -2167,9 +2272,8 @@ const PHAN_UY_RULES = [
     { a: 'Xuyên ô', b: 'Tê giác', msg: 'Xuyên ô úy Tê giác' },
     { a: 'Thảo ô', b: 'Tê giác', msg: 'Thảo ô úy Tê giác' },
     { a: 'Nhân sâm', b: 'Ngũ linh chi', msg: 'Nhân sâm úy Ngũ linh chi' },
-    { a: 'Nhục quế', b: 'Xích thạch chi', msg: 'Nhục quế úy Xích thạch chi' }
-];
-
+    { a: 'Nhục quế', b: 'Xích thạch chi', msg: 'Nhục quế úy Xích thạch chi'}
+    ];
 
 function kiemTraTuongKy(danhSachViThuoc) {
     if (!Array.isArray(danhSachViThuoc)) return [];
@@ -2191,4 +2295,57 @@ function kiemTraTuongKy(danhSachViThuoc) {
     }
     return [...new Set(canhBao)];
 }
-
+async function fetchAIBackupResult(query, tabName, containerEl) {
+    if (!containerEl) return;
+    containerEl.innerHTML = `
+        <div class="col-span-full text-center py-12 space-y-2 text-stone-400 bg-stone-900/60 rounded-xl border border-amber-600/30">
+            <i class="fa-solid fa-brain fa-spin text-3xl text-amber-500 block mb-1"></i>
+            <p class="text-sm font-bold text-amber-400">Không tìm thấy trong cơ sở dữ liệu offline. Trợ lý AI đang tìm kiếm dự phòng (AI Backup)...</p>
+            <p class="text-xs text-stone-500">Từ khóa: "${escapeHTML(query)}"</p>
+        </div>
+    `;
+    try {
+        const prompt = `Người dùng đang tra cứu về "${query}" trong danh mục ${tabName} của Y học cổ truyền (YHCT) nhưng không có sẵn trong cơ sở dữ liệu offline. Hãy cung cấp thông tin chi tiết, chuẩn xác, đầy đủ chuyên môn về từ khóa này bằng tiếng Việt, định dạng rõ ràng, ngắn gọn, súc tích.`;
+        const res = await fetch('/.netlify/functions/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt, source: 'backup' })
+        });
+        const data = await res.json();
+        if (res.ok && data.reply) {
+            containerEl.innerHTML = `
+                <div class="col-span-full bg-stone-900/90 border border-amber-600/50 p-4 rounded-xl space-y-3 shadow-xl">
+                    <div class="flex items-center justify-between border-b border-stone-800 pb-2">
+                        <span class="text-xs font-bold text-amber-400 flex items-center gap-1.5 uppercase">
+                            <i class="fa-solid fa-robot"></i> Kết quả Tra cứu Dự phòng từ AI (AI Backup) - ${tabName}
+                        </span>
+                        <span class="text-[10px] bg-amber-950 text-amber-300 px-2 py-0.5 rounded border border-amber-800">Trực tuyến</span>
+                    </div>
+                    <div class="text-xs leading-relaxed space-y-1 text-stone-200">${formatAIMessage(data.reply)}</div>
+                </div>
+            `;
+        } else {
+            containerEl.innerHTML = `<div class="col-span-full text-center py-8 text-xs text-stone-500">AI Backup không phản hồi hoặc mất kết nối mạng.</div>`;
+        }
+    } catch (err) {
+        console.error("Lỗi AI Backup:", err);
+        containerEl.innerHTML = `<div class="col-span-full text-center py-8 text-xs text-red-400">Lỗi kết nối khi gọi AI Backup.</div>`;
+    }
+}
+// Tự động ẩn bàn phím khi chạm/vuốt ra ngoài ô nhập liệu
+document.addEventListener('pointerdown', (e) => {
+    if (!e.target.closest('input, textarea, select')) {
+        const active = document.activeElement;
+        if (active && ['INPUT', 'TEXTAREA', 'SELECT'].includes(active.tagName)) {
+            active.blur();
+        }
+    }
+});
+document.addEventListener('DOMContentLoaded', () => {
+    const aiCheckLt = document.getElementById('ai-backup-luantri');
+    if (aiCheckLt) {
+        aiCheckLt.addEventListener('change', () => {
+            updateLuanTri();
+        });
+    }
+});
