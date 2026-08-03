@@ -1,79 +1,47 @@
-const CACHE_NAME = 'dailuantri-v1.3.0';
+const CACHE_NAME = 'dailuantri-v1.3.5'; // Tăng số phiên bản khi bạn cập nhật code/dữ liệu mới
 
-// Các file cốt lõi bắt buộc để chạy khung giao diện
-const ESSENTIAL_ASSETS = [
-    './',
-    './index.html',
-    './app.js',
-    './manifest.json',
-    'https://cdn.tailwindcss.com',
-    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css'
-];
-
-// Các file dữ liệu & thư viện (tải từng file, file nào thiếu không làm hỏng SW)
-const OPTIONAL_ASSETS = [
-    './style.css',
-    './luantridata.js',
-    './duoclieudata.js',
-    './huyetvidata.js',
-    './tradata.js',
-    './questiondata.js',
-    './html2pdf.bundle.min.js'
-];
-
+// 1. Cài đặt và ép buộc bỏ qua trạng thái chờ để kích hoạt ngay
 self.addEventListener('install', event => {
+    self.skipWaiting();
     event.waitUntil(
-        caches.open(CACHE_NAME).then(async cache => {
-            // 1. Tải các file khung giao diện trước
-            await cache.addAll(ESSENTIAL_ASSETS).catch(() => {});
-            
-            // 2. Tải an toàn từng file dữ liệu (nếu file nào chưa có trên server thì bỏ qua, không làm sập SW)
-            for (const asset of OPTIONAL_ASSETS) {
-                try {
-                    await cache.add(new Request(asset, { cache: 'reload' }));
-                } catch (e) {
-                    console.warn('Bỏ qua file chưa có hoặc lỗi:', asset);
-                }
-            }
-        }).then(() => self.skipWaiting())
+        caches.open(CACHE_NAME).then(cache => {
+            return cache.addAll([
+                './',
+                './index.html',
+                './style.css',
+                './app.js',
+                './luantridata.js',
+                './duoclieudata.js',
+                './huyetvidata.js',
+                './tradata.js',
+                './questiondata.js',
+                './manifest.json'
+            ]);
+        })
     );
 });
 
+// 2. Kích hoạt và tự động quét xoá toàn bộ cache phiên bản cũ
 self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys().then(keys => {
             return Promise.all(
                 keys.map(key => {
-                    if (key !== CACHE_NAME) return caches.delete(key);
+                    if (key !== CACHE_NAME) {
+                        console.log('Đang xoá cache cũ:', key);
+                        return caches.delete(key);
+                    }
                 })
             );
-        }).then(() => self.clients.claim())
+        }).then(() => self.clients.claim()) // Kiểm soát ngay lập tức các tab đang mở
     );
 });
 
+// 3. Phục vụ tài nguyên từ cache, nếu không có sẽ gọi mạng
 self.addEventListener('fetch', event => {
-    if (event.request.method !== 'GET') return;
-    if (!event.request.url.startsWith('http')) return;
-
     event.respondWith(
-        caches.match(event.request, { ignoreSearch: true }).then(cachedResponse => {
-            if (cachedResponse) return cachedResponse;
-
-            return fetch(event.request).then(response => {
-                if (!response || response.status !== 200 || response.type === 'error') {
-                    return response;
-                }
-                const responseToCache = response.clone();
-                caches.open(CACHE_NAME).then(cache => {
-                    cache.put(event.request, responseToCache);
-                });
-                return response;
-            }).catch(() => {
-                // Tự động trả về trang index.html nếu ngắt mạng khi điều hướng
-                if (event.request.mode === 'navigate') {
-                    return caches.match('./index.html') || caches.match('./');
-                }
-            });
+        caches.match(event.request).then(response => {
+            return response || fetch(event.request);
         })
     );
 });

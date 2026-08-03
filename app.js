@@ -1995,7 +1995,7 @@ async function taiDuLieuOffline() {
 
     try {
         // 1. Tải và lưu cache dữ liệu
-        const cache = await caches.open('dailuantri-v1.3.4');
+        const cache = await caches.open('dailuantri-v1.3.5');
         await cache.addAll([
             './', './index.html', './style.css', './app.js',
             './luantridata.js', './duoclieudata.js', './huyetvidata.js',
