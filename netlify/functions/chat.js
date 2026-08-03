@@ -6,14 +6,20 @@ exports.handler = async function(event, context) {
     }
 
     try {
-        const { prompt } = JSON.parse(event.body || '{}');
+        const { prompt, source } = JSON.parse(event.body || '{}');
 
-        const keys = [
-            process.env.AI_API_KEY || process.env.PRIMARY_API_KEY,
-            process.env.BACKUP_API_KEY
-        ].filter(Boolean);
+        const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
+        const backupKey = process.env.BACKUP_API_KEY;
 
-        if (keys.length === 0) {
+        // Phân luồng Key: Tab Trợ lý AI ưu tiên key chính, các tab khác ưu tiên key backup
+        let keysToTry = [];
+        if (source === 'assistant') {
+            keysToTry = [primaryKey, backupKey].filter(Boolean);
+        } else {
+            keysToTry = [backupKey, primaryKey].filter(Boolean);
+        }
+
+        if (keysToTry.length === 0) {
             return { 
                 statusCode: 500, 
                 headers: { 'Content-Type': 'application/json' },
@@ -21,11 +27,11 @@ exports.handler = async function(event, context) {
             };
         }
 
-        // Ưu tiên 3.6-flash trước, nếu bận chuyển sang 3.5-flash
+        // Giữ nguyên 2 model cũ đang chạy ổn định của bạn[span_1](start_span)[span_1](end_span)
         const models = ['gemini-3.6-flash', 'gemini-3.5-flash'];
         let lastError = null;
 
-        for (const apiKey of keys) {
+        for (const apiKey of keysToTry) {
             for (const model of models) {
                 for (let attempt = 1; attempt <= 2; attempt++) {
                     try {
@@ -53,7 +59,7 @@ exports.handler = async function(event, context) {
 
                         lastError = data.error?.message || JSON.stringify(data);
 
-                        if (response.status === 503 || response.status === 429 || lastError.includes('demand')) {
+                        if (response.status === 503 || response.status === 429 || (lastError && lastError.includes('demand'))) {
                             await delay(2000);
                         } else {
                             break;
