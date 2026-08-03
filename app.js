@@ -6,6 +6,9 @@ const AppState = {
     isQuizLT: false
 };
 
+let originalQuizSetupHTML = ""; // <--- Thêm biến toàn cục để lưu giao diện cấu hình gốc
+
+
 // Giữ lại các biến tương thích ngược nếu có module ngoài tham chiếu trực tiếp
 let quizActive = false;
 let isQuizDL = false, isQuizHV = false, isQuizLT = false;
@@ -1167,6 +1170,12 @@ function filterTra(isEnter = false) {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
+    // Lưu lại giao diện cài đặt gốc trước khi bị AI ghi đè
+    const setupBox = document.getElementById('quiz-setup');
+    if (setupBox) {
+        originalQuizSetupHTML = setupBox.innerHTML;
+    }
+
     requestAnimationFrame(() => {
         try {
             capNhatTongSoTrieuChung();
@@ -1187,7 +1196,6 @@ window.addEventListener("DOMContentLoaded", () => {
         } catch (err) {
             console.error("Lỗi khởi tạo:", err);
         }
-
         const savedTab = localStorage.getItem('activeTab') || 'luantri';
         switchTab(savedTab);
         const loader = document.getElementById('app-loader');
@@ -1211,6 +1219,7 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
 
 async function switchTab(tabName) {
     if (tabName === 'luantri') await loadScript('luantridata.js');
@@ -1260,13 +1269,14 @@ async function switchTab(tabName) {
             if (t === 'huyetvi') filterHuyetVi();
             if (t === 'tra') filterTra();
             if (t === 'tracnghiem') capNhatDiemGanNhat();
-            
+
         } else {
             if (section) section.classList.add('hidden');
             if (btn) btn.classList.remove('tab-active', 'text-primary');
         }
     });
 }
+
 
 let currentQuizQuestions = [];
 let currentQuizIndex = 0;
@@ -1396,19 +1406,19 @@ function taoCauHoiTamTuDuLieu(category) {
 
 async function fetchAIQuizQuestions(category, count) {
     try {
-        const prompt = `Hãy soạn ${count} câu hỏi trắc nghiệm khách quan về chuyên đề ${category} trong Y học cổ truyền (YHCT). 
-        Yêu cầu trả về đúng định dạng JSON chuẩn gồm một mảng các object với các trường:
+        const prompt = `Hãy soạn chính xác ${count} câu hỏi trắc nghiệm khách quan về chuyên đề ${category} trong Y học cổ truyền (YHCT). 
+        Yêu cầu trả về đúng định dạng JSON chuẩn gồm một mảng đúng ${count} object (không thừa, không thiếu) với các trường:
         - "cau_hoi": Nội dung câu hỏi lâm sàng hoặc lý luận.
-        - "lua_chon": Mảng gồm 4 đáp án (A, B, C, D).
+        - "lua_chon": Mảng gồm đúng 4 đáp án (A, B, C, D).
         - "dap_an": Chỉ số đáp án đúng (từ 0 đến 3 ứng với 4 lựa chọn).
         - "giai_thich": Giải thích chi tiết ngắn gọn vì sao đáp án đó chính xác.
         Chỉ trả về định dạng JSON thuần túy, không kèm theo chữ giải thích nào khác ngoài JSON.`;
 
         const res = await fetch('/.netlify/functions/chat', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ prompt, source: 'quiz' }) // Đánh dấu nguồn là quiz để dùng key backup
-});
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt, source: 'quiz' })
+        });
 
         const data = await res.json();
         
@@ -1419,13 +1429,16 @@ async function fetchAIQuizQuestions(category, count) {
             } else if (jsonStr.startsWith('```')) {
                 jsonStr = jsonStr.replace(/^```/, '').replace(/```$/, '').trim();
             }
-            return JSON.parse(jsonStr);
+            const parsedArray = JSON.parse(jsonStr);
+            // Đảm bảo mảng trả về cắt đúng số lượng yêu cầu phòng trường hợp AI sinh thừa
+            return Array.isArray(parsedArray) ? parsedArray.slice(0, count) : [];
         }
     } catch (err) {
         console.error("Lỗi khi tạo câu hỏi bằng AI:", err);
     }
     return [];
 }
+
 
 async function batDauTracNghiem() {
     const categorySelect = document.getElementById('quiz-category');
@@ -1708,8 +1721,17 @@ function kichHoatTimAnh(keyword = "") {
 function quayLaiCauHinhQuiz() {
     document.getElementById('quiz-result').classList.add('hidden');
     document.getElementById('quiz-review').classList.add('hidden');
-    document.getElementById('quiz-setup').classList.remove('hidden');
+    
+    const setupBox = document.getElementById('quiz-setup');
+    if (setupBox) {
+        // Khôi phục lại HTML cấu hình gốc ban đầu
+        if (originalQuizSetupHTML) {
+            setupBox.innerHTML = originalQuizSetupHTML;
+        }
+        setupBox.classList.remove('hidden');
+    }
 }
+
 
 function hienThiXemLai() {
     document.getElementById('quiz-result').classList.add('hidden');
