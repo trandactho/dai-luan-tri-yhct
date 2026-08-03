@@ -11,7 +11,7 @@ exports.handler = async function(event, context) {
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const backupKey = process.env.BACKUP_API_KEY;
 
-        // Phân luồng Key: Tab Trợ lý AI giữ nguyên, các tab khác CHỈ dùng duy nhất AI Backup
+        // Phân luồng Key: Tab Trợ lý AI dùng cả 2 key, các tab còn lại CHỈ dùng 1 key duy nhất là backupKey
         let keysToTry = [];
         if (source === 'assistant') {
             keysToTry = [primaryKey, backupKey].filter(Boolean);
@@ -27,7 +27,6 @@ exports.handler = async function(event, context) {
             };
         }
 
-        // Giữ nguyên 2 model cũ đang chạy ổn định của bạn
         const models = ['gemini-3.6-flash', 'gemini-3.5-flash'];
         let lastError = null;
 
@@ -42,7 +41,7 @@ exports.handler = async function(event, context) {
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({
                                 contents: [{ 
-                                    parts: [{ text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, ngắt dòng rõ ràng, dùng gạch đầu dòng cho các ý chính: " + prompt }] 
+                                    parts: [{ text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy tuân thủ tuyệt đối y đức, không bịa đặt, thông tin chuẩn xác theo y lý chính thống. Trả lời ngắn gọn, ngắt dòng rõ ràng, dùng gạch đầu dòng cho các ý chính: " + prompt }] 
                                 }]
                             })
                         });
