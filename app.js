@@ -1514,11 +1514,6 @@ async function batDauTracNghiem() {
     userAnswers = [];
 
     // Khôi phục lại giao diện setup nếu reload từ AI
-    const setupBox = document.getElementById('quiz-setup');
-    if (setupBox && isUseAI) {
-        location.reload();
-        return;
-    }
 
     document.getElementById('quiz-setup').classList.add('hidden');
     document.getElementById('quiz-result').classList.add('hidden');
