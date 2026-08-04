@@ -11,7 +11,7 @@ exports.handler = async function(event, context) {
     }
 
     if (event.httpMethod !== 'POST') {
-        return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
+        return { statusCode: 200, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
     }
 
     try {
@@ -22,7 +22,6 @@ exports.handler = async function(event, context) {
         const backupKey  = process.env.BACKUP_API_KEY;
 
         const luantrihcKey  = process.env.LUANTRI_API_KEY2;
-        
         const luantribtKey  = process.env.LUANTRI_API_KEY3;
         const searchKey  = process.env.SEARCH_API_KEY;
         const quizKey  = process.env.QUIZ_API_KEY;
@@ -40,16 +39,18 @@ exports.handler = async function(event, context) {
             return { statusCode: 200, headers, body: JSON.stringify({ error: 'Chưa cấu hình API Key trên Netlify.' }) };
         }
 
-        // Giữ nguyên các model đang hoạt động trên AI Studio của bạn
         const models = ['gemini-3.6-flash', 'gemini-3.5-flash'];
         let lastError = null;
 
-        // Gọi trực tiếp nhanh nhất, không lặp delay gây Timeout Netlify
-        for (const apiKey of keysToTry) {
+        for (let keyIdx = 0; keyIdx < keysToTry.length; keyIdx++) {
+            const apiKey = keysToTry[keyIdx];
+            
+            // Key tính phí (đầu tiên) cho 18s thoải mái sinh câu trả lời. Key dự phòng sau cho 5s.
+            const timeoutMs = (keyIdx === 0) ? 18000 : 5000;
+
             for (const model of models) {
-                // Bộ ngắt tự động nếu mỗi request quá 7 giây
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 3500);
+                const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
                 try {
                     const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${apiKey.trim()}`;
@@ -78,7 +79,7 @@ exports.handler = async function(event, context) {
                     lastError = data.error?.message || JSON.stringify(data);
                 } catch (err) {
                     clearTimeout(timeoutId);
-                    lastError = err.name === 'AbortError' ? 'Request quá 7s (Timeout)' : err.message;
+                    lastError = err.name === 'AbortError' ? `Request quá ${timeoutMs / 1000}s (Timeout)` : err.message;
                 }
             }
         }
