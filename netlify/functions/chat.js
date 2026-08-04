@@ -49,7 +49,7 @@ exports.handler = async function(event, context) {
             for (const model of models) {
                 // Bộ ngắt tự động nếu mỗi request quá 7 giây
                 const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), 7000);
+                const timeoutId = setTimeout(() => controller.abort(), 3500);
 
                 try {
                     const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${apiKey.trim()}`;
