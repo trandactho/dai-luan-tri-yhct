@@ -21,9 +21,9 @@ exports.handler = async function(event, context) {
         const secondKey  = process.env.SECOND_API_KEY;
         const backupKey  = process.env.BACKUP_API_KEY;
 
-        const luantrihcKey  = process.env.LUANTRIHC_API_KEY;
+        const luantrihcKey  = process.env.LUANTRI_API_KEY2;
         
-        const luantribtKey  = process.env.LUANTRIBT_API_KEY;
+        const luantribtKey  = process.env.LUANTRI_API_KEY3;
         const searchKey  = process.env.SEARCH_API_KEY;
         const quizKey  = process.env.QUIZ_API_KEY;
 
