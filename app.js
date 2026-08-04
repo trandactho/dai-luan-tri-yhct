@@ -15,11 +15,11 @@ const AppState = {
     aiBtActive: false  // Trạng thái AI Bài thuốc
 };
 const ORIGINAL_PDF_AREA_HTML = `
-    <div id="lt-card-hc" class="bg-dark-box p-5 rounded-lg border-l-4 border-amber-500 space-y-2 relative pb-10">
+    <div id="lt-card-hc" class="bg-dark-box p-5 rounded-lg border-l-4 border-amber-500 space-y-2 relative">
         <div class="text-amber-400 text-xs font-bold uppercase tracking-wider mb-1">Hội chứng biện chứng</div>
         <div id="hoi-chung" class="text-xl font-bold text-amber-200 transition-all">---</div>
         <div id="ai-hc-desc" class="hidden text-xs text-stone-300 pt-2 border-t border-stone-800/80 leading-relaxed"></div>
-        <div class="absolute bottom-3 right-4 z-10">
+        <div class="absolute top-3 right-4 z-10">
             <button id="ai-toggle-hc" onclick="toggleAiFeature('hc')" class="px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60">
                 <i class="fa-solid fa-robot text-[9px]"></i> AI
             </button>
@@ -35,7 +35,7 @@ const ORIGINAL_PDF_AREA_HTML = `
             <div id="phap-dieu-tri" class="text-base font-semibold text-emerald-400 transition-all">---</div>
         </div>
     </div>
-    <div id="lt-card-bt" class="bg-dark-box p-5 rounded-lg space-y-2 relative pb-10">
+    <div id="lt-card-bt" class="bg-dark-box p-5 rounded-lg space-y-2 relative">
         <div class="flex justify-between items-center mb-3 border-b border-stone-800 pb-2">
             <div>
                 <div class="text-stone-300 text-xs font-bold uppercase tracking-wider">Đối chiếu cổ phương</div>
@@ -45,15 +45,13 @@ const ORIGINAL_PDF_AREA_HTML = `
         <div class="text-stone-300 text-xs font-bold uppercase mb-2">Thành phần quân thần tá sứ:</div>
         <div id="chi-tiet-bai-thuoc" class="flex flex-wrap gap-2 transition-all"></div>
         <div id="ai-bt-desc" class="hidden text-xs text-stone-300 pt-2 border-t border-stone-800/80 leading-relaxed"></div>
-        <div class="absolute bottom-3 right-4 z-10">
+        <div class="absolute top-3 right-4 z-10">
             <button id="ai-toggle-bt" onclick="toggleAiFeature('bt')" class="px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60">
                 <i class="fa-solid fa-robot text-[9px]"></i> AI
             </button>
         </div>
     </div>
 `;
-
-let originalQuizSetupHTML = ""; // Lưu giao diện cấu hình gốc[span_1](start_span)[span_1](end_span)
 
 // Biến quản lý đồng hồ đếm ngược trắc nghiệm
 let quizTimerInterval = null;
@@ -610,18 +608,27 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
             }
         }
 
-        // Kích hoạt AI Backup dựa trên trạng thái nút bấm
-        const needHcAI = AppState.aiHcActive && data.hc;
-        const needBtAI = AppState.aiBtActive && data.bt;
-
-        if (needHcAI || needBtAI) {
-            fetchLuanTriAIBackup(data.hc, data.bt, needHcAI, needBtAI);
+                // Kích hoạt AI độc lập cho Hội chứng & Bài thuốc
+        if (AppState.aiHcActive && data.hc) {
+            fetchAIHcDesc(data.hc);
         } else {
             const aiHcEl = document.getElementById('ai-hc-desc');
-            const aiBtEl = document.getElementById('ai-bt-desc');
-            if (aiHcEl && !AppState.aiHcActive) aiHcEl.classList.add('hidden');
-            if (aiBtEl && !AppState.aiBtActive) aiBtEl.classList.add('hidden');
+            if (aiHcEl) {
+                aiHcEl.classList.add('hidden');
+                aiHcEl.innerHTML = '';
+            }
         }
+
+        if (AppState.aiBtActive && data.bt) {
+            fetchAIBtDesc(data.bt);
+        } else {
+            const aiBtEl = document.getElementById('ai-bt-desc');
+            if (aiBtEl) {
+                aiBtEl.classList.add('hidden');
+                aiBtEl.innerHTML = '';
+            }
+        }
+
 
     } else {
         if (query && isEnter && document.getElementById('ai-backup-luantri')?.checked) {
@@ -881,93 +888,6 @@ function hienThongBaoGhiNhan(tabName, query) {
         toast.classList.add('-translate-y-2', 'opacity-0');
     }, 3500);
 }
-// 1. AI Phân tích sâu Hội chứng & Cổ phương
-async function fetchLuanTriAIBackup(hcName, btName, fetchHc = true, fetchBt = true) {
-    if (AppState.quizActive) return;
-
-    const aiHcEl = document.getElementById('ai-hc-desc');
-    const aiBtEl = document.getElementById('ai-bt-desc');
-    
-    if (fetchHc && aiHcEl) {
-        aiHcEl.classList.remove('hidden');
-        aiHcEl.innerHTML = `<div class="text-amber-400/80 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang phân tích sâu về hội chứng...</div>`;
-    } else if (!fetchHc && aiHcEl) {
-        aiHcEl.classList.add('hidden');
-    }
-
-    if (fetchBt && aiBtEl && btName && btName !== "Đối chứng nghiệm phương") {
-        aiBtEl.classList.remove('hidden');
-        aiBtEl.innerHTML = `<div class="text-amber-400/80 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang tra cứu nguồn gốc và đặc điểm cổ phương...</div>`;
-    } else if (aiBtEl) {
-        aiBtEl.classList.add('hidden');
-    }
-
-    if (!fetchHc && !fetchBt) return;
-
-    try {
-        let prompt = "";
-        if (fetchHc && fetchBt) {
-            prompt = `Trong Y học cổ truyền (YHCT), hãy phân tích ngắn gọn, chuẩn chuyên môn cho 2 phần sau:
-            PART1: Mô tả chi tiết về hội chứng "${hcName}" (cơ chế bệnh sinh, nguyên nhân cốt lõi, biểu hiện lâm sàng đặc trưng).
-            PART2: Nguồn gốc, xuất xứ và đặc điểm nổi bật của cổ phương/bài thuốc "${btName}".
-            Yêu cầu dùng từ "PART2:" để phân tách rõ ràng hai phần.`;
-        } else if (fetchHc) {
-            prompt = `Trong Y học cổ truyền (YHCT), hãy phân tích ngắn gọn, chuẩn chuyên môn về mô tả chi tiết hội chứng "${hcName}" (cơ chế bệnh sinh, nguyên nhân cốt lõi, biểu hiện lâm sàng đặc trưng).`;
-        } else if (fetchBt) {
-            prompt = `Trong Y học cổ truyền (YHCT), hãy phân tích ngắn gọn, chuẩn chuyên môn về nguồn gốc, xuất xứ và đặc điểm nổi bật của cổ phương/bài thuốc "${btName}".`;
-        }
-
-        const res = await fetch(getApiEndpoint(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt, source: 'backup' })
-        });
-        
-        const data = await res.json();
-        if (res.ok && data.reply) {
-            if (fetchHc && fetchBt) {
-                const parts = data.reply.split('PART2:');
-                const hcText = parts[0] ? parts[0].replace('PART1:', '').trim() : data.reply;
-                const btText = parts[1] ? parts[1].trim() : '';
-
-                if (aiHcEl) {
-                    aiHcEl.innerHTML = `
-                        <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Mô tả chi tiết hội chứng:</div>
-                        <div class="space-y-1">${formatAIMessage(hcText)}</div>
-                    `;
-                }
-                if (aiBtEl && btName && btName !== "Đối chứng nghiệm phương") {
-                    aiBtEl.innerHTML = `
-                        <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Nguồn gốc & đặc điểm cổ phương:</div>
-                        <div class="space-y-1">${formatAIMessage(btText || 'Đang cập nhật thông tin bài thuốc.')}</div>
-                    `;
-                }
-            } else if (fetchHc) {
-                if (aiHcEl) {
-                    aiHcEl.innerHTML = `
-                        <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Mô tả chi tiết hội chứng:</div>
-                        <div class="space-y-1">${formatAIMessage(data.reply)}</div>
-                    `;
-                }
-            } else if (fetchBt) {
-                if (aiBtEl && btName && btName !== "Đối chứng nghiệm phương") {
-                    aiBtEl.innerHTML = `
-                        <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Nguồn gốc & đặc điểm cổ phương:</div>
-                        <div class="space-y-1">${formatAIMessage(data.reply)}</div>
-                    `;
-                }
-            }
-        } else {
-            if (fetchHc && aiHcEl) aiHcEl.innerHTML = `<span class="text-stone-500">Không tải được mô tả AI cho hội chứng.</span>`;
-            if (fetchBt && aiBtEl) aiBtEl.innerHTML = `<span class="text-stone-500">Không tải được thông tin cổ phương từ AI.</span>`;
-        }
-    } catch (err) {
-        console.error("Lỗi AI Backup Luận Trị:", err);
-        if (fetchHc && aiHcEl) aiHcEl.innerHTML = `<span class="text-red-400">Lỗi kết nối AI khi lấy mô tả hội chứng.</span>`;
-        if (fetchBt && aiBtEl) aiBtEl.innerHTML = `<span class="text-red-400">Lỗi kết nối AI khi lấy thông tin cổ phương.</span>`;
-    }
-}
-
 
 function filterDuocLieu(isEnter = false) {
     const grid = document.getElementById('gridDuocLieu'); 
@@ -1379,7 +1299,6 @@ window.addEventListener("DOMContentLoaded", () => {
                 aiCheckContainer.parentNode.insertBefore(timerDiv, aiCheckContainer.nextSibling);
             }
         }
-        originalQuizSetupHTML = setupBox.innerHTML;
     }
 
     requestAnimationFrame(() => {
@@ -1646,17 +1565,12 @@ async function batDauTracNghiem() {
     isTimerEnabled = useTimerCheckbox ? useTimerCheckbox.checked : false;
     timePerQuestion = timeSelect ? parseInt(timeSelect.value) : 30;
 
-    if (isUseAI) {
-        const setupBox = document.getElementById('quiz-setup');
-        if (setupBox) {
-            setupBox.innerHTML = `
-                <div class="text-center py-10 space-y-3">
-                    <i class="fa-solid fa-brain text-4xl text-amber-500 animate-spin"></i>
-                    <p class="text-sm font-bold text-amber-400">Trợ lý AI đang biên soạn bộ câu hỏi lâm sàng mới...</p>
-                    <p class="text-xs text-stone-500">Vui lòng đợi trong giây lát</p>
-                </div>
-            `;
-        }
+    // ⚡ HIỆN ICON XOAY TRÊN NÚT BẤM (KHÔNG ĐÈ DOM CÀI ĐẶT)
+    const btnStart = document.activeElement;
+    const oldBtnText = btnStart?.innerHTML;
+    if (isUseAI && btnStart && btnStart.tagName === 'BUTTON') {
+        btnStart.disabled = true;
+        btnStart.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> AI đang tạo...`;
     }
 
     let pool = [];
@@ -1664,11 +1578,15 @@ async function batDauTracNghiem() {
         pool = await fetchAIQuizQuestions(category, count);
     }
 
+    // Khôi phục nút bấm
+    if (isUseAI && btnStart && btnStart.tagName === 'BUTTON') {
+        btnStart.disabled = false;
+        btnStart.innerHTML = oldBtnText;
+    }
+
     if (!pool || pool.length === 0) {
         if (isUseAI) {
-            alert('AI đang bận hoặc phản hồi chậm, hệ thống chuyển về kho câu hỏi chuẩn có sẵn.');
-            location.reload(); 
-            return;
+            alert('AI đang bận. Hệ thống quay lại câu hỏi có sẵn.');
         }
 
         let rawData = [];
@@ -1684,7 +1602,6 @@ async function batDauTracNghiem() {
 
     if (pool.length === 0) {
         alert('Không tìm thấy câu hỏi phù hợp.');
-        location.reload();
         return;
     }
 
@@ -1705,19 +1622,17 @@ async function batDauTracNghiem() {
             specialKeywords.some(keyword => text.toLowerCase().includes(keyword))
         );
 
-        if (hasSpecialOpt) {
-            return { ...q };
-        } else {
-            const shuffled = q.lua_chon
-                .map((text, idx) => ({ text, isCorrect: idx === q.dap_an }))
-                .sort(() => 0.5 - Math.random());
+        if (hasSpecialOpt) return { ...q };
 
-            return {
-                ...q,
-                lua_chon: shuffled.map(item => item.text),
-                dap_an: shuffled.findIndex(item => item.isCorrect)
-            };
-        }
+        const shuffled = q.lua_chon
+            .map((text, idx) => ({ text, isCorrect: idx === q.dap_an }))
+            .sort(() => 0.5 - Math.random());
+
+        return {
+            ...q,
+            lua_chon: shuffled.map(item => item.text),
+            dap_an: shuffled.findIndex(item => item.isCorrect)
+        };
     });
 
     currentQuizIndex = 0;
@@ -1731,6 +1646,7 @@ async function batDauTracNghiem() {
 
     hienThiCauHoiTracNghiem();
 }
+
 
 function updateTimerDisplay() {
     const progressEl = document.getElementById('quiz-progress');
@@ -1969,15 +1885,12 @@ function quayLaiCauHinhQuiz() {
     }
     document.getElementById('quiz-result').classList.add('hidden');
     document.getElementById('quiz-review').classList.add('hidden');
+    document.getElementById('quiz-play').classList.add('hidden');
     
-    const setupBox = document.getElementById('quiz-setup');
-    if (setupBox) {
-        if (originalQuizSetupHTML) {
-            setupBox.innerHTML = originalQuizSetupHTML;
-        }
-        setupBox.classList.remove('hidden');
-    }
+    // Chỉ bỏ ẩn, toàn bộ cài đặt cũ trên giao diện sẽ được giữ nguyên 100%
+    document.getElementById('quiz-setup').classList.remove('hidden');
 }
+
 
 function hienThiXemLai() {
     document.getElementById('quiz-result').classList.add('hidden');
@@ -2178,9 +2091,27 @@ async function exportPDF() {
 
 function formatAIMessage(text) {
     if (!text) return '';
-    let safe = escapeHTML(text);
-    safe = safe.replace(/\*\*(.*?)\*\*/g, '<strong class="text-amber-400 font-bold">$1</strong>');
 
+    // 1. Loại bỏ lời chào rườm rà
+    let cleaned = text.replace(/^(chào bạn|dưới đây là|rất vui)[^:\n]*[:\n]?/gi, '').trim();
+
+    // 2. Tẩy sạch mã LaTeX / MathJax rác (\stroke, /stroke, $\rightarrow$, $, \text{...})
+    cleaned = cleaned
+        .replace(/[\/\\]?stroke/gi, '')                           // Xóa /stroke hoặc \stroke
+        .replace(/\\?\$?\\(right|left)?arrow\$?/gi, '→')          // Sửa các loại mũi tên LaTeX thành →
+        .replace(/\\(text|mathbf|mathrm|textit)\{([^}]+)\}/gi, '$2') // Bỏ lệnh LaTeX bọc chữ
+        .replace(/\$+/g, '')                                      // Xóa tất cả dấu $ của LaTeX
+        .replace(/\\[a-zA-Z]+/g, '')                              // Xóa các lệnh \slash còn lại
+        .replace(/[\u4e00-\u9fa5]+/g, '');                        // Xóa chữ Hán
+
+    // 3. Escape HTML bảo mật
+    let safe = escapeHTML(cleaned);
+
+    // 4. Xử lý Markdown in đậm (**văn bản** hoặc *văn bản*)
+    safe = safe.replace(/\*\*(.*?)\*\*/g, '<strong class="text-amber-400 font-bold">$1</strong>');
+    safe = safe.replace(/\*(.*?)\*/g, '<strong class="text-amber-400 font-bold">$1</strong>');
+
+    // 5. Định dạng dòng & danh sách
     const lines = safe.split('\n');
     const formattedLines = lines.map(line => {
         const trimmed = line.trim();
@@ -2199,6 +2130,7 @@ function formatAIMessage(text) {
 
     return formattedLines.join('');
 }
+
 
 // 3. Trợ lý AI nhắn tin trực tiếp
 async function sendAIWebMessage() {
@@ -2471,12 +2403,124 @@ document.addEventListener('pointerdown', (e) => {
     }
 });
 
+// AI Phân tích riêng cho Hội chứng (Đã tối ưu Caching chống Spam Quota)
+async function fetchAIHcDesc(hcName) {
+    const aiHcEl = document.getElementById('ai-hc-desc');
+    if (!aiHcEl || !hcName || hcName === "---") return;
+
+    // ⚡ CHỐNG SPAM: Nếu hội chứng này đã tải xong trước đó, hiển thị lại ngay không gọi API
+    if (aiHcEl.dataset.hcName === hcName && aiHcEl.innerHTML.trim() !== '' && !aiHcEl.innerHTML.includes('Lỗi')) {
+        aiHcEl.classList.remove('hidden');
+        return;
+    }
+
+    aiHcEl.classList.remove('hidden');
+    aiHcEl.innerHTML = `<div class="text-amber-400/80 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang phân tích sâu về hội chứng...</div>`;
+
+    try {
+        const prompt = `Trong Y học cổ truyền (YHCT), hãy phân tích ngắn gọn, chuẩn chuyên môn về mô tả chi tiết hội chứng "${hcName}" (cơ chế bệnh sinh, nguyên nhân cốt lõi, biểu hiện lâm sàng đặc trưng). Trả lời 100% bằng Tiếng Việt thuần túy, KHÔNG kèm chữ Hán.`;
+        const res = await fetch(getApiEndpoint(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt, source: 'luantrihc' })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.reply) {
+            aiHcEl.dataset.hcName = hcName; // Lưu vết tên hội chứng đã tải thành công
+            aiHcEl.innerHTML = `
+                <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Mô tả chi tiết hội chứng:</div>
+                <div class="space-y-1">${formatAIMessage(data.reply)}</div>
+            `;
+        } else {
+            let errorMsg = data.error || 'Không nhận được phản hồi từ AI.';
+            if (errorMsg.includes('Quota exceeded') || errorMsg.includes('429')) {
+                errorMsg = 'Hệ thống AI đang tạm thời quá tải lượt gọi (vượt giới hạn 20 lượt/phút). Vui lòng đợi khoảng 30-60 giây rồi thử lại.';
+            }
+            aiHcEl.innerHTML = `<div class="text-amber-400/90 bg-amber-950/40 p-2.5 rounded border border-amber-800/60 text-xs"><i class="fa-solid fa-hourglass-half mr-1"></i> ${escapeHTML(errorMsg)}</div>`;
+        }
+    } catch (err) {
+        aiHcEl.innerHTML = `<div class="text-red-400 font-mono text-[11px] p-2 bg-red-950/50 border border-red-800 rounded">⚠️ Lỗi kết nối: ${escapeHTML(err.message)}</div>`;
+    }
+}
+
+// AI Phân tích riêng cho Bài thuốc (Đã tối ưu Caching)
+async function fetchAIBtDesc(btName) {
+    const aiBtEl = document.getElementById('ai-bt-desc');
+    if (!aiBtEl || !btName || btName === "---" || btName === "Đối chứng nghiệm phương") return;
+
+    // ⚡ CHỐNG SPAM: Nếu bài thuốc này đã tải rồi thì dùng lại
+    if (aiBtEl.dataset.btName === btName && aiBtEl.innerHTML.trim() !== '' && !aiBtEl.innerHTML.includes('Lỗi')) {
+        aiBtEl.classList.remove('hidden');
+        return;
+    }
+
+    aiBtEl.classList.remove('hidden');
+    aiBtEl.innerHTML = `<div class="text-amber-400/80 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang tra cứu nguồn gốc và đặc điểm cổ phương...</div>`;
+
+    try {
+        const prompt = `Trong Y học cổ truyền (YHCT), hãy phân tích ngắn gọn, chuẩn chuyên môn về nguồn gốc, xuất xứ và đặc điểm nổi bật của cổ phương/bài thuốc "${btName}". Trả lời 100% bằng Tiếng Việt thuần túy, KHÔNG kèm chữ Hán.`;
+        const res = await fetch(getApiEndpoint(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt, source: 'luantribt' })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.reply) {
+            aiBtEl.dataset.btName = btName; // Lưu vết bài thuốc đã tải thành công
+            aiBtEl.innerHTML = `
+                <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Nguồn gốc & đặc điểm cổ phương:</div>
+                <div class="space-y-1">${formatAIMessage(data.reply)}</div>
+            `;
+        } else {
+            let errorMsg = data.error || 'Không nhận được phản hồi từ AI.';
+            if (errorMsg.includes('Quota exceeded') || errorMsg.includes('429')) {
+                errorMsg = 'Hệ thống AI đang tạm thời quá tải lượt gọi (vượt giới hạn 20 lượt/phút). Vui lòng đợi khoảng 30-60 giây rồi thử lại.';
+            }
+            aiBtEl.innerHTML = `<div class="text-amber-400/90 bg-amber-950/40 p-2.5 rounded border border-amber-800/60 text-xs"><i class="fa-solid fa-hourglass-half mr-1"></i> ${escapeHTML(errorMsg)}</div>`;
+        }
+    } catch (err) {
+        aiBtEl.innerHTML = `<div class="text-red-400 font-mono text-[11px] p-2 bg-red-950/50 border border-red-800 rounded">⚠️ Lỗi kết nối: ${escapeHTML(err.message)}</div>`;
+    }
+}
+
+// Hàm Bật/Tắt AI hoàn toàn độc lập
 function toggleAiFeature(type) {
     if (type === 'hc') {
         AppState.aiHcActive = !AppState.aiHcActive;
+        const btnHc = document.getElementById('ai-toggle-hc');
+        const aiHcEl = document.getElementById('ai-hc-desc');
+        
+        if (btnHc) {
+            btnHc.className = `px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer ${AppState.aiHcActive ? 'bg-amber-600 text-white shadow-amber-900/50' : 'bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60'}`;
+        }
+        
+        if (AppState.aiHcActive) {
+            const hcName = document.getElementById('hoi-chung')?.innerText;
+            fetchAIHcDesc(hcName);
+        } else if (aiHcEl) {
+            aiHcEl.classList.add('hidden');
+        }
     } else if (type === 'bt') {
         AppState.aiBtActive = !AppState.aiBtActive;
+        const btnBt = document.getElementById('ai-toggle-bt');
+        const aiBtEl = document.getElementById('ai-bt-desc');
+        
+        if (btnBt) {
+            btnBt.className = `px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer ${AppState.aiBtActive ? 'bg-amber-600 text-white shadow-amber-900/50' : 'bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60'}`;
+        }
+        
+        if (AppState.aiBtActive) {
+            const btName = document.getElementById('bai-thuoc')?.innerText;
+            fetchAIBtDesc(btName);
+        } else if (aiBtEl) {
+            aiBtEl.classList.add('hidden');
+        }
     }
-    updateLuanTri();
 }
+
+
+
+
 
