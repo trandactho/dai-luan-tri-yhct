@@ -19,23 +19,19 @@ exports.handler = async function(event, context) {
 
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const secondKey  = process.env.SECOND_API_KEY;
-        const thirdKey   = process.env.THIRD_API_KEY;
         const backupKey  = process.env.BACKUP_API_KEY;
 
         const luantrihcKey  = process.env.LUANTRIHC_API_KEY;
-        const luantrihcKey1  = process.env.LUANTRIHC_API_KEY1;
-
+        
         const luantribtKey  = process.env.LUANTRIBT_API_KEY;
-        const luantribtKey1  = process.env.LUANTRIBT_API_KEY1;
-
         const searchKey  = process.env.SEARCH_API_KEY;
         const quizKey  = process.env.QUIZ_API_KEY;
 
         let keysToTry = [];
         if (source === 'assistant') keysToTry = [primaryKey, backupKey];
-        else if (source === 'luantrihc') keysToTry = [luantrihcKey, luantrihcKey1, secondKey];
-        else if (source === 'luantribt') keysToTry = [luantribtKey, luantribtKey1, secondKey];
-        else if (source === 'quiz') keysToTry = [thirdKey, quizKey, backupKey];
+        else if (source === 'luantrihc') keysToTry = [luantrihcKey, secondKey];
+        else if (source === 'luantribt') keysToTry = [luantribtKey, secondKey];
+        else if (source === 'quiz') keysToTry = [quizKey, backupKey];
         else keysToTry = [searchKey, backupKey];
 
         keysToTry = [...new Set(keysToTry.filter(Boolean))];
