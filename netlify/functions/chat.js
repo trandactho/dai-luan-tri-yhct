@@ -37,7 +37,7 @@ exports.handler = async function(event, context) {
         keysToTry = [...new Set(keysToTry.filter(Boolean))];
 
         if (keysToTry.length === 0) {
-            return { statusCode: 500, headers, body: JSON.stringify({ error: 'Chưa cấu hình API Key trên Netlify.' }) };
+            return { statusCode: 200, headers, body: JSON.stringify({ error: 'Chưa cấu hình API Key trên Netlify.' }) };
         }
 
         // Giữ nguyên các model đang hoạt động trên AI Studio của bạn
@@ -83,9 +83,9 @@ exports.handler = async function(event, context) {
             }
         }
 
-        return { statusCode: 500, headers, body: JSON.stringify({ error: `Máy chủ AI bận: ${lastError}` }) };
+        return { statusCode: 200, headers, body: JSON.stringify({ error: `Máy chủ AI bận: ${lastError}` }) };
 
     } catch (error) {
-        return { statusCode: 500, headers, body: JSON.stringify({ error: error.message }) };
+        return { statusCode: 200, headers, body: JSON.stringify({ error: error.message }) };
     }
 };
