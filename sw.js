@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dailuantri-v1.4.2'; // Tăng số phiên bản khi bạn cập nhật code/dữ liệu mới
+const CACHE_NAME = 'dailuantri-v1.4.3'; // Tăng số phiên bản khi bạn cập nhật code/dữ liệu mới
 
 // 1. Cài đặt và ép buộc bỏ qua trạng thái chờ để kích hoạt ngay
 self.addEventListener('install', event => {
