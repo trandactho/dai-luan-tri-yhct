@@ -47,12 +47,17 @@ exports.handler = async function(event, context) {
         // Gọi trực tiếp nhanh nhất, không lặp delay gây Timeout Netlify
         for (const apiKey of keysToTry) {
             for (const model of models) {
+                // Bộ ngắt tự động nếu mỗi request quá 7 giây
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 7000);
+
                 try {
                     const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${apiKey.trim()}`;
 
                     const response = await fetch(url, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
+                        signal: controller.signal,
                         body: JSON.stringify({
                             contents: [{ 
                                 parts: [{ text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy tuân thủ tuyệt đối y đức, không bịa đặt, thông tin chuẩn xác theo y lý chính thống. Trả lời ngắn gọn, ngắt dòng rõ ràng, dùng gạch đầu dòng cho các ý chính: " + prompt }] 
@@ -60,6 +65,7 @@ exports.handler = async function(event, context) {
                         })
                     });
 
+                    clearTimeout(timeoutId);
                     const data = await response.json();
 
                     if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
@@ -71,7 +77,8 @@ exports.handler = async function(event, context) {
                     }
                     lastError = data.error?.message || JSON.stringify(data);
                 } catch (err) {
-                    lastError = err.message;
+                    clearTimeout(timeoutId);
+                    lastError = err.name === 'AbortError' ? 'Request quá 7s (Timeout)' : err.message;
                 }
             }
         }
