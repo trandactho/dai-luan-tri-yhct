@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đại Luận Trị & Tra Cứu YHCT v1.4.5 Premium</title>
+    <title>Đại Luận Trị & Tra Cứu YHCT v1.5.0 Premium</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7294224585301638" crossorigin="anonymous"></script>
     <meta name="description" content="Ứng dụng tra cứu Y Học Cổ Truyền toàn diện: Biện chứng luận trị, Dược liệu học, Châm cứu huyệt vị, Trà dược trị liệu và Trợ lý AI tư vấn YHCT.">
     <meta name="author" content="Trần Đắc Thọ">
@@ -27,7 +27,7 @@
         
     <header class="bg-dark-box p-2 text-center border-b border-stone-800 space-y-0.5">
         <h1 class="text-sm font-bold text-primary flex items-center justify-center gap-1">
-            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.4.5)
+            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.5.0)
         </h1>
         <div class="text-[10px] text-stone-400 space-x-2">
             <span>Biện chứng (<span id="total-chung" class="text-amber-500 font-bold">0</span>)</span> · 
@@ -62,9 +62,10 @@
             <span class="scale-90 tracking-tighter">Trà Dược</span>
         </button>
         <button id="btnTabXemAnh" onclick="switchTab('xemanh')" class="py-2 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-            <i class="fa-solid fa-image text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Xem Ảnh</span>
-        </button>
+    <i class="fa-solid fa-eye text-xs mb-0.5"></i>
+    <span class="scale-90 tracking-tighter">Vọng Chẩn</span>
+</button>
+
         <button id="btnTabAI" onclick="switchTab('ai')" class="py-2 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
             <i class="fa-solid fa-robot text-xs mb-0.5"></i>
             <span class="scale-90 tracking-tighter">Trợ Lý AI</span>
@@ -355,27 +356,100 @@
             <div id="gridTra" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
         
-        <!-- TAB 6: XEM ẢNH -->
-        <section id="sectionXemAnh" class="hidden space-y-4">
-            <div class="relative bg-dark-box p-8 rounded-xl max-w-md mx-auto text-center space-y-6 border border-amber-900/40 shadow-2xl my-2">
-                <div class="space-y-1 pt-2">
-                    <div class="text-stone-500 text-[10px] font-bold tracking-wider uppercase flex items-center justify-center gap-1">
-                        <i class="fa-solid fa-bolt text-[9px] text-amber-500"></i> TRA CỨU HÌNH ẢNH YHCT
-                    </div>
-                    <h3 id="current-image-keyword" class="text-xl font-black text-amber-400 tracking-wide py-1">
-                        Chưa chọn vị thuốc
-                    </h3>
-                </div>
-                <div id="image-links-container" class="grid grid-cols-1 gap-2.5 pt-2">
-                    <div class="text-xs text-stone-400 italic">Vui lòng chọn dược liệu hoặc huyệt vị từ các tab trước để hiển thị liên kết tra cứu.</div>
-                </div>
-                <button onclick="quayLaiTabTruoc()" class="w-full py-2.5 px-3 bg-stone-800 hover:bg-stone-700 text-stone-300 border border-stone-700 font-bold text-xs rounded flex items-center justify-center gap-2 transition-all cursor-pointer">
-                    <i class="fa-solid fa-arrow-left"></i> Quay lại tab tra cứu
-                </button>
-                <p class="text-[10px] text-stone-500 italic">Hệ thống tự động tối ưu từ khóa chuẩn YHCT.</p>
-                <div class="text-[10px] text-stone-600 italic opacity-80 pt-1">by Trần Đắc Thọ</div>
+        <!-- TAB 6: VỌNG CHẨN AI -->
+<section id="sectionXemAnh" class="hidden space-y-4">
+    <div class="bg-dark-box p-5 rounded-xl max-w-2xl mx-auto space-y-4 border border-amber-900/40 shadow-2xl">
+        <div class="text-center space-y-1">
+            <div class="text-amber-500 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-eye text-sm"></i> VỌNG CHẨN YHCT BẰNG AI
             </div>
-        </section>
+            <p class="text-xs text-stone-400">Tải ảnh hoặc chụp trực tiếp để AI phân tích</p>
+        </div>
+
+        <!-- Khung xem trước hình ảnh & Camera -->
+        <div id="vong-chan-preview-container" class="relative w-full h-64 bg-stone-900 rounded-lg border-2 border-dashed border-stone-700 flex flex-col items-center justify-center overflow-hidden">
+            <div id="vong-chan-placeholder" class="text-center space-y-2 p-4">
+                <i class="fa-solid fa-camera-retro text-4xl text-stone-600"></i>
+                <div class="text-xs text-stone-400 font-medium">Chưa có hình ảnh nào được chọn</div>
+                <div class="text-[10px] text-stone-500">Hỗ trợ: Thiệt chẩn (Lưỡi), Diện chẩn (Khuôn mặt), Sắc da</div>
+            </div>
+            
+            <img id="vong-chan-img-preview" class="hidden w-full h-full object-contain" alt="Xem trước ảnh Vọng chẩn">
+            <video id="vong-chan-video" class="hidden w-full h-full object-cover" autoplay playsinline muted></video>
+        </div>
+
+        <!-- Các nút điều khiển chọn ảnh / Camera -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
+            <label class="py-2.5 px-3 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold text-xs rounded-lg flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm">
+                <i class="fa-solid fa-upload"></i> Tải ảnh lên
+                <input type="file" id="vong-chan-file-input" accept="image/*" class="hidden" onchange="xuLyChonFileVongChan(event)">
+            </label>
+            
+            <button id="btn-toggle-camera" onclick="moCameraVongChan()" class="py-2.5 px-3 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold text-xs rounded-lg flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm">
+                <i class="fa-solid fa-video"></i> Mở Camera
+            </button>
+
+            <button id="btn-capture-photo" onclick="chupAnhVongChan()" class="hidden col-span-2 sm:col-span-1 py-2.5 px-3 bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs rounded-lg flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm">
+                <i class="fa-solid fa-circle-dot"></i> Chụp ảnh
+            </button>
+        </div>
+
+        <!-- Loại hình vọng chẩn & Nút phân tích -->
+        <div class="space-y-3 pt-2 border-t border-stone-800">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                    <label class="block text-[11px] text-stone-400 font-bold mb-1">Loại vọng chẩn:</label>
+                    <select id="vong-chan-type" class="w-full p-2 rounded text-xs bg-stone-900 text-stone-200 border border-stone-700 outline-none focus:border-amber-500">
+                        <option value="thiet_chan">👅 Thiệt chẩn (Xem chất lưỡi, rêu lưỡi)</option>
+                        <option value="dien_chan">👤 Diện chẩn (Sắc mặt, thần thái)</option>
+                        <option value="da_da">🖐️ Sắc da / Thương tổn ngoài da</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[11px] text-stone-400 font-bold mb-1">Ghi chú triệu chứng kèm theo:</label>
+                    <input type="text" id="vong-chan-note" placeholder="Ví dụ: Đắng miệng, sợ lạnh..." class="w-full p-2 rounded text-xs bg-stone-900 text-stone-200 border border-stone-700 outline-none focus:border-amber-500">
+                </div>
+            </div>
+            <label class="flex items-center gap-2 text-xs text-amber-300 cursor-pointer my-2 select-none">
+    <input type="checkbox" id="vong-chan-use-history" class="w-4 h-4 rounded border-stone-700 bg-stone-900 text-amber-600 focus:ring-amber-500" checked>
+    <span> Cho phép AI đọc lịch sử chẩn đoán để phân tích diễn tiến bệnh & đối tượng</span>
+</label>
+
+
+            <button id="btn-phan-tich-vong-chan" onclick="guiPhanTichVongChan()" class="w-full py-3 bg-primary hover:bg-orange-700 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-lg shadow-orange-950/50">
+                <i class="fa-solid fa-brain"></i> AI Phân Tích Vọng Chẩn
+            </button>
+        </div>
+
+        <!-- Khung hiển thị kết quả chẩn đoán từ AI -->
+        <div id="vong-chan-result" class="hidden ...">
+    <div class="flex justify-between items-center mb-2">
+        <span class="font-bold text-amber-400 text-xs uppercase"><i class="fa-solid fa-file-medical"></i> Kết quả Vọng chẩn YHCT</span>
+        <!-- Thêm class hidden ở đây để ẩn lúc đầu -->
+        <button id="btn-save-vongchan" onclick="luuKetQuaVongChan()" class="hidden px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded text-xs transition-all shadow cursor-pointer flex items-center gap-1">
+            <i class="fa-solid fa-floppy-disk"></i> Lưu hồ sơ
+        </button>
+    </div>
+    <div id="vong-chan-output" class="text-xs text-stone-200 leading-relaxed space-y-1"></div>
+</div>
+
+
+        <!-- MỚI: DANH SÁCH LỊCH SỬ LƯU TRỮ VỌNG CHẨN -->
+        <div class="pt-4 border-t border-stone-800 space-y-3">
+            <div class="flex justify-between items-center">
+                <div class="text-xs font-bold text-amber-400 flex items-center gap-1.5 uppercase">
+                    <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử lưu trữ Vọng chẩn
+                </div>
+                <button onclick="xoaLichSuVongChan()" class="text-[10px] text-stone-500 hover:text-red-400 transition-colors">
+                    <i class="fa-solid fa-trash"></i> Xóa lịch sử
+                </button>
+            </div>
+            <div id="vong-chan-history-list" class="space-y-2 max-h-64 overflow-y-auto pr-1">
+                <!-- Các bản ghi lịch sử sẽ hiển thị ở đây -->
+            </div>
+        </div>
+    </div>
+</section>
 
         <!-- TAB 7: TRỢ LÝ AI -->
         <section id="sectionAI" class="hidden space-y-4">
