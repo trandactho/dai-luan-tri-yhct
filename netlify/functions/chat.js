@@ -15,7 +15,7 @@ exports.handler = async function(event, context) {
     }
 
     try {
-        const { prompt, source } = JSON.parse(event.body || '{}');
+        const { prompt, image, source } = JSON.parse(event.body || '{}');
 
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const secondKey  = process.env.SECOND_API_KEY;
@@ -31,6 +31,7 @@ exports.handler = async function(event, context) {
         else if (source === 'luantrihc') keysToTry = [luantrihcKey, secondKey];
         else if (source === 'luantribt') keysToTry = [luantribtKey, secondKey];
         else if (source === 'quiz') keysToTry = [quizKey, backupKey];
+        else if (source === 'vongchan') keysToTry = [primaryKey, secondKey, backupKey];
         else keysToTry = [searchKey, backupKey];
 
         keysToTry = [...new Set(keysToTry.filter(Boolean))];
@@ -42,11 +43,30 @@ exports.handler = async function(event, context) {
         const models = ['gemini-3.6-flash', 'gemini-3.5-flash'];
         let lastError = null;
 
+        // Xây dựng mảng parts: Tự động thêm phần hình ảnh nếu có (Vọng chẩn)
+        const partsPayload = [];
+        
+        if (image && typeof image === 'string' && image.startsWith('data:image')) {
+            const matches = image.match(/^data:(image\/\w+);base64,(.+)$/);
+            if (matches && matches.length === 3) {
+                partsPayload.push({
+                    inline_data: {
+                        mime_type: matches[1],
+                        data: matches[2]
+                    }
+                });
+            }
+        }
+
+        partsPayload.push({ 
+            text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy tuân thủ tuyệt đối y đức, không bịa đặt, thông tin chuẩn xác theo y lý chính thống. Trả lời ngắn gọn, ngắt dòng rõ ràng, dùng gạch đầu dòng cho các ý chính: " + prompt 
+        });
+
         for (let keyIdx = 0; keyIdx < keysToTry.length; keyIdx++) {
             const apiKey = keysToTry[keyIdx];
             
             // Key tính phí (đầu tiên) cho 18s thoải mái sinh câu trả lời. Key dự phòng sau cho 5s.
-            const timeoutMs = (keyIdx === 0) ? 18000 : 5000;
+            const timeoutMs = (source === 'vongchan') ? 25000 : ((keyIdx === 0) ? 18000 : 5000);
 
             for (const model of models) {
                 const controller = new AbortController();
@@ -61,7 +81,7 @@ exports.handler = async function(event, context) {
                         signal: controller.signal,
                         body: JSON.stringify({
                             contents: [{ 
-                                parts: [{ text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy tuân thủ tuyệt đối y đức, không bịa đặt, thông tin chuẩn xác theo y lý chính thống. Trả lời ngắn gọn, ngắt dòng rõ ràng, dùng gạch đầu dòng cho các ý chính: " + prompt }] 
+                                parts: partsPayload 
                             }]
                         })
                     });
