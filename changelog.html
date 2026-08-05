@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhật Ký Cập Nhật - Đại Luận Trị & Tra Cứu YHCT v1.4.2 Premium</title>
+    <title>Nhật Ký Cập Nhật - Đại Luận Trị & Tra Cứu YHCT v1.4.5 Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -24,7 +24,7 @@
     <main class="flex-grow space-y-6">
         <div class="bg-dark-box p-6 rounded-xl text-center space-y-3 shadow-lg">
             <div class="inline-flex items-center gap-1.5 bg-amber-950/60 border border-amber-800/80 px-3 py-1 rounded-full text-xs font-bold text-amber-400">
-                <i class="fa-solid fa-code-branch"></i> Phiên bản hiện tại: v1.4.2 Premium
+                <i class="fa-solid fa-code-branch"></i> Phiên bản hiện tại: v1.4.5 Premium
             </div>
             <h2 class="text-xl sm:text-2xl font-bold text-amber-400">Lịch Sử Thay Đổi & Nâng Cấp</h2>
             <p class="text-xs text-stone-400 leading-relaxed">
@@ -33,20 +33,36 @@
         </div>
 
         <div class="space-y-6 relative border-l-2 border-stone-800 ml-3 sm:ml-6 pl-6">
-            <!-- v1.4.2 -->
+            <!-- v1.4.5 -->
             <div class="relative group space-y-3">
                 <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-amber-500 border-4 border-[#0a0908] ring-2 ring-amber-500/40"></span>
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <h3 class="text-sm font-bold text-amber-400 flex items-center gap-2">
-                        Phiên bản v1.4.2 <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800 font-bold uppercase">Mới nhất</span>
+                        Phiên bản v1.4.5 <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800 font-bold uppercase">Mới nhất</span>
                     </h3>
+                    <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 8, 2026</span>
+                </div>
+                <div class="bg-dark-box p-4 rounded-xl space-y-2 text-xs text-stone-300">
+                    <p>• <strong>Tra cứu hình ảnh trực tiếp qua Tên vị thuốc / Huyệt vị:</strong> Tích hợp tính năng kích hoạt tìm ảnh trực tiếp khi nhấp vào tên Dược liệu hoặc Huyệt vị, chuẩn bị thay thế tab Xem Ảnh bằng tính năng mới.</p>
+                    <p>• <strong>Tra cứu chéo Công năng & Chủ trị đặc hiệu:</strong> Cho phép nhấp trực tiếp vào ô Công năng chủ trị (Dược liệu) hoặc Chủ trị đặc hiệu (Huyệt vị) để chuyển nhanh sang tab Luận Trị và tự động tra cứu phác đồ liên quan.</p>
+                    <p>• <strong>Tự động khôi phục giao diện DOM phác đồ:</strong> Sửa triệt để lỗi mất khung kết quả khi gọi AI Backup hoặc khi bật/tắt các chế độ ôn tập.</p>
+                    <p>• <strong>Tối ưu hóa Caching AI chống Spam Quota:</strong> Tự động lưu vết dữ liệu đã phân tích cho AI Hội chứng và AI Bài thuốc, giúp phản hồi tức thì không tốn lượt gọi API khi tra cứu lại.</p>
+                    <p>• <strong>Đồng bộ PWA Offline Cache v1.4.5:</strong> Cập nhật Service Worker và bộ nhớ đệm `dailuantri-v1.4.5` giúp ứng dụng vận hành ngoại tuyến mượt mà.</p>
+                </div>
+            </div>
+
+            <!-- v1.4.2 -->
+            <div class="relative group space-y-3">
+                <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-stone-700 border-4 border-[#0a0908]"></span>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h3 class="text-sm font-bold text-stone-200">Phiên bản v1.4.2</h3>
                     <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 8, 2026</span>
                 </div>
                 <div class="bg-dark-box p-4 rounded-xl space-y-2 text-xs text-stone-300">
                     <p>• <strong>Cảnh báo tương kỵ lâm sàng (Thập Bát Phản / Thập Cửu Úy):</strong> Tự động kiểm tra và đưa ra cảnh báo các cặp vị thuốc xung khắc (như Ô đầu - Bán hạ, Cam thảo - Hải tảo, Lê lô - Nhân sâm, Nhục quế - Xích thạch chi,...) ngay trên giao diện phác đồ bài thuốc.</p>
                     <p>• <strong>AI toggle độc lập cho Hội chứng & Bài thuốc:</strong> Bổ sung nút chuyển đổi AI linh hoạt riêng biệt cho phần mô tả Hội chứng biện chứng và phân tích nguồn gốc Cổ phương.</p>
                     <p>• <strong>Đồng hồ đếm ngược trắc nghiệm linh hoạt:</strong> Tích hợp tùy chọn đếm ngược thời gian trả lời mỗi câu hỏi (15s, 30s, 45s, 60s) giúp rèn luyện phản xạ lâm sàng.</p>
-                    <p>• <strong>Đồng bộ & Nâng cấp PWA Offline (v1.4.2):</strong> Cập nhật bộ nhớ cache PWA và Service Worker phiên bản v1.4.2 (<code>dailuantri-v1.4.2</code>) hỗ trợ vận hành ngoại tuyến ổn định.</p>
+                    <p>• <strong>Đồng bộ & Nâng cấp PWA Offline (v1.4.2):</strong> Cập nhật bộ nhớ cache PWA và Service Worker phiên bản v1.4.2 hỗ trợ vận hành ngoại tuyến ổn định.</p>
                     <p>• <strong>Tối ưu hóa UI & Xuất phác đồ PDF:</strong> Tăng tốc khả năng render phác đồ, hoàn thiện giao diện hiển thị mượt mà trên nhiều độ phân giải màn hình.</p>
                 </div>
             </div>

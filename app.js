@@ -631,13 +631,16 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
 
 
     } else {
+                // 1. Gửi báo cáo trước tiên
+        if (query && isEnter) {
+            xuLyKhongTimThay('Luận Trị', query);
+        }
+
+        // 2. Sau đó mới gọi AI Backup (nếu được bật)
         if (query && isEnter && document.getElementById('ai-backup-luantri')?.checked) {
             fetchAIBackupResult(query, 'Biện chứng Luận Trị YHCT', document.getElementById('pdf-area'));
             return;
-        }
-
-        if (query && isEnter) xuLyKhongTimThay('Luận Trị', query);
-            
+        }            
         const msg = (query && isEnter)
             ? `<i class='fa-solid fa-paper-plane text-[10px]'></i> Đã tự động ghi nhận từ khóa "${escapeHTML(query)}" để bổ sung dữ liệu.`
             : (query ? `<i class='fa-solid fa-keyboard text-[10px]'></i> Nhấn <kbd class="px-1 py-0.5 bg-stone-800 border border-stone-700 rounded text-amber-400 font-mono">Enter</kbd> để gửi từ khóa "${escapeHTML(query)}".` : '');
@@ -856,16 +859,28 @@ function xuLyKhongTimThay(tabName, query) {
     params.append('chude', `Từ khóa thiếu: ${tabName}`);
     params.append('noidung', `Từ khóa chưa có dữ liệu: "${cleanQuery}" (Thời gian: ${timeStr})`);
 
-    fetch('/', {
+    // Trỏ URL về domain thật để hệ thống Netlify luôn ghi nhận form
+    const targetUrl = (location.hostname === 'localhost' || location.hostname === '127.0.0.1') 
+        ? `${DOMAIN_NETLIFY}/` 
+        : '/';
+
+    fetch(targetUrl, {
         method: 'POST',
+        mode: 'no-cors', // Bỏ qua kiểm tra CORS của trình duyệt khi test ở localhost
         headers: { "Content-Type": "application/x-www-form-urlencoded" },
         body: params.toString()
+    }).then(() => {
+        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+            console.info(`[DEV MODE] Đã gửi báo cáo từ khóa "${cleanQuery}" thành công (no-cors).`);
+        }
     }).catch(err => {
         console.error("Lỗi kết nối khi gửi phản hồi từ khóa thiếu:", err);
     });
 
     hienThongBaoGhiNhan(tabName, cleanQuery);
 }
+
+
 
 function hienThongBaoGhiNhan(tabName, query) {
     let toast = document.getElementById('feedback-toast');
@@ -887,6 +902,17 @@ function hienThongBaoGhiNhan(tabName, query) {
         toast.classList.remove('translate-y-0', 'opacity-100');
         toast.classList.add('-translate-y-2', 'opacity-0');
     }, 3500);
+}
+
+async function chuyenQuaLuanTriVaTim(keyword) {
+    if (!keyword) return;
+    await switchTab('luantri');
+    const searchInput = document.getElementById('search-input');
+    if (searchInput) {
+        searchInput.value = keyword;
+        searchLuanTri(true);
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function filterDuocLieu(isEnter = false) {
@@ -944,13 +970,17 @@ function filterDuocLieu(isEnter = false) {
     scoredData.sort((a, b) => b.score - a.score);
     const filteredData = scoredData.map(s => s.item);
 
-    if (filteredData.length === 0) {
-        if (txtRaw && isEnter && document.getElementById('ai-backup-duoclieu')?.checked) {    
-fetchAIBackupResult(txtRaw, 'Dược Liệu YHCT', grid);
-            return;
+        if (filteredData.length === 0) {
+        // 1. Gửi báo cáo trước tiên
+        if (txtRaw && isEnter) {
+            xuLyKhongTimThay('Dược Liệu', txtRaw);
         }
 
-        if (txtRaw && isEnter) xuLyKhongTimThay('Dược Liệu', txtRaw);
+        // 2. Sau đó mới gọi AI Backup (nếu được bật)
+        if (txtRaw && isEnter && document.getElementById('ai-backup-duoclieu')?.checked) {    
+            fetchAIBackupResult(txtRaw, 'Dược Liệu YHCT', grid);
+            return;
+        }
 
         const feedbackMsg = (txtRaw && isEnter) 
             ? `<p class="text-xs text-amber-500/90 font-medium"><i class="fa-solid fa-paper-plane mr-1"></i>Đã tự động gửi phản hồi từ khóa "${escapeHTML(txtRaw)}" về hệ thống.</p>`
@@ -990,32 +1020,46 @@ fetchAIBackupResult(txtRaw, 'Dược Liệu YHCT', grid);
 
         const blurDL = AppState.isQuizDL ? 'blur-md transition-all duration-300' : '';
 
-        card.innerHTML = `
-            <div class="absolute top-0 right-0 bg-emerald-950 text-emerald-400 font-bold px-2 py-0.5 text-[10px] uppercase rounded-bl border-b border-l border-stone-800/60 tracking-wider">${escapeHTML(d.nhom || 'Dược liệu')}</div>
-            <div class="mb-2">
-                <span class="font-bold text-emerald-400 text-base inline-flex items-center gap-1.5 cursor-pointer hover:underline card-title-el">
-                    <i class="fa-solid fa-leaf text-xs"></i> ${highlightText(d.ten || '', txtRaw)}
-                </span>
+        // Đoạn tạo card HTML trong filterDuocLieu:
+card.innerHTML = `
+    <div class="absolute top-0 right-0 bg-emerald-950 text-emerald-400 font-bold px-2 py-0.5 text-[10px] uppercase rounded-bl border-b border-l border-stone-800/60 tracking-wider">${escapeHTML(d.nhom || 'Dược liệu')}</div>
+    <div class="mb-2">
+        <span class="font-bold text-emerald-400 text-base inline-flex items-center gap-1.5 cursor-pointer hover:underline card-title-el">
+            <i class="fa-solid fa-leaf text-xs"></i> ${highlightText(d.ten || '', txtRaw)}
+        </span>
+    </div>
+    <div class="blur-target ${blurDL} transition-all duration-300 space-y-2">
+        <!-- Ô Công năng chủ trị: Đóng khung viền Emerald rõ ràng -->
+        <div class="bg-emerald-950/40 border border-emerald-700/70 p-2.5 rounded-md cong-dung-el cursor-pointer hover:border-amber-500/80 transition-colors" title="Bấm để tra cứu phác đồ Luận trị">
+            <div class="text-emerald-400 text-[10px] font-bold tracking-wider uppercase flex items-center gap-1 mb-0.5">
+                <i class="fa-solid fa-kit-medical text-[9px]"></i> CÔNG NĂNG CHỦ TRỊ:
             </div>
-            <div class="blur-target ${blurDL} transition-all duration-300">
-                <div>
-                    <div class="text-stone-500 text-[10px] font-bold tracking-wider uppercase">CÔNG NĂNG CHỦ TRỊ:</div>
-                    <p class="text-sm text-stone-300 leading-relaxed mt-0.5">${highlightText(d.cong_dung || '', txtRaw)}</p>
-                </div>
-                <div class="mt-2">${boxHTML}</div>
-            </div>
-        `;
+            <p class="text-sm text-stone-200 leading-relaxed">${highlightText(d.cong_dung || '', txtRaw)}</p>
+        </div>
+        <div>${boxHTML}</div>
+    </div>
+`;
 
-        card.onclick = (e) => {
-            const isTitle = e.target.closest('.card-title-el');
-            if (AppState.isQuizDL) {
-                const blurEl = card.querySelector('.blur-target');
-                if (blurEl) blurEl.classList.remove('blur-md');
-                if (isTitle) kichHoatTimAnh(d.ten || '');
-            } else {
-                if (isTitle) kichHoatTimAnh(d.ten || '');
-            }
-        };
+// Xử lý sự kiện click của card:
+card.onclick = (e) => {
+    const isTitle = e.target.closest('.card-title-el');
+    const isCongDung = e.target.closest('.cong-dung-el');
+
+    if (isCongDung) {
+        e.stopPropagation();
+        chuyenQuaLuanTriVaTim(d.cong_dung || '');
+        return;
+    }
+
+    if (AppState.isQuizDL) {
+        const blurEl = card.querySelector('.blur-target');
+        if (blurEl) blurEl.classList.remove('blur-md');
+        if (isTitle) kichHoatTimAnh(d.ten || '');
+    } else {
+        if (isTitle) kichHoatTimAnh(d.ten || '');
+    }
+};
+
 
         frag.appendChild(card);
     });
@@ -1088,12 +1132,16 @@ function filterHuyetVi(isEnter = false) {
     const filteredData = scoredData.map(s => s.item);
 
     if (filteredData.length === 0) {
-        if (txtRaw && isEnter && document.getElementById('ai-backup-huyetvi')?.checked) {    
-fetchAIBackupResult(txtRaw, 'Huyệt Vị YHCT', grid);
-            return;
+        // 1. Gửi báo cáo trước tiên
+        if (txtRaw && isEnter) {
+            xuLyKhongTimThay('Huyệt Vị', txtRaw);
         }
 
-        if (txtRaw && isEnter) xuLyKhongTimThay('Huyệt Vị', txtRaw);
+        // 2. Sau đó mới gọi AI Backup
+        if (txtRaw && isEnter && document.getElementById('ai-backup-huyetvi')?.checked) {    
+            fetchAIBackupResult(txtRaw, 'Huyệt Vị YHCT', grid);
+            return;
+        }
 
         const feedbackMsg = (txtRaw && isEnter) 
             ? `<p class="text-xs text-amber-500/90 font-medium"><i class="fa-solid fa-paper-plane mr-1"></i>Đã tự động gửi phản hồi từ khóa "${escapeHTML(txtRaw)}" về hệ thống.</p>`
@@ -1124,22 +1172,32 @@ fetchAIBackupResult(txtRaw, 'Huyệt Vị YHCT', grid);
                     <i class="fa-solid fa-circle-dot text-xs"></i> Huyệt ${highlightText(h.ten || '', txtRaw)}
                 </span>
             </div>
-            <div class="blur-target ${blurHV} transition-all duration-300">
-                <div>
-                    <div class="text-stone-500 text-[10px] font-bold tracking-wider uppercase">ĐỊNH VỊ GIẢI PHẪU:</div>
-                    <p class="text-xs text-stone-400 mt-0.5 leading-relaxed">${highlightText(h.vi_tri || h.dinh_vi || 'Đang cập nhật', txtRaw)}</p>
-                </div>
-                <div class="${theme.bgBox} border p-2.5 rounded-md mt-1.5">
+            <div class="blur-target ${blurHV} transition-all duration-300 space-y-2">
+                <div class="${theme.bgBox} border border-sky-600/60 p-2.5 rounded-md chu-tri-el cursor-pointer hover:border-amber-500/80 transition-colors" title="Bấm để tra cứu phác đồ Luận trị">
                     <div class="${theme.text} text-[10px] font-bold tracking-wider uppercase flex items-center gap-1">
                         <i class="fa-solid fa-kit-medical text-[9px]"></i> CHỦ TRỊ ĐẶC HIỆU:
                     </div>
                     <p class="text-sm ${theme.textLight} font-medium mt-0.5 leading-relaxed">${highlightText(h.chu_tri || '', txtRaw)}</p>
+                </div>
+                <div class="bg-stone-900/90 border border-stone-700/80 p-2.5 rounded-md">
+                    <div class="text-amber-400 text-[10px] font-bold tracking-wider uppercase flex items-center gap-1 mb-0.5">
+                        <i class="fa-solid fa-location-dot text-[9px]"></i> ĐỊNH VỊ GIẢI PHẪU:
+                    </div>
+                    <p class="text-xs text-stone-200 font-medium leading-relaxed">${highlightText(h.vi_tri || h.dinh_vi || 'Đang cập nhật', txtRaw)}</p>
                 </div>
             </div>
         `;
 
         card.onclick = (e) => {
             const isTitle = e.target.closest('.card-title-el');
+            const isChuTri = e.target.closest('.chu-tri-el');
+
+            if (isChuTri) {
+                e.stopPropagation();
+                chuyenQuaLuanTriVaTim(h.chu_tri || '');
+                return;
+            }
+
             if (AppState.isQuizHV) {
                 const blurEl = card.querySelector('.blur-target');
                 if (blurEl) blurEl.classList.remove('blur-md');
@@ -1169,40 +1227,34 @@ function filterTra(isEnter = false) {
         return;
     }
 
-    const txtRaw = getVal('searchTra').trim();
+    const txtRaw = getVal('searchTra').trim().normalize('NFC');
     const txt = txtRaw.toLowerCase();
     const cleanTxt = txt.replace(/[,\.;:?!()\[\]{}]/g, ' ');
     const queryWords = cleanTxt ? cleanTxt.split(/\s+/).filter(Boolean) : [];    
-    let expandedWords = [...queryWords];
-    if (txt.includes('dành dành') && !expandedWords.includes('chi tử')) {
-        expandedWords.push('chi tử');
-    } else if (txt.includes('chi tử') && !expandedWords.includes('dành dành')) {
-        expandedWords.push('dành dành');
-    }
-
     const nhom = getVal('filterNhomTra');
     grid.innerHTML = "";
 
     const scoredData = [];
-
     traData.forEach(t => {
         if (!t) return;
-        const nhomItem = t.nhom || '';
+        const nhomItem = String(t.nhom || '');
         if (nhom !== "" && nhomItem !== nhom) return;
 
-        if (expandedWords.length === 0) {
+        if (queryWords.length === 0) {
             scoredData.push({ item: t, score: 1 });
             return;
         }
 
-        const ten = (t.ten || '').toLowerCase();
-        const congDung = (t.cong_dung || '').toLowerCase();
-        const cachDung = (t.cach_dung || '').toLowerCase();
-        const thanhPhan = (t.thanh_phan || []).join(' ').toLowerCase();
+        const ten = String(t.ten || '').toLowerCase().normalize('NFC');
+        const congDung = String(t.cong_dung || '').toLowerCase().normalize('NFC');
+        const cachDung = String(t.cach_dung || '').toLowerCase().normalize('NFC');
+        const tpArr = Array.isArray(t.thanh_phan) ? t.thanh_phan : (t.thanh_phan ? [t.thanh_phan] : []);
+        const thanhPhan = tpArr.join(' ').toLowerCase().normalize('NFC');
+        
         const fullText = `${ten} ${congDung} ${cachDung} ${thanhPhan}`;
 
         let matchCount = 0;
-        expandedWords.forEach(word => {
+        queryWords.forEach(word => {
             if (fullText.includes(word)) {
                 matchCount++;
                 if (ten.includes(word)) matchCount += 0.5;
@@ -1218,12 +1270,16 @@ function filterTra(isEnter = false) {
     const filteredData = scoredData.map(s => s.item);
 
     if (filteredData.length === 0) {
-        if (txtRaw && isEnter && document.getElementById('ai-backup-tra')?.checked) {    
-fetchAIBackupResult(txtRaw, 'Trà Dược YHCT', grid);
-            return;
+        // 1. Gửi báo cáo trước tiên
+        if (txtRaw && isEnter) {
+            xuLyKhongTimThay('Trà Dược', txtRaw);
         }
 
-        if (txtRaw && isEnter) xuLyKhongTimThay('Trà Dược', txtRaw);
+        // 2. Sau đó mới gọi AI Backup
+        if (txtRaw && isEnter && document.getElementById('ai-backup-tra')?.checked) {    
+            fetchAIBackupResult(txtRaw, 'Trà Dược YHCT', grid);
+            return;
+        }
 
         const feedbackMsg = (txtRaw && isEnter) 
             ? `<p class="text-xs text-amber-500/90 font-medium"><i class="fa-solid fa-paper-plane mr-1"></i>Đã tự động gửi phản hồi từ khóa "${escapeHTML(txtRaw)}" về hệ thống.</p>`
@@ -1244,7 +1300,8 @@ fetchAIBackupResult(txtRaw, 'Trà Dược YHCT', grid);
         let card = document.createElement('div');
         card.className = "bg-dark-box p-4 rounded-lg space-y-3 relative border-l-4 border-amber-600/70 shadow-md shadow-black/40 hover:scale-[1.01] transition-all duration-150";
         
-        const tagsHtml = (t.thanh_phan || []).map(tp => 
+        const tpCardArr = Array.isArray(t.thanh_phan) ? t.thanh_phan : (t.thanh_phan ? [t.thanh_phan] : []);
+        const tagsHtml = tpCardArr.map(tp => 
             `<button onclick="xemDuocLieu('${escapeHTML(tp)}')" class="bg-stone-800 text-amber-400/90 font-semibold text-xs px-2.5 py-1 rounded border border-stone-700/60 flex items-center gap-1 shadow-sm shadow-black/20 hover:border-amber-500 active:scale-95 transition-all">
                 <i class="fa-solid fa-leaf text-[10px] text-emerald-500"></i> ${highlightText(tp, txtRaw)}
             </button>`
@@ -1844,38 +1901,15 @@ function hienThiKetQuaTracNghiem() {
 }
 
 function kichHoatTimAnh(keyword = "") {
-    const kw = keyword.trim() || "Chưa chọn vị thuốc";
-    const kwEl = document.getElementById('current-image-keyword');
-    if (kwEl) kwEl.innerText = kw;
-
-    const container = document.getElementById('image-links-container');
-    if (container) {
-        if (kw === "Chưa chọn vị thuốc") {
-            container.innerHTML = `<div class="text-xs text-stone-400 italic">Vui lòng chọn dược liệu hoặc huyệt vị từ các tab trước để hiển thị liên kết tra cứu.</div>`;
-        } else {
-            const kwClean = kw.replace(/\(.*?\)/g, '').replace(/[^\w\sàáảãạăắằẳẵặâấầẩẫậèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵđ]/gi, ' ').trim();
-            const suffix = kwClean.toLowerCase().includes('huyệt') ? ' huyệt vị YHCT' : ' vị thuốc YHCT';
-            const q = encodeURIComponent(kwClean + suffix);
-
-            const urlGoogle = `https://www.google.com/search?q=${q}&udm=2`;
-            const urlDDG = `https://duckduckgo.com/?q=${q}&iax=images&ia=images`;
-            const urlBing = `https://www.bing.com/images/search?q=${q}&form=HDRSC2`;
-
-            container.innerHTML = `
-                <button onclick="window.open('${urlDDG}', '_blank', 'noopener,noreferrer')" class="w-full py-3 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer">
-                    <i class="fa-solid fa-shield-halved text-sm"></i> Mở trên DuckDuckGo
-                </button>
-                <button onclick="window.open('${urlGoogle}', '_blank', 'noopener,noreferrer')" class="w-full py-3 px-3 bg-orange-600 hover:bg-orange-700 text-white font-bold text-xs rounded flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer">
-                    <i class="fa-brands fa-google text-sm"></i> Mở ảnh trên Google
-                </button>
-                <button onclick="window.open('${urlBing}', '_blank', 'noopener,noreferrer')" class="w-full py-3 px-3 bg-sky-600 hover:bg-sky-700 text-white font-bold text-xs rounded flex items-center justify-center gap-2 shadow-md transition-all cursor-pointer">
-                    <i class="fa-solid fa-magnifying-glass text-sm"></i> Mở trên Bing
-                </button>
-            `;
-        }
-    }
-
-    switchTab('xemanh');
+    const kw = keyword.trim();
+    if (!kw) return;
+    
+    const kwClean = kw.replace(/\(.*?\)/g, '').replace(/[^\w\sàáảãạăắằẳẵặâấầẩẫậèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵđ]/gi, ' ').trim();
+    const suffix = kwClean.toLowerCase().includes('huyệt') ? ' huyệt vị YHCT' : ' vị thuốc YHCT';
+    const q = encodeURIComponent(kwClean + suffix);
+    
+    const urlGoogle = `https://www.google.com/search?q=${q}&udm=2`;
+    window.open(urlGoogle, '_blank', 'noopener,noreferrer');
 }
 
 function quayLaiCauHinhQuiz() {
@@ -2024,10 +2058,72 @@ function loadScript(src) {
 
             resolve(); 
         };
-        script.onerror = reject;
+        // Chuyển Event thành Error object chuẩn để tránh lỗi #<Event>
+        script.onerror = () => reject(new Error(`Không thể tải tập lệnh: ${src}`));
         document.head.appendChild(script);
     });
 }
+
+async function switchTab(tabName) {
+    try {
+        if (tabName === 'luantri') await loadScript('luantridata.js');
+        if (tabName === 'duoclieu') await loadScript('duoclieudata.js');
+        if (tabName === 'huyetvi') await loadScript('huyetvidata.js');
+        if (tabName === 'tra') await loadScript('tradata.js');
+        if (tabName === 'tracnghiem') await loadScript('questiondata.js');
+    } catch (err) {
+        console.error("Lỗi nạp dữ liệu tab:", err.message);
+    }
+
+    if (tabName !== 'xemanh') {
+        localStorage.setItem('activeTab', tabName);
+    }
+
+    const tabs = ['luantri', 'tracnghiem', 'duoclieu', 'huyetvi', 'tra', 'xemanh', 'ai'];
+    const pascalMap = { 
+        luantri: 'LuanTri', 
+        tracnghiem: 'TracNghiem', 
+        duoclieu: 'DuocLieu', 
+        huyetvi: 'HuyetVi', 
+        tra: 'Tra', 
+        xemanh: 'XemAnh',
+        ai: 'AI'
+    };
+
+    tabs.forEach(t => {
+        const pascalCase = pascalMap[t];
+        const section = document.getElementById('section' + pascalCase);
+        const btn = document.getElementById('btnTab' + pascalCase);
+
+        if (t === tabName) {
+            if (section) {
+                section.classList.remove('hidden');
+                section.style.opacity = '0';
+                section.style.transform = 'translateY(6px)';
+                section.style.transition = 'all 0.15s ease';
+                requestAnimationFrame(() => {
+                    section.style.opacity = '1';
+                    section.style.transform = 'translateY(0)';
+                });
+            }
+            if (btn) btn.classList.add('tab-active', 'text-primary');
+
+            if (t === 'luantri') {
+                capNhatTongSoTrieuChung();
+                updateLuanTri();
+            }
+            if (t === 'duoclieu') filterDuocLieu();
+            if (t === 'huyetvi') filterHuyetVi();
+            if (t === 'tra') filterTra();
+            if (t === 'tracnghiem') capNhatDiemGanNhat();
+
+        } else {
+            if (section) section.classList.add('hidden');
+            if (btn) btn.classList.remove('tab-active', 'text-primary');
+        }
+    });
+}
+
 
 async function exportPDF() {
     const btn = document.querySelector('button[onclick="exportPDF()"]');
@@ -2269,7 +2365,7 @@ async function taiDuLieuOffline() {
     if (!xacNhan) return;
 
     try {
-        const cache = await caches.open('dailuantri-v1.4.3');
+        const cache = await caches.open('dailuantri-v1.4.5');
         await cache.addAll([
             './', './index.html', './style.css', './app.js',
             './luantridata.js', './duoclieudata.js', './huyetvidata.js',
