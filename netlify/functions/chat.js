@@ -77,7 +77,7 @@ exports.handler = async function(event, context) {
 
         for (let keyIdx = 0; keyIdx < keysToTry.length; keyIdx++) {
             const apiKey = keysToTry[keyIdx];
-            const timeoutMs = ((source === 'vongchan') || (source === 'quiz')||(source === 'assistant')) ? 20000 : 10000;
+            const timeoutMs = ((source === 'vongchan') || (source === 'quiz')||(source === 'assistant')) ? 25000 : 10000;
 
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
