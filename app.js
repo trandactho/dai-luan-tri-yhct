@@ -4,8 +4,6 @@ function getApiEndpoint() {
         ? `${DOMAIN_NETLIFY}/.netlify/functions/chat`
         : '/.netlify/functions/chat';
 }
-// Hằng số làm sạch dấu câu dùng chung
-const CLEAN_PUNCTUATION_REGEX = /[,\.;:?!()\[\]{}]/g;
 
 // --- QUẢN LÝ TRẠNG THÁI ỨNG DỤNG ---
 const AppState = {
@@ -54,51 +52,6 @@ const ORIGINAL_PDF_AREA_HTML = `
         </div>
     </div>
 `;
-// --- QUẢN LÝ CƠ SỞ DỮ LIỆU OFFLINE ---
-let dbVongChan = null;
-let useLocalStorageFallback = false;
-
-function initIndexedDB() {
-    return new Promise((resolve, reject) => {
-        // 1. Kiểm tra hỗ trợ trình duyệt
-        if (!window.indexedDB) {
-            useLocalStorageFallback = true;
-            return resolve(null); // Trả về resolve thay vì reject để tránh bắn error log
-        }
-
-        try {
-            const request = indexedDB.open('DaiLuanTriDB', 1);
-            
-            request.onerror = (event) => {
-                // Tắt cảnh báo lỗi console, tự động chuyển sang LocalStorage
-                useLocalStorageFallback = true;
-                resolve(null);
-            };
-            
-            request.onsuccess = (event) => {
-                dbVongChan = event.target.result;
-                useLocalStorageFallback = false;
-                if (localStorage.getItem('activeTab') === 'xemanh') {
-                    hienThiLichSuVongChan();
-                }
-                resolve(dbVongChan);
-            };
-            
-            request.onupgradeneeded = (event) => {
-                const db = event.target.result;
-                if (!db.objectStoreNames.contains('vongChanHistory')) {
-                    db.createObjectStore('vongChanHistory', { keyPath: 'id' });
-                }
-            };
-        } catch (e) {
-            useLocalStorageFallback = true;
-            resolve(null);
-        }
-    });
-}
-
-// Khởi tạo IndexedDB an toàn
-initIndexedDB();
 
 // Biến quản lý đồng hồ đếm ngược trắc nghiệm
 let quizTimerInterval = null;
@@ -367,8 +320,8 @@ function highlightText(text, query) {
     if (!query || !text) return escapeHTML(text);
     const safeText = String(text);
     
-        // Loại bỏ dấu câu khỏi chuỗi truy vấn
-    const cleanQuery = query.replace(CLEAN_PUNCTUATION_REGEX, ' ');
+    // Loại bỏ dấu câu khỏi chuỗi truy vấn
+    const cleanQuery = query.replace(/[,\.;:?!()\[\]{}]/g, ' ');
     const words = cleanQuery.trim().split(/\s+/).filter(Boolean);
     
     if (words.length === 0) return escapeHTML(safeText);
@@ -384,6 +337,7 @@ function highlightText(text, query) {
         return escapeHTML(part);
     }).join('');
 }
+
 
 function removeAccents(str) {
     return (str || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
@@ -526,8 +480,8 @@ function updateLuanTri(query = "", isEnter = false) {
     const bc = getFilterVal('benh-co');
     const searchInput = getVal('search-input').toLowerCase().trim();
     const activeQuery = query || searchInput;
-        // Làm sạch dấu câu trước khi tách mảng từ khóa
-const cleanActiveQuery = activeQuery.replace(CLEAN_PUNCTUATION_REGEX, ' ');
+    // Làm sạch dấu câu trước khi tách mảng từ khóa
+const cleanActiveQuery = activeQuery.replace(/[,\.;:?!()\[\]{}]/g, ' ');
 const queryWords = cleanActiveQuery ? cleanActiveQuery.split(/\s+/).filter(Boolean) : [];
     let bestMatchData = null;
     let maxScore = -1;
@@ -764,7 +718,7 @@ function searchLuanTri(isEnter = false) {
     const dropdown = document.getElementById('search-dropdown');
     const queryStr = (input ? input.value : '').toLowerCase().trim();
     
-    const cleanQueryStr = queryStr.replace(CLEAN_PUNCTUATION_REGEX, ' ');
+    const cleanQueryStr = queryStr.replace(/[,\.;:?!()\[\]{}]/g, ' ');
     const queryWords = cleanQueryStr ? cleanQueryStr.split(/\s+/).filter(Boolean) : [];
 
     const tp = getFilterVal('tang-phu');
@@ -943,9 +897,9 @@ function filterDuocLieu(isEnter = false) {
         return;
     }
 
-        const txtRaw = getVal('searchDuocLieu').trim().normalize('NFC');
+    const txtRaw = getVal('searchDuocLieu').trim().normalize('NFC');
     const txt = txtRaw.toLowerCase();
-    const cleanTxt = txt.replace(CLEAN_PUNCTUATION_REGEX, ' ');
+    const cleanTxt = txt.replace(/[,\.;:?!()\[\]{}]/g, ' ');
     const queryWords = cleanTxt ? cleanTxt.split(/\s+/).filter(Boolean) : [];
     const group = getVal('filterNhomDuocLieu');
     grid.innerHTML = "";
@@ -1094,9 +1048,9 @@ function filterHuyetVi(isEnter = false) {
         return;
     }
 
-        const txtRaw = getVal('searchHuyetVi').trim();
+    const txtRaw = getVal('searchHuyetVi').trim();
     const txt = txtRaw.toLowerCase();
-    const cleanTxt = txt.replace(CLEAN_PUNCTUATION_REGEX, ' ');
+    const cleanTxt = txt.replace(/[,\.;:?!()\[\]{}]/g, ' ');
     const queryWords = cleanTxt ? cleanTxt.split(/\s+/).filter(Boolean) : [];    
     const kinh = getVal('filterKinhLac');
     grid.innerHTML = "";
@@ -1241,9 +1195,9 @@ function filterTra(isEnter = false) {
         return;
     }
 
-        const txtRaw = getVal('searchTra').trim().normalize('NFC');
+    const txtRaw = getVal('searchTra').trim().normalize('NFC');
     const txt = txtRaw.toLowerCase();
-    const cleanTxt = txt.replace(CLEAN_PUNCTUATION_REGEX, ' ');
+    const cleanTxt = txt.replace(/[,\.;:?!()\[\]{}]/g, ' ');
     const queryWords = cleanTxt ? cleanTxt.split(/\s+/).filter(Boolean) : [];    
     const nhom = getVal('filterNhomTra');
     grid.innerHTML = "";
@@ -1315,12 +1269,11 @@ function filterTra(isEnter = false) {
         card.className = "bg-dark-box p-4 rounded-lg space-y-3 relative border-l-4 border-amber-600/70 shadow-md shadow-black/40 hover:scale-[1.01] transition-all duration-150";
         
         const tpCardArr = Array.isArray(t.thanh_phan) ? t.thanh_phan : (t.thanh_phan ? [t.thanh_phan] : []);
-        // Đã thêm event.stopPropagation() để tránh nổi bọt sự kiện
-const tagsHtml = tpCardArr.map(tp => 
-    `<button onclick="event.stopPropagation(); xemDuocLieu('${escapeHTML(tp)}')" class="bg-stone-800 text-amber-400/90 font-semibold text-xs px-2.5 py-1 rounded border border-stone-700/60 flex items-center gap-1 shadow-sm shadow-black/20 hover:border-amber-500 active:scale-95 transition-all">
-        <i class="fa-solid fa-leaf text-[10px] text-emerald-500"></i> ${highlightText(tp, txtRaw)}
-    </button>`
-).join(' ');
+        const tagsHtml = tpCardArr.map(tp => 
+            `<button onclick="xemDuocLieu('${escapeHTML(tp)}')" class="bg-stone-800 text-amber-400/90 font-semibold text-xs px-2.5 py-1 rounded border border-stone-700/60 flex items-center gap-1 shadow-sm shadow-black/20 hover:border-amber-500 active:scale-95 transition-all">
+                <i class="fa-solid fa-leaf text-[10px] text-emerald-500"></i> ${highlightText(tp, txtRaw)}
+            </button>`
+        ).join(' ');
 
         card.innerHTML = `
             <div class="absolute top-0 right-0 bg-amber-950 text-amber-500 text-[10px] font-bold px-2 py-0.5 rounded-bl uppercase tracking-wider">${escapeHTML(t.nhom || '')}</div>
@@ -1350,30 +1303,28 @@ const tagsHtml = tpCardArr.map(tp =>
 
 window.addEventListener("DOMContentLoaded", () => {
     const setupBox = document.getElementById('quiz-setup');
-if (setupBox) {
-    // Kiểm tra nếu chưa có nút timer thì mới tạo
-    if (!document.getElementById('use-quiz-timer')) {
-        const aiCheckContainer = setupBox.querySelector('label') || setupBox.querySelector('input[type="checkbox"]')?.parentElement;
-        if (aiCheckContainer) {
-            const timerDiv = document.createElement('div');
-            timerDiv.id = 'quiz-timer-wrapper'; // Thêm ID để dễ quản lý
-            timerDiv.className = "flex items-center justify-between gap-2 pt-2 pb-1 border-t border-stone-800/80 mt-2";
-            timerDiv.innerHTML = `
-                <label class="flex items-center gap-2 text-xs text-stone-300 cursor-pointer select-none">
-                    <input type="checkbox" id="use-quiz-timer" class="w-4 h-4 rounded border-stone-700 bg-stone-900 text-amber-600 focus:ring-amber-500">
-                    <span>⏱️ Giới hạn thời gian mỗi câu</span>
-                </label>
-                <select id="quiz-time-per-question" class="bg-stone-900 text-stone-200 border border-stone-800 rounded-lg px-2 py-1 text-xs focus:border-amber-500 outline-none">
-                    <option value="15">15 giây</option>
-                    <option value="30" selected>30 giây</option>
-                    <option value="45">45 giây</option>
-                    <option value="60">60 giây</option>
-                </select>
-            `;
-            aiCheckContainer.parentNode.insertBefore(timerDiv, aiCheckContainer.nextSibling);
+    if (setupBox) {
+        if (!document.getElementById('use-quiz-timer')) {
+            const aiCheckContainer = setupBox.querySelector('label') || setupBox.querySelector('input[type="checkbox"]')?.parentElement;
+            if (aiCheckContainer) {
+                const timerDiv = document.createElement('div');
+                timerDiv.className = "flex items-center justify-between gap-2 pt-2 pb-1 border-t border-stone-800/80 mt-2";
+                timerDiv.innerHTML = `
+                    <label class="flex items-center gap-2 text-xs text-stone-300 cursor-pointer select-none">
+                        <input type="checkbox" id="use-quiz-timer" class="w-4 h-4 rounded border-stone-700 bg-stone-900 text-amber-600 focus:ring-amber-500">
+                        <span>⏱️ Giới hạn thời gian mỗi câu</span>
+                    </label>
+                    <select id="quiz-time-per-question" class="bg-stone-900 text-stone-200 border border-stone-800 rounded-lg px-2 py-1 text-xs focus:border-amber-500 outline-none">
+                        <option value="15">15 giây</option>
+                        <option value="30" selected>30 giây</option>
+                        <option value="45">45 giây</option>
+                        <option value="60">60 giây</option>
+                    </select>
+                `;
+                aiCheckContainer.parentNode.insertBefore(timerDiv, aiCheckContainer.nextSibling);
+            }
         }
     }
-}
 
     requestAnimationFrame(() => {
         try {
@@ -1571,16 +1522,20 @@ async function fetchAIQuizQuestions(category, count) {
         - "giai_thich": Giải thích chi tiết ngắn gọn vì sao đáp án đó chính xác.
         Chỉ trả về định dạng JSON thuần túy, không kèm theo chữ giải thích nào khác ngoài JSON.`;
 
-        const res = await fetch(getApiEndpoint(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt, source: 'quiz' })
-        });
-
+        // Đoạn bổ sung max_tokens trong fetchAIQuizQuestions (Dòng ~955)
+const res = await fetch(getApiEndpoint(), {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ prompt, source: 'quiz', max_tokens: 800 })
+});
         const data = await res.json();
         if (res.ok && data.reply) {
             let jsonStr = data.reply.trim();
-            jsonStr = jsonStr.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/\s*```$/, '').trim();
+            if (jsonStr.startsWith('```json')) {
+                jsonStr = jsonStr.replace(/^```json/, '').replace(/```$/, '').trim();
+            } else if (jsonStr.startsWith('```')) {
+                jsonStr = jsonStr.replace(/^```/, '').replace(/```$/, '').trim();
+            }
             const parsedArray = JSON.parse(jsonStr);
             return Array.isArray(parsedArray) ? parsedArray.slice(0, count) : [];
         }
@@ -1589,7 +1544,6 @@ async function fetchAIQuizQuestions(category, count) {
     }
     return [];
 }
-
 
 async function batDauTracNghiem() {
     const categorySelect = document.getElementById('quiz-category');
@@ -1916,22 +1870,13 @@ function quayLaiCauHinhQuiz() {
 }
 
 
-// Cập nhật hàm hienThiXemLai
 function hienThiXemLai() {
     document.getElementById('quiz-result').classList.add('hidden');
     const reviewDiv = document.getElementById('quiz-review');
-    if (!reviewDiv) return;
-    
     reviewDiv.classList.remove('hidden');
-    const listContainer = document.getElementById('quiz-review-list');
-    if (!listContainer) return;
-    
-    listContainer.innerHTML = "";
 
-    if (!userAnswers || userAnswers.length === 0) {
-        listContainer.innerHTML = `<div class="text-stone-400 text-center text-xs py-4">Không có dữ liệu bài làm để hiển thị.</div>`;
-        return;
-    }
+    const listContainer = document.getElementById('quiz-review-list');
+    listContainer.innerHTML = "";
 
     userAnswers.forEach((ans, index) => {
         const item = document.createElement('div');
@@ -1951,7 +1896,6 @@ function hienThiXemLai() {
         listContainer.appendChild(item);
     });
 }
-
 
 function dongXemLai() {
     document.getElementById('quiz-review').classList.add('hidden');
@@ -2077,7 +2021,6 @@ async function switchTab(tabName) {
             }
             if (btn) btn.classList.add('tab-active', 'text-primary');
 
-            // Đảm bảo dữ liệu đã có trong window trước khi render
             if (t === 'luantri') {
                 capNhatTongSoTrieuChung();
                 updateLuanTri();
@@ -2086,6 +2029,8 @@ async function switchTab(tabName) {
             if (t === 'huyetvi') filterHuyetVi();
             if (t === 'tra') filterTra();
             if (t === 'tracnghiem') capNhatDiemGanNhat();
+            
+            // ⚡ Tích hợp trực tiếp tại đây thay vì ghi đè ở cuối file
             if (t === 'xemanh') hienThiLichSuVongChan();
 
         } else {
@@ -2094,6 +2039,7 @@ async function switchTab(tabName) {
         }
     });
 }
+
 
 async function exportPDF() {
     const btn = document.querySelector('button[onclick="exportPDF()"]');
@@ -2240,8 +2186,12 @@ async function sendAIWebMessage() {
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: query, source: 'assistant' })
-        });
+            body: JSON.stringify({ 
+              prompt: query, 
+              source: 'assistant',
+              max_tokens: 350 // Giới hạn phản hồi tối đa khoảng 250 - 300 từ
+            })
+});
         const data = await res.json();
 
         const loadingEl = document.getElementById(loadingId);
@@ -2322,18 +2272,12 @@ document.addEventListener('touchend', e => {
     handleSwipe(touchstartX, touchstartY, endX, endY);
 }, { passive: true });
 
-// Đảm bảo phím Enter hoạt động đúng ở ô Chat AI và tìm kiếm
+// Đã khắc phục lỗi xung đột phím Enter bằng cách kiểm tra loại trừ id của ô search
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
-        if (e.target.id === 'ai-input') {
-            e.preventDefault();
-            sendAIWebMessage();
-        } else if (!e.target.id.includes('search')) {
-            e.target.blur();
-        }
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT' && !e.target.id.includes('search')) {
+        e.target.blur();
     }
 });
-
 
 async function taiDuLieuOffline() {
     if (!('caches' in window)) return alert('Trình duyệt không hỗ trợ tính năng lưu offline.');
@@ -2446,7 +2390,11 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt, source: 'backup' })
+            body: JSON.stringify({ 
+    prompt: `Cung cấp thông tin ngắn gọn (<200 từ, tiếng Việt) về "${query}" trong danh mục ${tabName} YHCT.`, 
+    source: 'backup',
+    max_tokens: 300 // ⚡ Giới hạn token đầu ra
+            })
         });
         const data = await res.json();
         
@@ -2486,85 +2434,88 @@ document.addEventListener('pointerdown', (e) => {
     }
 });
 
-// AI Phân tích riêng cho Hội chứng (Rút gọn Prompt tối ưu Token)
+// AI Phân tích riêng cho Hội chứng (Đã tối ưu Caching chống Spam Quota)
 async function fetchAIHcDesc(hcName) {
     const aiHcEl = document.getElementById('ai-hc-desc');
     if (!aiHcEl || !hcName || hcName === "---") return;
 
-    if (aiHcEl.dataset.hcName === hcName && aiHcEl.innerHTML.trim() !== '' && !aiHcEl.innerHTML.includes('Lỗi')) {
+    // ⚡ Đọc cache từ localStorage (Mới)
+    const cacheKey = 'ai_hc_' + removeAccents(hcName).replace(/\s+/g, '_');
+    const cachedHTML = localStorage.getItem(cacheKey);
+    if (cachedHTML) {
         aiHcEl.classList.remove('hidden');
+        aiHcEl.innerHTML = cachedHTML;
         return;
     }
 
     aiHcEl.classList.remove('hidden');
-    aiHcEl.innerHTML = `<div class="text-amber-400/80 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang phân tích sâu về hội chứng...</div>`;
+    aiHcEl.innerHTML = `<div class="text-amber-400/80 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang phân tích...</div>`;
 
     try {
-        // Thêm yêu cầu khống chế dung lượng dưới 100 từ
-        const prompt = `Trong YHCT, phân tích ngắn gọn dưới 100 từ về hội chứng "${hcName}" (cơ chế bệnh sinh, nguyên nhân, biểu hiện đặc trưng). Tiếng Việt thuần túy, không chữ Hán.`;
+        const prompt = `Phân tích súc tích (<150 từ, tiếng Việt, không chữ Hán) về cơ chế, nguyên nhân, biểu hiện của hội chứng YHCT: "${hcName}".`;
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt, source: 'luantrihc' })
+            body: JSON.stringify({ prompt, source: 'luantrihc', max_tokens: 250 }) // ⚡ Thêm max_tokens
         });
         const data = await res.json();
 
         if (res.ok && data.reply) {
-            aiHcEl.dataset.hcName = hcName;
-            aiHcEl.innerHTML = `
+            const htmlResult = `
                 <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Mô tả chi tiết hội chứng:</div>
                 <div class="space-y-1">${formatAIMessage(data.reply)}</div>
             `;
+            localStorage.setItem(cacheKey, htmlResult); // ⚡ Lưu cache vĩnh viễn
+            aiHcEl.innerHTML = htmlResult;
         } else {
             let errorMsg = data.error || 'Không nhận được phản hồi từ AI.';
-            if (errorMsg.includes('Quota exceeded') || errorMsg.includes('429')) {
-                errorMsg = 'Hệ thống AI đang tạm thời quá tải lượt gọi (vượt giới hạn 20 lượt/phút). Vui lòng đợi khoảng 30-60 giây rồi thử lại.';
-            }
-            aiHcEl.innerHTML = `<div class="text-amber-400/90 bg-amber-950/40 p-2.5 rounded border border-amber-800/60 text-xs"><i class="fa-solid fa-hourglass-half mr-1"></i> ${escapeHTML(errorMsg)}</div>`;
+            aiHcEl.innerHTML = `<div class="text-amber-400/90 bg-amber-950/40 p-2.5 rounded border border-amber-800/60 text-xs">${escapeHTML(errorMsg)}</div>`;
         }
     } catch (err) {
-        aiHcEl.innerHTML = `<div class="text-red-400 font-mono text-[11px] p-2 bg-red-950/50 border border-red-800 rounded">⚠️ Lỗi kết nối: ${escapeHTML(err.message)}</div>`;
+        aiHcEl.innerHTML = `<div class="text-red-400 font-mono text-[11px] p-2 bg-red-950/50 border border-red-800 rounded">⚠️ Lỗi kết nối.</div>`;
     }
 }
 
-// AI Phân tích riêng cho Bài thuốc (Rút gọn Prompt tối ưu Token)
+
+// AI Phân tích riêng cho Bài thuốc (Đã tối ưu Caching)
 async function fetchAIBtDesc(btName) {
     const aiBtEl = document.getElementById('ai-bt-desc');
     if (!aiBtEl || !btName || btName === "---" || btName === "Đối chứng nghiệm phương") return;
 
-    if (aiBtEl.dataset.btName === btName && aiBtEl.innerHTML.trim() !== '' && !aiBtEl.innerHTML.includes('Lỗi')) {
+    // ⚡ Đọc cache từ localStorage (Mới)
+    const cacheKey = 'ai_bt_' + removeAccents(btName).replace(/\s+/g, '_');
+    const cachedHTML = localStorage.getItem(cacheKey);
+    if (cachedHTML) {
         aiBtEl.classList.remove('hidden');
+        aiBtEl.innerHTML = cachedHTML;
         return;
     }
 
     aiBtEl.classList.remove('hidden');
-    aiBtEl.innerHTML = `<div class="text-amber-400/80 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang tra cứu nguồn gốc và đặc điểm cổ phương...</div>`;
+    aiBtEl.innerHTML = `<div class="text-amber-400/80 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang tra cứu...</div>`;
 
     try {
-        // Thêm yêu cầu khống chế dung lượng dưới 100 từ
-        const prompt = `Trong YHCT, phân tích ngắn gọn dưới 100 từ về nguồn gốc và đặc điểm nổi bật của bài thuốc "${btName}". Tiếng Việt thuần túy, không chữ Hán.`;
+        const prompt = `Phân tích súc tích (<150 từ, tiếng Việt, không chữ Hán) về nguồn gốc, xuất xứ, đặc điểm nổi bật của bài thuốc YHCT: "${btName}".`;
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt, source: 'luantribt' })
+            body: JSON.stringify({ prompt, source: 'luantribt', max_tokens: 250 }) // ⚡ Thêm max_tokens
         });
         const data = await res.json();
 
         if (res.ok && data.reply) {
-            aiBtEl.dataset.btName = btName;
-            aiBtEl.innerHTML = `
+            const htmlResult = `
                 <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Nguồn gốc & đặc điểm cổ phương:</div>
                 <div class="space-y-1">${formatAIMessage(data.reply)}</div>
             `;
+            localStorage.setItem(cacheKey, htmlResult); // ⚡ Lưu cache vĩnh viễn
+            aiBtEl.innerHTML = htmlResult;
         } else {
             let errorMsg = data.error || 'Không nhận được phản hồi từ AI.';
-            if (errorMsg.includes('Quota exceeded') || errorMsg.includes('429')) {
-                errorMsg = 'Hệ thống AI đang tạm thời quá tải lượt gọi (vượt giới hạn 20 lượt/phút). Vui lòng đợi khoảng 30-60 giây rồi thử lại.';
-            }
-            aiBtEl.innerHTML = `<div class="text-amber-400/90 bg-amber-950/40 p-2.5 rounded border border-amber-800/60 text-xs"><i class="fa-solid fa-hourglass-half mr-1"></i> ${escapeHTML(errorMsg)}</div>`;
+            aiBtEl.innerHTML = `<div class="text-amber-400/90 bg-amber-950/40 p-2.5 rounded border border-amber-800/60 text-xs">${escapeHTML(errorMsg)}</div>`;
         }
     } catch (err) {
-        aiBtEl.innerHTML = `<div class="text-red-400 font-mono text-[11px] p-2 bg-red-950/50 border border-red-800 rounded">⚠️ Lỗi kết nối: ${escapeHTML(err.message)}</div>`;
+        aiBtEl.innerHTML = `<div class="text-red-400 font-mono text-[11px] p-2 bg-red-950/50 border border-red-800 rounded">⚠️ Lỗi kết nối.</div>`;
     }
 }
 
@@ -2627,11 +2578,8 @@ function tatCameraVongChan() {
     if (btnCapture) btnCapture.classList.add('hidden');
 }
 
-// Cập nhật hàm moCameraVongChan
+// Bật Camera thiết bị
 async function moCameraVongChan() {
-    // ⚡ Đảm bảo tắt stream cũ trước khi tạo stream mới
-    tatCameraVongChan();
-
     const videoEl = document.getElementById('vong-chan-video');
     const imgEl = document.getElementById('vong-chan-img-preview');
     const placeholder = document.getElementById('vong-chan-placeholder');
@@ -2644,15 +2592,15 @@ async function moCameraVongChan() {
             audio: false 
         });
         
-        if (videoEl) {
-            videoEl.srcObject = cameraStream;
-            videoEl.muted = true;
-            videoEl.classList.remove('hidden');
-            await videoEl.play().catch(e => console.log("Auto-play error:", e));
-        }
-
+        videoEl.srcObject = cameraStream;
+        videoEl.muted = true; // Bắt buộc muted để không bị chặn autoplay
+        
+        videoEl.classList.remove('hidden');
         if (imgEl) imgEl.classList.add('hidden');
         if (placeholder) placeholder.classList.add('hidden');
+        
+        // Kích hoạt phát video trực tiếp
+        await videoEl.play().catch(e => console.log("Auto-play error:", e));
         
         if (btnCapture) btnCapture.classList.remove('hidden');
         if (btnToggle) {
@@ -2666,53 +2614,39 @@ async function moCameraVongChan() {
 }
 
 
-// Hàm phụ trợ: Resize và nén chất lượng ảnh
-function resizeAndCompressImage(canvas, maxWidth = 512, quality = 0.6) {
-    const tempCanvas = document.createElement('canvas');
-    let width = canvas.width;
-    let height = canvas.height;
-
-    if (width > maxWidth || height > maxWidth) {
-        if (width > height) {
-            height = Math.round((height * maxWidth) / width);
-            width = maxWidth;
-        } else {
-            width = Math.round((width * maxWidth) / height);
-            height = maxWidth;
-        }
-    }
-
-    tempCanvas.width = width;
-    tempCanvas.height = height;
-    const ctx = tempCanvas.getContext('2d');
-    ctx.drawImage(canvas, 0, 0, width, height);
-
-    return tempCanvas.toDataURL('image/jpeg', quality);
-}
-
-// Cập nhật lại hàm Chụp ảnh Vọng chẩn
+// Thay thế đoạn xử lý canvas trong chupAnhVongChan()
 function chupAnhVongChan() {
     const videoEl = document.getElementById('vong-chan-video');
     const imgEl = document.getElementById('vong-chan-img-preview');
-    if (!videoEl || !imgEl) return;
-    
     const canvas = document.createElement('canvas');
-    canvas.width = videoEl.videoWidth || 640;
-    canvas.height = videoEl.videoHeight || 480;
+    
+    // Giới hạn kích thước tối đa 512px
+    const maxDim = 512;
+    let width = videoEl.videoWidth || 640;
+    let height = videoEl.videoHeight || 480;
+
+    if (width > height && width > maxDim) {
+        height = Math.round((height * maxDim) / width);
+        width = maxDim;
+    } else if (height > maxDim) {
+        width = Math.round((width * maxDim) / height);
+        height = maxDim;
+    }
+
+    canvas.width = width;
+    canvas.height = height;
     
     const ctx = canvas.getContext('2d');
-    ctx.drawImage(videoEl, 0, 0, canvas.width, canvas.height);
+    ctx.drawImage(videoEl, 0, 0, width, height);
     
-    // Nén ảnh kích thước max 512px, chất lượng 60%
-    vongChanImageBase64 = resizeAndCompressImage(canvas, 512, 0.6);
+    // Nén JPEG xuống chất lượng 0.5 để giảm token vision
+    vongChanImageBase64 = canvas.toDataURL('image/jpeg', 0.5);
     
     imgEl.src = vongChanImageBase64;
     imgEl.classList.remove('hidden');
     videoEl.classList.add('hidden');
-    
     tatCameraVongChan();
 }
-
 
 // Xử lý khi chọn file ảnh từ thiết bị
 async function guiPhanTichVongChan() {
@@ -2739,41 +2673,28 @@ async function guiPhanTichVongChan() {
 
     // Trích xuất lịch sử an toàn & lọc sạch dữ liệu rác
     let historyContext = "";
-    if (useHistory) {
-        try {
-            const history = JSON.parse(localStorage.getItem('vongChanHistory') || '[]');
-            if (Array.isArray(history) && history.length > 0) {
-                // Chỉ lấy 2 lần gần nhất và giới hạn tối đa 120 ký tự/lần
-                const historyData = history.slice(0, 2).map((item, index) => {
-                    const safeReply = item.reply ? String(item.reply).replace(/[\n\r]+/g, ' ').substring(0, 120) : '';
-                    return `Lần ${index + 1} (${item.date}): Ghi chú "${item.note}". Kết luận: "${safeReply}..."`;
-                }).join(" | ");
-                
-                historyContext = `\n[Lịch sử cũ: ${historyData}]`;
-            }
-        } catch (e) {
-            console.error("Lỗi trích xuất lịch sử:", e);
+if (useHistory) {
+    try {
+        const history = JSON.parse(localStorage.getItem('vongChanHistory') || '[]');
+        if (Array.isArray(history) && history.length > 0) {
+            // Chỉ lấy 1 lần gần nhất và cắt ngắn tối đa 80 ký tự
+            const last = history[0];
+            const safeReply = last.reply ? String(last.reply).replace(/[\n\r]+/g, ' ').substring(0, 80) : '';
+            historyContext = `\nLần khám gần nhất (${last.date}): ${last.note}. KQ: ${safeReply}...`;
         }
+    } catch (e) {
+        console.error("Lỗi trích xuất lịch sử:", e);
     }
+}
 
-    const promptText = `Bạn là chuyên gia Y học cổ truyền (YHCT). 
-HÃY CHÚ Ý TẬP TRUNG TỐI ĐA VÀO PHƯƠNG PHÁP: "${typeText}".
-Bệnh nhân chọn phương pháp Vọng chẩn là: ${typeText}.
-Ghi chú triệu chứng kèm theo: "${noteText || 'Không có'}".${historyContext}
+    // Prompt ngắn gọn, đúng trọng tâm
+const promptText = `Chuyên gia YHCT: Phân tích hình ảnh theo phương pháp "${typeText}".
+Triệu chứng: "${noteText || 'Không'}". ${historyContext}
 
-YÊU CẦU PHÂN TÍCH QUAN TRỌNG:
-1. Nếu là "Thiệt chẩn": Chỉ tập trung quan sát Lưỡi (Chất lưỡi, Rêu lưỡi, Thể lưỡi).
-2. Nếu là "Diện chẩn": Chỉ tập trung quan sát Khuôn mặt (Sắc mặt, Thần thái, Mắt, Niêm mạc, Râu tóc). BẮT BUỘC KHÔNG PHÂN TÍCH LƯỠI.
-3. Nếu là "Sắc da": Chỉ tập trung quan sát Vùng da / Thương tổn ngoài da. BẮT BUỘC KHÔNG PHÂN TÍCH LƯỠI.
-
-Hãy đưa ra đánh giá chuẩn YHCT bao gồm:
-### 1. Phân tích đối tượng & Diễn tiến bệnh ${useHistory ? '(Dựa trên so sánh lịch sử)' : ''}
-### 2. Quan sát hình thái đặc trưng
-### 3. Biện chứng YHCT (Xác định căn bệnh, Bát cương, Tạng phủ)
-### 4. Định hướng điều trị & Cổ phương
-### 5. Lời khuyên dưỡng sinh
-
-Yêu cầu trả lời 100% bằng tiếng Việt thuần túy, định dạng ngắt dòng rõ ràng.`;
+Yêu cầu súc tích (<200 từ, tiếng Việt, không dùng chữ Hán):
+1. Hình thái đặc trưng
+2. Biện chứng YHCT (Căn bệnh, Bát cương, Tạng phủ)
+3. Định hướng điều trị & Cổ phương`;
 
     btnSubmit.disabled = true;
     btnSubmit.classList.add('opacity-50', 'pointer-events-none');
@@ -2787,13 +2708,14 @@ Yêu cầu trả lời 100% bằng tiếng Việt thuần túy, định dạng n
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
-                prompt: promptText, 
-                image: vongChanImageBase64,
-                source: 'vongchan' 
+    prompt: promptText, 
+    image: vongChanImageBase64,
+    source: 'vongchan',
+    max_tokens: 400 // ⚡ Giới hạn token đầu ra
             })
         });
 
-                const data = await res.json();
+        const data = await res.json();
         if (res.ok && data.reply) {
             outputEl.innerHTML = formatAIMessage(data.reply);
 
@@ -2806,13 +2728,8 @@ Yêu cầu trả lời 100% bằng tiếng Việt thuần túy, định dạng n
                 reply: data.reply
             };
 
-            // THAY THẾ / BỔ SUNG ĐOẠN NÀY:
-            if (btnSave) {
-                btnSave.classList.remove('hidden');
-                btnSave.disabled = false;
-            }
+            if (btnSave) btnSave.classList.remove('hidden');
         } else {
-
             outputEl.innerHTML = `<div class="text-red-400 font-medium p-2 bg-red-950/40 border border-red-800 rounded">⚠️ ${escapeHTML(data.error || 'AI không thể nhận diện được hình ảnh.')}</div>`;
         }
     } catch (err) {
@@ -2825,93 +2742,58 @@ Yêu cầu trả lời 100% bằng tiếng Việt thuần túy, định dạng n
     }
 }
 
-
 // 1. Lưu kết quả hiện tại vào LocalStorage
-async function luuKetQuaVongChan() {
+function luuKetQuaVongChan() {
     if (!currentVongChanRecord) {
         alert("Không có dữ liệu kết quả để lưu!");
         return;
     }
 
-    if (!dbVongChan) await initIndexedDB().catch(() => {});
-    if (!dbVongChan) return alert("Trình duyệt không hỗ trợ IndexedDB.");
-
-    const transaction = dbVongChan.transaction(['vongChanHistory'], 'readwrite');
-    const store = transaction.objectStore('vongChanHistory');
-    const request = store.put(currentVongChanRecord);
-
-    request.onsuccess = () => {
-        alert("Đã lưu hồ sơ Vọng chẩn thành công vào bộ nhớ lớn!");
-        hienThiLichSuVongChan();
-    };
-    request.onerror = (err) => console.error("Lỗi lưu IndexedDB:", err);
-}
-
-// 2. Hiển thị danh sách lịch sử đã lưu
-async function hienThiLichSuVongChan() {
-    const listEl = document.getElementById('vong-chan-history-list');
-    if (!listEl) return;
-
-    // Đảm bảo IndexedDB đã chạy xong trước khi truy vấn
-    if (!dbVongChan && !useLocalStorageFallback) {
-        await initIndexedDB().catch(() => {});
+    let history = [];
+    try {
+        history = JSON.parse(localStorage.getItem('vongChanHistory') || '[]');
+        if (!Array.isArray(history)) history = [];
+    } catch (e) {
+        history = [];
     }
 
-    // Trường hợp 1: Sử dụng LocalStorage Fallback
-    if (useLocalStorageFallback || !dbVongChan) {
-        let history = [];
-        try {
-            history = JSON.parse(localStorage.getItem('vongChanHistory') || '[]');
-        } catch (e) { history = []; }
-
-        if (history.length === 0) {
-            listEl.innerHTML = `<div class="text-stone-500 text-center text-xs py-3 italic">Chưa có hồ sơ Vọng chẩn nào được lưu.</div>`;
-            return;
-        }
-
-        renderHistoryItems(history, listEl);
+    // Kiểm tra trùng lặp ID
+    if (history.some(item => item.id === currentVongChanRecord.id)) {
+        alert("Hồ sơ này đã được lưu trước đó!");
         return;
     }
 
-    // Trường hợp 2: Sử dụng IndexedDB
+    history.unshift(currentVongChanRecord);
+    
+    // Giới hạn tối đa lưu 15 bản ghi để bảo toàn bộ nhớ LocalStorage
+    if (history.length > 15) history = history.slice(0, 15);
+
     try {
-        const transaction = dbVongChan.transaction(['vongChanHistory'], 'readonly');
-        const store = transaction.objectStore('vongChanHistory');
-        const request = store.getAll();
-
-        request.onsuccess = (event) => {
-            const history = event.target.result || [];
-            history.sort((a, b) => b.id - a.id);
-
-            if (history.length === 0) {
-                listEl.innerHTML = `<div class="text-stone-500 text-center text-xs py-3 italic">Chưa có hồ sơ Vọng chẩn nào được lưu.</div>`;
-                return;
-            }
-
-            renderHistoryItems(history, listEl);
-        };
-    } catch (e) {
-        console.error("Lỗi đọc IndexedDB:", e);
-    }
-}
-
-// Hàm fallback lưu Vọng chẩn vào LocalStorage khi IndexedDB không khả dụng
-function luuVongChanLocalStorage(record) {
-    try {
-        let history = JSON.parse(localStorage.getItem('vongChanHistory') || '[]');
-        history.unshift(record);
-        // Chỉ giữ 5 bản ghi mới nhất để tránh tràn giới hạn 5MB của LocalStorage
-        if (history.length > 5) history = history.slice(0, 5);
         localStorage.setItem('vongChanHistory', JSON.stringify(history));
         alert("Đã lưu hồ sơ Vọng chẩn thành công!");
         hienThiLichSuVongChan();
-    } catch (e) {
-        alert("Bộ nhớ trình duyệt đã đầy, không thể lưu thêm ảnh mới.");
+    } catch (err) {
+        alert("Bộ nhớ trình duyệt đã đầy, không thể lưu thêm ảnh dung lượng lớn.");
     }
 }
 
-// Hàm phụ trợ tách riêng để render giao diện lịch sử
-function renderHistoryItems(history, listEl) {
+// 2. Hiển thị danh sách lịch sử đã lưu
+function hienThiLichSuVongChan() {
+    const listEl = document.getElementById('vong-chan-history-list');
+    if (!listEl) return;
+
+    let history = [];
+    try {
+        history = JSON.parse(localStorage.getItem('vongChanHistory') || '[]');
+    } catch (e) {
+        history = [];
+    }
+
+    if (history.length === 0) {
+        listEl.innerHTML = `<div class="text-stone-500 text-center text-xs py-3 italic">Chưa có hồ sơ Vọng chẩn nào được lưu.</div>`;
+        return;
+    }
+
     listEl.innerHTML = history.map(item => `
         <div class="bg-stone-900/80 p-2.5 rounded-lg border border-stone-800 text-xs flex items-center justify-between gap-3 hover:border-amber-600/40 transition-all">
             <div class="flex items-center gap-2.5 overflow-hidden">
@@ -2935,98 +2817,105 @@ function renderHistoryItems(history, listEl) {
 
 // 3. Xem lại bản lưu chi tiết
 function xemLaiVongChan(id) {
-    if (!dbVongChan) return;
-    const transaction = dbVongChan.transaction(['vongChanHistory'], 'readonly');
-    const store = transaction.objectStore('vongChanHistory');
-    const request = store.get(id);
+    let history = [];
+    try {
+        history = JSON.parse(localStorage.getItem('vongChanHistory') || '[]');
+    } catch (e) { return; }
 
-    request.onsuccess = (event) => {
-        const record = event.target.result;
-        if (!record) return;
+    const record = history.find(item => item.id === id);
+    if (!record) return;
 
-        const typeSelect = document.getElementById('vong-chan-type');
-        const noteText = document.getElementById('vong-chan-note');
+    // Khôi phục input ghi chú & kiểu chẩn đoán
+const typeSelect = document.getElementById('vong-chan-type');
+const noteText = document.getElementById('vong-chan-note');
 
-        if (typeSelect && record.type) {
-            if (record.type.includes("Thiệt")) typeSelect.value = "thiet_chan";
-            else if (record.type.includes("Diện")) typeSelect.value = "dien_chan";
-            else if (record.type.includes("Sắc da")) typeSelect.value = "da_da";
-        }
-        if (noteText) noteText.value = record.note !== 'Không có' ? record.note : '';
+if (typeSelect && record.type) {
+    if (record.type.includes("Thiệt")) typeSelect.value = "thiet_chan";
+    else if (record.type.includes("Diện")) typeSelect.value = "dien_chan";
+    else if (record.type.includes("Sắc da")) typeSelect.value = "da_da";
+}
+if (noteText) noteText.value = record.note !== 'Không có' ? record.note : '';
 
-        const imgEl = document.getElementById('vong-chan-img-preview');
-        const placeholder = document.getElementById('vong-chan-placeholder');
-        if (imgEl && placeholder) {
-            imgEl.src = record.image;
-            imgEl.classList.remove('hidden');
-            placeholder.classList.add('hidden');
-        }
+    // Khôi phục hình ảnh preview
+    const imgEl = document.getElementById('vong-chan-img-preview');
+    const placeholder = document.getElementById('vong-chan-placeholder');
+    if (imgEl && placeholder) {
+        imgEl.src = record.image;
+        imgEl.classList.remove('hidden');
+        placeholder.classList.add('hidden');
+    }
 
-        const resultBox = document.getElementById('vong-chan-result');
-        const outputEl = document.getElementById('vong-chan-output');
-        if (resultBox && outputEl) {
-            resultBox.classList.remove('hidden');
-            outputEl.innerHTML = formatAIMessage(record.reply);
-            document.getElementById('btn-save-vongchan')?.classList.add('hidden');
-        }
+    // Khôi phục kết quả luận trị
+    const resultBox = document.getElementById('vong-chan-result');
+    const outputEl = document.getElementById('vong-chan-output');
+    if (resultBox && outputEl) {
+        resultBox.classList.remove('hidden');
+        outputEl.innerHTML = formatAIMessage(record.reply);
+        
+        document.getElementById('btn-save-vongchan')?.classList.add('hidden');
+    }
 
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+    window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 // 4. Xóa một mục trong lịch sử
 function xoaItemVongChan(id) {
-    if (!dbVongChan) return;
-    const transaction = dbVongChan.transaction(['vongChanHistory'], 'readwrite');
-    transaction.objectStore('vongChanHistory').delete(id).onsuccess = () => hienThiLichSuVongChan();
+    let history = JSON.parse(localStorage.getItem('vongChanHistory') || '[]');
+    history = history.filter(item => item.id !== id);
+    localStorage.setItem('vongChanHistory', JSON.stringify(history));
+    hienThiLichSuVongChan();
 }
 
+// 5. Xóa toàn bộ lịch sử Vọng chẩn
 function xoaLichSuVongChan() {
-    if (confirm("Bạn có chắc chắn muốn xóa toàn bộ lịch sử Vọng chẩn không?") && dbVongChan) {
-        const transaction = dbVongChan.transaction(['vongChanHistory'], 'readwrite');
-        transaction.objectStore('vongChanHistory').clear().onsuccess = () => hienThiLichSuVongChan();
+    if (confirm("Bạn có chắc chắn muốn xóa toàn bộ lịch sử Vọng chẩn đã lưu không?")) {
+        localStorage.removeItem('vongChanHistory');
+        hienThiLichSuVongChan();
     }
 }
 
+// Thay thế hàm xuLyChonFileVongChan()
 function xuLyChonFileVongChan(event) {
     const file = event.target.files[0];
-    if (!file) return;
-
-    if (!file.type.startsWith('image/')) {
-        alert("Vui lòng chọn file hình ảnh hợp lệ!");
-        return;
-    }
-
-    // Đảm bảo ngắt camera stream nếu đang chạy trước khi đọc file
-    tatCameraVongChan();
+    if (!file || !file.type.startsWith('image/')) return;
 
     const reader = new FileReader();
     reader.onload = function(e) {
         const img = new Image();
         img.onload = function() {
             const canvas = document.createElement('canvas');
-            canvas.width = img.width;
-            canvas.height = img.height;
+            const maxDim = 512;
+            let width = img.width;
+            let height = img.height;
+
+            if (width > height && width > maxDim) {
+                height = Math.round((height * maxDim) / width);
+                width = maxDim;
+            } else if (height > maxDim) {
+                width = Math.round((width * maxDim) / height);
+                height = maxDim;
+            }
+
+            canvas.width = width;
+            canvas.height = height;
             const ctx = canvas.getContext('2d');
-            ctx.drawImage(img, 0, 0);
+            ctx.drawImage(img, 0, 0, width, height);
 
-            // Nén ảnh tải lên về max 512px
-            vongChanImageBase64 = resizeAndCompressImage(canvas, 512, 0.6);
-
+            vongChanImageBase64 = canvas.toDataURL('image/jpeg', 0.5);
+            
             const imgEl = document.getElementById('vong-chan-img-preview');
             const placeholder = document.getElementById('vong-chan-placeholder');
-            
             if (imgEl && placeholder) {
                 imgEl.src = vongChanImageBase64;
                 imgEl.classList.remove('hidden');
                 placeholder.classList.add('hidden');
             }
+            tatCameraVongChan();
         };
         img.src = e.target.result;
     };
     reader.readAsDataURL(file);
 }
-
 
 // Hàm tự động phân tích phản hồi từ AI và lưu vào CSDL Offline cho tất cả các tab
 function luuKetQuaAiVaoDb(query, tabName, rawReply) {
@@ -3037,38 +2926,33 @@ function luuKetQuaAiVaoDb(query, tabName, rawReply) {
     if (tabName.includes('Luận Trị')) {
         if (typeof database === 'undefined') window.database = {};
         
-        // ⚡ BỔ SUNG ĐIỀU KIỆN KIỂM TRA TỒN TẠI TẠI ĐÂY
-        if (!database[cleanKey]) {
-            const lines = rawReply.split('\n').map(l => l.trim()).filter(Boolean);
-            let hoiChung = query.toUpperCase();
-            let phapTri = "Theo chỉ định AI";
-            let trieuChung = [query];
-            let baiThuoc = "Phương thuốc AI tư vấn";
-            let thanhPhan = [];
+        const lines = rawReply.split('\n').map(l => l.trim()).filter(Boolean);
+        let hoiChung = query.toUpperCase();
+        let phapTri = "Theo chỉ định AI";
+        let trieuChung = [query];
+        let baiThuoc = "Phương thuốc AI tư vấn";
+        let thanhPhan = [];
 
-            lines.forEach(line => {
-                const l = line.toLowerCase();
-                if (l.includes('hội chứng') || l.includes('chẩn đoán')) hoiChung = line.replace(/^[^:]*:/, '').trim();
-                else if (l.includes('pháp trị') || l.includes('điều trị')) phapTri = line.replace(/^[^:]*:/, '').trim();
-                else if (l.includes('bài thuốc') || l.includes('cổ phương')) baiThuoc = line.replace(/^[^:]*:/, '').trim();
-                else if (l.includes('triệu chứng') || l.includes('biểu hiện')) {
-                    trieuChung = line.replace(/^[^:]*:/, '').split(/[,;]/).map(s => s.trim()).filter(Boolean);
-                }
-            });
+        lines.forEach(line => {
+            const l = line.toLowerCase();
+            if (l.includes('hội chứng') || l.includes('chẩn đoán')) hoiChung = line.replace(/^[^:]*:/, '').trim();
+            else if (l.includes('pháp trị') || l.includes('điều trị')) phapTri = line.replace(/^[^:]*:/, '').trim();
+            else if (l.includes('bài thuốc') || l.includes('cổ phương')) baiThuoc = line.replace(/^[^:]*:/, '').trim();
+            else if (l.includes('triệu chứng') || l.includes('biểu hiện')) {
+                trieuChung = line.replace(/^[^:]*:/, '').split(/[,;]/).map(s => s.trim()).filter(Boolean);
+            }
+        });
 
-            database[cleanKey] = {
-                hc: hoiChung || query,
-                pdt: phapTri,
-                tc: trieuChung.length > 0 ? trieuChung : [query],
-                bt: baiThuoc,
-                tpbt: thanhPhan,
-                phanloai: [query, "Binh", "Thuc", "khi"],
-                isAiGenerated: true
-            };
-            console.log(`[AI Auto-Save] Đã lưu Luận Trị: "${query}"`);
-        }
+        database[cleanKey] = {
+            hc: hoiChung || query,
+            pdt: phapTri,
+            tc: trieuChung.length > 0 ? trieuChung : [query],
+            bt: baiThuoc,
+            tpbt: thanhPhan,
+            isAiGenerated: true
+        };
+        console.log(`[AI Auto-Save] Đã lưu Luận Trị: "${query}"`);
     }
-
 
     // 2. Tab Dược liệu
     else if (tabName.includes('Dược Liệu')) {
