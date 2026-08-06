@@ -4,6 +4,8 @@ function getApiEndpoint() {
         ? `${DOMAIN_NETLIFY}/.netlify/functions/chat`
         : '/.netlify/functions/chat';
 }
+// Hằng số làm sạch dấu câu dùng chung
+const CLEAN_PUNCTUATION_REGEX = /[,\.;:?!()\[\]{}]/g;
 
 // --- QUẢN LÝ TRẠNG THÁI ỨNG DỤNG ---
 const AppState = {
@@ -52,6 +54,51 @@ const ORIGINAL_PDF_AREA_HTML = `
         </div>
     </div>
 `;
+// --- QUẢN LÝ CƠ SỞ DỮ LIỆU OFFLINE ---
+let dbVongChan = null;
+let useLocalStorageFallback = false;
+
+function initIndexedDB() {
+    return new Promise((resolve, reject) => {
+        // 1. Kiểm tra hỗ trợ trình duyệt
+        if (!window.indexedDB) {
+            useLocalStorageFallback = true;
+            return resolve(null); // Trả về resolve thay vì reject để tránh bắn error log
+        }
+
+        try {
+            const request = indexedDB.open('DaiLuanTriDB', 1);
+            
+            request.onerror = (event) => {
+                // Tắt cảnh báo lỗi console, tự động chuyển sang LocalStorage
+                useLocalStorageFallback = true;
+                resolve(null);
+            };
+            
+            request.onsuccess = (event) => {
+                dbVongChan = event.target.result;
+                useLocalStorageFallback = false;
+                if (localStorage.getItem('activeTab') === 'xemanh') {
+                    hienThiLichSuVongChan();
+                }
+                resolve(dbVongChan);
+            };
+            
+            request.onupgradeneeded = (event) => {
+                const db = event.target.result;
+                if (!db.objectStoreNames.contains('vongChanHistory')) {
+                    db.createObjectStore('vongChanHistory', { keyPath: 'id' });
+                }
+            };
+        } catch (e) {
+            useLocalStorageFallback = true;
+            resolve(null);
+        }
+    });
+}
+
+// Khởi tạo IndexedDB an toàn
+initIndexedDB();
 
 // Biến quản lý đồng hồ đếm ngược trắc nghiệm
 let quizTimerInterval = null;
@@ -320,53 +367,22 @@ function highlightText(text, query) {
     if (!query || !text) return escapeHTML(text);
     const safeText = String(text);
     
-    // Loại bỏ dấu câu khỏi chuỗi tìm kiếm
-    const cleanQuery = query.replace(/[,\.;:?!()\[\]{}]/g, ' ');
+        // Loại bỏ dấu câu khỏi chuỗi truy vấn
+    const cleanQuery = query.replace(CLEAN_PUNCTUATION_REGEX, ' ');
     const words = cleanQuery.trim().split(/\s+/).filter(Boolean);
+    
     if (words.length === 0) return escapeHTML(safeText);
 
-    // Bỏ dấu tiếng Việt để so sánh tìm vị trí chính xác
-    const normText = removeAccents(safeText);
-    const normWords = words.map(w => removeAccents(w));
-
-    // Tìm các khoảng chỉ số (start, end) trùng khớp trong chuỗi
-    let matches = [];
-    normWords.forEach(w => {
-        if (!w) return;
-        const escW = w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        // Tìm theo ranh giới từ để tránh dính chữ
-        const regex = new RegExp(`(?<=^|[^a-z0-9])(${escW})(?=$|[^a-z0-9])`, 'gi');
-        let match;
-        while ((match = regex.exec(normText)) !== null) {
-            matches.push({ start: match.index, end: match.index + match[0].length });
+    const escapedWords = words.map(w => w.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
+    const regex = new RegExp(`(${escapedWords.join('|')})`, 'gi');
+    
+    const parts = safeText.split(regex);
+    return parts.map((part, i) => {
+        if (i % 2 === 1) {
+            return `<mark class="bg-amber-500/30 text-amber-300 font-bold px-0.5 rounded">${escapeHTML(part)}</mark>`;
         }
-    });
-
-    if (matches.length === 0) return escapeHTML(safeText);
-
-    // Sắp xếp và hợp nhất các khoảng trùng đè
-    matches.sort((a, b) => a.start - b.start);
-    let merged = [matches[0]];
-    for (let i = 1; i < matches.length; i++) {
-        let last = merged[merged.length - 1];
-        if (matches[i].start <= last.end) {
-            last.end = Math.max(last.end, matches[i].end);
-        } else {
-            merged.push(matches[i]);
-        }
-    }
-
-    // Dựng lại chuỗi HTML với thẻ mark chính xác trên văn bản gốc
-    let result = '';
-    let lastIdx = 0;
-    merged.forEach(m => {
-        result += escapeHTML(safeText.slice(lastIdx, m.start));
-        result += `<mark class="bg-amber-500/30 text-amber-300 font-bold px-0.5 rounded">${escapeHTML(safeText.slice(m.start, m.end))}</mark>`;
-        lastIdx = m.end;
-    });
-    result += escapeHTML(safeText.slice(lastIdx));
-
-    return result;
+        return escapeHTML(part);
+    }).join('');
 }
 
 function removeAccents(str) {
@@ -510,8 +526,8 @@ function updateLuanTri(query = "", isEnter = false) {
     const bc = getFilterVal('benh-co');
     const searchInput = getVal('search-input').toLowerCase().trim();
     const activeQuery = query || searchInput;
-    // Làm sạch dấu câu trước khi tách mảng từ khóa
-const cleanActiveQuery = activeQuery.replace(/[,\.;:?!()\[\]{}]/g, ' ');
+        // Làm sạch dấu câu trước khi tách mảng từ khóa
+const cleanActiveQuery = activeQuery.replace(CLEAN_PUNCTUATION_REGEX, ' ');
 const queryWords = cleanActiveQuery ? cleanActiveQuery.split(/\s+/).filter(Boolean) : [];
     let bestMatchData = null;
     let maxScore = -1;
@@ -748,7 +764,7 @@ function searchLuanTri(isEnter = false) {
     const dropdown = document.getElementById('search-dropdown');
     const queryStr = (input ? input.value : '').toLowerCase().trim();
     
-    const cleanQueryStr = queryStr.replace(/[,\.;:?!()\[\]{}]/g, ' ');
+    const cleanQueryStr = queryStr.replace(CLEAN_PUNCTUATION_REGEX, ' ');
     const queryWords = cleanQueryStr ? cleanQueryStr.split(/\s+/).filter(Boolean) : [];
 
     const tp = getFilterVal('tang-phu');
@@ -927,9 +943,9 @@ function filterDuocLieu(isEnter = false) {
         return;
     }
 
-    const txtRaw = getVal('searchDuocLieu').trim().normalize('NFC');
+        const txtRaw = getVal('searchDuocLieu').trim().normalize('NFC');
     const txt = txtRaw.toLowerCase();
-    const cleanTxt = txt.replace(/[,\.;:?!()\[\]{}]/g, ' ');
+    const cleanTxt = txt.replace(CLEAN_PUNCTUATION_REGEX, ' ');
     const queryWords = cleanTxt ? cleanTxt.split(/\s+/).filter(Boolean) : [];
     const group = getVal('filterNhomDuocLieu');
     grid.innerHTML = "";
@@ -1078,9 +1094,9 @@ function filterHuyetVi(isEnter = false) {
         return;
     }
 
-    const txtRaw = getVal('searchHuyetVi').trim();
+        const txtRaw = getVal('searchHuyetVi').trim();
     const txt = txtRaw.toLowerCase();
-    const cleanTxt = txt.replace(/[,\.;:?!()\[\]{}]/g, ' ');
+    const cleanTxt = txt.replace(CLEAN_PUNCTUATION_REGEX, ' ');
     const queryWords = cleanTxt ? cleanTxt.split(/\s+/).filter(Boolean) : [];    
     const kinh = getVal('filterKinhLac');
     grid.innerHTML = "";
@@ -1225,9 +1241,9 @@ function filterTra(isEnter = false) {
         return;
     }
 
-    const txtRaw = getVal('searchTra').trim().normalize('NFC');
+        const txtRaw = getVal('searchTra').trim().normalize('NFC');
     const txt = txtRaw.toLowerCase();
-    const cleanTxt = txt.replace(/[,\.;:?!()\[\]{}]/g, ' ');
+    const cleanTxt = txt.replace(CLEAN_PUNCTUATION_REGEX, ' ');
     const queryWords = cleanTxt ? cleanTxt.split(/\s+/).filter(Boolean) : [];    
     const nhom = getVal('filterNhomTra');
     grid.innerHTML = "";
@@ -1334,28 +1350,30 @@ const tagsHtml = tpCardArr.map(tp =>
 
 window.addEventListener("DOMContentLoaded", () => {
     const setupBox = document.getElementById('quiz-setup');
-    if (setupBox) {
-        if (!document.getElementById('use-quiz-timer')) {
-            const aiCheckContainer = setupBox.querySelector('label') || setupBox.querySelector('input[type="checkbox"]')?.parentElement;
-            if (aiCheckContainer) {
-                const timerDiv = document.createElement('div');
-                timerDiv.className = "flex items-center justify-between gap-2 pt-2 pb-1 border-t border-stone-800/80 mt-2";
-                timerDiv.innerHTML = `
-                    <label class="flex items-center gap-2 text-xs text-stone-300 cursor-pointer select-none">
-                        <input type="checkbox" id="use-quiz-timer" class="w-4 h-4 rounded border-stone-700 bg-stone-900 text-amber-600 focus:ring-amber-500">
-                        <span>⏱️ Giới hạn thời gian mỗi câu</span>
-                    </label>
-                    <select id="quiz-time-per-question" class="bg-stone-900 text-stone-200 border border-stone-800 rounded-lg px-2 py-1 text-xs focus:border-amber-500 outline-none">
-                        <option value="15">15 giây</option>
-                        <option value="30" selected>30 giây</option>
-                        <option value="45">45 giây</option>
-                        <option value="60">60 giây</option>
-                    </select>
-                `;
-                aiCheckContainer.parentNode.insertBefore(timerDiv, aiCheckContainer.nextSibling);
-            }
+if (setupBox) {
+    // Kiểm tra nếu chưa có nút timer thì mới tạo
+    if (!document.getElementById('use-quiz-timer')) {
+        const aiCheckContainer = setupBox.querySelector('label') || setupBox.querySelector('input[type="checkbox"]')?.parentElement;
+        if (aiCheckContainer) {
+            const timerDiv = document.createElement('div');
+            timerDiv.id = 'quiz-timer-wrapper'; // Thêm ID để dễ quản lý
+            timerDiv.className = "flex items-center justify-between gap-2 pt-2 pb-1 border-t border-stone-800/80 mt-2";
+            timerDiv.innerHTML = `
+                <label class="flex items-center gap-2 text-xs text-stone-300 cursor-pointer select-none">
+                    <input type="checkbox" id="use-quiz-timer" class="w-4 h-4 rounded border-stone-700 bg-stone-900 text-amber-600 focus:ring-amber-500">
+                    <span>⏱️ Giới hạn thời gian mỗi câu</span>
+                </label>
+                <select id="quiz-time-per-question" class="bg-stone-900 text-stone-200 border border-stone-800 rounded-lg px-2 py-1 text-xs focus:border-amber-500 outline-none">
+                    <option value="15">15 giây</option>
+                    <option value="30" selected>30 giây</option>
+                    <option value="45">45 giây</option>
+                    <option value="60">60 giây</option>
+                </select>
+            `;
+            aiCheckContainer.parentNode.insertBefore(timerDiv, aiCheckContainer.nextSibling);
         }
     }
+}
 
     requestAnimationFrame(() => {
         try {
@@ -2059,6 +2077,7 @@ async function switchTab(tabName) {
             }
             if (btn) btn.classList.add('tab-active', 'text-primary');
 
+            // Đảm bảo dữ liệu đã có trong window trước khi render
             if (t === 'luantri') {
                 capNhatTongSoTrieuChung();
                 updateLuanTri();
@@ -2067,8 +2086,6 @@ async function switchTab(tabName) {
             if (t === 'huyetvi') filterHuyetVi();
             if (t === 'tra') filterTra();
             if (t === 'tracnghiem') capNhatDiemGanNhat();
-            
-            // ⚡ Tích hợp trực tiếp tại đây thay vì ghi đè ở cuối file
             if (t === 'xemanh') hienThiLichSuVongChan();
 
         } else {
@@ -2077,7 +2094,6 @@ async function switchTab(tabName) {
         }
     });
 }
-
 
 async function exportPDF() {
     const btn = document.querySelector('button[onclick="exportPDF()"]');
@@ -2306,12 +2322,18 @@ document.addEventListener('touchend', e => {
     handleSwipe(touchstartX, touchstartY, endX, endY);
 }, { passive: true });
 
-// Đã khắc phục lỗi xung đột phím Enter bằng cách kiểm tra loại trừ id của ô search
+// Đảm bảo phím Enter hoạt động đúng ở ô Chat AI và tìm kiếm
 document.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && e.target.tagName === 'INPUT' && !e.target.id.includes('search')) {
-        e.target.blur();
+    if (e.key === 'Enter' && e.target.tagName === 'INPUT') {
+        if (e.target.id === 'ai-input') {
+            e.preventDefault();
+            sendAIWebMessage();
+        } else if (!e.target.id.includes('search')) {
+            e.target.blur();
+        }
     }
 });
+
 
 async function taiDuLieuOffline() {
     if (!('caches' in window)) return alert('Trình duyệt không hỗ trợ tính năng lưu offline.');
@@ -2805,57 +2827,91 @@ Yêu cầu trả lời 100% bằng tiếng Việt thuần túy, định dạng n
 
 
 // 1. Lưu kết quả hiện tại vào LocalStorage
-function luuKetQuaVongChan() {
+async function luuKetQuaVongChan() {
     if (!currentVongChanRecord) {
         alert("Không có dữ liệu kết quả để lưu!");
         return;
     }
 
-    let history = [];
-    try {
-        history = JSON.parse(localStorage.getItem('vongChanHistory') || '[]');
-        if (!Array.isArray(history)) history = [];
-    } catch (e) {
-        history = [];
-    }
+    if (!dbVongChan) await initIndexedDB().catch(() => {});
+    if (!dbVongChan) return alert("Trình duyệt không hỗ trợ IndexedDB.");
 
-    // Kiểm tra trùng lặp ID
-    if (history.some(item => item.id === currentVongChanRecord.id)) {
-        alert("Hồ sơ này đã được lưu trước đó!");
-        return;
-    }
+    const transaction = dbVongChan.transaction(['vongChanHistory'], 'readwrite');
+    const store = transaction.objectStore('vongChanHistory');
+    const request = store.put(currentVongChanRecord);
 
-    history.unshift(currentVongChanRecord);
-    
-    // Giới hạn tối đa lưu 15 bản ghi để bảo toàn bộ nhớ LocalStorage
-    if (history.length > 15) history = history.slice(0, 15);
-
-    try {
-        localStorage.setItem('vongChanHistory', JSON.stringify(history));
-        alert("Đã lưu hồ sơ Vọng chẩn thành công!");
+    request.onsuccess = () => {
+        alert("Đã lưu hồ sơ Vọng chẩn thành công vào bộ nhớ lớn!");
         hienThiLichSuVongChan();
-    } catch (err) {
-        alert("Bộ nhớ trình duyệt đã đầy, không thể lưu thêm ảnh dung lượng lớn.");
-    }
+    };
+    request.onerror = (err) => console.error("Lỗi lưu IndexedDB:", err);
 }
 
 // 2. Hiển thị danh sách lịch sử đã lưu
-function hienThiLichSuVongChan() {
+async function hienThiLichSuVongChan() {
     const listEl = document.getElementById('vong-chan-history-list');
     if (!listEl) return;
 
-    let history = [];
-    try {
-        history = JSON.parse(localStorage.getItem('vongChanHistory') || '[]');
-    } catch (e) {
-        history = [];
+    // Đảm bảo IndexedDB đã chạy xong trước khi truy vấn
+    if (!dbVongChan && !useLocalStorageFallback) {
+        await initIndexedDB().catch(() => {});
     }
 
-    if (history.length === 0) {
-        listEl.innerHTML = `<div class="text-stone-500 text-center text-xs py-3 italic">Chưa có hồ sơ Vọng chẩn nào được lưu.</div>`;
+    // Trường hợp 1: Sử dụng LocalStorage Fallback
+    if (useLocalStorageFallback || !dbVongChan) {
+        let history = [];
+        try {
+            history = JSON.parse(localStorage.getItem('vongChanHistory') || '[]');
+        } catch (e) { history = []; }
+
+        if (history.length === 0) {
+            listEl.innerHTML = `<div class="text-stone-500 text-center text-xs py-3 italic">Chưa có hồ sơ Vọng chẩn nào được lưu.</div>`;
+            return;
+        }
+
+        renderHistoryItems(history, listEl);
         return;
     }
 
+    // Trường hợp 2: Sử dụng IndexedDB
+    try {
+        const transaction = dbVongChan.transaction(['vongChanHistory'], 'readonly');
+        const store = transaction.objectStore('vongChanHistory');
+        const request = store.getAll();
+
+        request.onsuccess = (event) => {
+            const history = event.target.result || [];
+            history.sort((a, b) => b.id - a.id);
+
+            if (history.length === 0) {
+                listEl.innerHTML = `<div class="text-stone-500 text-center text-xs py-3 italic">Chưa có hồ sơ Vọng chẩn nào được lưu.</div>`;
+                return;
+            }
+
+            renderHistoryItems(history, listEl);
+        };
+    } catch (e) {
+        console.error("Lỗi đọc IndexedDB:", e);
+    }
+}
+
+// Hàm fallback lưu Vọng chẩn vào LocalStorage khi IndexedDB không khả dụng
+function luuVongChanLocalStorage(record) {
+    try {
+        let history = JSON.parse(localStorage.getItem('vongChanHistory') || '[]');
+        history.unshift(record);
+        // Chỉ giữ 5 bản ghi mới nhất để tránh tràn giới hạn 5MB của LocalStorage
+        if (history.length > 5) history = history.slice(0, 5);
+        localStorage.setItem('vongChanHistory', JSON.stringify(history));
+        alert("Đã lưu hồ sơ Vọng chẩn thành công!");
+        hienThiLichSuVongChan();
+    } catch (e) {
+        alert("Bộ nhớ trình duyệt đã đầy, không thể lưu thêm ảnh mới.");
+    }
+}
+
+// Hàm phụ trợ tách riêng để render giao diện lịch sử
+function renderHistoryItems(history, listEl) {
     listEl.innerHTML = history.map(item => `
         <div class="bg-stone-900/80 p-2.5 rounded-lg border border-stone-800 text-xs flex items-center justify-between gap-3 hover:border-amber-600/40 transition-all">
             <div class="flex items-center gap-2.5 overflow-hidden">
@@ -2879,60 +2935,56 @@ function hienThiLichSuVongChan() {
 
 // 3. Xem lại bản lưu chi tiết
 function xemLaiVongChan(id) {
-    let history = [];
-    try {
-        history = JSON.parse(localStorage.getItem('vongChanHistory') || '[]');
-    } catch (e) { return; }
+    if (!dbVongChan) return;
+    const transaction = dbVongChan.transaction(['vongChanHistory'], 'readonly');
+    const store = transaction.objectStore('vongChanHistory');
+    const request = store.get(id);
 
-    const record = history.find(item => item.id === id);
-    if (!record) return;
+    request.onsuccess = (event) => {
+        const record = event.target.result;
+        if (!record) return;
 
-    // Khôi phục input ghi chú & kiểu chẩn đoán
-const typeSelect = document.getElementById('vong-chan-type');
-const noteText = document.getElementById('vong-chan-note');
+        const typeSelect = document.getElementById('vong-chan-type');
+        const noteText = document.getElementById('vong-chan-note');
 
-if (typeSelect && record.type) {
-    if (record.type.includes("Thiệt")) typeSelect.value = "thiet_chan";
-    else if (record.type.includes("Diện")) typeSelect.value = "dien_chan";
-    else if (record.type.includes("Sắc da")) typeSelect.value = "da_da";
-}
-if (noteText) noteText.value = record.note !== 'Không có' ? record.note : '';
+        if (typeSelect && record.type) {
+            if (record.type.includes("Thiệt")) typeSelect.value = "thiet_chan";
+            else if (record.type.includes("Diện")) typeSelect.value = "dien_chan";
+            else if (record.type.includes("Sắc da")) typeSelect.value = "da_da";
+        }
+        if (noteText) noteText.value = record.note !== 'Không có' ? record.note : '';
 
-    // Khôi phục hình ảnh preview
-    const imgEl = document.getElementById('vong-chan-img-preview');
-    const placeholder = document.getElementById('vong-chan-placeholder');
-    if (imgEl && placeholder) {
-        imgEl.src = record.image;
-        imgEl.classList.remove('hidden');
-        placeholder.classList.add('hidden');
-    }
+        const imgEl = document.getElementById('vong-chan-img-preview');
+        const placeholder = document.getElementById('vong-chan-placeholder');
+        if (imgEl && placeholder) {
+            imgEl.src = record.image;
+            imgEl.classList.remove('hidden');
+            placeholder.classList.add('hidden');
+        }
 
-    // Khôi phục kết quả luận trị
-    const resultBox = document.getElementById('vong-chan-result');
-    const outputEl = document.getElementById('vong-chan-output');
-    if (resultBox && outputEl) {
-        resultBox.classList.remove('hidden');
-        outputEl.innerHTML = formatAIMessage(record.reply);
-        
-        document.getElementById('btn-save-vongchan')?.classList.add('hidden');
-    }
+        const resultBox = document.getElementById('vong-chan-result');
+        const outputEl = document.getElementById('vong-chan-output');
+        if (resultBox && outputEl) {
+            resultBox.classList.remove('hidden');
+            outputEl.innerHTML = formatAIMessage(record.reply);
+            document.getElementById('btn-save-vongchan')?.classList.add('hidden');
+        }
 
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 }
 
 // 4. Xóa một mục trong lịch sử
 function xoaItemVongChan(id) {
-    let history = JSON.parse(localStorage.getItem('vongChanHistory') || '[]');
-    history = history.filter(item => item.id !== id);
-    localStorage.setItem('vongChanHistory', JSON.stringify(history));
-    hienThiLichSuVongChan();
+    if (!dbVongChan) return;
+    const transaction = dbVongChan.transaction(['vongChanHistory'], 'readwrite');
+    transaction.objectStore('vongChanHistory').delete(id).onsuccess = () => hienThiLichSuVongChan();
 }
 
-// 5. Xóa toàn bộ lịch sử Vọng chẩn
 function xoaLichSuVongChan() {
-    if (confirm("Bạn có chắc chắn muốn xóa toàn bộ lịch sử Vọng chẩn đã lưu không?")) {
-        localStorage.removeItem('vongChanHistory');
-        hienThiLichSuVongChan();
+    if (confirm("Bạn có chắc chắn muốn xóa toàn bộ lịch sử Vọng chẩn không?") && dbVongChan) {
+        const transaction = dbVongChan.transaction(['vongChanHistory'], 'readwrite');
+        transaction.objectStore('vongChanHistory').clear().onsuccess = () => hienThiLichSuVongChan();
     }
 }
 
@@ -2974,6 +3026,7 @@ function xuLyChonFileVongChan(event) {
     };
     reader.readAsDataURL(file);
 }
+
 
 // Hàm tự động phân tích phản hồi từ AI và lưu vào CSDL Offline cho tất cả các tab
 function luuKetQuaAiVaoDb(query, tabName, rawReply) {
