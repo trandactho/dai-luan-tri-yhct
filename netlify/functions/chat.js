@@ -11,7 +11,7 @@ exports.handler = async function(event, context) {
     }
 
     if (event.httpMethod !== 'POST') {
-        return { statusCode: 200, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
+        return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
     }
 
     try {
@@ -37,13 +37,13 @@ exports.handler = async function(event, context) {
         keysToTry = [...new Set(keysToTry.filter(Boolean))];
 
         if (keysToTry.length === 0) {
-            return { statusCode: 200, headers, body: JSON.stringify({ error: 'Chưa cấu hình API Key trên Netlify.' }) };
+            return { statusCode: 400, headers, body: JSON.stringify({ error: 'Chưa cấu hình API Key trên Netlify.' }) };
         }
 
+        // Cập nhật tên mô hình chính thức
         const models = ['gemini-3.6-flash', 'gemini-3.5-flash'];
         let lastError = null;
 
-        // Xây dựng mảng parts: Tự động thêm phần hình ảnh nếu có (Vọng chẩn)
         const partsPayload = [];
         
         if (image && typeof image === 'string' && image.startsWith('data:image')) {
@@ -64,29 +64,23 @@ exports.handler = async function(event, context) {
 
         for (let keyIdx = 0; keyIdx < keysToTry.length; keyIdx++) {
             const apiKey = keysToTry[keyIdx];
-            
-            // Key tính phí (đầu tiên) cho 18s thoải mái sinh câu trả lời. Key dự phòng sau cho 5s.
-            const timeoutMs = (source === 'vongchan') ? 25000 : ((keyIdx === 0) ? 20000 : 5000);
+            const timeoutMs = ((source === 'vongchan') || (source === 'quiz')) ? 25000 : ((keyIdx === 0) ? 18000 : 5000);
 
             for (const model of models) {
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
                 try {
-                    const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${apiKey.trim()}`;
+                    // Cập nhật API endpoint sang v1beta
+                    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey.trim()}`;
 
                     const response = await fetch(url, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         signal: controller.signal,
-                        body: JSON.stringify({
-                            contents: [{ 
-                                parts: partsPayload 
-                            }]
-                        })
+                        body: JSON.stringify({ contents: [{ parts: partsPayload }] })
                     });
 
-                    clearTimeout(timeoutId);
                     const data = await response.json();
 
                     if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
@@ -98,15 +92,16 @@ exports.handler = async function(event, context) {
                     }
                     lastError = data.error?.message || JSON.stringify(data);
                 } catch (err) {
-                    clearTimeout(timeoutId);
                     lastError = err.name === 'AbortError' ? `Request quá ${timeoutMs / 1000}s (Timeout)` : err.message;
+                } finally {
+                    clearTimeout(timeoutId);
                 }
             }
         }
 
-        return { statusCode: 200, headers, body: JSON.stringify({ error: `Máy chủ AI bận: ${lastError}` }) };
+        return { statusCode: 500, headers, body: JSON.stringify({ error: `Máy chủ AI bận: ${lastError}` }) };
 
     } catch (error) {
-        return { statusCode: 200, headers, body: JSON.stringify({ error: error.message }) };
+        return { statusCode: 500, headers, body: JSON.stringify({ error: error.message }) };
     }
 };
