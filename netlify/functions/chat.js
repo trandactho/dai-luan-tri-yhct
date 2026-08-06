@@ -11,16 +11,16 @@ exports.handler = async function(event, context) {
     }
 
     if (event.httpMethod !== 'POST') {
-        return { statusCode: 405, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
+        return { statusCode: 200, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
     }
 
     try {
         const { prompt, image, source } = JSON.parse(event.body || '{}');
 
-        // Khai báo các API Key dự phòng
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const secondKey  = process.env.SECOND_API_KEY;
         const backupKey  = process.env.BACKUP_API_KEY;
+
         const luantrihcKey  = process.env.LUANTRI_API_KEY2;
         const luantribtKey  = process.env.LUANTRI_API_KEY3;
         const searchKey  = process.env.SEARCH_API_KEY;
@@ -37,14 +37,15 @@ exports.handler = async function(event, context) {
         keysToTry = [...new Set(keysToTry.filter(Boolean))];
 
         if (keysToTry.length === 0) {
-            return { statusCode: 400, headers, body: JSON.stringify({ error: 'Chưa cấu hình API Key trên Netlify.' }) };
+            return { statusCode: 200, headers, body: JSON.stringify({ error: 'Chưa cấu hình API Key trên Netlify.' }) };
         }
 
-        // Cố định mô hình flash tối ưu chi phí
-        const model = 'gemini-3.5-flash';
+        const models = ['gemini-3.6-flash', 'gemini-3.5-flash'];
+        let lastError = null;
+
+        // Xây dựng mảng parts: Tự động thêm phần hình ảnh nếu có (Vọng chẩn)
         const partsPayload = [];
         
-        // Xử lý ảnh base64 nếu có
         if (image && typeof image === 'string' && image.startsWith('data:image')) {
             const matches = image.match(/^data:(image\/\w+);base64,(.+)$/);
             if (matches && matches.length === 3) {
@@ -57,61 +58,55 @@ exports.handler = async function(event, context) {
             }
         }
 
-        partsPayload.push({ text: prompt });
-
-        // Cấu hình payload chuẩn hóa token
-        const requestBody = {
-            systemInstruction: {
-                parts: [{ 
-                    text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy tuân thủ tuyệt đối y đức, không bịa đặt, thông tin chuẩn xác theo y lý chính thống. Trả lời ngắn gọn, ngắt dòng rõ ràng, dùng gạch đầu dòng cho các ý chính." 
-                }]
-            },
-            contents: [{ parts: partsPayload }],
-            generationConfig: {
-                maxOutputTokens: 600, // Khống chế tối đa 600 tokens trả về
-                temperature: 0.2     // Giảm độ ngẫu nhiên, giúp phản hồi ngắn gọn hơn
-            }
-        };
-
-        let lastError = null;
+        partsPayload.push({ 
+            text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy tuân thủ tuyệt đối y đức, không bịa đặt, thông tin chuẩn xác theo y lý chính thống. Trả lời ngắn gọn, ngắt dòng rõ ràng, dùng gạch đầu dòng cho các ý chính: " + prompt 
+        });
 
         for (let keyIdx = 0; keyIdx < keysToTry.length; keyIdx++) {
             const apiKey = keysToTry[keyIdx];
-            const timeoutMs = ((source === 'vongchan') || (source === 'quiz')||(source === 'assistant')) ? 25000 : 10000;
+            
+            // Key tính phí (đầu tiên) cho 18s thoải mái sinh câu trả lời. Key dự phòng sau cho 5s.
+            const timeoutMs = ((source === 'vongchan')||(source === 'quiz')||(source === 'assistant')) ? 25000 : 10000;
 
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+            for (const model of models) {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-            try {
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey.trim()}`;
+                try {
+                    const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${apiKey.trim()}`;
 
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    signal: controller.signal,
-                    body: JSON.stringify(requestBody)
-                });
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        signal: controller.signal,
+                        body: JSON.stringify({
+                            contents: [{ 
+                                parts: partsPayload 
+                            }]
+                        })
+                    });
 
-                const data = await response.json();
+                    clearTimeout(timeoutId);
+                    const data = await response.json();
 
-                if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
-                    return {
-                        statusCode: 200,
-                        headers,
-                        body: JSON.stringify({ reply: data.candidates[0].content.parts[0].text })
-                    };
+                    if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
+                        return {
+                            statusCode: 200,
+                            headers,
+                            body: JSON.stringify({ reply: data.candidates[0].content.parts[0].text })
+                        };
+                    }
+                    lastError = data.error?.message || JSON.stringify(data);
+                } catch (err) {
+                    clearTimeout(timeoutId);
+                    lastError = err.name === 'AbortError' ? `Request quá ${timeoutMs / 1000}s (Timeout)` : err.message;
                 }
-                lastError = data.error?.message || JSON.stringify(data);
-            } catch (err) {
-                lastError = err.name === 'AbortError' ? `Request quá ${timeoutMs / 1000}s (Timeout)` : err.message;
-            } finally {
-                clearTimeout(timeoutId);
             }
         }
 
-        return { statusCode: 500, headers, body: JSON.stringify({ error: `Máy chủ AI bận: ${lastError}` }) };
+        return { statusCode: 200, headers, body: JSON.stringify({ error: `Máy chủ AI bận: ${lastError}` }) };
 
     } catch (error) {
-        return { statusCode: 500, headers, body: JSON.stringify({ error: error.message }) };
+        return { statusCode: 200, headers, body: JSON.stringify({ error: error.message }) };
     }
 };
