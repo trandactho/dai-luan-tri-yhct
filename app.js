@@ -939,16 +939,21 @@ function filterDuocLieu(isEnter = false) {
     const filteredData = scoredData.map(s => s.item);
 
         if (filteredData.length === 0) {
-        // 1. Gửi báo cáo trước tiên
-        if (txtRaw && isEnter) {
-            xuLyKhongTimThay('Dược Liệu', txtRaw);
-        }
+    if (txtRaw && isEnter) {
+        xuLyKhongTimThay('Dược Liệu', txtRaw);
 
-        // 2. Sau đó mới gọi AI Backup (nếu được bật)
-        if (txtRaw && isEnter && document.getElementById('ai-backup-duoclieu')?.checked) {    
-            fetchAIBackupResult(txtRaw, 'Dược Liệu YHCT', grid);
-            return;
+        // Tự động bật và làm sáng nút AI Tìm khi nhấn Enter
+        const chk = document.getElementById('ai-backup-duoclieu');
+        if (chk) {
+            chk.checked = true;
+            if (chk.parentElement) {
+                chk.parentElement.className = 'px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-amber-600 text-white border border-amber-500 shadow-amber-900/50';
+            }
         }
+        
+        fetchAIBackupResult(txtRaw, 'Dược Liệu YHCT', grid);
+        return;
+    }
 
                 const feedbackMsg = (txtRaw && isEnter) 
             ? ``
@@ -1100,16 +1105,21 @@ function filterHuyetVi(isEnter = false) {
     const filteredData = scoredData.map(s => s.item);
 
     if (filteredData.length === 0) {
-        // 1. Gửi báo cáo trước tiên
-        if (txtRaw && isEnter) {
-            xuLyKhongTimThay('Huyệt Vị', txtRaw);
-        }
+    if (txtRaw && isEnter) {
+        xuLyKhongTimThay('Huyệt Vị', txtRaw);
 
-        // 2. Sau đó mới gọi AI Backup
-        if (txtRaw && isEnter && document.getElementById('ai-backup-huyetvi')?.checked) {    
-            fetchAIBackupResult(txtRaw, 'Huyệt Vị YHCT', grid);
-            return;
+        // Tự động bật và làm sáng nút AI Tìm khi nhấn Enter
+        const chk = document.getElementById('ai-backup-huyetvi');
+        if (chk) {
+            chk.checked = true;
+            if (chk.parentElement) {
+                chk.parentElement.className = 'px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-amber-600 text-white border border-amber-500 shadow-amber-900/50';
+            }
         }
+        
+        fetchAIBackupResult(txtRaw, 'Huyệt Vị YHCT', grid);
+        return;
+    }
 
                 const feedbackMsg = (txtRaw && isEnter) 
             ? ``
@@ -1238,16 +1248,21 @@ function filterTra(isEnter = false) {
     const filteredData = scoredData.map(s => s.item);
 
     if (filteredData.length === 0) {
-        // 1. Gửi báo cáo trước tiên
-        if (txtRaw && isEnter) {
-            xuLyKhongTimThay('Trà Dược', txtRaw);
-        }
+    if (txtRaw && isEnter) {
+        xuLyKhongTimThay('Trà Dược', txtRaw);
 
-        // 2. Sau đó mới gọi AI Backup
-        if (txtRaw && isEnter && document.getElementById('ai-backup-tra')?.checked) {    
-            fetchAIBackupResult(txtRaw, 'Trà Dược YHCT', grid);
-            return;
+        // Tự động bật và làm sáng nút AI Tìm khi nhấn Enter
+        const chk = document.getElementById('ai-backup-tra');
+        if (chk) {
+            chk.checked = true;
+            if (chk.parentElement) {
+                chk.parentElement.className = 'px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-amber-600 text-white border border-amber-500 shadow-amber-900/50';
+            }
         }
+        
+        fetchAIBackupResult(txtRaw, 'Trà Dược YHCT', grid);
+        return;
+    }
 
                 const feedbackMsg = (txtRaw && isEnter) 
             ? ``
@@ -1394,6 +1409,20 @@ window.addEventListener("DOMContentLoaded", () => {
             });
         }
     });
+    // Bổ sung bắt phím Enter cho 3 ô tìm kiếm Dược liệu, Huyệt vị, Trà dược
+    ['searchDuocLieu', 'searchHuyetVi', 'searchTra'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('keyup', (e) => {
+                if (e.key === 'Enter') {
+                    if (id === 'searchDuocLieu') filterDuocLieu(true);
+                    if (id === 'searchHuyetVi') filterHuyetVi(true);
+                    if (id === 'searchTra') filterTra(true);
+                }
+            });
+        }
+    });
+
 });
 
 let currentQuizQuestions = [];
@@ -2918,86 +2947,126 @@ function xuLyChonFileVongChan(event) {
 }
 
 // Hàm tự động phân tích phản hồi từ AI và lưu vào CSDL Offline cho tất cả các tab
+// 1. HÀM BÓC TÁCH VÀ LƯU DỮ LIỆU AI CHUẨN HÓA VÀO CSDL
 function luuKetQuaAiVaoDb(query, tabName, rawReply) {
     if (!query || !rawReply) return;
     const cleanKey = removeAccents(query).trim().replace(/\s+/g, '_');
+    const lines = rawReply.split('\n').map(l => l.trim()).filter(Boolean);
 
-    // 1. Tab Biện chứng Luận trị
+    // --- CASE 1: TAB LUẬN TRỊ ---
     if (tabName.includes('Luận Trị')) {
         if (typeof database === 'undefined') window.database = {};
-        
-        const lines = rawReply.split('\n').map(l => l.trim()).filter(Boolean);
-        let hoiChung = query.toUpperCase();
-        let phapTri = "Theo chỉ định AI";
-        let trieuChung = [query];
-        let baiThuoc = "Phương thuốc AI tư vấn";
-        let thanhPhan = [];
+        let hoiChung = query.toUpperCase(), phapTri = "AI tư vấn", trieuChung = [query], baiThuoc = "Chưa rõ cổ phương", tpbt = [];
 
         lines.forEach(line => {
-            const l = line.toLowerCase();
-            if (l.includes('hội chứng') || l.includes('chẩn đoán')) hoiChung = line.replace(/^[^:]*:/, '').trim();
-            else if (l.includes('pháp trị') || l.includes('điều trị')) phapTri = line.replace(/^[^:]*:/, '').trim();
-            else if (l.includes('bài thuốc') || l.includes('cổ phương')) baiThuoc = line.replace(/^[^:]*:/, '').trim();
+            const clean = line.replace(/[\*\-\•]/g, '').replace(/\*\*/g, '').trim();
+            const l = clean.toLowerCase();
+            if (l.includes('hội chứng') || l.includes('chẩn đoán')) hoiChung = clean.replace(/^[^:]*:/, '').trim() || hoiChung;
+            else if (l.includes('pháp trị') || l.includes('điều trị')) phapTri = clean.replace(/^[^:]*:/, '').trim() || phapTri;
+            else if (l.includes('bài thuốc') || l.includes('cổ phương')) baiThuoc = clean.replace(/^[^:]*:/, '').trim() || baiThuoc;
             else if (l.includes('triệu chứng') || l.includes('biểu hiện')) {
-                trieuChung = line.replace(/^[^:]*:/, '').split(/[,;]/).map(s => s.trim()).filter(Boolean);
+                trieuChung = clean.replace(/^[^:]*:/, '').split(/[,;]/).map(s => s.trim()).filter(Boolean);
+            } else if (l.includes('thành phần') || l.includes('vị thuốc')) {
+                tpbt = clean.replace(/^[^:]*:/, '').split(/[,;]/).map(s => s.trim()).filter(Boolean);
             }
         });
 
-        database[cleanKey] = {
-            hc: hoiChung || query,
-            pdt: phapTri,
-            tc: trieuChung.length > 0 ? trieuChung : [query],
-            bt: baiThuoc,
-            tpbt: thanhPhan,
-            isAiGenerated: true
-        };
-        console.log(`[AI Auto-Save] Đã lưu Luận Trị: "${query}"`);
+        database[cleanKey] = { hc: hoiChung, pdt: phapTri, tc: trieuChung, bt: baiThuoc, tpbt: tpbt, isAiGenerated: true };
     }
 
-    // 2. Tab Dược liệu
+    // --- CASE 2: TAB DƯỢC LIỆU ---
     else if (tabName.includes('Dược Liệu')) {
         if (typeof duocLieuData === 'undefined') window.duocLieuData = [];
-        if (!duocLieuData.some(d => removeAccents(d.ten) === removeAccents(query))) {
-            duocLieuData.push({
-                ten: query,
-                nhom: "AI Bổ sung",
-                cong_dung: rawReply.substring(0, 300) + "...",
-                kieng_ky: "Tham khảo ý kiến bác sĩ chuyên khoa YHCT.",
-                isAiGenerated: true
-            });
-            console.log(`[AI Auto-Save] Đã lưu Dược Liệu: "${query}"`);
-        }
+        // Xóa dữ liệu AI cũ nếu trùng tên để đè dữ liệu mới
+        window.duocLieuData = duocLieuData.filter(d => removeAccents(d.ten) !== removeAccents(query));
+
+        let congDung = [], kiengKy = "Tham khảo ý kiến thầy thuốc YHCT.";
+        lines.forEach(line => {
+            const clean = line.replace(/^[\*\-\•\d\.\s]+/, '').replace(/\*\*/g, '').trim();
+            const l = clean.toLowerCase();
+            if (l.includes('kiêng kỵ') || l.includes('chống chỉ định') || l.includes('lưu ý')) {
+                kiengKy = clean.replace(/^[^:]*:/, '').trim() || kiengKy;
+            } else if (clean && !l.includes('dược liệu') && !l.includes('tên:')) {
+                congDung.push(clean);
+            }
+        });
+
+        duocLieuData.push({
+            ten: query, nhom: "AI Bổ sung",
+            cong_dung: congDung.join(' '), kieng_ky: kiengKy, isAiGenerated: true
+        });
     }
 
-    // 3. Tab Huyệt vị
+    // --- CASE 3: TAB HUYỆT VỊ ---
     else if (tabName.includes('Huyệt Vị')) {
         if (typeof huyetViData === 'undefined') window.huyetViData = [];
-        if (!huyetViData.some(h => removeAccents(h.ten) === removeAccents(query))) {
-            huyetViData.push({
-                ten: query,
-                kinh: "AI Bổ sung",
-                chu_tri: rawReply.substring(0, 200) + "...",
-                vi_tri: "Xem chi tiết trong mô tả AI",
-                isAiGenerated: true
-            });
-            console.log(`[AI Auto-Save] Đã lưu Huyệt Vị: "${query}"`);
-        }
+        // Xóa dữ liệu AI cũ nếu trùng tên để đè dữ liệu mới
+        window.huyetViData = huyetViData.filter(h => removeAccents(h.ten) !== removeAccents(query));
+
+        let chuTri = [], viTri = "Xem chi tiết mô tả AI.";
+        lines.forEach(line => {
+            const clean = line.replace(/^[\*\-\•\d\.\s]+/, '').replace(/\*\*/g, '').trim();
+            const l = clean.toLowerCase();
+            if (l.includes('vị trí') || l.includes('giải phẫu') || l.includes('định vị')) {
+                viTri = clean.replace(/^[^:]*:/, '').trim() || viTri;
+            } else if (clean && !l.includes('huyệt') && !l.includes('tên:')) {
+                chuTri.push(clean);
+            }
+        });
+
+        huyetViData.push({
+            ten: query, kinh: "AI Bổ sung",
+            chu_tri: chuTri.join(' '), vi_tri: viTri, isAiGenerated: true
+        });
     }
 
-    // 4. Tab Trà Dược (Bổ sung mới)
+    // --- CASE 4: TAB TRÀ DƯỢC ---
     else if (tabName.includes('Trà Dược') || tabName.includes('Tra')) {
         if (typeof traData === 'undefined') window.traData = [];
-        if (!traData.some(t => removeAccents(t.ten) === removeAccents(query))) {
-            traData.push({
-                ten: query,
-                nhom: "AI Dưỡng sinh",
-                cong_dung: rawReply.substring(0, 200) + "...",
-                cach_dung: "Hãm với nước sôi 85-90°C trong 10-15 phút, dùng uống hàng ngày.",
-                thanh_phan: [query],
-                isAiGenerated: true
-            });
-            console.log(`[AI Auto-Save] Đã lưu Trà Dược: "${query}"`);
-        }
+        // Xóa dữ liệu AI cũ nếu trùng tên để đè dữ liệu mới
+        window.traData = traData.filter(t => removeAccents(t.ten) !== removeAccents(query));
+
+        let thanhPhanArr = [], cachDungText = "Hãm với nước sôi 85-90°C trong 10-15 phút, dùng uống hàng ngày.", cleanCongDung = [];
+        let isParsingThanhPhan = false;
+
+        lines.forEach(line => {
+            const cleanLine = line.replace(/^[\*\-\•\d\.\s]+/, '').replace(/\*\*/g, '').trim();
+            const l = cleanLine.toLowerCase();
+
+            if (l.includes('thành phần')) {
+                isParsingThanhPhan = true;
+                if (cleanLine.includes(':')) {
+                    const part = cleanLine.split(':').slice(1).join(':').trim();
+                    if (part) {
+                        part.split(/[,;\+\.\n]/).forEach(s => {
+                            const val = s.replace(/\.\.\.$/, '').trim();
+                            if (val && val.length > 0 && val.length < 25) thanhPhanArr.push(val);
+                        });
+                    }
+                }
+            } else if (isParsingThanhPhan && (l.includes('công năng') || l.includes('công dụng') || l.includes('đối tượng') || l.includes('cách dùng') || l.includes('lưu ý'))) {
+                isParsingThanhPhan = false;
+            } else if (isParsingThanhPhan) {
+                cleanLine.split(/[,;\+\.\n]/).forEach(s => {
+                    const val = s.replace(/\.\.\.$/, '').trim();
+                    if (val && val.length > 0 && val.length < 25) thanhPhanArr.push(val);
+                });
+            }
+
+            if ((l.includes('cách dùng') || l.includes('pha')) && cleanLine.includes(':')) {
+                cachDungText = cleanLine.split(':').slice(1).join(':').trim();
+            } else if (!isParsingThanhPhan && !l.includes('thành phần') && !l.includes('lưu ý')) {
+                cleanCongDung.push(cleanLine);
+            }
+        });
+
+        traData.push({
+            ten: query, nhom: "AI Dưỡng sinh",
+            cong_dung: cleanCongDung.join(' ') || "Thanh nhiệt, dưỡng sinh YHCT.",
+            cach_dung: cachDungText,
+            thanh_phan: thanhPhanArr.length > 0 ? thanhPhanArr : ["Atiso", "Cúc hoa", "Táo đỏ", "Kỷ tử", "Cỏ ngọt", "Cam thảo"],
+            isAiGenerated: true
+        });
     }
 }
 
