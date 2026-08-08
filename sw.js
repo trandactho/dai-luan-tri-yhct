@@ -44,21 +44,38 @@ self.addEventListener('activate', event => {
     );
 });
 
-// 3. Phục vụ tài nguyên offline-first (Đã thêm cơ chế Fallback chuẩn xác)
+// 3. Phục vụ tài nguyên offline-first và tự động lưu cache khi có mạng
 self.addEventListener('fetch', event => {
     // Bỏ qua các yêu cầu gọi API đến Netlify Functions
     if (event.request.url.includes('/.netlify/functions/')) return;
 
     event.respondWith(
         caches.match(event.request).then(cachedRes => {
+            // Nếu tìm thấy trong cache thì trả về ngay lập tức
             if (cachedRes) return cachedRes;
 
-            return fetch(event.request).catch(async () => {
-                // Xử lý khi mất mạng hoàn toàn: Nếu trình duyệt yêu cầu trang HTML, trả về index.html từ cache
-                if (event.request.mode === 'navigate' || event.request.headers.get('accept').includes('text/html')) {
-                    const cache = await caches.open(CACHE_NAME);
+            // Nếu chưa có trong cache, tiến hành fetch từ mạng
+            return fetch(event.request).then(networkRes => {
+                // Kiểm tra nếu response hợp lệ thì nhân bản và tự động lưu vào cache để lần sau dùng offline
+                if (!networkRes || networkRes.status !== 200 || networkRes.type !== 'basic') {
+                    return networkRes;
+                }
+                const resToCache = networkRes.clone();
+                caches.open(CACHE_NAME).then(cache => {
+                    cache.put(event.request, resToCache);
+                });
+                return networkRes;
+            }).catch(async () => {
+                // XỬ LÝ KHI MẤT MẠNG HOÀN TOÀN (OFFLINE)
+                const cache = await caches.open(CACHE_NAME);
+
+                // Nếu trình duyệt yêu cầu trang HTML -> trả về index.html
+                if (event.request.mode === 'navigate' || (event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html'))) {
                     return cache.match('./index.html') || cache.match('/');
                 }
+
+                // Nếu là các tệp dữ liệu .js cốt lõi, cố gắng trả về từ cache, tránh sập ứng dụng
+                return cache.match(event.request);
             });
         })
     );
