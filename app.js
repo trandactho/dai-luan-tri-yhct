@@ -2394,7 +2394,7 @@ async function taiDuLieuOffline() {
     if (!xacNhan) return;
 
     try {
-        const cache = await caches.open('dailuantri-v1.5.3');
+        const cache = await caches.open('dailuantri-v1.5.4');
         await cache.addAll([
             './', './index.html', './style.css', './app.js',
             './luantridata.js', './duoclieudata.js', './huyetvidata.js',
@@ -3247,7 +3247,7 @@ function setCacheWithTTL(key, value, ttlDays = 30) {
     try {
         localStorage.setItem(key, JSON.stringify(item));
     } catch (e) {
-        console.warn(`Bộ nhớ LocalStorage đầy, tiến hành dọn dẹp bớt cache...`, e);
+        console.warn("Bộ nhớ LocalStorage đầy, tiến hành dọn dẹp bớt cache...", e);
         // Tự động xóa bớt các cache AI cũ nếu đầy bộ nhớ
         Object.keys(localStorage).forEach(k => {
             if (k.startsWith('ai_hc_') || k.startsWith('ai_bt_')) {
