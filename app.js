@@ -1332,7 +1332,13 @@ function getCombinedTraData() {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-    const setupBox = document.getElementById('quiz-setup');
+    // Tự động đăng ký Service Worker ngay khi nạp trang
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('./sw.js').catch(err => {
+            console.warn('Đăng ký Service Worker thất bại:', err);
+        });
+    }
+        const setupBox = document.getElementById('quiz-setup');
     if (setupBox) {
         if (!document.getElementById('use-quiz-timer')) {
             const aiCheckContainer = setupBox.querySelector('label') || setupBox.querySelector('input[type="checkbox"]')?.parentElement;
@@ -1355,7 +1361,14 @@ window.addEventListener("DOMContentLoaded", () => {
             }
         }
     }
-
+// Khóa an toàn: Tự động gỡ loader sau 400ms trong mọi trường hợp
+    setTimeout(() => {
+        const loader = document.getElementById('app-loader');
+        if (loader) {
+            loader.style.opacity = '0';
+            setTimeout(() => loader.remove(), 300);
+        }
+    }, 400);
     requestAnimationFrame(() => {
         try {
             capNhatTongSoTrieuChung();
@@ -1424,8 +1437,8 @@ window.addEventListener("DOMContentLoaded", () => {
             });
         }
     });
-});
 
+});
 let currentQuizQuestions = [];
 let currentQuizIndex = 0;
 let quizScore = 0;
@@ -2032,70 +2045,64 @@ function dongBoDuLieuAI(scriptSrc) {
     }
 }
 
-const loadedScripts = new Set(); //[span_21](start_span)[span_21](end_span)
+const loadedScripts = new Set();
 function loadScript(src) {
-    if (loadedScripts.has(src)) return Promise.resolve(); //[span_22](start_span)[span_22](end_span)
-    return new Promise((resolve, reject) => {
-        const script = document.createElement('script'); //[span_23](start_span)[span_23](end_span)
-        script.src = src; //[span_24](start_span)[span_24](end_span)
+    if (loadedScripts.has(src)) return Promise.resolve();
+    return new Promise((resolve) => {
+        const script = document.createElement('script');
+        script.src = src;
         script.onload = () => { 
-            loadedScripts.add(src); //[span_25](start_span)[span_25](end_span)
-            
-            // 👉 Bơm ngay dữ liệu AI vào bộ nhớ Javascript khi file tĩnh tải xong
+            loadedScripts.add(src);
             dongBoDuLieuAI(src);
-            
-            capNhatTongSoTracNghiem(); //[span_26](start_span)[span_26](end_span)
+            capNhatTongSoTracNghiem();
 
             if (src === 'luantridata.js' && typeof database !== 'undefined') {
-                capNhatTongSoTrieuChung(); //[span_27](start_span)[span_27](end_span)
-                updateLuanTri(); //[span_28](start_span)[span_28](end_span)
+                capNhatTongSoTrieuChung();
+                updateLuanTri();
             }
-            
             if (src === 'duoclieudata.js' && typeof duocLieuData !== 'undefined') {
-                const elThuoc = document.getElementById('total-thuoc'); //[span_29](start_span)[span_29](end_span)
-                if (elThuoc) elThuoc.innerText = duocLieuData.length; //[span_30](start_span)[span_30](end_span)
-
-                const selectDL = document.getElementById('filterNhomDuocLieu'); //[span_31](start_span)[span_31](end_span)
+                const elThuoc = document.getElementById('total-thuoc');
+                if (elThuoc) elThuoc.innerText = duocLieuData.length;
+                const selectDL = document.getElementById('filterNhomDuocLieu');
                 if (selectDL && selectDL.options.length <= 1) {
-                    const nhomDL = [...new Set(duocLieuData.map(d => d.nhom).filter(Boolean))]; //[span_32](start_span)[span_32](end_span)
-                    selectDL.innerHTML = '<option value="">-- Tất cả nhóm dược --</option>'; //[span_33](start_span)[span_33](end_span)
-                    nhomDL.forEach(n => { let opt = document.createElement('option'); opt.value = n; opt.innerText = n; selectDL.appendChild(opt); }); //[span_34](start_span)[span_34](end_span)
+                    const nhomDL = [...new Set(duocLieuData.map(d => d.nhom).filter(Boolean))];
+                    selectDL.innerHTML = '<option value="">-- Tất cả nhóm dược --</option>';
+                    nhomDL.forEach(n => { let opt = document.createElement('option'); opt.value = n; opt.innerText = n; selectDL.appendChild(opt); });
                 }
             }
-
             if (src === 'huyetvidata.js' && typeof huyetViData !== 'undefined') {
-                const elHuyet = document.getElementById('total-huyet'); //[span_35](start_span)[span_35](end_span)
-                if (elHuyet) elHuyet.innerText = huyetViData.length; //[span_36](start_span)[span_36](end_span)
-
-                const selectHL = document.getElementById('filterKinhLac'); //[span_37](start_span)[span_37](end_span)
+                const elHuyet = document.getElementById('total-huyet');
+                if (elHuyet) elHuyet.innerText = huyetViData.length;
+                const selectHL = document.getElementById('filterKinhLac');
                 if (selectHL && selectHL.options.length <= 1) {
-                    const heKinhLac = [...new Set(huyetViData.map(h => h.kinh).filter(Boolean))]; //[span_38](start_span)[span_38](end_span)
-                    selectHL.innerHTML = '<option value="">-- Tất cả hệ thống kinh mạch --</option>'; //[span_39](start_span)[span_39](end_span)
-                    heKinhLac.forEach(k => { let opt = document.createElement('option'); opt.value = k; opt.innerText = k; selectHL.appendChild(opt); }); //[span_40](start_span)[span_40](end_span)
+                    const heKinhLac = [...new Set(huyetViData.map(h => h.kinh).filter(Boolean))];
+                    selectHL.innerHTML = '<option value="">-- Tất cả hệ thống kinh mạch --</option>';
+                    heKinhLac.forEach(k => { let opt = document.createElement('option'); opt.value = k; opt.innerText = k; selectHL.appendChild(opt); });
                 }
             }
-
             if (src === 'tradata.js' && typeof traData !== 'undefined') {
-                const elTra = document.getElementById('total-tra'); //[span_41](start_span)[span_41](end_span)
-                if (elTra) elTra.innerText = getCombinedTraData().length; // Cập nhật đếm gồm cả bài trà AI[span_42](start_span)[span_42](end_span)
-
-                const selectTra = document.getElementById('filterNhomTra'); //[span_43](start_span)[span_43](end_span)
+                const elTra = document.getElementById('total-tra');
+                if (elTra) elTra.innerText = getCombinedTraData().length;
+                const selectTra = document.getElementById('filterNhomTra');
                 if (selectTra && selectTra.options.length <= 1) {
-                    const activeTra = getCombinedTraData(); //[span_44](start_span)[span_44](end_span)
-                    const nhomTra = [...new Set(activeTra.map(t => t.nhom).filter(Boolean))]; //[span_45](start_span)[span_45](end_span)
-                    selectTra.innerHTML = '<option value="">-- Tất cả nhóm công dụng --</option>'; //[span_46](start_span)[span_46](end_span)
-                    nhomTra.forEach(n => { let opt = document.createElement('option'); opt.value = n; opt.innerText = n; selectTra.appendChild(opt); }); //[span_47](start_span)[span_47](end_span)
+                    const activeTra = getCombinedTraData();
+                    const nhomTra = [...new Set(activeTra.map(t => t.nhom).filter(Boolean))];
+                    selectTra.innerHTML = '<option value="">-- Tất cả nhóm công dụng --</option>';
+                    nhomTra.forEach(n => { let opt = document.createElement('option'); opt.value = n; opt.innerText = n; selectTra.appendChild(opt); });
                 }
             }
-
-            resolve(); //[span_48](start_span)[span_48](end_span)
+            resolve();
         };
-        script.onerror = () => reject(new Error(`Không thể tải tập lệnh: ${src}`)); //[span_49](start_span)[span_49](end_span)
-        document.head.appendChild(script); //[span_50](start_span)[span_50](end_span)
-    });
+        script.onerror = () => {
+    console.warn("Không thể nạp file " + src + " từ mạng, chuyển sang sử dụng dữ liệu offline.");
+    // Đồng bộ dữ liệu lưu trong LocalStorage kể cả khi nạp file thất bại
+    dongBoDuLieuAI(src);
+    resolve(); // Trả về resolve để không làm nghẽn luồng ứng dụng
+};
+
+document.head.appendChild(script);
+});
 }
-
-
 let currentSwitchTabToken = 0;
 async function switchTab(tabName) {
     const localToken = ++currentSwitchTabToken;
@@ -3153,6 +3160,8 @@ function xuLyChonFileVongChan(event) {
 
 // --- TỐI ƯU CẤU TRÚC LƯU TRỮ VÀ XỬ LÝ DỮ LIỆU AI ---
 
+// --- TỐI ƯU CẤU TRÚC LƯU TRỮ VÀ XỬ LÝ DỮ LIỆU AI ---
+
 function luuKetQuaAiVaoDb(query, tabName, objData) {
     if (!query || !objData) return;
     const cleanKey = removeAccents(query).trim().replace(/\s+/g, '_');
@@ -3188,7 +3197,7 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
         let custom = JSON.parse(localStorage.getItem('custom_duocLieuData') || '[]');
         let cIdx = custom.findIndex(d => removeAccents(d.ten) === removeAccents(query));
         if (cIdx >= 0) custom[cIdx] = newObj; else custom.unshift(newObj);
-        safeSetLocalStorage('custom_duocLieuData', custom, 20); // Dùng safeSetLocalStorage
+        safeSetLocalStorage('custom_duocLieuData', custom, 20);
     }
     // 3. Tab Huyệt Vị
     else if (tabName.includes('Huyệt Vị')) {
@@ -3207,7 +3216,7 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
         let custom = JSON.parse(localStorage.getItem('custom_huyetViData') || '[]');
         let cIdx = custom.findIndex(h => removeAccents(h.ten) === removeAccents(query));
         if (cIdx >= 0) custom[cIdx] = newObj; else custom.unshift(newObj);
-        safeSetLocalStorage('custom_huyetViData', custom, 20); // Dùng safeSetLocalStorage
+        safeSetLocalStorage('custom_huyetViData', custom, 20);
     }
     // 4. Tab Trà Dược
     else if (tabName.includes('Trà Dược') || tabName.includes('Tra')) {
@@ -3228,15 +3237,12 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
         let custom = JSON.parse(localStorage.getItem('custom_traData') || '[]');
         let cIdx = custom.findIndex(t => removeAccents(t.ten) === removeAccents(query));
         if (cIdx >= 0) custom[cIdx] = newObj; else custom.unshift(newObj);
-        safeSetLocalStorage('custom_traData', custom, 20); // Dùng safeSetLocalStorage
+        safeSetLocalStorage('custom_traData', custom, 20);
     }
 }
 
 /**
  * Lưu dữ liệu vào localStorage kèm thời gian sống (TTL)
- * @param {string} key - Tên khóa lưu trữ
- * @param {any} value - Dữ liệu cần lưu (chuỗi, object, html...)
- * @param {number} ttlDays - Số ngày dữ liệu được phép tồn tại (mặc định 30 ngày)
  */
 function setCacheWithTTL(key, value, ttlDays = 30) {
     const now = new Date();
@@ -3247,8 +3253,7 @@ function setCacheWithTTL(key, value, ttlDays = 30) {
     try {
         localStorage.setItem(key, JSON.stringify(item));
     } catch (e) {
-        console.warn(`Bộ nhớ LocalStorage đầy, tiến hành dọn dẹp bớt cache...`, e);
-        // Tự động xóa bớt các cache AI cũ nếu đầy bộ nhớ
+        console.warn("Bộ nhớ LocalStorage đầy, tiến hành dọn dẹp bớt cache...");
         Object.keys(localStorage).forEach(k => {
             if (k.startsWith('ai_hc_') || k.startsWith('ai_bt_')) {
                 localStorage.removeItem(k);
@@ -3264,10 +3269,7 @@ function setCacheWithTTL(key, value, ttlDays = 30) {
 
 /**
  * Đọc dữ liệu từ localStorage và tự động dọn dẹp nếu đã hết hạn
- * @param {string} key - Tên khóa lưu trữ
- * @returns {any|null} Trả về dữ liệu nếu còn hạn, ngược lại trả về null
  */
-// 2. Sửa an toàn hàm Cache TTL chống crash JSON.parse
 function getCacheWithTTL(key) {
     const itemStr = localStorage.getItem(key);
     if (!itemStr) return null;
@@ -3275,12 +3277,12 @@ function getCacheWithTTL(key) {
     try {
         const item = JSON.parse(itemStr);
         if (!item || typeof item !== 'object' || !('expiry' in item)) {
-            return itemStr; // Fallback nếu dữ liệu lưu dạng chuỗi cũ
+            return itemStr;
         }
 
         const now = new Date();
         if (now.getTime() > item.expiry) {
-            localStorage.removeItem(key); // Xóa cache quá hạn
+            localStorage.removeItem(key);
             return null;
         }
         return item.value;
@@ -3288,5 +3290,6 @@ function getCacheWithTTL(key) {
         return itemStr; 
     }
 }
+
 
 
