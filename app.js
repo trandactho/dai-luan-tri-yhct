@@ -14,6 +14,20 @@ const AppState = {
     aiHcActive: false, // Trạng thái AI Hội chứng
     aiBtActive: false  // Trạng thái AI Bài thuốc
 };
+const AppStore = {
+    database: {},
+    duocLieu: [],
+    huyetVi: [],
+    tra: [],
+    
+    init() {
+        if (typeof database !== 'undefined') this.database = database;
+        if (typeof duocLieuData !== 'undefined') this.duocLieu = duocLieuData;
+        if (typeof huyetViData !== 'undefined') this.huyetVi = huyetViData;
+        if (typeof traData !== 'undefined') this.tra = traData;
+    }        
+};
+
 const ORIGINAL_PDF_AREA_HTML = `
     <div id="lt-card-hc" class="bg-dark-box p-5 rounded-lg border-l-4 border-amber-500 space-y-2 relative">
         <div class="text-amber-400 text-xs font-bold uppercase tracking-wider mb-1">Hội chứng biện chứng</div>
@@ -1332,7 +1346,10 @@ function getCombinedTraData() {
 }
 
 window.addEventListener("DOMContentLoaded", () => {
-    const setupBox = document.getElementById('quiz-setup');
+    if (typeof AppStore !== 'undefined') {
+        AppStore.init(); // Đồng bộ biến toàn cục an toàn
+    }
+        const setupBox = document.getElementById('quiz-setup');
     if (setupBox) {
         if (!document.getElementById('use-quiz-timer')) {
             const aiCheckContainer = setupBox.querySelector('label') || setupBox.querySelector('input[type="checkbox"]')?.parentElement;
@@ -2237,12 +2254,11 @@ function formatAIMessage(text) {
     // 3. Escape HTML bảo mật
     let safe = escapeHTML(cleaned);
 
-    // 4. Xử lý các tiêu đề Markdown (###, ##, #)
-    safe = safe.replace(/^###\s*(.*$)/gim, '<div class="text-amber-400 font-bold text-xs uppercase tracking-wider mt-3 mb-1 border-b border-stone-800 pb-1">$1</div>');
-    safe = safe.replace(/^##\s*(.*$)/gim, '<div class="text-amber-400 font-bold text-xs uppercase tracking-wider mt-3 mb-1 border-b border-stone-800 pb-1">$1</div>');
+    // 4. Xử lý các tiêu đề Markdown
+    safe = safe.replace(/^###?\s*(.*$)/gim, '<div class="text-amber-400 font-bold text-xs uppercase tracking-wider mt-3 mb-1 border-b border-stone-800 pb-1">$1</div>');
     safe = safe.replace(/^#\s*(.*$)/gim, '<div class="text-amber-400 font-bold text-sm uppercase tracking-wider mt-3 mb-1 border-b border-stone-800 pb-1">$1</div>');
 
-    // 5. Xử lý Markdown in đậm (**văn bản** hoặc *văn bản*)
+    // 5. Xử lý Markdown in đậm
     safe = safe.replace(/\*\*(.*?)\*\*/g, '<strong class="text-amber-300 font-bold">$1</strong>');
     safe = safe.replace(/\*(.*?)\*/g, '<strong class="text-amber-300 font-bold">$1</strong>');
 
@@ -2250,7 +2266,7 @@ function formatAIMessage(text) {
     const lines = safe.split('\n');
     const formattedLines = lines.map(line => {
         const trimmed = line.trim();
-        if (trimmed.startsWith('<div class="text-amber-400')) return trimmed; // Giữ nguyên tiêu đề đã convert
+        if (trimmed.startsWith('<div class="text-amber-400')) return trimmed;
         if (trimmed.startsWith('* ') || trimmed.startsWith('- ')) {
             return `<li class="ml-4 list-disc text-stone-300 my-0.5">${trimmed.substring(2)}</li>`;
         }
@@ -2264,7 +2280,9 @@ function formatAIMessage(text) {
         return `<p class="my-0.5 leading-relaxed text-stone-300">${trimmed}</p>`;
     });
 
-    return formattedLines.join('');
+    // 7. Bọc DOMPurify làm sạch HTML trả về ở cuối hàm
+    const rawHtml = formattedLines.join('');
+    return typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(rawHtml) : rawHtml;
 }
 
 // 3. Trợ lý AI nhắn tin trực tiếp
