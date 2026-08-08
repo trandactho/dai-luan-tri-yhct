@@ -2049,6 +2049,13 @@ const loadedScripts = new Set();
 function loadScript(src) {
     if (loadedScripts.has(src)) return Promise.resolve();
     return new Promise((resolve) => {
+        // Kiểm tra xem dữ liệu đã tồn tại trong bộ nhớ chưa (phòng hờ offline)
+        if (src === 'luantridata.js' && typeof database !== 'undefined') { loadedScripts.add(src); return resolve(); }
+        if (src === 'duoclieudata.js' && typeof duocLieuData !== 'undefined') { loadedScripts.add(src); return resolve(); }
+        if (src === 'huyetvidata.js' && typeof huyetViData !== 'undefined') { loadedScripts.add(src); return resolve(); }
+        if (src === 'tradata.js' && typeof traData !== 'undefined') { loadedScripts.add(src); return resolve(); }
+        if (src === 'questiondata.js' && typeof questionsData !== 'undefined') { loadedScripts.add(src); return resolve(); }
+
         const script = document.createElement('script');
         script.src = src;
         script.onload = () => { 
@@ -2094,76 +2101,15 @@ function loadScript(src) {
             resolve();
         };
         script.onerror = () => {
-    console.warn("Không thể nạp file " + src + " từ mạng, chuyển sang sử dụng dữ liệu offline.");
-    // Đồng bộ dữ liệu lưu trong LocalStorage kể cả khi nạp file thất bại
-    dongBoDuLieuAI(src);
-    resolve(); // Trả về resolve để không làm nghẽn luồng ứng dụng
-};
+            console.warn("Không thể nạp file " + src + " từ mạng, chuyển sang sử dụng dữ liệu offline.");
+            dongBoDuLieuAI(src);
+            resolve(); 
+        };
 
-document.head.appendChild(script);
-});
-}
-let currentSwitchTabToken = 0;
-async function switchTab(tabName) {
-    const localToken = ++currentSwitchTabToken;
-
-    try {
-        if (tabName === 'luantri') await loadScript('luantridata.js');
-        if (tabName === 'duoclieu') await loadScript('duoclieudata.js');
-        if (tabName === 'huyetvi') await loadScript('huyetvidata.js');
-        if (tabName === 'tra') await loadScript('tradata.js');
-        if (tabName === 'tracnghiem') await loadScript('questiondata.js');
-    } catch (err) {
-        console.error("Lỗi nạp dữ liệu tab:", err.message);
-    }
-
-    // Nếu người dùng đã chuyển sang Tab khác trong lúc script đang tải -> Bỏ qua render thừa
-    if (localToken !== currentSwitchTabToken) return;
-
-    if (tabName !== 'xemanh') {
-        localStorage.setItem('activeTab', tabName);
-    }
-
-    const tabs = ['luantri', 'tracnghiem', 'duoclieu', 'huyetvi', 'tra', 'xemanh', 'ai'];
-    const pascalMap = { 
-        luantri: 'LuanTri', tracnghiem: 'TracNghiem', duoclieu: 'DuocLieu', 
-        huyetvi: 'HuyetVi', tra: 'Tra', xemanh: 'XemAnh', ai: 'AI'
-    };
-
-    tabs.forEach(t => {
-        const pascalCase = pascalMap[t];
-        const section = document.getElementById('section' + pascalCase);
-        const btn = document.getElementById('btnTab' + pascalCase);
-
-        if (t === tabName) {
-            if (section) {
-                section.classList.remove('hidden');
-                section.style.opacity = '0';
-                section.style.transform = 'translateY(6px)';
-                section.style.transition = 'all 0.15s ease';
-                requestAnimationFrame(() => {
-                    section.style.opacity = '1';
-                    section.style.transform = 'translateY(0)';
-                });
-            }
-            if (btn) btn.classList.add('tab-active', 'text-primary');
-
-            if (t === 'luantri') {
-                capNhatTongSoTrieuChung();
-                updateLuanTri();
-            }
-            if (t === 'duoclieu') filterDuocLieu();
-            if (t === 'huyetvi') filterHuyetVi();
-            if (t === 'tra') filterTra();
-            if (t === 'tracnghiem') capNhatDiemGanNhat();
-            if (t === 'xemanh') hienThiLichSuVongChan();
-
-        } else {
-            if (section) section.classList.add('hidden');
-            if (btn) btn.classList.remove('tab-active', 'text-primary');
-        }
+        document.head.appendChild(script);
     });
 }
+
 
 
 async function exportPDF() {
