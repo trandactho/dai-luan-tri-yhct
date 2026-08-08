@@ -1,35 +1,39 @@
 const CACHE_NAME = 'dailuantri-v1.5.4';
 
 const SYSTEM_FILES = [
-    './', 
-    './index.html', 
-    './style.css', 
+    '/',
+    '/index.html',
+    '/style.css',
+    '/app.js',
+    '/luantridata.js',
+    '/duoclieudata.js',
+    '/huyetvidata.js',
+    '/tradata.js',
+    '/questiondata.js',
+    '/manifest.json',
+    './',
+    './index.html',
+    './style.css',
     './app.js',
-    './luantridata.js', 
-    './duoclieudata.js', 
+    './luantridata.js',
+    './duoclieudata.js',
     './huyetvidata.js',
-    './tradata.js', 
-    './questiondata.js', 
+    './tradata.js',
+    './questiondata.js',
     './manifest.json'
 ];
 
-// 1. Tải trước file hệ thống an toàn
 self.addEventListener('install', event => {
     self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME).then(async cache => {
             for (const file of SYSTEM_FILES) {
-                try {
-                    await cache.add(file);
-                } catch (err) {
-                    console.warn(`Không thể cache tệp: ${file}`, err);
-                }
+                try { await cache.add(file); } catch (err) {}
             }
         })
     );
 });
 
-// 2. Kích hoạt: Xóa CacheStorage cũ, giữ nguyên localStorage
 self.addEventListener('activate', event => {
     event.waitUntil(
         caches.keys().then(keys => {
@@ -44,38 +48,33 @@ self.addEventListener('activate', event => {
     );
 });
 
-// 3. Phục vụ tài nguyên offline-first và tự động lưu cache khi có mạng
 self.addEventListener('fetch', event => {
-    // Bỏ qua các yêu cầu gọi API đến Netlify Functions
-    if (event.request.url.includes('/.netlify/functions/')) return;
+    if (event.request.method !== 'GET' || event.request.url.includes('/.netlify/functions/')) return;
 
     event.respondWith(
-        caches.match(event.request).then(cachedRes => {
-            // Nếu tìm thấy trong cache thì trả về ngay lập tức
+        // CÚ PHÁP QUAN TRỌNG NHẤT: ignoreSearch: true giúp bỏ qua mọi query parameter rác
+        caches.match(event.request, { ignoreSearch: true }).then(cachedRes => {
             if (cachedRes) return cachedRes;
 
-            // Nếu chưa có trong cache, tiến hành fetch từ mạng
             return fetch(event.request).then(networkRes => {
-                // Kiểm tra nếu response hợp lệ thì nhân bản và tự động lưu vào cache để lần sau dùng offline
                 if (!networkRes || networkRes.status !== 200 || networkRes.type !== 'basic') {
                     return networkRes;
                 }
                 const resToCache = networkRes.clone();
-                caches.open(CACHE_NAME).then(cache => {
-                    cache.put(event.request, resToCache);
-                });
+                caches.open(CACHE_NAME).then(cache => cache.put(event.request, resToCache));
                 return networkRes;
             }).catch(async () => {
-                // XỬ LÝ KHI MẤT MẠNG HOÀN TOÀN (OFFLINE)
                 const cache = await caches.open(CACHE_NAME);
+                const urlObj = new URL(event.request.url);
+                
+                // Cố gắng cứu vớt bằng đường dẫn tuyệt đối
+                let match = await cache.match(urlObj.pathname, { ignoreSearch: true });
+                if (match) return match;
 
-                // Nếu trình duyệt yêu cầu trang HTML -> trả về index.html
+                // Nếu mất mạng hoàn toàn thì nạp cứng trang HTML 
                 if (event.request.mode === 'navigate' || (event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html'))) {
-                    return cache.match('./index.html') || cache.match('/');
+                    return cache.match('/index.html', { ignoreSearch: true }) || cache.match('/', { ignoreSearch: true });
                 }
-
-                // Nếu là các tệp dữ liệu .js cốt lõi, cố gắng trả về từ cache, tránh sập ứng dụng
-                return cache.match(event.request);
             });
         })
     );

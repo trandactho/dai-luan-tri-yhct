@@ -2412,6 +2412,7 @@ async function taiDuLieuOffline() {
     }
 }
 
+
 const PHAN_UY_RULES = [
     { a: 'Ô đầu', b: 'Bối mẫu', msg: 'Ô đầu phản Bối mẫu' },
     { a: 'Ô đầu', b: 'Bán hạ', msg: 'Ô đầu phản Bán hạ' },
@@ -2539,7 +2540,14 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
         containerEl.innerHTML = `<div class="col-span-full text-center py-8 text-xs text-red-400">Lỗi kết nối AI.</div>`;
     }
 }
-
+// --- THÊM ĐOẠN NÀY VÀO NGOÀI CÙNG APP.JS ---
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('./sw.js', { scope: './' })
+            .then(reg => console.log('Service Worker đã luôn được kích hoạt an toàn!'))
+            .catch(err => console.error('Lỗi khởi động SW:', err));
+    });
+}
 
 // Tự động ẩn bàn phím khi chạm/vuốt ra ngoài ô nhập liệu
 document.addEventListener('pointerdown', (e) => {
