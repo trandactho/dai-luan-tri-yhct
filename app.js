@@ -2016,7 +2016,11 @@ async function xemDuocLieu(tenViThuoc) {
 }
 
 // 3. Khắc phục chống phình mảng trong dongBoDuLieuAI
+const syncedScripts = new Set();
 function dongBoDuLieuAI(scriptSrc) {
+    if (syncedScripts.has(scriptSrc)) return; // Tránh đồng bộ lặp gây tràn RAM
+    syncedScripts.add(scriptSrc);
+
     try {
         if (scriptSrc === 'luantridata.js' && typeof database !== 'undefined') {
             const saved = JSON.parse(localStorage.getItem('custom_database') || '{}');
@@ -2024,30 +2028,30 @@ function dongBoDuLieuAI(scriptSrc) {
         }
         else if (scriptSrc === 'duoclieudata.js' && typeof duocLieuData !== 'undefined') {
             const saved = JSON.parse(localStorage.getItem('custom_duocLieuData') || '[]');
-            saved.forEach(item => {
-                // Kiểm tra chính xác trước khi unshift để chống trùng lặp
-                const exists = duocLieuData.some(d => removeAccents(d.ten) === removeAccents(item.ten));
-                if (!exists) duocLieuData.unshift(item);
-            });
+            const map = new Map(duocLieuData.map(item => [removeAccents(item.ten), item]));
+            saved.forEach(item => map.set(removeAccents(item.ten), item));
+            duocLieuData.length = 0;
+            duocLieuData.push(...map.values());
         }
         else if (scriptSrc === 'huyetvidata.js' && typeof huyetViData !== 'undefined') {
             const saved = JSON.parse(localStorage.getItem('custom_huyetViData') || '[]');
-            saved.forEach(item => {
-                const exists = huyetViData.some(h => removeAccents(h.ten) === removeAccents(item.ten));
-                if (!exists) huyetViData.unshift(item);
-            });
+            const map = new Map(huyetViData.map(item => [removeAccents(item.ten), item]));
+            saved.forEach(item => map.set(removeAccents(item.ten), item));
+            huyetViData.length = 0;
+            huyetViData.push(...map.values());
         }
         else if (scriptSrc === 'questiondata.js' && typeof questionsData !== 'undefined') {
             const saved = JSON.parse(localStorage.getItem('custom_questionsData') || '[]');
-            saved.forEach(item => {
-                const exists = questionsData.some(q => q.cau_hoi === item.cau_hoi);
-                if (!exists) questionsData.unshift(item);
-            });
+            const map = new Map(questionsData.map(item => [item.cau_hoi, item]));
+            saved.forEach(item => map.set(item.cau_hoi, item));
+            questionsData.length = 0;
+            questionsData.push(...map.values());
         }
     } catch (e) {
         console.warn("Lỗi đồng bộ dữ liệu AI:", e);
     }
 }
+
 
 const loadedScripts = new Set(); //[span_21](start_span)[span_21](end_span)
 function loadScript(src) {
@@ -2316,13 +2320,12 @@ async function sendAIWebMessage() {
     }
 
     try {
-        const res = await fetchWithTimeout(getApiEndpoint(), {
+        const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ 
-              prompt: query, 
-              source: 'assistant',
-              max_tokens: 350
+                prompt: query, 
+                source: 'assistant'
             })
         });
         const data = await res.json();
@@ -2330,7 +2333,7 @@ async function sendAIWebMessage() {
         const loadingEl = document.getElementById(loadingId);
         if (loadingEl) loadingEl.remove();
 
-        if (!res.ok) {
+        if (!res.ok || data.error) {
             chatBox.innerHTML += `<div class="bg-red-950/40 p-3 rounded-lg border border-red-800 text-red-300 text-xs"><i class="fa-solid fa-triangle-exclamation mr-1"></i> ${escapeHTML(data.error || 'Lỗi hệ thống')}</div>`;
         } else {
             const formattedReply = formatAIMessage(data.reply || 'Không có phản hồi từ AI.');
@@ -2404,15 +2407,15 @@ document.addEventListener('keydown', function(e) {
 async function taiDuLieuOffline() {
     if (!('caches' in window)) return alert('Trình duyệt không hỗ trợ tính năng lưu offline.');
 
-    const xacNhan = confirm(
-        '📥 KÍCH HOẠT CHẾ ĐỘ OFFLINE\n\n' +
-        'Bạn có muốn tải toàn bộ dữ liệu ứng dụng về máy không?\n\n' +
-        '💡 Lưu ý: Cần thực hiện thao tác tải lại này để cập nhật phiên bản mới nhất khi ứng dụng có thay đổi.'
-    );
+    const xacNhan = confirm('📥 KÍCH HOẠT CHẾ ĐỘ OFFLINE\n\nBạn có muốn tải toàn bộ dữ liệu ứng dụng về máy không?');
     if (!xacNhan) return;
 
     try {
-        const cache = await caches.open('dailuantri-v1.5.4');
+        // Tự động lấy cache key hiện tại từ SW hoặc dùng fallback
+        const cacheKeys = await caches.keys();
+        const activeCacheName = cacheKeys.find(k => k.startsWith('dailuantri-')) || 'dailuantri-v1.5.4';
+        const cache = await caches.open(activeCacheName);
+
         await cache.addAll([
             './', './index.html', './style.css', './app.js',
             './luantridata.js', './duoclieudata.js', './huyetvidata.js',
@@ -2611,7 +2614,7 @@ async function fetchAIHcDesc(hcName) {
             `;
             
             // 2. Lưu kết quả vào Cache với hạn sống 30 ngày
-            setCacheWithTTL(cacheKey, htmlResult, 30); 
+            setCacheWithTTL(cacheKey, htmlResult, 99); 
             
             aiHcEl.innerHTML = htmlResult;
         } else {
@@ -2660,7 +2663,7 @@ async function fetchAIBtDesc(btName) {
                 <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Nguồn gốc & đặc điểm cổ phương:</div>
                 <div class="space-y-1">${formatAIMessage(data.reply)}</div>
             `;
-            setCacheWithTTL(cacheKey, htmlResult, 30); 
+            setCacheWithTTL(cacheKey, htmlResult, 99); 
             aiBtEl.innerHTML = htmlResult;
         }
     } catch (err) {
@@ -3264,26 +3267,27 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
  * @param {any} value - Dữ liệu cần lưu (chuỗi, object, html...)
  * @param {number} ttlDays - Số ngày dữ liệu được phép tồn tại (mặc định 30 ngày)
  */
-function setCacheWithTTL(key, value, ttlDays = 30) {
-    const now = new Date();
+// Lưu cache với thời hạn mặc định 99 ngày
+function setCacheWithTTL(key, value, ttlDays = 99) {
     const item = {
         value: value,
-        expiry: now.getTime() + (ttlDays * 24 * 60 * 60 * 1000)
+        expiry: Date.now() + (ttlDays * 24 * 60 * 60 * 1000)
     };
     try {
         localStorage.setItem(key, JSON.stringify(item));
     } catch (e) {
-        console.warn("Bộ nhớ LocalStorage đầy, tiến hành dọn dẹp bớt cache...", e);
-        // Tự động xóa bớt các cache AI cũ nếu đầy bộ nhớ
-        Object.keys(localStorage).forEach(k => {
-            if (k.startsWith('ai_hc_') || k.startsWith('ai_bt_')) {
-                localStorage.removeItem(k);
-            }
-        });
+        // Bước 1: Dọn dẹp tất cả dữ liệu quá hạn
+        cleanExpiredLocalStorage();
         try {
             localStorage.setItem(key, JSON.stringify(item));
         } catch (err) {
-            console.error("Không thể lưu cache dù đã dọn dẹp:", err);
+            // Bước 2: Nếu vẫn đầy, tiến hành giải phóng cache AI cũ
+            Object.keys(localStorage).forEach(k => {
+                if (k.startsWith('ai_hc_') || k.startsWith('ai_bt_')) {
+                    localStorage.removeItem(k);
+                }
+            });
+            try { localStorage.setItem(key, JSON.stringify(item)); } catch (finalErr) {}
         }
     }
 }
@@ -3314,5 +3318,18 @@ function getCacheWithTTL(key) {
         return itemStr; 
     }
 }
+// Hàm phụ trợ: Tự động xóa các mục đã hết hạn trong LocalStorage
+function cleanExpiredLocalStorage() {
+    const now = Date.now();
+    Object.keys(localStorage).forEach(key => {
+        try {
+            const item = JSON.parse(localStorage.getItem(key));
+            if (item && typeof item === 'object' && item.expiry && now > item.expiry) {
+                localStorage.removeItem(key);
+            }
+        } catch (e) {}
+    });
+}
+
 
 
