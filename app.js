@@ -2394,7 +2394,7 @@ async function taiDuLieuOffline() {
     if (!xacNhan) return;
 
     try {
-        const cache = await caches.open('dailuantri-v1.5.2');
+        const cache = await caches.open('dailuantri-v1.5.3');
         await cache.addAll([
             './', './index.html', './style.css', './app.js',
             './luantridata.js', './duoclieudata.js', './huyetvidata.js',
