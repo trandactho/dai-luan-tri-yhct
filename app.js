@@ -14,6 +14,7 @@ const AppState = {
     aiHcActive: false, // Trạng thái AI Hội chứng
     aiBtActive: false  // Trạng thái AI Bài thuốc
 };
+
 const AppStore = {
     database: {},
     duocLieu: [],
@@ -27,6 +28,12 @@ const AppStore = {
         if (typeof traData !== 'undefined') this.tra = traData;
     }        
 };
+// Khai báo sẵn các biến toàn cục chống lỗi ReferenceError
+window.database = window.database || {};
+window.duocLieuData = window.duocLieuData || [];
+window.huyetViData = window.huyetViData || [];
+window.traData = window.traData || [];
+window.questionsData = window.questionsData || [];
 
 const ORIGINAL_PDF_AREA_HTML = `
     <div id="lt-card-hc" class="bg-dark-box p-5 rounded-lg border-l-4 border-amber-500 space-y-2 relative">
@@ -925,42 +932,55 @@ function filterDuocLieu(isEnter = false) {
     }
 
     const txtRaw = getVal('searchDuocLieu').trim().normalize('NFC');
-    const cleanTxt = txtRaw.toLowerCase().replace(/[,\.;:?!()\[\]{}]/g, ' ');
+    const cleanTxt = txtRaw.toLowerCase().replace(/[,\.;:?!()\[\]{}]/g, ' ').trim();
     const queryWords = cleanTxt ? cleanTxt.split(/\s+/).filter(Boolean) : [];
     const group = getVal('filterNhomDuocLieu');
+    const isAiChecked = document.getElementById('ai-backup-duoclieu')?.checked || false;
+
     grid.innerHTML = "";
-    
     const scoredData = [];
+
     duocLieuData.forEach(d => {
-    if (!d) return;
-    const nhom = d.nhom || '';
-    if (group !== "" && nhom !== group) return;
+        if (!d) return;
+        const nhom = d.nhom || '';
+        if (group !== "" && nhom !== group) return;
 
-    if (queryWords.length === 0) {
-        scoredData.push({ item: d, score: 1 });
-        return;
-    }
+        if (queryWords.length === 0) {
+            scoredData.push({ item: d, score: 1 });
+            return;
+        }
 
-    // Chuẩn hóa 1 lần cho chuỗi tổng hợp
-    const ten = (d.ten || '').toLowerCase().normalize('NFC');
-    const fullText = `${ten} ${(d.ten_khac || '')} ${(d.cong_dung || '')} ${(d.kieng_ky || d.dac_tinh || d.chong_chi_dinh || d.luu_y || '')}`.toLowerCase().normalize('NFC');
+        const ten = (d.ten || '').toLowerCase().normalize('NFC');
+        const fullText = `${ten} ${(d.ten_khac || '')} ${(d.cong_dung || '')} ${(d.kieng_ky || d.dac_tinh || d.chong_chi_dinh || d.luu_y || '')}`.toLowerCase().normalize('NFC');
 
-    let matchCount = 0;
-    queryWords.forEach(word => {
-        if (fullText.includes(word)) {
-            matchCount++;
-            if (ten.includes(word)) matchCount += 1.5;
+        // CHẾ ĐỘ 1: Khi BẬT AI -> Bắt buộc tìm chính xác cụm từ đi liền nhau trong CSDL trước
+        if (isAiChecked) {
+            if (fullText.includes(cleanTxt)) {
+                let matchScore = 1;
+                if (ten.includes(cleanTxt)) matchScore += 5; // Ưu tiên rất cao nếu khớp Tên dược liệu
+                scoredData.push({ item: d, score: matchScore });
+            }
+        } 
+        // CHẾ ĐỘ 2: Tìm kiếm thông thường khi TẮT AI
+        else {
+            let matchCount = 0;
+            queryWords.forEach(word => {
+                if (fullText.includes(word)) {
+                    matchCount++;
+                    if (ten.includes(word)) matchCount += 1.5;
+                }
+            });
+            if (matchCount > 0) scoredData.push({ item: d, score: matchCount });
         }
     });
-
-    if (matchCount > 0) scoredData.push({ item: d, score: matchCount });
-});
 
     scoredData.sort((a, b) => b.score - a.score);
     const filteredData = scoredData.map(s => s.item);
 
+    // XỬ LÝ KHI KHÔNG TÌM THẤY TRONG CSDL
     if (filteredData.length === 0) {
-        if (txtRaw && isEnter) {
+        // Nếu Bật AI (hoặc bấm Enter) -> Tiến hành gọi AI tra cứu ra ngoài
+        if (txtRaw && (isEnter || isAiChecked)) {
             const aiCheck = document.getElementById('ai-backup-duoclieu');
             if (aiCheck) aiCheck.checked = true;
             fetchAIBackupResult(txtRaw, 'Dược Liệu YHCT', grid);
@@ -968,7 +988,7 @@ function filterDuocLieu(isEnter = false) {
         }
 
         const feedbackMsg = txtRaw 
-            ? `<p class="text-xs text-stone-500 font-medium flex items-center justify-center gap-1">Nhấn nút <span class="px-2 py-0.5 bg-amber-950/80 text-amber-400 border border-amber-600/60 rounded font-bold text-[11px] inline-flex items-center gap-1"><i class="fa-solid fa-robot text-[10px]"></i> AI Tìm</span> để tìm kiếm với AI</p>` 
+            ? `<p class="text-xs text-stone-500 font-medium flex items-center justify-center gap-1">Nhấn nút <span class="px-2 py-0.5 bg-amber-950/80 text-amber-400 border border-amber-600/60 rounded font-bold text-[11px] inline-flex items-center gap-1"><i class="fa-solid fa-robot text-[10px]"></i> AI Tìm</span> để tìm chính xác với AI</p>` 
             : '';
 
         grid.innerHTML = `
@@ -979,8 +999,7 @@ function filterDuocLieu(isEnter = false) {
             </div>
         `;
         return;
-    }
-            
+    }            
     const frag = document.createDocumentFragment();
     filteredData.slice(0, 50).forEach(d => {
         let card = document.createElement('div'); 
@@ -1071,6 +1090,8 @@ function filterHuyetVi(isEnter = false) {
     const cleanTxt = txtRaw.toLowerCase().replace(/[,\.;:?!()\[\]{}]/g, ' ');
     const queryWords = cleanTxt ? cleanTxt.split(/\s+/).filter(Boolean) : [];    
     const kinh = getVal('filterKinhLac');
+    const isAiChecked = document.getElementById('ai-backup-huyetvi')?.checked || false;
+    
     grid.innerHTML = "";
     
     const getKinhTheme = (kinhName) => {
@@ -1085,34 +1106,41 @@ function filterHuyetVi(isEnter = false) {
 
     const scoredData = [];
     huyetViData.forEach(h => {
-    if (!h) return;
-    const matchKinh = (kinh === "" || h.kinh === kinh);
-    if (!matchKinh) return;
+        if (!h) return;
+        const matchKinh = (kinh === "" || h.kinh === kinh);
+        if (!matchKinh) return;
 
-    if (queryWords.length === 0) {
-        scoredData.push({ item: h, score: 1 });
-        return;
-    }
+        if (queryWords.length === 0) {
+            scoredData.push({ item: h, score: 1 });
+            return;
+        }
 
-    const ten = (h.ten || '').toLowerCase();
-    const fullText = `${ten} ${(h.chu_tri || '')} ${(h.vi_tri || '')} ${(h.dinh_vi || '')} ${(h.kinh || '')}`.toLowerCase();
+        const ten = (h.ten || '').toLowerCase();
+        const fullText = `${ten} ${(h.chu_tri || '')} ${(h.vi_tri || '')} ${(h.dinh_vi || '')} ${(h.kinh || '')}`.toLowerCase();
 
-    let matchCount = 0;
-    queryWords.forEach(word => {
-        if (fullText.includes(word)) {
-            matchCount++;
-            if (ten.includes(word)) matchCount += 1.5;
+        if (isAiChecked) {
+            if (fullText.includes(cleanTxt)) {
+                let matchScore = 1;
+                if (ten.includes(cleanTxt)) matchScore += 5;
+                scoredData.push({ item: h, score: matchScore });
+            }
+        } else {
+            let matchCount = 0;
+            queryWords.forEach(word => {
+                if (fullText.includes(word)) {
+                    matchCount++;
+                    if (ten.includes(word)) matchCount += 1.5;
+                }
+            });
+            if (matchCount > 0) scoredData.push({ item: h, score: matchCount });
         }
     });
-
-    if (matchCount > 0) scoredData.push({ item: h, score: matchCount });
-});
 
     scoredData.sort((a, b) => b.score - a.score);
     const filteredData = scoredData.map(s => s.item);
 
     if (filteredData.length === 0) {
-        if (txtRaw && isEnter) {
+        if (txtRaw && (isEnter || isAiChecked)) {
             const aiCheck = document.getElementById('ai-backup-huyetvi');
             if (aiCheck) aiCheck.checked = true;
             fetchAIBackupResult(txtRaw, 'Huyệt Vị YHCT', grid);
@@ -1164,19 +1192,17 @@ function filterHuyetVi(isEnter = false) {
             </div>
         `;
 
-                card.onclick = (e) => {
+        card.onclick = (e) => {
             const isTitle = e.target.closest('.card-title-el');
             const isChuTri = e.target.closest('.chu-tri-el');
             const blurEl = card.querySelector('.blur-target');
             const isBlurred = blurEl && blurEl.classList.contains('blur-md');
 
-            // Nếu đang bị che mờ, ưu tiên bấm để mở mờ xem đáp án trước
             if (AppState.isQuizHV && isBlurred) {
                 if (blurEl) blurEl.classList.remove('blur-md');
-                return; // Dừng lại, không thực hiện hành động khác khi đang mở mờ
+                return;
             }
 
-            // Khi đã rõ, các chức năng bấm hoạt động bình thường
             if (isChuTri) {
                 e.stopPropagation();
                 chuyenQuaLuanTriVaTim(h.chu_tri || '');
@@ -1188,13 +1214,10 @@ function filterHuyetVi(isEnter = false) {
             }
         };
 
-
         frag.appendChild(card);
     });
     grid.appendChild(frag);
 }
-
-
 
 function filterTra(isEnter = false) {
     const grid = document.getElementById('gridTra'); 
@@ -1216,6 +1239,8 @@ function filterTra(isEnter = false) {
     const cleanTxt = txtRaw.toLowerCase().replace(/[,\.;:?!()\[\]{}]/g, ' ');
     const queryWords = cleanTxt ? cleanTxt.split(/\s+/).filter(Boolean) : [];    
     const nhom = getVal('filterNhomTra');
+    const isAiChecked = document.getElementById('ai-backup-tra')?.checked || false;
+    
     grid.innerHTML = "";
 
     const scoredData = [];
@@ -1236,22 +1261,29 @@ function filterTra(isEnter = false) {
         const tpArr = Array.isArray(t.thanh_phan) ? t.thanh_phan : (t.thanh_phan ? [t.thanh_phan] : []);
         const fullText = `${ten} ${congDung} ${kiengKy} ${cachDung} ${tpArr.join(' ').toLowerCase().normalize('NFC')}`;
 
-        let matchCount = 0;
-        queryWords.forEach(word => {
-            if (fullText.includes(word)) {
-                matchCount++;
-                if (ten.includes(word)) matchCount += 1.5; // Ưu tiên thưởng điểm khi khớp tên
+        if (isAiChecked) {
+            if (fullText.includes(cleanTxt)) {
+                let matchScore = 1;
+                if (ten.includes(cleanTxt)) matchScore += 5;
+                scoredData.push({ item: t, score: matchScore });
             }
-        });
-
-        if (matchCount > 0) scoredData.push({ item: t, score: matchCount });
+        } else {
+            let matchCount = 0;
+            queryWords.forEach(word => {
+                if (fullText.includes(word)) {
+                    matchCount++;
+                    if (ten.includes(word)) matchCount += 1.5;
+                }
+            });
+            if (matchCount > 0) scoredData.push({ item: t, score: matchCount });
+        }
     });
 
     scoredData.sort((a, b) => b.score - a.score);
     const filteredData = scoredData.map(s => s.item);
 
     if (filteredData.length === 0) {
-        if (txtRaw && isEnter) {
+        if (txtRaw && (isEnter || isAiChecked)) {
             const aiCheck = document.getElementById('ai-backup-tra');
             if (aiCheck) aiCheck.checked = true;
             fetchAIBackupResult(txtRaw, 'Trà Dược YHCT', grid);
@@ -2119,6 +2151,7 @@ function loadScript(src) {
 
 let currentSwitchTabToken = 0;
 async function switchTab(tabName) {
+    console.log("Đang chuyển sang tab:", tabName); // Kiểm tra xem hàm có được gọi không
     const localToken = ++currentSwitchTabToken;
 
     try {
@@ -2138,16 +2171,20 @@ async function switchTab(tabName) {
         localStorage.setItem('activeTab', tabName);
     }
 
-    const tabs = ['luantri', 'tracnghiem', 'duoclieu', 'huyetvi', 'tra', 'xemanh', 'ai'];
+    const tabs = ['luantri', 'tracnghiem', 'duoclieu', 'huyetvi', 'tra', 'xemanh', 'phoingu', 'ai'];
     const pascalMap = { 
         luantri: 'LuanTri', tracnghiem: 'TracNghiem', duoclieu: 'DuocLieu', 
-        huyetvi: 'HuyetVi', tra: 'Tra', xemanh: 'XemAnh', ai: 'AI'
+        huyetvi: 'HuyetVi', tra: 'Tra', xemanh: 'XemAnh', phoingu: 'PhoiNgu', ai: 'AI'
     };
-
     tabs.forEach(t => {
         const pascalCase = pascalMap[t];
         const section = document.getElementById('section' + pascalCase);
         const btn = document.getElementById('btnTab' + pascalCase);
+// THÊM ĐOẠN NÀY ĐỂ DEBUG:
+        if (t === tabName) {
+            console.log("Tìm thấy section:", section); // Nếu là null, ID HTML bị sai
+            console.log("Tìm thấy btn:", btn);        // Nếu là null, ID HTML bị sai
+        }
 
         if (t === tabName) {
             if (section) {
@@ -2361,9 +2398,17 @@ async function sendAIWebMessage() {
 
 let touchstartX = 0, touchstartY = 0, touchendX = 0, touchendY = 0;                               
 function handleSwipe(startX, startY, endX, endY) {
-    const tabsOrder = ['luantri', 'tracnghiem', 'duoclieu', 'huyetvi', 'tra', 'xemanh', 'ai'];
-    const pascalMap = { luantri: 'LuanTri', tracnghiem: 'TracNghiem', duoclieu: 'DuocLieu', huyetvi: 'HuyetVi', tra: 'Tra', xemanh: 'XemAnh', ai: 'AI' };
-    
+    const tabsOrder = ['luantri', 'tracnghiem', 'duoclieu', 'huyetvi', 'tra', 'phoingu', 'xemanh', 'ai'];
+    const pascalMap = { 
+        luantri: 'LuanTri', 
+        tracnghiem: 'TracNghiem', 
+        duoclieu: 'DuocLieu', 
+        huyetvi: 'HuyetVi', 
+        tra: 'Tra', 
+        xemanh: 'XemAnh', 
+        phoingu: 'PhoiNgu', 
+        ai: 'AI' 
+    };    
     const diffX = endX - startX;
     const diffY = endY - startY;
 
@@ -2413,7 +2458,7 @@ async function taiDuLieuOffline() {
     try {
         // Tự động lấy cache key hiện tại từ SW hoặc dùng fallback
         const cacheKeys = await caches.keys();
-        const activeCacheName = cacheKeys.find(k => k.startsWith('dailuantri-')) || 'dailuantri-v1.5.4';
+        const activeCacheName = cacheKeys.find(k => k.startsWith('dailuantri-')) || 'dailuantri-v1.5.5';
         const cache = await caches.open(activeCacheName);
 
         await cache.addAll([
@@ -3330,6 +3375,237 @@ function cleanExpiredLocalStorage() {
         } catch (e) {}
     });
 }
+// --- QUẢN LÝ TÍNH NĂNG PHỐI NGŨ BÀI THUỐC TỰ DO ---
+let currentFormulaHerbs = [];
 
+// Cập nhật mảng tabs trong switchTab để hỗ trợ 'phoingu'
+// (Đảm bảo trong hàm switchTab, biến tabs có chứa 'phoingu' và pascalMap có mapping tương ứng)
+
+function suggestPhoiNguHerbs() {
+    const input = document.getElementById('search-phoingu-input');
+    const dropdown = document.getElementById('phoingu-dropdown');
+    if (!input || !dropdown) return;
+
+    const query = removeAccents(input.value).trim().toLowerCase();
+    const rawQuery = input.value.trim();
+    if (!query) {
+        dropdown.classList.add('hidden');
+        return;
+    }
+
+    if (typeof duocLieuData === 'undefined' || !Array.isArray(duocLieuData)) return;
+
+    const matches = duocLieuData.filter(d => removeAccents(d.ten).toLowerCase().includes(query)).slice(0, 10);
+
+    if (matches.length > 0) {
+        dropdown.innerHTML = matches.map(m => `
+            <div onclick="chonViThuocPhoiNgu('${escapeHTML(m.ten).replace(/'/g, "\\'")}')" class="p-2 hover:bg-stone-800 border-b border-stone-800/80 cursor-pointer text-xs text-amber-400 font-medium">
+                <i class="fa-solid fa-leaf text-emerald-500 mr-1.5"></i> ${escapeHTML(m.ten)} <span class="text-stone-500 text-[10px]">(${escapeHTML(m.nhom || '')})</span>
+            </div>
+        `).join('');
+        dropdown.classList.remove('hidden');
+    } else {
+        // HIỂN THỊ NÚT AI TÌM KHI KHÔNG CÓ KẾT QUẢ
+        dropdown.innerHTML = `
+            <div class="p-3 text-xs text-stone-400 text-center space-y-2">
+                <div>Không tìm thấy vị thuốc <strong>"${escapeHTML(rawQuery)}"</strong></div>
+                <button onclick="aiTimViThuocPhoiNgu('${escapeHTML(rawQuery).replace(/'/g, "\\'")}')" class="px-3 py-1.5 bg-amber-950/80 text-amber-400 border border-amber-600/60 rounded flex items-center justify-center gap-1.5 hover:bg-amber-900 transition-colors mx-auto w-full font-bold shadow-sm cursor-pointer">
+                    <i class="fa-solid fa-robot"></i> AI Tìm & Thêm Vào Bài
+                </button>
+            </div>
+        `;
+        dropdown.classList.remove('hidden');
+    }
+}
+async function aiTimViThuocPhoiNgu(query) {
+    const dropdown = document.getElementById('phoingu-dropdown');
+    if (!dropdown) return;
+
+    // Hiển thị trạng thái đang tải
+    dropdown.innerHTML = `
+        <div class="p-3 text-center space-y-2 bg-stone-900/90">
+            <i class="fa-solid fa-brain fa-spin text-amber-500 text-xl block"></i>
+            <div class="text-xs text-stone-300 font-medium">AI đang tra cứu và thêm "${escapeHTML(query)}"...</div>
+        </div>
+    `;
+
+    try {
+        const prompt = `Bạn là hệ thống CSDL YHCT. Hãy cung cấp thông tin về vị thuốc "${query}". 
+        BẮT BUỘC trả về đúng định dạng JSON thuần túy (không kèm chữ nào khác ngoài JSON):
+        {"ten": "${query}", "nhom": "Dược liệu", "cong_dung": "...", "kieng_ky": "..."}`;
+
+        const res = await fetch(getApiEndpoint(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: prompt, source: 'backup', max_tokens: 300 })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.reply) {
+            let parsedObj = parseJsonFromAI(data.reply);
+            if (!parsedObj) {
+                parsedObj = { 
+                    ten: query, 
+                    nhom: "Dược liệu", 
+                    cong_dung: data.reply,
+                    kieng_ky: "Chưa có thông tin kiêng kỵ cụ thể."
+                };
+            }
+            
+            // 1. Lưu dược liệu AI tìm được vào CSDL offline (để dùng cho tab Dược Liệu sau này)
+            luuKetQuaAiVaoDb(parsedObj.ten, 'Dược Liệu', parsedObj);
+            
+            // 2. Tự động thêm vị thuốc đó vào Bài thuốc Phối ngũ hiện tại
+            chonViThuocPhoiNgu(parsedObj.ten);
+        } else {
+            dropdown.innerHTML = `<div class="p-3 text-xs text-red-400 text-center font-medium">AI không nhận diện được dược liệu này.</div>`;
+        }
+    } catch (err) {
+        console.error("Lỗi AI Phối Ngũ:", err);
+        dropdown.innerHTML = `<div class="p-3 text-xs text-red-400 text-center font-medium">Lỗi kết nối máy chủ AI.</div>`;
+    }
+}
+
+
+function chonViThuocPhoiNgu(tenViThuoc) {
+    const name = String(tenViThuoc).trim();
+    if (!name) return;
+
+    if (!currentFormulaHerbs.includes(name)) {
+        currentFormulaHerbs.push(name);
+    }
+
+    const input = document.getElementById('search-phoingu-input');
+    const dropdown = document.getElementById('phoingu-dropdown');
+    if (input) input.value = '';
+    if (dropdown) dropdown.classList.add('hidden');
+
+    renderPhoiNguUI();
+}
+
+function xoaViThuocPhoiNgu(index) {
+    currentFormulaHerbs.splice(index, 1);
+    renderPhoiNguUI();
+}
+
+async function renderPhoiNguUI() {
+    const listEl = document.getElementById('selected-herbs-list');
+    const countEl = document.getElementById('count-phoingu-herbs');
+    const resultEl = document.getElementById('phoingu-analysis-result');
+    if (!listEl || !resultEl) return;
+
+    countEl.innerText = currentFormulaHerbs.length;
+
+    if (currentFormulaHerbs.length === 0) {
+        listEl.innerHTML = `<span class="text-xs text-stone-500 italic">Chưa có vị thuốc nào được chọn. Hãy tìm và thêm vị thuốc.</span>`;
+        resultEl.innerHTML = `<div class="text-xs text-stone-500 italic text-center py-4">Thêm ít nhất 2 vị thuốc để hệ thống phân tích tương kỵ và phối ngũ.</div>`;
+        return;
+    }
+
+    // Hiển thị các tag vị thuốc đã chọn
+    listEl.innerHTML = currentFormulaHerbs.map((herb, idx) => `
+        <span class="inline-flex items-center gap-1.5 px-3 py-1 bg-stone-800 text-amber-400 border border-stone-700 rounded-lg text-xs font-semibold shadow-sm">
+            <i class="fa-solid fa-leaf text-emerald-500 text-[10px]"></i> ${escapeHTML(herb)}
+            <button onclick="xoaViThuocPhoiNgu(${idx})" class="text-stone-400 hover:text-red-400 ml-1 cursor-pointer"><i class="fa-solid fa-xmark"></i></button>
+        </span>
+    `).join('');
+
+    // Kiểm tra tương kỵ sử dụng hàm kiemTraTuongKy có sẵn
+    const listCanhBao = kiemTraTuongKy(currentFormulaHerbs);
+    
+    let warningHTML = "";
+    if (listCanhBao.length > 0) {
+        warningHTML = `
+            <div class="p-3 bg-red-950/40 border border-red-800 rounded-lg text-xs space-y-1">
+                <div class="text-red-400 font-bold flex items-center gap-1.5 uppercase">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Cảnh báo tương kỵ lâm sàng (18 phản / 19 úy):
+                </div>
+                <ul class="list-disc pl-5 text-red-300 font-medium">
+                    ${listCanhBao.map(cb => `<li>Phát hiện cặp vị thuốc xung khắc: <strong>${escapeHTML(cb)}</strong></li>`).join('')}
+                </ul>
+            </div>
+        `;
+    } else {
+        warningHTML = `
+            <div class="p-3 bg-emerald-950/30 border border-emerald-800/60 rounded-lg text-xs text-emerald-400 font-medium flex items-center gap-2">
+                <i class="fa-solid fa-circle-check text-sm"></i> An toàn: Không phát hiện cặp vị thuốc xung khắc trong danh mục 18 phản / 19 úy.
+            </div>
+        `;
+    }
+
+    // Tổng hợp công năng từ CSDL duocLieuData nếu có
+    let summaryCongDung = [];
+    if (typeof duocLieuData !== 'undefined' && Array.isArray(duocLieuData)) {
+        currentFormulaHerbs.forEach(h => {
+            const found = duocLieuData.find(d => removeAccents(d.ten).toLowerCase() === removeAccents(h).toLowerCase());
+            if (found && found.cong_dung) {
+                summaryCongDung.push(`<strong>${escapeHTML(h)}:</strong> ${escapeHTML(found.cong_dung)}`);
+            }
+        });
+    }
+
+    resultEl.innerHTML = `
+        <div class="space-y-3">
+            ${warningHTML}
+            <div class="bg-stone-900/90 p-4 rounded-lg border border-stone-800 space-y-2">
+                <div class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                    <i class="fa-solid fa-book-medical"></i> Tổng hợp công năng chủ trị các vị:
+                </div>
+                ${summaryCongDung.length > 0 ? `
+                    <ul class="list-disc pl-5 text-xs text-stone-300 space-y-1">
+                        ${summaryCongDung.map(cd => `<li>${cd}</li>`).join('')}
+                    </ul>
+                ` : `<div class="text-xs text-stone-400 italic">Đang cập nhật công năng chi tiết cho các vị thuốc này.</div>`}
+            </div>
+
+            <!-- KHUNG HIỂN THỊ ĐÁNH GIÁ TỔNG THỂ TỪ AI -->
+            <div class="bg-stone-900/95 p-4 rounded-lg border border-amber-600/50 space-y-2 relative shadow-lg">
+                <div class="flex items-center justify-between border-b border-stone-800 pb-2">
+                    <div class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+                        <i class="fa-solid fa-robot text-amber-500"></i> Đánh giá tổng thể bài thuốc (Chuyên gia AI)
+                    </div>
+                    <button onclick="aiDanhGiaTongTheBaiThuoc()" class="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all shadow cursor-pointer">
+                        <i class="fa-solid fa-brain"></i> Đánh giá ngay
+                    </button>
+                </div>
+                <div id="ai-tong-the-content" class="text-xs text-stone-300 leading-relaxed pt-1">
+                    Nhấn nút <strong class="text-amber-400">"Đánh giá ngay"</strong> để chuyên gia AI phân tích tính Quân - Thần - Tá - Sứ, chủ trị lâm sàng và mức độ hòa hợp của bài thuốc tự do này.
+                </div>
+            </div>
+        </div>
+    `;
+}
+
+// HÀM GỌI AI ĐÁNH GIÁ TỔNG THỂ BÀI THUỐC
+async function aiDanhGiaTongTheBaiThuoc() {
+    const contentEl = document.getElementById('ai-tong-the-content');
+    if (!contentEl || currentFormulaHerbs.length === 0) return;
+
+    contentEl.innerHTML = `<div class="text-amber-400 italic flex items-center gap-1.5 py-2"><i class="fa-solid fa-brain fa-spin"></i> Chuyên gia AI đang phân tích Quân Thần Tá Sứ và tổng thể bài thuốc...</div>`;
+
+    try {
+        const prompt = `Bạn là một chuyên gia Y học cổ truyền (YHCT). Hãy đánh giá tổng thể bài thuốc tự do gồm các vị thuốc sau: ${currentFormulaHerbs.join(', ')}. 
+        Yêu cầu phân tích ngắn gọn (<200 từ, tiếng Việt, không dùng chữ Hán):
+        1. Phân định Quân - Thần - Tá - Sứ (vị nào chủ đạo, vị nào hỗ trợ).
+        2. Tổng hợp chủ trị lâm sàng chính của bài thuốc.
+        3. Đánh giá mức độ phối ngũ và lưu ý khi sử dụng.`;
+
+        const res = await fetch(getApiEndpoint(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: prompt, source: 'phoingu_danhgia', max_tokens: 400 })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.reply) {
+            contentEl.innerHTML = formatAIMessage(data.reply);
+        } else {
+            contentEl.innerHTML = `<div class="text-red-400 font-medium">⚠️ Không nhận được phản hồi từ AI.</div>`;
+        }
+    } catch (err) {
+        console.error("Lỗi AI đánh giá tổng thể:", err);
+        contentEl.innerHTML = `<div class="text-red-400 font-medium">⚠️ Lỗi kết nối đến máy chủ AI.</div>`;
+    }
+}
 
 
