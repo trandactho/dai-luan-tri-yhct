@@ -2414,15 +2414,21 @@ function handleSwipe(startX, startY, endX, endY) {
         }) || 'luantri';
         let currentIndex = tabs.indexOf(currentActive);
 
-        if (diffX < 0) {
+        // --- ĐOẠN MÃ MỚI SỬA: XỬ LÝ VUỐT LIÊN THÔNG ---
+        if (diffX < 0) { // Vuốt sang trái (Tiến lên)
             if (currentIndex < tabs.length - 1) {
                 switchTab(tabs[currentIndex + 1]);
+            } else {
+                switchTab(tabs[0]); // Chạm đáy thì vòng về tab đầu (Luận trị)
             }
-        } else if (diffX > 0) {
+        } else if (diffX > 0) { // Vuốt sang phải (Lùi lại)
             if (currentIndex > 0) {
                 switchTab(tabs[currentIndex - 1]);
+            } else {
+                switchTab(tabs[tabs.length - 1]); // Chạm đỉnh thì vòng tới tab cuối (AI)
             }
         }
+        // ----------------------------------------------
     }
 }
 
