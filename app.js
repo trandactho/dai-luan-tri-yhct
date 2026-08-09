@@ -2398,38 +2398,34 @@ async function sendAIWebMessage() {
 
 let touchstartX = 0, touchstartY = 0, touchendX = 0, touchendY = 0;                               
 function handleSwipe(startX, startY, endX, endY) {
-    const tabsOrder = ['luantri', 'tracnghiem', 'duoclieu', 'huyetvi', 'tra', 'phoingu', 'xemanh', 'ai'];
+    const tabs = ['luantri', 'duoclieu', 'huyetvi', 'tra', 'tracnghiem', 'phoingu', 'xemanh', 'ai'];
     const pascalMap = { 
-        luantri: 'LuanTri', 
-        tracnghiem: 'TracNghiem', 
-        duoclieu: 'DuocLieu', 
-        huyetvi: 'HuyetVi', 
-        tra: 'Tra', 
-        xemanh: 'XemAnh', 
-        phoingu: 'PhoiNgu', 
-        ai: 'AI' 
+        luantri: 'LuanTri', duoclieu: 'DuocLieu', 
+        huyetvi: 'HuyetVi', tra: 'Tra', tracnghiem: 'TracNghiem', 
+        phoingu: 'PhoiNgu', xemanh: 'XemAnh', ai: 'AI'
     };    
     const diffX = endX - startX;
     const diffY = endY - startY;
 
     const screenWidth = window.innerWidth;
     if (startX > 25 && startX < screenWidth - 25 && Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
-        let currentActive = tabsOrder.find(t => {
+        let currentActive = tabs.find(t => {
             return document.getElementById('btnTab' + pascalMap[t])?.classList.contains('tab-active');
         }) || 'luantri';
-        let currentIndex = tabsOrder.indexOf(currentActive);
+        let currentIndex = tabs.indexOf(currentActive);
 
         if (diffX < 0) {
-            if (currentIndex < tabsOrder.length - 1) {
-                switchTab(tabsOrder[currentIndex + 1]);
+            if (currentIndex < tabs.length - 1) {
+                switchTab(tabs[currentIndex + 1]);
             }
         } else if (diffX > 0) {
             if (currentIndex > 0) {
-                switchTab(tabsOrder[currentIndex - 1]);
+                switchTab(tabs[currentIndex - 1]);
             }
         }
     }
 }
+
 
 document.addEventListener('touchstart', e => {
     touchstartX = e.touches[0].clientX;
@@ -2458,7 +2454,7 @@ async function taiDuLieuOffline() {
     try {
         // Tự động lấy cache key hiện tại từ SW hoặc dùng fallback
         const cacheKeys = await caches.keys();
-        const activeCacheName = cacheKeys.find(k => k.startsWith('dailuantri-')) || 'dailuantri-v1.5.5';
+        const activeCacheName = cacheKeys.find(k => k.startsWith('dailuantri-')) || 'dailuantri-v1.5.6';
         const cache = await caches.open(activeCacheName);
 
         await cache.addAll([
