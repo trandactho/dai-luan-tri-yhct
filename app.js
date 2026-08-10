@@ -1628,6 +1628,20 @@ async function fetchAIQuizQuestions(category, count) {
     }
     return [];
 }
+// Hàm tự động khóa/mở chọn số lượng câu hỏi khi bật/tắt AI
+function toggleAiQuizCountLock(checkboxEl) {
+    const countSelect = document.getElementById('quiz-count');
+    if (!countSelect) return;
+
+    if (checkboxEl.checked) {
+        countSelect.value = "10";
+        countSelect.disabled = true;
+        countSelect.classList.add('opacity-50', 'cursor-not-allowed');
+    } else {
+        countSelect.disabled = false;
+        countSelect.classList.remove('opacity-50', 'cursor-not-allowed');
+    }
+}
 
 async function batDauTracNghiem() {
     const categorySelect = document.getElementById('quiz-category');
@@ -2154,7 +2168,6 @@ function loadScript(src) {
 
 let currentSwitchTabToken = 0;
 async function switchTab(tabName) {
-    console.log("Đang chuyển sang tab:", tabName); // Kiểm tra xem hàm có được gọi không
     const localToken = ++currentSwitchTabToken;
 
     try {
@@ -2183,12 +2196,6 @@ async function switchTab(tabName) {
         const pascalCase = pascalMap[t];
         const section = document.getElementById('section' + pascalCase);
         const btn = document.getElementById('btnTab' + pascalCase);
-// THÊM ĐOẠN NÀY ĐỂ DEBUG:
-        if (t === tabName) {
-            console.log("Tìm thấy section:", section); // Nếu là null, ID HTML bị sai
-            console.log("Tìm thấy btn:", btn);        // Nếu là null, ID HTML bị sai
-        }
-
         if (t === tabName) {
             if (section) {
                 section.classList.remove('hidden');

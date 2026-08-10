@@ -12,6 +12,9 @@
     <meta name="theme-color" content="#0a0908">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <script src="sw.js" defer></script>
+    <script src="app.js?v=1.5.7" defer></script>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -290,49 +293,54 @@
             <div id="gridTra" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
         <!-- TAB 5: TRẮC NGHIỆM -->
-        <section id="sectionTracNghiem" class="hidden space-y-5">
-            <div id="quiz-setup" class="bg-dark-box p-5 rounded-lg space-y-4">
-                <h2 class="text-base font-bold text-amber-500 flex items-center gap-2">
-                    <i class="fa-solid fa-sliders"></i> Cấu Hình Bài Kiểm Tra
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs text-stone-400 font-bold mb-1">Mảng kiến thức:</label>
-                        <select id="quiz-category" class="w-full p-2.5 rounded text-sm bg-stone-900 text-stone-200 border border-stone-700 outline-none focus:border-amber-500">
-                            <option value="all">🌟 Tổng hợp tất cả</option>
-                            <option value="luantri">🩺 Biện chứng luận trị</option>
-                            <option value="lyluan">📖 Lý luận cơ bản YHCT</option>
-                            <option value="phuongte">🧪 Phương tễ học</option>
-                            <option value="duoclieu">🌿 Dược liệu học</option>
-                            <option value="huyetvi">🎯 Châm cứu huyệt vị</option>
-                            <option value="tra">☕ Trà dược trị liệu</option>
-                            <option value="chandoan">🩺 Chẩn đoán YHCT</option>
-                            <option value="chamcuu_xoabop">🎯 Châm cứu & Xoa bóp</option>
-                            <option value="duongsinh">🧘 Dưỡng sinh Khí công</option>
-                            <option value="duochoc_benhhoc">💊 Dược học & Bệnh học YHCT</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs text-stone-400 font-bold mb-1">Số lượng câu hỏi:</label>
-                        <select id="quiz-count" class="w-full p-2.5 rounded text-sm bg-stone-900 text-stone-200 border border-stone-700 outline-none focus:border-amber-500">
-                            <option value="5">5 câu (Nhanh)</option>
-                            <option value="10" selected>10 câu (Tiêu chuẩn)</option>
-                            <option value="20">20 câu (Nâng cao)</option>
-                            <option value="30">30 câu (Chuyên sâu)</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="space-y-3 pt-2 mb-3 border-t border-stone-800">
-                    <label class="flex items-center gap-2 cursor-pointer text-xs text-amber-400 font-semibold">
-                        <input type="checkbox" id="use-ai-quiz" class="rounded bg-stone-900 border-stone-700 text-amber-600 focus:ring-0 w-4 h-4 cursor-pointer">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> Sử dụng AI sinh câu hỏi lâm sàng thông minh
-                    </label>
-                </div>
-                <div id="quiz-last-score" class="text-xs text-amber-500 font-medium pt-1"></div>
-                <button onclick="batDauTracNghiem()" class="w-full py-3 bg-primary hover:bg-orange-700 text-white font-bold rounded flex items-center justify-center gap-2 transition-colors cursor-pointer">
-                    <i class="fa-solid fa-play"></i> Bắt Đầu Kiểm Tra
-                </button>
+<section id="sectionTracNghiem" class="hidden space-y-5">
+    <div id="quiz-setup" class="bg-dark-box p-5 rounded-lg space-y-4">
+        <h2 class="text-base font-bold text-amber-500 flex items-center gap-2">
+            <i class="fa-solid fa-sliders"></i> Cấu Hình Bài Kiểm Tra
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label class="block text-xs text-stone-400 font-bold mb-1">Mảng kiến thức:</label>
+                <select id="quiz-category" class="w-full p-2.5 rounded text-sm bg-stone-900 text-stone-200 border border-stone-700 outline-none focus:border-amber-500">
+                    <option value="all">🌟 Tổng hợp tất cả</option>
+                    <option value="luantri">🩺 Biện chứng luận trị</option>
+                    <option value="lyluan">📖 Lý luận cơ bản YHCT</option>
+                    <option value="phuongte">🧪 Phương tễ học</option>
+                    <option value="duoclieu">🌿 Dược liệu học</option>
+                    <option value="huyetvi">🎯 Châm cứu huyệt vị</option>
+                    <option value="tra">☕ Trà dược trị liệu</option>
+                    <option value="chandoan">🩺 Chẩn đoán YHCT</option>
+                    <option value="chamcuu_xoabop">🎯 Châm cứu & Xoa bóp</option>
+                    <option value="duongsinh">🧘 Dưỡng sinh Khí công</option>
+                    <option value="duochoc_benhhoc">💊 Dược học & Bệnh học YHCT</option>
+                </select>
             </div>
+            <div>
+                <label class="block text-xs text-stone-400 font-bold mb-1">Số lượng câu hỏi:</label>
+                <!-- Thêm id="quiz-count-wrapper" để dễ ẩn hiện bằng JS nếu cần, hoặc khóa cứng giá trị -->
+                <select id="quiz-count" class="w-full p-2.5 rounded text-sm bg-stone-900 text-stone-200 border border-stone-700 outline-none focus:border-amber-500">
+                    <option value="5">5 câu (Nhanh)</option>
+                    <option value="10" selected>10 câu (Tiêu chuẩn)</option>
+                    <option value="20">20 câu (Nâng cao)</option>
+                    <option value="30">30 câu (Chuyên sâu)</option>
+                </select>
+            </div>
+        </div>
+        <div class="space-y-3 pt-2 mb-3 border-t border-stone-800">
+            <!-- Thêm sự kiện onchange để tự động khóa select số lượng khi bật AI -->
+            <label class="flex items-center gap-2 cursor-pointer text-xs text-amber-400 font-semibold">
+                <input type="checkbox" id="use-ai-quiz" onchange="toggleAiQuizCountLock(this)" class="rounded bg-stone-900 border-stone-700 text-amber-600 focus:ring-0 w-4 h-4 cursor-pointer">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Sử dụng AI sinh câu hỏi lâm sàng thông minh (Cố định 10 câu tiêu chuẩn)
+            </label>
+        </div>
+        <div id="quiz-last-score" class="text-xs text-amber-500 font-medium pt-1"></div>
+        <button onclick="batDauTracNghiem()" class="w-full py-3 bg-primary hover:bg-orange-700 text-white font-bold rounded flex items-center justify-center gap-2 transition-colors cursor-pointer">
+            <i class="fa-solid fa-play"></i> Bắt Đầu Kiểm Tra
+        </button>
+    </div>
+    <!-- Các phần tiếp theo giữ nguyên -->
+
+            
             <div id="quiz-play" class="hidden bg-dark-box p-5 rounded-xl space-y-4 border border-stone-800 shadow-2xl relative overflow-hidden">
                 <div class="absolute top-0 left-0 right-0 h-1 bg-stone-900">
                     <div id="quiz-progress-bar" class="bg-gradient-to-r from-amber-600 to-amber-400 h-full transition-all duration-300" style="width: 0%"></div>
@@ -533,8 +541,5 @@
     </div>
     <p class="text-[11px] text-stone-600">© 2026 Đại Luận Trị YHCT. Phát triển bởi Trần Đắc Thọ.</p>
 </footer>
-
-    <script src="app.js?v=1.5.7" defer></script>
-
 </body>
 </html>
