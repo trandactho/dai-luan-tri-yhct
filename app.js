@@ -1,5 +1,5 @@
 const DOMAIN_NETLIFY = 'https://dailuantriyhct.com';
-const APP_VERSION = '1.5.7';
+const APP_VERSION = '1.5.8';
 function getApiEndpoint() {
     return (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
         ? `${DOMAIN_NETLIFY}/.netlify/functions/chat`
@@ -2171,6 +2171,7 @@ async function switchTab(tabName) {
     const localToken = ++currentSwitchTabToken;
 
     try {
+        if (tabName === 'tracuusach') { /* Không cần tải script rời nếu đã nhúng chung */ }
         if (tabName === 'luantri') await loadScript('luantridata.js');
         if (tabName === 'duoclieu') await loadScript('duoclieudata.js');
         if (tabName === 'huyetvi') await loadScript('huyetvidata.js');
@@ -2180,18 +2181,19 @@ async function switchTab(tabName) {
         console.error("Lỗi nạp dữ liệu tab:", err.message);
     }
 
-    // Nếu người dùng đã chuyển sang Tab khác trong lúc script đang tải -> Bỏ qua render thừa
     if (localToken !== currentSwitchTabToken) return;
 
     if (tabName !== 'xemanh') {
         localStorage.setItem('activeTab', tabName);
     }
 
-    const tabs = ['luantri', 'tracnghiem', 'duoclieu', 'huyetvi', 'tra', 'xemanh', 'phoingu', 'ai'];
+    // 👉 BỔ SUNG 'tracuusach' VÀO ĐẦU MẢNG TABS
+    const tabs = ['tracuusach', 'luantri', 'tracnghiem', 'duoclieu', 'huyetvi', 'tra', 'xemanh', 'phoingu', 'ai'];
     const pascalMap = { 
-        luantri: 'LuanTri', tracnghiem: 'TracNghiem', duoclieu: 'DuocLieu', 
+        tracuusach: 'TraCuuSach', luantri: 'LuanTri', tracnghiem: 'TracNghiem', duoclieu: 'DuocLieu', 
         huyetvi: 'HuyetVi', tra: 'Tra', xemanh: 'XemAnh', phoingu: 'PhoiNgu', ai: 'AI'
     };
+    
     tabs.forEach(t => {
         const pascalCase = pascalMap[t];
         const section = document.getElementById('section' + pascalCase);
@@ -2209,6 +2211,9 @@ async function switchTab(tabName) {
             }
             if (btn) btn.classList.add('tab-active', 'text-primary');
 
+            if (t === 'tracuusach') {
+            taiDanhSachSachTuDrive();
+            }
             if (t === 'luantri') {
                 capNhatTongSoTrieuChung();
                 updateLuanTri();
@@ -2225,7 +2230,6 @@ async function switchTab(tabName) {
         }
     });
 }
-
 
 async function exportPDF() {
     const btn = document.querySelector('button[onclick="exportPDF()"]');
@@ -2408,10 +2412,10 @@ async function sendAIWebMessage() {
 
 let touchstartX = 0, touchstartY = 0, touchendX = 0, touchendY = 0;                               
 function handleSwipe(startX, startY, endX, endY) {
-    // Đảm bảo tên biến là 'tabs', không phải 'tabsOrder'
-    const tabs = ['luantri', 'duoclieu', 'huyetvi', 'tra', 'tracnghiem', 'phoingu', 'xemanh', 'ai'];
+    // 👉 BỔ SUNG 'tracuusach' VÀO ĐẦU MẢNG TABS CHO CỬ CHỈ VUỐT
+    const tabs = ['tracuusach', 'luantri', 'duoclieu', 'huyetvi', 'tra', 'tracnghiem', 'phoingu', 'xemanh', 'ai'];
     const pascalMap = { 
-        luantri: 'LuanTri', duoclieu: 'DuocLieu', 
+        tracuusach: 'TraCuuSach', luantri: 'LuanTri', duoclieu: 'DuocLieu', 
         huyetvi: 'HuyetVi', tra: 'Tra', tracnghiem: 'TracNghiem', 
         phoingu: 'PhoiNgu', xemanh: 'XemAnh', ai: 'AI'
     };    
@@ -2422,7 +2426,7 @@ function handleSwipe(startX, startY, endX, endY) {
     if (startX > 25 && startX < screenWidth - 25 && Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 50) {
         let currentActive = tabs.find(t => {
             return document.getElementById('btnTab' + pascalMap[t])?.classList.contains('tab-active');
-        }) || 'luantri';
+        }) || 'tracuusach';
         let currentIndex = tabs.indexOf(currentActive);
 
         if (diffX < 0) {
@@ -2440,6 +2444,7 @@ function handleSwipe(startX, startY, endX, endY) {
         }
     }
 }
+
 
 
 document.addEventListener('touchstart', e => {
@@ -2468,7 +2473,7 @@ async function taiDuLieuOffline() {
 
     try {
         const cacheKeys = await caches.keys();
-        const activeCacheName = cacheKeys.find(k => k.startsWith('dailuantri-')) || 'dailuantri-v1.5.7';
+        const activeCacheName = cacheKeys.find(k => k.startsWith('dailuantri-')) || 'dailuantri-v1.5.8';
         const cache = await caches.open(activeCacheName);
 
         await cache.addAll([
@@ -3615,6 +3620,207 @@ async function aiDanhGiaTongTheBaiThuoc() {
     } catch (err) {
         console.error("Lỗi AI đánh giá tổng thể:", err);
         contentEl.innerHTML = `<div class="text-red-400 font-medium">⚠️ Lỗi kết nối đến máy chủ AI.</div>`;
+    }
+}
+let selectedBookForAI = null;
+
+// Khởi tạo hiển thị danh sách sách khi tải trang
+window.addEventListener("DOMContentLoaded", () => {
+    renderDanhSachSach(danhSachSachPDF);
+    const elTotalSach = document.getElementById('total-sach');
+    if (elTotalSach) elTotalSach.innerText = danhSachSachPDF.length;
+});
+let danhSachSachPDF = [];
+
+async function taiDanhSachSachTuDrive() {
+    const grid = document.getElementById('grid-sach-pdf');
+    if (!grid) return;
+
+    if (danhSachSachPDF.length > 0) return; // Nếu đã tải rồi thì bỏ qua
+
+    grid.innerHTML = `<div class="col-span-full text-center py-6 text-xs text-stone-400"><i class="fa-solid fa-spinner fa-spin text-amber-500 mr-1.5"></i> Đang đồng bộ danh sách 83+ tài liệu từ Google Drive...</div>`;
+
+    try {
+        // Dán URL Web App của Google Apps Script vào đây
+        const response = await fetch("https://script.google.com/macros/s/AKfycbyxPDLn_B20CFLJnEe7rOp_SbfeFQ7WDDgIFwIN9-nkXJz8naV4ivnBykRnvZuAzOd_gQ/exec");
+        danhSachSachPDF = await response.json();
+        
+        renderDanhSachSach(danhSachSachPDF);
+        const elTotalSach = document.getElementById('total-sach');
+        if (elTotalSach) elTotalSach.innerText = danhSachSachPDF.length;
+    } catch (err) {
+        console.error("Lỗi đồng bộ Drive:", err);
+        grid.innerHTML = `<div class="col-span-full text-center py-6 text-xs text-red-400">Không thể đồng bộ danh sách tài liệu từ Drive. Vui lòng kiểm tra lại mạng.</div>`;
+    }
+}
+
+function renderDanhSachSach(arr) {
+    const grid = document.getElementById('grid-sach-pdf');
+    if (!grid) return;
+
+    if (arr.length === 0) {
+        grid.innerHTML = `<div class="col-span-full text-center py-6 text-xs text-stone-500 italic">Không tìm thấy đầu sách phù hợp.</div>`;
+        return;
+    }
+
+    const grouped = {
+        '📖 Sách Kinh Điển & Lý Luận': [],
+        '📍 Châm Cứu & Huyệt Vị': [],
+        '🌿 Bài Thuốc, Dược Liệu & Lâm Sàng': [],
+        '🧘 Dưỡng Sinh & Y Dược Khác': []
+    };
+
+    arr.forEach(s => {
+        // Thay thế dấu gạch dưới '_' và dấu trừ '-' thành khoảng trắng để lọc chính xác tuyệt đối
+        const t = removeAccents(s.ten || '').toLowerCase().replace(/[_,-]/g, ' ');
+        
+        // 1. Nhóm Kinh Điển, Lý Luận & Chẩn đoán
+        if (t.includes('noi kinh') || t.includes('thuong han') || t.includes('kim quy') || t.includes('bien chung') || t.includes('hai thuong') || t.includes('ly luan') || t.includes('chan tri') || t.includes('van dap') || t.includes('bien luan lam sang') || t.includes('thiet chan') || t.includes('chan doan') || t.includes('an ma') || t.includes('ngu tieu')) {
+            grouped['📖 Sách Kinh Điển & Lý Luận'].push(s);
+        } 
+        // 2. Nhóm Châm Cứu & Huyệt Vị
+        else if (t.includes('cham cuu') || t.includes('huyet') || t.includes('osteopathic') || t.includes('xoa bop')) {
+            grouped['📍 Châm Cứu & Huyệt Vị'].push(s);
+        } 
+        // 3. Nhóm Bài Thuốc, Dược Liệu & Lâm Sàng
+        else if (t.includes('bai thuoc') || t.includes('phuong') || t.includes('thuoc') || t.includes('duoc') || t.includes('san phu khoa') || t.includes('chan doan xq') || t.includes('trung duoc')) {
+            grouped['🌿 Bài Thuốc, Dược Liệu & Lâm Sàng'].push(s);
+        } 
+        // 4. Các cuốn thực dưỡng, dưỡng sinh còn lại
+        else {
+            grouped['🧘 Dưỡng Sinh & Y Dược Khác'].push(s);
+        }
+    });
+
+    let html = '';
+    for (const [nhomName, sachList] of Object.entries(grouped)) {
+        if (sachList.length === 0) continue;
+
+        sachList.sort((a, b) => (a.ten || '').localeCompare(b.ten || 'vn', 'vi'));
+
+        html += `
+            <div class="col-span-full mt-4 mb-2">
+                <h3 class="text-amber-400 font-bold text-xs uppercase tracking-wider border-b border-stone-800 pb-1.5 flex items-center justify-between">
+                    <span><i class="fa-solid fa-bookmark text-amber-500 mr-1.5"></i> ${escapeHTML(nhomName)}</span>
+                    <span class="text-[10px] bg-stone-800 px-2 py-0.5 rounded text-stone-400">${sachList.length} cuốn</span>
+                </h3>
+            </div>
+        `;
+
+        sachList.forEach(s => {
+            html += `
+                <div class="bg-stone-900/90 p-3.5 rounded-lg border border-stone-800 hover:border-amber-600/50 transition-all flex flex-col justify-between space-y-2 shadow-sm">
+                    <div class="space-y-1">
+                        <div class="flex items-start justify-between gap-2">
+                            <span class="font-bold text-amber-400 text-xs flex items-center gap-1.5 leading-snug">
+                                <i class="fa-solid fa-file-pdf text-red-500 text-sm"></i> ${escapeHTML(s.ten)}
+                            </span>
+                            <span class="text-[10px] bg-stone-800 text-stone-400 px-2 py-0.5 rounded border border-stone-700 flex-shrink-0">${s.dungLuong}</span>
+                        </div>
+                        <p class="text-[11px] text-stone-300 leading-relaxed">${escapeHTML(s.moTa || 'Tài liệu từ nhóm Giao Lưu Học Thuật Đông Y')}</p>
+                    </div>
+                    <div class="pt-2 border-t border-stone-800/80 flex items-center justify-between gap-2">
+                        <span class="text-[10px] text-amber-500/80 font-medium italic truncate">
+                            <i class="fa-solid fa-users text-[9px] mr-1"></i> Giao Lưu Học Thuật Đông Y
+                        </span>
+                        <div class="flex items-center gap-1.5 flex-shrink-0">
+                            <button onclick="window.open('${s.url}', '_blank')" class="px-2.5 py-1 bg-stone-700 hover:bg-stone-600 text-white font-bold rounded text-[11px] cursor-pointer">
+                                <i class="fa-solid fa-book-open"></i> Đọc sách
+                            </button>
+                            <button onclick="moHoiDapSach('${s.ten.replace(/'/g, "\\'")}', '${s.dungLuong}')" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded text-[11px] cursor-pointer">
+                                <i class="fa-solid fa-robot"></i> Hỏi AI
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    grid.innerHTML = html;
+}
+
+function filterSachPDF() {
+    const keyword = removeAccents(document.getElementById('search-sach-input').value).toLowerCase().trim();
+    const filtered = danhSachSachPDF.filter(s => removeAccents(s.ten).toLowerCase().includes(keyword));
+    renderDanhSachSach(filtered);
+}
+
+function moHoiDapSach(tenSach, dungLuong) {
+    selectedBookForAI = tenSach;
+    const container = document.getElementById('sach-reader-container');
+    const titleEl = document.getElementById('current-sach-title');
+    const sizeEl = document.getElementById('current-sach-size');
+    const chatBox = document.getElementById('sach-chat-box');
+
+    if (titleEl) titleEl.innerText = tenSach;
+    if (sizeEl) sizeEl.innerText = `Dung lượng: ${dungLuong}`;
+    if (container) container.classList.remove('hidden');
+    
+    if (chatBox) {
+        chatBox.innerHTML = `
+            <div class="bg-stone-900 p-2.5 rounded text-stone-300 text-xs">
+                <span class="font-bold text-amber-500">Trợ Lý AI:</span> Đã sẵn sàng khai thác tài liệu từ sách <strong>"${escapeHTML(tenSach)}"</strong>. Bạn muốn tìm hiểu nội dung nào trong cuốn này?
+            </div>
+        `;
+    }
+    container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function dongDocSach() {
+    selectedBookForAI = null;
+    document.getElementById('sach-reader-container')?.classList.add('hidden');
+}
+
+async function hoiAIveSach() {
+    const inputEl = document.getElementById('sach-ai-input');
+    const chatBox = document.getElementById('sach-chat-box');
+    if (!inputEl || !chatBox || !selectedBookForAI) return;
+
+    const query = inputEl.value.trim();
+    if (!query) return;
+
+    chatBox.innerHTML += `
+        <div class="bg-amber-950/40 p-2.5 rounded border border-amber-900/50 text-amber-200 text-right font-medium text-xs">
+            <span class="font-bold text-amber-400">Bạn:</span> ${escapeHTML(query)}
+        </div>`;
+    inputEl.value = '';
+
+    const loadingId = 'sach-loading-' + Date.now();
+    chatBox.innerHTML += `
+        <div id="${loadingId}" class="bg-stone-900 p-2.5 rounded border border-stone-800 text-stone-400 flex items-center gap-2 text-xs">
+            <i class="fa-solid fa-brain text-amber-500 animate-spin"></i>
+            <span>Đang tra cứu nội dung trong sách "${escapeHTML(selectedBookForAI)}"...</span>
+        </div>`;
+    chatBox.scrollTop = chatBox.scrollHeight;
+
+    try {
+        const prompt = `Dựa trên nội dung chuẩn của cuốn sách y học cổ truyền "${selectedBookForAI}", hãy giải đáp chi tiết câu hỏi sau: "${query}". Trả lời súc tích, chuyên môn cao bằng tiếng Việt.`;
+        const res = await fetch(getApiEndpoint(), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ prompt: prompt, source: 'sach_ai', max_tokens: 400 })
+        });
+        const data = await res.json();
+
+        document.getElementById(loadingId)?.remove();
+
+        if (res.ok && data.reply) {
+            chatBox.innerHTML += `
+                <div class="bg-stone-900 p-3 rounded border border-stone-800 text-stone-300 space-y-1 text-xs">
+                    <div class="font-bold text-amber-500 flex items-center gap-1.5 mb-1 pb-1 border-b border-stone-800">
+                        <i class="fa-solid fa-robot"></i> Trích xuất từ "${escapeHTML(selectedBookForAI)}"
+                    </div>
+                    <div class="leading-relaxed space-y-1">${formatAIMessage(data.reply)}</div>
+                </div>`;
+        } else {
+            chatBox.innerHTML += `<div class="bg-red-950/40 p-2.5 rounded border border-red-800 text-red-300 text-xs">⚠️ Không nhận được phản hồi từ AI.</div>`;
+        }
+    } catch (err) {
+        document.getElementById(loadingId)?.remove();
+        chatBox.innerHTML += `<div class="bg-red-950/40 p-2.5 rounded border border-red-800 text-red-300 text-xs">⚠️ Lỗi kết nối máy chủ.</div>`;
+    } finally {
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
 }
 

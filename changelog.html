@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nhật Ký Cập Nhật - Đại Luận Trị & Tra Cứu YHCT v1.5.5 Premium</title>
+    <title>Nhật Ký Cập Nhật - Đại Luận Trị & Tra Cứu YHCT v1.5.8 Premium</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -24,7 +24,7 @@
     <main class="flex-grow space-y-6">
         <div class="bg-dark-box p-6 rounded-xl text-center space-y-3 shadow-lg">
             <div class="inline-flex items-center gap-1.5 bg-amber-950/60 border border-amber-800/80 px-3 py-1 rounded-full text-xs font-bold text-amber-400">
-                <i class="fa-solid fa-code-branch"></i> Phiên bản hiện tại: v1.5.5 Premium
+                <i class="fa-solid fa-code-branch"></i> Phiên bản hiện tại: v1.5.8 Premium
             </div>
             <h2 class="text-xl sm:text-2xl font-bold text-amber-400">Lịch Sử Thay Đổi & Nâng Cấp</h2>
             <p class="text-xs text-stone-400 leading-relaxed">
@@ -34,19 +34,33 @@
 
         <div class="space-y-6 relative border-l-2 border-stone-800 ml-3 sm:ml-6 pl-6">
             
-            <!-- v1.5.5 -->
+            <!-- v1.5.8 -->
             <div class="relative group space-y-3">
                 <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-amber-500 border-4 border-[#0a0908] ring-2 ring-amber-500/40"></span>
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <h3 class="text-sm font-bold text-amber-400 flex items-center gap-2">
-                        Phiên bản v1.5.5 <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800 font-bold uppercase">Mới nhất</span>
+                        Phiên bản v1.5.8 <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800 font-bold uppercase">Mới nhất</span>
                     </h3>
+                    <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 8, 2026</span>
+                </div>
+                <div class="bg-dark-box p-4 rounded-xl space-y-2 text-xs text-stone-300">
+                    <p>• <strong>Tab Tra Cứu Sách YHCT mới (`sectionTraCuuSach`):</strong> Lựa chọn, đồng bộ trực tiếp hơn 20+ tài liệu PDF y học cổ truyền từ Google Drive của nhóm <em>"Giao Lưu Học Thuật Đông Y"</em>, tự động phân nhóm khoa học (Sách Kinh Điển & Lý Luận, Châm Cứu & Huyệt Vị, Bài Thuốc & Lâm Sàng, Dưỡng Sinh) và tích hợp Hỏi đáp AI trực tiếp nội dung từng cuốn sách.</p>
+                    <p>• <strong>Tab Phối Ngũ Bài Thuốc Tự Do (`sectionPhoiNgu`):</strong> Cho phép người dùng tự do chọn lựa các vị dược liệu, tự động kiểm tra xung khắc lâm sàng (Thập Bát Phản / Thập Cửu Úy) và gọi AI đánh giá tổng thể cấu trúc Quân - Thần - Tá - Sứ.</p>
+                    <p>• <strong>Tab Vọng Chẩn AI đa phương thức (`sectionXemAnh`):</strong> Hỗ trợ chụp ảnh trực tiếp từ Camera hoặc tải ảnh thiết bị (Thiệt chẩn, Diện chẩn, Sắc da) kết hợp lưu trữ lịch sử qua IndexedDB.</p>
+                </div>
+            </div>
+
+            <!-- v1.5.5 -->
+            <div class="relative group space-y-3">
+                <span class="absolute -left-[31px] top-1.5 w-4 h-4 rounded-full bg-stone-700 border-4 border-[#0a0908]"></span>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h3 class="text-sm font-bold text-stone-200">Phiên bản v1.5.5</h3>
                     <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 8, 2026</span>
                 </div>
                 <div class="bg-dark-box p-4 rounded-xl space-y-2 text-xs text-stone-300">
                     <p>• <strong>Tab Phối Ngũ Bài Thuốc Tự Do mới (`sectionPhoiNgu`):</strong> Cho phép người dùng tự do tìm kiếm và thêm các vị dược liệu vào danh sách bài thuốc, tự động kiểm tra tương kỵ lâm sàng (Thập Bát Phản / Thập Cửu Úy) và tổng hợp công năng chủ trị chi tiết.</p>
                     <p>• <strong>Trợ lý AI Đánh Giá Tổng Thể Bài Thuốc:</strong> Tích hợp tính năng AI phân tích tính Quân - Thần - Tá - Sứ, chủ trị lâm sàng và mức độ hòa hợp của bài thuốc tự do.</p>
-                    <p>• <strong>Tối ưu hóa thứ tự điều hướng giao diện:</strong> Sắp xếp lại vị trí các tab trên thanh điều hướng (`&lt;nav&gt;`), đưa tab <em>Phối Ngũ</em> lên trước tab <em>Vọng Chẩn</em>, tối ưu thao tác vuốt màn hình di động (swipe navigation) mượt mà hơn.</p>
+                    <p>• <strong>Tối ưu hóa thứ tự điều hướng giao diện:</strong> Sắp xếp lại vị trí các tab trên thanh điều hướng (`<nav>`), đưa tab <em>Phối Ngũ</em> lên trước tab <em>Vọng Chẩn</em>, tối ưu thao tác vuốt màn hình di động (swipe navigation) mượt mà hơn.</p>
                     <p>• <strong>Đồng bộ Offline PWA Cache `dailuantri-v1.5.5`:</strong> Nâng cấp bộ đệm lưu trữ hệ thống hỗ trợ vận hành ngoại tuyến chính xác với đầy đủ các module chuyên sâu.</p>
                 </div>
             </div>
@@ -97,7 +111,7 @@
                 <div class="bg-dark-box p-4 rounded-xl space-y-2 text-xs text-stone-300">
                     <p>• <strong>Tra cứu hình ảnh trực tiếp qua Tên vị thuốc / Huyệt vị:</strong> Tích hợp tính năng kích hoạt tìm ảnh trực tiếp khi nhấp vào tên Dược liệu hoặc Huyệt vị.</p>
                     <p>• <strong>Tra cứu chéo Công năng & Chủ trị đặc hiệu:</strong> Cho phép nhấp trực tiếp vào ô Công năng chủ trị (Dược liệu) hoặc Chủ trị đặc hiệu (Huyệt vị) để chuyển nhanh sang tab Luận Trị và tự động tra cứu phác đồ liên quan.</p>
-                    <p>• <strong>Tự động khôi phục giao diện DOM phác đồ:</strong> Sửa triệt để lỗi mất khung kết quả khi gọi AI Backup hoặc khi bật/tắt các chế độ ôn tập.</p>
+                    <p>• <strong>Tự động khôi phục giao diện DOM phác đồ:</strong> Sửa triệt để lỗi mất khung kết quả khi gọi AI Backup hoặc khi bật/tắt các chế độ ôn tập.</p>
                     <p>• <strong>Tối ưu hóa Caching AI chống Spam Quota:</strong> Tự động lưu vết dữ liệu đã phân tích cho AI Hội chứng và AI Bài thuốc, giúp phản hồi tức thì không tốn lượt gọi API khi tra cứu lại.</p>
                 </div>
             </div>

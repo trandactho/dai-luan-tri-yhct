@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đại Luận Trị & Tra Cứu YHCT v1.5.7 Premium</title>
+    <title>Đại Luận Trị & Tra Cứu YHCT v1.5.8 Premium</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7294224585301638" crossorigin="anonymous"></script>
     <meta name="description" content="Ứng dụng tra cứu Y Học Cổ Truyền toàn diện: Biện chứng luận trị, Dược liệu học, Châm cứu huyệt vị, Trà dược trị liệu và Trợ lý AI tư vấn YHCT.">
     <meta name="author" content="Trần Đắc Thọ">
@@ -12,9 +12,8 @@
     <meta name="theme-color" content="#0a0908">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <script src="sw.js" defer></script>
-    <script src="app.js?v=1.5.7" defer></script>
-    
+    <script src="sw.js"></script>
+    <script src="app.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -31,7 +30,7 @@
         
     <header class="bg-dark-box p-2 text-center border-b border-stone-800 space-y-0.5">
         <h1 class="text-sm font-bold text-primary flex items-center justify-center gap-1">
-            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.5.7)
+            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.5.8)
         </h1>
         <div class="text-[10px] text-stone-400 space-x-2">
             <span>Biện chứng (<span id="total-chung" class="text-amber-500 font-bold">0</span>)</span> · 
@@ -44,44 +43,102 @@
         </div>
     </header>
 
-        <nav class="sticky top-0 z-50 grid grid-cols-4 sm:grid-cols-8 gap-0.5 bg-stone-900 border-b border-stone-800 text-center text-[10px] shadow-md">
-        <button id="btnTabLuanTri" onclick="switchTab('luantri')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center tab-active">
-            <i class="fa-solid fa-file-medical text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Luận Trị</span>
-        </button>
-        <button id="btnTabDuocLieu" onclick="switchTab('duoclieu')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-            <i class="fa-solid fa-leaf text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Dược Liệu</span>
-        </button>
-        <button id="btnTabHuyetVi" onclick="switchTab('huyetvi')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-            <i class="fa-solid fa-circle-dot text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Huyệt Vị</span>
-        </button>
-        <button id="btnTabTra" onclick="switchTab('tra')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-            <i class="fa-solid fa-mug-hot text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Trà Dược</span>
-        </button>
-        <button id="btnTabTracNghiem" onclick="switchTab('tracnghiem')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-            <i class="fa-solid fa-graduation-cap text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Trắc Nghiệm</span>
-        </button>
-        <button id="btnTabPhoiNgu" onclick="switchTab('phoingu')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-            <i class="fa-solid fa-mortar-pestle text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Phối Ngũ</span>
-        </button>
-        <button id="btnTabXemAnh" onclick="switchTab('xemanh')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-            <i class="fa-solid fa-eye text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Vọng Chẩn</span>
-        </button>
-        <button id="btnTabAI" onclick="switchTab('ai')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-            <i class="fa-solid fa-robot text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Trợ Lý AI</span>
-        </button>
-    </nav>
+        <nav class="sticky top-0 z-50 grid grid-cols-5 sm:grid-cols-9 gap-0.5 bg-stone-900 border-b border-stone-800 text-center text-[10px] shadow-md">
+    <button id="btnTabTraCuuSach" onclick="switchTab('tracuusach')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+        <i class="fa-solid fa-book-medical text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Tra Sách</span>
+    </button>
+    <button id="btnTabLuanTri" onclick="switchTab('luantri')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center tab-active">
+        <i class="fa-solid fa-file-medical text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Luận Trị</span>
+    </button>
+    <button id="btnTabDuocLieu" onclick="switchTab('duoclieu')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+        <i class="fa-solid fa-leaf text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Dược Liệu</span>
+    </button>
+    <button id="btnTabHuyetVi" onclick="switchTab('huyetvi')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+        <i class="fa-solid fa-circle-dot text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Huyệt Vị</span>
+    </button>
+    <button id="btnTabTra" onclick="switchTab('tra')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+        <i class="fa-solid fa-mug-hot text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Trà Dược</span>
+    </button>
+    <button id="btnTabTracNghiem" onclick="switchTab('tracnghiem')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+        <i class="fa-solid fa-graduation-cap text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Trắc Nghiệm</span>
+    </button>
+    <button id="btnTabPhoiNgu" onclick="switchTab('phoingu')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+        <i class="fa-solid fa-mortar-pestle text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Phối Ngũ</span>
+    </button>
+    <button id="btnTabXemAnh" onclick="switchTab('xemanh')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+        <i class="fa-solid fa-eye text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Vọng Chẩn</span>
+    </button>
+    <button id="btnTabAI" onclick="switchTab('ai')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+        <i class="fa-solid fa-robot text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Trợ Lý AI</span>
+    </button>
+</nav>
+
 
 
     <main class="container mx-auto px-4 py-6 pb-20 max-w-5xl">
-        
+        <!-- TAB: TRA CỨU SÁCH YHCT -->
+<section id="sectionTraCuuSach" class="hidden space-y-4">
+    <div class="bg-dark-box p-5 rounded-lg space-y-4">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-stone-800 pb-3">
+            <div>
+                <h3 class="text-sm font-bold text-amber-500 flex items-center gap-2">
+                    <i class="fa-solid fa-book-medical"></i> Kho Thư Tịch YHCT (<span id="total-sach" class="text-amber-400">10</span> cuốn)
+                </h3>
+                <p class="text-[11px] text-stone-400 mt-0.5">Tra cứu và khai thác kiến thức từ các tài liệu kinh điển y học cổ truyền.</p>
+            </div>
+            <div class="relative w-full sm:w-64">
+                <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-stone-500 text-xs"></i>
+                <input type="search" id="search-sach-input" placeholder="Tìm tên sách..." class="w-full pl-8 py-1.5 px-3 rounded bg-stone-900 border border-stone-700 text-stone-200 text-xs outline-none focus:border-amber-500" oninput="filterSachPDF()">
+            </div>
+        </div>
+
+        <!-- Danh sách 10 đầu sách PDF -->
+        <div id="grid-sach-pdf" class="grid grid-cols-1 sm:grid-cols-2 gap-3 max-h-[450px] overflow-y-auto pr-1">
+            <!-- Render động bằng JavaScript -->
+        </div>
+
+        <!-- Khu vực tra cứu / hỏi đáp nội dung sách cùng AI -->
+        <div id="sach-reader-container" class="hidden space-y-3 pt-3 border-t border-stone-800">
+            <div class="flex justify-between items-center bg-stone-900/90 p-3 rounded-lg border border-stone-800">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-book-open-reader text-amber-500 text-base"></i>
+                    <div>
+                        <div id="current-sach-title" class="text-xs font-bold text-amber-400">---</div>
+                        <div class="text-[10px] text-stone-400" id="current-sach-size">Dung lượng: ---</div>
+                    </div>
+                </div>
+                <button onclick="dongDocSach()" class="px-2.5 py-1 bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-bold rounded border border-stone-700">
+                    <i class="fa-solid fa-xmark"></i> Đóng
+                </button>
+            </div>
+
+            <!-- Khung hỏi đáp nội dung sách với AI -->
+            <div class="bg-stone-900/60 p-4 rounded-lg border border-stone-800 space-y-3">
+                <div class="text-xs font-bold text-amber-400 flex items-center gap-1.5">
+                    <i class="fa-solid fa-robot"></i> Hỏi đáp nội dung sách cùng Trợ lý AI YHCT
+                </div>
+                <div id="sach-chat-box" class="bg-stone-950 p-3 rounded-lg h-48 overflow-y-auto space-y-2 text-xs border border-stone-800/80">
+                    <div class="text-stone-400 italic">Nhập câu hỏi về lý luận, bài thuốc hoặc huyệt vị có trong cuốn sách này để AI trích xuất và giải đáp.</div>
+                </div>
+                <div class="flex gap-2">
+                    <input type="text" id="sach-ai-input" placeholder="Ví dụ: Triệu chứng và cách điều trị được ghi trong sách..." class="flex-1 p-2.5 rounded bg-stone-900 border border-stone-700 text-stone-200 text-xs outline-none focus:border-amber-500" onkeydown="if(event.key==='Enter') hoiAIveSach()">
+                    <button onclick="hoiAIveSach()" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs rounded transition-colors flex items-center gap-1 cursor-pointer">
+                        <i class="fa-solid fa-paper-plane"></i> Hỏi AI
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
         <!-- TAB 1: BIỆN CHỨNG LUẬN TRỊ -->
         <section id="sectionLuanTri" class="block space-y-5">
             <div class="bg-dark-box p-5 rounded-lg space-y-3">
