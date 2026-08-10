@@ -3671,26 +3671,28 @@ function renderDanhSachSach(arr) {
     };
 
     arr.forEach(s => {
-        // Thay thế dấu gạch dưới '_' và dấu trừ '-' thành khoảng trắng để lọc chính xác tuyệt đối
         const t = removeAccents(s.ten || '').toLowerCase().replace(/[_,-]/g, ' ');
-        
-        // 1. Nhóm Kinh Điển, Lý Luận & Chẩn đoán
         if (t.includes('noi kinh') || t.includes('thuong han') || t.includes('kim quy') || t.includes('bien chung') || t.includes('hai thuong') || t.includes('ly luan') || t.includes('chan tri') || t.includes('van dap') || t.includes('bien luan lam sang') || t.includes('thiet chan') || t.includes('chan doan') || t.includes('an ma') || t.includes('ngu tieu')) {
             grouped['📖 Sách Kinh Điển & Lý Luận'].push(s);
-        } 
-        // 2. Nhóm Châm Cứu & Huyệt Vị
-        else if (t.includes('cham cuu') || t.includes('huyet') || t.includes('osteopathic') || t.includes('xoa bop')) {
+        } else if (t.includes('cham cuu') || t.includes('huyet') || t.includes('osteopathic') || t.includes('xoa bop')) {
             grouped['📍 Châm Cứu & Huyệt Vị'].push(s);
-        } 
-        // 3. Nhóm Bài Thuốc, Dược Liệu & Lâm Sàng
-        else if (t.includes('bai thuoc') || t.includes('phuong') || t.includes('thuoc') || t.includes('duoc') || t.includes('san phu khoa') || t.includes('chan doan xq') || t.includes('trung duoc')) {
+        } else if (t.includes('bai thuoc') || t.includes('phuong') || t.includes('thuoc') || t.includes('duoc') || t.includes('san phu khoa') || t.includes('chan doan xq') || t.includes('trung duoc')) {
             grouped['🌿 Bài Thuốc, Dược Liệu & Lâm Sàng'].push(s);
-        } 
-        // 4. Các cuốn thực dưỡng, dưỡng sinh còn lại
-        else {
+        } else {
             grouped['🧘 Dưỡng Sinh & Y Dược Khác'].push(s);
         }
     });
+
+    // Hàm phụ để tạo mô tả tóm tắt thông minh theo tên cuốn sách
+    function getMoTaTuDong(tenSach) {
+        const t = removeAccents(tenSach || '').toLowerCase();
+        if (t.includes('cham cuu')) return 'Tài liệu hướng dẫn kỹ thuật châm cứu, huyệt vị và phác đồ điều trị lâm sàng.';
+        if (t.includes('bai thuoc') || t.includes('phuong')) return 'Tổng hợp các bài thuốc kinh nghiệm, phương tễ cổ phương và gia truyền.';
+        if (t.includes('che bien')) return 'Phương pháp bào chế, sao chế và bảo quản các vị thuốc cổ truyền.';
+        if (t.includes('bien chung') || t.includes('tiet chan') || t.includes('chan doan')) return 'Phương pháp chẩn đoán, phân tích hội chứng tạng phủ và lý luận lâm sàng.';
+        if (t.includes('hai thuong')) return 'Tác phẩm y học kinh điển của Hải Thượng Lãn Ông Lê Hữu Trác.';
+        return 'Tài liệu chuyên sâu tra cứu và ứng dụng Y học cổ truyền.';
+    }
 
     let html = '';
     for (const [nhomName, sachList] of Object.entries(grouped)) {
@@ -3708,29 +3710,35 @@ function renderDanhSachSach(arr) {
         `;
 
         sachList.forEach(s => {
+            // Lấy mô tả tự động thay cho chuỗi lặp lại
+            const moTaHienThi = getMoTaTuDong(s.ten);
+
             html += `
-                <div class="bg-stone-900/90 p-3.5 rounded-lg border border-stone-800 hover:border-amber-600/50 transition-all flex flex-col justify-between space-y-2 shadow-sm">
-                    <div class="space-y-1">
-                        <div class="flex items-start justify-between gap-2">
-                            <span class="font-bold text-amber-400 text-xs flex items-center gap-1.5 leading-snug">
-                                <i class="fa-solid fa-file-pdf text-red-500 text-sm"></i> ${escapeHTML(s.ten)}
+                <div class="bg-stone-900/90 p-3.5 rounded-lg border border-stone-800 hover:border-amber-600/50 transition-all space-y-2 shadow-sm">
+                    <!-- Tên sách và Dung lượng -->
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="flex items-center gap-2 overflow-hidden">
+                            <i class="fa-solid fa-file-pdf text-red-500 text-base flex-shrink-0"></i>
+                            <span class="font-bold text-amber-400 text-xs truncate leading-snug" title="${escapeHTML(s.ten)}">
+                                ${escapeHTML(s.ten)}
                             </span>
-                            <span class="text-[10px] bg-stone-800 text-stone-400 px-2 py-0.5 rounded border border-stone-700 flex-shrink-0">${s.dungLuong}</span>
                         </div>
-                        <p class="text-[11px] text-stone-300 leading-relaxed">${escapeHTML(s.moTa || 'Tài liệu từ nhóm Giao Lưu Học Thuật Đông Y')}</p>
+                        <span class="text-[10px] bg-stone-800 text-stone-400 px-1.5 py-0.5 rounded border border-stone-700 flex-shrink-0">${s.dungLuong}</span>
                     </div>
-                    <div class="pt-2 border-t border-stone-800/80 flex items-center justify-between gap-2">
-                        <span class="text-[10px] text-amber-500/80 font-medium italic truncate">
-                            <i class="fa-solid fa-users text-[9px] mr-1"></i> Giao Lưu Học Thuật Đông Y
-                        </span>
-                        <div class="flex items-center gap-1.5 flex-shrink-0">
-                            <button onclick="window.open('${s.url}', '_blank')" class="px-2.5 py-1 bg-stone-700 hover:bg-stone-600 text-white font-bold rounded text-[11px] cursor-pointer">
-                                <i class="fa-solid fa-book-open"></i> Đọc sách
-                            </button>
-                            <button onclick="moHoiDapSach('${s.ten.replace(/'/g, "\\'")}', '${s.dungLuong}')" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded text-[11px] cursor-pointer">
-                                <i class="fa-solid fa-robot"></i> Hỏi AI
-                            </button>
-                        </div>
+
+                    <!-- Giới thiệu sơ lược nội dung cuốn sách -->
+                    <p class="text-[11px] text-stone-400 line-clamp-2 leading-relaxed italic">
+                        ${escapeHTML(moTaHienThi)}
+                    </p>
+
+                    <!-- Nút thao tác -->
+                    <div class="flex items-center justify-end gap-2 pt-1 border-t border-stone-800/60">
+                        <button onclick="window.open('${s.url}', '_blank')" class="px-3 py-1 bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold rounded text-[11px] cursor-pointer transition-colors border border-stone-700 flex items-center gap-1">
+                            <i class="fa-solid fa-book-open"></i> Đọc sách
+                        </button>
+                        <button onclick="moHoiDapSach('${s.ten.replace(/'/g, "\\'")}', '${s.dungLuong}')" class="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded text-[11px] cursor-pointer transition-colors flex items-center gap-1">
+                            <i class="fa-solid fa-robot"></i> Hỏi AI
+                        </button>
                     </div>
                 </div>
             `;
@@ -3739,6 +3747,7 @@ function renderDanhSachSach(arr) {
 
     grid.innerHTML = html;
 }
+
 
 function filterSachPDF() {
     const keyword = removeAccents(document.getElementById('search-sach-input').value).toLowerCase().trim();
@@ -3772,7 +3781,10 @@ function dongDocSach() {
     document.getElementById('sach-reader-container')?.classList.add('hidden');
 }
 
-async function hoiAIveSach() {
+async function hoiAIveSach(e) {
+    // Chặn sự kiện gửi form mặc định nếu nút nằm trong form
+    if (e && e.preventDefault) e.preventDefault();
+
     const inputEl = document.getElementById('sach-ai-input');
     const chatBox = document.getElementById('sach-chat-box');
     if (!inputEl || !chatBox || !selectedBookForAI) return;
@@ -3792,6 +3804,8 @@ async function hoiAIveSach() {
             <i class="fa-solid fa-brain text-amber-500 animate-spin"></i>
             <span>Đang tra cứu nội dung trong sách "${escapeHTML(selectedBookForAI)}"...</span>
         </div>`;
+    
+    // Tự động cuộn mượt xuống cuối khung chat thay vì làm biến mất khung
     chatBox.scrollTop = chatBox.scrollHeight;
 
     try {
@@ -3823,5 +3837,6 @@ async function hoiAIveSach() {
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 }
+
 
 
