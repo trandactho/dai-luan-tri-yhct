@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dailuantri-v1.5.6';
+const CACHE_NAME = 'dailuantri-v1.5.7';
 
 const SYSTEM_FILES = [
     '/',
@@ -49,33 +49,32 @@ self.addEventListener('activate', event => {
 });
 
 self.addEventListener('fetch', event => {
-    if (event.request.method !== 'GET' || event.request.url.includes('/.netlify/functions/')) return;
+    // Bỏ qua các request không phải GET (ví dụ: POST từ API AI)
+    if (event.request.method !== 'GET') return;
 
+    // CHIẾN LƯỢC NETWORK-FIRST: Luôn gọi mạng lấy code mới nhất trước
     event.respondWith(
-        // CÚ PHÁP QUAN TRỌNG NHẤT: ignoreSearch: true giúp bỏ qua mọi query parameter rác
-        caches.match(event.request, { ignoreSearch: true }).then(cachedRes => {
-            if (cachedRes) return cachedRes;
-
-            return fetch(event.request).then(networkRes => {
-                if (!networkRes || networkRes.status !== 200 || networkRes.type !== 'basic') {
-                    return networkRes;
+        fetch(event.request)
+            .then(networkRes => {
+                // Nếu lấy được mạng thành công, cập nhật lại cache ngầm và trả về dữ liệu mới
+                if (networkRes && networkRes.status === 200) {
+                    const resToCache = networkRes.clone();
+                    caches.open(CACHE_NAME).then(cache => {
+                        cache.put(event.request, resToCache);
+                    });
                 }
-                const resToCache = networkRes.clone();
-                caches.open(CACHE_NAME).then(cache => cache.put(event.request, resToCache));
                 return networkRes;
-            }).catch(async () => {
+            })
+            .catch(async () => {
+                // KHI MẤT MẠNG (OFFLINE): Mới quay đầu tìm trong cache
                 const cache = await caches.open(CACHE_NAME);
-                const urlObj = new URL(event.request.url);
-                
-                // Cố gắng cứu vớt bằng đường dẫn tuyệt đối
-                let match = await cache.match(urlObj.pathname, { ignoreSearch: true });
-                if (match) return match;
+                const cachedRes = await cache.match(event.request, { ignoreSearch: true });
+                if (cachedRes) return cachedRes;
 
-                // Nếu mất mạng hoàn toàn thì nạp cứng trang HTML 
-                if (event.request.mode === 'navigate' || (event.request.headers.get('accept') && event.request.headers.get('accept').includes('text/html'))) {
-                    return cache.match('/index.html', { ignoreSearch: true }) || cache.match('/', { ignoreSearch: true });
+                // Nếu là request điều hướng trang mà offline -> trả về index.html
+                if (event.request.mode === 'navigate') {
+                    return cache.match('./index.html', { ignoreSearch: true });
                 }
-            });
-        })
+            })
     );
 });

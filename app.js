@@ -1,4 +1,5 @@
 const DOMAIN_NETLIFY = 'https://dailuantriyhct.com';
+const APP_VERSION = '1.5.7';
 function getApiEndpoint() {
     return (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
         ? `${DOMAIN_NETLIFY}/.netlify/functions/chat`
@@ -2087,14 +2088,16 @@ function dongBoDuLieuAI(scriptSrc) {
 
 const loadedScripts = new Set(); //[span_21](start_span)[span_21](end_span)
 function loadScript(src) {
-    if (loadedScripts.has(src)) return Promise.resolve(); //[span_22](start_span)[span_22](end_span)
+    if (loadedScripts.has(src)) return Promise.resolve();
     return new Promise((resolve, reject) => {
-        const script = document.createElement('script'); //[span_23](start_span)[span_23](end_span)
-        script.src = src; //[span_24](start_span)[span_24](end_span)
+        const script = document.createElement('script');
+        // Thêm tham số phiên bản (version) vào URL
+        script.src = `${src}?v=${APP_VERSION}`; 
+        
         script.onload = () => { 
-            loadedScripts.add(src); //[span_25](start_span)[span_25](end_span)
+            loadedScripts.add(src); 
             
-            // 👉 Bơm ngay dữ liệu AI vào bộ nhớ Javascript khi file tĩnh tải xong
+            // 👉 Bơm ngay dữ liệu AI... (Giữ nguyên toàn bộ logic bên trong của bạn)
             dongBoDuLieuAI(src);
             
             capNhatTongSoTracNghiem(); //[span_26](start_span)[span_26](end_span)
@@ -2398,6 +2401,7 @@ async function sendAIWebMessage() {
 
 let touchstartX = 0, touchstartY = 0, touchendX = 0, touchendY = 0;                               
 function handleSwipe(startX, startY, endX, endY) {
+    // Đảm bảo tên biến là 'tabs', không phải 'tabsOrder'
     const tabs = ['luantri', 'duoclieu', 'huyetvi', 'tra', 'tracnghiem', 'phoingu', 'xemanh', 'ai'];
     const pascalMap = { 
         luantri: 'LuanTri', duoclieu: 'DuocLieu', 
@@ -2414,21 +2418,19 @@ function handleSwipe(startX, startY, endX, endY) {
         }) || 'luantri';
         let currentIndex = tabs.indexOf(currentActive);
 
-        // --- ĐOẠN MÃ MỚI SỬA: XỬ LÝ VUỐT LIÊN THÔNG ---
-        if (diffX < 0) { // Vuốt sang trái (Tiến lên)
+        if (diffX < 0) {
             if (currentIndex < tabs.length - 1) {
                 switchTab(tabs[currentIndex + 1]);
             } else {
-                switchTab(tabs[0]); // Chạm đáy thì vòng về tab đầu (Luận trị)
+                switchTab(tabs[0]);
             }
-        } else if (diffX > 0) { // Vuốt sang phải (Lùi lại)
+        } else if (diffX > 0) {
             if (currentIndex > 0) {
                 switchTab(tabs[currentIndex - 1]);
             } else {
-                switchTab(tabs[tabs.length - 1]); // Chạm đỉnh thì vòng tới tab cuối (AI)
+                switchTab(tabs[tabs.length - 1]);
             }
         }
-        // ----------------------------------------------
     }
 }
 
@@ -2458,9 +2460,8 @@ async function taiDuLieuOffline() {
     if (!xacNhan) return;
 
     try {
-        // Tự động lấy cache key hiện tại từ SW hoặc dùng fallback
         const cacheKeys = await caches.keys();
-        const activeCacheName = cacheKeys.find(k => k.startsWith('dailuantri-')) || 'dailuantri-v1.5.6';
+        const activeCacheName = cacheKeys.find(k => k.startsWith('dailuantri-')) || 'dailuantri-v1.5.7';
         const cache = await caches.open(activeCacheName);
 
         await cache.addAll([
