@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đại Luận Trị & Tra Cứu YHCT v1.5.8 Premium</title>
+    <title>Đại Luận Trị & Tra Cứu YHCT v1.6.0 Premium</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7294224585301638" crossorigin="anonymous"></script>
     <meta name="description" content="Ứng dụng tra cứu Y Học Cổ Truyền toàn diện: Biện chứng luận trị, Dược liệu học, Châm cứu huyệt vị, Trà dược trị liệu và Trợ lý AI tư vấn YHCT.">
     <meta name="author" content="Trần Đắc Thọ">
@@ -30,7 +30,7 @@
         
     <header class="bg-dark-box p-2 text-center border-b border-stone-800 space-y-0.5">
         <h1 class="text-sm font-bold text-primary flex items-center justify-center gap-1">
-            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.5.8)
+            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.6.0)
         </h1>
         <div class="text-[10px] text-stone-400 space-x-2">
             <span>Biện chứng (<span id="total-chung" class="text-amber-500 font-bold">0</span>)</span> · 
@@ -72,19 +72,14 @@
         <i class="fa-solid fa-mortar-pestle text-xs mb-0.5"></i>
         <span class="scale-90 tracking-tighter">Phối Ngũ</span>
     </button>
-    <button id="btnTabXemAnh" onclick="switchTab('xemanh')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-        <i class="fa-solid fa-eye text-xs mb-0.5"></i>
-        <span class="scale-90 tracking-tighter">Vọng Chẩn</span>
-    </button>
-    <button id="btnTabAI" onclick="switchTab('ai')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-        <i class="fa-solid fa-robot text-xs mb-0.5"></i>
-        <span class="scale-90 tracking-tighter">Trợ Lý AI</span>
-    </button>
+<!-- Xóa nút Vọng Chẩn và AI cũ, thay bằng: -->
+    <button id="btnTabTuChan" onclick="switchTab('tuchan')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+    <i class="fa-solid fa-brain text-xs mb-0.5"></i>
+    <span class="scale-90 tracking-tighter">Tứ Chẩn AI</span>
+</button>
 </nav>
-
-
-
     <main class="container mx-auto px-4 py-6 pb-20 max-w-5xl">
+        
         <!-- TAB: TRA CỨU SÁCH YHCT -->
 <section id="sectionTraCuuSach" class="hidden space-y-4">
     <div class="bg-dark-box p-5 rounded-lg space-y-4">
@@ -166,12 +161,11 @@
     <div class="flex items-center gap-2 flex-wrap">
         <!-- Chế độ tìm kiếm thường -->
         <div id="normal-mode-actions" class="flex items-center">
-            <label id="lbl-ai-backup-luantri" class="px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-stone-900 text-amber-400 border border-stone-800 hover:border-amber-500/60 select-none">
-                <input type="checkbox" id="ai-backup-luantri" class="hidden" onchange="this.parentElement.className = this.checked ? 'px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-amber-600 text-white border border-amber-500 shadow-amber-900/50 select-none' : 'px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-stone-900 text-amber-400 border border-stone-800 hover:border-amber-500/60 select-none'; if(document.getElementById('search-input').value.trim() !== '') searchLuanTri(true);">
-                <i class="fa-solid fa-robot text-xs"></i>
-                <span>AI Tìm</span>
-            </label>
-        </div>
+    <button type="button" onclick="triggerAiSearch('luantri')" class="px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-stone-900 text-amber-400 border border-stone-800 hover:border-amber-500/60 select-none">
+        <i class="fa-solid fa-robot text-xs"></i>
+        <span>AI Tìm và lưu lại</span>
+    </button>
+</div>
 
         <!-- Chế độ Ôn tập Ca lâm sàng -->
         <div id="quiz-mode-actions" class="hidden flex items-center">
@@ -195,9 +189,6 @@
     </div>
 
 </div>
-
-
-
                 <div id="bo-loc-tam-truc" class="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 border-t border-stone-800/80 transition-all">
                   <div>
                     <label class="block text-[11px] text-stone-400 mb-1 font-medium pl-1">Tạng phủ</label>
@@ -302,11 +293,11 @@
                     <input type="search" id="searchDuocLieu" class="w-full pl-9 py-2 px-3 rounded bg-stone-900 border border-stone-700 text-stone-200 outline-none focus:border-amber-500 text-xs" placeholder="Tìm tên dược liệu..." oninput="debounceFilterDuocLieu()" onkeydown="if(event.key==='Enter') filterDuocLieu(true)">
                 </div>
                 <div class="flex items-center justify-between px-1">
-                    <label class="px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-stone-900 text-amber-400 border border-stone-800 hover:border-amber-500/60">
-<input type="checkbox" id="ai-backup-duoclieu" class="hidden" onchange="this.parentElement.className = this.checked ? 'px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-amber-600 text-white border border-amber-500 shadow-amber-900/50' : 'px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-stone-900 text-amber-400 border border-stone-800 hover:border-amber-500/60'; if(document.getElementById('searchDuocLieu').value.trim() !== '') filterDuocLieu(true);">
+                    <button type="button" onclick="triggerAiSearch('duoclieu')" class="px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-stone-900 text-amber-400 border border-stone-800 hover:border-amber-500/60">
     <i class="fa-solid fa-robot text-xs"></i>
-  <span>AI Tìm</span>
-</label>
+    <span>AI Tìm và lưu lại</span>
+</button>
+
 
                     <button onclick="toggleQuizDL(this)" class="px-3 py-1 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer">
                         <i class="fa-solid fa-graduation-cap"></i> Ôn tập
@@ -325,11 +316,11 @@
                     <input type="search" id="searchHuyetVi" class="w-full pl-9 py-2 px-3 rounded bg-stone-900 border border-stone-700 text-stone-200 outline-none focus:border-amber-500 text-xs" placeholder="Tìm tên huyệt vị..." oninput="debounceFilterHuyetVi()" onkeydown="if(event.key==='Enter') filterHuyetVi(true)">
                 </div>
                 <div class="flex items-center justify-between px-1">
-                    <label class="px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-stone-900 text-amber-400 border border-stone-800 hover:border-amber-500/60">
-  <input type="checkbox" id="ai-backup-huyetvi" class="hidden" onchange="this.parentElement.className = this.checked ? 'px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-amber-600 text-white border border-amber-500 shadow-amber-900/50' : 'px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-stone-900 text-amber-400 border border-stone-800 hover:border-amber-500/60'; if(document.getElementById('searchHuyetVi').value.trim() !== '') filterHuyetVi(true);">
+                    <button type="button" onclick="triggerAiSearch('huyetvi')" class="px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-stone-900 text-amber-400 border border-stone-800 hover:border-amber-500/60">
     <i class="fa-solid fa-robot text-xs"></i>
-  <span>AI Tìm</span>
-</label>
+    <span>AI Tìm và lưu lại</span>
+</button>
+
 
                     <button onclick="toggleQuizHV(this)" class="px-3 py-1 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer">
                         <i class="fa-solid fa-graduation-cap"></i> Ôn tập
@@ -348,11 +339,11 @@
                     <input type="search" id="searchTra" class="w-full pl-9 py-2 px-3 rounded bg-stone-900 border border-stone-700 text-stone-200 outline-none focus:border-amber-500 text-xs" placeholder="Tìm bài trà..." oninput="debounceFilterTra()" onkeydown="if(event.key==='Enter') filterTra(true)">
                 </div>
                 <div class="flex items-center justify-between px-1">
-                    <label class="px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-stone-900 text-amber-400 border border-stone-800 hover:border-amber-500/60">
-  <input type="checkbox" id="ai-backup-tra" class="hidden" onchange="this.parentElement.className = this.checked ? 'px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-amber-600 text-white border border-amber-500 shadow-amber-900/50' : 'px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-stone-900 text-amber-400 border border-stone-800 hover:border-amber-500/60'; if(document.getElementById('searchTra').value.trim() !== '') filterTra(true);">
+                    <button type="button" onclick="triggerAiSearch('tra')" class="px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-stone-900 text-amber-400 border border-stone-800 hover:border-amber-500/60">
     <i class="fa-solid fa-robot text-xs"></i>
-  <span>AI Tìm</span>
-</label>
+    <span>AI Tìm và lưu lại</span>
+</button>
+
 
                     <div></div>
                 </div>
@@ -476,119 +467,136 @@
         </div>
     </div>
 </section>
-                <!-- TAB 7: VỌNG CHẨN AI -->
-<section id="sectionXemAnh" class="hidden space-y-4">
-    <div class="bg-dark-box p-5 rounded-xl max-w-2xl mx-auto space-y-4 border border-amber-900/40 shadow-2xl">
+                <!-- TAB TỨ CHẨN AI TÍCH HỢP -->
+<section id="sectionTuChan" class="hidden space-y-4">
+    <div class="bg-dark-box p-5 rounded-xl max-w-5xl mx-auto space-y-4 border border-amber-900/40 shadow-2xl">
         <div class="text-center space-y-1">
             <div class="text-amber-500 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5">
-                <i class="fa-solid fa-eye text-sm"></i> VỌNG CHẨN YHCT BẰNG AI
+                <i class="fa-solid fa-stethoscopes text-sm"></i> TỨ CHẨN YHCT TOÀN DIỆN (AI ASSISTANT)
             </div>
-            <p class="text-xs text-stone-400">Tải ảnh hoặc chụp trực tiếp để AI phân tích</p>
+            <p class="text-xs text-stone-400">Kết hợp Vọng, Văn, Vấn, Thiết chẩn để AI phân tích và hội chẩn</p>
         </div>
 
-        <!-- Khung xem trước hình ảnh & Camera -->
-        <div id="vong-chan-preview-container" class="relative w-full h-64 bg-stone-900 rounded-lg border-2 border-dashed border-stone-700 flex flex-col items-center justify-center overflow-hidden">
-            <div id="vong-chan-placeholder" class="text-center space-y-2 p-4">
-                <i class="fa-solid fa-camera-retro text-4xl text-stone-600"></i>
-                <div class="text-xs text-stone-400 font-medium">Chưa có hình ảnh nào được chọn</div>
-                <div class="text-[10px] text-stone-500">Hỗ trợ: Thiệt chẩn (Lưỡi), Diện chẩn (Khuôn mặt), Sắc da</div>
+        <!-- 1. VỌNG CHẨN (Hình ảnh) -->
+        <div class="bg-stone-900/80 p-3.5 rounded-lg border border-stone-800 space-y-2">
+            <div class="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
+                <i class="fa-solid fa-eye"></i> 1. Vọng Chẩn (Xem hình thái, sắc mặt, lưỡi)
             </div>
-            
-            <img id="vong-chan-img-preview" class="hidden w-full h-full object-contain" alt="Xem trước ảnh Vọng chẩn">
-            <video id="vong-chan-video" class="hidden w-full h-full object-cover" autoplay playsinline muted></video>
+            <div id="vong-chan-preview-container" class="relative w-full h-48 bg-stone-950 rounded border border-dashed border-stone-700 flex flex-col items-center justify-center overflow-hidden">
+                <div id="vong-chan-placeholder" class="text-center space-y-1 p-2">
+                    <i class="fa-solid fa-camera text-2xl text-stone-600"></i>
+                    <div class="text-[11px] text-stone-400">Chọn hoặc chụp ảnh Thiệt chẩn / Diện chẩn</div>
+                </div>
+                <img id="vong-chan-img-preview" class="hidden w-full h-full object-contain" alt="Ảnh Vọng chẩn">
+                <video id="vong-chan-video" class="hidden w-full h-full object-cover" autoplay playsinline muted></video>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
+                <label class="py-1.5 px-2 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold rounded flex items-center justify-center gap-1 cursor-pointer">
+                    <i class="fa-solid fa-upload"></i> Tải ảnh
+                    <input type="file" id="vong-chan-file-input" accept="image/*" class="hidden" onchange="xuLyChonFileVongChan(event)">
+                </label>
+                <button id="btn-toggle-camera" onclick="moCameraVongChan()" class="py-1.5 px-2 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold rounded flex items-center justify-center gap-1">
+                    <i class="fa-solid fa-video"></i> Camera
+                </button>
+                <button id="btn-capture-photo" onclick="chupAnhVongChan()" class="hidden col-span-full py-1.5 px-2 bg-emerald-700 hover:bg-emerald-600 text-white font-bold rounded flex items-center justify-center gap-1">
+    <i class="fa-solid fa-circle-dot"></i> Chụp
+</button>
+
+            </div>
         </div>
 
-        <!-- Các nút điều khiển chọn ảnh / Camera -->
-        <div class="grid grid-cols-2 sm:grid-cols-3 gap-2">
-            <label class="py-2.5 px-3 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold text-xs rounded-lg flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm">
-                <i class="fa-solid fa-upload"></i> Tải ảnh lên
-                <input type="file" id="vong-chan-file-input" accept="image/*" class="hidden" onchange="xuLyChonFileVongChan(event)">
-            </label>
-            
-            <button id="btn-toggle-camera" onclick="moCameraVongChan()" class="py-2.5 px-3 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold text-xs rounded-lg flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm">
-                <i class="fa-solid fa-video"></i> Mở Camera
-            </button>
+        <!-- 2. VĂN CHẨN & VẤN CHẨN -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="bg-stone-900/80 p-3.5 rounded-lg border border-stone-800 space-y-2">
+                <div class="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
+                    <i class="fa-solid fa-ear-listen"></i> 2. Văn Chẩn (Lắng nghe & Mùi)
+                </div>
+                <textarea id="van-chan-note" rows="2" placeholder="Mô tả tiếng ho, tiếng nói (nhỏ/to), hơi thở, mùi cơ thể..." class="w-full p-2 rounded text-xs bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500"></textarea>
+            </div>
 
-            <button id="btn-capture-photo" onclick="chupAnhVongChan()" class="hidden col-span-2 sm:col-span-1 py-2.5 px-3 bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs rounded-lg flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm">
-                <i class="fa-solid fa-circle-dot"></i> Chụp ảnh
-            </button>
+            <div class="bg-stone-900/80 p-3.5 rounded-lg border border-stone-800 space-y-2">
+                <div class="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
+                    <i class="fa-solid fa-comments"></i> 3. Vấn Chẩn (Hỏi bệnh)
+                </div>
+                <textarea id="vong-chan-note" rows="2" placeholder="Hàn nhiệt, mồ hôi, ăn uống, giấc ngủ, đại tiểu tiện, đau nhức..." class="w-full p-2 rounded text-xs bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500"></textarea>
+            </div>
         </div>
 
-        <!-- Loại hình vọng chẩn & Nút phân tích -->
-        <div class="space-y-3 pt-2 border-t border-stone-800">
+        <!-- 3. THIẾT CHẨN -->
+        <div class="bg-stone-900/80 p-3.5 rounded-lg border border-stone-800 space-y-2">
+            <div class="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
+                <i class="fa-solid fa-hand-holding-medical"></i> 4. Thiết Chẩn (Mạch lý & Xúc chẩn)
+            </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                <div>
-                    <label class="block text-[11px] text-stone-400 font-bold mb-1">Loại vọng chẩn:</label>
-                    <select id="vong-chan-type" class="w-full p-2 rounded text-xs bg-stone-900 text-stone-200 border border-stone-700 outline-none focus:border-amber-500">
-                        <option value="thiet_chan">👅 Thiệt chẩn (Xem chất lưỡi, rêu lưỡi)</option>
-                        <option value="dien_chan">👤 Diện chẩn (Sắc mặt, thần thái)</option>
-                        <option value="da_da">🖐️ Sắc da / Thương tổn ngoài da</option>
-                    </select>
-                </div>
-                <div>
-                    <label class="block text-[11px] text-stone-400 font-bold mb-1">Ghi chú triệu chứng kèm theo:</label>
-                    <input type="text" id="vong-chan-note" placeholder="Ví dụ: Đắng miệng, sợ lạnh..." class="w-full p-2 rounded text-xs bg-stone-900 text-stone-200 border border-stone-700 outline-none focus:border-amber-500">
-                </div>
+                <select id="thiet-chan-mach" class="w-full p-2 rounded text-xs bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500">
+                    <option value="">-- Chọn trạng thái Mạch tượng --</option>
+                    <option value="Mạch Phù (Thực chứng/Bểu chứng)">Mạch Phù (Bệnh ở biểu)</option>
+                    <option value="Mạch Trầm (Hư chứng/Lý chứng)">Mạch Trầm (Bệnh ở lý)</option>
+                    <option value="Mạch Trì (Hàn chứng, chậm < 60 lần/phút)">Mạch Trì (Hàn chứng)</option>
+                    <option value="Mạch Sác (Nhiệt chứng, nhanh > 90 lần/phút)">Mạch Sác (Nhiệt chứng)</option>
+                    <option value="Mạch Tế / Nhược (Khí huyết hư hèn)">Mạch Tế / Nhược (Chân khí hư)</option>
+                    <option value="Mạch Huyền (Can khí uất kết / Đau nhức)">Mạch Huyền (Can uất/Thần kinh)</option>
+                    <option value="Mạch Hoạt (Đàm thấp / Có thai)">Mạch Hoạt (Đàm thấp / Thai nghén)</option>
+                </select>
+                <input type="text" id="thiet-chan-xuc" placeholder="Cảm giác xúc chẩn (Tay chân lạnh/nóng, điểm đau cự án/hỷ án...)" class="w-full p-2 rounded text-xs bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500">
             </div>
-            <label class="flex items-center gap-2 text-xs text-amber-300 cursor-pointer my-2 select-none">
-    <input type="checkbox" id="vong-chan-use-history" class="w-4 h-4 rounded border-stone-700 bg-stone-900 text-amber-600 focus:ring-amber-500" checked>
-    <span> Cho phép AI đọc lịch sử chẩn đoán để phân tích diễn tiến bệnh & đối tượng</span>
-</label>
-
-
-            <button id="btn-phan-tich-vong-chan" onclick="guiPhanTichVongChan()" class="w-full py-3 bg-primary hover:bg-orange-700 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-lg shadow-orange-950/50">
-                <i class="fa-solid fa-brain"></i> AI Phân Tích Vọng Chẩn
-            </button>
         </div>
-
-        <!-- Khung hiển thị kết quả chẩn đoán từ AI -->
-        <div id="vong-chan-result" class="hidden ...">
-    <div class="flex justify-between items-center mb-2">
-        <span class="font-bold text-amber-400 text-xs uppercase"><i class="fa-solid fa-file-medical"></i> Kết quả Vọng chẩn YHCT</span>
-        <!-- Thêm class hidden ở đây để ẩn lúc đầu -->
-        <button id="btn-save-vongchan" onclick="luuKetQuaVongChan()" class="hidden px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded text-xs transition-all shadow cursor-pointer flex items-center gap-1">
-            <i class="fa-solid fa-floppy-disk"></i> Lưu hồ sơ
-        </button>
-    </div>
-    <div id="vong-chan-output" class="text-xs text-stone-200 leading-relaxed space-y-1"></div>
+        <!-- Ô TÍCH CHỌN CHO PHÉP AI ĐỌC LỊCH SỬ CŨ -->
+<div class="flex items-center justify-between px-1 py-1">
+    <label class="flex items-center gap-2 text-xs text-stone-300 cursor-pointer select-none">
+        <input type="checkbox" id="vong-chan-use-history" class="w-4 h-4 rounded border-stone-700 bg-stone-900 text-amber-600 focus:ring-amber-500 cursor-pointer" checked>
+        <span>Cho phép AI đối chiếu lịch sử chẩn đoán cũ</span>
+    </label>
 </div>
 
+        <!-- NÚT PHÂN TÍCH -->
+        <button id="btn-phan-tich-tu-chan" onclick="guiPhanTichTuChan()" class="w-full py-3 bg-primary hover:bg-orange-700 text-white font-bold rounded-lg text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-lg">
+    <i class="fa-solid fa-brain"></i> AI Tổng Hội Chẩn Tứ Chẩn
+</button>
 
-        <!-- MỚI: DANH SÁCH LỊCH SỬ LƯU TRỮ VỌNG CHẨN -->
-        <div class="pt-4 border-t border-stone-800 space-y-3">
+        <!-- KHUNG CHAT & HỘI CHẨN TRỰC TIẾP VỚI AI -->
+        <div id="vong-chan-result" class="hidden space-y-3 pt-3 border-t border-stone-800">
             <div class="flex justify-between items-center">
-                <div class="text-xs font-bold text-amber-400 flex items-center gap-1.5 uppercase">
-                    <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử lưu trữ Vọng chẩn
-                </div>
-                <button onclick="xoaLichSuVongChan()" class="text-[10px] text-stone-500 hover:text-red-400 transition-colors">
-                    <i class="fa-solid fa-trash"></i> Xóa lịch sử
+                <span class="font-bold text-amber-400 text-xs uppercase flex items-center gap-1.5">
+                    <i class="fa-solid fa-robot"></i> Kết Quả Hội Chẩn & Trợ Lý AI
+                </span>
+                <button id="btn-save-vongchan" onclick="luuKetQuaVongChan()" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded text-xs transition-all shadow cursor-pointer flex items-center gap-1">
+                    <i class="fa-solid fa-floppy-disk"></i> Lưu hồ sơ
                 </button>
             </div>
-            <div id="vong-chan-history-list" class="space-y-2 max-h-64 overflow-y-auto pr-1">
-                <!-- Các bản ghi lịch sử sẽ hiển thị ở đây -->
+            
+            <div id="ai-chat-box" class="bg-stone-950 p-3.5 rounded-lg h-[500px] overflow-y-auto space-y-3 text-xs border border-stone-800/80 leading-relaxed">
+                <!-- Nội dung phân tích và đoạn hội thoại chat với AI sẽ hiển thị tại đây -->
+            </div>
+
+            <!-- Ô nhập liệu tiếp tục hỏi AI -->
+            <div class="flex gap-2">
+                <input type="text" id="ai-input" placeholder="Hỏi thêm AI về phác đồ, bài thuốc hoặc gia giảm..." class="flex-1 p-2.5 rounded bg-stone-900 border border-stone-700 text-stone-200 text-xs outline-none focus:border-amber-500" onkeydown="if(event.key==='Enter') sendAIWebMessage()">
+                <button onclick="sendAIWebMessage()" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs rounded transition-colors flex items-center gap-1 cursor-pointer">
+                    <i class="fa-solid fa-paper-plane"></i> Gửi
+                </button>
             </div>
         </div>
     </div>
+    <!-- Thêm vào ngay trước nút đóng </section> của sectionTuChan trong index.html -->
+<div class="bg-stone-900/80 p-3.5 rounded-lg border border-stone-800 space-y-2 mt-4">
+    <div class="flex items-center justify-between">
+        <div class="text-xs font-bold text-amber-500 uppercase tracking-wider flex items-center gap-1.5">
+            <i class="fa-solid fa-clock-rotate-left"></i> Lịch sử hồ sơ chẩn đoán đã lưu
+        </div>
+        <button onclick="xoaLichSuVongChan()" class="text-[10px] text-red-400 hover:underline cursor-pointer">
+            Xóa tất cả
+        </button>
+    </div>
+
+    <!-- Khung render danh sách hồ sơ cũ -->
+    <div id="vong-chan-history-list" class="space-y-2 pt-1">
+        <div class="text-stone-500 text-center text-xs py-3 italic">Chưa có hồ sơ chẩn đoán nào được lưu.</div>
+    </div>
+</div>
+
 </section>
-        <!-- TAB 8: TRỢ LÝ AI -->
-        <section id="sectionAI" class="hidden space-y-4">
-            <div class="bg-dark-box p-5 rounded-lg space-y-4">
-                <h3 class="text-sm font-bold text-amber-500 flex items-center gap-2">
-                    <i class="fa-solid fa-robot"></i> Trợ Lý AI YHCT
-                </h3>
-                <div id="ai-chat-box" class="bg-stone-900 p-4 rounded-lg h-80 overflow-y-auto space-y-3 text-xs border border-stone-800">
-                    <div class="bg-stone-800 p-3 rounded-lg text-stone-300">
-                        <span class="font-bold text-amber-500">Trợ Lý AI YHCT:</span> Chào bạn, tôi có thể hỗ trợ gì cho bạn về Y học cổ truyền?
-                    </div>
-                </div>
-                <div class="flex gap-2">
-                    <input type="text" id="ai-input" onkeydown="if(event.key==='Enter') sendAIWebMessage()" placeholder="Nhập câu hỏi cho trợ lý AI..." class="flex-1 p-3 rounded text-xs">
-                    <button onclick="sendAIWebMessage()" class="px-5 py-3 bg-primary hover:bg-orange-700 text-white font-bold text-xs rounded transition-colors flex items-center gap-1.5 cursor-pointer">
-                        <i class="fa-solid fa-paper-plane"></i> Gửi
-                    </button>
-                </div>
-            </div>
-        </section>
+
     </main>
 
     <footer class="text-center text-xs text-stone-500 py-6 border-t border-stone-800 mt-8 mb-10 space-y-2">
