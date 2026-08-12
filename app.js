@@ -4191,7 +4191,54 @@ function tinhDiemKhopTongQuat(item, rawQuery, titleField = 'ten') {
     
     const queryRaw = rawQuery.toLowerCase().trim();
     const queryMain = queryRaw.replace(/\s*\(.*?\)/g, '').trim();
-    
+
+    // 🟢 1. XỬ LÝ RIÊNG CHO TAB LUẬN TRỊ (Khi titleField === 'hc')
+    if (titleField === 'hc') {
+        const baiThuoc = (item.bt || '').toLowerCase().trim();
+        const hoiChung = (item.hc || '').toLowerCase().trim();
+        const cleanTitle = hoiChung.replace(/\s*\(.*?\)/g, '').trim();
+        const tpbtStr = Array.isArray(item.tpbt) ? item.tpbt.join(' ').toLowerCase() : '';
+        const tcStr = Array.isArray(item.tc) ? item.tc.join(' ').toLowerCase() : '';
+
+        // Tầng 1: Khớp tuyệt đối (Bài thuốc ➔ Hội chứng)
+        if (baiThuoc && baiThuoc === queryRaw) return 12000;
+        if (hoiChung && (hoiChung === queryRaw || cleanTitle === queryMain)) return 10000;
+
+        // Tầng 2: Khớp chuỗi con (Bài thuốc ➔ Hội chứng ➔ Tên thuốc ➔ Triệu chứng)
+        if (baiThuoc && baiThuoc.includes(queryMain)) return 8000;
+        if (cleanTitle.includes(queryMain) || queryMain.includes(cleanTitle)) return 6000;
+        if (tpbtStr && tpbtStr.includes(queryMain)) return 4000;
+        if (tcStr && tcStr.includes(queryMain)) return 2000;
+
+        // Tầng 3: Phân rã Token theo thứ tự ưu tiên
+        const tokens = queryMain.replace(/[,\.;:?!()\[\]{}]/g, ' ').split(/\s+/).filter(Boolean);
+        if (tokens.length === 0) return 0;
+
+        let matchedTokens = 0;
+        let score = 0;
+
+        tokens.forEach(token => {
+            if (baiThuoc && baiThuoc.includes(token)) {
+                matchedTokens++;
+                score += 40; // 1. Ưu tiên 1: Bài thuốc
+            } else if (hoiChung && hoiChung.includes(token)) {
+                matchedTokens++;
+                score += 30; // 2. Ưu tiên 2: Hội chứng
+            } else if (tpbtStr && tpbtStr.includes(token)) {
+                matchedTokens++;
+                score += 20; // 3. Ưu tiên 3: Tên thuốc (Thành phần)
+            } else if (tcStr && tcStr.includes(token)) {
+                matchedTokens++;
+                score += 10; // 4. Ưu tiên 4: Triệu chứng
+            }
+        });
+
+        const coverageRatio = matchedTokens / tokens.length;
+        if (coverageRatio < 0.6) return 0; 
+        return score * coverageRatio;
+    }
+
+    // 🔵 2. GIỮ NGUYÊN CODE GỐC CHO CÁC TAB KHÁC (Dược liệu, Huyệt vị, Trà dược)
     const mainTitle = (item[titleField] || '').toLowerCase().trim();
     const cleanTitle = mainTitle.replace(/\s*\(.*?\)/g, '').trim();
     
@@ -4199,7 +4246,7 @@ function tinhDiemKhopTongQuat(item, rawQuery, titleField = 'ten') {
     const pinyin = (item.pinyin || '').toLowerCase().trim();
     const maWho = (item.ma_who || '').toLowerCase().trim();
 
-    // 🏆 TẦNG 1: Khớp tuyệt đối tiêu đề chính, tên khoa học, pinyin hoặc mã WHO
+    // TẦNG 1: Khớp tuyệt đối tiêu đề chính, tên khoa học, pinyin hoặc mã WHO
     if (mainTitle === queryRaw || cleanTitle === queryMain) return 10000;
     if (tenKhoaHoc && tenKhoaHoc === queryRaw) return 9000;
     if (pinyin && pinyin === queryRaw) return 9000;
@@ -4210,13 +4257,12 @@ function tinhDiemKhopTongQuat(item, rawQuery, titleField = 'ten') {
     if (pinyin && pinyin.includes(queryMain)) return 4500;
     if (maWho && maWho.includes(queryMain)) return 4500;
 
-    // Gom tất cả các trường dữ liệu của item thành một chuỗi lớn để quét token phụ
     const fullText = Object.values(item)
         .filter(v => typeof v === 'string' || Array.isArray(v))
         .join(' ')
         .toLowerCase();
 
-    // 🎯 TẦNG 2: Phân rã Token + Tính tỷ lệ phủ từ khóa (Coverage Penalty)
+    // TẦNG 2: Phân rã Token + Tính tỷ lệ phủ từ khóa
     const tokens = queryMain.replace(/[,\.;:?!()\[\]{}]/g, ' ').split(/\s+/).filter(Boolean);
     if (tokens.length === 0) return 0;
 
@@ -4229,19 +4275,20 @@ function tinhDiemKhopTongQuat(item, rawQuery, titleField = 'ten') {
             score += 15;
         } else if (tenKhoaHoc.includes(token) || pinyin.includes(token) || maWho.includes(token)) {
             matchedTokens++;
-            score += 12; // Thưởng điểm cao khi tìm khớp từ khóa tên khoa học / pinyin / mã WHO
+            score += 12;
         } else if (fullText.includes(token)) {
             matchedTokens++;
             score += 2;
         }
     });
 
-    // Bắt buộc phải khớp tối thiểu 60% số từ khóa người dùng nhập vào
     const coverageRatio = matchedTokens / tokens.length;
     if (coverageRatio < 0.6) return 0; 
 
     return score * coverageRatio;
 }
+
+
 function napBaiThuocMau(arrViThuoc) {
     if (!Array.isArray(arrViThuoc)) return;
     currentFormulaHerbs = [...arrViThuoc];
