@@ -1,40 +1,104 @@
+/* ==========================================================================
+   ĐẠI LUẬN TRỊ YHCT - DESIGN SYSTEM & CÂN ĐỐI TOÀN CỤC
+   ========================================================================== */
 
+:root {
+    --bg-main: #090807;
+    --bg-card: #161311;
+    --bg-input: #211c18;
+    --border-color: #2e2620;
+    --border-focus: #f59e0b;
+    --text-primary: #f5f5f4;
+    --text-secondary: #d6d3d1;
+    --text-muted: #a8a29e;
+    --accent-amber: #d97706;
+    --accent-amber-light: #fbbf24;
+    --accent-emerald: #10b981;
+}
 
-/* style.css - Tối ưu in ấn & xuất PDF */
-@media print {
-    body {
-        background-color: #ffffff !important;
-        color: #000000 !important;
-    }
-    .no-print {
-        display: none !important;
-    }
+html, body {
+    background-color: var(--bg-main) !important;
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    overscroll-behavior-x: none;
+    touch-action: pan-y;
+    -webkit-tap-highlight-color: transparent;
 }
-/* Giao diện Dark mode cơ bản */
-body { 
-    background-color: #0a0908; 
-    color: #e0d8cf; 
-    font-family: system-ui, -apple-system, sans-serif; 
-}
+
+/* Tăng độ tương phản văn bản phụ */
+.text-stone-400 { color: var(--text-muted) !important; }
+.text-stone-500 { color: #8c8580 !important; }
+.text-stone-300 { color: var(--text-secondary) !important; }
+
+/* Khối thẻ nội dung chuẩn mực */
 .bg-dark-box { 
-    background-color: #1a1614; 
-    border: 1px solid #332a22; 
+    background-color: var(--bg-card) !important; 
+    border: 1px solid var(--border-color) !important; 
+    border-radius: 0.875rem;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
 }
-.text-primary { color: #d2691e; }
-.border-primary { border-color: #d2691e; }
-.bg-primary { background-color: #d2691e; }
+
+/* Ô nhập liệu & Select cân đối */
+select, input, textarea { 
+    background-color: var(--bg-input) !important; 
+    color: var(--text-primary) !important; 
+    border: 1px solid var(--border-color) !important; 
+    border-radius: 0.5rem;
+}
+
+select:focus, input:focus, textarea:focus { 
+    outline: none !important; 
+    border-color: var(--border-focus) !important; 
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.25);
+}
+
+/* Thanh điều hướng Tab cân đối trên mobile */
+nav {
+    background-color: #110e0c !important;
+    backdrop-filter: blur(8px);
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+}
+
+@media (min-width: 640px) {
+    nav {
+        grid-template-columns: repeat(9, minmax(0, 1fr));
+    }
+}
+
+nav button {
+    min-height: 44px;
+    padding: 6px 2px;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
 .tab-active { 
-    border-bottom: 3px solid #d2691e; 
-    color: #d2691e; 
-    font-weight: bold; 
-    background-color: #1a1614; 
+    border-bottom: 2px solid var(--accent-amber-light) !important; 
+    color: var(--accent-amber-light) !important; 
+    font-weight: 700 !important; 
+    background-color: rgba(217, 119, 6, 0.12) !important; 
 }
-select, input { 
-    background-color: #26201c; 
-    color: #e0d8cf; 
-    border: 1px solid #4a3e35; 
+
+/* Tùy chỉnh thanh cuộn */
+::-webkit-scrollbar {
+    width: 5px;
+    height: 5px;
 }
-select:focus, input:focus { 
-    outline: none; 
-    border-color: #d2691e; 
+::-webkit-scrollbar-track {
+    background: #090807;
+}
+::-webkit-scrollbar-thumb {
+    background: #2e2620;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #d97706;
+}
+
+/* Cấu hình in ấn */
+@media print {
+    body { background-color: #ffffff !important; color: #000000 !important; }
+    #pdf-area { background-color: #ffffff !important; color: #000000 !important; box-shadow: none !important; }
+    nav, header, footer, button, .no-print { display: none !important; }
 }

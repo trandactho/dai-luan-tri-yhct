@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đại Luận Trị & Tra Cứu YHCT v1.6.0 Premium</title>
+    <title>Đại Luận Trị & Tra Cứu YHCT v1.6.3 Premium</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7294224585301638" crossorigin="anonymous"></script>
     <meta name="description" content="Ứng dụng tra cứu Y Học Cổ Truyền toàn diện: Biện chứng luận trị, Dược liệu học, Châm cứu huyệt vị, Trà dược trị liệu và Trợ lý AI tư vấn YHCT.">
     <meta name="author" content="Trần Đắc Thọ">
@@ -30,7 +30,7 @@
         
     <header class="bg-dark-box p-2 text-center border-b border-stone-800 space-y-0.5">
         <h1 class="text-sm font-bold text-primary flex items-center justify-center gap-1">
-            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.6.0)
+            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.6.3)
         </h1>
         <div class="text-[10px] text-stone-400 space-x-2">
             <span>Biện chứng (<span id="total-chung" class="text-amber-500 font-bold">0</span>)</span> · 
@@ -293,16 +293,22 @@
                     <input type="search" id="searchDuocLieu" class="w-full pl-9 py-2 px-3 rounded bg-stone-900 border border-stone-700 text-stone-200 outline-none focus:border-amber-500 text-xs" placeholder="Tìm tên dược liệu..." oninput="debounceFilterDuocLieu()" onkeydown="if(event.key==='Enter') filterDuocLieu(true)">
                 </div>
                 <div class="flex items-center justify-between px-1">
-                    <button type="button" onclick="triggerAiSearch('duoclieu')" class="px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-stone-900 text-amber-400 border border-stone-800 hover:border-amber-500/60">
-    <i class="fa-solid fa-robot text-xs"></i>
-    <span>AI Tìm và lưu lại</span>
+    <div class="flex items-center gap-2">
+        <button type="button" onclick="triggerAiSearch('duoclieu')" class="px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-stone-900 text-amber-400 border border-stone-800 hover:border-amber-500/60">
+            <i class="fa-solid fa-robot text-xs"></i>
+            <span>AI Tìm và lưu lại</span>
+        </button>
+        <!-- Nút biểu tượng chữ i mở thông tin Dược liệu -->
+        <button onclick="moModalThongTin('duoclieu')" class="px-2.5 py-1 bg-stone-900 hover:bg-stone-800 text-emerald-400 border border-stone-800 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer shadow-sm" title="Thông tin chuyên môn dược liệu">
+            <i class="fa-solid fa-circle-info"></i>
+        </button>
+    </div>
+
+    <button onclick="toggleQuizDL(this)" class="px-3 py-1 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer">
+    <i class="fa-solid fa-graduation-cap"></i> Ôn tập
 </button>
 
-
-                    <button onclick="toggleQuizDL(this)" class="px-3 py-1 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer">
-                        <i class="fa-solid fa-graduation-cap"></i> Ôn tập
-                    </button>
-                </div>
+</div>
                 <select id="filterNhomDuocLieu" onchange="filterDuocLieu()" class="w-full p-3 rounded bg-stone-900 text-stone-200 border border-stone-700 outline-none focus:border-amber-500 text-sm font-medium"></select>
             </div>
             <div id="gridDuocLieu" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
@@ -316,16 +322,22 @@
                     <input type="search" id="searchHuyetVi" class="w-full pl-9 py-2 px-3 rounded bg-stone-900 border border-stone-700 text-stone-200 outline-none focus:border-amber-500 text-xs" placeholder="Tìm tên huyệt vị..." oninput="debounceFilterHuyetVi()" onkeydown="if(event.key==='Enter') filterHuyetVi(true)">
                 </div>
                 <div class="flex items-center justify-between px-1">
-                    <button type="button" onclick="triggerAiSearch('huyetvi')" class="px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-stone-900 text-amber-400 border border-stone-800 hover:border-amber-500/60">
-    <i class="fa-solid fa-robot text-xs"></i>
-    <span>AI Tìm và lưu lại</span>
-</button>
+    <div class="flex items-center gap-2">
+        <button type="button" onclick="triggerAiSearch('huyetvi')" class="px-2.5 py-1 rounded-lg text-xs font-bold flex items-center gap-1.5 transition-all shadow-sm cursor-pointer bg-stone-900 text-amber-400 border border-stone-800 hover:border-amber-500/60">
+            <i class="fa-solid fa-robot text-xs"></i>
+            <span>AI Tìm và lưu lại</span>
+        </button>
+        <!-- Nút biểu tượng chữ i đã được đổi màu đồng bộ với tab Dược liệu -->
+        <button onclick="moModalThongTin('huyetvi')" class="px-2.5 py-1 bg-stone-900 hover:bg-stone-800 text-emerald-400 border border-stone-800 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer shadow-sm" title="Thông tin chuyên môn huyệt vị">
+            <i class="fa-solid fa-circle-info"></i>
+        </button>
+    </div>
 
+    <button onclick="toggleQuizHV(this)" class="px-3 py-1 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer">
+        <i class="fa-solid fa-graduation-cap"></i> Ôn tập
+    </button>
+</div>
 
-                    <button onclick="toggleQuizHV(this)" class="px-3 py-1 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer">
-                        <i class="fa-solid fa-graduation-cap"></i> Ôn tập
-                    </button>
-                </div>
                 <select id="filterKinhLac" onchange="filterHuyetVi()" class="w-full p-3 rounded bg-stone-900 text-stone-200 border border-stone-700 outline-none focus:border-amber-500 text-sm font-medium"></select>
             </div>
             <div id="gridHuyetVi" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
@@ -441,32 +453,71 @@
         </section>
         <!-- TAB 6: PHỐI NGŨ BÀI THUỐC TỰ DO -->
 <section id="sectionPhoiNgu" class="hidden space-y-4">
-    <div class="bg-dark-box p-5 rounded-lg space-y-4">
+    <div class="bg-dark-box p-5 rounded-xl space-y-4 border border-amber-900/40 shadow-xl relative overflow-hidden">
+        <!-- Viền trang trí phía trên -->
+        <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-amber-600 via-amber-400 to-emerald-600"></div>
+
+        <!-- Tiêu đề & Giới thiệu -->
+        <div class="flex items-center justify-between border-b border-stone-800 pb-3">
+    <div>
         <h3 class="text-sm font-bold text-amber-500 flex items-center gap-2">
-            <i class="fa-solid fa-mortar-pestle"></i> Xây Dựng & Phối Ngũ Bài Thuốc Tự Do
+            <i class="fa-solid fa-mortar-pestle text-amber-400"></i> Xây Dựng & Phối Ngũ Bài Thuốc Tự Do
         </h3>
+        <p class="text-[11px] text-stone-400 mt-0.5">Phối hợp dược liệu theo nguyên tắc Quân - Thần - Tá - Sứ & Kiểm tra tương kỵ.</p>
+    </div>
+    <!-- Nút chữ i đổi sang màu xanh ngọc (text-emerald-400) đồng bộ các tab -->
+    <button onclick="moModalThongTin('phoingu')" class="px-2.5 py-1 bg-stone-900 hover:bg-stone-800 text-emerald-400 border border-stone-800 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer shadow-sm" title="Hướng dẫn phối ngũ">
+        <i class="fa-solid fa-circle-info"></i>
+    </button>
+</div>
+
+
+        <!-- Gợi ý bài thuốc mẫu nhanh -->
+        <div class="space-y-1.5">
+            <div class="text-[11px] font-bold text-stone-400 uppercase tracking-wider flex items-center gap-1">
+                <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> Gợi ý bài thuốc mẫu nhanh:
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+                <button onclick="napBaiThuocMau(['Nhân sâm', 'Bạch truật', 'Phục linh', 'Cam thảo'])" class="px-2.5 py-1 bg-stone-900 hover:bg-stone-800 text-amber-300 border border-stone-800 rounded-lg text-[11px] font-medium transition-all cursor-pointer flex items-center gap-1">
+                    <i class="fa-solid fa-seedling text-emerald-500 text-[10px]"></i> Tứ Quân Tử
+                </button>
+                <button onclick="napBaiThuocMau(['Đương quy', 'Bạch thược', 'Xuyên khung', 'Thục địa'])" class="px-2.5 py-1 bg-stone-900 hover:bg-stone-800 text-amber-300 border border-stone-800 rounded-lg text-[11px] font-medium transition-all cursor-pointer flex items-center gap-1">
+                    <i class="fa-solid fa-seedling text-emerald-500 text-[10px]"></i> Tứ Vật Thang
+                </button>
+                <button onclick="napBaiThuocMau(['Hoàng liên', 'Hoàng cầm', 'Hoàng bá', 'Chi tử'])" class="px-2.5 py-1 bg-stone-900 hover:bg-stone-800 text-amber-300 border border-stone-800 rounded-lg text-[11px] font-medium transition-all cursor-pointer flex items-center gap-1">
+                    <i class="fa-solid fa-seedling text-emerald-500 text-[10px]"></i> Hoàng Liên Giải Độc
+                </button>
+                <button onclick="napBaiThuocMau(['Ô đầu', 'Bán hạ'])" class="px-2.5 py-1 bg-red-950/40 hover:bg-red-900/40 text-red-300 border border-red-900/60 rounded-lg text-[11px] font-medium transition-all cursor-pointer flex items-center gap-1" title="Thử nghiệm cảnh báo tương kỵ (18 phản)">
+                    <i class="fa-solid fa-triangle-exclamation text-red-500 text-[10px]"></i> Test Xung Khắc (Ô đầu - Bán hạ)
+                </button>
+            </div>
+        </div>
         
         <!-- Ô tìm kiếm dược liệu thêm vào bài thuốc -->
         <div class="relative">
             <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-stone-500 pointer-events-none"></i>
-            <input type="text" id="search-phoingu-input" placeholder="Gõ tên dược liệu để thêm vào bài thuốc..." class="w-full pl-9 py-2.5 px-3 rounded bg-stone-900 text-stone-200 border border-stone-700 text-xs outline-none focus:border-amber-500" oninput="suggestPhoiNguHerbs()" onkeydown="if(event.key==='Enter') chonViThuocPhoiNgu(this.value)">
+            <input type="text" id="search-phoingu-input" placeholder="Gõ tên dược liệu để thêm vào bài thuốc..." class="w-full pl-9 py-2.5 px-3 rounded-lg bg-stone-900 text-stone-200 border border-stone-700 text-xs outline-none focus:border-amber-500 shadow-inner" oninput="suggestPhoiNguHerbs()" onkeydown="if(event.key==='Enter') chonViThuocPhoiNgu(this.value)">
             <div id="phoingu-dropdown" class="hidden absolute left-0 right-0 top-full mt-1 bg-stone-900 border border-stone-700 rounded-lg shadow-2xl z-50 max-h-48 overflow-y-auto"></div>
         </div>
 
         <!-- Danh sách các vị thuốc đã chọn -->
         <div class="space-y-1.5">
-            <div class="text-xs font-bold text-stone-400 uppercase tracking-wider">Danh sách vị thuốc trong bài (<span id="count-phoingu-herbs" class="text-amber-400">0</span>):</div>
-            <div id="selected-herbs-list" class="flex flex-wrap gap-2 min-h-[50px] p-3 bg-stone-900/50 rounded-lg border border-stone-800 items-center">
-                <span class="text-xs text-stone-500 italic">Chưa có vị thuốc nào được chọn. Hãy tìm và thêm vị thuốc.</span>
+            <div class="flex items-center justify-between">
+                <div class="text-xs font-bold text-stone-400 uppercase tracking-wider">Danh sách vị thuốc trong bài (<span id="count-phoingu-herbs" class="text-amber-400">0</span>):</div>
+                <button onclick="currentFormulaHerbs = []; renderPhoiNguUI();" class="text-[10px] text-red-400 hover:underline cursor-pointer">Xóa tất cả</button>
+            </div>
+            <div id="selected-herbs-list" class="flex flex-wrap gap-2 min-h-[55px] p-3 bg-stone-900/60 rounded-xl border border-stone-800 items-center">
+                <span class="text-xs text-stone-500 italic">Chưa có vị thuốc nào được chọn. Hãy tìm hoặc bấm chọn bài thuốc mẫu phía trên.</span>
             </div>
         </div>
 
-        <!-- Khu vực kết quả phân tích (Tương kỵ, Quân Thần Tá Sứ, Công năng) -->
+        <!-- Khu vực kết quả phân tích -->
         <div id="phoingu-analysis-result" class="space-y-3 pt-3 border-t border-stone-800">
-            <div class="text-xs text-stone-500 italic text-center py-4">Thêm ít nhất 2 vị thuốc để hệ thống phân tích tương kỵ và phối ngũ.</div>
+            <div class="text-xs text-stone-500 italic text-center py-6">Thêm ít nhất 2 vị thuốc để hệ thống phân tích tương kỵ và phối ngũ.</div>
         </div>
     </div>
 </section>
+
                 <!-- TAB TỨ CHẨN AI TÍCH HỢP -->
 <section id="sectionTuChan" class="hidden space-y-4">
     <div class="bg-dark-box p-5 rounded-xl max-w-5xl mx-auto space-y-4 border border-amber-900/40 shadow-2xl">
@@ -617,5 +668,27 @@
     </div>
     <p class="text-[11px] text-stone-600">© 2026 Đại Luận Trị YHCT. Phát triển bởi Trần Đắc Thọ.</p>
 </footer>
+<!-- MODAL THÔNG TIN CHUYÊN MÔN YHCT -->
+<div id="modal-thong-tin-yhct" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-stone-900 border border-stone-800 rounded-2xl max-w-lg w-full p-5 space-y-4 shadow-2xl relative animate-fade-in">
+        <div class="flex items-center justify-between border-b border-stone-800 pb-3">
+            <h3 id="modal-yhct-title" class="font-bold text-base text-amber-400 flex items-center gap-2">
+                <i class="fa-solid fa-circle-info text-amber-500"></i> Thông tin chuyên môn
+            </h3>
+            <button onclick="dongModalThongTin()" class="w-8 h-8 rounded-full bg-stone-800 text-stone-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div id="modal-yhct-content" class="text-xs sm:text-sm text-stone-300 space-y-3 leading-relaxed max-h-[70vh] overflow-y-auto pr-1">
+            <!-- Nội dung đổ động -->
+        </div>
+        <div class="pt-2 border-t border-stone-800 flex justify-end">
+            <button onclick="dongModalThongTin()" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-xl transition-all cursor-pointer">
+                Đã hiểu
+            </button>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dailuantri-v1.6.0';
+const CACHE_NAME = 'dailuantri-v1.6.3';
 
 const SYSTEM_FILES = [
     '/',
@@ -6,7 +6,11 @@ const SYSTEM_FILES = [
     '/style.css',
     '/app.js',
     '/luantridata.js',
-    '/duoclieudata.js',
+    '/duoclieudata1.js',
+    '/duoclieudata2.js',
+    '/duoclieudata3.js',
+    '/duoclieudata4.js',
+    '/duoclieudata5.js',
     '/huyetvidata.js',
     '/tradata.js',
     '/questiondata.js',
@@ -16,7 +20,11 @@ const SYSTEM_FILES = [
     './style.css',
     './app.js',
     './luantridata.js',
-    './duoclieudata.js',
+    '/duoclieudata1.js',
+    '/duoclieudata2.js',
+    '/duoclieudata3.js',
+    '/duoclieudata4.js',
+    '/duoclieudata5.js',
     './huyetvidata.js',
     './tradata.js',
     './questiondata.js',
