@@ -102,3 +102,41 @@ nav button {
     #pdf-area { background-color: #ffffff !important; color: #000000 !important; box-shadow: none !important; }
     nav, header, footer, button, .no-print { display: none !important; }
 }
+/* ==========================================================================
+   NÚT BẤM CHỨC NĂNG CHÍNH (Gộp chung để tối ưu và tránh xung đột)
+   ========================================================================== */
+.bg-primary,
+.btn-primary,
+.btn-action,
+button[type="submit"],
+#btn-phan-tich-tu-chan {
+    background: linear-gradient(135deg, var(--accent-amber), #b45309) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    border: none !important;
+    border-radius: 0.625rem !important;
+    box-shadow: 0 4px 14px rgba(217, 119, 6, 0.45) !important;
+    transition: all 0.2s ease-in-out !important;
+}
+
+/* Hiệu ứng khi rê chuột (Hover) */
+.bg-primary:hover,
+.btn-primary:hover,
+.btn-action:hover,
+button[type="submit"]:hover,
+#btn-phan-tich-tu-chan:hover {
+    background: linear-gradient(135deg, var(--accent-amber-light), var(--accent-amber)) !important;
+    color: #000000 !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 6px 18px rgba(251, 191, 36, 0.5) !important;
+}
+
+/* Hiệu ứng khi nhấn (Active) */
+.bg-primary:active,
+.btn-primary:active,
+.btn-action:active,
+button[type="submit"]:active,
+#btn-phan-tich-tu-chan:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3) !important;
+}
