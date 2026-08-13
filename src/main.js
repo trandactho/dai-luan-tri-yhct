@@ -1,0 +1,173 @@
+// --- KHỞI CHẠY ỨNG DỤNG & ĐIỀU HƯỚNG TAB ---
+
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        // 1. Phục hồi trạng thái bộ lọc từ Session Storage
+        if (typeof restoreDuocLieuState === 'function') restoreDuocLieuState();
+        if (typeof restoreHuyetViState === 'function') restoreHuyetViState();
+
+        // 2. Cập nhật tất cả chỉ số thống kê trên Header
+        capNhatThongKeHeader();
+        if (typeof capNhatTongSoTrieuChung === 'function') capNhatTongSoTrieuChung();
+        if (typeof capNhatTongSoTracNghiem === 'function') capNhatTongSoTracNghiem();
+        if (typeof capNhatDiemGanNhat === 'function') capNhatDiemGanNhat();
+
+        // 3. Khởi tạo dữ liệu hiển thị ban đầu
+        if (typeof updateLuanTri === 'function') updateLuanTri();
+
+        // 4. Ẩn màn hình Loading (#app-loader)
+        const loader = document.getElementById('app-loader');
+        if (loader) {
+            loader.classList.add('opacity-0');
+            setTimeout(() => {
+                loader.classList.add('hidden');
+            }, 300);
+        }
+    } catch (err) {
+        console.error("Lỗi trong quá trình khởi chạy ứng dụng:", err);
+        const loader = document.getElementById('app-loader');
+        if (loader) loader.classList.add('hidden');
+    }
+});
+
+// Hàm tính toán và nhảy con số thống kê trên Header
+function capNhatThongKeHeader() {
+    // 1. Dược liệu
+    const elThuoc = document.getElementById('total-thuoc');
+    if (elThuoc && typeof duocLieuData !== 'undefined' && Array.isArray(duocLieuData)) {
+        elThuoc.innerText = duocLieuData.length;
+    }
+
+    // 2. Huyệt vị
+    const elHuyet = document.getElementById('total-huyet');
+    if (elHuyet && typeof huyetViData !== 'undefined' && Array.isArray(huyetViData)) {
+        elHuyet.innerText = huyetViData.length;
+    }
+
+    // 3. Dược thiện
+    const elDuocThien = document.getElementById('total-duocthien');
+    if (elDuocThien) {
+        if (typeof getCombinedDuocThienData === 'function') {
+            elDuocThien.innerText = getCombinedDuocThienData().length;
+        } else if (typeof duocThienData !== 'undefined' && Array.isArray(duocThienData)) {
+            elDuocThien.innerText = duocThienData.length;
+        }
+    }
+
+    // 4. Trà dược
+    const elTra = document.getElementById('total-tra');
+    if (elTra) {
+        if (typeof getCombinedTraData === 'function') {
+            elTra.innerText = getCombinedTraData().length;
+        } else if (typeof traData !== 'undefined' && Array.isArray(traData)) {
+            elTra.innerText = traData.length;
+        }
+    }
+}
+
+// Hàm chuyển đổi tab giao diện chính (Đã tối ưu hóa mượt)
+async function switchTab(tabName) {
+    const tabs = [
+        { id: 'luantri', sec: 'sectionLuanTri', btn: 'btnTabLuanTri' },
+        { id: 'huyetvi', sec: 'sectionHuyetVi', btn: 'btnTabHuyetVi' },
+        { id: 'duoclieu', sec: 'sectionDuocLieu', btn: 'btnTabDuocLieu' },
+        { id: 'duocthien', sec: 'sectionDuocThien', btn: 'btnTabDuocThien' },
+        { id: 'tra', sec: 'sectionTra', btn: 'btnTabTra' },
+        { id: 'tracnghiem', sec: 'sectionTracNghiem', btn: 'btnTabTracNghiem' },
+        { id: 'tracuusach', sec: 'sectionTraCuuSach', btn: 'btnTabTraCuuSach' },
+        { id: 'phoingu', sec: 'sectionPhoiNgu', btn: 'btnTabPhoiNgu' },
+        { id: 'tuchan', sec: 'sectionTuChan', btn: 'btnTabTuChan' }
+    ];
+
+    // BƯỚC 1: Đổi Tab UI tức thì (Không delay)
+    tabs.forEach(t => {
+        const secEl = document.getElementById(t.sec);
+        const btnEl = document.getElementById(t.btn);
+        if (secEl) secEl.classList.add('hidden');
+        if (btnEl) btnEl.classList.remove('tab-active');
+    });
+
+    const target = tabs.find(t => t.id === tabName);
+    if (target) {
+        const secEl = document.getElementById(target.sec);
+        const btnEl = document.getElementById(target.btn);
+        if (secEl) secEl.classList.remove('hidden');
+        if (btnEl) {
+            btnEl.classList.add('tab-active');
+            // Cuộn tự động thanh Menu để nút active luôn ở tầm mắt
+            btnEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+        }
+    }
+
+    // BƯỚC 2: Đẩy việc xử lý render danh sách nặng sang khung hình tiếp theo (Giúp animation mượt)
+    requestAnimationFrame(() => {
+        if (tabName === 'duoclieu' && typeof filterDuocLieu === 'function') filterDuocLieu();
+        if (tabName === 'huyetvi' && typeof filterHuyetVi === 'function') filterHuyetVi();
+        if (tabName === 'tra' && typeof filterTra === 'function') filterTra();
+        if (tabName === 'duocthien' && typeof filterDuocThien === 'function') filterDuocThien();
+        if (tabName === 'tracuusach' && typeof taiDanhSachSachTuDrive === 'function') taiDanhSachSachTuDrive();
+        if (tabName === 'tuchan' && typeof hienThiLichSuVongChan === 'function') hienThiLichSuVongChan();
+        if (tabName === 'phoingu' && typeof renderPhoiNguUI === 'function') renderPhoiNguUI();
+    });
+}
+
+function exportPDF() {
+    window.print();
+}
+
+function taiDuLieuOffline() {
+    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage({ type: 'CACHE_ALL' });
+        alert('Đã gửi yêu cầu tải dữ liệu Offline.');
+    } else {
+        alert('Trình duyệt chưa sẵn sàng lưu Offline.');
+    }
+}
+
+// --- BẮT SỰ KIỆN VUỐT CHUYỂN TAB MƯỢT MÀ VÀ TỰ ĐỘNG LỌC CUỘN DỌC ---
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+
+const ALL_TABS = ['luantri', 'huyetvi', 'duoclieu', 'duocthien', 'tra', 'tracnghiem', 'tracuusach', 'phoingu', 'tuchan'];
+
+document.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].screenX;
+    touchStartY = e.changedTouches[0].screenY;
+}, { passive: true });
+
+document.addEventListener('touchend', (e) => {
+    touchEndX = e.changedTouches[0].screenX;
+    touchEndY = e.changedTouches[0].screenY;
+    handleSwipe();
+}, { passive: true });
+
+function handleSwipe() {
+    const deltaX = touchEndX - touchStartX;
+    const deltaY = touchEndY - touchStartY;
+
+    // Nếu thao tác là cuộn dọc (vuốt lên/xuống) nhiều hơn vuốt ngang -> Bỏ qua không chuyển tab
+    if (Math.abs(deltaY) > Math.abs(deltaX)) return;
+
+    const threshold = 60; // Ngưỡng vuốt ngang (px)
+    if (Math.abs(deltaX) < threshold) return;
+
+    const activeBtn = document.querySelector('nav button.tab-active');
+    if (!activeBtn) return;
+    
+    const currentTabId = activeBtn.id.replace('btnTab', '').toLowerCase();
+    const currentIndex = ALL_TABS.findIndex(t => t.toLowerCase() === currentTabId);
+
+    if (currentIndex === -1) return;
+
+    if (deltaX < 0) {
+        // Vuốt sang trái -> Tab kế tiếp
+        const nextIndex = (currentIndex + 1) % ALL_TABS.length;
+        switchTab(ALL_TABS[nextIndex]);
+    } else if (deltaX > 0) {
+        // Vuốt sang phải -> Tab trước đó
+        const prevIndex = (currentIndex - 1 + ALL_TABS.length) % ALL_TABS.length;
+        switchTab(ALL_TABS[prevIndex]);
+    }
+}
