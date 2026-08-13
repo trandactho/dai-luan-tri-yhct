@@ -115,12 +115,25 @@ function exportPDF() {
     window.print();
 }
 
-function taiDuLieuOffline() {
-    if ('serviceWorker' in navigator && navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage({ type: 'CACHE_ALL' });
-        alert('Đã gửi yêu cầu tải dữ liệu Offline.');
-    } else {
-        alert('Trình duyệt chưa sẵn sàng lưu Offline.');
+async function taiDuLieuOffline() {
+    if (!('serviceWorker' in navigator)) {
+        alert('Trình duyệt của bạn không hỗ trợ tính năng Offline.');
+        return;
+    }
+
+    try {
+        const registration = await navigator.serviceWorker.ready;
+        const activeWorker = navigator.serviceWorker.controller || registration.active;
+
+        if (activeWorker) {
+            activeWorker.postMessage({ type: 'CACHE_ALL' });
+            alert('Đã lưu toàn bộ 10 module và dữ liệu Offline thành công!');
+        } else {
+            alert('Service Worker đang khởi tạo, vui lòng tải lại trang (F5) và thử lại.');
+        }
+    } catch (err) {
+        console.error('Lỗi tải offline:', err);
+        alert('Chưa thể lưu Offline: ' + err.message);
     }
 }
 
