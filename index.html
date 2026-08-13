@@ -13,7 +13,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <script src="sw.js"></script>
-    <script src="app.js"></script>
+    <!-- ĐÃ XÓA <script src="app.js"></script> -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -46,43 +46,43 @@
     </header>
 
     <nav class="sticky top-0 z-50 grid grid-cols-5 sm:grid-cols-9 gap-0.5 bg-stone-900 border-b border-stone-800 text-center text-[10px] shadow-md">
-        <button id="btnTabLuanTri" onclick="switchTab('luantri')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center tab-active">
-            <i class="fa-solid fa-file-medical text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Luận Trị</span>
-        </button>
-        <button id="btnTabHuyetVi" onclick="switchTab('huyetvi')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-            <i class="fa-solid fa-circle-dot text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Huyệt Vị</span>
-        </button>
-        <button id="btnTabDuocLieu" onclick="switchTab('duoclieu')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-            <i class="fa-solid fa-leaf text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Dược Liệu</span>
-        </button>
-        <button id="btnTabDuocThien" onclick="switchTab('duocthien')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-            <i class="fa-solid fa-utensils text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Dược Thiện</span>
-        </button>
-        <button id="btnTabTra" onclick="switchTab('tra')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-            <i class="fa-solid fa-mug-hot text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Trà Dược</span>
-        </button>
-        <button id="btnTabTracNghiem" onclick="switchTab('tracnghiem')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-            <i class="fa-solid fa-graduation-cap text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Khảo Thí</span>
-        </button>
-        <button id="btnTabTraCuuSach" onclick="switchTab('tracuusach')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-            <i class="fa-solid fa-book-medical text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Thư Tịch</span>
-        </button>
-        <button id="btnTabPhoiNgu" onclick="switchTab('phoingu')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-            <i class="fa-solid fa-mortar-pestle text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Phối Ngũ</span>
-        </button>
-        <button id="btnTabTuChan" onclick="switchTab('tuchan')" class="py-0.5 px-1 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
-            <i class="fa-solid fa-brain text-xs mb-0.5"></i>
-            <span class="scale-90 tracking-tighter">Tứ Chẩn AI</span>
-        </button>
-    </nav>
+    <button id="btnTabLuanTri" onclick="switchTab('luantri')" class="py-1 px-0.5 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center tab-active">
+        <i class="fa-solid fa-file-medical text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Luận Trị</span>
+    </button>
+    <button id="btnTabHuyetVi" onclick="switchTab('huyetvi')" class="py-1 px-0.5 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+        <i class="fa-solid fa-circle-dot text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Huyệt Vị</span>
+    </button>
+    <button id="btnTabDuocLieu" onclick="switchTab('duoclieu')" class="py-1 px-0.5 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+        <i class="fa-solid fa-leaf text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Dược Liệu</span>
+    </button>
+    <button id="btnTabDuocThien" onclick="switchTab('duocthien')" class="py-1 px-0.5 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+        <i class="fa-solid fa-utensils text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Dược Thiện</span>
+    </button>
+    <button id="btnTabTra" onclick="switchTab('tra')" class="py-1 px-0.5 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+        <i class="fa-solid fa-mug-hot text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Trà Dược</span>
+    </button>
+    <button id="btnTabTracNghiem" onclick="switchTab('tracnghiem')" class="py-1 px-0.5 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+        <i class="fa-solid fa-graduation-cap text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Khảo Thí</span>
+    </button>
+    <button id="btnTabTraCuuSach" onclick="switchTab('tracuusach')" class="py-1 px-0.5 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+        <i class="fa-solid fa-book-medical text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Thư Tịch</span>
+    </button>
+    <button id="btnTabPhoiNgu" onclick="switchTab('phoingu')" class="py-1 px-0.5 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+        <i class="fa-solid fa-mortar-pestle text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Phối Ngũ</span>
+    </button>
+    <button id="btnTabTuChan" onclick="switchTab('tuchan')" class="py-1 px-0.5 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center">
+        <i class="fa-solid fa-brain text-xs mb-0.5"></i>
+        <span class="scale-90 tracking-tighter">Tứ Chẩn AI</span>
+    </button>
+</nav>
 
     <main class="container mx-auto px-4 py-6 pb-20 max-w-5xl">
         <!-- TAB 1: BIỆN CHỨNG LUẬN TRỊ -->
@@ -122,7 +122,7 @@
                   <div>
                     <label class="block text-[11px] text-stone-400 mb-1 font-medium pl-1">Tạng phủ</label>
                     <select id="tang-phu" onchange="updateLuanTri()" class="w-full p-2.5 rounded font-medium text-xs bg-stone-900 text-stone-200 border border-stone-700 outline-none focus:border-amber-500">
-                      <option value="">-- Tất cả --</option>
+                      <option value="">-- Tất cả (nhiều vị trí) --</option>
                       <option value="Can">Can (Gan)</option>
                       <option value="Tam">Tâm (Tim)</option>
                       <option value="Ty">Tỳ (Tiêu hóa)</option>
@@ -301,53 +301,56 @@
             <div id="gridTra" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
         
-        <!-- TAB 6: TRẮC NGHIỆM -->
-        <section id="sectionTracNghiem" class="hidden space-y-5">
-            <div id="quiz-setup" class="bg-dark-box p-5 rounded-lg space-y-4">
-                <h2 class="text-base font-bold text-amber-500 flex items-center gap-2">
-                    <i class="fa-solid fa-sliders"></i> Cấu Hình Bài Kiểm Tra
-                </h2>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs text-stone-400 font-bold mb-1">Mảng kiến thức:</label>
-                        <select id="quiz-category" class="w-full p-2.5 rounded text-sm bg-stone-900 text-stone-200 border border-stone-700 outline-none focus:border-amber-500">
-                            <option value="all">🌟 Tổng hợp tất cả</option>
-                            <option value="luantri">🩺 Biện chứng luận trị</option>
-                            <option value="lyluan">📖 Lý luận cơ bản YHCT</option>
-                            <option value="phuongte">🧪 Phương tễ học</option>
-                            <option value="duoclieu">🌿 Dược liệu học</option>
-                            <option value="huyetvi">🎯 Châm cứu huyệt vị</option>
-                            <option value="duocthien">🍲 Dược thiện trị liệu</option>
-                            <option value="tra">☕ Trà dược trị liệu</option>
-                            <option value="chandoan">📋 Chẩn đoán YHCT</option>
-                            <option value="chamcuu_xoabop">👐 Châm cứu & Xoa bóp</option>
-                            <option value="duongsinh">🧘 Dưỡng sinh Khí công</option>
-                            <option value="duochoc_benhhoc">💊 Dược học & Bệnh học YHCT</option>
-                        </select>
+                <!-- TAB 6: TRẮC NGHIỆM -->
+        <section id="sectionTracNghiem" class="hidden space-y-5 min-h-[600px]">
+            <div id="quiz-setup" class="bg-dark-box p-5 rounded-lg space-y-4 min-h-[520px] flex flex-col justify-between">
+                <div class="space-y-4">
+                    <h2 class="text-base font-bold text-amber-500 flex items-center gap-2">
+                        <i class="fa-solid fa-sliders"></i> Cấu Hình Bài Kiểm Tra
+                    </h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs text-stone-400 font-bold mb-1">Mảng kiến thức:</label>
+                            <select id="quiz-category" class="w-full p-2.5 rounded text-sm bg-stone-900 text-stone-200 border border-stone-700 outline-none focus:border-amber-500">
+                                <option value="all">🌟 Tổng hợp tất cả</option>
+                                <option value="luantri">🩺 Biện chứng luận trị</option>
+                                <option value="lyluan">📖 Lý luận cơ bản YHCT</option>
+                                <option value="phuongte">🧪 Phương tễ học</option>
+                                <option value="duoclieu">🌿 Dược liệu học</option>
+                                <option value="huyetvi">🎯 Châm cứu huyệt vị</option>
+                                <option value="duocthien">🍲 Dược thiện trị liệu</option>
+                                <option value="tra">☕ Trà dược trị liệu</option>
+                                <option value="chandoan">📋 Chẩn đoán YHCT</option>
+                                <option value="chamcuu_xoabop">👐 Châm cứu & Xoa bóp</option>
+                                <option value="duongsinh">🧘 Dưỡng sinh Khí công</option>
+                                <option value="duochoc_benhhoc">💊 Dược học & Bệnh học YHCT</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs text-stone-400 font-bold mb-1">Số lượng câu hỏi:</label>
+                            <select id="quiz-count" class="w-full p-2.5 rounded text-sm bg-stone-900 text-stone-200 border border-stone-700 outline-none focus:border-amber-500">
+                                <option value="5">5 câu (Nhanh)</option>
+                                <option value="10" selected>10 câu (Tiêu chuẩn)</option>
+                                <option value="20">20 câu (Nâng cao)</option>
+                                <option value="30">30 câu (Chuyên sâu)</option>
+                            </select>
+                        </div>
                     </div>
-                    <div>
-                        <label class="block text-xs text-stone-400 font-bold mb-1">Số lượng câu hỏi:</label>
-                        <select id="quiz-count" class="w-full p-2.5 rounded text-sm bg-stone-900 text-stone-200 border border-stone-700 outline-none focus:border-amber-500">
-                            <option value="5">5 câu (Nhanh)</option>
-                            <option value="10" selected>10 câu (Tiêu chuẩn)</option>
-                            <option value="20">20 câu (Nâng cao)</option>
-                            <option value="30">30 câu (Chuyên sâu)</option>
-                        </select>
+                    <div class="space-y-3 pt-2 mb-3 border-t border-stone-800">
+                        <label class="flex items-center gap-2 cursor-pointer text-xs text-amber-400 font-semibold">
+                            <input type="checkbox" id="use-ai-quiz" onchange="toggleAiQuizCountLock(this)" class="rounded bg-stone-900 border-stone-700 text-amber-600 focus:ring-0 w-4 h-4 cursor-pointer">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> Sử dụng AI sinh câu hỏi lâm sàng thông minh (Cố định 10 câu tiêu chuẩn)
+                        </label>
                     </div>
+                    <div id="quiz-last-score" class="text-xs text-amber-500 font-medium pt-1"></div>
                 </div>
-                <div class="space-y-3 pt-2 mb-3 border-t border-stone-800">
-                    <label class="flex items-center gap-2 cursor-pointer text-xs text-amber-400 font-semibold">
-                        <input type="checkbox" id="use-ai-quiz" onchange="toggleAiQuizCountLock(this)" class="rounded bg-stone-900 border-stone-700 text-amber-600 focus:ring-0 w-4 h-4 cursor-pointer">
-                        <i class="fa-solid fa-wand-magic-sparkles"></i> Sử dụng AI sinh câu hỏi lâm sàng thông minh (Cố định 10 câu tiêu chuẩn)
-                    </label>
-                </div>
-                <div id="quiz-last-score" class="text-xs text-amber-500 font-medium pt-1"></div>
-                <button onclick="batDauTracNghiem()" class="btn-primary w-full py-3.5 text-xs font-bold rounded-lg flex items-center justify-center gap-2 cursor-pointer shadow-lg">
+
+                <button onclick="batDauTracNghiem()" class="btn-primary w-full py-3.5 text-xs font-bold rounded-lg flex items-center justify-center gap-2 cursor-pointer shadow-lg mt-auto">
                     <i class="fa-solid fa-play"></i> Bắt Đầu Kiểm Tra
                 </button>
             </div>
             
-            <div id="quiz-play" class="hidden bg-dark-box p-5 rounded-xl space-y-4 border border-stone-800 shadow-2xl relative overflow-hidden">
+            <div id="quiz-play" class="hidden bg-dark-box p-5 rounded-xl space-y-4 border border-stone-800 shadow-2xl relative overflow-hidden min-h-[480px]">
                 <div class="absolute top-0 left-0 right-0 h-1 bg-stone-900">
                     <div id="quiz-progress-bar" class="bg-gradient-to-r from-amber-600 to-amber-400 h-full transition-all duration-300" style="width: 0%"></div>
                 </div>
@@ -362,7 +365,7 @@
                 <div id="quiz-question" class="text-sm font-semibold text-stone-100 min-h-[50px] leading-relaxed bg-stone-900/70 p-4 rounded-xl border border-stone-800 shadow-inner flex items-center"></div>
                 <div id="quiz-options" class="space-y-2.5"></div>
             </div>
-            <div id="quiz-result" class="hidden bg-dark-box p-6 rounded-lg text-center space-y-4 border border-stone-800">
+            <div id="quiz-result" class="hidden bg-dark-box p-6 rounded-lg text-center space-y-4 border border-stone-800 min-h-[480px]">
                 <div class="text-stone-400 text-xs uppercase font-bold tracking-wider">KẾT QUẢ TRẮC NGHIỆM</div>
                 <div id="quiz-score-final" class="text-4xl font-black text-amber-500">0/10</div>
                 <div id="quiz-evaluation" class="text-sm font-medium text-stone-300 bg-stone-900 p-4 rounded-lg border border-stone-800 text-left leading-relaxed"></div>
@@ -378,7 +381,7 @@
                     </button>
                 </div>
             </div>
-            <div id="quiz-review" class="hidden bg-dark-box p-5 rounded-lg space-y-4 border border-stone-800">
+            <div id="quiz-review" class="hidden bg-dark-box p-5 rounded-lg space-y-4 border border-stone-800 min-h-[480px]">
                 <div class="flex justify-between items-center border-b border-stone-800 pb-2">
                     <h3 class="text-sm font-bold text-amber-500"><i class="fa-solid fa-list-check"></i> Chi Tiết Câu Trả Lời</h3>
                     <button onclick="dongXemLai()" class="text-stone-400 hover:text-white text-xs px-2.5 py-1.5 bg-stone-800 rounded font-bold cursor-pointer">Quay lại kết quả</button>
@@ -386,65 +389,9 @@
                 <div id="quiz-review-list" class="space-y-3 max-h-96 overflow-y-auto text-xs text-left pr-1"></div>
             </div>
         </section>
+        
 
-        <!-- TAB 7: PHỐI NGŨ BÀI THUỐC TỰ DO -->
-        <section id="sectionPhoiNgu" class="hidden space-y-4">
-            <div class="bg-dark-box p-5 rounded-lg space-y-4">
-                <div class="flex items-center justify-between border-b border-stone-800 pb-3">
-                    <div>
-                        <h3 class="text-sm font-bold text-amber-500 flex items-center gap-2">
-                            <i class="fa-solid fa-mortar-pestle"></i> Xây Dựng & Phối Ngũ Bài Thuốc Tự Do
-                        </h3>
-                        <p class="text-[11px] text-stone-400 mt-0.5">Phối hợp dược liệu theo nguyên tắc Quân - Thần - Tá - Sứ & Kiểm tra tương kỵ.</p>
-                    </div>
-                    <button onclick="moModalThongTin('phoingu')" class="px-2.5 py-1 bg-stone-900 hover:bg-stone-800 text-emerald-400 border border-stone-800 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer shadow-sm" title="Hướng dẫn phối ngũ">
-                        <i class="fa-solid fa-circle-info"></i>
-                    </button>
-                </div>
-
-                <div class="space-y-1.5">
-                    <div class="text-[11px] font-bold text-stone-400 uppercase tracking-wider flex items-center gap-1">
-                        <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> Gợi ý bài thuốc mẫu nhanh:
-                    </div>
-                    <div class="flex flex-wrap gap-1.5">
-                        <button onclick="napBaiThuocMau(['Nhân sâm', 'Bạch truật', 'Phục linh', 'Cam thảo'])" class="px-2.5 py-1 bg-stone-900 hover:bg-stone-800 text-amber-400 border border-stone-800 rounded-lg text-xs font-medium transition-all cursor-pointer">
-                            Tứ Quân Tử
-                        </button>
-                        <button onclick="napBaiThuocMau(['Đương quy', 'Bạch thược', 'Xuyên khung', 'Thục địa'])" class="px-2.5 py-1 bg-stone-900 hover:bg-stone-800 text-amber-400 border border-stone-800 rounded-lg text-xs font-medium transition-all cursor-pointer">
-                            Tứ Vật Thang
-                        </button>
-                        <button onclick="napBaiThuocMau(['Hoàng liên', 'Hoàng cầm', 'Hoàng bá', 'Chi tử'])" class="px-2.5 py-1 bg-stone-900 hover:bg-stone-800 text-amber-400 border border-stone-800 rounded-lg text-xs font-medium transition-all cursor-pointer">
-                            Hoàng Liên Giải Độc
-                        </button>
-                        <button onclick="napBaiThuocMau(['Ô đầu', 'Bán hạ'])" class="px-2.5 py-1 bg-red-950/40 hover:bg-red-900/40 text-red-400 border border-red-900/60 rounded-lg text-xs font-medium transition-all cursor-pointer flex items-center gap-1">
-                            <i class="fa-solid fa-triangle-exclamation"></i> Test Xung Khắc (Ô đầu - Bán hạ)
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="relative">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-stone-500 pointer-events-none"></i>
-                    <input type="text" id="search-phoingu-input" placeholder="Gõ tên dược liệu để thêm vào bài thuốc..." class="w-full text-xs outline-none focus:border-amber-500" oninput="suggestPhoiNguHerbs()" onkeydown="if(event.key==='Enter') chonViThuocPhoiNgu(this.value)">
-                    <div id="phoingu-dropdown" class="hidden absolute left-0 right-0 top-full mt-1 bg-stone-900 border border-stone-800 rounded-lg shadow-2xl z-50 max-h-48 overflow-y-auto"></div>
-                </div>
-
-                <div class="space-y-1.5">
-                    <div class="flex items-center justify-between">
-                        <div class="text-xs font-bold text-stone-400 uppercase tracking-wider">Danh sách vị thuốc trong bài (<span id="count-phoingu-herbs" class="text-amber-400">0</span>):</div>
-                        <button onclick="currentFormulaHerbs = []; renderPhoiNguUI();" class="text-[10px] text-red-400 hover:underline cursor-pointer">Xóa tất cả</button>
-                    </div>
-                    <div id="selected-herbs-list" class="flex flex-wrap gap-2 min-h-[50px] p-3 bg-stone-900 rounded-lg border border-stone-800 items-center">
-                        <span class="text-xs text-stone-500 italic">Chưa có vị thuốc nào được chọn. Hãy tìm hoặc bấm chọn bài thuốc mẫu phía trên.</span>
-                    </div>
-                </div>
-
-                <div id="phoingu-analysis-result" class="space-y-3 pt-3 border-t border-stone-800">
-                    <div class="text-xs text-stone-500 italic text-center py-4">Thêm ít nhất 2 vị thuốc để hệ thống phân tích tương kỵ và phối ngũ.</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- TAB 8: TRA CỨU SÁCH YHCT -->
+        <!-- TAB 7: TRA CỨU SÁCH YHCT -->
         <section id="sectionTraCuuSach" class="hidden space-y-4">
             <div class="bg-dark-box p-5 rounded-lg space-y-4">
                 <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 border-b border-stone-800 pb-3">
@@ -500,6 +447,67 @@
                 </div>
             </div>
         </section>
+        <!-- TAB 8: PHỐI NGŨ BÀI THUỐC TỰ DO -->
+<section id="sectionPhoiNgu" class="hidden space-y-4">
+    <div class="bg-dark-box p-5 rounded-lg space-y-4">
+        <!-- Header Tab -->
+        <div class="flex items-center justify-between border-b border-stone-800 pb-3">
+            <div>
+                <h3 class="text-sm font-bold text-amber-500 flex items-center gap-2">
+                    <i class="fa-solid fa-mortar-pestle"></i> Xây Dựng & Phối Ngũ Bài Thuốc Tự Do
+                </h3>
+                <p class="text-[11px] text-stone-400 mt-0.5">Phối hợp dược liệu theo nguyên tắc Quân - Thần - Tá - Sứ & Kiểm tra tương kỵ.</p>
+            </div>
+            <button onclick="moModalThongTin('phoingu')" class="px-2.5 py-1 bg-stone-900 hover:bg-stone-800 text-emerald-400 border border-stone-800 font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all cursor-pointer shadow-sm" title="Hướng dẫn phối ngũ">
+                <i class="fa-solid fa-circle-info"></i>
+            </button>
+        </div>
+
+        <!-- Gợi ý bài thuốc mẫu -->
+        <div class="space-y-1.5">
+            <div class="text-[11px] font-bold text-stone-400 uppercase tracking-wider flex items-center gap-1">
+                <i class="fa-solid fa-wand-magic-sparkles text-amber-500"></i> Gợi ý bài thuốc mẫu nhanh:
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+                <button onclick="napBaiThuocMau(['Nhân sâm', 'Bạch truật', 'Phục linh', 'Cam thảo'])" class="px-2.5 py-1 bg-stone-900 hover:bg-stone-800 text-amber-400 border border-stone-800 rounded-lg text-xs font-medium transition-all cursor-pointer">
+                    Tứ Quân Tử
+                </button>
+                <button onclick="napBaiThuocMau(['Đương quy', 'Bạch thược', 'Xuyên khung', 'Thục địa'])" class="px-2.5 py-1 bg-stone-900 hover:bg-stone-800 text-amber-400 border border-stone-800 rounded-lg text-xs font-medium transition-all cursor-pointer">
+                    Tứ Vật Thang
+                </button>
+                <button onclick="napBaiThuocMau(['Hoàng liên', 'Hoàng cầm', 'Hoàng bá', 'Chi tử'])" class="px-2.5 py-1 bg-stone-900 hover:bg-stone-800 text-amber-400 border border-stone-800 rounded-lg text-xs font-medium transition-all cursor-pointer">
+                    Hoàng Liên Giải Độc
+                </button>
+                <button onclick="napBaiThuocMau(['Ô đầu', 'Bán hạ'])" class="px-2.5 py-1 bg-red-950/40 hover:bg-red-900/40 text-red-400 border border-red-900/60 rounded-lg text-xs font-medium transition-all cursor-pointer flex items-center gap-1">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Test Xung Khắc (Ô đầu - Bán hạ)
+                </button>
+            </div>
+        </div>
+        
+        <!-- Ô tìm kiếm dược liệu -->
+        <div class="relative">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-stone-500 pointer-events-none"></i>
+            <input type="text" id="search-phoingu-input" placeholder="Gõ tên dược liệu để thêm vào bài thuốc..." class="w-full text-xs outline-none focus:border-amber-500" oninput="suggestPhoiNguHerbs()" onkeydown="if(event.key==='Enter') chonViThuocPhoiNgu(this.value)">
+            <div id="phoingu-dropdown" class="hidden absolute left-0 right-0 top-full mt-1 bg-stone-900 border border-stone-800 rounded-lg shadow-2xl z-50 max-h-48 overflow-y-auto"></div>
+        </div>
+
+        <!-- Danh sách vị thuốc đã chọn -->
+        <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+                <div class="text-xs font-bold text-stone-400 uppercase tracking-wider">Danh sách vị thuốc trong bài (<span id="count-phoingu-herbs" class="text-amber-400">0</span>):</div>
+                <button onclick="currentFormulaHerbs = []; renderPhoiNguUI();" class="text-[10px] text-red-400 hover:underline cursor-pointer">Xóa tất cả</button>
+            </div>
+            <div id="selected-herbs-list" class="flex flex-wrap gap-2 min-h-[50px] p-3 bg-stone-900 rounded-lg border border-stone-800 items-center">
+                <span class="text-xs text-stone-500 italic">Chưa có vị thuốc nào được chọn. Hãy tìm hoặc bấm chọn bài thuốc mẫu phía trên.</span>
+            </div>
+        </div>
+
+        <!-- Khu vực hiển thị kết quả phân tích -->
+        <div id="phoingu-analysis-result" class="space-y-3 pt-3 border-t border-stone-800">
+            <div class="text-xs text-stone-500 italic text-center py-4">Thêm ít nhất 2 vị thuốc để hệ thống phân tích tương kỵ và phối ngũ.</div>
+        </div>
+    </div>
+</section>
 
         <!-- TAB 9: TỨ CHẨN AI TÍCH HỢP -->
         <section id="sectionTuChan" class="hidden space-y-4">
@@ -658,5 +666,34 @@
             </div>
         </div>
     </div>
+        <!-- 0. CƠ SỞ DỮ LIỆU (Bắt buộc nạp trước để các module có dữ liệu đọc) -->
+    <script src="luantridata.js" defer></script>
+     <script src="huyetvidata.js" defer></script>
+     <script src="duolieudata1.js" defer></script>
+     <script src="duolieudata2.js" defer></script>
+     <script src="duoclieudata3.js" defer></script>
+     <script src="duoclieudata4.js" defer></script>
+     <script src="duoclieudata5.js" defer></script>
+     <script src="duocthiendata.js" defer></script>
+     <script src="tradata.js" defer></script>
+     <script src="questiondata.js" defer></script>
+          
+
+        <!-- 1. CORE SYSTEM (Nạp trước) -->
+    <script src="src/core/config.js" defer></script>
+    <script src="src/core/utils.js" defer></script>
+    <script src="src/core/ai-service.js" defer></script>
+
+    <!-- 2. CHỨC NĂNG MODULES (Tải song song, không chặn render) -->
+    <script src="src/modules/luan-tri.js" defer></script>
+    <script src="src/modules/catalog.js" defer></script>
+    <script src="src/modules/phoi-ngu.js" defer></script>
+    <script src="src/modules/tu-chan.js" defer></script>
+    <script src="src/modules/trac-nghiem.js" defer></script>
+    <script src="src/modules/thu-vien.js" defer></script>
+
+    <!-- 3. MAIN (Thực thi cuối cùng) -->
+    <script src="src/main.js" defer></script>
+    
 </body>
 </html>
