@@ -12,7 +12,15 @@
     <meta name="theme-color" content="#0a0908">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <script src="sw.js"></script>
+    <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./sw.js')
+        .then(reg => console.log('✅ Service Worker đăng ký thành công!', reg))
+        .catch(err => console.error('❌ Lỗi đăng ký Service Worker:', err));
+    });
+  }
+</script>
     <!-- ĐÃ XÓA <script src="app.js"></script> -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
