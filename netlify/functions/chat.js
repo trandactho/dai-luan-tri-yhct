@@ -66,7 +66,7 @@ exports.handler = async function(event, context) {
             const apiKey = keysToTry[keyIdx];
             
             // Key tính phí (đầu tiên) cho 18s thoải mái sinh câu trả lời. Key dự phòng sau cho 5s.
-            const timeoutMs = ((source === 'vongchan')||(source === 'quiz')||(source === 'assistant')) ? 25000 : 10000;
+            const timeoutMs = ((source === 'vongchan')||(source === 'quiz')||(source === 'assistant')) ? 9500 : 5000;
 
             for (const model of models) {
                 const controller = new AbortController();
