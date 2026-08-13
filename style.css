@@ -1,76 +1,100 @@
 /* ==========================================================================
-   ĐẠI LUẬN TRỊ YHCT - DESIGN SYSTEM & CÂN ĐỐI TOÀN CỤC
+   ĐẠI LUẬN TRỊ YHCT - FILE STYLE.CSS TỔNG HỢP HOÀN CHỈNH
    ========================================================================== */
 
 :root {
     --bg-main: #090807;
     --bg-card: #161311;
     --bg-input: #211c18;
-    --border-color: #2e2620;
+    --border-color: #5c4b3c;
     --border-focus: #f59e0b;
     --text-primary: #f5f5f4;
     --text-secondary: #d6d3d1;
     --text-muted: #a8a29e;
     --accent-amber: #d97706;
     --accent-amber-light: #fbbf24;
-    --accent-emerald: #10b981;
+}
+
+/* 1. ÉP NỀN TỐI TOÀN CỤC */
+*, *::before, *::after {
+    box-sizing: border-box;
 }
 
 html, body {
     background-color: var(--bg-main) !important;
-    color: var(--text-primary);
+    color: var(--text-primary) !important;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    overscroll-behavior-x: none;
-    touch-action: pan-y;
-    -webkit-tap-highlight-color: transparent;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
 }
 
-/* Tăng độ tương phản văn bản phụ */
-.text-stone-400 { color: var(--text-muted) !important; }
-.text-stone-500 { color: #8c8580 !important; }
-.text-stone-300 { color: var(--text-secondary) !important; }
-
-/* Khối thẻ nội dung chuẩn mực */
-.bg-dark-box { 
-    background-color: var(--bg-card) !important; 
-    border: 1px solid var(--border-color) !important; 
-    border-radius: 0.875rem;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+/* 2. TIÊU ĐỀ CHÍNH ÁNH KIM */
+header h1, header .app-title {
+    background: linear-gradient(135deg, #fffbeb 0%, #fbbf24 40%, #d97706 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    font-weight: 800 !important;
 }
 
-/* Ô nhập liệu & Select cân đối */
-select, input, textarea { 
-    background-color: var(--bg-input) !important; 
-    color: var(--text-primary) !important; 
-    border: 1px solid var(--border-color) !important; 
-    border-radius: 0.5rem;
+/* ==========================================================================
+   CHUẨN HÓA KHỐI 3D TOÀN HỆ THỐNG - HOÀN HẢO MỌI TAB
+   ========================================================================== */
+
+/* 1. Ô Tìm kiếm & Bộ lọc phía trên */
+#sectionLuanTri > div:first-child,
+#sectionDuocLieu > div:first-child,
+#sectionHuyetVi > div:first-child,
+#sectionDuocThien > div:first-child,
+#sectionTra > div:first-child,
+#sectionTraCuuSach > div:first-child,
+#sectionPhoiNgu > div:first-child,
+#sectionTuChan > div:first-child {
+    background-color: #120f0d !important;
+    border: 1px solid #2d241d !important;
+    border-radius: 0.875rem !important;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7) !important;
 }
 
-select:focus, input:focus, textarea:focus { 
-    outline: none !important; 
-    border-color: var(--border-focus) !important; 
-    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.25);
+/* 2. Cấu trúc nền và viền 3D chung cho toàn bộ các Thẻ Card */
+.bg-dark-box,
+#lt-card-hc, 
+#lt-card-pdt, 
+#lt-card-bt, 
+#grid-sach-pdf > div:not(.col-span-full),
+#pdf-area > div {
+    background: linear-gradient(180deg, #1e1916 0%, #13100d 100%) !important;
+    border-top: 1px solid #5c4a3d !important;
+    border-right: 1px solid #5c4a3d !important;
+    border-bottom: 1px solid #5c4a3d !important;
+    border-radius: 0.875rem !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 8px 16px rgba(0, 0, 0, 0.8) !important;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease !important;
 }
 
-/* Thanh điều hướng Tab cân đối trên mobile */
+/* 3. Xử lý cạnh trái mặc định */
+.bg-dark-box:not(.border-l-4) {
+    border-left: 1px solid #5c4a3d !important;
+}
+
+/* 4. Hiệu ứng Hover nổi khối */
+.bg-dark-box:hover,
+#lt-card-hc:hover, 
+#lt-card-pdt:hover, 
+#lt-card-bt:hover, 
+#grid-sach-pdf > div:not(.col-span-full):hover {
+    border-top-color: #7d6452 !important;
+    border-right-color: #7d6452 !important;
+    border-bottom-color: #7d6452 !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 10px 22px rgba(0, 0, 0, 0.95) !important;
+    transform: translateY(-2px) !important;
+}
+
+/* 4. THANH NAVIGATION TAB */
 nav {
     background-color: #110e0c !important;
-    backdrop-filter: blur(8px);
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-}
-
-@media (min-width: 640px) {
-    nav {
-        grid-template-columns: repeat(9, minmax(0, 1fr));
-    }
-}
-
-nav button {
-    min-height: 44px;
-    padding: 6px 2px;
-    border-bottom: 2px solid transparent;
-    transition: all 0.2s ease;
+    border-bottom: 1px solid var(--border-color) !important;
 }
 
 .tab-active { 
@@ -80,63 +104,188 @@ nav button {
     background-color: rgba(217, 119, 6, 0.12) !important; 
 }
 
-/* Tùy chỉnh thanh cuộn */
-::-webkit-scrollbar {
-    width: 5px;
-    height: 5px;
-}
-::-webkit-scrollbar-track {
-    background: #090807;
-}
-::-webkit-scrollbar-thumb {
-    background: #2e2620;
-    border-radius: 4px;
-}
-::-webkit-scrollbar-thumb:hover {
-    background: #d97706;
+/* ==========================================================================
+   5. CHUẨN HÓA CÁC Ô NHẬP LIỆU
+   ========================================================================== */
+select, 
+input:not([type="checkbox"]):not([type="radio"]), 
+textarea { 
+    background-color: var(--bg-input) !important; 
+    color: var(--text-primary) !important; 
+    border: 1px solid var(--border-color) !important; 
+    border-radius: 0.5rem !important;
+    font-size: 0.75rem !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
 }
 
-/* Cấu hình in ấn */
-@media print {
-    body { background-color: #ffffff !important; color: #000000 !important; }
-    #pdf-area { background-color: #ffffff !important; color: #000000 !important; box-shadow: none !important; }
-    nav, header, footer, button, .no-print { display: none !important; }
+select, 
+input:not([type="checkbox"]):not([type="radio"]) {
+    height: 2.25rem !important;
+    line-height: 2.25rem !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    padding-left: 0.625rem !important;
+    padding-right: 0.625rem !important;
 }
-/* ==========================================================================
-   NÚT BẤM CHỨC NĂNG CHÍNH (Gộp chung để tối ưu và tránh xung đột)
-   ========================================================================== */
-.bg-primary,
-.btn-primary,
-.btn-action,
-button[type="submit"],
-#btn-phan-tich-tu-chan {
-    background: linear-gradient(135deg, var(--accent-amber), #b45309) !important;
+
+option {
+    background-color: #161311 !important;
+    color: #f5f5f4 !important;
+    font-size: 0.75rem !important;
+    padding: 0.5rem !important;
+}
+
+select {
+    cursor: pointer;
+    padding-right: 1.5rem !important;
+}
+
+textarea {
+    padding: 0.5rem 0.625rem !important;
+    line-height: 1.35 !important;
+    min-height: 3.75rem !important;
+    resize: none;
+}
+
+select:focus, input:focus, textarea:focus { 
+    outline: none !important; 
+    border-color: var(--border-focus) !important; 
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.25) !important;
+}
+
+#search-input,
+#searchDuocLieu,
+#searchHuyetVi,
+#searchDuocThien,
+#searchTra,
+#search-sach-input,
+#search-phoingu-input {
+    padding-left: 2.5rem !important;
+}
+
+#quiz-time-per-question {
+    width: 110px !important;
+    height: 2.25rem !important;
+    line-height: 2.25rem !important;
+    padding: 0 0.5rem !important;
+    font-size: 0.75rem !important;
+    flex-shrink: 0 !important;
+}
+
+.bg-primary, 
+.btn-primary, 
+.btn-action, 
+button[type="submit"], 
+#btn-phan-tich-tu-chan,
+button[onclick*="batDauTracNghiem"] {
+    background: linear-gradient(135deg, #d97706, #b45309) !important;
     color: #ffffff !important;
     font-weight: 700 !important;
     border: none !important;
     border-radius: 0.625rem !important;
+    min-height: 44px !important;
+    padding: 0.625rem 1.25rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 0.5rem !important;
     box-shadow: 0 4px 14px rgba(217, 119, 6, 0.45) !important;
-    transition: all 0.2s ease-in-out !important;
+    cursor: pointer !important;
 }
 
-/* Hiệu ứng khi rê chuột (Hover) */
-.bg-primary:hover,
-.btn-primary:hover,
-.btn-action:hover,
-button[type="submit"]:hover,
-#btn-phan-tich-tu-chan:hover {
-    background: linear-gradient(135deg, var(--accent-amber-light), var(--accent-amber)) !important;
-    color: #000000 !important;
-    transform: translateY(-1px) !important;
-    box-shadow: 0 6px 18px rgba(251, 191, 36, 0.5) !important;
+input[type="checkbox"], 
+input[type="radio"] {
+    width: 1.25rem !important;
+    height: 1.25rem !important;
+    flex-shrink: 0 !important;
+    cursor: pointer;
+    margin: 0 !important;
 }
 
-/* Hiệu ứng khi nhấn (Active) */
-.bg-primary:active,
-.btn-primary:active,
-.btn-action:active,
-button[type="submit"]:active,
-#btn-phan-tich-tu-chan:active {
-    transform: translateY(0) !important;
-    box-shadow: 0 2px 8px rgba(217, 119, 6, 0.3) !important;
+/* ==========================================================================
+   PHÂN CHIA NGŨ HÀNH CẠNH TRÁI 4PX CHO CÁC TAB
+   ========================================================================== */
+
+/* 1. Tab Luận Trị - Hành KIM (Trắng / Bạc ánh kim) */
+#sectionLuanTri #lt-card-hc, 
+#sectionLuanTri #lt-card-pdt, 
+#sectionLuanTri #lt-card-bt,
+#sectionLuanTri #pdf-area > div {
+    background: linear-gradient(180deg, #241e1a 0%, #110e0c 100%) !important;
+    border-style: solid !important;
+    border-top-width: 1px !important;
+    border-right-width: 1px !important;
+    border-bottom-width: 1px !important;
+    border-left-width: 4px !important;
+    border-top-color: #8c6e57 !important;
+    border-right-color: #5c4a3d !important;
+    border-bottom-color: #31261e !important;
+    border-left-color: #e2e8f0 !important; /* Trắng bạc ánh kim */
+    border-radius: 0.875rem !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 0 -1px 0 rgba(0, 0, 0, 0.6), 0 10px 25px rgba(0, 0, 0, 0.95) !important;
+    transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+#sectionLuanTri #lt-card-hc:hover, 
+#sectionLuanTri #lt-card-pdt:hover, 
+#sectionLuanTri #lt-card-bt:hover,
+#sectionLuanTri #pdf-area > div:hover {
+    border-left-color: #ffffff !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.7), 0 14px 30px rgba(0, 0, 0, 1) !important;
+    transform: translateY(-2px) !important;
+}
+#sectionLuanTri > div {
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+#sectionLuanTri #luan-tri-action-bar {
+    width: 100% !important;
+}
+#sectionLuanTri .bg-dark-box {
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+#sectionLuanTri #luan-tri-action-bar {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0.5rem !important;
+    width: 100% !important;
+}
+
+#sectionLuanTri #luan-tri-action-bar > div,
+#sectionLuanTri #luan-tri-action-bar button {
+    width: 100% !important;
+}
+
+/* 2. Tab Dược Thiện - Hành HỎA (Đỏ ấm / Đỏ son) */
+#sectionDuocThien .bg-dark-box {
+    border-left-width: 4px !important;
+    border-left-color: #dc2626 !important;
+}
+
+#sectionDuocThien .bg-dark-box:hover {
+    border-left-color: #ef4444 !important;
+}
+/* 3. Tab Thư Tịch - Hành MỘC (Xanh ngọc lục bảo / Xanh lá trầm sang trọng) */
+#sectionTraCuuSach #grid-sach-pdf > div:not(.col-span-full) {
+    border-left-width: 4px !important;
+    border-left-color: #059669 !important; /* Xanh ngọc trầm ấm, tinh tế */
+}
+
+#sectionTraCuuSach #grid-sach-pdf > div:not(.col-span-full):hover {
+    border-left-color: #10b981 !important; /* Sáng hơn khi rê chuột */
+}
+#sectionLuanTri > div {
+    max-width: 100% !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+#sectionLuanTri #luan-tri-action-bar {
+    width: 100% !important;
 }

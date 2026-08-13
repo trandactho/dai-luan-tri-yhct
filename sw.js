@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dailuantri-v1.6.3';
+const CACHE_NAME = 'dailuantri-v1.6.5';
 
 const SYSTEM_FILES = [
     '/',

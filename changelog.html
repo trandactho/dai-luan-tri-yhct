@@ -27,31 +27,45 @@
 
         <!-- Timeline Container -->
         <div class="relative pl-8 space-y-8 border-l-2 border-stone-800 ml-3">
-            <!-- v1.6.3 -->
-<div class="relative group space-y-3">
-    <span class="absolute -left-[37px] top-1.5 w-4 h-4 rounded-full bg-amber-500 border-4 border-[#0a0908] ring-2 ring-amber-500/40"></span>
-    <div class="flex flex-wrap items-center justify-between gap-2">
-        <h3 class="text-sm font-bold text-amber-400 flex items-center gap-2">
-            Phiên bản v1.6.3 <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800 font-bold uppercase">Mới nhất</span>
-        </h3>
-        <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 8, 2026</span>
-    </div>
-    <div class="bg-dark-box p-4 rounded-xl space-y-2 text-xs text-stone-300 border border-stone-800/50">
-        <p>• <strong>Thuật toán tìm kiếm & Chấm điểm tổng quát (`tinhDiemKhopTongQuat`):</strong> Tối ưu hóa tìm kiếm đa trường (tiêu đề, tên khoa học, Pinyin, mã WHO), tự động phân rã token và áp dụng phạt độ phủ từ khóa (Coverage Penalty).</p>
-        <p>• <strong>Bổ sung dữ liệu Dược liệu & Huyệt vị:</strong> Tích hợp Tên khoa học, Pinyin cho Dược liệu và Mã hiệu WHO cho Huyệt vị, đính kèm liên kết tra cứu trực tiếp Google.</p>
-        <p>• <strong>Nâng cấp Chế độ Ôn tập & Đồng hồ đếm ngược trắc nghiệm:</strong> Tích hợp tùy chỉnh giới hạn thời gian (15s - 60s) cho mỗi câu hỏi, giao diện thanh đếm ngược sinh động và phản hồi chi tiết.</p>
-        <p>• <strong>Tối ưu hóa AI Backup & Phối Ngũ Bài Thuốc:</strong> Tự động đóng gói và lưu dữ liệu tra cứu AI vào CSDL offline, hỗ trợ tự động thêm vị thuốc AI tìm được vào Bài thuốc Phối ngũ.</p>
-        <p>• <strong>Đồng bộ Offline PWA Cache (`dailuantri-v1.6.3`):</strong> Cập nhật bộ đệm hệ thống mới, tự động xóa cache quá hạn (TTL Cache) giúp tiết kiệm bộ nhớ thiết bị.</p>
-    </div>
-</div>
-
-            <!-- v1.6.0 -->
+            <!-- v1.6.5 -->
             <div class="relative group space-y-3">
                 <span class="absolute -left-[37px] top-1.5 w-4 h-4 rounded-full bg-amber-500 border-4 border-[#0a0908] ring-2 ring-amber-500/40"></span>
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <h3 class="text-sm font-bold text-amber-400 flex items-center gap-2">
-                        Phiên bản v1.6.0 <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800 font-bold uppercase">Mới nhất</span>
+                        Phiên bản v1.6.5 <span class="text-[10px] px-2 py-0.5 rounded bg-amber-950 text-amber-400 border border-amber-800 font-bold uppercase">Mới nhất</span>
                     </h3>
+                    <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 8, 2026</span>
+                </div>
+                <div class="bg-dark-box p-4 rounded-xl space-y-2 text-xs text-stone-300 border border-stone-800/50">
+                    <p>• <strong>Bổ sung Module Dược Thiện YHCT (`sectionDuocThien`):</strong> Tra cứu món ăn bài thuốc, định lượng nguyên liệu, kỹ thuật sơ chế - chế biến, công dụng và kiêng kỵ. Tích hợp AI tìm kiếm, tự động lưu dữ liệu và hỗ trợ trắc nghiệm Dược Thiện.</p>
+                    <p>• <strong>Hoàn thiện Hệ thống Tứ Chẩn AI Toàn Diện (`sectionTuChan`):</strong> Tích hợp trọn bộ Vọng chẩn (ảnh thiệt chẩn/diện chẩn/sắc da qua camera & tệp), Văn chẩn (lắng nghe/mùi), Vấn chẩn (hỏi bệnh) và Thiết chẩn (mạch tượng & xúc chẩn). AI tổng hội chẩn xuất kết quả cấu trúc JSON trực quan (Bát cương, Tạng phủ, Pháp trị, Cổ phương, Vị thuốc) với khả năng chuyển tab tương tác 1-click.</p>
+                    <p>• <strong>Tối ưu hóa Xử lý Hình ảnh & Vision Token:</strong> Tự động nén kích thước (max 512px) và chất lượng ảnh JPEG trước khi gửi AI, tiết kiệm tối đa dung lượng truyền tải và gia tăng tốc độ phản hồi.</p>
+                    <p>• <strong>Cải tiến Giao diện Thanh Điều Hướng (9 Tab):</strong> Mở rộng hệ thống tab linh hoạt (`Luận Trị`, `Huyệt Vị`, `Dược Liệu`, `Dược Thiện`, `Trà Dược`, `Khảo Thí`, `Thư Tịch`, `Phối Ngũ`, `Tứ Chẩn AI`) kết hợp chuyển tab vuốt màn hình (Swipe Navigation) mượt mà.</p>
+                    <p>• <strong>Đồng bộ Bộ Đệm Offline PWA Cache (`dailuantri-v1.6.5`):</strong> Nâng cấp bộ đệm PWA v1.6.5, tương thích hoàn hảo với Service Worker (`sw.js`) và lưu trữ bệnh án IndexedDB (`VongChanDB`).</p>
+                </div>
+            </div>
+
+            <!-- v1.6.3 -->
+            <div class="relative group space-y-3">
+                <span class="absolute -left-[37px] top-1.5 w-4 h-4 rounded-full bg-stone-700 border-4 border-[#0a0908]"></span>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h3 class="text-sm font-bold text-stone-200">Phiên bản v1.6.3</h3>
+                    <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 8, 2026</span>
+                </div>
+                <div class="bg-dark-box p-4 rounded-xl space-y-2 text-xs text-stone-300 border border-stone-800/50">
+                    <p>• <strong>Thuật toán tìm kiếm & Chấm điểm tổng quát (`tinhDiemKhopTongQuat`):</strong> Tối ưu hóa tìm kiếm đa trường (tiêu đề, tên khoa học, Pinyin, mã WHO), tự động phân rã token và áp dụng phạt độ phủ từ khóa (Coverage Penalty).</p>
+                    <p>• <strong>Bổ sung dữ liệu Dược liệu & Huyệt vị:</strong> Tích hợp Tên khoa học, Pinyin cho Dược liệu và Mã hiệu WHO cho Huyệt vị, đính kèm liên kết tra cứu trực tiếp Google.</p>
+                    <p>• <strong>Nâng cấp Chế độ Ôn tập & Đồng hồ đếm ngược trắc nghiệm:</strong> Tích hợp tùy chỉnh giới hạn thời gian (15s - 60s) cho mỗi câu hỏi, giao diện thanh đếm ngược sinh động và phản hồi chi tiết.</p>
+                    <p>• <strong>Tối ưu hóa AI Backup & Phối Ngũ Bài Thuốc:</strong> Tự động đóng gói và lưu dữ liệu tra cứu AI vào CSDL offline, hỗ trợ tự động thêm vị thuốc AI tìm được vào Bài thuốc Phối ngũ.</p>
+                    <p>• <strong>Đồng bộ Offline PWA Cache (`dailuantri-v1.6.3`):</strong> Cập nhật bộ đệm hệ thống mới, tự động xóa cache quá hạn (TTL Cache) giúp tiết kiệm bộ nhớ thiết bị.</p>
+                </div>
+            </div>
+
+            <!-- v1.6.0 -->
+            <div class="relative group space-y-3">
+                <span class="absolute -left-[37px] top-1.5 w-4 h-4 rounded-full bg-stone-700 border-4 border-[#0a0908]"></span>
+                <div class="flex flex-wrap items-center justify-between gap-2">
+                    <h3 class="text-sm font-bold text-stone-200">Phiên bản v1.6.0</h3>
                     <span class="text-[11px] font-medium text-stone-400 bg-stone-900 px-2.5 py-1 rounded border border-stone-800">Tháng 8, 2026</span>
                 </div>
                 <div class="bg-dark-box p-4 rounded-xl space-y-2 text-xs text-stone-300 border border-stone-800/50">
