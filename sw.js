@@ -1,53 +1,58 @@
-const CACHE_NAME = 'dailuantri-v1.6.5';
+const CACHE_NAME = 'yhct-v1.6.6';
 
-const SYSTEM_FILES = [
-    '/',
-    '/index.html',
-    '/style.css',
-    '/app.js',
-    '/luantridata.js',
-    '/duoclieudata1.js',
-    '/duoclieudata2.js',
-    '/duoclieudata3.js',
-    '/duoclieudata4.js',
-    '/duoclieudata5.js',
-    '/huyetvidata.js',
-    '/tradata.js',
-    '/questiondata.js',
-    '/manifest.json',
+// Danh sách tất cả file cần lưu Offline
+const ASSETS_TO_CACHE = [
     './',
     './index.html',
     './style.css',
-    './app.js',
+    './manifest.json',
+
+    // 10 File cơ sở dữ liệu
     './luantridata.js',
-    '/duoclieudata1.js',
-    '/duoclieudata2.js',
-    '/duoclieudata3.js',
-    '/duoclieudata4.js',
-    '/duoclieudata5.js',
     './huyetvidata.js',
+    './duoclieudata1.js',
+    './duoclieudata2.js',
+    './duoclieudata3.js',
+    './duoclieudata4.js',
+    './duoclieudata5.js',
+    './duocthiendata.js',
     './tradata.js',
     './questiondata.js',
-    './manifest.json'
+
+    // 3 File Core
+    './src/core/config.js',
+    './src/core/utils.js',
+    './src/core/ai-service.js',
+
+    // 6 File Modules
+    './src/modules/luan-tri.js',
+    './src/modules/catalog.js',
+    './src/modules/phoi-ngu.js',
+    './src/modules/tu-chan.js',
+    './src/modules/trac-nghiem.js',
+    './src/modules/thu-vien.js',
+
+    // 1 File Main
+    './src/main.js'
 ];
 
-self.addEventListener('install', event => {
+// Cài đặt Cache
+self.addEventListener('install', (event) => {
     self.skipWaiting();
     event.waitUntil(
-        caches.open(CACHE_NAME).then(async cache => {
-            for (const file of SYSTEM_FILES) {
-                try { await cache.add(file); } catch (err) {}
-            }
+        caches.open(CACHE_NAME).then((cache) => {
+            return cache.addAll(ASSETS_TO_CACHE);
         })
     );
 });
 
-self.addEventListener('activate', event => {
+// Kích hoạt & Xóa cache cũ
+self.addEventListener('activate', (event) => {
     event.waitUntil(
-        caches.keys().then(keys => {
+        caches.keys().then((keys) => {
             return Promise.all(
-                keys.map(key => {
-                    if (key !== CACHE_NAME && key.startsWith('dailuantri-')) {
+                keys.map((key) => {
+                    if (key !== CACHE_NAME) {
                         return caches.delete(key);
                     }
                 })
@@ -56,33 +61,31 @@ self.addEventListener('activate', event => {
     );
 });
 
-self.addEventListener('fetch', event => {
-    // Bỏ qua các request không phải GET (ví dụ: POST từ API AI)
-    if (event.request.method !== 'GET') return;
+// Lắng nghe sự kiện lấy dữ liệu (Fetch)
+self.addEventListener('fetch', (event) => {
+    // Không cache các request gọi API AI hoặc Google CDN external
+    if (event.request.url.includes('generativelanguage.googleapis.com') || 
+        event.request.url.includes('pagead2.googlesyndication.com')) {
+        return;
+    }
 
-    // CHIẾN LƯỢC NETWORK-FIRST: Luôn gọi mạng lấy code mới nhất trước
     event.respondWith(
-        fetch(event.request)
-            .then(networkRes => {
-                // Nếu lấy được mạng thành công, cập nhật lại cache ngầm và trả về dữ liệu mới
-                if (networkRes && networkRes.status === 200) {
-                    const resToCache = networkRes.clone();
-                    caches.open(CACHE_NAME).then(cache => {
-                        cache.put(event.request, resToCache);
-                    });
-                }
-                return networkRes;
-            })
-            .catch(async () => {
-                // KHI MẤT MẠNG (OFFLINE): Mới quay đầu tìm trong cache
-                const cache = await caches.open(CACHE_NAME);
-                const cachedRes = await cache.match(event.request, { ignoreSearch: true });
-                if (cachedRes) return cachedRes;
-
-                // Nếu là request điều hướng trang mà offline -> trả về index.html
-                if (event.request.mode === 'navigate') {
-                    return cache.match('./index.html', { ignoreSearch: true });
-                }
-            })
+        caches.match(event.request).then((cachedResponse) => {
+            if (cachedResponse) {
+                return cachedResponse;
+            }
+            return fetch(event.request);
+        })
     );
+});
+
+// Lắng nghe lệnh tải offline từ giao diện
+self.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'CACHE_ALL') {
+        event.waitUntil(
+            caches.open(CACHE_NAME).then((cache) => {
+                return cache.addAll(ASSETS_TO_CACHE);
+            })
+        );
+    }
 });
