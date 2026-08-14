@@ -1,18 +1,21 @@
-// Hàm hỗ trợ trích xuất JSON từ chuỗi phản hồi của AI
+// ==========================================================================
+// AI-SERVICE.JS - XỬ LÝ DỊCH VỤ AI, TRA CỨU BỔ SUNG & ĐỒNG BỘ DỮ LIỆU CÁ NHÂN
+// ==========================================================================
+
+// --- 1. XỬ LÝ & TRÍCH XUẤT ĐỊNH DẠNG DỮ LIỆU AI ---
+
 function parseJsonFromAI(replyText) {
     if (!replyText) return null;
     try {
-        // 1. Tẩy sạch các ký tự Markdown block (```json ... ```) nếu AI kèm vào
+        // Tẩy sạch các ký tự Markdown block (```json ... ```) nếu AI kèm vào
         let cleaned = String(replyText).replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
 
-        // 2. Thử parse trực tiếp nếu chuỗi đã là JSON chuẩn
+        // Thử parse trực tiếp nếu chuỗi đã là JSON chuẩn
         try {
             return JSON.parse(cleaned);
-        } catch (e) {
-            // Nếu chưa parse được, tiến hành bóc tách bằng Regex bên dưới
-        }
+        } catch (e) {}
 
-        // 3. Ưu tiên dò tìm Mảng JSON [...] (Dành cho Trắc nghiệm / Danh sách)
+        // Ưu tiên dò tìm Mảng JSON [...] (Dành cho Trắc nghiệm / Danh sách)
         const arrayMatch = cleaned.match(/\[[\s\S]*\]/);
         if (arrayMatch) {
             try {
@@ -20,7 +23,7 @@ function parseJsonFromAI(replyText) {
             } catch (e) {}
         }
 
-        // 4. Dò tìm Đối tượng JSON {...} (Dành cho Chi tiết Dược liệu / Biện chứng)
+        // Dò tìm Đối tượng JSON {...} (Dành cho Chi tiết Dược liệu / Biện chứng / Dược thiện...)
         const objectMatch = cleaned.match(/\{[\s\S]*\}/);
         if (objectMatch) {
             try {
@@ -48,7 +51,7 @@ function formatAIMessage(text) {
         .replace(/\\[a-zA-Z]+/g, '')
         .replace(/[\u4e00-\u9fa5]+/g, '');
 
-    // Tẩy sạch Markdown in đậm/nghiêng để tránh vỡ chuỗi
+    // Tẩy sạch Markdown in đậm/nghiêng để tránh vỡ chuỗi HTML
     cleaned = cleaned
         .replace(/\*\*(.*?)\*\*/g, '$1')
         .replace(/\*(.*?)\*/g, '$1')
@@ -60,20 +63,20 @@ function formatAIMessage(text) {
     safe = safe.replace(/^###?\s*(.*$)/gim, '<div class="text-amber-400 font-bold text-xs uppercase tracking-wider mt-3 mb-1 border-b border-stone-800 pb-1">$1</div>');
     safe = safe.replace(/^#\s*(.*$)/gim, '<div class="text-amber-400 font-bold text-sm uppercase tracking-wider mt-3 mb-1 border-b border-stone-800 pb-1">$1</div>');
 
-    // 1. GẮN LINK CỔ PHƯƠNG
+    // Link Cổ Phương
     safe = safe.replace(/(Cổ phương(?: gợi ý)?:\s*)([A-ZĐÀÁẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬÈÉẺẼẸÊẾỀỂỄỆÌÍỈĨỊÒÓỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÙÚỦŨỤƯỨỪỬỮỰỲÝỶỸỴa-zđàáảãạăắằẳẵặâấầẩẫậèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵ\s]{3,40})/gi, (match, prefix, name) => {
         let cleanName = name.trim().replace(/\s*\(.*?\)/g, '').trim();
         if (!cleanName) return match;
         return `${prefix}<span onclick="chuyenQuaLuanTriVaTim('${cleanName}')" class="text-amber-400 font-bold underline cursor-pointer hover:text-amber-300" title="Tra cứu trong Luận Trị"><i class="fa-solid fa-scroll text-[10px] mr-1"></i>${cleanName}</span>`;
     });
 
-    // 2. GẮN LINK VỊ THUỐC DẠNG [TÊN THUỐC] (16g) - GIỮ NGUYÊN TÊN CHẾ BIẾN
+    // Link Vị Thuốc dạng [TÊN THUỐC] (16g) - Giữ nguyên tên chế biến
     safe = safe.replace(/\[([^\]]+)\]\s*\(([\d\.\s-]+\s*(?:g|gam|mg|kg))\)/gi, (match, herbName, weight) => {
         let cleanHerb = herbName.trim();
         return `<span onclick="xemDuocLieu('${cleanHerb}')" class="text-emerald-400 font-semibold underline cursor-pointer hover:text-emerald-300" title="Bấm để xem vị thuốc ${cleanHerb}"><i class="fa-solid fa-leaf text-[10px] mr-0.5"></i>${cleanHerb}</span> (${weight})`;
     });
 
-    // Fallback cho định dạng không ngoặc vuông - GIỮ NGUYÊN TÊN CHẾ BIẾN (Đã sửa Full Regex Tiếng Việt)
+    // Fallback cho định dạng không ngoặc vuông - Full Regex Tiếng Việt
     safe = safe.replace(/(?<!\[)([A-ZĐÀÁẢÃẠĂẮẰẲẴẶÂẤẦẨẪẬÈÉẺẼẸÊẾỀỂỄỆÌÍỈĨỊÒÓỎÕỌÔỐỒỔỖỘƠỚỜỞỠỢÙÚỦŨỤƯỨỪỬỮỰỲÝỶỸỴa-zđàáảãạăắằẳẵặâấầẩẫậèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵ\s]{2,30})\s*\(([\d\.\s-]+\s*(?:g|gam|mg|kg))\)/gi, (match, herbName, weight) => {
         let cleanHerb = herbName.trim()
             .replace(/^(Quân|Thần|Tá|Sứ|Gia|Gia giảm|Hoặc|Dùng|Thêm|Thay|Mặt|Tóc)\s*:\s*/i, '')
@@ -106,7 +109,8 @@ function formatAIMessage(text) {
     return typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(rawHtml) : rawHtml;
 }
 
-// Trợ lý AI nhắn tin trực tiếp
+// --- 2. TRỢ LÝ AI CHAT TRỰC TIẾP ---
+
 async function sendAIWebMessage() {
     const inputEl = document.getElementById('ai-input');
     const chatBox = document.getElementById('ai-chat-box');
@@ -136,9 +140,8 @@ async function sendAIWebMessage() {
         btnSend.classList.add('opacity-50', 'pointer-events-none');
     }
 
-    // ĐÍNH KÈM NGỮ CẢNH CHẨN ĐOÁN VÀO PROMPT CÂU HỎI PHỤ
     let fullPrompt = query;
-    if (currentDiagnosticContext) {
+    if (typeof currentDiagnosticContext !== 'undefined' && currentDiagnosticContext) {
         fullPrompt = `[NGỮ CẢNH HỘI CHẨN TRƯỚC ĐÓ]\n${currentDiagnosticContext}\n\n[CÂU HỎI TIẾP THEO CỦA BỆNH NHÂN]: "${query}"\nHãy trả lời ngắn gọn, trực tiếp liên quan đến phác đồ/bệnh án YHCT phía trên.`;
     }
 
@@ -182,13 +185,14 @@ async function sendAIWebMessage() {
     }
 }
 
-// AI Backup tra cứu dữ liệu thiếu & TỰ ĐỘNG LƯU VÀO CSDL VÀ LÀM SẠCH CẤU TRÚC
+// --- 3. HÀM TÌM KIẾM AI ĐỘC LẬP & TỰ ĐỘNG BỎ TẢI VÀO LOCALSTORAGE ---
+
 async function fetchAIBackupResult(query, tabName, containerEl) {
     if (!containerEl) return;
     containerEl.innerHTML = `
         <div class="col-span-full text-center py-12 space-y-2 text-stone-400 bg-stone-900/60 rounded-xl border border-amber-600/30">
             <i class="fa-solid fa-brain fa-spin text-3xl text-amber-500 block mb-1"></i>
-            <p class="text-sm font-bold text-amber-400">Không tìm thấy trong CSDL offline. Trợ lý AI đang tra cứu & đồng bộ...</p>
+            <p class="text-sm font-bold text-amber-400">Trợ lý AI đang tra cứu & tự động lưu vĩnh viễn...</p>
             <p class="text-xs text-stone-500">Từ khóa: "${escapeHTML(query)}"</p>
         </div>
     `;
@@ -224,50 +228,17 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
             
             luuKetQuaAiVaoDb(query, tabName, parsedObj);
 
+            // Tự động load lại giao diện tương ứng sau khi ghi dữ liệu
             if (tabName.includes('Trà Dược') || tabName.includes('Tra')) {
-                filterTra();
+                if (typeof filterTra === 'function') filterTra();
             } else if (tabName.includes('Dược Liệu')) {
-                filterDuocLieu();
+                if (typeof filterDuocLieu === 'function') filterDuocLieu();
             } else if (tabName.includes('Huyệt Vị')) {
-                filterHuyetVi();
+                if (typeof filterHuyetVi === 'function') filterHuyetVi();
             } else if (tabName.includes('Dược Thiện') || tabName.includes('DuocThien')) {
-                if (typeof duocThienData === 'undefined') window.duocThienData = [];
-                
-                let formattedThanhPhan = [{ vi: query, lieu: "Vừa đủ" }];
-                if (Array.isArray(parsedObj.thanh_phan)) {
-                    formattedThanhPhan = parsedObj.thanh_phan.map(item => {
-                        if (typeof item === 'object' && item !== null) {
-                            return { vi: item.vi || query, lieu: item.lieu || "Vừa đủ" };
-                        }
-                        return { vi: String(item), lieu: "Vừa đủ" };
-                    });
-                }
-
-                const newObj = {
-                    ten: parsedObj.ten || query,
-                    nhom: parsedObj.nhom || "Dược Thiện",
-                    cong_dung: parsedObj.cong_dung || "Bồi bổ cơ thể, hỗ trợ điều trị bệnh.",
-                    thanh_phan: formattedThanhPhan,
-                    so_che: parsedObj.so_che || "",
-                    cach_lam: Array.isArray(parsedObj.cach_lam) 
-                        ? parsedObj.cach_lam 
-                        : (parsedObj.cach_lam ? [parsedObj.cach_lam] : ["Sơ chế nguyên liệu sạch sẽ.", "Nấu chín theo phương pháp cổ truyền."]),
-                    kieng_ky: parsedObj.kieng_ky || "Tham khảo ý kiến thầy thuốc trước khi dùng.",
-                    isAiGenerated: true
-                };
-
-                let idx = duocThienData.findIndex(t => removeAccents(t.ten) === removeAccents(query));
-                if (idx >= 0) duocThienData[idx] = { ...duocThienData[idx], ...newObj };
-                else duocThienData.unshift(newObj);
-
-                let custom = JSON.parse(localStorage.getItem('custom_duocThienData') || '[]');
-                let cIdx = custom.findIndex(t => removeAccents(t.ten) === removeAccents(query));
-                if (cIdx >= 0) custom[cIdx] = newObj; else custom.unshift(newObj);
-                safeSetLocalStorage('custom_duocThienData', custom, 30);
-                
-                filterDuocThien();
+                if (typeof filterDuocThien === 'function') filterDuocThien();
             } else {
-                updateLuanTri(query, true);
+                if (typeof updateLuanTri === 'function') updateLuanTri(query, true);
             }
         } else {
             containerEl.innerHTML = `<div class="col-span-full text-center py-8 text-xs text-stone-500">AI Backup không phản hồi.</div>`;
@@ -277,6 +248,8 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
         containerEl.innerHTML = `<div class="col-span-full text-center py-8 text-xs text-red-400">Lỗi kết nối AI.</div>`;
     }
 }
+
+// --- 4. HÀM QUẢN LÝ LƯU TRỮ VĨNH VIỄN VÀO CSDL VÀ LOCALSTORAGE ---
 
 function luuKetQuaAiVaoDb(query, tabName, objData) {
     if (!query || !objData) return;
@@ -315,7 +288,9 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
         let custom = JSON.parse(localStorage.getItem('custom_duocLieuData') || '[]');
         let cIdx = custom.findIndex(d => removeAccents(d.ten) === removeAccents(query));
         if (cIdx >= 0) custom[cIdx] = newObj; else custom.unshift(newObj);
-        safeSetLocalStorage('custom_duocLieuData', custom, 30);
+        
+        if (typeof safeSetLocalStorage === 'function') safeSetLocalStorage('custom_duocLieuData', custom, 30);
+        else localStorage.setItem('custom_duocLieuData', JSON.stringify(custom));
     }
     // 3. Tab Huyệt Vị
     else if (tabName.includes('Huyệt Vị')) {
@@ -335,7 +310,9 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
         let custom = JSON.parse(localStorage.getItem('custom_huyetViData') || '[]');
         let cIdx = custom.findIndex(h => removeAccents(h.ten) === removeAccents(query));
         if (cIdx >= 0) custom[cIdx] = newObj; else custom.unshift(newObj);
-        safeSetLocalStorage('custom_huyetViData', custom, 30);
+        
+        if (typeof safeSetLocalStorage === 'function') safeSetLocalStorage('custom_huyetViData', custom, 30);
+        else localStorage.setItem('custom_huyetViData', JSON.stringify(custom));
     }
     // 4. Tab Trà Dược
     else if (tabName.includes('Trà Dược') || tabName.includes('Tra')) {
@@ -356,21 +333,37 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
         let custom = JSON.parse(localStorage.getItem('custom_traData') || '[]');
         let cIdx = custom.findIndex(t => removeAccents(t.ten) === removeAccents(query));
         if (cIdx >= 0) custom[cIdx] = newObj; else custom.unshift(newObj);
-        safeSetLocalStorage('custom_traData', custom, 30);
+        
+        if (typeof safeSetLocalStorage === 'function') safeSetLocalStorage('custom_traData', custom, 30);
+        else localStorage.setItem('custom_traData', JSON.stringify(custom));
     }
-    // 5. Tab Dược Thiện (Bổ sung hoàn chỉnh)
+    // 5. Tab Dược Thiện
     else if (tabName.includes('Dược Thiện') || tabName.includes('DuocThien')) {
         if (typeof duocThienData === 'undefined') window.duocThienData = [];
+
+        let formattedThanhPhan = [{ vi: query, lieu: "Vừa đủ" }];
+        if (Array.isArray(objData.thanh_phan)) {
+            formattedThanhPhan = objData.thanh_phan.map(item => {
+                if (typeof item === 'object' && item !== null) {
+                    return { vi: item.vi || query, lieu: item.lieu || "Vừa đủ" };
+                }
+                return { vi: String(item), lieu: "Vừa đủ" };
+            });
+        }
+
         const newObj = {
             ten: objData.ten || query,
             nhom: objData.nhom || "Dược Thiện",
             cong_dung: objData.cong_dung || "Bồi bổ cơ thể, hỗ trợ điều trị bệnh.",
-            thanh_phan: Array.isArray(objData.thanh_phan) ? objData.thanh_phan : [{ vi: query, lieu: "Vừa đủ" }],
+            thanh_phan: formattedThanhPhan,
             so_che: objData.so_che || "",
-            cach_lam: objData.cach_lam || ["Sơ chế nguyên liệu sạch sẽ.", "Nấu chín theo phương pháp cổ truyền."],
+            cach_lam: Array.isArray(objData.cach_lam) 
+                ? objData.cach_lam 
+                : (objData.cach_lam ? [objData.cach_lam] : ["Sơ chế nguyên liệu sạch sẽ.", "Nấu chín theo phương pháp cổ truyền."]),
             kieng_ky: objData.kieng_ky || "Tham khảo ý kiến thầy thuốc trước khi dùng.",
             isAiGenerated: true
         };
+
         let idx = duocThienData.findIndex(t => removeAccents(t.ten) === removeAccents(query));
         if (idx >= 0) duocThienData[idx] = { ...duocThienData[idx], ...newObj };
         else duocThienData.unshift(newObj);
@@ -378,9 +371,13 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
         let custom = JSON.parse(localStorage.getItem('custom_duocThienData') || '[]');
         let cIdx = custom.findIndex(t => removeAccents(t.ten) === removeAccents(query));
         if (cIdx >= 0) custom[cIdx] = newObj; else custom.unshift(newObj);
-        safeSetLocalStorage('custom_duocThienData', custom, 30);
+        
+        if (typeof safeSetLocalStorage === 'function') safeSetLocalStorage('custom_duocThienData', custom, 30);
+        else localStorage.setItem('custom_duocThienData', JSON.stringify(custom));
     }
 }
+
+// --- 5. NÚT KÍCH HOẠT SỰ KIỆN TÌM AI ĐỘC LẬP TỪ GIAO DIỆN ---
 
 function triggerAiSearch(tab) {
     if (tab === 'luantri') {
