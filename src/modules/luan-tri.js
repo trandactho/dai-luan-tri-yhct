@@ -18,13 +18,11 @@ const debounceSearchLuanTri = debounce(searchLuanTri, 100);
 function startQuizMode() {
     if (typeof database === 'undefined' || !database) return;
     
-    // 1. Cập nhật State đồng bộ
     AppState.quizActive = true;
-    AppState.isQuizLT = true; // Đồng bộ cờ mờ thẻ Luận Trị
+    AppState.isQuizLT = true;
     AppState.aiHcActive = false;
     AppState.aiBtActive = false;
     
-    // 2. Tắt AI Backup checkbox
     const aiCheck = document.getElementById('ai-backup-luantri');
     if (aiCheck) {
         aiCheck.checked = false;
@@ -33,11 +31,9 @@ function startQuizMode() {
         }
     }
 
-    // 3. Đổi giao diện Action Bar
     document.getElementById('normal-mode-actions')?.classList.add('hidden');
     document.getElementById('quiz-mode-actions')?.classList.remove('hidden');
 
-    // 4. Cập nhật nút Thoát
     const btnQuiz = document.getElementById('btn-toggle-quiz');
     if (btnQuiz) {
         btnQuiz.onclick = stopQuizMode;
@@ -49,15 +45,12 @@ function startQuizMode() {
 }
 
 function stopQuizMode() {
-    // 1. Cập nhật State
     AppState.quizActive = false;
     AppState.isQuizLT = false;
 
-    // 2. Phục hồi giao diện Action Bar
     document.getElementById('quiz-mode-actions')?.classList.add('hidden');
     document.getElementById('normal-mode-actions')?.classList.remove('hidden');
 
-    // 3. Cập nhật nút Ôn Tập
     const btnQuiz = document.getElementById('btn-toggle-quiz');
     if (btnQuiz) {
         btnQuiz.onclick = startQuizMode;
@@ -65,7 +58,6 @@ function stopQuizMode() {
         btnQuiz.innerHTML = `<i class="fa-solid fa-graduation-cap"></i> Ôn tập`;
     }
 
-    // 4. Reset thuộc tính mờ/lật đáp án trên các Card
     ['hoi-chung', 'phap-dieu-tri', 'bai-thuoc', 'chi-tiet-bai-thuoc'].forEach(id => {
         const el = document.getElementById(id);
         if (el) {
@@ -92,17 +84,14 @@ function loadRandomCase() {
     const keys = Object.keys(database);
     if (keys.length === 0) return;
     
-    // 1. Lấy ngẫu nhiên một ca trong CSDL
     const randomKey = keys[Math.floor(Math.random() * keys.length)];
     const data = database[randomKey];
     if (!data) return;
 
-    // 2. Tự động đồng bộ các ô chọn Tam Trục theo thông tin của ca đó
     if (typeof syncSelectsWithItem === 'function') {
         syncSelectsWithItem(data);
     }
 
-    // 3. Đưa qua renderDetailLuanTri để vẽ Card có ranh giới chuẩn & Lật mờ độc lập 100%
     renderDetailLuanTri(data);
 }
 
@@ -129,8 +118,6 @@ function toggleQuizLuanTri(btnEl) {
             btn.className = "w-full px-4 py-2 bg-stone-800 hover:bg-stone-700 text-amber-500 border border-stone-700 font-bold rounded-lg text-xs flex items-center justify-center gap-2 transition-all flex-shrink-0 cursor-pointer";
         }
     }
-    
-    // Gọi lại updateLuanTri để renderDetailLuanTri tự áp dụng hiệu ứng mờ chuẩn xác
     updateLuanTri();
 }
 
@@ -248,8 +235,6 @@ async function chuyenQuaLuanTriVaTim(keyword) {
     const searchInput = document.getElementById('search-input');
     if (searchInput) {
         searchInput.value = keyword;
-        
-        // Đặt forceExact = thành false để hệ thống phân rã và tìm kiếm theo từng từ ngữ (tokens)
         updateLuanTri(keyword, false, false);
     }
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -258,19 +243,18 @@ async function chuyenQuaLuanTriVaTim(keyword) {
 function updateLuanTri(query = "", isEnter = false, forceExact = false) {
     const searchInputVal = getVal('search-input').trim();
     const dropdown = document.getElementById('search-dropdown');
-    const isDropdownOpen = dropdown && !dropdown.classList.contains('hidden');
-
-    // NẾU CÓ TỪ KHÓA TÌM KIẾM HOẶC DROPDOWN ĐANG MỞ: Tự động gọi lại searchLuanTri
-    // để bộ lọc Tam Trục đóng vai trò làm khóa phụ lọc tức thì danh sách gợi ý Dropdown
-    if ((searchInputVal !== "" || isDropdownOpen) && !query) {
-        searchLuanTri(isEnter);
-        return;
-    }
-
+    
     const tp = getFilterVal('tang-phu');
     const hn = getFilterVal('han-nhiet');
     const ht = getFilterVal('hu-thuc');
     const bc = getFilterVal('benh-co');
+    const hasTamTrucFilter = (tp !== "") || (hn !== "") || (ht !== "") || (bc !== "");
+
+    if ((searchInputVal !== "" || hasTamTrucFilter) && !query) {
+        searchLuanTri(isEnter);
+        return;
+    }
+
     const activeQuery = query || searchInputVal.toLowerCase();
     
     let bestMatchData = null;
@@ -281,7 +265,6 @@ function updateLuanTri(query = "", isEnter = false, forceExact = false) {
         if (!item) continue;
         if (!checkMatchFilter(item, tp, hn, ht, bc)) continue;
 
-        // Sử dụng hàm chấm điểm chung với trường tiêu đề chính là 'hc'
         const score = tinhDiemKhopTongQuat(item, activeQuery, 'hc');
 
         if (score > maxScore && score > 0) {
@@ -399,7 +382,6 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
         }
 
     } else {
-        // Nếu không tìm thấy và người dùng có nhấn Enter -> Tự động kích hoạt AI Backup
         if (query && isEnter) {
             fetchAIBackupResult(query, 'Biện chứng Luận Trị YHCT', pdfArea);
             return;
@@ -417,7 +399,6 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
         if (warningContainer) warningContainer.innerHTML = "";
     }
 
-    // --- CHE MỜ ĐÁP ÁN & CHẶN CHUYỂN TAB KHI CHƯA MỞ MỜ ---
     const isQuizMode = AppState.quizActive || AppState.isQuizLT;
     
     const quizPairs = [
@@ -443,20 +424,17 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
                 contentEl.classList.remove('blur-md', 'cursor-pointer', 'select-none');
                 contentEl.title = "";
 
-                // Đồng thời mở mờ phần thành phần bài thuốc nếu bấm vào tên bài thuốc
                 if (cardId === 'lt-card-bt') {
                     const chiTietBT = document.getElementById('chi-tiet-bai-thuoc');
                     if (chiTietBT) chiTietBT.classList.remove('blur-md', 'select-none', 'pointer-events-none');
                 }
             };
 
-            // Làm mờ và tạm thời khóa click chuyển tab trên phần thành phần bài thuốc
             if (cardId === 'lt-card-bt') {
                 const chiTietBT = document.getElementById('chi-tiet-bai-thuoc');
                 if (chiTietBT) {
                     chiTietBT.classList.add('blur-md', 'transition-all', 'duration-300', 'select-none', 'pointer-events-none');
                     
-                    // Nếu người dùng bấm trực tiếp vào vùng thành phần mờ -> Chỉ lật mờ, không mở tab Dược liệu
                     const parentBox = chiTietBT.parentElement;
                     if (parentBox) {
                         parentBox.onclick = (e) => {
@@ -495,7 +473,6 @@ function setDropdownSpacer(show) {
         }
     }
     if (spacer) {
-        // Thu gọn chiều cao khoảng trống vừa đủ để không đè nát viewport điện thoại
         spacer.style.height = show ? '180px' : '0px';
     }
 
@@ -568,13 +545,11 @@ function searchLuanTri(isEnter = false) {
                     <div class="text-stone-400 text-[11px] truncate mt-0.5">${highlightText(m.tc ? m.tc.join(', ') : '', queryStr)}</div>
                 </div>
             `).join('');
-            dropdown.classList.remove('hidden');
-            setDropdownSpacer(true);
         } else {
-            dropdown.innerHTML = `<div class="p-3 text-xs text-stone-500 text-center">Không tìm thấy hội chứng phù hợp</div>`;
-            dropdown.classList.remove('hidden');
-            setDropdownSpacer(true);
+            dropdown.innerHTML = `<div class="p-3 text-xs text-stone-500 text-center">Không tìm thấy hội chứng phù hợp với bộ lọc Tam Trục</div>`;
         }
+        dropdown.classList.remove('hidden');
+        setDropdownSpacer(true);
     }
 
     if (isEnter && topMatches.length > 0) {
@@ -600,10 +575,8 @@ function selectSearchResult(key, hideDropdown = true) {
     const dropdown = document.getElementById('search-dropdown');
     if (dropdown) dropdown.classList.add('hidden');
     
-    // Đảm bảo thu gọn spacer ngay lập tức khi đã chọn item
     setDropdownSpacer(false);
 
-    // TỰ ĐỘNG THU BÀN PHÍM ẢO TRÊN ĐIỆN THOẠI ĐỂ TRÁNH TRÈO MÀN HÌNH
     if (document.activeElement && typeof document.activeElement.blur === 'function') {
         document.activeElement.blur();
     }
@@ -654,7 +627,6 @@ async function fetchAIHcDesc(hcName) {
 
     const cacheKey = 'ai_hc_' + removeAccents(hcName).replace(/\s+/g, '_');
     
-    // 1. Kiểm tra Cache TTL (Nếu còn hạn 30 ngày -> Lấy dùng ngay, không gọi AI)
     const cachedHTML = getCacheWithTTL(cacheKey); 
     if (cachedHTML) {
         aiHcEl.classList.remove('hidden');
@@ -680,9 +652,7 @@ async function fetchAIHcDesc(hcName) {
                 <div class="space-y-1">${formatAIMessage(data.reply)}</div>
             `;
             
-            // 2. Lưu kết quả vào Cache với hạn sống 30 ngày
             setCacheWithTTL(cacheKey, htmlResult, 99); 
-            
             aiHcEl.innerHTML = htmlResult;
         } else {
             let errorMsg = data.error || 'Không nhận được phản hồi từ AI.';
@@ -772,10 +742,9 @@ function toggleAiFeature(type) {
     }
 }
 
-// --- XỬ LÝ HẠ BÀN PHÍM VÀ ẨN DROPDOWN TÁCH BIỆT (ĐÃ SỬA LỖI TIMING ON MOBILE) ---
+// Xử lý sự kiện click ra ngoài để ẩn Dropdown (Bảo vệ không ẩn khi bấm vào Tam Trục)
 let wasSearchInputFocusedOnTouch = false;
 
-// 1. Chốt trạng thái bàn phím NGAY LÚC VỪA CHẠM TAY VÀO MÀN HÌNH (Trước khi trình duyệt tự blur)
 const handleTouchStartOutsideSearch = (e) => {
     const searchInput = document.getElementById('search-input');
     const dropdown = document.getElementById('search-dropdown');
@@ -785,16 +754,13 @@ const handleTouchStartOutsideSearch = (e) => {
     const isInsideSearch = (searchWrapper && searchWrapper.contains(e.target));
     const isInsideDropdown = dropdown.contains(e.target);
 
-    // Nếu chạm ra ngoài cả ô tìm kiếm lẫn dropdown
     if (!isInsideSearch && !isInsideDropdown) {
-        // Ghi nhớ xem bàn phím có đang mở hay không
         wasSearchInputFocusedOnTouch = (document.activeElement === searchInput);
     } else {
         wasSearchInputFocusedOnTouch = false;
     }
 };
 
-// 2. Xử lý ẩn Dropdown dựa trên trạng thái đã chốt
 const handleClickOutsideSearch = (e) => {
     const searchInput = document.getElementById('search-input');
     const dropdown = document.getElementById('search-dropdown');
@@ -804,14 +770,17 @@ const handleClickOutsideSearch = (e) => {
     const isInsideSearch = (searchWrapper && searchWrapper.contains(e.target));
     const isInsideDropdown = dropdown.contains(e.target);
 
+    const boLocTamTruc = document.getElementById('bo-loc-tam-truc');
+    const isInsideTamTruc = boLocTamTruc && boLocTamTruc.contains(e.target);
+
+    if (isInsideTamTruc) return;
+
     if (!isInsideSearch && !isInsideDropdown) {
-        // Lần chạm này là để ẩn bàn phím -> GIỮ NGUYÊN DROPDOWN!
         if (wasSearchInputFocusedOnTouch) {
             wasSearchInputFocusedOnTouch = false;
             return;
         }
 
-        // Bàn phím đã hạ sẵn từ trước -> Mới ẩn Dropdown
         if (!dropdown.classList.contains('hidden')) {
             dropdown.classList.add('hidden');
             setDropdownSpacer(false);
