@@ -1,6 +1,6 @@
-const CACHE_NAME = 'yhct-v1.6.7';
+const CACHE_NAME = 'yhct-v1.6.8'; // <-- Nhớ đổi số phiên bản khi đưa code mới lên Server
 
-// 1. Danh sách File DỮ LIỆU tĩnh (Giữ nguyên Cache-First để nạp nhanh, tiết kiệm băng thông)
+// 1. Danh sách File DỮ LIỆU tĩnh cơ bản
 const DATA_ASSETS = [
     './luantridata.js',
     './huyetvidata.js',
@@ -14,7 +14,7 @@ const DATA_ASSETS = [
     './questiondata.js'
 ];
 
-// 2. Danh sách File VẬN HÀNH HỆ THỐNG (Bắt buộc nạp mới khi có mạng)
+// 2. Danh sách File VẬN HÀNH HỆ THỐNG
 const SYSTEM_ASSETS = [
     './',
     './index.html',
@@ -36,7 +36,7 @@ const ALL_ASSETS = [...DATA_ASSETS, ...SYSTEM_ASSETS];
 
 // Cài đặt Cache ban đầu
 self.addEventListener('install', (event) => {
-    self.skipWaiting();
+    self.skipWaiting(); // Cài xong là chiếm quyền kiểm soát ngay lập tức
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
             return cache.addAll(ALL_ASSETS);
@@ -44,13 +44,13 @@ self.addEventListener('install', (event) => {
     );
 });
 
-// Kích hoạt & Xóa cache cũ ngay lập tức
+// Kích hoạt & Xóa triệt để cache cũ, BẢO VỆ NGUYÊN VẸN LOCALSTORAGE
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((keys) => {
             return Promise.all(
                 keys.map((key) => {
-                    if (key !== CACHE_NAME) {
+                    if (key !== CACHE_NAME && key.startsWith('yhct-')) {
                         return caches.delete(key);
                     }
                 })
@@ -69,11 +69,10 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // Kiểm tra xem request có phải là File Dữ Liệu không
     const isDataAsset = DATA_ASSETS.some(asset => reqUrl.endsWith(asset.replace('./', '')));
 
     if (isDataAsset) {
-        // 🟢 CHIẾN LƯỢC CACHE-FIRST CHỦ ĐỘNG CHO DỮ LIỆU: Lấy Cache trước, không có mới Fetch
+        // 🟢 CHIẾN LƯỢC CACHE-FIRST CHO DỮ LIỆU: Đọc nhanh từ bộ nhớ
         event.respondWith(
             caches.match(event.request).then((cachedResponse) => {
                 if (cachedResponse) {
@@ -89,9 +88,10 @@ self.addEventListener('fetch', (event) => {
             })
         );
     } else {
-        // 🔴 CHIẾN LƯỢC NETWORK-FIRST CHO VẬN HÀNH HỆ THỐNG: Có mạng -> Ép nạp mới từ Server + Cập nhật Cache ngầm
+        // 🔴 CHIẾN LƯỢC NETWORK-FIRST ÉP TẢI TƯƠI CHO HỆ THỐNG (ĐÃ SỬA LỖI):
+        // Thêm { cache: 'no-cache' } để ép Trình duyệt đi thẳng ra Server lấy file mới nhất
         event.respondWith(
-            fetch(event.request)
+            fetch(event.request, { cache: 'no-cache' })
                 .then((networkResponse) => {
                     if (networkResponse && networkResponse.status === 200) {
                         const responseClone = networkResponse.clone();
@@ -100,14 +100,13 @@ self.addEventListener('fetch', (event) => {
                     return networkResponse;
                 })
                 .catch(() => {
-                    // Mất mạng / Offline -> Lấy từ Cache dự phòng
+                    // Khi mất mạng hoàn toàn mới móc từ Cache dự phòng ra dùng
                     return caches.match(event.request);
                 })
         );
     }
 });
 
-// Lắng nghe lệnh tải offline từ giao diện
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'CACHE_ALL') {
         event.waitUntil(
