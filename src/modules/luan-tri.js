@@ -12,9 +12,98 @@ const TCM_RULES = {
     'Tam_Tieu': { fallbackBC: 'thap nhiet' }
 };
 
-const debounceSearchLuanTri = debounce(searchLuanTri, 100);
+// 1. Khai báo biến toàn cục & Hàm xử lý Click Outside
+let wasSearchInputFocusedOnTouch = false;
 
-// Quản lý bật/tắt Chế độ Ôn Tập tổng quát
+const handleTouchStartOutsideSearch = (e) => {
+    const searchInput = document.getElementById('search-input');
+    const dropdown = document.getElementById('search-dropdown');
+    if (!searchInput || !dropdown) return;
+
+    const searchWrapper = searchInput.closest('.relative') || searchInput.parentElement;
+    const isInsideSearch = (searchWrapper && searchWrapper.contains(e.target));
+    const isInsideDropdown = dropdown.contains(e.target);
+
+    if (!isInsideSearch && !isInsideDropdown) {
+        wasSearchInputFocusedOnTouch = (document.activeElement === searchInput);
+    } else {
+        wasSearchInputFocusedOnTouch = false;
+    }
+};
+
+const handleClickOutsideSearch = (e) => {
+    const searchInput = document.getElementById('search-input');
+    const dropdown = document.getElementById('search-dropdown');
+    if (!searchInput || !dropdown) return;
+
+    const searchWrapper = searchInput.closest('.relative') || searchInput.parentElement;
+    const isInsideSearch = (searchWrapper && searchWrapper.contains(e.target));
+    const isInsideDropdown = dropdown.contains(e.target);
+
+    const boLocTamTruc = document.getElementById('bo-loc-tam-truc');
+    const isInsideTamTruc = boLocTamTruc && boLocTamTruc.contains(e.target);
+
+    if (isInsideTamTruc) return;
+
+    if (!isInsideSearch && !isInsideDropdown) {
+        if (wasSearchInputFocusedOnTouch) {
+            wasSearchInputFocusedOnTouch = false;
+            return;
+        }
+
+        if (!dropdown.classList.contains('hidden')) {
+            dropdown.classList.add('hidden');
+            setDropdownSpacer(false);
+            updateLuanTri(); // Ép cập nhật nhảy theo hội chứng khi đóng dropdown
+        }
+    }
+};
+
+// 2. Khai báo Debounce
+let _debounceFn = null;
+function debounceSearchLuanTri() {
+    if (!_debounceFn && typeof debounce === 'function') {
+        _debounceFn = debounce(searchLuanTri, 100);
+    }
+    if (_debounceFn) {
+        _debounceFn();
+    } else {
+        searchLuanTri();
+    }
+}
+
+// 3. Khởi tạo sự kiện Tam Trục (Linh hoạt giữa Dropdown và Nhảy hội chứng)
+function initTamTrucListeners() {
+    const filters = ['tang-phu', 'han-nhiet', 'hu-thuc', 'benh-co'];
+    filters.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('change', () => {
+                const input = document.getElementById('search-input');
+                const dropdown = document.getElementById('search-dropdown');
+                
+                const queryVal = input ? input.value.trim() : '';
+                const isDropdownVisible = dropdown && !dropdown.classList.contains('hidden');
+
+                // Nếu đang gõ từ khóa HOẶC Dropdown đang hiển thị -> Tam trục làm Key phụ lọc Dropdown
+                if (queryVal !== '' && isDropdownVisible) {
+                    searchLuanTri();
+                } else {
+                    // Ngược lại (Không có từ khóa/Dropdown ẩn) -> Tam trục nhảy trực tiếp theo Hội chứng
+                    updateLuanTri();
+                }
+            });
+        }
+    });
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initTamTrucListeners);
+} else {
+    initTamTrucListeners();
+}
+
+// Quản lý bật/tắt Chế độ Ôn Tập
 function startQuizMode() {
     if (typeof database === 'undefined' || !database) return;
     
@@ -124,12 +213,12 @@ function toggleQuizLuanTri(btnEl) {
 function getItemTamTruc(item) {
     if (!item) return { tp: '', hn: '', ht: '', bc: '' };
     const pl = Array.isArray(item.phanloai) ? item.phanloai : [];
-    const title = removeAccents(item.hc || '');
+    const title = typeof removeAccents === 'function' ? removeAccents(item.hc || '') : (item.hc || '').toLowerCase();
     
-    let pTP = removeAccents(pl[0] || title);
-    let pHN = removeAccents(pl[1] || item.han_nhiet || title);
-    let pHT = removeAccents(pl[2] || item.hu_thuc || title);
-    let pBC = removeAccents(pl[3] || title);
+    let pTP = typeof removeAccents === 'function' ? removeAccents(pl[0] || title) : (pl[0] || title).toLowerCase();
+    let pHN = typeof removeAccents === 'function' ? removeAccents(pl[1] || item.han_nhiet || title) : (pl[1] || item.han_nhiet || title).toLowerCase();
+    let pHT = typeof removeAccents === 'function' ? removeAccents(pl[2] || item.hu_thuc || title) : (pl[2] || item.hu_thuc || title).toLowerCase();
+    let pBC = typeof removeAccents === 'function' ? removeAccents(pl[3] || title) : (pl[3] || title).toLowerCase();
 
     const mapTP = { 
         'tam tieu': 'Tam_Tieu', 'dai truong': 'Dai_Truong', 'tieu truong': 'Tieu_Truong', 
@@ -227,10 +316,7 @@ async function chuyenQuaLuanTriVaTim(keyword) {
     if (!keyword) return;
     await switchTab('luantri');
     
-    ['tang-phu', 'han-nhiet', 'hu-thuc', 'benh-co'].forEach(id => {
-        const el = document.getElementById(id);
-        if (el) el.selectedIndex = 0;
-    });
+    resetTamTrucFilters();
 
     const searchInput = document.getElementById('search-input');
     if (searchInput) {
@@ -241,21 +327,15 @@ async function chuyenQuaLuanTriVaTim(keyword) {
 }
 
 function updateLuanTri(query = "", isEnter = false, forceExact = false) {
-    const searchInputVal = getVal('search-input').trim();
-    const dropdown = document.getElementById('search-dropdown');
-    
-    const tp = getFilterVal('tang-phu');
-    const hn = getFilterVal('han-nhiet');
-    const ht = getFilterVal('hu-thuc');
-    const bc = getFilterVal('benh-co');
-    const hasTamTrucFilter = (tp !== "") || (hn !== "") || (ht !== "") || (bc !== "");
+    if (typeof database === 'undefined' || !database) return;
 
-    if ((searchInputVal !== "" || hasTamTrucFilter) && !query) {
-        searchLuanTri(isEnter);
-        return;
-    }
-
+    const searchInputVal = typeof getVal === 'function' ? getVal('search-input').trim() : '';
     const activeQuery = query || searchInputVal.toLowerCase();
+    
+    const tp = typeof getFilterVal === 'function' ? getFilterVal('tang-phu') : '';
+    const hn = typeof getFilterVal === 'function' ? getFilterVal('han-nhiet') : '';
+    const ht = typeof getFilterVal === 'function' ? getFilterVal('hu-thuc') : '';
+    const bc = typeof getFilterVal === 'function' ? getFilterVal('benh-co') : '';
     
     let bestMatchData = null;
     let maxScore = -1;
@@ -265,7 +345,9 @@ function updateLuanTri(query = "", isEnter = false, forceExact = false) {
         if (!item) continue;
         if (!checkMatchFilter(item, tp, hn, ht, bc)) continue;
 
-        const score = tinhDiemKhopTongQuat(item, activeQuery, 'hc');
+        const score = (activeQuery && typeof tinhDiemKhopTongQuat === 'function') 
+            ? tinhDiemKhopTongQuat(item, activeQuery, 'hc') 
+            : 1;
 
         if (score > maxScore && score > 0) {
             maxScore = score;
@@ -276,10 +358,78 @@ function updateLuanTri(query = "", isEnter = false, forceExact = false) {
     renderDetailLuanTri(bestMatchData, activeQuery, isEnter);
 }
 
+function resetTamTrucFilters() {
+    ['tang-phu', 'han-nhiet', 'hu-thuc', 'benh-co'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.selectedIndex = 0;
+    });
+}
+
+function searchLuanTri(isEnter = false) {
+    if (typeof database === 'undefined' || !database) return;
+
+    const input = document.getElementById('search-input');
+    const dropdown = document.getElementById('search-dropdown');
+    const queryStr = (input ? input.value : '').toLowerCase().trim();
+    
+    // TRƯỜNG HỢP 1: Ô TÌM KIẾM TRỐNG -> ĐÓNG DROPDOWN & NHẢY THEO HỘI CHỨNG (DỰA TRÊN TAM TRỤC HIỆN TẠI)
+    if (!queryStr) {
+        if (dropdown) dropdown.classList.add('hidden');
+        setDropdownSpacer(false);
+        updateLuanTri(); // Kích hoạt nhảy theo hội chứng ngay lập tức
+        return;
+    }
+
+    // TRƯỜNG HỢP 2: TỪ KHÓA BẮT ĐẦU XUẤT HIỆN -> RESET TAM TRỤC VỀ MẶC ĐỊNH LẦN ĐẦU MỞ DROPDOWN
+    // (Kiểm tra nếu dropdown vừa chuyển từ trạng thái Ẩn sang Hiện)
+    if (dropdown && dropdown.classList.contains('hidden')) {
+        resetTamTrucFilters(); // Reset 4 ô select tam trục về giá trị mặc định
+    }
+
+    const tp = typeof getFilterVal === 'function' ? getFilterVal('tang-phu') : '';
+    const hn = typeof getFilterVal === 'function' ? getFilterVal('han-nhiet') : '';
+    const ht = typeof getFilterVal === 'function' ? getFilterVal('hu-thuc') : '';
+    const bc = typeof getFilterVal === 'function' ? getFilterVal('benh-co') : '';
+
+    const matches = [];
+    for (let key in database) {
+        const item = database[key];
+        if (!item || !checkMatchFilter(item, tp, hn, ht, bc)) continue;
+
+        const score = typeof tinhDiemKhopTongQuat === 'function' ? tinhDiemKhopTongQuat(item, queryStr, 'hc') : 1;
+        if (score > 0) matches.push({ key, ...item, score });
+    }
+
+    matches.sort((a, b) => b.score - a.score);
+
+    if (dropdown) {
+        if (matches.length > 0) {
+            dropdown.innerHTML = matches.slice(0, 30).map(m => `
+                <div onclick="selectSearchResult('${m.key}')" class="p-2.5 hover:bg-stone-800 border-b border-stone-800/80 cursor-pointer transition-colors text-xs text-left">
+                    <div class="font-bold text-amber-400">${typeof highlightText === 'function' ? highlightText(m.hc, queryStr) : m.hc}</div>
+                    <div class="text-stone-400 text-[11px] truncate mt-0.5">${typeof highlightText === 'function' ? highlightText(m.tc ? m.tc.join(', ') : '', queryStr) : (m.tc ? m.tc.join(', ') : '')}</div>
+                </div>
+            `).join('');
+            dropdown.classList.remove('hidden');
+            setDropdownSpacer(true);
+        } else {
+            dropdown.innerHTML = `<div class="p-3 text-xs text-stone-500 text-center">Không tìm thấy hội chứng phù hợp</div>`;
+            dropdown.classList.remove('hidden');
+            setDropdownSpacer(true);
+        }
+    }
+
+    if (isEnter && matches.length > 0) {
+        selectSearchResult(matches[0].key, true);
+    } else {
+        renderDetailLuanTri(matches.length > 0 ? matches[0] : null, queryStr, isEnter);
+    }
+}
+
 function renderDetailLuanTri(data, query = "", isEnter = false) {
     const pdfArea = document.getElementById('pdf-area');
     
-    if (!document.getElementById('hoi-chung') && pdfArea) {
+    if (!document.getElementById('hoi-chung') && pdfArea && typeof ORIGINAL_PDF_AREA_HTML !== 'undefined') {
         pdfArea.innerHTML = ORIGINAL_PDF_AREA_HTML;
     }
 
@@ -296,18 +446,20 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
         divBt.parentNode.appendChild(warningContainer);
     }
 
-    const btnHc = document.getElementById('ai-toggle-hc');
-    if (btnHc) {
-        btnHc.className = `px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer ${AppState.aiHcActive ? 'bg-amber-600 text-white shadow-amber-900/50' : 'bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60'}`;
-    }
+    if (typeof AppState !== 'undefined') {
+        const btnHc = document.getElementById('ai-toggle-hc');
+        if (btnHc) {
+            btnHc.className = `px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer ${AppState.aiHcActive ? 'bg-amber-600 text-white shadow-amber-900/50' : 'bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60'}`;
+        }
 
-    const btnBt = document.getElementById('ai-toggle-bt');
-    if (btnBt) {
-        btnBt.className = `px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer ${AppState.aiBtActive ? 'bg-amber-600 text-white shadow-amber-900/50' : 'bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60'}`;
+        const btnBt = document.getElementById('ai-toggle-bt');
+        if (btnBt) {
+            btnBt.className = `px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer ${AppState.aiBtActive ? 'bg-amber-600 text-white shadow-amber-900/50' : 'bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60'}`;
+        }
     }
 
     if (data) {
-        if (hcEl) hcEl.innerHTML = highlightText(data.hc || "Chưa rõ hội chứng", query);
+        if (hcEl) hcEl.innerHTML = typeof highlightText === 'function' ? highlightText(data.hc || "Chưa rõ hội chứng", query) : (data.hc || "Chưa rõ hội chứng");
         if (pdtEl) pdtEl.innerText = data.pdt || "Chưa có pháp trị";
         if (btEl) btEl.innerText = data.bt || "Đối chứng nghiệm phương";
         
@@ -317,7 +469,7 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
                 const frag = document.createDocumentFragment();
                 data.tc.forEach(t => { 
                     let li = document.createElement('li'); 
-                    li.innerHTML = highlightText(t, query); 
+                    li.innerHTML = typeof highlightText === 'function' ? highlightText(t, query) : t; 
                     frag.appendChild(li); 
                 }); 
                 ul.appendChild(frag);
@@ -331,8 +483,8 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
                 data.tpbt.forEach(v => {
                     let btn = document.createElement('button');
                     btn.className = "px-2.5 py-1 text-xs bg-stone-800 text-amber-400 border border-stone-700 rounded transition-all font-medium";
-                    btn.innerHTML = `<i class="fa-solid fa-leaf text-[10px] mr-1 text-emerald-500"></i>${highlightText(v, query)}`;
-                    btn.onclick = () => xemDuocLieu(v); 
+                    btn.innerHTML = `<i class="fa-solid fa-leaf text-[10px] mr-1 text-emerald-500"></i>${typeof highlightText === 'function' ? highlightText(v, query) : v}`;
+                    btn.onclick = () => typeof xemDuocLieu === 'function' && xemDuocLieu(v); 
                     frag.appendChild(btn);
                 });
                 divBt.appendChild(frag);
@@ -340,7 +492,7 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
         }
 
         if (warningContainer) {
-            if (data.tpbt && Array.isArray(data.tpbt)) {
+            if (data.tpbt && Array.isArray(data.tpbt) && typeof kiemTraTuongKy === 'function') {
                 const listCanhBao = kiemTraTuongKy(data.tpbt);
                 if (listCanhBao.length > 0) {
                     warningContainer.innerHTML = `
@@ -349,7 +501,7 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
                                 <i class="fa-solid fa-triangle-exclamation"></i> Cảnh báo tương kỵ lâm sàng:
                             </div>
                             <ul class="list-disc pl-5 text-red-300 font-medium">
-                                ${listCanhBao.map(cb => `<li>Phát hiện cặp vị thuốc xung khắc: <strong>${escapeHTML(cb)}</strong></li>`).join('')}
+                                ${listCanhBao.map(cb => `<li>Phát hiện cặp vị thuốc xung khắc: <strong>${typeof escapeHTML === 'function' ? escapeHTML(cb) : cb}</strong></li>`).join('')}
                             </ul>
                         </div>
                     `;
@@ -361,7 +513,7 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
             }
         }
 
-        if (AppState.aiHcActive && data.hc) {
+        if (typeof AppState !== 'undefined' && AppState.aiHcActive && data.hc) {
             fetchAIHcDesc(data.hc);
         } else {
             const aiHcEl = document.getElementById('ai-hc-desc');
@@ -371,7 +523,7 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
             }
         }
 
-        if (AppState.aiBtActive && data.bt) {
+        if (typeof AppState !== 'undefined' && AppState.aiBtActive && data.bt) {
             fetchAIBtDesc(data.bt);
         } else {
             const aiBtEl = document.getElementById('ai-bt-desc');
@@ -382,13 +534,14 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
         }
 
     } else {
-        if (query && isEnter) {
+        if (query && isEnter && typeof fetchAIBackupResult === 'function') {
             fetchAIBackupResult(query, 'Biện chứng Luận Trị YHCT', pdfArea);
             return;
         }            
 
+        const safeTxt = typeof escapeHTML === 'function' ? escapeHTML(query) : query;
         const msg = (query && isEnter)
-            ? `<i class='fa-solid fa-paper-plane text-[10px]'></i> Đã ghi nhận từ khóa "${escapeHTML(query)}".`
+            ? `<i class='fa-solid fa-paper-plane text-[10px]'></i> Đã ghi nhận từ khóa "${safeTxt}".`
             : (query ? `<i class='fa-solid fa-keyboard text-[10px]'></i> Nhấn <kbd class="px-1 py-0.5 bg-stone-800 border border-stone-700 rounded text-amber-400 font-mono">Enter</kbd> để tìm với AI.` : '');
 
         if (hcEl) hcEl.innerHTML = "<span class='text-stone-500 font-normal text-base'><i class='fa-solid fa-circle-exclamation mr-1 text-amber-500'></i>Không tìm thấy hội chứng phù hợp</span>";
@@ -399,7 +552,7 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
         if (warningContainer) warningContainer.innerHTML = "";
     }
 
-    const isQuizMode = AppState.quizActive || AppState.isQuizLT;
+    const isQuizMode = typeof AppState !== 'undefined' && (AppState.quizActive || AppState.isQuizLT);
     
     const quizPairs = [
         ['lt-card-hc', 'hoi-chung'],
@@ -484,93 +637,18 @@ function setDropdownSpacer(show) {
     }
 }
 
-function searchLuanTri(isEnter = false) {
-    const input = document.getElementById('search-input');
-    const dropdown = document.getElementById('search-dropdown');
-    const queryStr = (input ? input.value : '').toLowerCase().trim();
-    
-    const cleanQueryStr = queryStr.replace(/[,\.;:?!()\[\]{}]/g, ' ');
-    const queryWords = cleanQueryStr ? cleanQueryStr.split(/\s+/).filter(Boolean) : [];
-
-    const tp = getFilterVal('tang-phu');
-    const hn = getFilterVal('han-nhiet');
-    const ht = getFilterVal('hu-thuc');
-    const bc = getFilterVal('benh-co');
-
-    const hasTamTrucFilter = (tp !== "") || (hn !== "") || (ht !== "") || (bc !== "");
-
-    if (queryWords.length === 0 && !hasTamTrucFilter) {
-        if (dropdown) dropdown.classList.add('hidden');
-        setDropdownSpacer(false);
-        updateLuanTri();
-        return;
-    }
-
-    const matches = [];
-    for (let key in database) {
-        const item = database[key];
-        if (!item) continue;
-        if (!checkMatchFilter(item, tp, hn, ht, bc)) continue;
-
-        let matchCount = 0;
-        if (queryWords.length > 0) {
-            const hc = (item.hc || '').toLowerCase();
-            const tc = (item.tc || []).join(' ').toLowerCase();
-            const bt = (item.bt || '').toLowerCase();
-            const tpbt = (item.tpbt || []).join(' ').toLowerCase();
-            const fullText = `${hc} ${tc} ${bt} ${tpbt}`;
-
-            queryWords.forEach(word => {
-                if (fullText.includes(word)) {
-                    matchCount++;
-                    if (hc.includes(word)) matchCount += 0.5;
-                }
-            });
-
-            if (matchCount === 0) continue;
-            matches.push({ key, ...item, score: matchCount });
-        } else {
-            matches.push({ key, ...item, score: 1 });
-        }
-    }
-
-    matches.sort((a, b) => b.score - a.score);
-    const topMatches = matches.slice(0, 30);
-
-    if (dropdown) {
-        if (topMatches.length > 0) {
-            dropdown.innerHTML = topMatches.map(m => `
-                <div onclick="selectSearchResult('${m.key}')" class="p-2.5 hover:bg-stone-800 border-b border-stone-800/80 cursor-pointer transition-colors text-xs text-left">
-                    <div class="font-bold text-amber-400">${highlightText(m.hc, queryStr)}</div>
-                    <div class="text-stone-400 text-[11px] truncate mt-0.5">${highlightText(m.tc ? m.tc.join(', ') : '', queryStr)}</div>
-                </div>
-            `).join('');
-        } else {
-            dropdown.innerHTML = `<div class="p-3 text-xs text-stone-500 text-center">Không tìm thấy hội chứng phù hợp với bộ lọc Tam Trục</div>`;
-        }
-        dropdown.classList.remove('hidden');
-        setDropdownSpacer(true);
-    }
-
-    if (isEnter && topMatches.length > 0) {
-        if (dropdown) dropdown.classList.add('hidden');
-        setDropdownSpacer(false);
-        selectSearchResult(topMatches[0].key, false);
-    } else {
-        updateLuanTri(queryStr, isEnter);
-    }
-}
-
 function selectSearchResult(key, hideDropdown = true) {
-    const query = getVal('search-input').trim();
+    const query = typeof getVal === 'function' ? getVal('search-input').trim() : '';
     if (typeof database === 'undefined' || !database || !database[key]) return;
 
     const item = database[key];
-    renderDetailLuanTri(item, query);
     
+    // Đồng bộ lại 4 ô select Tam Trục theo hội chứng vừa chọn
     if (typeof syncSelectsWithItem === 'function') {
         syncSelectsWithItem(item);
     }
+
+    renderDetailLuanTri(item, query);
 
     const dropdown = document.getElementById('search-dropdown');
     if (dropdown) dropdown.classList.add('hidden');
@@ -589,11 +667,11 @@ function syncSelectsWithItem(item) {
     const setSelect = (selectId, val) => {
         const el = document.getElementById(selectId);
         if (!el || !val) return;
-        const target = removeAccents(val);
+        const target = typeof removeAccents === 'function' ? removeAccents(val) : val.toLowerCase();
 
         for (let i = 0; i < el.options.length; i++) {
-            const optVal = removeAccents(el.options[i].value);
-            const optTxt = removeAccents(el.options[i].text);
+            const optVal = typeof removeAccents === 'function' ? removeAccents(el.options[i].value) : el.options[i].value.toLowerCase();
+            const optTxt = typeof removeAccents === 'function' ? removeAccents(el.options[i].text) : el.options[i].text.toLowerCase();
             if (!optVal || optVal.includes('tat ca')) continue;
             if (optVal === target || optTxt === target) {
                 el.selectedIndex = i;
@@ -602,7 +680,7 @@ function syncSelectsWithItem(item) {
         }
 
         for (let i = 0; i < el.options.length; i++) {
-            const optVal = removeAccents(el.options[i].value);
+            const optVal = typeof removeAccents === 'function' ? removeAccents(el.options[i].value) : el.options[i].value.toLowerCase();
             if (!optVal || optVal.includes('tat ca')) continue;
             if (target.includes(optVal) || optVal.includes(target)) {
                 el.selectedIndex = i;
@@ -625,9 +703,9 @@ async function fetchAIHcDesc(hcName) {
     const aiHcEl = document.getElementById('ai-hc-desc');
     if (!aiHcEl || !hcName || hcName === "---") return;
 
-    const cacheKey = 'ai_hc_' + removeAccents(hcName).replace(/\s+/g, '_');
+    const cacheKey = 'ai_hc_' + (typeof removeAccents === 'function' ? removeAccents(hcName) : hcName.toLowerCase()).replace(/\s+/g, '_');
     
-    const cachedHTML = getCacheWithTTL(cacheKey); 
+    const cachedHTML = typeof getCacheWithTTL === 'function' ? getCacheWithTTL(cacheKey) : null; 
     if (cachedHTML) {
         aiHcEl.classList.remove('hidden');
         aiHcEl.innerHTML = cachedHTML;
@@ -649,14 +727,14 @@ async function fetchAIHcDesc(hcName) {
         if (res.ok && data.reply) {
             const htmlResult = `
                 <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Mô tả chi tiết hội chứng:</div>
-                <div class="space-y-1">${formatAIMessage(data.reply)}</div>
+                <div class="space-y-1">${typeof formatAIMessage === 'function' ? formatAIMessage(data.reply) : data.reply}</div>
             `;
             
-            setCacheWithTTL(cacheKey, htmlResult, 99); 
+            if (typeof setCacheWithTTL === 'function') setCacheWithTTL(cacheKey, htmlResult, 99); 
             aiHcEl.innerHTML = htmlResult;
         } else {
             let errorMsg = data.error || 'Không nhận được phản hồi từ AI.';
-            aiHcEl.innerHTML = `<div class="text-amber-400/90 bg-amber-950/40 p-2.5 rounded border border-amber-800/60 text-xs">${escapeHTML(errorMsg)}</div>`;
+            aiHcEl.innerHTML = `<div class="text-amber-400/90 bg-amber-950/40 p-2.5 rounded border border-amber-800/60 text-xs">${typeof escapeHTML === 'function' ? escapeHTML(errorMsg) : errorMsg}</div>`;
         }
     } catch (err) {
         aiHcEl.innerHTML = `<div class="text-red-400 font-mono text-[11px] p-2 bg-red-950/50 border border-red-800 rounded">⚠️ Lỗi kết nối.</div>`;
@@ -669,8 +747,8 @@ async function fetchAIBtDesc(btName) {
     const aiBtEl = document.getElementById('ai-bt-desc');
     if (!aiBtEl || !btName || btName === "---" || btName === "Đối chứng nghiệm phương") return;
 
-    const cacheKey = 'ai_bt_' + removeAccents(btName).replace(/\s+/g, '_');
-    const cachedHTML = getCacheWithTTL(cacheKey); 
+    const cacheKey = 'ai_bt_' + (typeof removeAccents === 'function' ? removeAccents(btName) : btName.toLowerCase()).replace(/\s+/g, '_');
+    const cachedHTML = typeof getCacheWithTTL === 'function' ? getCacheWithTTL(cacheKey) : null; 
     if (cachedHTML) {
         aiBtEl.classList.remove('hidden');
         aiBtEl.innerHTML = cachedHTML;
@@ -696,9 +774,9 @@ async function fetchAIBtDesc(btName) {
         if (res.ok && data.reply) {
             const htmlResult = `
                 <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Nguồn gốc & đặc điểm cổ phương:</div>
-                <div class="space-y-1">${formatAIMessage(data.reply)}</div>
+                <div class="space-y-1">${typeof formatAIMessage === 'function' ? formatAIMessage(data.reply) : data.reply}</div>
             `;
-            setCacheWithTTL(cacheKey, htmlResult, 99); 
+            if (typeof setCacheWithTTL === 'function') setCacheWithTTL(cacheKey, htmlResult, 99); 
             aiBtEl.innerHTML = htmlResult;
         }
     } catch (err) {
@@ -709,6 +787,8 @@ async function fetchAIBtDesc(btName) {
 }
 
 function toggleAiFeature(type) {
+    if (typeof AppState === 'undefined') return;
+
     if (type === 'hc') {
         AppState.aiHcActive = !AppState.aiHcActive;
         const btnHc = document.getElementById('ai-toggle-hc');
@@ -741,52 +821,3 @@ function toggleAiFeature(type) {
         }
     }
 }
-
-// Xử lý sự kiện click ra ngoài để ẩn Dropdown (Bảo vệ không ẩn khi bấm vào Tam Trục)
-let wasSearchInputFocusedOnTouch = false;
-
-const handleTouchStartOutsideSearch = (e) => {
-    const searchInput = document.getElementById('search-input');
-    const dropdown = document.getElementById('search-dropdown');
-    if (!searchInput || !dropdown) return;
-
-    const searchWrapper = searchInput.closest('.relative') || searchInput.parentElement;
-    const isInsideSearch = (searchWrapper && searchWrapper.contains(e.target));
-    const isInsideDropdown = dropdown.contains(e.target);
-
-    if (!isInsideSearch && !isInsideDropdown) {
-        wasSearchInputFocusedOnTouch = (document.activeElement === searchInput);
-    } else {
-        wasSearchInputFocusedOnTouch = false;
-    }
-};
-
-const handleClickOutsideSearch = (e) => {
-    const searchInput = document.getElementById('search-input');
-    const dropdown = document.getElementById('search-dropdown');
-    if (!searchInput || !dropdown) return;
-
-    const searchWrapper = searchInput.closest('.relative') || searchInput.parentElement;
-    const isInsideSearch = (searchWrapper && searchWrapper.contains(e.target));
-    const isInsideDropdown = dropdown.contains(e.target);
-
-    const boLocTamTruc = document.getElementById('bo-loc-tam-truc');
-    const isInsideTamTruc = boLocTamTruc && boLocTamTruc.contains(e.target);
-
-    if (isInsideTamTruc) return;
-
-    if (!isInsideSearch && !isInsideDropdown) {
-        if (wasSearchInputFocusedOnTouch) {
-            wasSearchInputFocusedOnTouch = false;
-            return;
-        }
-
-        if (!dropdown.classList.contains('hidden')) {
-            dropdown.classList.add('hidden');
-            setDropdownSpacer(false);
-        }
-    }
-};
-
-document.addEventListener('pointerdown', handleTouchStartOutsideSearch, { passive: true });
-document.addEventListener('click', handleClickOutsideSearch);
