@@ -15,6 +15,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         // 3. Khởi tạo dữ liệu hiển thị ban đầu
         if (typeof updateLuanTri === 'function') updateLuanTri();
 
+        // 🟢 BỔ SUNG: Nạp ngay danh sách Thư tịch từ đầu (chạy ngầm, không bắt chờ chuyển tab)
+        if (typeof taiDanhSachSachTuDrive === 'function') {
+            taiDanhSachSachTuDrive();
+        }
+
         // 4. Ẩn màn hình Loading (#app-loader)
         const loader = document.getElementById('app-loader');
         if (loader) {
@@ -62,6 +67,12 @@ function capNhatThongKeHeader() {
         } else if (typeof traData !== 'undefined' && Array.isArray(traData)) {
             elTra.innerText = traData.length;
         }
+    }
+
+    // 🟢 5. Thư tịch: Hiển thị tổng số sách đã tải được (nếu có sẵn)
+    const elSach = document.getElementById('total-sach');
+    if (elSach && typeof danhSachSachPDF !== 'undefined' && Array.isArray(danhSachSachPDF)) {
+        elSach.innerText = danhSachSachPDF.length;
     }
 }
 
