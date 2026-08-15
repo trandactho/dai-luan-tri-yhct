@@ -1,6 +1,5 @@
-const CACHE_NAME = 'yhct-vfix'; // <-- Đổi số phiên bản khi đưa file DỮ LIỆU mới lên Server
+const CACHE_NAME = 'yhct-v1.6.8-final';
 
-// 1. Danh sách File DỮ LIỆU (Quản lý theo phiên bản CACHE_NAME)
 const DATA_ASSETS = [
     './luantridata.js',
     './huyetvidata.js',
@@ -14,7 +13,6 @@ const DATA_ASSETS = [
     './questiondata.js'
 ];
 
-// 2. Danh sách File VẬN HÀNH HỆ THỐNG (Bắt buộc nạp tươi hoàn toàn từ Server, không Cache)
 const SYSTEM_ASSETS = [
     './',
     './index.html',
@@ -32,18 +30,13 @@ const SYSTEM_ASSETS = [
     './src/main.js'
 ];
 
-// Cài đặt SW: Chỉ lưu sẵn các file DỮ LIỆU vào Cache theo phiên bản
 self.addEventListener('install', (event) => {
-    self.skipWaiting(); // Chiếm quyền kiểm soát ngay lập tức
+    self.skipWaiting();
     event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            return cache.addAll(DATA_ASSETS);
-        })
+        caches.open(CACHE_NAME).then((cache) => cache.addAll([...DATA_ASSETS, ...SYSTEM_ASSETS]))
     );
 });
 
-// Kích hoạt: Xóa triệt để các Cache dữ liệu cũ khi đổi CACHE_NAME
-// Tuyệt đối KHÔNG đụng đến LocalStorage hay IndexedDB (Nơi lưu dữ liệu AI và Người dùng)
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((keys) => {
@@ -58,13 +51,10 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Xử lý Request (Fetch)
 self.addEventListener('fetch', (event) => {
     const reqUrl = event.request.url;
 
-    // Bỏ qua các Request API ngoài (AI, Quảng cáo...)
-    if (reqUrl.includes('generativelanguage.googleapis.com') || 
-        reqUrl.includes('pagead2.googlesyndication.com')) {
+    if (reqUrl.includes('generativelanguage.googleapis.com') || reqUrl.includes('pagead2.googlesyndication.com')) {
         return;
     }
 
@@ -74,25 +64,23 @@ self.addEventListener('fetch', (event) => {
     });
 
     if (isSystemAsset) {
-        // 🔴 CHIẾN LƯỢC CHO FILE HỆ THỐNG: Mạng thuần túy (Network Only)
-        // Ép trình duyệt đi thẳng ra Server lấy code mới nhất, KHÔNG qua Cache
+        // Network-First: Thử lấy dữ liệu mới từ mạng, nếu mất mạng thì lấy từ Cache
         event.respondWith(
-            fetch(event.request, { cache: 'no-store' })
-                .catch(() => {
-                    // Dự phòng rủi ro mất mạng
-                    return new Response('Không có kết nối mạng để tải file hệ thống.', {
-                        status: 503,
-                        headers: { 'Content-Type': 'text/plain; charset=utf-8' }
-                    });
+            fetch(event.request)
+                .then((networkResponse) => {
+                    if (networkResponse && networkResponse.status === 200) {
+                        const responseClone = networkResponse.clone();
+                        caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
+                    }
+                    return networkResponse;
                 })
+                .catch(() => caches.match(event.request))
         );
     } else {
-        // 🟢 CHIẾN LƯỢC CHO FILE DỮ LIỆU: Cache-First (Theo phiên bản)
+        // Cache-First cho dữ liệu tĩnh
         event.respondWith(
             caches.match(event.request).then((cachedResponse) => {
-                if (cachedResponse) {
-                    return cachedResponse;
-                }
+                if (cachedResponse) return cachedResponse;
                 return fetch(event.request).then((networkResponse) => {
                     if (networkResponse && networkResponse.status === 200) {
                         const responseClone = networkResponse.clone();

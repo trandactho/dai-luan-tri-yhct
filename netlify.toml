@@ -2,6 +2,12 @@
   publish = "."
   functions = "netlify/functions"
 
+# Bỏ qua Redirect cho tài nguyên tĩnh để tránh cache nhầm index.html
+[[redirects]]
+  from = "/src/*"
+  to = "/src/:splat"
+  status = 200
+
 [[redirects]]
   from = "/sw.js"
   to = "/sw.js"
@@ -25,11 +31,3 @@
     X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=self, microphone=(), geolocation=()"
-
-# CORS cho API (cần trùng khớp với allowedOrigins trong chat.js)
-[[headers]]
-  for = "/.netlify/functions/*"
-  [headers.values]
-    Access-Control-Allow-Origin = "https://dailuantriyhct.com"
-    Access-Control-Allow-Methods = "POST, OPTIONS"
-    Access-Control-Allow-Headers = "Content-Type"
