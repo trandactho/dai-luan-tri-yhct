@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         // 3. Khởi tạo dữ liệu hiển thị ban đầu
         if (typeof updateLuanTri === 'function') updateLuanTri();
 
-        // 🟢 BỔ SUNG: Nạp ngay danh sách Thư tịch từ đầu (chạy ngầm, không bắt chờ chuyển tab)
+        // 🟢 Nạp ngay danh sách Thư tịch từ đầu
         if (typeof taiDanhSachSachTuDrive === 'function') {
             taiDanhSachSachTuDrive();
         }
@@ -32,6 +32,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         console.error("Lỗi trong quá trình khởi chạy ứng dụng:", err);
         const loader = document.getElementById('app-loader');
         if (loader) loader.classList.add('hidden');
+    }
+});
+
+// 🟢 BỔ SUNG: Tự động hạ bàn phím ảo di động khi nhấn Enter ở tất cả ô nhập liệu / tìm kiếm
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && e.target && e.target.tagName === 'INPUT') {
+        e.target.blur();
     }
 });
 
@@ -69,14 +76,14 @@ function capNhatThongKeHeader() {
         }
     }
 
-    // 🟢 5. Thư tịch: Hiển thị tổng số sách đã tải được (nếu có sẵn)
+    // 5. Thư tịch
     const elSach = document.getElementById('total-sach');
     if (elSach && typeof danhSachSachPDF !== 'undefined' && Array.isArray(danhSachSachPDF)) {
         elSach.innerText = danhSachSachPDF.length;
     }
 }
 
-// Hàm chuyển đổi tab giao diện chính (Đã tối ưu hóa mượt)
+// Hàm chuyển đổi tab giao diện chính
 async function switchTab(tabName) {
     const tabs = [
         { id: 'luantri', sec: 'sectionLuanTri', btn: 'btnTabLuanTri' },
@@ -90,7 +97,6 @@ async function switchTab(tabName) {
         { id: 'tuchan', sec: 'sectionTuChan', btn: 'btnTabTuChan' }
     ];
 
-    // BƯỚC 1: Đổi Tab UI tức thì (Không delay)
     tabs.forEach(t => {
         const secEl = document.getElementById(t.sec);
         const btnEl = document.getElementById(t.btn);
@@ -105,12 +111,10 @@ async function switchTab(tabName) {
         if (secEl) secEl.classList.remove('hidden');
         if (btnEl) {
             btnEl.classList.add('tab-active');
-            // Cuộn tự động thanh Menu để nút active luôn ở tầm mắt
             btnEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         }
     }
 
-    // BƯỚC 2: Đẩy việc xử lý render danh sách nặng sang khung hình tiếp theo (Giúp animation mượt)
     requestAnimationFrame(() => {
         if (tabName === 'duoclieu' && typeof filterDuocLieu === 'function') filterDuocLieu();
         if (tabName === 'huyetvi' && typeof filterHuyetVi === 'function') filterHuyetVi();
@@ -123,7 +127,11 @@ async function switchTab(tabName) {
 }
 
 function exportPDF() {
-    window.print();
+    if (typeof moModalDonThuoc === 'function') {
+        moModalDonThuoc();
+    } else {
+        window.print();
+    }
 }
 
 async function taiDuLieuOffline() {
@@ -171,10 +179,9 @@ function handleSwipe() {
     const deltaX = touchEndX - touchStartX;
     const deltaY = touchEndY - touchStartY;
 
-    // Nếu thao tác là cuộn dọc (vuốt lên/xuống) nhiều hơn vuốt ngang -> Bỏ qua không chuyển tab
     if (Math.abs(deltaY) > Math.abs(deltaX)) return;
 
-    const threshold = 60; // Ngưỡng vuốt ngang (px)
+    const threshold = 60;
     if (Math.abs(deltaX) < threshold) return;
 
     const activeBtn = document.querySelector('nav button.tab-active');
@@ -186,11 +193,9 @@ function handleSwipe() {
     if (currentIndex === -1) return;
 
     if (deltaX < 0) {
-        // Vuốt sang trái -> Tab kế tiếp
         const nextIndex = (currentIndex + 1) % ALL_TABS.length;
         switchTab(ALL_TABS[nextIndex]);
     } else if (deltaX > 0) {
-        // Vuốt sang phải -> Tab trước đó
         const prevIndex = (currentIndex - 1 + ALL_TABS.length) % ALL_TABS.length;
         switchTab(ALL_TABS[prevIndex]);
     }
