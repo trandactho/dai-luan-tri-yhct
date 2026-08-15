@@ -1,103 +1,81 @@
-exports.handler = async function(event, context) {
-    // Cố định chặt domain chính thức, chỉ fallback về biến môi trường nếu cần thiết
+exports.handler = async function(event) {
     const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:3000"];
     const requestOrigin = event.headers.origin || event.headers.Origin;
-    const corsOrigin = allowedOrigins.includes(requestOrigin) ? requestOrigin : "https://dailuantriyhct.com";
+
+    // Chặn truy cập từ Origin không hợp lệ ngay từ đầu
+    if (requestOrigin && !allowedOrigins.includes(requestOrigin)) {
+        return { 
+            statusCode: 403, 
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ error: 'Truy cập bị từ chối (CORS Policy).' }) 
+        };
+    }
 
     const headers = {
-        'Access-Control-Allow-Origin': corsOrigin,
+        'Access-Control-Allow-Origin': requestOrigin || "https://dailuantriyhct.com",
         'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Content-Type': 'application/json',
-        'X-Content-Type-Options': 'nosniff',
-        'X-Frame-Options': 'DENY',
-        'X-XSS-Protection': '1; mode=block'
+        'Content-Type': 'application/json'
     };
 
     if (event.httpMethod === 'OPTIONS') {
         return { statusCode: 200, headers, body: '' };
     }
-    // ... các đoạn code xử lý tiếp theo giữ nguyên ...
 
     try {
         const { prompt, image, source } = JSON.parse(event.body || '{}');
 
-// Chống gửi prompt quá dài (ví dụ tối đa 2000 ký tự)
-if (prompt && prompt.length > 2000) {
-    return { 
-        statusCode: 400, 
-        headers, 
-        body: JSON.stringify({ error: 'Nội dung yêu cầu quá dài.' }) 
-    };
-}
+        if (!prompt || prompt.trim().length === 0) {
+            return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung câu hỏi không được để trống.' }) };
+        }
+
+        if (prompt.length > 2000) {
+            return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung yêu cầu quá dài (tối đa 2000 ký tự).' }) };
+        }
 
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const secondKey  = process.env.SECOND_API_KEY;
         const backupKey  = process.env.BACKUP_API_KEY;
 
-        const luantrihcKey  = process.env.LUANTRI_API_KEY2;
-        const luantribtKey  = process.env.LUANTRI_API_KEY3;
-        const searchKey  = process.env.SEARCH_API_KEY;
-        const quizKey  = process.env.QUIZ_API_KEY;
-
         let keysToTry = [];
         if (source === 'assistant') keysToTry = [primaryKey, backupKey];
-        else if (source === 'luantrihc') keysToTry = [luantrihcKey, secondKey];
-        else if (source === 'luantribt') keysToTry = [luantribtKey, secondKey];
-        else if (source === 'quiz') keysToTry = [quizKey, backupKey];
         else if (source === 'vongchan') keysToTry = [primaryKey, secondKey, backupKey];
-        else keysToTry = [searchKey, backupKey];
+        else keysToTry = [process.env.SEARCH_API_KEY || primaryKey, backupKey];
 
         keysToTry = [...new Set(keysToTry.filter(Boolean))];
 
         if (keysToTry.length === 0) {
-            return { statusCode: 200, headers, body: JSON.stringify({ error: 'Chưa cấu hình API Key trên Netlify.' }) };
+            return { statusCode: 500, headers, body: JSON.stringify({ error: 'Cấu hình máy chủ chưa hoàn tất.' }) };
         }
 
         const models = ['gemini-3.6-flash', 'gemini-3.5-flash'];
-        let lastError = null;
-
-        // Xây dựng mảng parts: Tự động thêm phần hình ảnh nếu có (Vọng chẩn)
         const partsPayload = [];
         
         if (image && typeof image === 'string' && image.startsWith('data:image')) {
             const matches = image.match(/^data:(image\/\w+);base64,(.+)$/);
             if (matches && matches.length === 3) {
-                partsPayload.push({
-                    inline_data: {
-                        mime_type: matches[1],
-                        data: matches[2]
-                    }
-                });
+                partsPayload.push({ inline_data: { mime_type: matches[1], data: matches[2] } });
             }
         }
 
         partsPayload.push({ 
-            text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy tuân thủ tuyệt đối y đức, không bịa đặt, thông tin chuẩn xác theo y lý chính thống. Trả lời ngắn gọn, ngắt dòng rõ ràng, dùng gạch đầu dòng cho các ý chính: " + prompt 
+            text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt 
         });
 
-        for (let keyIdx = 0; keyIdx < keysToTry.length; keyIdx++) {
-            const apiKey = keysToTry[keyIdx];
-            
-            // Key tính phí (đầu tiên) cho 18s thoải mái sinh câu trả lời. Key dự phòng sau cho 5s.
-            const timeoutMs = ((source === 'vongchan')||(source === 'quiz')||(source === 'assistant')) ? 25000 : 15000;
+        const timeoutMs = (source === 'vongchan' || source === 'assistant') ? 25000 : 15000;
 
+        for (const apiKey of keysToTry) {
             for (const model of models) {
                 const controller = new AbortController();
                 const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
                 try {
                     const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${apiKey.trim()}`;
-
                     const response = await fetch(url, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         signal: controller.signal,
-                        body: JSON.stringify({
-                            contents: [{ 
-                                parts: partsPayload 
-                            }]
-                        })
+                        body: JSON.stringify({ contents: [{ parts: partsPayload }] })
                     });
 
                     clearTimeout(timeoutId);
@@ -110,17 +88,15 @@ if (prompt && prompt.length > 2000) {
                             body: JSON.stringify({ reply: data.candidates[0].content.parts[0].text })
                         };
                     }
-                    lastError = data.error?.message || JSON.stringify(data);
                 } catch (err) {
                     clearTimeout(timeoutId);
-                    lastError = err.name === 'AbortError' ? `Request quá ${timeoutMs / 1000}s (Timeout)` : err.message;
                 }
             }
         }
 
-        return { statusCode: 200, headers, body: JSON.stringify({ error: `Máy chủ AI bận: ${lastError}` }) };
+        return { statusCode: 503, headers, body: JSON.stringify({ error: 'Hệ thống AI đang bận. Vui lòng thử lại sau ít phút.' }) };
 
     } catch (error) {
-        return { statusCode: 200, headers, body: JSON.stringify({ error: error.message }) };
+        return { statusCode: 500, headers, body: JSON.stringify({ error: 'Lỗi xử lý hệ thống nội bộ.' }) };
     }
 };
