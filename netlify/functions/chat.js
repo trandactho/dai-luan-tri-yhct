@@ -1,21 +1,35 @@
 exports.handler = async function(event, context) {
+    // Cố định chặt domain chính thức, chỉ fallback về biến môi trường nếu cần thiết
+    const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:3000"];
+    const requestOrigin = event.headers.origin || event.headers.Origin;
+    const corsOrigin = allowedOrigins.includes(requestOrigin) ? requestOrigin : "https://dailuantriyhct.com";
+
     const headers = {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': corsOrigin,
         'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'DENY',
+        'X-XSS-Protection': '1; mode=block'
     };
 
     if (event.httpMethod === 'OPTIONS') {
         return { statusCode: 200, headers, body: '' };
     }
-
-    if (event.httpMethod !== 'POST') {
-        return { statusCode: 200, headers, body: JSON.stringify({ error: 'Method Not Allowed' }) };
-    }
+    // ... các đoạn code xử lý tiếp theo giữ nguyên ...
 
     try {
         const { prompt, image, source } = JSON.parse(event.body || '{}');
+
+// Chống gửi prompt quá dài (ví dụ tối đa 2000 ký tự)
+if (prompt && prompt.length > 2000) {
+    return { 
+        statusCode: 400, 
+        headers, 
+        body: JSON.stringify({ error: 'Nội dung yêu cầu quá dài.' }) 
+    };
+}
 
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const secondKey  = process.env.SECOND_API_KEY;
