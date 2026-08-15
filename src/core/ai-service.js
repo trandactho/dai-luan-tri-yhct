@@ -259,8 +259,99 @@ async function sendAIWebMessage() {
     }
 }
 
-// --- 3. HÀM TÌM KIẾM AI ĐỘC LẬP & TỰ ĐỘNG BỎ TẢI VÀO LOCALSTORAGE ---
+function validateAndCleanAIResult(obj, tabName) {
+    if (!obj || typeof obj !== 'object') return null;
 
+    // 1. Danh mục Biện chứng Luận Trị
+    if (tabName.includes('Luận Trị') || tabName.includes('luantri')) {
+        return {
+            hc: String(obj.hc || 'HỘI CHỨNG CHƯA RÕ'),
+            pdt: String(obj.pdt || 'Theo chỉ định chuyên môn'),
+            tc: Array.isArray(obj.tc) ? obj.tc.map(String) : [String(obj.tc || 'Đang cập nhật triệu chứng')],
+            bt: String(obj.bt || 'Đối chứng nghiệm phương'),
+            tpbt: Array.isArray(obj.tpbt) ? obj.tpbt.map(String) : []
+        };
+    }
+    
+    // 2. Danh mục Dược Liệu
+    else if (tabName.includes('Dược Liệu') || tabName.includes('duoclieu')) {
+        return {
+            ten: String(obj.ten || 'Dược liệu chưa rõ tên'),
+            nhom: String(obj.nhom || 'Dược liệu YHCT'),
+            ten_khoa_hoc: String(obj.ten_khoa_hoc || ''),
+            pinyin: String(obj.pinyin || ''),
+            cong_dung: String(obj.cong_dung || 'Đang cập nhật công năng chủ trị.'),
+            kieng_ky: String(obj.kieng_ky || obj.luu_y || 'Tuân thủ liều lượng tiêu chuẩn.')
+        };
+    } 
+    
+    // 3. Danh mục Huyệt Vị
+    else if (tabName.includes('Huyệt Vị') || tabName.includes('huyetvi')) {
+        return {
+            ten: String(obj.ten || 'Huyệt chưa rõ tên'),
+            kinh: String(obj.kinh || 'Kinh mạch YHCT'),
+            ma_who: String(obj.ma_who || ''),
+            chu_tri: String(obj.chu_tri || 'Điều hòa khí huyết, thông kinh hoạt lạc.'),
+            vi_tri: String(obj.vi_tri || obj.dinh_vi || 'Đang cập nhật mô tả giải phẫu.')
+        };
+    }
+
+    // 4. Danh mục Trà Dược
+    else if (tabName.includes('Trà Dược') || tabName.includes('Tra') || tabName.includes('tra')) {
+        return {
+            ten: String(obj.ten || 'Bài trà chưa rõ tên'),
+            nhom: String(obj.nhom || 'Trà Dược YHCT'),
+            cong_dung: String(obj.cong_dung || 'Thanh nhiệt, giải độc, điều hòa cơ thể.'),
+            cach_dung: String(obj.cach_dung || 'Hãm với nước sôi 85-90°C trong 10-15 phút.'),
+            kieng_ky: String(obj.kieng_ky || 'Phụ nữ có thai hoặc tỳ vị hư hàn nên tham khảo ý kiến chuyên gia.'),
+            thanh_phan: Array.isArray(obj.thanh_phan) ? obj.thanh_phan.map(String) : []
+        };
+    }
+
+    // 5. Danh mục Dược Thiện
+    else if (tabName.includes('Dược Thiện') || tabName.includes('DuocThien') || tabName.includes('duocthien')) {
+        let formattedThanhPhan = [{ vi: 'Thành phần chính', lieu: 'Vừa đủ' }];
+        if (Array.isArray(obj.thanh_phan)) {
+            formattedThanhPhan = obj.thanh_phan.map(item => {
+                if (typeof item === 'object' && item !== null) {
+                    return { vi: String(item.vi || 'Vị thuốc'), lieu: String(item.lieu || 'Vừa đủ') };
+                }
+                return { vi: String(item), lieu: 'Vừa đủ' };
+            });
+        }
+    
+        return {
+            ten: String(obj.ten || 'Món dược thiện chưa rõ tên'),
+            nhom: String(obj.nhom || 'Dược Thiện'),
+            cong_dung: String(obj.cong_dung || 'Bồi bổ cơ thể, hỗ trợ điều trị bệnh.'),
+            thanh_phan: formattedThanhPhan,
+            so_che: String(obj.so_che || 'Sơ chế nguyên liệu sạch sẽ.'),
+            cach_lam: Array.isArray(obj.cach_lam) ? obj.cach_lam.map(String) : [String(obj.cach_lam || 'Nấu chín theo phương pháp cổ truyền.')],
+            kieng_ky: String(obj.kieng_ky || 'Tham khảo ý kiến thầy thuốc trước khi dùng.')
+        };
+    }
+        // 6. Danh mục Tứ Chẩn & Hội Chẩn AI
+    else if (tabName.includes('Tứ Chẩn') || tabName.includes('tu_chan') || tabName.includes('vongchan')) {
+        return {
+            bat_cuong: String(obj.bat_cuong || 'Chưa xác định Bát cương'),
+            tang_phu: String(obj.tang_phu || 'Chưa xác định Tạng phủ'),
+            hoi_chung: String(obj.hoi_chung || 'Chưa rõ hội chứng'),
+            bien_chung: String(obj.bien_chung || 'Đang cập nhật biện chứng luận trị.'),
+            phap_tri: String(obj.phap_tri || 'Đang cập nhật pháp trị.'),
+            co_phuong: String(obj.co_phuong || '---'),
+            vi_thuoc: Array.isArray(obj.vi_thuoc) ? obj.vi_thuoc.map(v => ({
+                ten: String(v.ten || 'Vị thuốc'),
+                lieu: String(v.lieu || 'Vừa đủ'),
+                vai_tro: String(v.vai_tro || 'Thuốc')
+            })) : []
+        };
+    }
+    
+    // Mặc định trả về đối tượng gốc nếu không khớp danh mục nào
+    return obj;
+}
+
+// --- 3. HÀM TÌM KIẾM AI ĐỘC LẬP & TỰ ĐỘNG BỎ TẢI VÀO LOCALSTORAGE ---
 async function fetchAIBackupResult(query, tabName, containerEl) {
     if (!containerEl) return;
     containerEl.innerHTML = `
@@ -287,20 +378,22 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
             })
         });
         const data = await res.json();
+    
+    if (res.ok && data.reply) {
+        let parsedObj = parseJsonFromAI(data.reply);
+        if (parsedObj) {
+            parsedObj = validateAndCleanAIResult(parsedObj, tabName);
+        } else {
+            parsedObj = { 
+                ten: query, 
+                nhom: tabName,
+                cong_dung: data.reply,
+                cach_dung: "Hãm với nước sôi 85-90°C trong 10-15 phút.",
+                thanh_phan: [query]
+            };
+        }
         
-        if (res.ok && data.reply) {
-            let parsedObj = parseJsonFromAI(data.reply);
-            if (!parsedObj) {
-                parsedObj = { 
-                    ten: query, 
-                    nhom: tabName,
-                    cong_dung: data.reply,
-                    cach_dung: "Hãm với nước sôi 85-90°C trong 10-15 phút.",
-                    thanh_phan: [query]
-                };
-            }
-            
-            luuKetQuaAiVaoDb(query, tabName, parsedObj);
+        luuKetQuaAiVaoDb(query, tabName, parsedObj);
 
             if (tabName.includes('Trà Dược') || tabName.includes('Tra')) {
                 if (typeof filterTra === 'function') filterTra();

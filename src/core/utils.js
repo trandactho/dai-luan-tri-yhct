@@ -44,12 +44,20 @@ function escapeHTML(str) {
 
 function safeSetLocalStorage(key, dataArray, maxItems = 30) {
     try {
+        if (!window.localStorage) return;
         if (Array.isArray(dataArray) && dataArray.length > maxItems) {
             dataArray = dataArray.slice(0, maxItems);
         }
         localStorage.setItem(key, JSON.stringify(dataArray));
     } catch (e) {
-        console.warn(`Không thể ghi vào localStorage cho key "${key}":`, e);
+        console.warn(`LocalStorage bị giới hạn hoặc đầy ở khóa "${key}":`, e);
+        // Tiến hành dọn dẹp khẩn cấp bộ nhớ cache
+        cleanExpiredLocalStorage();
+        try {
+            localStorage.setItem(key, JSON.stringify(dataArray.slice(0, 10))); // Lưu rút gọn
+        } catch (err) {
+            // Bỏ qua nếu vẫn không thể ghi
+        }
     }
 }
 
@@ -122,7 +130,7 @@ function checkAndCleanStorage() {
     }
 }
 
-function setCacheWithTTL(key, value, ttlDays = 99) {
+function setCacheWithTTL(key, value, ttlDays = 180) {
     const item = {
         value: value,
         expiry: Date.now() + (ttlDays * 24 * 60 * 60 * 1000)
@@ -171,11 +179,17 @@ function cleanExpiredLocalStorage() {
     const now = Date.now();
     Object.keys(localStorage).forEach(key => {
         try {
-            const item = JSON.parse(localStorage.getItem(key));
-            if (item && typeof item === 'object' && item.expiry && now > item.expiry) {
-                localStorage.removeItem(key);
+            // Xóa các key cache AI quá hạn hoặc các key tạm thời
+            const itemStr = localStorage.getItem(key);
+            if (itemStr.startsWith('{') && itemStr.includes('expiry')) {
+                const item = JSON.parse(itemStr);
+                if (item && item.expiry && now > item.expiry) {
+                    localStorage.removeItem(key);
+                }
             }
-        } catch (e) {}
+        } catch (e) {
+            // Nếu key không đúng định dạng JSON, bỏ qua
+        }
     });
 }
 
