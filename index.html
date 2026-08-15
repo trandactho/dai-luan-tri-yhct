@@ -54,7 +54,7 @@
         </div>
     </header>
 
-    <nav class="sticky top-0 z-50 grid grid-cols-5 sm:grid-cols-9 gap-0.5 bg-stone-900 border-b border-stone-800 text-center text-[10px] shadow-md">
+    <nav class="sticky top-0 z-50 grid grid-cols-5 sm:grid-cols-10 gap-0.5 bg-stone-900 border-b border-stone-800 text-center text-[10px] shadow-md">
     <button id="btnTabLuanTri" onclick="switchTab('luantri')" class="py-1 px-0.5 text-stone-400 hover:text-primary transition-all flex flex-col items-center justify-center tab-active">
         <i class="fa-solid fa-file-medical text-xs mb-0.5"></i>
         <span class="scale-90 tracking-tighter">Luận Trị</span>
@@ -91,6 +91,7 @@
         <i class="fa-solid fa-brain text-xs mb-0.5"></i>
         <span class="scale-90 tracking-tighter">Tứ Chẩn AI</span>
     </button>
+    
 </nav>
 
     <main class="container mx-auto px-4 py-6 pb-20 max-w-5xl">
@@ -638,6 +639,157 @@
                 </div>
             </div>
         </section>
+                <!-- TAB 10: QUẢN LÝ & NÂNG CẤP HỘI VIÊN -->
+        <section id="sectionHoiVien" class="hidden space-y-6">
+            <!-- Thẻ Trạng Thái Hiện Tại -->
+            <div class="bg-dark-box p-5 rounded-2xl border border-amber-900/40 shadow-xl space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-stone-800 pb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-12 h-12 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 text-xl font-bold">
+                            <i class="fa-solid fa-crown"></i>
+                        </div>
+                        <div>
+                            <div class="text-[11px] text-stone-400 uppercase tracking-wider font-semibold">Tài khoản cá nhân</div>
+                            <div class="text-base font-bold text-stone-100 flex items-center gap-2">
+                                Gói Hiện Tại: <span id="user-current-tier" class="text-amber-400">Cơ Bản (Basic)</span>
+                                <span id="user-tier-badge" class="px-2 py-0.5 bg-stone-800 text-stone-300 text-[10px] rounded-full border border-stone-700">5 lượt AI/ngày</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-[11px] text-stone-400">Hạn sử dụng:</div>
+                        <div id="user-tier-expiry" class="text-xs font-bold text-emerald-400">Vĩnh viễn (Miễn phí)</div>
+                    </div>
+                </div>
+
+                <!-- Thanh Tiến Độ Sử Dụng AI Lượt Trong Ngày -->
+                <div class="space-y-1.5">
+                    <div class="flex justify-between text-xs font-medium">
+                        <span class="text-stone-400">Lượt truy vấn AI hôm nay:</span>
+                        <span class="text-amber-400 font-bold"><span id="ai-used-count">2</span> / <span id="ai-max-count">5</span> lượt</span>
+                    </div>
+                    <div class="w-full bg-stone-900 h-2 rounded-full overflow-hidden border border-stone-800">
+                        <div class="bg-amber-500 h-full rounded-full transition-all duration-300" style="width: 40%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bảng Giá & Các Gói Hội Viên -->
+            <div class="space-y-3">
+                <div class="text-center space-y-1">
+                    <h2 class="text-base font-bold text-amber-400 uppercase tracking-wider flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-gem"></i> Nâng Cấp Quyền Lợi Chuyên Môn
+                    </h2>
+                    <p class="text-xs text-stone-400">Mở khóa toàn bộ tính năng tra cứu, không giới hạn AI Tứ Chẩn & Kê đơn xuất PDF</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-2">
+                    <!-- Gói Basic -->
+                    <div class="bg-dark-box p-5 rounded-2xl border border-stone-800 flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <div class="text-xs font-bold text-stone-400 uppercase">CƠ BẢN (BASIC)</div>
+                            <div class="text-2xl font-black text-stone-200">0 VNĐ <span class="text-xs text-stone-500 font-normal">/ vĩnh viễn</span></div>
+                            <ul class="text-xs text-stone-300 space-y-2 pt-2 border-t border-stone-800">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> Tra cứu CSDL cơ bản</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> Giới hạn 5 lượt AI/ngày</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-xmark text-red-500"></i> Không lưu hồ sơ bệnh án</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-xmark text-red-500"></i> Hiện quảng cáo nhẹ</li>
+                            </ul>
+                        </div>
+                        <button class="w-full py-2.5 bg-stone-800 text-stone-400 text-xs font-bold rounded-xl border border-stone-700 cursor-not-allowed">
+                            Đang Sử Dụng
+                        </button>
+                    </div>
+
+                    <!-- Gói Pro (Tháng) -->
+                    <div class="bg-dark-box p-5 rounded-2xl border border-stone-700 flex flex-col justify-between space-y-4 relative overflow-hidden shadow-lg">
+                        <div class="space-y-3">
+                            <div class="text-xs font-bold text-emerald-400 uppercase">BẠC (PRO - THÁNG)</div>
+                            <div class="text-2xl font-black text-amber-400">99.000đ <span class="text-xs text-stone-400 font-normal">/ tháng</span></div>
+                            <ul class="text-xs text-stone-300 space-y-2 pt-2 border-t border-stone-800">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> Mở khóa toàn bộ CSDL YHCT</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> 50 lượt AI Tứ Chẩn / ngày</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> Kê đơn & Xuất PDF không giới hạn</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-emerald-500"></i> Tắt hoàn toàn quảng cáo</li>
+                            </ul>
+                        </div>
+                        <button onclick="moModalThanhToan('pro', 99000)" class="w-full py-2.5 bg-emerald-700 hover:bg-emerald-600 text-white text-xs font-bold rounded-xl transition-all shadow-md cursor-pointer">
+                            Đăng Ký Gói Tháng
+                        </button>
+                    </div>
+
+                    <!-- Gói VIP (Năm) - Nổi bật -->
+                    <div class="bg-stone-900 p-5 rounded-2xl border-2 border-amber-500 flex flex-col justify-between space-y-4 relative shadow-2xl scale-[1.02]">
+                        <div class="absolute top-0 right-0 bg-amber-500 text-stone-950 font-black text-[9px] px-3 py-1 rounded-bl-xl uppercase tracking-wider">
+                            TIẾT KIỆM 25%
+                        </div>
+                        <div class="space-y-3">
+                            <div class="text-xs font-bold text-amber-400 uppercase flex items-center gap-1">
+                                <i class="fa-solid fa-crown text-amber-400"></i> VÀNG (VIP - NĂM)
+                            </div>
+                            <div class="text-2xl font-black text-amber-400">890.000đ <span class="text-xs text-stone-400 font-normal">/ năm</span></div>
+                            <ul class="text-xs text-stone-200 space-y-2 pt-2 border-t border-stone-800">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> **KHÔNG GIỚI HẠN** lượt AI Tứ Chẩn</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> Ưu tiên tốc độ Server AI riêng</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> Đọc & Tải toàn bộ Kho Thư Tịch PDF</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-amber-400"></i> Lưu lịch sử chẩn đoán không giới hạn</li>
+                            </ul>
+                        </div>
+                        <button onclick="moModalThanhToan('vip', 890000)" class="w-full py-2.5 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-xl transition-all shadow-lg cursor-pointer">
+                            Nâng Cấp VIP Năm
+                        </button>
+                    </div>
+
+                    <!-- Gói Group (Doanh Nghiệp) -->
+                    <div class="bg-dark-box p-5 rounded-2xl border border-stone-800 flex flex-col justify-between space-y-4">
+                        <div class="space-y-3">
+                            <div class="text-xs font-bold text-blue-400 uppercase">KIM CƯƠNG (PHÒNG KHÁM)</div>
+                            <div class="text-2xl font-black text-blue-400">2.500.000đ <span class="text-xs text-stone-400 font-normal">/ năm</span></div>
+                            <ul class="text-xs text-stone-300 space-y-2 pt-2 border-t border-stone-800">
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-400"></i> Cấp 5 tài khoản dùng chung nhóm</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-400"></i> In LOGO phòng khám lên đơn PDF</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-400"></i> Hỗ trợ kỹ thuật 24/7 qua Zalo</li>
+                                <li class="flex items-center gap-2"><i class="fa-solid fa-check text-blue-400"></i> Mọi đặc quyền của gói VIP</li>
+                            </ul>
+                        </div>
+                        <button onclick="moModalThanhToan('group', 2500000)" class="w-full py-2.5 bg-blue-700 hover:bg-blue-600 text-white text-xs font-bold rounded-xl transition-all shadow-md cursor-pointer">
+                            Đăng Ký Gói Phòng Khám
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    <!-- MODAL THANH TOÁN TỰ ĐỘNG CHUYỂN KHỎAN QR -->
+    <div id="modal-thanh-toan" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-stone-900 border border-stone-800 rounded-2xl max-w-md w-full p-5 space-y-4 shadow-2xl relative">
+            <div class="flex items-center justify-between border-b border-stone-800 pb-3">
+                <h3 class="font-bold text-sm text-amber-400 flex items-center gap-2">
+                    <i class="fa-solid fa-qrcode"></i> Thanh Toán Chuyển Khoản Tự Động
+                </h3>
+                <button onclick="document.getElementById('modal-thanh-toan').classList.add('hidden')" class="w-7 h-7 rounded-full bg-stone-800 text-stone-400 hover:text-white flex items-center justify-center">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            
+            <div class="text-center space-y-3">
+                <div class="bg-white p-3 rounded-xl inline-block border border-stone-300 shadow-inner">
+                    <!-- Ảnh QR VietQR Tự Động (VietQR API) -->
+                    <img id="qr-pay-img" src="https://img.vietqr.io/image/MB-0905000000-compact2.png?amount=890000&addInfo=YHCT%20VIP" alt="Mã QR Thanh Toán" class="w-48 h-48 object-contain">
+                </div>
+                <div class="text-xs space-y-1">
+                    <div class="text-stone-400">Số tiền: <strong id="pay-amount" class="text-amber-400 font-bold">890.000 VNĐ</strong></div>
+                    <div class="text-stone-400">Cú pháp chuyển khoản: <strong id="pay-memo" class="text-emerald-400 font-mono">YHCT VIP [SĐT]</strong></div>
+                    <p class="text-[11px] text-stone-500 italic pt-1">*Hệ thống tự động kích hoạt tài khoản trong 1-3 phút sau khi nhận tiền.</p>
+                </div>
+            </div>
+
+            <button onclick="xacNhanThanhToanGiaLap()" class="w-full py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs rounded-xl shadow-md transition-all cursor-pointer">
+                Tôi Đã Chuyển Khoản Thành Công
+            </button>
+        </div>
+    </div>
+    
     </main>
 
     <footer class="text-center text-xs text-stone-500 py-6 border-t border-stone-800 mt-8 mb-10 space-y-2">
@@ -678,81 +830,119 @@
             </div>
         </div>
     </div>
-        <!-- MODAL ĐƠN THUỐC & XUẤT PDF (KẾT HỢP GIA GIẢM TỰ ĐỘNG) -->
+        <!-- MODAL ĐƠN THUỐC & XUẤT PDF chuẩn 1 trang A4 -->
 <div id="modal-don-thuoc" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-3">
-    <div class="bg-stone-900 border border-amber-600/50 rounded-2xl max-w-2xl w-full p-5 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
+    <div class="bg-white text-stone-900 border border-amber-600/50 rounded-2xl max-w-2xl w-full p-5 space-y-3 shadow-2xl max-h-[90vh] overflow-y-auto">
         
-        <div class="flex items-center justify-between border-b border-stone-800 pb-3">
-            <h3 class="font-bold text-base text-amber-400 flex items-center gap-2">
-                <i class="fa-solid fa-file-prescription text-amber-500"></i> Xuất Đơn Thuốc & Phác Đồ YHCT
-            </h3>
-            <button onclick="document.getElementById('modal-don-thuoc').classList.add('hidden')" class="w-7 h-7 rounded-full bg-stone-800 text-stone-400 hover:text-white flex items-center justify-center">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
+<!-- Tiêu đề chính canh giữa -->
+<div style="text-align: center; font-size: 16px; font-weight: bold; line-height: 1; margin-bottom: -5px;">
+  ĐƠN THUỐC & PHÁC ĐỒ YHCT
+</div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+<!-- Phòng chẩn trị canh giữa -->
+<div style="text-align: center; font-size: 13px; line-height: 1; margin-bottom: 5px;">
+  Phòng Chẩn Trị Y Học Cổ Truyền Đại Luận Trị
+</div>
+
+<!-- Tên canh trái, Mã đơn canh phải trên cùng một hàng -->
+<div style="display: flex; justify-content: space-between; align-items: center; font-size: 10px; margin-bottom: -5px;">
+  <div style="text-align: left;"></div>
+  <div style="text-align: right;">Mã đơn: YHCT-2026</div>
+</div>
+        <!-- 2. THÔNG TIN BỆNH NHÂN & CHẨN ĐOÁN -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2 text-xs bg-stone-50 p-2.5 rounded border border-stone-200">
             <div>
-                <label class="block text-stone-400 mb-1 font-bold">Họ & Tên bệnh nhân:</label>
-                <input type="text" id="don-ten-bn" placeholder="Nguyễn Văn A" class="w-full p-2 rounded bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500">
+                <label class="block text-stone-500 font-bold">Họ & Tên bệnh nhân:</label>
+                <input type="text" id="don-ten-bn" placeholder="Nguyễn Văn A" class="w-full p-1 bg-transparent border-b border-dashed border-stone-400 font-bold text-stone-900 outline-none">
             </div>
             <div>
-                <label class="block text-stone-400 mb-1 font-bold">Tuổi:</label>
-                <input type="number" id="don-tuoi" value="35" min="1" max="120" onchange="capNhatBangLieuLuongDonThuoc()" oninput="capNhatBangLieuLuongDonThuoc()" class="w-full p-2 rounded bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500">
+                <label class="block text-stone-500 font-bold">Tuổi:</label>
+                <input type="number" id="don-tuoi" value="35" min="1" max="120" onchange="capNhatBangLieuLuongDonThuoc()" oninput="capNhatBangLieuLuongDonThuoc()" class="w-full p-1 bg-transparent border-b border-dashed border-stone-400 font-bold text-stone-900 outline-none">
             </div>
             <div>
-                <label class="block text-stone-400 mb-1 font-bold">Thể trạng / Đối tượng:</label>
-                <select id="don-thetrang" onchange="capNhatBangLieuLuongDonThuoc()" class="w-full p-2 rounded bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500">
+                <label class="block text-stone-500 font-bold">Thể trạng / Đối tượng:</label>
+                <select id="don-thetrang" onchange="capNhatBangLieuLuongDonThuoc()" class="w-full p-1 bg-transparent border-b border-dashed border-stone-400 font-bold text-stone-900 outline-none">
                     <option value="binhthuong">Bình thường / Trung bình</option>
                     <option value="pntt">Phụ nữ mang thai</option>
                     <option value="suynhuoc">Cơ thể suy nhược / Lão suy</option>
                     <option value="theluc">Thể lực tốt / Tráng kiện</option>
                 </select>
             </div>
-        </div>
-
-        <div class="space-y-2 text-xs">
-            <div>
-                <label class="block text-stone-400 mb-1 font-bold">Chẩn đoán YHCT:</label>
-                <input type="text" id="don-chandoan" class="w-full p-2 rounded bg-stone-950 text-amber-300 font-medium border border-stone-800 outline-none">
+            <div class="sm:col-span-3">
+                <label class="block text-stone-500 font-bold">Chẩn đoán YHCT:</label>
+                <input type="text" id="don-chandoan" class="w-full p-1 bg-transparent text-red-800 font-bold border-b border-dashed border-stone-400 outline-none">
             </div>
-            <div>
-                <label class="block text-stone-400 mb-1 font-bold">Bài thuốc chủ phương:</label>
-                <input type="text" id="don-baithuoc-ten" class="w-full p-2 rounded bg-stone-950 text-emerald-400 font-bold border border-stone-800 outline-none">
+            <div class="sm:col-span-3">
+                <label class="block text-stone-500 font-bold">Bài thuốc chủ phương:</label>
+                <input type="text" id="don-baithuoc-ten" class="w-full p-1 bg-transparent text-stone-900 font-bold border-b border-dashed border-stone-400 outline-none">
             </div>
         </div>
 
-        <div class="space-y-1.5">
-            <div class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center justify-between">
-                <span>Dược liệu & Liều lượng gia giảm:</span>
-                <span class="text-[10px] text-stone-400 font-normal italic">*Tự động tính theo tuổi & thể trạng</span>
+        <!-- 3. BẢNG THÀNH PHẦN BÀI THUỐC -->
+        <div class="space-y-1">
+            <div class="text-[11px] font-bold text-red-800 uppercase tracking-wider flex items-center justify-between">
+                <span>Dược liệu & Liều lượng kê đơn (1 thang/ngày):</span>
+                <span class="text-[10px] text-stone-400 font-normal italic no-print">*Tự động tính theo tuổi & thể trạng</span>
             </div>
-            <div class="border border-stone-800 rounded-lg overflow-hidden">
-                <table class="w-full text-left border-collapse bg-stone-950">
+            <div class="border border-stone-300 rounded overflow-hidden">
+                <table class="w-full text-left border-collapse bg-white">
                     <thead>
-                        <tr class="bg-stone-800/90 text-stone-400 text-[11px]">
-                            <th class="py-2 px-2 text-center w-10">STT</th>
-                            <th class="py-2 px-2">Vị thuốc</th>
-                            <th class="py-2 px-2 text-center w-24">Liều gốc</th>
-                            <th class="py-2 px-2 text-center w-32">Liều kê (g/ngày)</th>
+                        <tr class="bg-red-800 text-white text-[11px]">
+                            <th class="py-1.5 px-2 text-center w-10">STT</th>
+                            <th class="py-1.5 px-2">Vị thuốc YHCT</th>
+                            <th class="py-1.5 px-2 text-center w-24">Liều gốc</th>
+                            <th class="py-1.5 px-2 text-center w-32">Liều kê (g/ngày)</th>
                         </tr>
                     </thead>
-                    <tbody id="don-danhsach-vithuoc"></tbody>
+                    <tbody id="don-danhsach-vithuoc" class="text-xs divide-y divide-stone-200"></tbody>
                 </table>
             </div>
         </div>
 
-        <div class="pt-3 border-t border-stone-800 flex flex-wrap gap-2 justify-end">
-            <button onclick="chiaSeZaloDonThuoc()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-md">
+        <!-- 4. HƯỚNG DẪN SẮC THUỐC & CÁCH DÙNG -->
+        <div class="p-2.5 border border-amber-300 bg-amber-50/60 rounded text-xs text-amber-950">
+            <div class="font-bold uppercase text-[11px] text-amber-900 mb-1 flex items-center gap-1">
+                <i class="fa-solid fa-prescription-bottle-medical"></i> Hướng dẫn sắc thuốc & Chế độ sinh hoạt:
+            </div>
+            <p class="m-0 leading-relaxed text-[11px]">
+                • <strong>Cách sắc:</strong> Đổ 3 bát nước (khoảng 750ml), sắc lấy 1 bát (250ml). Sắc 2 nước/thang/ngày, trộn đều 2 nước chia 2 lần uống ấm trong ngày.<br>
+                • <strong>Thời gian uống:</strong> Uống sau bữa ăn 30 - 45 phút.<br>
+                • <strong>Kiêng kỵ:</strong> Hạn chế đồ ăn cay nóng, nhiều dầu mỡ, đồ chua chát và các chất kích thích trong thời gian dùng thuốc.
+            </p>
+        </div>
+
+        <!-- 5. KHU VỰC CHỮ KÝ -->
+        <table class="w-full text-center text-xs border-collapse pt-2">
+            <tr>
+                <td class="w-1/2 align-top">
+                    <div class="font-bold text-stone-800">BỆNH NHÂN / NGƯỜI NHẬN</div>
+                    <div class="italic text-stone-500 text-[10px]">(Ký & ghi rõ họ tên)</div>
+                    <div class="h-12"></div>
+                    <div class="font-bold text-stone-800">Nguyễn Văn A</div>
+                </td>
+                <td class="w-1/2 align-top">
+                    <div class="italic text-stone-500 text-[10px] mb-0.5">Ngày ..... tháng ..... năm 20...</div>
+                    <div class="font-bold text-stone-800">Y SĨ / BÁC SĨ CHẨN TRỊ</div>
+                    <div class="italic text-stone-500 text-[10px]">(Ký, đóng dấu & ghi rõ họ tên)</div>
+                    <div class="h-12"></div>
+                    <div class="font-bold text-red-800">BS. YHCT</div>
+                </td>
+            </tr>
+        </table>
+
+        <!-- 6. NÚT THAO TÁC (TỰ ĐỘNG ẨN KHƯ IN) -->
+        <div class="no-print pt-3 border-t border-stone-200 flex flex-wrap gap-2 justify-end">
+            <button onclick="chiaSeZaloDonThuoc()" class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-md">
                 <i class="fa-solid fa-share-nodes"></i> Gửi Zalo
             </button>
-            <button onclick="inDonThuoc()" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 cursor-pointer shadow-md">
+            <button onclick="inDonThuoc()" class="px-3.5 py-1.5 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer shadow-md">
                 <i class="fa-solid fa-print"></i> In / Xuất PDF
             </button>
         </div>
 
     </div>
 </div>
+
 
         <!-- 0. CƠ SỞ DỮ LIỆU (Bắt buộc nạp trước để các module có dữ liệu đọc) -->
     <script src="luantridata.js" defer></script>
@@ -772,15 +962,16 @@
     <script src="src/core/utils.js"></script>
     <script src="src/core/ai-service.js"></script>
 
-    <!-- 2. CHỨC NĂNG MODULES (Tải song song, không chặn render) -->
+      <!-- 2. CHỨC NĂNG MODULES -->
     <script src="src/modules/luan-tri.js" defer></script>
     <script src="src/modules/catalog.js" defer></script>
     <script src="src/modules/phoi-ngu.js" defer></script>
     <script src="src/modules/tu-chan.js" defer></script>
     <script src="src/modules/trac-nghiem.js" defer></script>
     <script src="src/modules/thu-vien.js" defer></script>
+    <script src="src/modules/hoi-vien.js" defer></script> <!-- THÊM DÒNG NÀY -->
 
-    <!-- 3. MAIN (Thực thi cuối cùng) -->
+    <!-- 3. MAIN -->
     <script src="src/main.js" defer></script>
 
 </body>
