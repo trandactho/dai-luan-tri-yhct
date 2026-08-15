@@ -1,4 +1,6 @@
-// --- KHỞI CHẠY ỨNG DỤNG & ĐIỀU HƯỚNG TAB ---
+// ==========================================================================
+// MAIN.JS - KHỞI CHẠY ỨNG DỤNG & ĐIỀU HƯỚNG TAB
+// ==========================================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
@@ -35,7 +37,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-// 🟢 BỔ SUNG: Tự động hạ bàn phím ảo di động khi nhấn Enter ở tất cả ô nhập liệu / tìm kiếm
+// 🟢 Tự động hạ bàn phím ảo di động khi nhấn Enter ở tất cả ô nhập liệu / tìm kiếm
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && e.target && e.target.tagName === 'INPUT') {
         e.target.blur();
@@ -94,7 +96,7 @@ async function switchTab(tabName) {
         { id: 'tracnghiem', sec: 'sectionTracNghiem', btn: 'btnTabTracNghiem' },
         { id: 'tracuusach', sec: 'sectionTraCuuSach', btn: 'btnTabTraCuuSach' },
         { id: 'phoingu', sec: 'sectionPhoiNgu', btn: 'btnTabPhoiNgu' },
-        { id: 'tuchan', sec: 'sectionTuChan', btn: 'btnTabTuChan' }
+        { id: 'tuchan', sec: 'sectionTuChan', btn: 'btnTabTuChan' },
     ];
 
     tabs.forEach(t => {
@@ -123,6 +125,7 @@ async function switchTab(tabName) {
         if (tabName === 'tracuusach' && typeof taiDanhSachSachTuDrive === 'function') taiDanhSachSachTuDrive();
         if (tabName === 'tuchan' && typeof hienThiLichSuVongChan === 'function') hienThiLichSuVongChan();
         if (tabName === 'phoingu' && typeof renderPhoiNguUI === 'function') renderPhoiNguUI();
+        if (tabName === 'hoivien' && typeof capNhatGiaoDienHoiVien === 'function') capNhatGiaoDienHoiVien(); // 🔴 Đồng bộ trạng thái Hội Viên
     });
 }
 
@@ -162,7 +165,7 @@ let touchStartY = 0;
 let touchEndX = 0;
 let touchEndY = 0;
 
-const ALL_TABS = ['luantri', 'huyetvi', 'duoclieu', 'duocthien', 'tra', 'tracnghiem', 'tracuusach', 'phoingu', 'tuchan'];
+const ALL_TABS = ['luantri', 'huyetvi', 'duoclieu', 'duocthien', 'tra', 'tracnghiem', 'tracuusach', 'phoingu', 'tuchan']; // 🔴 Thêm 'hoivien'
 
 document.addEventListener('touchstart', (e) => {
     touchStartX = e.changedTouches[0].screenX;
