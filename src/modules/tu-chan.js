@@ -129,7 +129,7 @@ async function guiPhanTichVongChan() {
     const useHistory = !!document.getElementById('vong-chan-use-history')?.checked; 
     
     // Bắt an toàn cả 2 trường hợp ID nút bấm
-    const btnSubmit = document.getElementById('btn-phan-tich-vong-chan') || document.getElementById('btn-phan-tich-tu-chan');
+    const btnSubmit = document.getElementById('btn-phan-tich-vong-chan');
     const resultBox = document.getElementById('vong-chan-result');
     const outputEl = document.getElementById('vong-chan-output');
     const btnSave = document.getElementById('btn-save-vongchan');
@@ -233,7 +233,7 @@ async function guiPhanTichTuChan() {
     const xucChan = document.getElementById('thiet-chan-xuc')?.value.trim();
     const useHistory = !!document.getElementById('vong-chan-use-history')?.checked;
     
-    const btnSubmit = document.getElementById('btn-phan-tich-tu-chan') || document.getElementById('btn-phan-tich-vong-chan');
+    const btnSubmit = document.getElementById('btn-phan-tich-tu-chan');
     const resultBox = document.getElementById('vong-chan-result');
     const chatBox = document.getElementById('ai-chat-box');
 
