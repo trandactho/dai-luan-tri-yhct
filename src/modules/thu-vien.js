@@ -1,4 +1,7 @@
-// --- QUẢN LÝ THƯ VIỆN SÁCH PDF & AI HỎI ĐÁP ---
+// ==========================================================================
+// THU-VIEN.JS - QUẢN LÝ THƯ VIỆN SÁCH PDF & AI HỎI ĐÁP
+// ==========================================================================
+
 let selectedBookForAI = null;
 let danhSachSachPDF = [];
 
@@ -11,7 +14,7 @@ async function taiDanhSachSachTuDrive() {
     grid.innerHTML = `<div class="col-span-full text-center py-6 text-xs text-stone-400"><i class="fa-solid fa-spinner fa-spin text-amber-500 mr-1.5"></i> Đang đồng bộ danh sách tài liệu từ Google Drive...</div>`;
 
     try {
-        // Dán URL Web App của Google Apps Script vào đây
+        // URL Web App của Google Apps Script
         const response = await fetch("https://script.google.com/macros/s/AKfycbyxPDLn_B20CFLJnEe7rOp_SbfeFQ7WDDgIFwIN9-nkXJz8naV4ivnBykRnvZuAzOd_gQ/exec");
         danhSachSachPDF = await response.json();
         
@@ -76,46 +79,47 @@ function renderDanhSachSach(arr) {
 
         html += `
             <div class="col-span-full mt-4 mb-2">
-                <h3 class="text-amber-400 font-bold text-xs uppercase tracking-wider border-b border-stone-800 pb-1.5 flex items-center justify-between">
-                    <span><i class="fa-solid fa-bookmark text-amber-500 mr-1.5"></i> ${escapeHTML(nhomName)}</span>
-                    <span class="text-[10px] bg-stone-800 px-2 py-0.5 rounded text-stone-400">${sachList.length} cuốn</span>
+                <h3 class="text-amber-400 font-bold text-xs uppercase tracking-wider border-b border-amber-900/40 pb-1.5 flex items-center justify-between">
+                    <span class="flex items-center gap-1.5"><i class="fa-solid fa-scroll text-amber-500"></i> ${escapeHTML(nhomName)}</span>
+                    <span class="text-[10px] bg-amber-950/60 text-amber-300/80 px-2 py-0.5 rounded border border-amber-800/40 font-mono">${sachList.length} cuốn</span>
                 </h3>
             </div>
         `;
 
         sachList.forEach(s => {
-            const moTaHienThi = getMoTaTuDong(s.ten);
+    const moTaHienThi = getMoTaTuDong(s.ten);
 
-            html += `
-                <div class="bg-stone-900/90 p-3.5 rounded-lg border border-stone-800 hover:border-amber-600/50 transition-all space-y-2 shadow-sm">
-                    <!-- Tên sách và Dung lượng -->
-                    <div class="flex items-start justify-between gap-2">
-                        <div class="flex items-center gap-2 overflow-hidden">
-                            <i class="fa-solid fa-file-pdf text-red-500 text-base flex-shrink-0"></i>
-                            <span class="font-bold text-amber-400 text-xs truncate leading-snug" title="${escapeHTML(s.ten)}">
-                                ${escapeHTML(s.ten)}
-                            </span>
-                        </div>
-                        <span class="text-[10px] bg-stone-800 text-stone-400 px-1.5 py-0.5 rounded border border-stone-700 flex-shrink-0">${s.dungLuong}</span>
-                    </div>
-
-                    <!-- Giới thiệu sơ lược nội dung cuốn sách -->
-                    <p class="text-[11px] text-stone-400 line-clamp-2 leading-relaxed italic">
-                        ${escapeHTML(moTaHienThi)}
-                    </p>
-
-                    <!-- Nút thao tác -->
-                    <div class="flex items-center justify-end gap-2 pt-1 border-t border-stone-800/60">
-                        <button onclick="window.open('${s.url}', '_blank')" class="px-3 py-1 bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold rounded text-[11px] cursor-pointer transition-colors border border-stone-700 flex items-center gap-1">
-                            <i class="fa-solid fa-book-open"></i> Đọc sách
-                        </button>
-                        <button onclick="moHoiDapSach('${s.ten.replace(/'/g, "\\'")}', '${s.dungLuong}')" class="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded text-[11px] cursor-pointer transition-colors flex items-center gap-1">
-                            <i class="fa-solid fa-robot"></i> Hỏi AI
-                        </button>
-                    </div>
+    html += `
+        <!-- Dùng style inline đè !important để xóa sạch màu xanh lá -->
+        <div class="bg-stone-900/90 p-3.5 rounded-lg border border-stone-800/80 hover:border-amber-500/70 transition-all space-y-2 shadow-md shadow-black/50" 
+             style="border-left: 4px solid #b45309 !important;">
+            
+            <div class="flex items-start justify-between gap-2">
+                <div class="flex items-center gap-2 overflow-hidden">
+                    <i class="fa-solid fa-scroll text-amber-500 text-sm flex-shrink-0"></i>
+                    <span class="font-bold text-amber-300 text-xs truncate leading-snug" title="${escapeHTML(s.ten)}">
+                        ${escapeHTML(s.ten)}
+                    </span>
                 </div>
-            `;
-        });
+                <span class="text-[10px] bg-stone-950 text-amber-400/80 px-1.5 py-0.5 rounded border border-amber-900/40 font-mono flex-shrink-0">${s.dungLuong}</span>
+            </div>
+
+            <p class="text-[11px] text-stone-400 line-clamp-2 leading-relaxed italic pl-1 border-l border-stone-800">
+                ${escapeHTML(moTaHienThi)}
+            </p>
+
+            <div class="flex items-center justify-end gap-2 pt-1.5 border-t border-stone-800/60">
+                <button onclick="window.open('${s.url}', '_blank')" class="px-3 py-1 bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold rounded text-[11px] cursor-pointer transition-colors border border-stone-700 flex items-center gap-1">
+                    <i class="fa-solid fa-book-open text-amber-400"></i> Đọc sách
+                </button>
+                <button onclick="moHoiDapSach('${s.ten.replace(/'/g, "\\'")}', '${s.dungLuong}')" class="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded text-[11px] cursor-pointer transition-colors flex items-center gap-1 shadow-sm">
+                    <i class="fa-solid fa-brain"></i> Hỏi AI
+                </button>
+            </div>
+        </div>
+    `;
+});
+
     }
 
     grid.innerHTML = html;

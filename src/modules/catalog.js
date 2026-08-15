@@ -283,20 +283,26 @@ function executeRenderDuocLieu(filteredData) {
 // --- 2. THEME KINH MẠCH & TAB HUYỆT VỊ ---
 function getKinhTheme(kinhName) {
     const norm = removeAccents(kinhName || '').toLowerCase();
+    
+    // 1. Đặt Kinh Bàng Quang lên ưu tiên hàng đầu / mặc định
+    if (norm.includes('bang quang')) return { border: 'border-l-4 border-blue-500', tag: 'bg-blue-950 text-blue-400', text: 'text-blue-400', textLight: 'text-blue-200', bgBox: 'bg-blue-950/30' };
+    
     if (norm.includes('phoi') || norm.includes('phe')) return { border: 'border-l-4 border-slate-400', tag: 'bg-slate-800 text-slate-300', text: 'text-slate-300', textLight: 'text-slate-200', bgBox: 'bg-slate-950/40' };
     if (norm.includes('dai truong')) return { border: 'border-l-4 border-amber-600', tag: 'bg-amber-950 text-amber-400', text: 'text-amber-400', textLight: 'text-amber-200', bgBox: 'bg-amber-950/30' };
     if (norm.includes('vi') || norm.includes('da day')) return { border: 'border-l-4 border-yellow-500', tag: 'bg-yellow-950 text-yellow-400', text: 'text-yellow-400', textLight: 'text-yellow-200', bgBox: 'bg-yellow-950/30' };
     if (norm.includes('ty')) return { border: 'border-l-4 border-orange-500', tag: 'bg-orange-950 text-orange-400', text: 'text-orange-400', textLight: 'text-orange-200', bgBox: 'bg-orange-950/30' };
     if (norm.includes('tim') || norm.includes('tam')) return { border: 'border-l-4 border-red-500', tag: 'bg-red-950 text-red-400', text: 'text-red-400', textLight: 'text-red-200', bgBox: 'bg-red-950/30' };
     if (norm.includes('tieu truong')) return { border: 'border-l-4 border-rose-600', tag: 'bg-rose-950 text-rose-400', text: 'text-rose-400', textLight: 'text-rose-200', bgBox: 'bg-rose-950/30' };
-    if (norm.includes('bang quang')) return { border: 'border-l-4 border-blue-500', tag: 'bg-blue-950 text-blue-400', text: 'text-blue-400', textLight: 'text-blue-200', bgBox: 'bg-blue-950/30' };
     if (norm.includes('than')) return { border: 'border-l-4 border-indigo-500', tag: 'bg-indigo-950 text-indigo-400', text: 'text-indigo-400', textLight: 'text-indigo-200', bgBox: 'bg-indigo-950/30' };
     if (norm.includes('tam bao')) return { border: 'border-l-4 border-purple-500', tag: 'bg-purple-950 text-purple-400', text: 'text-purple-400', textLight: 'text-purple-200', bgBox: 'bg-purple-950/30' };
     if (norm.includes('tam tieu')) return { border: 'border-l-4 border-violet-500', tag: 'bg-violet-950 text-violet-400', text: 'text-violet-400', textLight: 'text-violet-200', bgBox: 'bg-violet-950/30' };
     if (norm.includes('dam') || norm.includes('mat')) return { border: 'border-l-4 border-emerald-500', tag: 'bg-emerald-950 text-emerald-400', text: 'text-emerald-400', textLight: 'text-emerald-200', bgBox: 'bg-emerald-950/30' };
     if (norm.includes('can') || norm.includes('gan')) return { border: 'border-l-4 border-green-500', tag: 'bg-green-950 text-green-400', text: 'text-green-400', textLight: 'text-green-200', bgBox: 'bg-green-950/30' };
-    return { border: 'border-l-4 border-teal-600', tag: 'bg-teal-950 text-teal-400', text: 'text-teal-400', textLight: 'text-teal-200', bgBox: 'bg-teal-950/30' };
+    
+    // Thay giao diện mặc định (nếu không trùng đường kinh nào) thành giao diện Kinh Bàng Quang
+    return { border: 'border-l-4 border-blue-500', tag: 'bg-blue-950 text-blue-400', text: 'text-blue-400', textLight: 'text-blue-200', bgBox: 'bg-blue-950/30' };
 }
+
 
 function filterHuyetVi(isEnter = false, forceExact = false) {
     saveHuyetViState();
@@ -672,21 +678,6 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 });
 // --- BỔ SUNG LẠI CƠ CHẾ LƯU VÀ KHÔI PHỤC TRẠNG THÁI TRANG (CATALOG STATE) ---
-
-function saveCatalogState(tabName) {
-    const state = {
-        tab: tabName,
-        search: getVal(`search${capitalize(tabName)}`),
-        group: getVal(`filterNhom${capitalize(tabName)}`) || getVal(`filterKinhLac`) || '',
-        scroll: window.scrollY
-    };
-    sessionStorage.setItem('last_catalog_state', JSON.stringify(state));
-}
-
-function capitalize(str) {
-    if (!str) return '';
-    return str.charAt(0).toUpperCase() + str.slice(1);
-}
 
 // Gọi hàm này trước khi nhảy sang tab khác hoặc thoát sang Google tìm ảnh
 function saveCurrentTabState() {

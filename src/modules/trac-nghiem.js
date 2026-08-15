@@ -210,8 +210,9 @@ async function batDauTracNghiem() {
     const useTimerCheckbox = document.getElementById('use-quiz-timer');
     const timeSelect = document.getElementById('quiz-time-per-question');
     
+    // Thêm giá trị mặc định an toàn nếu Element chưa xuất hiện trên DOM
     const category = categorySelect ? categorySelect.value : 'all';
-    const count = countSelect ? parseInt(countSelect.value) : 10;
+    const count = countSelect ? (parseInt(countSelect.value) || 10) : 10;
     const isUseAI = useAICheckbox ? useAICheckbox.checked : false;
     
     isTimerEnabled = useTimerCheckbox ? useTimerCheckbox.checked : false;
