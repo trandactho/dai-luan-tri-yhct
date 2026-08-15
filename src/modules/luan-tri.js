@@ -479,6 +479,7 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
         if (divBt) {
             divBt.innerHTML = "";
             if (data.tpbt && Array.isArray(data.tpbt)) {
+                window.currentActiveHerbs = [...data.tpbt];
                 const frag = document.createDocumentFragment();
                 data.tpbt.forEach(v => {
                     let btn = document.createElement('button');
@@ -490,8 +491,7 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
                 divBt.appendChild(frag);
             }
         }
-
-        if (warningContainer) {
+            if (warningContainer) {
             if (data.tpbt && Array.isArray(data.tpbt) && typeof kiemTraTuongKy === 'function') {
                 const listCanhBao = kiemTraTuongKy(data.tpbt);
                 if (listCanhBao.length > 0) {
@@ -819,5 +819,147 @@ function toggleAiFeature(type) {
         } else if (aiBtEl) {
             aiBtEl.classList.add('hidden');
         }
+    }
+}
+// ========================================================
+// 🟢 BỔ SUNG GIA GIẢM LIỀU LƯỢNG & KÊ ĐƠN THUỐC YHCT
+// ========================================================
+
+// 1. Thuật toán tính hệ số điều chỉnh liều theo tuổi & thể trạng
+function tinhHesoLieuLuong(tuoi, theTrang) {
+    let heSo = 1.0; // Liều chuẩn người trưởng thành
+    if (tuoi < 3) heSo = 0.25;
+    else if (tuoi <= 7) heSo = 0.4;
+    else if (tuoi <= 12) heSo = 0.6;
+    else if (tuoi <= 16) heSo = 0.8;
+    else if (tuoi >= 65) heSo = 0.8;
+
+    if (theTrang === 'pntt') heSo *= 0.7;           // Phụ nữ thai nghén (giảm liều)
+    else if (theTrang === 'suynhuoc') heSo *= 0.75; // Cơ thể suy nhược
+    else if (theTrang === 'theluc') heSo *= 1.1;    // Thể lực tráng kiện
+
+    return Math.round(heSo * 100) / 100;
+}
+
+// 2. Gia giảm danh sách vị thuốc
+function tinhLieuDanhSachVi(danhSachVi, tuoi, theTrang) {
+    const heSo = tinhHesoLieuLuong(tuoi, theTrang);
+    const lieuDefault = 12; // Liều tiêu chuẩn mặc định 12g
+
+    return danhSachVi.map(item => {
+        let tenVi = typeof item === 'string' ? item : (item.ten || '');
+        let lieuChuan = typeof item === 'object' && item.lieu ? parseFloat(item.lieu) : lieuDefault;
+        if (isNaN(lieuChuan)) lieuChuan = lieuDefault;
+
+        let lieuDieuChinh = Math.round(lieuChuan * heSo);
+        let canhBao = '';
+
+        if (theTrang === 'pntt') {
+            const listKiemKy = ['bán hạ', 'ô đầu', 'phụ tử', 'đào nhân', 'hồng hoa', 'tam lăng', 'nga truật', 'ba đậu'];
+            const normTen = typeof removeAccents === 'function' ? removeAccents(tenVi) : tenVi.toLowerCase();
+            if (listKiemKy.some(k => normTen.includes(k))) {
+                canhBao = '⚠️ Thận trọng / Chống chỉ định thai phụ';
+            }
+        }
+
+        return { ten: tenVi, lieuGoc: lieuChuan, lieuTinh: lieuDieuChinh, canhBao };
+    });
+}
+
+// 3. Mở Modal Đơn thuốc & Trích xuất chẩn đoán từ giao diện
+function moModalDonThuoc() {
+    const modal = document.getElementById('modal-don-thuoc');
+    if (!modal) {
+        window.print();
+        return;
+    }
+
+    const hcText = document.getElementById('hoi-chung')?.innerText || 'Chưa xác định';
+    const pdtText = document.getElementById('phap-dieu-tri')?.innerText || 'Chưa xác định';
+    const btText = document.getElementById('bai-thuoc')?.innerText || 'Đối chứng nghiệm phương';
+    
+    const elChanDoan = document.getElementById('don-chandoan');
+    const elBaiThuoc = document.getElementById('don-baithuoc-ten');
+
+    if (elChanDoan) elChanDoan.value = `${hcText} (Pháp trị: ${pdtText})`;
+    if (elBaiThuoc) elBaiThuoc.value = btText;
+
+    capNhatBangLieuLuongDonThuoc();
+    modal.classList.remove('hidden');
+}
+
+// 4. Cập nhật lại bảng tính liều khi thay đổi Độ tuổi / Thể trạng
+function capNhatBangLieuLuongDonThuoc() {
+    const tuoi = parseInt(document.getElementById('don-tuoi')?.value) || 35;
+    const theTrang = document.getElementById('don-thetrang')?.value || 'binhthuong';
+    const container = document.getElementById('don-danhsach-vithuoc');
+    if (!container) return;
+
+    let rawHerbs = [];
+    if (Array.isArray(window.currentActiveHerbs) && window.currentActiveHerbs.length > 0) {
+        rawHerbs = window.currentActiveHerbs;
+    } else if (typeof currentFormulaHerbs !== 'undefined' && Array.isArray(currentFormulaHerbs) && currentFormulaHerbs.length > 0) {
+        rawHerbs = currentFormulaHerbs;
+    } else {
+        rawHerbs = ['Nhân sâm', 'Bạch truật', 'Phục linh', 'Cam thảo'];
+    }
+
+    const listCalculated = tinhLieuDanhSachVi(rawHerbs, tuoi, theTrang);
+    const safeEscape = typeof escapeHTML === 'function' ? escapeHTML : (s => s);
+
+    container.innerHTML = listCalculated.map((v, idx) => `
+        <tr class="border-b border-stone-800 text-xs">
+            <td class="py-2 px-1 text-center text-stone-400 font-mono">${idx + 1}</td>
+            <td class="py-2 px-2 text-emerald-400 font-bold">
+                ${safeEscape(v.ten)}
+                ${v.canhBao ? `<span class="text-red-400 font-normal block text-[10px]">${v.canhBao}</span>` : ''}
+            </td>
+            <td class="py-2 px-2 text-stone-300 text-center">${v.lieuGoc} g</td>
+            <td class="py-2 px-2 text-amber-400 font-bold text-center bg-amber-950/20">${v.lieuTinh} g/ngày</td>
+        </tr>
+    `).join('');
+}
+
+// 5. Thực hiện in/xuất PDF chuẩn
+function inDonThuoc() {
+    window.print();
+}
+
+// 6. Sao chép & Gửi đơn qua Zalo
+async function chiaSeZaloDonThuoc() {
+    const tenBn = document.getElementById('don-ten-bn')?.value || 'Bệnh nhân';
+    const tuoi = document.getElementById('don-tuoi')?.value || '35';
+    const chanDoan = document.getElementById('don-chandoan')?.value || '';
+    const baiThuoc = document.getElementById('don-baithuoc-ten')?.value || '';
+    
+    let noiDungViThuoc = '';
+    const rows = document.querySelectorAll('#don-danhsach-vithuoc tr');
+    rows.forEach((tr, i) => {
+        const cols = tr.querySelectorAll('td');
+        if (cols.length >= 4) {
+            noiDungViThuoc += `  ${i + 1}. ${cols[1].innerText.replace(/\n.*/, '')}: ${cols[3].innerText}\n`;
+        }
+    });
+
+    const content = `🩺 ĐƠN THUỐC Y HỌC CỔ TRUYỀN\n👤 Bệnh nhân: ${tenBn} (${tuoi} tuổi)\n📋 Chẩn đoán: ${chanDoan}\n🌿 Bài thuốc: ${baiThuoc}\n----------------------------------\n🧪 THÀNH PHẦN & LIỀU LƯỢNG (1 THANG/NGÀY):\n${noiDungViThuoc}\n🥣 HƯỚNG DẪN SẮC THUỐC:\n- Đổ 3 bát nước sắc còn 1 bát, uống ấm sau bữa ăn.`;
+
+    // 🟢 Trên điện thoại: Bật menu hệ thống, chọn Zalo gửi thẳng không cần copy/paste
+    if (navigator.share) {
+        try {
+            await navigator.share({
+                title: 'Đơn thuốc YHCT',
+                text: content
+            });
+            return;
+        } catch (e) {
+            // Người dùng bấm hủy chia sẻ
+        }
+    }
+
+    // 🟡 Trên máy tính: Copy + mở Zalo Web
+    if (navigator.clipboard) {
+        await navigator.clipboard.writeText(content);
+        alert('Đã sao chép đơn thuốc! Đang mở Zalo để dán (Paste)...');
+        window.open('https://zalo.me', '_blank');
     }
 }

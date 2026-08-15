@@ -114,15 +114,6 @@ let currentActiveList = [];
 let currentRenderType = '';
 let displayLimit = 50;
 
-window.addEventListener('scroll', () => {
-    if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 400) {
-        if (currentActiveList.length > 0 && displayLimit < currentActiveList.length) {
-            displayLimit += 50;
-            renderActiveGrid(false);
-        }
-    }
-});
-
 function renderActiveGrid(reset = true) {
     if (reset) displayLimit = 50;
     if (currentRenderType === 'duoclieu') executeRenderDuocLieu(currentActiveList);
@@ -130,6 +121,22 @@ function renderActiveGrid(reset = true) {
     else if (currentRenderType === 'tra') executeRenderTra(currentActiveList);
     else if (currentRenderType === 'duocthien') executeRenderDuocThien(currentActiveList);
 }
+
+let isTicking = false;
+window.addEventListener('scroll', () => {
+    if (!isTicking) {
+        window.requestAnimationFrame(() => {
+            if ((window.innerHeight + window.scrollY) >= document.documentElement.scrollHeight - 400) {
+                if (currentActiveList.length > 0 && displayLimit < currentActiveList.length) {
+                    displayLimit += 50;
+                    renderActiveGrid(false);
+                }
+            }
+            isTicking = false;
+        });
+        isTicking = true;
+    }
+}, { passive: true });
 
 // --- HÀM TRÍCH XUẤT VÀ KẾT HỢP DỮ LIỆU TỪ CSDL VÀ LOCALSTORAGE ---
 function getCombinedDuocLieuData() {
