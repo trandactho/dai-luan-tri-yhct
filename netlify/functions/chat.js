@@ -1,5 +1,5 @@
 exports.handler = async function(event) {
-    const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:3000"];
+    const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
     const requestOrigin = event.headers.origin || event.headers.Origin;
 
     // Chặn truy cập từ Origin không hợp lệ ngay từ đầu
@@ -36,11 +36,15 @@ exports.handler = async function(event) {
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const secondKey  = process.env.SECOND_API_KEY;
         const backupKey  = process.env.BACKUP_API_KEY;
+        const quizKey  = process.env.QUIZ_API_KEY;
+        const searchKey  = process.env.SEARCH_API_KEY;
 
         let keysToTry = [];
         if (source === 'assistant') keysToTry = [primaryKey, backupKey];
-        else if (source === 'vongchan') keysToTry = [primaryKey, secondKey, backupKey];
-        else keysToTry = [process.env.SEARCH_API_KEY || primaryKey, backupKey];
+        else if (source === 'vongchan') keysToTry = [primaryKey, backupKey];
+        else if (source === 'quiz') keysToTry = [quizKey, secondKey];
+        
+        else keysToTry = [searchKey, secondKey];
 
         keysToTry = [...new Set(keysToTry.filter(Boolean))];
 
