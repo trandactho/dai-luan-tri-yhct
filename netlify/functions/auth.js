@@ -1,7 +1,5 @@
-const { createClient } = require('@supabase/supabase-js');
-
-// Lấy chìa khóa API bảo mật đã lưu trên Netlify
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+const SUPABASE_URL = process.env.SUPABASE_URL;
+const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
 
 exports.handler = async (event) => {
   // 1. CẤU HÌNH CORS CHO PHÉP LOCALHOST:8080 VÀ DOMAIN THẬT
@@ -15,7 +13,7 @@ exports.handler = async (event) => {
     'Content-Type': 'application/json'
   };
 
-  // 2. XỬ LÝ PREFLIGHT REQUEST (OPTIONS) CỦA TRÌNH DUYỆT
+  // 2. XỬ LÝ PREFLIGHT REQUEST (OPTIONS)
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers, body: '' };
   }
@@ -27,34 +25,64 @@ exports.handler = async (event) => {
   try {
     const { action, email, password } = JSON.parse(event.body || '{}');
 
+    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+        return { statusCode: 500, headers, body: JSON.stringify({ message: 'Chưa cấu hình Supabase ENV.' }) };
+    }
+
     // 3. XỬ LÝ ĐĂNG KÝ TÀI KHOẢN (REGISTER)
     if (action === 'register') {
-      const { data: regData, error: regError } = await supabase.auth.signUp({ email, password });
-      if (regError) {
-        return { statusCode: 400, headers, body: JSON.stringify({ message: regError.message }) };
+      const resReg = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'apikey': SUPABASE_ANON_KEY
+          },
+          body: JSON.stringify({ email, password })
+      });
+      
+      const regData = await resReg.json();
+      if (!resReg.ok) {
+          return { statusCode: 400, headers, body: JSON.stringify({ message: regData.msg || regData.error_description || 'Đăng ký thất bại' }) };
       }
+
       return {
         statusCode: 200,
         headers,
-        body: JSON.stringify({ message: 'Đăng ký thành công', user: regData.user })
+        body: JSON.stringify({ message: 'Đăng ký thành công', user: regData.user || regData })
       };
     }
 
     // 4. XỬ LÝ ĐĂNG NHẬP (LOGIN)
-    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({ email, password });
-    if (authError) {
-      return { statusCode: 400, headers, body: JSON.stringify({ message: 'Email hoặc mật khẩu không đúng' }) };
+    const resAuth = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'apikey': SUPABASE_ANON_KEY
+        },
+        body: JSON.stringify({ email, password })
+    });
+    
+    const authData = await resAuth.json();
+    if (!resAuth.ok) {
+        return { statusCode: 400, headers, body: JSON.stringify({ message: 'Email hoặc mật khẩu không đúng' }) };
     }
 
-    // Lấy quyền (role) từ bảng profiles
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', authData.user.id).single();
+    // 5. LẤY QUYỀN (ROLE) TỪ BẢNG PROFILES
+    const resProfile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${authData.user.id}&select=role`, {
+        headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${authData.access_token}`
+        }
+    });
+    const profiles = await resProfile.json();
+    const userRole = (profiles && profiles.length > 0) ? profiles[0].role : 'FREE';
 
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
-        token: authData.session.access_token,
-        role: profile?.role || 'FREE',
+        token: authData.access_token,
+        role: userRole,
         user: { id: authData.user.id, email: authData.user.email }
       })
     };
