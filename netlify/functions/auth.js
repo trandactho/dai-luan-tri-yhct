@@ -1,5 +1,6 @@
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 exports.handler = async (event) => {
   // 1. CẤU HÌNH CORS CHO PHÉP LOCALHOST:8080 VÀ DOMAIN THẬT
@@ -67,11 +68,12 @@ exports.handler = async (event) => {
         return { statusCode: 400, headers, body: JSON.stringify({ message: 'Email hoặc mật khẩu không đúng' }) };
     }
 
-    // 5. LẤY QUYỀN (ROLE) TỪ BẢNG PROFILES
+    // 5. LẤY QUYỀN (ROLE) TỪ BẢNG PROFILES BẰNG SERVICE_ROLE_KEY (VƯỢT QUA RLS)
     const resProfile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${authData.user.id}&select=role`, {
+        method: 'GET',
         headers: {
-            'apikey': SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${authData.access_token}`
+            'apikey': SUPABASE_SERVICE_ROLE_KEY,
+            'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`
         }
     });
     const profiles = await resProfile.json();
