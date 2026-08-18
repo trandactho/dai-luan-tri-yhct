@@ -76,8 +76,8 @@ exports.handler = async (event) => {
     if (targetRole === 'VIP' && amount < 15000) {
         return { statusCode: 200, headers, body: JSON.stringify({ success: false, message: 'Số tiền chuyển gói VIP tối thiểu là 15.000đ.' }) };
     }
-    if (targetRole === 'SUPERVIP' && amount < 1180000) {
-        return { statusCode: 200, headers, body: JSON.stringify({ success: false, message: 'Số tiền chuyển gói SUPERVIP chưa đủ 1.180.000đ.' }) };
+    if (targetRole === 'SUPERVIP' && amount < 990000) {
+        return { statusCode: 200, headers, body: JSON.stringify({ success: false, message: 'Số tiền chuyển gói SUPERVIP chưa đủ 990.000đ.' }) };
     }
 
     // Truy vấn tất cả hồ sơ từ Supabase
