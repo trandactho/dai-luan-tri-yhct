@@ -1,7 +1,6 @@
 const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-// Hàm tính ngày hết hạn dựa trên cấp độ và số tiền nạp
 function calculateNewExpiration(currentUser, targetRole, amount) {
     let daysToAdd = 30; // Mặc định gói VIP tháng
 
@@ -46,6 +45,7 @@ exports.handler = async (event) => {
   }
 
   try {
+    console.log("📥 Nhận Webhook Payload:", event.body);
     const bodyData = JSON.parse(event.body || '{}');
     
     let rawContent = bodyData.content || bodyData.description || bodyData.transactionContent || '';
@@ -56,24 +56,29 @@ exports.handler = async (event) => {
     const content = rawContent.toUpperCase();
     const amount = parseInt(bodyData.transferAmount || bodyData.amount || (Array.isArray(bodyData.data) ? bodyData.data[0]?.amount : 0) || 0);
 
-    const vipMatch = content.match(/(SVIP|VIP)\s*(DL\d{4})/i);[span_23](start_span)[span_23](end_span)
+    console.log("🔍 Đã trích xuất nội dung:", content, "| Số tiền:", amount);
+
+    const vipMatch = content.match(/(SVIP|VIP)\s*(DL\d{4})/i);
 
     if (!vipMatch) {
+        console.log("❌ Không tìm thấy cú pháp VIP/SVIP + Mã DLxxxx trong nội dung:", content);
         return { 
             statusCode: 200, 
             headers, 
-            body: JSON.stringify({ success: true, message: 'Bỏ qua: Không tìm thấy cú pháp SVIP/VIP + Mã DLxxxx hợp lệ.' }) 
+            body: JSON.stringify({ success: false, message: `Bỏ qua: Nội dung "${content}" không chứa cú pháp VIP/SVIP + Mã DLxxxx.` }) 
         };
     }
 
     const targetRole = vipMatch[1].toUpperCase();
-    const shortId = vipMatch[2].toUpperCase(); // Ví dụ: DL1714
+    const shortId = vipMatch[2].toUpperCase(); 
+    console.log("✅ Khớp cú pháp! Gói:", targetRole, "| Mã ID:", shortId);
 
-    // 🟢 ĐÃ SỬA: Kiểm tra số tiền tối thiểu ngắn gọn, không bị lặp
     if (targetRole === 'VIP' && amount < 15000) {
+        console.log("❌ Số tiền chưa đạt mức tối thiểu cho VIP:", amount);
         return { statusCode: 200, headers, body: JSON.stringify({ success: false, message: 'Số tiền chuyển gói VIP tối thiểu là 15.000đ.' }) };
     }
-    if (targetRole === 'SVIP' && amount < 990000) {[span_24](start_span)[span_24](end_span)
+    if (targetRole === 'SVIP' && amount < 990000) {
+        console.log("❌ Số tiền chưa đạt mức tối thiểu cho SVIP:", amount);
         return { statusCode: 200, headers, body: JSON.stringify({ success: false, message: 'Số tiền chuyển gói SVIP chưa đủ 990.000đ.' }) };
     }
 
@@ -99,6 +104,7 @@ exports.handler = async (event) => {
                 const calculatedShortId = `DL${1000 + (Math.abs(hash) % 9000)}`;
                 if (calculatedShortId === shortId) {
                     matchedProfile = p;
+                    console.log("🎯 Tìm thấy tài khoản khớp mã ID:", shortId, "-> Email:", p.email);
                     break;
                 }
             }
@@ -106,12 +112,13 @@ exports.handler = async (event) => {
     }
 
     if (!matchedProfile) {
+        console.log("❌ Không tìm thấy tài khoản nào trong Supabase khớp với mã định danh:", shortId);
         return { statusCode: 200, headers, body: JSON.stringify({ success: false, message: `Không tìm thấy tài khoản mang mã định danh ${shortId}` }) };
     }
 
     const newExpireDate = calculateNewExpiration(matchedProfile, targetRole, amount);
+    console.log("⏳ Thời hạn mới được tính toán:", newExpireDate);
 
-    // 🟢 ĐÃ SỬA: Dùng `targetRole` động thay vì hardcode 'SVIP'
     const resUpdate = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${matchedProfile.id}`, {
         method: 'PATCH',
         headers: {
@@ -127,9 +134,12 @@ exports.handler = async (event) => {
     });
 
     if (!resUpdate.ok) {
-        throw new Error('Cập nhật database Supabase thất bại');
+        const errText = await resUpdate.text();
+        console.error("🔥 Lỗi cập nhật Supabase:", errText);
+        throw new Error('Cập nhật database Supabase thất bại: ' + errText);
     }
 
+    console.log("🎉 Nâng cấp thành công tài khoản:", matchedProfile.email, "lên", targetRole);
     return {
       statusCode: 200,
       headers,
@@ -140,6 +150,7 @@ exports.handler = async (event) => {
     };
 
   } catch (err) {
+    console.error("🔥 Lỗi ngoại lệ trong webhook:", err.message);
     return { statusCode: 500, headers, body: JSON.stringify({ error: err.message }) };
   }
 };
