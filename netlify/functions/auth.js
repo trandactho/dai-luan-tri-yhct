@@ -226,15 +226,17 @@ exports.handler = async (event) => {
       }
     }
 
-        // F. XỬ LÝ LẤY BẢNG XẾP HẠNG TOP 10 (LẤY THẲNG EMAIL TỪ BẢNG PROFILES)
+            // F. XỬ LÝ LẤY BẢNG XẾP HẠNG TOP 10 (SỬA AN TOÀN API KEY)
     if (action === 'get_leaderboard') {
       try {
-        // Query trực tiếp các cột có sẵn trong bảng profiles kể cả cột email
+        // Dùng thẳng SUPABASE_SERVICE_ROLE_KEY hoặc fallback sang ANON_KEY
+        const activeKey = SUPABASE_SERVICE_ROLE_KEY || SUPABASE_ANON_KEY;
+
         const resLeaderboard = await fetch(`${SUPABASE_URL}/rest/v1/profiles?select=id,email,role,expire_date,created_at&limit=50`, {
           method: 'GET',
           headers: {
-            'apikey': serviceKey,
-            'Authorization': `Bearer ${serviceKey}`
+            'apikey': activeKey,
+            'Authorization': `Bearer ${activeKey}`
           }
         });
         
@@ -246,8 +248,7 @@ exports.handler = async (event) => {
             statusCode: resLeaderboard.status || 500, 
             headers, 
             body: JSON.stringify({ 
-              message: "Lỗi truy vấn CSDL Supabase khi lấy bảng xếp hạng", 
-              error: leaderboardData 
+              message: `Lỗi Supabase (${resLeaderboard.status}): ${leaderboardData.message || JSON.stringify(leaderboardData)}` 
             }) 
           };
         }
@@ -256,7 +257,7 @@ exports.handler = async (event) => {
           return { 
             statusCode: 500, 
             headers, 
-            body: JSON.stringify({ message: "Dữ liệu Supabase không đúng định dạng mảng", raw: leaderboardData }) 
+            body: JSON.stringify({ message: "Dữ liệu Supabase không đúng định dạng mảng" }) 
           };
         }
 
