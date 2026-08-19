@@ -1,5 +1,5 @@
 const DOMAIN_NETLIFY = 'https://dailuantriyhct.com';
-const APP_VERSION = '1.6.8';
+const APP_VERSION = '1.7.2';
 
 function getApiEndpoint() {
     return (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
@@ -14,8 +14,33 @@ const AppState = {
     isQuizHV: false,
     isQuizLT: false,
     aiHcActive: false, // Trạng thái AI Hội chứng
-    aiBtActive: false  // Trạng thái AI Bài thuốc
+    aiBtActive: false, // Trạng thái AI Bài thuốc
+    // Thông tin xác thực & phân quyền thành viên
+    auth: {
+        role: 'GUEST',
+        token: null,
+        user: null
+    }
 };
+
+// Phân cấp vai trò chuẩn hóa (GUEST < FREE < VIP < SVIP)
+const ROLE_HIERARCHY = {
+    GUEST: 0,
+    FREE: 1,
+    VIP: 2,
+    SVIP: 3
+};
+
+const ROLE_QUOTAS = {
+    GUEST: 1,
+    FREE: 3,
+    VIP: 30,      // 30 lượt AI/ngày
+    SVIP: 99  // 99 lượt AI/ngày (Max token)
+};
+
+function hasPermission(userRole, minRequiredRole) {
+    return (ROLE_HIERARCHY[userRole] || 0) >= (ROLE_HIERARCHY[minRequiredRole] || 0);
+}
 
 const AppStore = {
     database: {},
@@ -35,7 +60,7 @@ const AppStore = {
 window.database = window.database || {};
 window.duocLieuData = window.duocLieuData || [];
 window.huyetViData = window.huyetViData || [];
-window.duocThienData = window.duocThienData || []; // <-- BỔ SUNG DÒNG NÀY
+window.duocThienData = window.duocThienData || [];
 window.traData = window.traData || [];
 window.questionsData = window.questionsData || [];
 

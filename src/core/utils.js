@@ -1,3 +1,42 @@
+// Cấu hình phân tầng quyền lợi tài khoản
+const ROLE_CONFIG = {
+    GUEST: {
+        tokenMultiplier: 1.0,
+        showAds: true,
+        name: 'Tài khoản Miễn phí'
+    },
+    VIP: {
+        tokenMultiplier: 1.5,
+        showAds: false,
+        name: 'Tài khoản VIP'
+    },
+    SVIP: {
+        tokenMultiplier: 2.0,
+        showAds: false,
+        name: 'Tài khoản SVIP'
+    }
+};
+
+// 1. Hàm kiểm tra ẩn/hiện quảng cáo
+function shouldShowAds() {
+    const role = AppState.auth?.role || 'GUEST';
+    return ROLE_CONFIG[role]?.showAds ?? true;
+}
+
+// 2. Hàm ẩn/hiện Banner Quảng cáo trên UI
+function renderAdsControl() {
+    const adContainers = document.querySelectorAll('.ad-banner-container');
+    const isShow = shouldShowAds();
+    
+    adContainers.forEach(el => {
+        if (isShow) {
+            el.classList.remove('hidden');
+        } else {
+            el.classList.add('hidden');
+        }
+    });
+}
+
 // --- QUẢN LÝ LƯU TRẠNG THÁI TÌM KIẾM ---
 function saveDuocLieuState() {
     sessionStorage.setItem('dl_search', getVal('searchDuocLieu'));
@@ -294,3 +333,80 @@ function tinhDiemKhopTongQuat(item, rawQuery, titleField = 'ten') {
 
     return score * coverageRatio;
 }
+
+function getMaxTokens(sourceKey) {
+    const role = AppState.auth?.role || 'GUEST';
+    
+    const baseTokens = {
+        'luantri': 250,
+        'backup': 300,
+        'phoingu': 400,
+        'vongchan': 400,
+        'sach_ai': 400,
+        'chat': 500,
+        'tu_chan': 500,
+        'quiz': 800
+    }[sourceKey] || 300;
+
+    const multiplier = role === 'SVIP' ? 2.0 : (role === 'VIP' ? 1.5 : 1.0);
+    return Math.round(baseTokens * multiplier);
+}
+
+const ROLE_LEVELS = { 'GUEST': 1, 'FREE': 2, 'VIP': 3, 'SVIP': 4 };
+
+function getCurrentUserRole() {
+    return window.AppState?.auth?.role || window.currentUser?.role || 'GUEST';
+}
+
+function updateRoleLockUI() {
+    const userRole = getCurrentUserRole();
+    const userLevel = ROLE_LEVELS[userRole] || 1;
+
+    document.querySelectorAll('[data-min-role]').forEach(el => {
+        const minRole = el.getAttribute('data-min-role');
+        const requiredLevel = ROLE_LEVELS[minRole] || 1;
+
+        // Nếu là thẻ INPUT (như Checkbox/Radio), lấy thẻ cha bọc ngoài làm nơi hiển thị ổ khóa
+        const targetContainer = (el.tagName === 'INPUT' && el.parentElement) ? el.parentElement : el;
+
+        // Dọn dẹp badge khóa cũ nếu có
+        const oldLock = targetContainer.querySelector('.role-lock-badge');
+        if (oldLock) oldLock.remove();
+
+        // Gắn ổ khóa nếu chưa đủ quyền
+        if (userLevel < requiredLevel) {
+            const lockBadge = document.createElement('i');
+            lockBadge.className = 'fa-solid fa-lock text-amber-400 text-[10px] ml-1.5 role-lock-badge inline-block';
+            targetContainer.appendChild(lockBadge);
+        }
+    });
+}
+window.updateRoleLockUI = updateRoleLockUI;
+
+// 2. Chặn click nút bị khóa & hiển thị Modal nâng cấp
+document.addEventListener('click', function (e) {
+    const targetBtn = e.target.closest('[data-min-role]');
+    if (!targetBtn) return;
+
+    const minRole = targetBtn.getAttribute('data-min-role');
+    const userRole = getCurrentUserRole();
+
+    if ((ROLE_LEVELS[userRole] || 1) < (ROLE_LEVELS[minRole] || 1)) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+
+        const featureName = targetBtn.getAttribute('data-feature-name') || 'Tính năng này';
+        
+        // Cập nhật thông tin lên Modal Khóa
+        document.getElementById('lock-modal-title').innerText = `TÍNH NĂNG DÀNH CHO CẤP ${minRole}`;
+        document.getElementById('lock-modal-desc').innerHTML = 
+            `Tính năng <strong>${featureName}</strong> yêu cầu tài khoản từ cấp <strong>${minRole}</strong> trở lên.<br>Vui lòng nâng cấp tài khoản để truy cập!`;
+        
+        document.getElementById('modal-role-lock').classList.remove('hidden');
+        return false;
+    }
+}, true);
+
+// Khởi chạy khi tải trang & sau khi đăng nhập
+window.addEventListener('DOMContentLoaded', updateRoleLockUI);
