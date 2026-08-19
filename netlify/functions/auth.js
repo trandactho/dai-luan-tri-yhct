@@ -73,7 +73,8 @@ exports.handler = async (event) => {
         return { statusCode: 401, headers, body: JSON.stringify({ message: 'Token không hợp lệ hoặc hết hạn' }) };
       }
 
-      const resProfile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${userData.email}&select=role,expire_date,ai_used_today`, {
+      // Truy vấn profiles theo id thay vì email
+      const resProfile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${userData.id}&select=role,expire_date,ai_used_today,current_token`, {
         method: 'GET',
         headers: {
           'apikey': SUPABASE_SERVICE_ROLE_KEY,
@@ -82,6 +83,16 @@ exports.handler = async (event) => {
       });
       const profiles = await resProfile.json();
       const profile = (profiles && profiles.length > 0) ? profiles[0] : {};
+
+      // Chặn nếu token trên DB khác token hiện tại
+      if (profile.current_token && profile.current_token !== token) {
+        return { 
+          statusCode: 401, 
+          headers, 
+          body: JSON.stringify({ message: 'Tài khoản đã được đăng nhập ở một thiết bị khác' }) 
+        };
+      }
+
       const effectiveRole = getEffectiveRole(profile);
 
       return {
@@ -113,7 +124,7 @@ exports.handler = async (event) => {
         return { statusCode: 401, headers, body: JSON.stringify({ message: 'Token không hợp lệ' }) };
       }
 
-      await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${userData.email}`, {
+      await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${userData.id}`, {
         method: 'PATCH',
         headers: {
           'apikey': SUPABASE_SERVICE_ROLE_KEY,
@@ -126,6 +137,20 @@ exports.handler = async (event) => {
       return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
     }
 
+    // E. XỬ LÝ ĐĂNG XUẤT (Xóa current_token trên DB)
+    if (action === 'logout') {
+      await fetch(`${SUPABASE_URL}/rest/v1/profiles?current_token=eq.${token}`, {
+        method: 'PATCH',
+        headers: {
+          'apikey': SUPABASE_SERVICE_ROLE_KEY,
+          'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ current_token: null })
+      });
+      return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+    }
+    
     // D. XỬ LÝ ĐĂNG NHẬP MẶC ĐỊNH (LOGIN)
     const resAuth = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
         method: 'POST',
@@ -138,7 +163,18 @@ exports.handler = async (event) => {
         return { statusCode: 400, headers, body: JSON.stringify({ message: 'Email hoặc mật khẩu không đúng' }) };
     }
 
-    const resProfile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${authData.user.email}&select=role,expire_date,ai_used_today`, {
+    // GHI NHẬN TOKEN MỚI: Cập nhật token vào bảng profiles theo id (UUID)
+    await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${authData.user.id}`, {
+        method: 'PATCH',
+        headers: {
+            'apikey': SUPABASE_SERVICE_ROLE_KEY,
+            'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ current_token: authData.access_token })
+    });
+
+    const resProfile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${authData.user.id}&select=role,expire_date,ai_used_today`, {
         method: 'GET',
         headers: {
             'apikey': SUPABASE_SERVICE_ROLE_KEY,
