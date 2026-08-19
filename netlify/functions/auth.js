@@ -7,7 +7,10 @@ async function getEffectiveRole(profile) {
     let role = profile?.role || 'FREE';
     
     if (role !== 'FREE' && role !== 'GUEST' && profile?.expire_date) {
-        if (new Date().getTime() > new Date(profile.expire_date).getTime()) {
+        // Thay thế dấu cách bằng 'T' để JS đọc được chuẩn định dạng PostgreSQL
+        const expStr = typeof profile.expire_date === 'string' ? profile.expire_date.replace(' ', 'T') : profile.expire_date;
+        
+        if (new Date().getTime() > new Date(expStr).getTime()) {
             role = 'FREE';
             profile.role = 'FREE';
 
@@ -35,6 +38,7 @@ async function getEffectiveRole(profile) {
     }
     return role;
 }
+
 
 exports.handler = async (event) => {
   const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
@@ -226,10 +230,9 @@ exports.handler = async (event) => {
       }
     }
 
-            // F. XỬ LÝ LẤY BẢNG XẾP HẠNG TOP 10 (SỬA AN TOÀN API KEY)
-    if (action === 'get_leaderboard') {
+                // F. XỬ LÝ LẤY BẢNG XẾP HẠNG TOP 10 (THAY THẾ BẰNG THỜI HẠN CÒN LẠI)
+        if (action === 'get_leaderboard') {
       try {
-        // Dùng thẳng SUPABASE_SERVICE_ROLE_KEY hoặc fallback sang ANON_KEY
         const activeKey = SUPABASE_SERVICE_ROLE_KEY || SUPABASE_ANON_KEY;
 
         const resLeaderboard = await fetch(`${SUPABASE_URL}/rest/v1/profiles?select=id,email,role,expire_date,created_at&limit=50`, {
@@ -242,28 +245,28 @@ exports.handler = async (event) => {
         
         const leaderboardData = await resLeaderboard.json();
 
-        if (!resLeaderboard.ok) {
-          console.error("❌ Supabase trả lỗi query profiles:", resLeaderboard.status, leaderboardData);
+        if (!resLeaderboard.ok || !Array.isArray(leaderboardData)) {
           return { 
             statusCode: resLeaderboard.status || 500, 
             headers, 
-            body: JSON.stringify({ 
-              message: `Lỗi Supabase (${resLeaderboard.status}): ${leaderboardData.message || JSON.stringify(leaderboardData)}` 
-            }) 
+            body: JSON.stringify({ message: "Lỗi truy vấn CSDL Supabase khi lấy bảng xếp hạng" }) 
           };
         }
 
-        if (!Array.isArray(leaderboardData)) {
-          return { 
-            statusCode: 500, 
-            headers, 
-            body: JSON.stringify({ message: "Dữ liệu Supabase không đúng định dạng mảng" }) 
-          };
-        }
-
-        // Tính cấp độ thực tế cho từng tài khoản
+        // Tính cấp độ thực tế và xử lý văn bản hiển thị thời hạn còn lại
         for (let user of leaderboardData) {
           user.effectiveRole = await getEffectiveRole(user);
+          
+          let timeText = 'Vĩnh viễn';
+          if (user.effectiveRole === 'FREE' || user.effectiveRole === 'GUEST') {
+              timeText = 'Miễn phí';
+          } else if (user.expire_date) {
+              const expStr = typeof user.expire_date === 'string' ? user.expire_date.replace(' ', 'T') : user.expire_date;
+              const diffMs = new Date(expStr).getTime() - Date.now();
+              const days = Math.ceil(diffMs / (1000 * 60 * 60 * 24));
+              timeText = days > 0 ? `Còn ${days} ngày` : 'Hết hạn';
+          }
+          user.remainingTimeText = timeText;
         }
 
         const roleWeight = { 'SVIP': 4, 'VIP': 3, 'FREE': 2, 'GUEST': 1 };
@@ -273,12 +276,14 @@ exports.handler = async (event) => {
             const weightDiff = (roleWeight[b.effectiveRole] || 1) - (roleWeight[a.effectiveRole] || 1);
             if (weightDiff !== 0) return weightDiff;
 
-            const expA = a.expire_date ? new Date(a.expire_date).getTime() : 0;
-            const expB = b.expire_date ? new Date(b.expire_date).getTime() : 0;
+            const expStrA = a.expire_date ? a.expire_date.replace(' ', 'T') : 0;
+            const expStrB = b.expire_date ? b.expire_date.replace(' ', 'T') : 0;
+            const expA = expStrA ? new Date(expStrA).getTime() : 0;
+            const expB = expStrB ? new Date(expStrB).getTime() : 0;
             if (expA !== expB) return expB - expA;
 
-            const timeA = a.created_at ? new Date(a.created_at).getTime() : 0;
-            const timeB = b.created_at ? new Date(b.created_at).getTime() : 0;
+            const timeA = a.created_at ? new Date(a.created_at.replace(' ', 'T')).getTime() : 0;
+            const timeB = b.created_at ? new Date(b.created_at.replace(' ', 'T')).getTime() : 0;
             return timeA - timeB;
           })
           .slice(0, 10);
@@ -289,10 +294,10 @@ exports.handler = async (event) => {
           body: JSON.stringify({ leaderboard: sortedList })
         };
       } catch (err) {
-        console.error("❌ Lỗi get_leaderboard:", err);
         return { statusCode: 500, headers, body: JSON.stringify({ message: "Lỗi xử lý bảng xếp hạng: " + err.message }) };
       }
     }
+    
 
     // D. XỬ LÝ ĐĂNG NHẬP MẶC ĐỊNH (LOGIN)
     try {
