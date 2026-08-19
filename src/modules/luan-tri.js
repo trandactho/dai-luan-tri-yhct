@@ -821,8 +821,9 @@ function toggleAiFeature(type) {
         }
     }
 }
+
 // ========================================================
-// 🟢 BỔ SUNG GIA GIẢM LIỀU LƯỢNG & KÊ ĐƠN THUỐC YHCT
+// 🟢 BỔ SUNG GIA GIẢM LIỀU LƯỢNG, THÊM BỚT & SỬA LIỀU KÊ
 // ========================================================
 
 // 1. Thuật toán tính hệ số điều chỉnh liều theo tuổi & thể trạng
@@ -834,7 +835,7 @@ function tinhHesoLieuLuong(tuoi, theTrang) {
     else if (tuoi <= 16) heSo = 0.8;
     else if (tuoi >= 65) heSo = 0.8;
 
-    if (theTrang === 'pntt') heSo *= 0.7;           // Phụ nữ thai nghén (giảm liều)
+    if (theTrang === 'pntt') heSo *= 0.7;           // Phụ nữ thai nghén
     else if (theTrang === 'suynhuoc') heSo *= 0.75; // Cơ thể suy nhược
     else if (theTrang === 'theluc') heSo *= 1.1;    // Thể lực tráng kiện
 
@@ -851,9 +852,15 @@ function tinhLieuDanhSachVi(danhSachVi, tuoi, theTrang) {
         let lieuChuan = typeof item === 'object' && item.lieu ? parseFloat(item.lieu) : lieuDefault;
         if (isNaN(lieuChuan)) lieuChuan = lieuDefault;
 
-        let lieuDieuChinh = Math.round(lieuChuan * heSo);
-        let canhBao = '';
+        // Nếu người dùng đã tự tay sửa liều kê (lieuCustom) -> Giữ nguyên liều người dùng chọn
+        // Ngược lại -> Tự động tính theo hệ số tuổi & thể trạng
+        let lieuDieuChinh = (typeof item === 'object' && item.lieuCustom !== undefined && item.lieuCustom !== null) 
+            ? parseFloat(item.lieuCustom) 
+            : Math.round(lieuChuan * heSo);
 
+        if (isNaN(lieuDieuChinh)) lieuDieuChinh = lieuChuan;
+
+        let canhBao = '';
         if (theTrang === 'pntt') {
             const listKiemKy = ['bán hạ', 'ô đầu', 'phụ tử', 'đào nhân', 'hồng hoa', 'tam lăng', 'nga truật', 'ba đậu'];
             const normTen = typeof removeAccents === 'function' ? removeAccents(tenVi) : tenVi.toLowerCase();
@@ -866,7 +873,27 @@ function tinhLieuDanhSachVi(danhSachVi, tuoi, theTrang) {
     });
 }
 
-// 3. Mở Modal Đơn thuốc & Trích xuất chẩn đoán từ giao diện
+// Cấu hình LocalStorage lưu mặc định đơn thuốc
+const DON_THUOC_SETTINGS_KEY = 'yhct_don_thuoc_settings';
+
+function loadDonThuocSettings() {
+    const saved = localStorage.getItem(DON_THUOC_SETTINGS_KEY);
+    const defaults = {
+        tenPhongKham: 'PHÒNG KHÁM Y HỌC CỔ TRUYỀN ĐẠI LUẬN TRỊ',
+        huongDanSac: 'Đổ 3 bát nước sắc còn 1 bát, uống ấm sau bữa ăn 30 phút. Mỗi ngày 1 thang, chia 2 lần.',
+        danDoKiengKy: 'Kiêng đồ ăn cay nóng, sống lạnh, chất kích thích và các món nhiều mỡ.',
+        tenBacSi: 'BS. Trần Thị Đoan Trang'
+    };
+    return saved ? { ...defaults, ...JSON.parse(saved) } : defaults;
+}
+
+function luuCaiDatDonThuoc(field, value) {
+    const currentSettings = loadDonThuocSettings();
+    currentSettings[field] = value;
+    localStorage.setItem(DON_THUOC_SETTINGS_KEY, JSON.stringify(currentSettings));
+}
+
+// Cập nhật hàm moModalDonThuoc để tự động nạp và ghi nhớ dữ liệu
 function moModalDonThuoc() {
     const modal = document.getElementById('modal-don-thuoc');
     if (!modal) {
@@ -874,6 +901,32 @@ function moModalDonThuoc() {
         return;
     }
 
+    // 1. Nạp dữ liệu cấu hình đã lưu (hoặc mặc định) vào các ô nhập
+    const settings = loadDonThuocSettings();
+
+    const gánLuuGiaTri = (id, key) => {
+        const el = document.getElementById(id);
+        if (el) {
+            if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
+                el.value = settings[key] || '';
+            } else {
+                el.innerText = settings[key] || '';
+            }
+            
+            // Đăng ký sự kiện: Sửa lần nào lưu lại làm mặc định cho lần sau
+            el.oninput = (e) => {
+                const val = (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') ? e.target.value : e.target.innerText;
+                luuCaiDatDonThuoc(key, val);
+            };
+        }
+    };
+
+    gánLuuGiaTri('don-ten-phongkham', 'tenPhongKham');
+    gánLuuGiaTri('don-huongdan-sac', 'huongDanSac');
+    gánLuuGiaTri('don-dando-kiengky', 'danDoKiengKy');
+    gánLuuGiaTri('don-ten-bacsi', 'tenBacSi');
+
+    // 2. Trích xuất thông tin bệnh nhân & chẩn đoán
     const hcText = document.getElementById('hoi-chung')?.innerText || 'Chưa xác định';
     const pdtText = document.getElementById('phap-dieu-tri')?.innerText || 'Chưa xác định';
     const btText = document.getElementById('bai-thuoc')?.innerText || 'Đối chứng nghiệm phương';
@@ -884,16 +937,12 @@ function moModalDonThuoc() {
     if (elChanDoan) elChanDoan.value = `${hcText} (Pháp trị: ${pdtText})`;
     if (elBaiThuoc) elBaiThuoc.value = btText;
 
-    capNhatBangLieuLuongDonThuoc();
-    modal.classList.remove('hidden');
-}
-
-// 4. Cập nhật lại bảng tính liều khi thay đổi Độ tuổi / Thể trạng
-function capNhatBangLieuLuongDonThuoc() {
-    const tuoi = parseInt(document.getElementById('don-tuoi')?.value) || 35;
-    const theTrang = document.getElementById('don-thetrang')?.value || 'binhthuong';
-    const container = document.getElementById('don-danhsach-vithuoc');
-    if (!container) return;
+    // 3. Ngày tháng
+    const elNgay = document.getElementById('don-ngay-thang');
+    if (elNgay) {
+        const d = new Date();
+        elNgay.innerText = `Ngày ${d.getDate()} tháng ${d.getMonth() + 1} năm ${d.getFullYear()}`;
+    }
 
     let rawHerbs = [];
     if (Array.isArray(window.currentActiveHerbs) && window.currentActiveHerbs.length > 0) {
@@ -904,28 +953,222 @@ function capNhatBangLieuLuongDonThuoc() {
         rawHerbs = ['Nhân sâm', 'Bạch truật', 'Phục linh', 'Cam thảo'];
     }
 
-    const listCalculated = tinhLieuDanhSachVi(rawHerbs, tuoi, theTrang);
+    window.donThuocCurrentHerbs = rawHerbs.map(item => {
+        if (typeof item === 'string') return { ten: item, lieu: 12, lieuCustom: null };
+        return { ten: item.ten || '', lieu: item.lieu || 12, lieuCustom: item.lieuCustom || null };
+    });
+
+    capNhatBangLieuLuongDonThuoc();
+    modal.classList.remove('hidden');
+}
+
+// 3.1. Thuật toán kiểm tra Tương Kỵ / Phản Úy YHCT
+function kiemTraTuongKyDonThuoc(danhSachVi) {
+    if (!Array.isArray(danhSachVi) || danhSachVi.length < 2) return [];
+
+    const normName = (item) => {
+        let s = typeof item === 'object' ? (item.ten || '') : item;
+        return typeof removeAccents === 'function' ? removeAccents(s).toLowerCase().trim() : s.toLowerCase().trim();
+    };
+
+    const names = danhSachVi.map(normName);
+    const rawNames = danhSachVi.map(v => typeof v === 'object' ? v.ten : v);
+
+    const quyTacPhanUy = [
+        // Thập Bát Phản
+        { nhomA: ['cam thao', 'chich cam thao'], nhomB: ['hai tao', 'dai kich', 'hong dai kich', 'nguyen hoa', 'cam toai'], loai: 'Thập Bát Phản (Cam thảo)' },
+        { nhomA: ['o dau', 'phu tu', 'che phu tu', 'hac phu tu'], nhomB: ['ban ha', 'qua lau', 'boi mau', 'tri mau', 'bach liem', 'bach cap'], loai: 'Thập Bát Phản (Ô đầu / Phụ tử)' },
+        { nhomA: ['nhan sam', 'dang sam', 'kho sam', 'sa sam', 'huyen sam', 'dan sam'], nhomB: ['le lo'], loai: 'Thập Bát Phản (Họ Sâm / Lê lô)' },
+        // Thập Cửu Úy
+        { nhomA: ['nhan sam', 'dang sam'], nhomB: ['ngu linh chi'], loai: 'Thập Cửu Úy (Nhân sâm - Ngũ linh chi)' },
+        { nhomA: ['dinh huong'], nhomB: ['uat kim'], loai: 'Thập Cửu Úy (Đinh hương - Uất kim)' },
+        { nhomA: ['nhuc que', 'que chi'], nhomB: ['xich thach chi'], loai: 'Thập Cửu Úy (Nhục quế - Xích thạch chỉ)' },
+        { nhomA: ['ba dau'], nhomB: ['dong quy', 'nga truat'], loai: 'Thập Cửu Úy (Ba đậu)' }
+    ];
+
+    const canhBao = [];
+
+    quyTacPhanUy.forEach(qt => {
+        let foundA = [];
+        let foundB = [];
+
+        names.forEach((n, idx) => {
+            if (qt.nhomA.some(a => n.includes(a))) foundA.push(rawNames[idx]);
+            if (qt.nhomB.some(b => n.includes(b))) foundB.push(rawNames[idx]);
+        });
+
+        if (foundA.length > 0 && foundB.length > 0) {
+            canhBao.push(`🚨 <strong>Xung khắc [${qt.loai}]</strong>: <u>${foundA.join(', ')}</u> tương phản/tương úy với <u>${foundB.join(', ')}</u>!`);
+        }
+    });
+
+    return canhBao;
+}
+
+// 4. Cập nhật bảng tính liều & Tự động cảnh báo Phản Úy (no-print)
+function capNhatBangLieuLuongDonThuoc() {
+    const tuoi = parseInt(document.getElementById('don-tuoi')?.value) || 35;
+    const theTrang = document.getElementById('don-thetrang')?.value || 'binhthuong';
+    const container = document.getElementById('don-danhsach-vithuoc');
+    if (!container) return;
+
+    if (!Array.isArray(window.donThuocCurrentHerbs)) {
+        window.donThuocCurrentHerbs = [];
+    }
+
+    const listCalculated = tinhLieuDanhSachVi(window.donThuocCurrentHerbs, tuoi, theTrang);
     const safeEscape = typeof escapeHTML === 'function' ? escapeHTML : (s => s);
 
     container.innerHTML = listCalculated.map((v, idx) => `
         <tr class="border-b border-stone-800 text-xs">
             <td class="py-2 px-1 text-center text-stone-400 font-mono">${idx + 1}</td>
-            <td class="py-2 px-2 text-emerald-400 font-bold">
+            <td class="py-2 px-2 text-emerald-400 font-bold whitespace-normal break-words">
                 ${safeEscape(v.ten)}
                 ${v.canhBao ? `<span class="text-red-400 font-normal block text-[10px]">${v.canhBao}</span>` : ''}
             </td>
-            <td class="py-2 px-2 text-stone-300 text-center">${v.lieuGoc} g</td>
-            <td class="py-2 px-2 text-amber-400 font-bold text-center bg-amber-950/20">${v.lieuTinh} g/ngày</td>
+            <td class="py-2 px-1 text-stone-300 text-center">${v.lieuGoc}g</td>
+            <td class="py-1 px-1 text-center bg-amber-950/20">
+                <div class="flex items-center justify-center gap-0.5">
+                    <input type="number" min="1" max="500" value="${v.lieuTinh}" 
+                        onchange="suaLieuKeViThuoc(${idx}, this.value)" 
+                        oninput="suaLieuKeViThuoc(${idx}, this.value)" 
+                        class="w-12 p-0.5 text-center bg-stone-900 text-amber-400 font-bold border border-amber-600/60 rounded outline-none focus:border-amber-400 text-xs">
+                    <span class="text-amber-500 font-medium text-[11px]">g</span>
+                </div>
+            </td>
+            <td class="py-2 px-1 text-center no-print">
+                <button onclick="xoaViThuocDon(${idx})" class="text-red-400 hover:text-red-300 p-0.5 rounded" title="Xóa vị thuốc">
+                    <i class="fa-solid fa-trash-can text-xs"></i>
+                </button>
+            </td>
         </tr>
     `).join('');
+
+    // Hiển thị khung cảnh báo Phản Úy (Thêm class no-print để không xuất PDF)
+    let warningBox = document.getElementById('don-tuongky-warning');
+    if (!warningBox) {
+        warningBox = document.createElement('div');
+        warningBox.id = 'don-tuongky-warning';
+        warningBox.className = 'no-print mt-2 p-2.5 bg-red-950/60 border border-red-700/80 rounded-lg text-xs space-y-1';
+        const parentTableDiv = container.closest('.border') || container.parentElement;
+        if (parentTableDiv && parentTableDiv.parentElement) {
+            parentTableDiv.parentElement.appendChild(warningBox);
+        }
+    }
+
+    const listCanhBao = kiemTraTuongKyDonThuoc(window.donThuocCurrentHerbs);
+    if (listCanhBao.length > 0) {
+        warningBox.innerHTML = `
+            <div class="text-red-400 font-bold flex items-center gap-1.5 uppercase text-[11px]">
+                <i class="fa-solid fa-triangle-exclamation text-amber-400"></i> CẢNH BÁO PHẢN ÚY / TƯƠNG KỴ:
+            </div>
+            <ul class="list-disc pl-5 text-red-300 font-medium text-[11px] space-y-0.5">
+                ${listCanhBao.map(cb => `<li>${cb}</li>`).join('')}
+            </ul>
+        `;
+        warningBox.classList.remove('hidden');
+    } else {
+        warningBox.classList.add('hidden');
+        warningBox.innerHTML = '';
+    }
 }
 
-// 5. Thực hiện in/xuất PDF chuẩn
+
+// 5. Hàm ghi nhận giá trị liều kê do thầy thuốc tự nhập
+function suaLieuKeViThuoc(index, val) {
+    if (!Array.isArray(window.donThuocCurrentHerbs) || !window.donThuocCurrentHerbs[index]) return;
+    const num = parseFloat(val);
+    if (!isNaN(num) && num > 0) {
+        window.donThuocCurrentHerbs[index].lieuCustom = num;
+    }
+}
+
+// 6. Thêm vị thuốc mới vào Đơn Thuốc
+function themViThuocVaoDon(tenVi, lieuGoc = 12) {
+    if (!tenVi) return;
+    if (!Array.isArray(window.donThuocCurrentHerbs)) window.donThuocCurrentHerbs = [];
+
+    const normTen = typeof removeAccents === 'function' ? removeAccents(tenVi) : tenVi.toLowerCase();
+    const isExisted = window.donThuocCurrentHerbs.some(item => {
+        const itemTen = typeof removeAccents === 'function' ? removeAccents(item.ten) : item.ten.toLowerCase();
+        return itemTen === normTen;
+    });
+
+    if (isExisted) {
+        alert(`Vị thuốc "${tenVi}" đã có trong đơn thuốc!`);
+        return;
+    }
+
+    window.donThuocCurrentHerbs.push({ ten: tenVi, lieu: lieuGoc, lieuCustom: null });
+    capNhatBangLieuLuongDonThuoc();
+
+    const searchInput = document.getElementById('search-don-vithuoc');
+    const dropdown = document.getElementById('dropdown-don-vithuoc');
+    if (searchInput) searchInput.value = '';
+    if (dropdown) dropdown.classList.add('hidden');
+}
+
+// 7. Xóa vị thuốc khỏi Đơn Thuốc
+function xoaViThuocDon(index) {
+    if (!Array.isArray(window.donThuocCurrentHerbs)) return;
+    window.donThuocCurrentHerbs.splice(index, 1);
+    capNhatBangLieuLuongDonThuoc();
+}
+
+// 8. Gợi ý vị thuốc tự động từ CSDL khi gõ vào ô tìm kiếm
+function gieoGoiYViThuocDon() {
+    const input = document.getElementById('search-don-vithuoc');
+    const dropdown = document.getElementById('dropdown-don-vithuoc');
+    if (!input || !dropdown) return;
+
+    const query = input.value.trim().toLowerCase();
+    if (!query) {
+        dropdown.classList.add('hidden');
+        return;
+    }
+
+    let dbHerbs = [];
+    if (typeof duoclieuData !== 'undefined' && Array.isArray(duoclieuData)) {
+        dbHerbs = duoclieuData;
+    } else if (typeof database_duoclieu !== 'undefined') {
+        dbHerbs = Object.values(database_duoclieu);
+    }
+
+    const normQuery = typeof removeAccents === 'function' ? removeAccents(query) : query;
+    const matches = dbHerbs.filter(herb => {
+        const name = herb.ten || herb.name || '';
+        const normName = typeof removeAccents === 'function' ? removeAccents(name) : name.toLowerCase();
+        return normName.includes(normQuery);
+    }).slice(0, 10);
+
+    if (matches.length > 0) {
+        dropdown.innerHTML = matches.map(m => {
+            const name = m.ten || m.name || '';
+            return `
+                <div onclick="themViThuocVaoDon('${name.replace(/'/g, "\\'")}')" class="p-2 hover:bg-stone-800 cursor-pointer text-xs text-amber-400 border-b border-stone-800 flex justify-between items-center">
+                    <span><i class="fa-solid fa-leaf text-emerald-500 mr-1.5"></i>${name}</span>
+                    <span class="text-[10px] text-stone-400 bg-stone-800 px-1.5 py-0.5 rounded">+ Thêm</span>
+                </div>
+            `;
+        }).join('');
+        dropdown.classList.remove('hidden');
+    } else {
+        dropdown.innerHTML = `
+            <div onclick="themViThuocVaoDon('${query.replace(/'/g, "\\'")}')" class="p-2 hover:bg-stone-800 cursor-pointer text-xs text-amber-400 flex justify-between items-center">
+                <span>Thêm thủ công: "<strong>${query}</strong>"</span>
+                <span class="text-[10px] text-amber-500 font-bold">+ Thêm</span>
+            </div>
+        `;
+        dropdown.classList.remove('hidden');
+    }
+}
+
+// 9. Thực hiện in đơn thuốc (Chạy trực tiếp mượt mà trên TrebEdit / Mobile WebView)
 function inDonThuoc() {
     window.print();
 }
 
-// 6. Sao chép & Gửi đơn qua Zalo
+// 10. Gửi đơn thuốc dạng văn bản chuẩn qua Zalo
 async function chiaSeZaloDonThuoc() {
     const tenBn = document.getElementById('don-ten-bn')?.value || 'Bệnh nhân';
     const tuoi = document.getElementById('don-tuoi')?.value || '35';
@@ -937,29 +1180,17 @@ async function chiaSeZaloDonThuoc() {
     rows.forEach((tr, i) => {
         const cols = tr.querySelectorAll('td');
         if (cols.length >= 4) {
-            noiDungViThuoc += `  ${i + 1}. ${cols[1].innerText.replace(/\n.*/, '')}: ${cols[3].innerText}\n`;
+            const tenVi = cols[1].innerText.replace(/\n.*/, '').trim();
+            const inputVal = cols[3].querySelector('input')?.value || cols[3].innerText.trim();
+            noiDungViThuoc += `  • ${tenVi}: ${inputVal}g\n`;
         }
     });
 
-    const content = `🩺 ĐƠN THUỐC Y HỌC CỔ TRUYỀN\n👤 Bệnh nhân: ${tenBn} (${tuoi} tuổi)\n📋 Chẩn đoán: ${chanDoan}\n🌿 Bài thuốc: ${baiThuoc}\n----------------------------------\n🧪 THÀNH PHẦN & LIỀU LƯỢNG (1 THANG/NGÀY):\n${noiDungViThuoc}\n🥣 HƯỚNG DẪN SẮC THUỐC:\n- Đổ 3 bát nước sắc còn 1 bát, uống ấm sau bữa ăn.`;
+    const content = `👤 Bệnh nhân: ${tenBn} (${tuoi} tuổi)\n📋 Chẩn đoán: ${chanDoan}\n🌿 Bài thuốc: ${baiThuoc}\n----------------------------------\n🧪 THÀNH PHẦN (1 THANG/NGÀY):\n${noiDungViThuoc}\n🥣 CÁCH DÙNG:\nSắc 3 bát nước lấy 1 bát, uống ấm.`;
 
-    // 🟢 Trên điện thoại: Bật menu hệ thống, chọn Zalo gửi thẳng không cần copy/paste
-    if (navigator.share) {
-        try {
-            await navigator.share({
-                title: 'Đơn thuốc YHCT',
-                text: content
-            });
-            return;
-        } catch (e) {
-            // Người dùng bấm hủy chia sẻ
-        }
-    }
-
-    // 🟡 Trên máy tính: Copy + mở Zalo Web
     if (navigator.clipboard) {
         await navigator.clipboard.writeText(content);
-        alert('Đã sao chép đơn thuốc! Đang mở Zalo để dán (Paste)...');
+        alert('Đã sao chép đơn thuốc gọn gàng! Đang mở Zalo để dán...');
         window.open('https://zalo.me', '_blank');
     }
 }
