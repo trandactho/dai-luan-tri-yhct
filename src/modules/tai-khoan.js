@@ -32,7 +32,7 @@ window.showRoleLockModal = function(minRole, featureName = 'Tính năng này') {
 // --- CORE QUOTA ENGINE (QUẢN LÝ HẠN MỨC TOÀN DIỆN) ---
 
 function getTodayDateString() {
-    return new Date().toISOString().slice(0, 10);
+    return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' });
 }
 
 function getRoleMaxQuota(role) {
@@ -187,9 +187,12 @@ async function initUserAuthSession() {
 
         renderAuthUI(true);
     } catch (e) {
-        console.warn('Xác thực thất bại, ép về GUEST:', e.message);
-        resetToGuestSession();
+    console.warn('Xác thực thất bại:', e.message);
+    // Nếu token hết hạn hoặc không hợp lệ thì mới reset về Guest
+    if (e.message && (e.message.includes('Token') || e.message.includes('khóa') || e.message.includes('thiết bị'))) {
+        resetToGuestSession();[span_11](start_span)[span_11](end_span)
     }
+}
     
     try { applyRolePermissions(); } catch (e) {}
 }
