@@ -324,10 +324,12 @@ function renderAuthUI(isLoggedIn) {
     }
 
     updateVietQRImages(shortId);
-    // 2. Gọi tự động trong renderAuthUI
-    loadLeaderboardFromDB();
+    
+    // Tự động tải bảng xếp hạng mỗi khi render UI
+    if (typeof loadLeaderboardFromDB === 'function') {
+        loadLeaderboardFromDB();
+    }
 }
-
 
 function getFixedIdFromEmail(email) {
     if (!email) return 'DL1000';
@@ -387,7 +389,6 @@ async function handleUserLogin(e) {
             expireDate: userData.expireDate || null
         });
         
-        // 🟢 THÔNG BÁO ĐĂNG NHẬP THÀNH CÔNG KÈM NHẮC NHỞ SỐ LẦN ĐỔI THIẾT BỊ
         let successMsg = '🎉 Đăng nhập thành công!';
         if (result.warning) {
             successMsg += '\n\n' + result.warning;
@@ -546,7 +547,6 @@ async function refreshUserDataFromServer() {
             renderAuthUI(true);
             if (typeof applyRolePermissions === 'function') applyRolePermissions();
         } else {
-            // 🟢 BẮT LỖI BỊ ĐĂNG NHẬP Ở THIẾT BỊ KHÁC KHI REFRESH / GỌI SERVER HOẶC BỊ KHÓA
             if (result.message) {
                 alert(`⚠️ ${result.message}`);
             }
@@ -610,9 +610,20 @@ document.addEventListener('visibilitychange', () => {
         refreshUserDataFromServer();
     }
 });
+
+// Render dữ liệu bảng xếp hạng ra HTML
 function renderLeaderboard(usersList = []) {
     const container = document.getElementById('leaderboard-list');
-    if (!container || !usersList.length) return;
+    if (!container) return;
+
+    if (!usersList || usersList.length === 0) {
+        container.innerHTML = `
+            <tr>
+                <td colspan="4" class="py-4 text-center text-stone-500 italic">Chưa có dữ liệu xếp hạng</td>
+            </tr>
+        `;
+        return;
+    }
 
     container.innerHTML = usersList.slice(0, 10).map((user, index) => {
         let rankBadge = `${index + 1}`;
@@ -627,18 +638,18 @@ function renderLeaderboard(usersList = []) {
         return `
             <tr class="hover:bg-stone-800/40 transition-colors">
                 <td class="py-2 px-2 text-center font-bold text-stone-400">${rankBadge}</td>
-                <td class="py-2 px-2 font-mono text-stone-300">${user.shortId || 'DL****'}</td>
+                <td class="py-2 px-2 font-mono text-stone-300">${user.displayName}</td>
                 <td class="py-2 px-2 text-center">
                     <span class="px-2 py-0.5 ${roleClass} border rounded text-[10px] font-bold">${user.role}</span>
                 </td>
-                <td class="py-2 px-2 text-right font-mono text-emerald-400 font-bold">${user.quota || 0}/ngày</td>
+                <td class="py-2 px-2 text-right font-mono text-emerald-400 font-bold">${user.quota}/ngày</td>
             </tr>
         `;
     }).join('');
 }
 window.renderLeaderboard = renderLeaderboard;
 
-// Cập nhật lại hàm loadLeaderboardFromDB
+// Tải bảng xếp hạng từ API
 async function loadLeaderboardFromDB() {
     try {
         const res = await fetch(`${API_BASE_URL}/auth`, {
@@ -651,12 +662,16 @@ async function loadLeaderboardFromDB() {
         if (Array.isArray(result.leaderboard)) {
             const formattedList = result.leaderboard.map(user => {
                 const userRole = user.effectiveRole || user.role || 'FREE';
-                const maskId = user.email 
-                    ? (getFixedIdFromEmail(user.email) + '***') 
-                    : ('DL' + String(user.id || '').slice(0, 4) + '***');
+                
+                let displayName = 'Thành viên';
+                if (user.email) {
+                    displayName = user.email.split('@')[0];
+                } else if (user.id) {
+                    displayName = 'DL' + String(user.id).slice(0, 6);
+                }
                     
                 return {
-                    shortId: maskId,
+                    displayName: displayName,
                     role: userRole,
                     quota: userRole === 'SVIP' ? 99 : (userRole === 'VIP' ? 30 : 3)
                 };
@@ -668,4 +683,3 @@ async function loadLeaderboardFromDB() {
     }
 }
 window.loadLeaderboardFromDB = loadLeaderboardFromDB;
-
