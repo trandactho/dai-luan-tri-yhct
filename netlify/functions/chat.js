@@ -104,7 +104,7 @@ exports.handler = async function(event) {
                 partsPayload.push({ inline_data: { mime_type: matches[1], data: matches[2] } });
             }
         }
-        partsPayload.push({ text: "Bạn là chuyên gia YHCT Đại Luận Trị. Trả lời ngắn gọn, chuẩn xác: " + prompt });
+        partsPayload.push({ text: "Bạn là chuyên gia YHCT Đại Luận Trị. BẮT BUỘC trả lời hoàn toàn bằng tiếng Việt, ngắn gọn, chuẩn xác: " + prompt });
 
         for (const apiKey of keysToTry) {
             for (const model of models) {
