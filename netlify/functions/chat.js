@@ -2,33 +2,19 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-// Hạn mức lượt AI theo ngày cho từng Cấp độ
-const ROLE_QUOTAS = {
-    GUEST: 1,
-    FREE: 3,
-    VIP: 30,
-    SVIP: 99
-};
-
-// Khống chế độ dài Token phản hồi AI tối đa theo Cấp độ
-const ROLE_MAX_TOKENS = {
-    GUEST: 800,
-    FREE: 1000,
-    VIP: 2000,
-    SVIP: 2500
-};
+const ROLE_QUOTAS = { GUEST: 1, FREE: 3, VIP: 30, SVIP: 99 };
+const ROLE_MAX_TOKENS = { GUEST: 800, FREE: 1000, VIP: 2000, SVIP: 2500 };
 
 exports.handler = async function(event) {
     const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
     const requestOrigin = event.headers.origin || event.headers.Origin;
 
     const headers = {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization, authorization, X-Member-ID, x-member-id', // 🟢 Bổ sung đầy đủ các header bảo mật
+        'Access-Control-Allow-Origin': allowedOrigins.includes(requestOrigin) ? requestOrigin : '*',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, authorization, X-Member-ID, x-member-id',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Content-Type': 'application/json'
     };
-
 
     if (event.httpMethod === 'OPTIONS') {
         return { statusCode: 200, headers, body: '' };
@@ -39,95 +25,75 @@ exports.handler = async function(event) {
         const token = authHeader.replace(/^Bearer\s+/i, '').trim();
 
         let userRole = 'GUEST';
-        let userId = null;
         let userEmail = null;
         let aiUsedToday = 0;
-        let expireDate = null;
 
-        // 1. XÁC THỰC TÀI KHOẢN TRỰC TIẾP TỪ SUPABASE
-        if (token && token !== 'null' && token !== 'undefined') {
-            const resUser = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
-                headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${token}` }
-            });
-            
-            if (resUser.ok) {
-                const userData = await resUser.json();
-                userId = userData.id;
-                userEmail = userData.email;
-
-                // Lấy Profile từ CSDL bằng email để đồng bộ cấu trúc với auth.js
-                const resProfile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${userEmail}&select=role,expire_date,ai_used_today`, {
-                    headers: {
-                        'apikey': SUPABASE_SERVICE_ROLE_KEY,
-                        'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`
-                    }
+        // 1. XÁC THỰC AN TOÀN (Không làm sập app nếu Supabase lỗi)
+        if (token && token !== 'null' && token !== 'undefined' && SUPABASE_URL && SUPABASE_ANON_KEY) {
+            try {
+                const resUser = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
+                    headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${token}` }
                 });
                 
-                if (resProfile.ok) {
-                    const profiles = await resProfile.json();
-                    if (profiles && profiles[0]) {
-                        userRole = profiles[0].role || 'FREE';
-                        aiUsedToday = profiles[0].ai_used_today || 0;
-                        expireDate = profiles[0].expire_date;
+                if (resUser.ok) {
+                    const userData = await resUser.json();
+                    userEmail = userData.email;
 
-                        // Kiểm tra hết hạn gói VIP/SVIP -> Giảm về FREE
-                        if (userRole !== 'FREE' && userRole !== 'GUEST' && expireDate) {
-                            if (new Date().getTime() > new Date(expireDate).getTime()) {
-                                userRole = 'FREE';
+                    if (SUPABASE_SERVICE_ROLE_KEY) {
+                        const resProfile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${userEmail}&select=role,expire_date,ai_used_today`, {
+                            headers: { 'apikey': SUPABASE_SERVICE_ROLE_KEY, 'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}` }
+                        });
+                        if (resProfile.ok) {
+                            const profiles = await resProfile.json();
+                            if (profiles && profiles[0]) {
+                                userRole = profiles[0].role || 'FREE';
+                                aiUsedToday = profiles[0].ai_used_today || 0;
+                                let expireDate = profiles[0].expire_date;
+                                if (userRole !== 'FREE' && userRole !== 'GUEST' && expireDate && new Date().getTime() > new Date(expireDate).getTime()) {
+                                    userRole = 'FREE';
+                                }
                             }
                         }
                     }
                 }
+            } catch (e) {
+                // Bỏ qua lỗi Supabase để tiếp tục chạy AI bình thường
             }
         }
 
-        const { prompt, image, source, max_tokens: reqMaxTokens } = JSON.parse(event.body || '{}');
-
-        // 2. PHÂN QUYỀN VỌNG CHẨN (Yêu cầu ít nhất FREE)
-        if (source === 'vongchan' && userRole === 'GUEST') {
-            return {
-                statusCode: 403,
-                headers,
-                body: JSON.stringify({ error: 'Tính năng Soi ảnh Vọng Chẩn yêu cầu đăng nhập tài khoản.' })
-            };
-        }
-
-        // 3. KIỂM TRA HẠN MỨC QUOTA TRỰC TIẾP Ở BACKEND
-        const maxQuota = ROLE_QUOTAS[userRole] || 1;
-        if (aiUsedToday >= maxQuota) {
-            return {
-                statusCode: 429,
-                headers,
-                body: JSON.stringify({ 
-                    error: `Bạn đã sử dụng hết hạn mức AI hôm nay (${aiUsedToday}/${maxQuota} lượt). Vui lòng nâng cấp tài khoản để tiếp tục.` 
-                })
-            };
-        }
+        const bodyData = JSON.parse(event.body || '{}');
+        const prompt = bodyData.prompt;
+        const image = bodyData.image;
+        const source = bodyData.source;
+        const reqMaxTokens = bodyData.max_tokens;
 
         if (!prompt || prompt.trim().length === 0) {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung câu hỏi không được để trống.' }) };
         }
 
-        // 4. LẤY MÁY CHỦ API AI & CẤU HÌNH TOKENS THEO CẤP
+        const maxQuota = ROLE_QUOTAS[userRole] || 1;
+        if (aiUsedToday >= maxQuota && userRole !== 'SVIP') {
+            return {
+                statusCode: 429,
+                headers,
+                body: JSON.stringify({ error: `Bạn đã dùng hết ${aiUsedToday}/${maxQuota} lượt AI hôm nay.` })
+            };
+        }
+
+        // 2. LẤY API KEY & MODEL
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const backupKey  = process.env.BACKUP_API_KEY;
         const quizKey    = process.env.QUIZ_API_KEY;
         const searchKey  = process.env.SEARCH_API_KEY;
 
-        let keysToTry = [];
-        if (source === 'assistant' || source === 'vongchan') keysToTry = [primaryKey, backupKey];
-        else if (source === 'quiz') keysToTry = [quizKey, primaryKey];
-        else keysToTry = [searchKey, backupKey];
-
-        keysToTry = [...new Set(keysToTry.filter(Boolean))];
+        let keysToTry = [primaryKey, backupKey, quizKey, searchKey].filter(Boolean);
+        keysToTry = [...new Set(keysToTry)];
 
         if (keysToTry.length === 0) {
-            return { statusCode: 500, headers, body: JSON.stringify({ error: 'Cấu hình API Key trên máy chủ chưa hoàn tất.' }) };
+            return { statusCode: 500, headers, body: JSON.stringify({ error: 'Chưa cấu hình API Key trên Netlify.' }) };
         }
 
-        const models = ['gemini-1.5-flash', 'gemini-1.5-pro'];
-        
-        // Giới hạn max_tokens theo quyền nhưng không vượt quá trần quy định của cấp
+        const models = ['gemini-1.5-flash', 'gemini-1.5-pro', 'gemini-2.0-flash'];
         const roleMaxTokens = ROLE_MAX_TOKENS[userRole] || 1000;
         const maxTokens = reqMaxTokens ? Math.min(Number(reqMaxTokens), roleMaxTokens) : roleMaxTokens;
 
@@ -138,12 +104,9 @@ exports.handler = async function(event) {
                 partsPayload.push({ inline_data: { mime_type: matches[1], data: matches[2] } });
             }
         }
+        partsPayload.push({ text: "Bạn là chuyên gia YHCT Đại Luận Trị. Trả lời ngắn gọn, chuẩn xác: " + prompt });
 
-        partsPayload.push({
-            text: "Bạn là chuyên gia Y HỌC CỔ TRUYỀN Đại Luận Trị. Hãy trả lời chuẩn xác, khoa học: " + prompt
-        });
-
-        // 5. GỌI GEMINI API
+        // 3. GỌI GEMINI API
         for (const apiKey of keysToTry) {
             for (const model of models) {
                 try {
@@ -158,20 +121,21 @@ exports.handler = async function(event) {
                     });
 
                     const data = await response.json();
-
                     if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
                         
-                        // 6. CỘNG VÀ ĐỒNG BỘ LƯỢT DÙNG AI VÀO DATABASE BẰNG EMAIL
-                        if (userEmail) {
-                            await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${userEmail}`, {
-                                method: 'PATCH',
-                                headers: {
-                                    'apikey': SUPABASE_SERVICE_ROLE_KEY,
-                                    'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({ ai_used_today: aiUsedToday + 1 })
-                            });
+                        // Đồng bộ lượt dùng nếu có userEmail
+                        if (userEmail && SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
+                            try {
+                                await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${userEmail}`, {
+                                    method: 'PATCH',
+                                    headers: {
+                                        'apikey': SUPABASE_SERVICE_ROLE_KEY,
+                                        'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({ ai_used_today: aiUsedToday + 1 })
+                                });
+                            } catch (err) {}
                         }
 
                         return {
@@ -184,15 +148,13 @@ exports.handler = async function(event) {
                             })
                         };
                     }
-                } catch (err) {
-                    // Tiếp tục thử key/model backup
-                }
+                } catch (err) {}
             }
         }
 
-        return { statusCode: 503, headers, body: JSON.stringify({ error: 'Hệ thống AI đang quá tải. Vui lòng thử lại sau giây lát.' }) };
+        return { statusCode: 503, headers, body: JSON.stringify({ error: 'Hệ thống AI đang bận, vui lòng thử lại.' }) };
 
     } catch (error) {
-        return { statusCode: 500, headers, body: JSON.stringify({ error: 'Lỗi xử lý hệ thống nội bộ: ' + error.message }) };
+        return { statusCode: 500, headers, body: JSON.stringify({ error: 'Lỗi hệ thống: ' + error.message }) };
     }
 };
