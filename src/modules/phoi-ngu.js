@@ -1,3 +1,7 @@
+// ==========================================================================
+// PHOI-NGU.JS - XÂY DỰNG & PHỐI NGŨ BÀI THUỐC TỰ DO (ĐÃ ĐỒNG BỘ Ổ KHÓA 🔒)
+// ==========================================================================
+
 const PHAN_UY_RULES = [
     { a: 'Ô đầu', b: 'Bối mẫu', msg: 'Ô đầu phản Bối mẫu' },
     { a: 'Ô đầu', b: 'Bán hạ', msg: 'Ô đầu phản Bán hạ' },
@@ -242,7 +246,7 @@ async function renderPhoiNguUI() {
                     <div class="text-xs font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
                         <i class="fa-solid fa-robot text-amber-500"></i> Đánh giá tổng thể bài thuốc (Chuyên gia AI)
                     </div>
-                    <button onclick="aiDanhGiaTongTheBaiThuoc()" class="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all shadow cursor-pointer">
+                    <button onclick="aiDanhGiaTongTheBaiThuoc()" data-min-role="VIP" data-feature-name="Đánh Giá Phối Ngũ AI" class="px-3 py-1.5 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-lg text-xs flex items-center gap-1.5 transition-all shadow cursor-pointer">
                         <i class="fa-solid fa-brain"></i> Đánh giá ngay
                     </button>
                 </div>
@@ -252,6 +256,11 @@ async function renderPhoiNguUI() {
             </div>
         </div>
     `;
+
+    // Tự động quét và cập nhật ổ khóa 🔒 sau khi render xong HTML động
+    if (typeof window.updateRoleLockUI === 'function') {
+        window.updateRoleLockUI();
+    }
 }
 
 async function aiDanhGiaTongTheBaiThuoc() {

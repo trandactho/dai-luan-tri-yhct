@@ -616,6 +616,13 @@ function renderLeaderboard(usersList = []) {
     const container = document.getElementById('leaderboard-list');
     if (!container) return;
 
+    // Tự động đổi tiêu đề cột 4 thành THỜI HẠN
+    const table = container.closest('table');
+    if (table) {
+        const headers = table.querySelectorAll('th');
+        if (headers[3]) headers[3].innerText = 'THỜI HẠN';
+    }
+
     if (!usersList || usersList.length === 0) {
         container.innerHTML = `
             <tr>
@@ -642,7 +649,7 @@ function renderLeaderboard(usersList = []) {
                 <td class="py-2 px-2 text-center">
                     <span class="px-2 py-0.5 ${roleClass} border rounded text-[10px] font-bold">${user.role}</span>
                 </td>
-                <td class="py-2 px-2 text-right font-mono text-emerald-400 font-bold">${user.quota}/ngày</td>
+                <td class="py-2 px-2 text-right font-mono text-amber-400 text-xs font-bold">${user.timeText}</td>
             </tr>
         `;
     }).join('');
@@ -650,36 +657,70 @@ function renderLeaderboard(usersList = []) {
 window.renderLeaderboard = renderLeaderboard;
 
 // Tải bảng xếp hạng từ API
+// Tải bảng xếp hạng từ API (Đã sửa để nhận diện đúng timeText)
 async function loadLeaderboardFromDB() {
+    const container = document.getElementById('leaderboard-list');
+    
+    // Xóa dữ liệu mẫu, hiển thị trạng thái đang tải
+    if (container) {
+        container.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-amber-500 italic">Đang tải dữ liệu từ Server...</td></tr>`;
+    }
+
     try {
         const res = await fetch(`${API_BASE_URL}/auth`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ action: 'get_leaderboard' })
         });
+        
         const result = await res.json();
         
-        if (Array.isArray(result.leaderboard)) {
+        // 1. NẾU SERVER BÁO LỖI -> IN THẲNG RA MÀN HÌNH MÀU ĐỎ
+        if (!res.ok) {
+            const errorMsg = result.message || result.error || JSON.stringify(result);
+            if (container) {
+                container.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-red-500 italic font-bold">Lỗi Server: ${errorMsg}</td></tr>`;
+            }
+            return;
+        }
+        
+        // 2. NẾU THÀNH CÔNG NHƯNG DB TRỐNG -> BÁO DB TRỐNG
+        if (result.leaderboard && Array.isArray(result.leaderboard)) {
+            if (result.leaderboard.length === 0) {
+                 if (container) {
+                     container.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-stone-500 italic">CSDL Supabase hiện chưa có tài khoản nào.</td></tr>`;
+                 }
+                 return;
+            }
+            
+            // Nếu có dữ liệu thì map đúng thuộc tính timeText để hiển thị thời hạn
             const formattedList = result.leaderboard.map(user => {
                 const userRole = user.effectiveRole || user.role || 'FREE';
-                
                 let displayName = 'Thành viên';
                 if (user.email) {
                     displayName = user.email.split('@')[0];
                 } else if (user.id) {
                     displayName = 'DL' + String(user.id).slice(0, 6);
                 }
-                    
                 return {
                     displayName: displayName,
                     role: userRole,
-                    quota: userRole === 'SVIP' ? 99 : (userRole === 'VIP' ? 30 : 3)
+                    timeText: user.remainingTimeText || (userRole === 'FREE' ? 'Miễn phí' : 'Vĩnh viễn')
                 };
             });
             renderLeaderboard(formattedList);
+        } else {
+            // Dữ liệu rác không đúng định dạng
+            if (container) {
+                container.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-red-500 italic">API trả về sai định dạng dữ liệu!</td></tr>`;
+            }
         }
     } catch (err) {
-        console.warn('Lỗi tải bảng xếp hạng:', err);
+        // 3. NẾU LỖI MẠNG HOẶC CORS -> IN THẲNG RA MÀN HÌNH
+        if (container) {
+            container.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-red-500 italic font-bold">Lỗi kết nối (Có thể do CORS localhost): ${err.message}</td></tr>`;
+        }
     }
 }
 window.loadLeaderboardFromDB = loadLeaderboardFromDB;
+
