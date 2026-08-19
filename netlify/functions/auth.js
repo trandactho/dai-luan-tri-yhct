@@ -297,7 +297,71 @@ exports.handler = async (event) => {
         return { statusCode: 500, headers, body: JSON.stringify({ message: "Lỗi xử lý bảng xếp hạng: " + err.message }) };
       }
     }
-    
+    // G. XỬ LÝ NÂNG CẤP / GIA HẠN GÓI (DÙNG CHUNG: GIỮ CẤP CAO NHẤT + CỘNG DỒN NGÀY)
+    if (action === 'upgrade') {
+      try {
+        const { targetEmail, newRole, addDays } = bodyData; 
+        if (!targetEmail || !newRole || !addDays) {
+          return { statusCode: 400, headers, body: JSON.stringify({ message: 'Thiếu thông tin nâng cấp (targetEmail, newRole, addDays).' }) };
+        }
+
+        // Tìm tài khoản theo email trong bảng profiles
+        const resFind = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${encodeURIComponent(targetEmail)}&select=*`, {
+          method: 'GET',
+          headers: { 'apikey': serviceKey, 'Authorization': `Bearer ${serviceKey}` }
+        });
+        const profiles = await resFind.json();
+        if (!resFind.ok || !profiles || profiles.length === 0) {
+          return { statusCode: 404, headers, body: JSON.stringify({ message: 'Không tìm thấy tài khoản trong CSDL.' }) };
+        }
+
+        const profile = profiles[0];
+        let currentExpire = profile.expire_date ? new Date(profile.expire_date.replace(' ', 'T')).getTime() : 0;
+        let now = Date.now();
+
+        // 1. Tính toán cộng dồn thời gian thông minh
+        let baseTime = (currentExpire > now) ? currentExpire : now;
+        let newExpireDate = new Date(baseTime + Number(addDays) * 24 * 60 * 60 * 1000).toISOString();
+
+        // 2. Xác định cấp độ tối ưu: Luôn lấy cấp cao nhất giữa cấp hiện tại và cấp mới mua
+        const roleWeight = { 'SVIP': 4, 'VIP': 3, 'FREE': 2, 'GUEST': 1 };
+        let currentRole = profile.role || 'FREE';
+        
+        let finalRole = (roleWeight[newRole] > roleWeight[currentRole]) ? newRole : currentRole;
+
+        // 3. Cập nhật vào CSDL Supabase
+        const resUpdate = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${profile.id}`, {
+          method: 'PATCH',
+          headers: {
+            'apikey': serviceKey,
+            'Authorization': `Bearer ${serviceKey}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            role: finalRole,
+            expire_date: newExpireDate
+          })
+        });
+
+        if (!resUpdate.ok) {
+          const errText = await resUpdate.text();
+          return { statusCode: 500, headers, body: JSON.stringify({ message: 'Lỗi cập nhật CSDL', details: errText }) };
+        }
+
+        return {
+          statusCode: 200,
+          headers,
+          body: JSON.stringify({
+            success: true,
+            message: `Gia hạn thành công! Tài khoản đang ở cấp ${finalRole}, hạn sử dụng đến ${newExpireDate}`
+          })
+        };
+      } catch (err) {
+        console.error("❌ Lỗi upgrade:", err);
+        return { statusCode: 500, headers, body: JSON.stringify({ message: 'Lỗi server khi nâng cấp: ' + err.message }) };
+      }
+    }
+
 
     // D. XỬ LÝ ĐĂNG NHẬP MẶC ĐỊNH (LOGIN)
     try {

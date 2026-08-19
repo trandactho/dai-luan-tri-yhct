@@ -64,13 +64,15 @@ exports.handler = async function(event) {
 
         // Kiểm tra quota
         const maxQuota = ROLE_QUOTAS[userRole] || 1;
-        if (aiUsedToday >= maxQuota && userRole !== 'SVIP') {
-            return {
-                statusCode: 429,
-                headers,
-                body: JSON.stringify({ error: `Bạn đã dùng hết ${aiUsedToday}/${maxQuota} lượt AI hôm nay.` })
-            };
+        // Bỏ điều kiện 'userRole !== 'SVIP'' để SVIP tuân thủ mốc 99 lượt như giao diện
+        if (aiUsedToday >= maxQuota) {
+          return {
+             statusCode: 429,
+             headers,
+             body: JSON.stringify({ error: `Bạn đã dùng hết ${aiUsedToday}/${maxQuota} lượt AI hôm nay.` })
+          };
         }
+
 
         // 🟢 GIỮ NGUYÊN PHÂN LUỒNG KEY THEO SOURCE CỦA ANH
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
