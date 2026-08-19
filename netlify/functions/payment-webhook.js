@@ -5,7 +5,7 @@ const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 function calculateNewExpiration(currentUser, targetRole, amount) {
     let daysToAdd = 30; // Mặc định gói VIP tháng
 
-    if (targetRole === 'SUPERVIP') {
+    if (targetRole === 'SVIP') {
         daysToAdd = 365;
     } else if (targetRole === 'VIP') {
         if (amount >= 99000) {
@@ -18,7 +18,6 @@ function calculateNewExpiration(currentUser, targetRole, amount) {
     const now = new Date();
     let baseDate = now;
 
-    // Nếu tài khoản đang còn hạn VIP -> Cộng dồn tiếp nối ngày cũ
     if (currentUser && currentUser.expire_date) {
         const currentExpire = new Date(currentUser.expire_date);
         if (currentExpire > now) {
@@ -49,7 +48,6 @@ exports.handler = async (event) => {
   try {
     const bodyData = JSON.parse(event.body || '{}');
     
-    // Hỗ trợ trích xuất nội dung từ SePay và các cổng trung gian khác
     let rawContent = bodyData.content || bodyData.description || bodyData.transactionContent || '';
     if (!rawContent && Array.isArray(bodyData.data) && bodyData.data[0]) {
         rawContent = bodyData.data[0].description || bodyData.data[0].content || '';
@@ -58,29 +56,27 @@ exports.handler = async (event) => {
     const content = rawContent.toUpperCase();
     const amount = parseInt(bodyData.transferAmount || bodyData.amount || (Array.isArray(bodyData.data) ? bodyData.data[0]?.amount : 0) || 0);
 
-    // Regex trích xuất cú pháp "VIP DLxxxx" hoặc "SUPERVIP DLxxxx"
-    const vipMatch = content.match(/(SUPERVIP|VIP)\s*(DL\d{4})/i);
+    const vipMatch = content.match(/(SVIP|VIP)\s*(DL\d{4})/i);[span_23](start_span)[span_23](end_span)
 
     if (!vipMatch) {
         return { 
             statusCode: 200, 
             headers, 
-            body: JSON.stringify({ success: true, message: 'Bỏ qua: Không tìm thấy cú pháp VIP/SUPERVIP + Mã DLxxxx hợp lệ.' }) 
+            body: JSON.stringify({ success: true, message: 'Bỏ qua: Không tìm thấy cú pháp SVIP/VIP + Mã DLxxxx hợp lệ.' }) 
         };
     }
 
     const targetRole = vipMatch[1].toUpperCase();
     const shortId = vipMatch[2].toUpperCase(); // Ví dụ: DL1714
 
-    // Kiểm tra số tiền tối thiểu cho từng gói
+    // 🟢 ĐÃ SỬA: Kiểm tra số tiền tối thiểu ngắn gọn, không bị lặp
     if (targetRole === 'VIP' && amount < 15000) {
         return { statusCode: 200, headers, body: JSON.stringify({ success: false, message: 'Số tiền chuyển gói VIP tối thiểu là 15.000đ.' }) };
     }
-    if (targetRole === 'SUPERVIP' && amount < 990000) {
-        return { statusCode: 200, headers, body: JSON.stringify({ success: false, message: 'Số tiền chuyển gói SUPERVIP chưa đủ 990.000đ.' }) };
+    if (targetRole === 'SVIP' && amount < 990000) {[span_24](start_span)[span_24](end_span)
+        return { statusCode: 200, headers, body: JSON.stringify({ success: false, message: 'Số tiền chuyển gói SVIP chưa đủ 990.000đ.' }) };
     }
 
-    // Truy vấn tất cả hồ sơ từ Supabase
     const resFind = await fetch(`${SUPABASE_URL}/rest/v1/profiles?select=id,email,role,expire_date`, {
         method: 'GET',
         headers: {
@@ -90,7 +86,6 @@ exports.handler = async (event) => {
     });
     const profiles = await resFind.json();
     
-    // Khớp tài khoản qua thuật toán mã rút gọn DLxxxx
     let matchedProfile = null;
     if (Array.isArray(profiles)) {
         for (let p of profiles) {
@@ -114,10 +109,9 @@ exports.handler = async (event) => {
         return { statusCode: 200, headers, body: JSON.stringify({ success: false, message: `Không tìm thấy tài khoản mang mã định danh ${shortId}` }) };
     }
 
-    // Tính mốc ngày hết hạn mới
     const newExpireDate = calculateNewExpiration(matchedProfile, targetRole, amount);
 
-    // Cập nhật lại Supabase
+    // 🟢 ĐÃ SỬA: Dùng `targetRole` động thay vì hardcode 'SVIP'
     const resUpdate = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${matchedProfile.id}`, {
         method: 'PATCH',
         headers: {

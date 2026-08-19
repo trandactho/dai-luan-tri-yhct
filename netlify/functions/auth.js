@@ -2,6 +2,17 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
+// Hàm hỗ trợ kiểm tra thời hạn gói cước
+function getEffectiveRole(profile) {
+    let role = profile?.role || 'FREE';
+    if (role !== 'FREE' && role !== 'GUEST' && profile?.expire_date) {
+        if (new Date().getTime() > new Date(profile.expire_date).getTime()) {
+            return 'FREE';
+        }
+    }
+    return role;
+}
+
 exports.handler = async (event) => {
   const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
   const requestOrigin = event.headers.origin || event.headers.Origin;
@@ -62,7 +73,6 @@ exports.handler = async (event) => {
         return { statusCode: 401, headers, body: JSON.stringify({ message: 'Token không hợp lệ hoặc hết hạn' }) };
       }
 
-      // ĐÃ SỬA: Lấy profile theo email = userData.email
       const resProfile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${userData.email}&select=role,expire_date,ai_used_today`, {
         method: 'GET',
         headers: {
@@ -72,6 +82,7 @@ exports.handler = async (event) => {
       });
       const profiles = await resProfile.json();
       const profile = (profiles && profiles.length > 0) ? profiles[0] : {};
+      const effectiveRole = getEffectiveRole(profile);
 
       return {
         statusCode: 200,
@@ -80,7 +91,7 @@ exports.handler = async (event) => {
           user: {
             id: userData.id,
             email: userData.email,
-            role: profile.role || 'FREE',
+            role: effectiveRole,
             expireDate: profile.expire_date || null,
             aiUsedToday: profile.ai_used_today || 0
           }
@@ -102,7 +113,6 @@ exports.handler = async (event) => {
         return { statusCode: 401, headers, body: JSON.stringify({ message: 'Token không hợp lệ' }) };
       }
 
-      // ĐÃ SỬA: Cập nhật quota theo email = userData.email
       await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${userData.email}`, {
         method: 'PATCH',
         headers: {
@@ -128,7 +138,6 @@ exports.handler = async (event) => {
         return { statusCode: 400, headers, body: JSON.stringify({ message: 'Email hoặc mật khẩu không đúng' }) };
     }
 
-    // ĐÃ SỬA: Lấy profile theo email = authData.user.email
     const resProfile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${authData.user.email}&select=role,expire_date,ai_used_today`, {
         method: 'GET',
         headers: {
@@ -138,17 +147,18 @@ exports.handler = async (event) => {
     });
     const profiles = await resProfile.json();
     const profile = (profiles && profiles.length > 0) ? profiles[0] : {};
+    const effectiveRole = getEffectiveRole(profile);
 
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({
         token: authData.access_token,
-        role: profile.role || 'FREE',
+        role: effectiveRole,
         user: { 
           id: authData.user.id, 
           email: authData.user.email,
-          role: profile.role || 'FREE',
+          role: effectiveRole,
           expireDate: profile.expire_date || null,
           aiUsedToday: profile.ai_used_today || 0
         }
