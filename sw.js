@@ -1,4 +1,4 @@
-const CACHE_NAME = 'yhct-v1.6.8-final';
+const CACHE_NAME = 'yhct-v1.7.2';
 
 const DATA_ASSETS = [
     './luantridata.js',
@@ -24,6 +24,7 @@ const SYSTEM_ASSETS = [
     './src/modules/luan-tri.js',
     './src/modules/catalog.js',
     './src/modules/phoi-ngu.js',
+    './src/modules/tai-khoan.js',
     './src/modules/tu-chan.js',
     './src/modules/trac-nghiem.js',
     './src/modules/thu-vien.js',

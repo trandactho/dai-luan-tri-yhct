@@ -289,124 +289,145 @@ input[type="radio"] {
 #sectionLuanTri #luan-tri-action-bar {
     width: 100% !important;
 }
-/* ==========================================================================
-   🟢 CƯỠNG CHẾ TẨY TRẮNG ĐEN 100% CHO ĐƠN THUỐC (MÀN HÌNH & BẢN IN)
-   ========================================================================== */
 
-/* 1. ÉP MÀN HÌNH WEB VỀ TRẮNG ĐEN THUẦN TÚY */
-#modal-don-thuoc,
-#modal-don-thuoc *,
-#don-danhsach-vithuoc td,
-#don-danhsach-vithuoc span {
-    color: #000000 !important;
-    border-color: #000000 !important;
-    text-shadow: none !important;
-}
-
-/* Nền Modal trắng tinh */
-#modal-don-thuoc {
-    background-color: #ffffff !important;
-}
-
-/* Các khung thông tin, hướng dẫn bỏ nền màu, chỉ giữ viền đen */
-#modal-don-thuoc [class*="bg-stone-50"],
-#modal-don-thuoc [class*="bg-amber-50"],
-#modal-don-thuoc [class*="bg-red-800"] {
-    background-color: #ffffff !important;
-}
-
-/* Input, Select: Nền trắng, viền đen */
-#modal-don-thuoc input,
-#modal-don-thuoc select {
-    background-color: #ffffff !important;
-    color: #000000 !important;
-    border: 1px solid #000000 !important;
-    border-radius: 0 !important;
-}
-
-/* Nền header của bảng vị thuốc: Xám rất nhạt để phân biệt */
-#modal-don-thuoc table th {
-    background-color: #f4f4f4 !important;
-    color: #000000 !important;
-    border: 1px solid #000000 !important;
-}
-
-/* Đổi màu các nút bấm nội bộ (Gửi Zalo, In) thành Đen/Trắng */
-#modal-don-thuoc .no-print button {
-    background-color: #000000 !important;
-    color: #ffffff !important;
-    border: 1px solid #000000 !important;
-}
-
-/* ==========================================================================
-   2. KHẮC PHỤC LỖI IN NHIỀU TRANG TRẮNG & LỆCH KHUNG
-   ========================================================================== */
-@media print {
-  @page {
+/* ========================================================
+   🖨️ CSS TỐI ƯU IN A4: HIỂN THỊ ĐẦY ĐỦ CÁCH DÙNG & CHỮ KÝ
+   ======================================================== */
+@page {
     size: A4 portrait;
-    margin: 8mm 10mm;
-  }
+    margin: 0;
+}
 
-  /* Tắt toàn bộ nội dung web để không đẩy Modal xuống trang sau */
-  body > *:not(#modal-don-thuoc) {
-    display: none !important;
-  }
+@media print {
+    /* 1. Ẩn toàn bộ phần tử ngoài Modal */
+    body > *:not(#modal-don-thuoc),
+    header, nav, main, footer, #app-loader {
+        display: none !important;
+        visibility: hidden !important;
+    }
 
-  html, body {
-    background: #ffffff !important;
-    color: #000000 !important;
-    height: auto !important;
-    overflow: visible !important;
-    margin: 0 !important;
-    padding: 0 !important;
-  }
+    /* 2. Cấu hình trang in tràn lề an toàn */
+    html, body {
+        background: #ffffff !important;
+        color: #000000 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: 100% !important;
+        max-height: 100vh !important;
+        overflow: hidden !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
 
-  /* Trải Modal ra 100% khổ A4, sát mép trên */
-  #modal-don-thuoc {
-    display: block !important;
-    position: static !important;
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    background: #ffffff !important;
-    border: none !important;
-    box-shadow: none !important;
-  }
+    /* 3. Kéo Modal lên đỉnh và chừa lề trên đúng 20mm (2cm) */
+    #modal-don-thuoc {
+        display: block !important;
+        position: absolute !important;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        background: #ffffff !important;
+        color: #000000 !important;
+        padding: 20mm 12mm 0 12mm !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        overflow: hidden !important;
+        page-break-after: avoid !important;
+        page-break-inside: avoid !important;
+    }
 
-  #modal-don-thuoc > div {
-    width: 100% !important;
-    max-width: 100% !important;
-    padding: 0 !important;
-    margin: 0 !important;
-    border: none !important;
-  }
+    /* 4. Triệt tiêu khoảng trống thừa bên trong */
+    #modal-don-thuoc > div {
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        max-height: none !important;
+    }
 
-  /* Tối ưu ô điền text khi in (chỉ còn dòng kẻ dưới) */
-  #modal-don-thuoc input,
-  #modal-don-thuoc select {
-    border: none !important;
-    border-bottom: 1px solid #000000 !important;
-    padding: 2px 0 !important;
-    font-weight: bold !important;
-    appearance: none !important;
-    -webkit-appearance: none !important;
-  }
+    /* 5. Ép TẤT CẢ con bên trong Modal về Nền Trắng - Chữ Đen */
+    #modal-don-thuoc, 
+    #modal-don-thuoc * {
+        background: #ffffff !important;
+        color: #000000 !important;
+        opacity: 1 !important;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
 
-  #modal-don-thuoc table {
-    width: 100% !important;
-    border-collapse: collapse !important;
-  }
+    /* 6. Định dạng ô nhập thông tin & Textarea (Cách dùng & Kiêng kỵ) */
+    #modal-don-thuoc input, 
+    #modal-don-thuoc select {
+        background: #ffffff !important;
+        color: #000000 !important;
+        border: 1px solid #4b5563 !important;
+        border-radius: 4px !important;
+        padding: 2px 6px !important;
+        font-weight: 600 !important;
+    }
 
-  #modal-don-thuoc th,
-  #modal-don-thuoc td {
-    border: 1px solid #000000 !important;
-    color: #000000 !important;
-    padding: 4px 6px !important;
-  }
+    #modal-don-thuoc textarea {
+        border: none !important;
+        background: transparent !important;
+        color: #000000 !important;
+        resize: none !important;
+        padding: 0 !important;
+        font-weight: 500 !important;
+        height: auto !important;
+        min-height: 0 !important;
+    }
 
-  /* Ẩn các nút bấm khi in */
-  .no-print, button, [class*="backdrop"] {
-    display: none !important;
-  }
+    /* 7. Định dạng Bảng vị thuốc */
+    #modal-don-thuoc table {
+        background: #ffffff !important;
+        border-collapse: collapse !important;
+        width: 100% !important;
+    }
+
+    #modal-don-thuoc th {
+        background: #f3f4f6 !important;
+        color: #000000 !important;
+        border-bottom: 2px solid #000000 !important;
+        font-weight: bold !important;
+        padding: 4px !important;
+    }
+
+    #modal-don-thuoc td {
+        border-bottom: 1px solid #d1d5db !important;
+        color: #000000 !important;
+        padding: 4px !important;
+    }
+
+    #modal-don-thuoc td input[type="number"] {
+        border: none !important;
+        background: transparent !important;
+        width: 35px !important;
+        font-weight: bold !important;
+        padding: 0 !important;
+    }
+
+    /* 8. Định dạng Ngày tháng & Chữ ký bác sĩ */
+    #modal-don-thuoc #don-ngay-thang,
+    #modal-don-thuoc #don-ten-bacsi {
+        color: #000000 !important;
+    }
+
+    /* 9. Ẩn các nút chức năng, ô tìm kiếm, cảnh báo phản úy và nút đóng X */
+    .no-print, 
+    .no-print *, 
+    #search-don-vithuoc, 
+    #dropdown-don-vithuoc, 
+    #don-tuongky-warning,
+    #modal-don-thuoc button, 
+    #modal-don-thuoc .fa-xmark {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
 }
