@@ -1,28 +1,28 @@
-// ==========================================================================
-// MAIN.JS - KHỞI CHẠY ỨNG DỤNG & ĐIỀU HƯỚNG TAB
-// ==========================================================================
+// --- KHỞI CHẠY ỨNG DỤNG & ĐIỀU HƯỚNG TAB ---
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        // 1. Phục hồi trạng thái bộ lọc từ Session Storage
         if (typeof restoreDuocLieuState === 'function') restoreDuocLieuState();
         if (typeof restoreHuyetViState === 'function') restoreHuyetViState();
 
-        // 2. Cập nhật tất cả chỉ số thống kê trên Header
         capNhatThongKeHeader();
         if (typeof capNhatTongSoTrieuChung === 'function') capNhatTongSoTrieuChung();
         if (typeof capNhatTongSoTracNghiem === 'function') capNhatTongSoTracNghiem();
         if (typeof capNhatDiemGanNhat === 'function') capNhatDiemGanNhat();
 
-        // 3. Khởi tạo dữ liệu hiển thị ban đầu
         if (typeof updateLuanTri === 'function') updateLuanTri();
 
-        // 🟢 Nạp ngay danh sách Thư tịch từ đầu
         if (typeof taiDanhSachSachTuDrive === 'function') {
             taiDanhSachSachTuDrive();
         }
 
-        // 4. Ẩn màn hình Loading (#app-loader)
+        if (typeof initUserAuthSession === 'function') {
+            initUserAuthSession();
+        }
+
+    } catch (err) {
+        console.error("Lỗi trong quá trình khởi chạy ứng dụng:", err);
+    } finally {
         const loader = document.getElementById('app-loader');
         if (loader) {
             loader.classList.add('opacity-0');
@@ -30,35 +30,26 @@ document.addEventListener('DOMContentLoaded', async () => {
                 loader.classList.add('hidden');
             }, 300);
         }
-    } catch (err) {
-        console.error("Lỗi trong quá trình khởi chạy ứng dụng:", err);
-        const loader = document.getElementById('app-loader');
-        if (loader) loader.classList.add('hidden');
     }
 });
 
-// 🟢 Tự động hạ bàn phím ảo di động khi nhấn Enter ở tất cả ô nhập liệu / tìm kiếm
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && e.target && e.target.tagName === 'INPUT') {
         e.target.blur();
     }
 });
 
-// Hàm tính toán và nhảy con số thống kê trên Header
 function capNhatThongKeHeader() {
-    // 1. Dược liệu
     const elThuoc = document.getElementById('total-thuoc');
     if (elThuoc && typeof duocLieuData !== 'undefined' && Array.isArray(duocLieuData)) {
         elThuoc.innerText = duocLieuData.length;
     }
 
-    // 2. Huyệt vị
     const elHuyet = document.getElementById('total-huyet');
     if (elHuyet && typeof huyetViData !== 'undefined' && Array.isArray(huyetViData)) {
         elHuyet.innerText = huyetViData.length;
     }
 
-    // 3. Dược thiện
     const elDuocThien = document.getElementById('total-duocthien');
     if (elDuocThien) {
         if (typeof getCombinedDuocThienData === 'function') {
@@ -68,7 +59,6 @@ function capNhatThongKeHeader() {
         }
     }
 
-    // 4. Trà dược
     const elTra = document.getElementById('total-tra');
     if (elTra) {
         if (typeof getCombinedTraData === 'function') {
@@ -78,14 +68,12 @@ function capNhatThongKeHeader() {
         }
     }
 
-    // 5. Thư tịch
     const elSach = document.getElementById('total-sach');
     if (elSach && typeof danhSachSachPDF !== 'undefined' && Array.isArray(danhSachSachPDF)) {
         elSach.innerText = danhSachSachPDF.length;
     }
 }
 
-// Hàm chuyển đổi tab giao diện chính
 async function switchTab(tabName) {
     const tabs = [
         { id: 'luantri', sec: 'sectionLuanTri', btn: 'btnTabLuanTri' },
@@ -97,12 +85,16 @@ async function switchTab(tabName) {
         { id: 'tracuusach', sec: 'sectionTraCuuSach', btn: 'btnTabTraCuuSach' },
         { id: 'phoingu', sec: 'sectionPhoiNgu', btn: 'btnTabPhoiNgu' },
         { id: 'tuchan', sec: 'sectionTuChan', btn: 'btnTabTuChan' },
+        { id: 'taikhoan', sec: 'sectionTaiKhoan', btn: 'btnTabTaiKhoan' }
     ];
 
     tabs.forEach(t => {
         const secEl = document.getElementById(t.sec);
         const btnEl = document.getElementById(t.btn);
-        if (secEl) secEl.classList.add('hidden');
+        if (secEl) {
+            secEl.classList.add('hidden');
+            secEl.style.display = 'none';
+        }
         if (btnEl) btnEl.classList.remove('tab-active');
     });
 
@@ -110,14 +102,17 @@ async function switchTab(tabName) {
     if (target) {
         const secEl = document.getElementById(target.sec);
         const btnEl = document.getElementById(target.btn);
-        if (secEl) secEl.classList.remove('hidden');
+        if (secEl) {
+            secEl.classList.remove('hidden');
+            secEl.style.display = 'block';
+        }
         if (btnEl) {
             btnEl.classList.add('tab-active');
             btnEl.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
         }
     }
 
-    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
         if (tabName === 'duoclieu' && typeof filterDuocLieu === 'function') filterDuocLieu();
         if (tabName === 'huyetvi' && typeof filterHuyetVi === 'function') filterHuyetVi();
         if (tabName === 'tra' && typeof filterTra === 'function') filterTra();
@@ -125,7 +120,15 @@ async function switchTab(tabName) {
         if (tabName === 'tracuusach' && typeof taiDanhSachSachTuDrive === 'function') taiDanhSachSachTuDrive();
         if (tabName === 'tuchan' && typeof hienThiLichSuVongChan === 'function') hienThiLichSuVongChan();
         if (tabName === 'phoingu' && typeof renderPhoiNguUI === 'function') renderPhoiNguUI();
-        if (tabName === 'hoivien' && typeof capNhatGiaoDienHoiVien === 'function') capNhatGiaoDienHoiVien(); // 🔴 Đồng bộ trạng thái Hội Viên
+        
+        // TỰ ĐỘNG ĐỒNG BỘ NGẦM VỚI SERVER KHI BẤM VÀO TAB TÀI KHOẢN
+        if (tabName === 'taikhoan') {
+            if (typeof refreshUserDataFromServer === 'function') {
+                refreshUserDataFromServer();
+            } else if (typeof initUserAuthSession === 'function') {
+                initUserAuthSession();
+            }
+        }
     });
 }
 
@@ -159,13 +162,12 @@ async function taiDuLieuOffline() {
     }
 }
 
-// --- BẮT SỰ KIỆN VUỐT CHUYỂN TAB MƯỢT MÀ VÀ TỰ ĐỘNG LỌC CUỘN DỌC ---
 let touchStartX = 0;
 let touchStartY = 0;
 let touchEndX = 0;
 let touchEndY = 0;
 
-const ALL_TABS = ['luantri', 'huyetvi', 'duoclieu', 'duocthien', 'tra', 'tracnghiem', 'tracuusach', 'phoingu', 'tuchan']; // 🔴 Thêm 'hoivien'
+const ALL_TABS = ['luantri', 'huyetvi', 'duoclieu', 'duocthien', 'tra', 'tracnghiem', 'tracuusach', 'phoingu', 'tuchan', 'taikhoan'];
 
 document.addEventListener('touchstart', (e) => {
     touchStartX = e.changedTouches[0].screenX;
