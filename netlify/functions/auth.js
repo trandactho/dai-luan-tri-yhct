@@ -226,10 +226,11 @@ exports.handler = async (event) => {
       }
     }
 
-    // F. XỬ LÝ LẤY BẢNG XẾP HẠNG TOP 10 (CÓ BẮT LỖI MINH BẠCH)
+        // F. XỬ LÝ LẤY BẢNG XẾP HẠNG TOP 10 (LẤY THẲNG EMAIL TỪ BẢNG PROFILES)
     if (action === 'get_leaderboard') {
       try {
-        const resLeaderboard = await fetch(`${SUPABASE_URL}/rest/v1/profiles?select=id,role,expire_date,created_at&limit=50`, {
+        // Query trực tiếp các cột có sẵn trong bảng profiles kể cả cột email
+        const resLeaderboard = await fetch(`${SUPABASE_URL}/rest/v1/profiles?select=id,email,role,expire_date,created_at&limit=50`, {
           method: 'GET',
           headers: {
             'apikey': serviceKey,
@@ -239,7 +240,6 @@ exports.handler = async (event) => {
         
         const leaderboardData = await resLeaderboard.json();
 
-        // 🟢 BẮT LỖI NẾU SUPABASE TRẢ VỀ LỖI CSDL (Không nuốt lỗi)
         if (!resLeaderboard.ok) {
           console.error("❌ Supabase trả lỗi query profiles:", resLeaderboard.status, leaderboardData);
           return { 
@@ -253,7 +253,6 @@ exports.handler = async (event) => {
         }
 
         if (!Array.isArray(leaderboardData)) {
-          console.error("❌ Dữ liệu trả về không phải là mảng:", leaderboardData);
           return { 
             statusCode: 500, 
             headers, 
@@ -261,36 +260,8 @@ exports.handler = async (event) => {
           };
         }
 
-        // Lấy danh sách Email từ Supabase Auth Admin API
-        let userEmailMap = {};
-        if (SUPABASE_SERVICE_ROLE_KEY) {
-          try {
-            const resUsers = await fetch(`${SUPABASE_URL}/auth/v1/admin/users`, {
-              method: 'GET',
-              headers: {
-                'apikey': SUPABASE_SERVICE_ROLE_KEY,
-                'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`
-              }
-            });
-            if (resUsers.ok) {
-              const usersData = await resUsers.json();
-              if (usersData && Array.isArray(usersData.users)) {
-                usersData.users.forEach(u => { userEmailMap[u.id] = u.email; });
-              }
-            } else {
-              const adminErr = await resUsers.text();
-              console.warn('⚠️ Lỗi gọi Auth Admin API:', resUsers.status, adminErr);
-            }
-          } catch (e) {
-            console.warn('⚠️ Lỗi ngoại lệ khi gọi email Admin API:', e.message);
-          }
-        } else {
-          console.warn('⚠️ Thiếu SUPABASE_SERVICE_ROLE_KEY, không thể lấy Email hiển thị!');
-        }
-
-        // Ghép email vào từng profile và tính cấp độ thực tế
+        // Tính cấp độ thực tế cho từng tài khoản
         for (let user of leaderboardData) {
-          user.email = userEmailMap[user.id] || null;
           user.effectiveRole = await getEffectiveRole(user);
         }
 
