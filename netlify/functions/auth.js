@@ -2,8 +2,8 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-// Hàm hỗ trợ kiểm tra thời hạn & TỰ ĐỘNG HẠ CẤP TRỰC TIẾP TRONG CSDL
-function getEffectiveRole(profile) {
+// Hàm hỗ trợ kiểm tra thời hạn & TỰ ĐỘNG HẠ CẤP TRỰC TIẾP TRONG CSDL (ĐÃ THÊM AWAIT)
+async function getEffectiveRole(profile) {
     let role = profile?.role || 'FREE';
     
     if (role !== 'FREE' && role !== 'GUEST' && profile?.expire_date) {
@@ -11,17 +11,21 @@ function getEffectiveRole(profile) {
             role = 'FREE';
             profile.role = 'FREE';
 
-            // Ghi đè tự động ngầm xuống CSDL Supabase
+            // Bắt buộc AWAIT để Netlify Serverless chờ Supabase ghi xong CSDL
             if (profile.id && SUPABASE_SERVICE_ROLE_KEY) {
-                fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${profile.id}`, {
-                    method: 'PATCH',
-                    headers: {
-                        'apikey': SUPABASE_SERVICE_ROLE_KEY,
-                        'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ role: 'FREE', expire_date: null })
-                }).catch(err => console.warn('Lỗi tự động cập nhật CSDL:', err));
+                try {
+                    await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${profile.id}`, {
+                        method: 'PATCH',
+                        headers: {
+                            'apikey': SUPABASE_SERVICE_ROLE_KEY,
+                            'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({ role: 'FREE', expire_date: null })
+                    });
+                } catch (err) {
+                    console.warn('Lỗi tự động cập nhật CSDL:', err);
+                }
             }
         }
     }
@@ -118,7 +122,7 @@ exports.handler = async (event) => {
         };
       }
 
-      const effectiveRole = getEffectiveRole(profile);
+      const effectiveRole = await getEffectiveRole(profile);
 
       return {
         statusCode: 200,
@@ -187,13 +191,18 @@ exports.handler = async (event) => {
       });
       const leaderboardData = await resLeaderboard.json();
 
+      if (!Array.isArray(leaderboardData)) {
+        return { statusCode: 200, headers, body: JSON.stringify({ leaderboard: [] }) };
+      }
+
+      // Duyệt và cập nhật hạ cấp bất đồng bộ cho từng tài khoản
+      for (let user of leaderboardData) {
+        user.effectiveRole = await getEffectiveRole(user);
+      }
+
       const roleWeight = { 'SVIP': 4, 'VIP': 3, 'FREE': 2, 'GUEST': 1 };
       
-      const sortedList = (Array.isArray(leaderboardData) ? leaderboardData : [])
-        .map(user => ({
-          ...user,
-          effectiveRole: getEffectiveRole(user)
-        }))
+      const sortedList = leaderboardData
         .sort((a, b) => {
           // 1. Ưu tiên cấp độ thực tế (SVIP > VIP > FREE > GUEST)
           const weightDiff = (roleWeight[b.effectiveRole] || 1) - (roleWeight[a.effectiveRole] || 1);
@@ -300,7 +309,7 @@ exports.handler = async (event) => {
         })
     });
 
-    const effectiveRole = getEffectiveRole(profile);
+    const effectiveRole = await getEffectiveRole(profile);
     const remainingSwitches = 5 - switchCount;
 
     return {
