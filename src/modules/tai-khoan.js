@@ -329,6 +329,10 @@ function renderAuthUI(isLoggedIn) {
     if (typeof loadLeaderboardFromDB === 'function') {
         loadLeaderboardFromDB();
     }
+    // 🟢 THÊM DÒNG NÀY ĐỂ ÉP QUÉT VÀ GỠ Ổ KHÓA TRÊN TOÀN BỘ GIAO DIỆN NGAY LẬP TỨC
+    if (typeof updateRoleLockUI === 'function') {
+        updateRoleLockUI();
+    }
 }
 
 function getFixedIdFromEmail(email) {
@@ -358,7 +362,13 @@ function saveUserSession(token, user) {
     }
     renderAuthUI(true);
     applyRolePermissions();
+    
+    // Thêm dòng này để quét và gỡ bỏ ổ khóa ngay lập tức khi đăng nhập thành công
+    if (typeof updateRoleLockUI === 'function') {
+        updateRoleLockUI();
+    }
 }
+
 
 async function handleUserLogin(e) {
     if (e && e.preventDefault) e.preventDefault();
