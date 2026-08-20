@@ -28,7 +28,6 @@ exports.handler = async function(event) {
         let userEmail = null;
         let aiUsedToday = 0;
 
-        // XÁC THỰC AN TOÀN (Không sập nếu thiếu Supabase)
         if (token && token !== 'null' && token !== 'undefined' && SUPABASE_URL && SUPABASE_ANON_KEY) {
             try {
                 const resUser = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
@@ -62,9 +61,7 @@ exports.handler = async function(event) {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung câu hỏi trống.' }) };
         }
 
-        // Kiểm tra quota
         const maxQuota = ROLE_QUOTAS[userRole] || 1;
-        // Bỏ điều kiện 'userRole !== 'SVIP'' để SVIP tuân thủ mốc 99 lượt như giao diện
         if (aiUsedToday >= maxQuota) {
           return {
              statusCode: 429,
@@ -73,8 +70,7 @@ exports.handler = async function(event) {
           };
         }
 
-
-        // 🟢 GIỮ NGUYÊN PHÂN LUỒNG KEY THEO SOURCE CỦA ANH
+        // 🟢 GIỮ NGUYÊN KẾT CẤU PHÂN LUỒNG VÀ KEY CỦA BẠN
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const secondKey  = process.env.SECOND_API_KEY;
         const backupKey  = process.env.BACKUP_API_KEY;
@@ -96,7 +92,10 @@ exports.handler = async function(event) {
         }
 
         const models = ['gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-3.5-flash'];
-        const roleMaxTokens = ROLE_MAX_TOKENS[userRole] || 1000;
+        
+        // Luồng backup tự động nâng maxTokens lên 2048 để trả dữ liệu YHCT đầy đủ
+        const isBackup = (source === 'backup');
+        const roleMaxTokens = isBackup ? 2048 : (ROLE_MAX_TOKENS[userRole] || 1000);
         const maxTokens = reqMaxTokens ? Math.min(Number(reqMaxTokens), roleMaxTokens) : roleMaxTokens;
 
         const partsPayload = [];
@@ -106,7 +105,23 @@ exports.handler = async function(event) {
                 partsPayload.push({ inline_data: { mime_type: matches[1], data: matches[2] } });
             }
         }
-        partsPayload.push({ text: "Bạn là chuyên gia YHCT Đại Luận Trị. BẮT BUỘC trả lời hoàn toàn bằng tiếng Việt, ngắn gọn, chuẩn xác: " + prompt });
+
+        // Bỏ ép "ngắn gọn" khi tra cứu backup CSDL
+        const prefixText = isBackup
+    ? "Bạn là chuyên gia YHCT Đại Luận Trị. BẮT BUỘC trả về dữ liệu bằng tiếng Việt chuẩn ngữ pháp, tuyệt đối không sai lỗi chính tả, đầy đủ chi tiết dạng JSON: "
+    : "Bạn là chuyên gia YHCT Đại Luận Trị. BẮT BUỘC trả lời hoàn toàn bằng tiếng Việt chuẩn ngữ pháp, không sai lỗi chính tả, ngắn gọn, chuẩn xác: ";
+
+        partsPayload.push({ text: prefixText + prompt });
+
+        const generationConfig = {
+            maxOutputTokens: maxTokens,
+            temperature: isBackup ? 0.2 : 0.7
+        };
+
+        // Ép định dạng JSON thuần cho luồng backup
+        if (isBackup) {
+            generationConfig.responseMimeType = "application/json";
+        }
 
         for (const apiKey of keysToTry) {
             for (const model of models) {
@@ -117,14 +132,13 @@ exports.handler = async function(event) {
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ 
                             contents: [{ parts: partsPayload }],
-                            generationConfig: { maxOutputTokens: maxTokens }
+                            generationConfig: generationConfig
                         })
                     });
 
                     const data = await response.json();
                     if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
                         
-                        // Đồng bộ lượt dùng nếu có userEmail
                         if (userEmail && SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
                             try {
                                 await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${userEmail}`, {
