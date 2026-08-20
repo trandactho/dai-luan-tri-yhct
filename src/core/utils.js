@@ -159,9 +159,8 @@ function getFilterVal(id) {
 function checkAndCleanStorage() {
     try {
         let history = JSON.parse(localStorage.getItem('vongChanHistory') || '[]');
-        if (Array.isArray(history) && history.length > 8) {
-            // Tự động cắt giảm bớt các bản ghi cũ nhất, chỉ giữ lại 8 bản ghi gần nhất
-            history = history.slice(0, 8);
+        if (Array.isArray(history) && history.length > 20) {
+            history = history.slice(0, 20); // Giữ tối đa 20 hồ sơ gần nhất
             localStorage.setItem('vongChanHistory', JSON.stringify(history));
         }
     } catch (e) {

@@ -53,6 +53,32 @@ const AppStore = {
         if (typeof duocLieuData !== 'undefined') this.duocLieu = duocLieuData;
         if (typeof huyetViData !== 'undefined') this.huyetVi = huyetViData;
         if (typeof traData !== 'undefined') this.tra = traData;
+
+        // Gộp dữ liệu cá nhân tùy chỉnh từ localStorage khi khởi tạo
+        try {
+            const customDb = JSON.parse(localStorage.getItem('custom_database') || '{}');
+            Object.assign(this.database, customDb);
+
+            const customDL = JSON.parse(localStorage.getItem('custom_duocLieuData') || '[]');
+            if (Array.isArray(customDL) && customDL.length) {
+                window.duocLieuData = [...customDL, ...(window.duocLieuData || [])];
+                this.duocLieu = window.duocLieuData;
+            }
+
+            const customHV = JSON.parse(localStorage.getItem('custom_huyetViData') || '[]');
+            if (Array.isArray(customHV) && customHV.length) {
+                window.huyetViData = [...customHV, ...(window.huyetViData || [])];
+                this.huyetVi = window.huyetViData;
+            }
+
+            const customTra = JSON.parse(localStorage.getItem('custom_traData') || '[]');
+            if (Array.isArray(customTra) && customTra.length) {
+                window.traData = [...customTra, ...(window.traData || [])];
+                this.tra = window.traData;
+            }
+        } catch (e) {
+            console.warn("Lỗi gộp dữ liệu cá nhân từ localStorage:", e);
+        }
     }        
 };
 
@@ -70,7 +96,7 @@ const ORIGINAL_PDF_AREA_HTML = `
         <div id="hoi-chung" class="text-xl font-bold text-amber-200 transition-all">---</div>
         <div id="ai-hc-desc" class="hidden text-xs text-stone-300 pt-2 border-t border-stone-800/80 leading-relaxed"></div>
         <div class="absolute top-3 right-4 z-10">
-            <button id="ai-toggle-hc" onclick="toggleAiFeature('hc')" class="px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60">
+            <button id="ai-toggle-hc" onclick="chayLenhAi(this, 'hc')" data-min-role="FREE" data-feature-name="AI Phân Tích Hội Chứng" class="px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60">
                 <i class="fa-solid fa-robot text-[9px]"></i> AI
             </button>
         </div>
@@ -96,7 +122,7 @@ const ORIGINAL_PDF_AREA_HTML = `
         <div id="chi-tiet-bai-thuoc" class="flex flex-wrap gap-2 transition-all"></div>
         <div id="ai-bt-desc" class="hidden text-xs text-stone-300 pt-2 border-t border-stone-800/80 leading-relaxed"></div>
         <div class="absolute top-3 right-4 z-10">
-            <button id="ai-toggle-bt" onclick="toggleAiFeature('bt')" class="px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60">
+            <button id="ai-toggle-bt" onclick="chayLenhAi(this, 'bt')" data-min-role="FREE" data-feature-name="AI Phân Tích Bài Thuốc" class="px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60">
                 <i class="fa-solid fa-robot text-[9px]"></i> AI
             </button>
         </div>

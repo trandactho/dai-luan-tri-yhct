@@ -5,7 +5,7 @@
 // 1. AUTO CLEANER: TỰ ĐỘNG DỌN RÁC AI BỊ KẸT TRONG LOCALSTORAGE KHI TẢI TRANG
 (function autoCleanGarbageData() {
     try {
-        ['custom_duocLieuData', 'custom_traData', 'custom_duocThienData'].forEach(key => {
+        ['custom_duocLieuData', 'custom_traData', 'custom_duocThienData', 'custom_huyetViData'].forEach(key => {
             let data = JSON.parse(localStorage.getItem(key) || '[]');
             let isDirty = false;
             let filtered = data.filter(item => {
