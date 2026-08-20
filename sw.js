@@ -1,6 +1,16 @@
 const CACHE_NAME = 'yhct-v1.7.3';
 
-const DATA_ASSETS = [
+// Gộp chung toàn bộ dữ liệu và file hệ thống để áp dụng chiến lược Network-First
+const SYSTEM_ASSETS = [
+    './',
+    './index.html',
+    './style.css',
+    './manifest.json',
+    './about.html',
+    './changelog.html',
+    './disclaimer.html',
+    './privacy.html',
+    './contact.html',
     './luantridata.js',
     './huyetvidata.js',
     './duoclieudata1.js',
@@ -10,14 +20,7 @@ const DATA_ASSETS = [
     './duoclieudata5.js',
     './duocthiendata.js',
     './tradata.js',
-    './questiondata.js'
-];
-
-const SYSTEM_ASSETS = [
-    './',
-    './index.html',
-    './style.css',
-    './manifest.json',
+    './questiondata.js',
     './src/core/config.js',
     './src/core/utils.js',
     './src/core/ai-service.js',
@@ -40,7 +43,7 @@ const EXTERNAL_CDN_ASSETS = [
 self.addEventListener('install', (event) => {
     self.skipWaiting();
     event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => cache.addAll([...DATA_ASSETS, ...SYSTEM_ASSETS]))
+        caches.open(CACHE_NAME).then((cache) => cache.addAll(SYSTEM_ASSETS))
     );
 });
 
@@ -58,13 +61,11 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// Xử lý sự kiện "Tải Offline" từ Footer (An toàn 100% với CDN ngoài)
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'CACHE_ALL') {
         event.waitUntil(
             caches.open(CACHE_NAME).then(async (cache) => {
-                await cache.addAll([...DATA_ASSETS, ...SYSTEM_ASSETS]);
-                // Tải CDN riêng lẻ để không làm sập tiến trình nếu 1 link CDN bị lỗi
+                await cache.addAll(SYSTEM_ASSETS);
                 await Promise.allSettled(
                     EXTERNAL_CDN_ASSETS.map(url => 
                         fetch(url, { mode: 'no-cors' })
@@ -83,6 +84,7 @@ self.addEventListener('fetch', (event) => {
 
     const reqUrl = event.request.url;
 
+    // Bỏ qua các đường dẫn API động, quảng cáo và AI
     if (
         reqUrl.includes('generativelanguage.googleapis.com') ||
         reqUrl.includes('pagead2.googlesyndication.com') ||
@@ -92,36 +94,16 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    const urlPath = new URL(reqUrl).pathname;
-    const isSystemAsset = SYSTEM_ASSETS.some(asset => {
-        const cleanAsset = asset.replace('./', '');
-        return cleanAsset === '' ? urlPath.endsWith('/') : urlPath.endsWith(cleanAsset);
-    });
-
-    if (isSystemAsset) {
-        event.respondWith(
-            fetch(event.request)
-                .then((networkResponse) => {
-                    if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
-                        const responseClone = networkResponse.clone();
-                        caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
-                    }
-                    return networkResponse;
-                })
-                .catch(() => caches.match(event.request))
-        );
-    } else {
-        event.respondWith(
-            caches.match(event.request).then((cachedResponse) => {
-                if (cachedResponse) return cachedResponse;
-                return fetch(event.request).then((networkResponse) => {
-                    if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
-                        const responseClone = networkResponse.clone();
-                        caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
-                    }
-                    return networkResponse;
-                });
+    // Tất cả tài nguyên hệ thống dùng chiến lược Network-First (Tải mới trước, mất mạng mới đọc cache)
+    event.respondWith(
+        fetch(event.request)
+            .then((networkResponse) => {
+                if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
+                    const responseClone = networkResponse.clone();
+                    caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
+                }
+                return networkResponse;
             })
-        );
-    }
+            .catch(() => caches.match(event.request))
+    );
 });
