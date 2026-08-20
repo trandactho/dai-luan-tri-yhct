@@ -2,19 +2,22 @@ const SUPABASE_URL = process.env.SUPABASE_URL;
 const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
 const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
-// Hàm hỗ trợ kiểm tra thời hạn & TỰ ĐỘNG HẠ CẤP TRỰC TIẾP TRONG CSDL (BẮT LỖI)
+// Hàm hỗ trợ kiểm tra thời hạn & TỰ ĐỘNG HẠ CẤP TRỰC TIẾP TRONG CSDL
 async function getEffectiveRole(profile) {
     let role = profile?.role || 'FREE';
     
     if (role !== 'FREE' && role !== 'GUEST' && profile?.expire_date) {
-        // Thay thế dấu cách bằng 'T' để JS đọc được chuẩn định dạng PostgreSQL
-        const expStr = typeof profile.expire_date === 'string' ? profile.expire_date.replace(' ', 'T') : profile.expire_date;
+        let expStr = typeof profile.expire_date === 'string' ? profile.expire_date.replace(' ', 'T') : profile.expire_date;
         
+        if (typeof expStr === 'string' && !expStr.endsWith('Z') && !expStr.includes('+')) {
+            expStr += 'Z';
+        }
+
         if (new Date().getTime() > new Date(expStr).getTime()) {
             role = 'FREE';
             profile.role = 'FREE';
 
-            const serviceKey = SUPABASE_SERVICE_ROLE_KEY || SUPABASE_ANON_KEY;
+            const serviceKey = SUPABASE_SERVICE_ROLE_KEY;
             if (profile.id && serviceKey) {
                 try {
                     const resPatch = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${profile.id}`, {
@@ -39,7 +42,6 @@ async function getEffectiveRole(profile) {
     return role;
 }
 
-
 exports.handler = async (event) => {
   const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
   const requestOrigin = event.headers.origin || event.headers.Origin;
@@ -59,6 +61,12 @@ exports.handler = async (event) => {
     return { statusCode: 405, headers, body: JSON.stringify({ message: 'Method Not Allowed' }) };
   }
 
+  const serviceKey = SUPABASE_SERVICE_ROLE_KEY;
+  if (!SUPABASE_URL || !SUPABASE_ANON_KEY || !serviceKey) {
+      console.error("❌ Thiếu biến môi trường SUPABASE_URL, SUPABASE_ANON_KEY hoặc SUPABASE_SERVICE_ROLE_KEY");
+      return { statusCode: 500, headers, body: JSON.stringify({ message: 'Chưa cấu hình đủ biến môi trường trên Server.' }) };
+  }
+
   try {
     let bodyData = {};
     try {
@@ -67,15 +75,7 @@ exports.handler = async (event) => {
         return { statusCode: 400, headers, body: JSON.stringify({ message: 'Định dạng JSON gửi lên không hợp lệ.' }) };
     }
 
-    const { action, email, password, token, aiUsedToday } = bodyData;
-
-    // Kiểm tra cấu hình biến môi trường
-    if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
-        console.error("❌ Thiếu biến môi trường SUPABASE_URL hoặc SUPABASE_ANON_KEY");
-        return { statusCode: 500, headers, body: JSON.stringify({ message: 'Chưa cấu hình Supabase ENV trên Server.' }) };
-    }
-
-    const serviceKey = SUPABASE_SERVICE_ROLE_KEY || SUPABASE_ANON_KEY;
+    const { action, email, password, token } = bodyData;
 
     // A. XỬ LÝ ĐĂNG KÝ TÀI KHOẢN
     if (action === 'register') {
@@ -134,7 +134,6 @@ exports.handler = async (event) => {
         const profile = (Array.isArray(profiles) && profiles.length > 0) ? profiles[0] : {};
         profile.id = userData.id;
 
-        // Chặn nếu tài khoản đang bị khóa
         if (profile.locked_until && new Date().getTime() < new Date(profile.locked_until).getTime()) {
           const lockDateStr = new Date(profile.locked_until).toLocaleDateString('vi-VN');
           return { 
@@ -144,7 +143,6 @@ exports.handler = async (event) => {
           };
         }
 
-        // Chặn nếu token trên DB khác token hiện tại (bị đá phiên)
         if (profile.current_token && profile.current_token !== token) {
           return { 
             statusCode: 401, 
@@ -179,15 +177,19 @@ exports.handler = async (event) => {
       try {
         const resUser = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
           method: 'GET',
-          headers: {
-            'apikey': SUPABASE_ANON_KEY,
-            'Authorization': `Bearer ${token}`
-          }
+          headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${token}` }
         });
         const userData = await resUser.json();
         if (!resUser.ok || !userData.id) {
           return { statusCode: 401, headers, body: JSON.stringify({ message: 'Token không hợp lệ' }) };
         }
+
+        const resProfile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${userData.id}&select=ai_used_today`, {
+          method: 'GET',
+          headers: { 'apikey': serviceKey, 'Authorization': `Bearer ${serviceKey}` }
+        });
+        const profiles = await resProfile.json();
+        const currentUsed = profiles[0]?.ai_used_today || 0;
 
         const resSync = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${userData.id}`, {
           method: 'PATCH',
@@ -196,22 +198,20 @@ exports.handler = async (event) => {
             'Authorization': `Bearer ${serviceKey}`,
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ ai_used_today: aiUsedToday || 0 })
+          body: JSON.stringify({ ai_used_today: currentUsed + 1 })
         });
 
         if (!resSync.ok) {
-          const syncErr = await resSync.json();
-          return { statusCode: 500, headers, body: JSON.stringify({ message: 'Lỗi đồng bộ Quota', details: syncErr }) };
+          return { statusCode: 500, headers, body: JSON.stringify({ message: 'Lỗi đồng bộ Quota' }) };
         }
 
-        return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
+        return { statusCode: 200, headers, body: JSON.stringify({ success: true, aiUsedToday: currentUsed + 1 }) };
       } catch (err) {
-        console.error("❌ Lỗi sync_quota:", err);
-        return { statusCode: 500, headers, body: JSON.stringify({ message: 'Lỗi server sync_quota: ' + err.message }) };
+        return { statusCode: 500, headers, body: JSON.stringify({ message: err.message }) };
       }
     }
 
-    // E. XỬ LÝ ĐĂNG XUẤT (Xóa current_token trên DB)
+    // E. XỬ LÝ ĐĂNG XUẤT
     if (action === 'logout') {
       try {
         await fetch(`${SUPABASE_URL}/rest/v1/profiles?current_token=eq.${token}`, {
@@ -230,16 +230,14 @@ exports.handler = async (event) => {
       }
     }
 
-                // F. XỬ LÝ LẤY BẢNG XẾP HẠNG TOP 10 (THAY THẾ BẰNG THỜI HẠN CÒN LẠI)
-        if (action === 'get_leaderboard') {
+    // F. XỬ LÝ LẤY BẢNG XẾP HẠNG TOP 10
+    if (action === 'get_leaderboard') {
       try {
-        const activeKey = SUPABASE_SERVICE_ROLE_KEY || SUPABASE_ANON_KEY;
-
         const resLeaderboard = await fetch(`${SUPABASE_URL}/rest/v1/profiles?select=id,email,role,expire_date,created_at&limit=50`, {
           method: 'GET',
           headers: {
-            'apikey': activeKey,
-            'Authorization': `Bearer ${activeKey}`
+            'apikey': serviceKey,
+            'Authorization': `Bearer ${serviceKey}`
           }
         });
         
@@ -253,7 +251,6 @@ exports.handler = async (event) => {
           };
         }
 
-        // Tính cấp độ thực tế và xử lý văn bản hiển thị thời hạn còn lại
         for (let user of leaderboardData) {
           user.effectiveRole = await getEffectiveRole(user);
           
@@ -297,15 +294,23 @@ exports.handler = async (event) => {
         return { statusCode: 500, headers, body: JSON.stringify({ message: "Lỗi xử lý bảng xếp hạng: " + err.message }) };
       }
     }
-    // G. XỬ LÝ NÂNG CẤP / GIA HẠN GÓI (DÙNG CHUNG: GIỮ CẤP CAO NHẤT + CỘNG DỒN NGÀY)
+
+    // G. XỬ LÝ NÂNG CẤP / GIA HẠN GÓI
     if (action === 'upgrade') {
+      const adminSecret = event.headers['x-admin-secret'] || event.headers['X-Admin-Secret'];
+      if (!process.env.ADMIN_SECRET_KEY || adminSecret !== process.env.ADMIN_SECRET_KEY) {
+        return { 
+          statusCode: 403, 
+          headers, 
+          body: JSON.stringify({ message: 'Từ chối truy cập: Thiếu hoặc sai Admin Secret Key.' }) 
+        };
+      }
       try {
         const { targetEmail, newRole, addDays } = bodyData; 
         if (!targetEmail || !newRole || !addDays) {
           return { statusCode: 400, headers, body: JSON.stringify({ message: 'Thiếu thông tin nâng cấp (targetEmail, newRole, addDays).' }) };
         }
 
-        // Tìm tài khoản theo email trong bảng profiles
         const resFind = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${encodeURIComponent(targetEmail)}&select=*`, {
           method: 'GET',
           headers: { 'apikey': serviceKey, 'Authorization': `Bearer ${serviceKey}` }
@@ -319,17 +324,14 @@ exports.handler = async (event) => {
         let currentExpire = profile.expire_date ? new Date(profile.expire_date.replace(' ', 'T')).getTime() : 0;
         let now = Date.now();
 
-        // 1. Tính toán cộng dồn thời gian thông minh
         let baseTime = (currentExpire > now) ? currentExpire : now;
         let newExpireDate = new Date(baseTime + Number(addDays) * 24 * 60 * 60 * 1000).toISOString();
 
-        // 2. Xác định cấp độ tối ưu: Luôn lấy cấp cao nhất giữa cấp hiện tại và cấp mới mua
         const roleWeight = { 'SVIP': 4, 'VIP': 3, 'FREE': 2, 'GUEST': 1 };
         let currentRole = profile.role || 'FREE';
         
         let finalRole = (roleWeight[newRole] > roleWeight[currentRole]) ? newRole : currentRole;
 
-        // 3. Cập nhật vào CSDL Supabase
         const resUpdate = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${profile.id}`, {
           method: 'PATCH',
           headers: {
@@ -362,7 +364,6 @@ exports.handler = async (event) => {
       }
     }
 
-
     // D. XỬ LÝ ĐĂNG NHẬP MẶC ĐỊNH (LOGIN)
     try {
       const resAuth = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
@@ -376,7 +377,6 @@ exports.handler = async (event) => {
           return { statusCode: 400, headers, body: JSON.stringify({ message: authData.error_description || 'Email hoặc mật khẩu không đúng' }) };
       }
 
-      // Lấy thông tin profile kiểm tra vi phạm & thời hạn khóa
       const resProfile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${authData.user.id}&select=role,expire_date,ai_used_today,device_switch_count,last_switch_date,locked_until`, {
           method: 'GET',
           headers: {
@@ -393,7 +393,6 @@ exports.handler = async (event) => {
       const profile = (Array.isArray(profiles) && profiles.length > 0) ? profiles[0] : {};
       profile.id = authData.user.id;
 
-      // 1. KIỂM TRA TÀI KHOẢN BỊ KHÓA
       if (profile.locked_until && new Date().getTime() < new Date(profile.locked_until).getTime()) {
           const lockDateStr = new Date(profile.locked_until).toLocaleDateString('vi-VN');
           return { 
@@ -405,11 +404,9 @@ exports.handler = async (event) => {
           };
       }
 
-      // 2. TÍNH SỐ LẦN ĐỔI THIẾT BỊ TRONG NGÀY
       const todayStr = new Date().toISOString().slice(0, 10);
       let switchCount = profile.last_switch_date === todayStr ? (profile.device_switch_count || 0) + 1 : 1;
 
-      // 3. XỬ LÝ VI PHẠM (Đổi máy > 5 lần/ngày -> Khóa 30 ngày)
       if (switchCount > 5) {
           const lockedUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
           await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${authData.user.id}`, {
@@ -436,7 +433,6 @@ exports.handler = async (event) => {
           };
       }
 
-      // 4. LƯU TOKEN MỚI VÀ CẬP NHẬT LỢT ĐỔI MÁY
       await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${authData.user.id}`, {
           method: 'PATCH',
           headers: {
