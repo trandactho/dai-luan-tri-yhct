@@ -63,7 +63,8 @@ function parseJsonFromAI(replyText) {
 }
 
 function checkAiQuotaBeforeCall(featureName = "Tính năng AI") {
-    const userRole = AppState.auth?.role || "GUEST";
+    // Sửa lấy role chuẩn từ AppState.auth?.user?.role
+    const userRole = AppState.auth?.user?.role || AppState.auth?.role || "GUEST";
     
     const aiUsed = (typeof getDailyQuotaUsed === "function") 
         ? getDailyQuotaUsed(userRole) 
@@ -74,14 +75,19 @@ function checkAiQuotaBeforeCall(featureName = "Tính năng AI") {
         : (typeof ROLE_QUOTAS !== "undefined" ? (ROLE_QUOTAS[userRole] ?? 1) : 1);
 
     if (aiUsed >= maxQuota) {
-        showRoleLockModal(
-            userRole === "GUEST" || userRole === "FREE" ? "VIP" : "SVIP",
-            `Bạn đã dùng hết ${aiUsed}/${maxQuota} lượt AI hôm nay.`
-        );
+        if (typeof showRoleLockModal === "function") {
+            showRoleLockModal(
+                userRole === "GUEST" || userRole === "FREE" ? "VIP" : "SVIP",
+                `Bạn đã dùng hết ${aiUsed}/${maxQuota} lượt AI hôm nay.`
+            );
+        } else {
+            alert(`Bạn đã dùng hết ${aiUsed}/${maxQuota} lượt AI hôm nay.`);
+        }
         return false;
     }
     return true;
 }
+
 
 function formatAIMessage(text) {
     if (!text) return "";
@@ -650,6 +656,9 @@ async function chayLenhAi(btnElement, loaiLenh) {
                     descEl.innerHTML = formatAIMessage(data.reply || "Không có phản hồi.");
                 }
             }
+        } else {
+            // Bổ sung nhánh điều hướng cho tra, duoclieu, huyetvi, duocthien
+            await triggerAiSearch(loaiLenh);
         }
     } catch (err) {
         console.error("Lỗi thực thi lệnh AI:", err);
