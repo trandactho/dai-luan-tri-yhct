@@ -1,6 +1,7 @@
 // ==========================================================================
 // AI-SERVICE.JS - XỬ LÝ DỊCH VỤ AI, TRA CỨU CẤU TRÚC & ĐỒNG BỘ DỮ LIỆU CÁ NHÂN
 // ==========================================================================
+
 // 1. AUTO CLEANER: TỰ ĐỘNG DỌN RÁC AI BỊ KẸT TRONG LOCALSTORAGE KHI TẢI TRANG
 (function autoCleanGarbageData() {
     try {
@@ -9,8 +10,7 @@
             let isDirty = false;
             let filtered = data.filter(item => {
                 let str = JSON.stringify(item).toLowerCase();
-                // Bắt và tiêu diệt ngay nếu dính rác template
-                if (str.includes("...") || str.includes("ten :") || str.includes("nhom :") || str.includes("cong dung")) {
+                if (str.includes("...") || str.includes("ten :") || str.includes("nhom :") || str.includes("tư âm dưỡng huyết, khu phong trừ thấp, bồi bổ nguyên khí")) {
                     isDirty = true;
                     return false; 
                 }
@@ -57,16 +57,12 @@ function parseJsonFromAI(replyText) {
 
         const arrayMatch = cleaned.match(/\[[\s\S]*\]/);
         if (arrayMatch) {
-            try {
-                return JSON.parse(arrayMatch[0]);
-            } catch (e) {}
+            try { return JSON.parse(arrayMatch[0]); } catch (e) {}
         }
 
         const objectMatch = cleaned.match(/\{[\s\S]*\}/);
         if (objectMatch) {
-            try {
-                return JSON.parse(objectMatch[0]);
-            } catch (e) {}
+            try { return JSON.parse(objectMatch[0]); } catch (e) {}
         }
 
         return null;
@@ -79,7 +75,6 @@ function parseJsonFromAI(replyText) {
 function checkAiQuotaBeforeCall(featureName = "Tính năng AI") {
     const userRole = AppState.auth?.role || "GUEST";
     
-    // 🟢 Luôn đọc lượt sử dụng thực tế của NGÀY HÔM NAY
     const aiUsed = (typeof getDailyQuotaUsed === "function") 
         ? getDailyQuotaUsed(userRole) 
         : (AppState.auth?.user?.aiUsedToday || 0);
@@ -263,8 +258,7 @@ async function sendAIWebMessage() {
         fullPrompt = `[NGỮ CẢNH HỘI CHẨN TRƯỚC ĐÓ]\n${currentDiagnosticContext}\n\n[CÂU HỎI TIẾP THEO CỦA BỆNH NHÂN - Yêu cầu ngắn gọn, súc tích]: "${query}"`;
     }
 
-        try {
-        // 🟢 Tạo header động: Chỉ gửi Authorization khi đã đăng nhập
+    try {
         const reqHeaders = {
             "Content-Type": "application/json",
             "X-Member-ID": AppState.auth?.user?.shortId || "GUEST",
@@ -279,7 +273,7 @@ async function sendAIWebMessage() {
             body: JSON.stringify({
                 prompt: fullPrompt,
                 source: "assistant",
-                max_tokens: 200,
+                max_tokens: 300,
             }),
         });
 
@@ -320,13 +314,10 @@ async function sendAIWebMessage() {
 function validateAndCleanAIResult(obj, tabName) {
     if (!obj || typeof obj !== "object") return null;
 
-    // Bộ lọc siêu mạnh: Diệt mọi ký tự Markdown và template rác
     const cleanStr = (val, fallback) => {
         if (!val) return fallback;
         let s = String(val).replace(/\*\*([^*]+)\*\*/g, "$1").replace(/\*([^*]+)\*/g, "$1").replace(/[*_#`]/g, "").trim();
-        
-        // Chặn đứng các chuỗi rác template của AI
-        if (s.includes("...") || s.toLowerCase().includes("ten :") || s.toLowerCase().includes("nhom") || s.length < 3) {
+        if (s.includes("...") || s.toLowerCase().includes("ten :") || s.length < 3) {
             return fallback;
         }
         return s;
@@ -338,14 +329,14 @@ function validateAndCleanAIResult(obj, tabName) {
             nhom: cleanStr(obj.nhom, "Dược liệu YHCT"),
             ten_khoa_hoc: cleanStr(obj.ten_khoa_hoc, ""),
             pinyin: cleanStr(obj.pinyin, ""),
-            cong_dung: cleanStr(obj.cong_dung, "Tư âm dưỡng huyết, khu phong trừ thấp, hành khí hoạt huyết."),
+            cong_dung: cleanStr(obj.cong_dung, "Bổ khí huyết, điều hòa ngũ tạng, thông kinh hoạt lạc."),
             kieng_ky: cleanStr(obj.kieng_ky || obj.luu_y, "Tuân thủ liều lượng phối ngũ tiêu chuẩn."),
         };
     } else if (tabName.includes("Trà Dược") || tabName.includes("Tra") || tabName.includes("traduoc")) {
         return {
-            ten: cleanStr(obj.ten, "Bài trà"),
+            ten: cleanStr(obj.ten, "Bài trà YHCT"),
             nhom: cleanStr(obj.nhom, "Trà Dược YHCT"),
-            cong_dung: cleanStr(obj.cong_dung, "Thanh nhiệt, giải độc, điều hòa cơ thể, an thần."),
+            cong_dung: cleanStr(obj.cong_dung, "Thanh nhiệt giải độc, an thần, hỗ trợ điều hòa cơ thể."),
             cach_dung: cleanStr(obj.cach_dung, "Hãm với nước sôi 85-90°C trong 10-15 phút."),
             kieng_ky: cleanStr(obj.kieng_ky, "Phụ nữ có thai hoặc tỳ vị hư hàn nên tham khảo ý kiến chuyên gia."),
             thanh_phan: Array.isArray(obj.thanh_phan) ? obj.thanh_phan.map(i => cleanStr(i, "")) : [cleanStr(obj.thanh_phan, "Dược liệu")],
@@ -355,19 +346,19 @@ function validateAndCleanAIResult(obj, tabName) {
         if (Array.isArray(obj.thanh_phan)) {
             formattedThanhPhan = obj.thanh_phan.map((item) => {
                 if (typeof item === "object" && item !== null) {
-                    return { vi: cleanStr(item.vi, "Vị thuốc"), lieu: cleanStr(item.lieu, "Vừa đủ") };
+                    return { vi: cleanStr(item.vi || item.ten || item.dược_liệu, "Vị thuốc"), lieu: cleanStr(item.lieu || item.liều_lượng, "Vừa đủ") };
                 }
                 return { vi: cleanStr(item, "Vị thuốc"), lieu: "Vừa đủ" };
             });
         }
         return {
-            ten: cleanStr(obj.ten, "Món dược thiện"),
+            ten: cleanStr(obj.ten, "Món dược thiện YHCT"),
             nhom: cleanStr(obj.nhom, "Dược Thiện"),
-            cong_dung: cleanStr(obj.cong_dung, "Bồi bổ cơ thể, hỗ trợ bồi dưỡng sức khỏe."),
+            cong_dung: cleanStr(obj.cong_dung, "Bồi bổ thể trạng, kiện tỳ dưỡng vị, nâng cao sức đề kháng."),
             thanh_phan: formattedThanhPhan,
             so_che: cleanStr(obj.so_che, "Sơ chế nguyên liệu sạch sẽ."),
-            cach_lam: Array.isArray(obj.cach_lam) ? obj.cach_lam.map(s => cleanStr(s, "")) : [cleanStr(obj.cach_lam, "Nấu chín theo phương pháp cổ truyền.")],
-            kieng_ky: cleanStr(obj.kieng_ky, "Tham khảo ý kiến thầy thuốc trước khi dùng."),
+            cach_lam: Array.isArray(obj.cach_lam) ? obj.cach_lam.map(s => cleanStr(s, "")) : [cleanStr(obj.cach_lam, "Nấu chín ninh hầm theo phương pháp cổ truyền.")],
+            kieng_ky: cleanStr(obj.kieng_ky, "Tuân thủ liều lượng phối ngũ tiêu chuẩn."),
         };
     }
     return obj;
@@ -386,8 +377,18 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
     `;
 
     try {
-        // Thay đổi câu lệnh prompt nghiêm ngặt hơn, tuyệt đối không dùng dấu ...
-        const prompt = `Yêu cầu: Cung cấp thông tin thực tế, chính xác bằng tiếng Việt về từ khóa "${query}" thuộc danh mục "${tabName}". TRẢ VỀ ĐÚNG MỘT ĐỐI TƯỢNG JSON THUẦN TÚY, không kèm bất kỳ văn bản giải thích hay markdown nào khác. Cấu trúc bắt buộc: {"ten": "tên đầy đủ", "nhom": "nhóm chuyên môn", "cong_dung": "mô tả công dụng chi tiết", "kieng_ky": "lưu ý kiêng kỵ", "cach_dung": "cách dùng", "thanh_phan": ["vị 1", "vị 2"]}`;
+        let promptSchema = "";
+        if (tabName.includes("Dược Liệu")) {
+            promptSchema = `{"ten": "${query}", "nhom": "nhóm dược liệu YHCT", "ten_khoa_hoc": "tên khoa học Latinh", "pinyin": "tên pinyin", "cong_dung": "mô tả công dụng chính xác, cụ thể của vị thuốc này trong YHCT", "kieng_ky": "lưu ý kiêng kỵ khi dùng"}`;
+        } else if (tabName.includes("Trà")) {
+            promptSchema = `{"ten": "${query}", "nhom": "Trà Dược YHCT", "cong_dung": "mô tả công dụng chính xác của bài trà này", "cach_dung": "hướng dẫn pha hãm trà", "kieng_ky": "lưu ý kiêng kỵ", "thanh_phan": ["vị thuốc 1", "vị thuốc 2"]}`;
+        } else if (tabName.includes("Thiện")) {
+            promptSchema = `{"ten": "${query}", "nhom": "Dược Thiện YHCT", "cong_dung": "mô tả công dụng chính xác của món ăn thuốc này", "thanh_phan": [{"vi": "tên nguyên liệu/vị thuốc", "lieu": "liều lượng"}], "so_che": "hướng dẫn sơ chế nguyên liệu", "cach_lam": ["bước 1", "bước 2"], "kieng_ky": "lưu ý kiêng kỵ"}`;
+        } else {
+            promptSchema = `{"ten": "${query}", "nhom": "Chuyên môn YHCT", "cong_dung": "mô tả công dụng chi tiết chính xác", "kieng_ky": "lưu ý kiêng kỵ"}`;
+        }
+
+        const prompt = `Cung cấp thông tin YHCT thực tế, chuẩn xác về "${query}" thuộc danh mục "${tabName}". BẮT BUỘC TRẢ VỀ ĐÚNG MỘT ĐỐI TƯỢNG JSON THUẦN TÚY (không kèm markdown \`\`\`json, không dùng ba dấu chấm "..."). Cấu trúc bắt buộc: ${promptSchema}`;
         
         const res = await fetch(getApiEndpoint(), {
             method: "POST",
@@ -399,7 +400,7 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
             body: JSON.stringify({
                 prompt: prompt,
                 source: "backup",
-                max_tokens: 300,
+                max_tokens: 800, // Tăng max_tokens lên 800 để JSON không bị ngắt giữa chừng
             }),
         });
 
@@ -412,11 +413,12 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
         if (data.reply) {
             let parsedObj = parseJsonFromAI(data.reply);
             
-            if (!parsedObj || (parsedObj.cong_dung && String(parsedObj.cong_dung).includes("..."))) {
+            if (!parsedObj) {
+                console.warn("⚠️ AI trả về JSON lỗi, sử dụng fallback riêng biệt");
                 parsedObj = {
                     ten: query,
                     nhom: tabName,
-                    cong_dung: "Tư âm dưỡng huyết, khu phong trừ thấp, bồi bổ nguyên khí.",
+                    cong_dung: `Bồi bổ thể trạng, hỗ trợ điều hòa cơ thể với ${query}.`,
                     kieng_ky: "Tuân thủ liều lượng phối ngũ tiêu chuẩn.",
                     thanh_phan: [query]
                 };
@@ -444,9 +446,6 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
     }
 }
 
-
-
-
 // --- 4. HÀM QUẢN LÝ LƯU TRỮ VĨNH VIỄN VÀO CSDL VÀ LOCALSTORAGE ---
 
 function luuKetQuaAiVaoDb(query, tabName, objData) {
@@ -473,7 +472,7 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
             nhom: objData.nhom || "Dược liệu YHCT",
             ten_khoa_hoc: objData.ten_khoa_hoc || "",
             pinyin: objData.pinyin || "",
-            cong_dung: !objData.cong_dung || objData.cong_dung === "Đang cập nhật" ? "Tư âm dưỡng huyết, khu phong trừ thấp." : objData.cong_dung,
+            cong_dung: objData.cong_dung || "Bổ khí huyết, điều hòa ngũ tạng, thông kinh hoạt lạc.",
             kieng_ky: objData.kieng_ky || objData.luu_y || "Tuân thủ liều lượng phối ngũ tiêu chuẩn.",
             isAiGenerated: true,
         };
@@ -494,7 +493,7 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
             ten: objData.ten || query,
             kinh: objData.kinh || "Kinh mạch YHCT",
             ma_who: objData.ma_who || "",
-            chu_tri: !objData.chu_tri || objData.chu_tri === "Đang cập nhật" ? "Điều hòa khí huyết, thông kinh hoạt lạc." : objData.chu_tri,
+            chu_tri: objData.chu_tri || "Điều hòa khí huyết, thông kinh hoạt lạc.",
             vi_tri: objData.vi_tri || objData.dinh_vi || "Xem mô tả chi tiết giải phẫu.",
             isAiGenerated: true,
         };
@@ -514,7 +513,7 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
         const newObj = {
             ten: objData.ten || query,
             nhom: objData.nhom || "Trà Dược YHCT",
-            cong_dung: !objData.cong_dung || objData.cong_dung === "Đang cập nhật" ? "Thanh nhiệt, giải độc, mát gan; An thần, trị mất ngủ, giảm căng thẳng." : objData.cong_dung,
+            cong_dung: objData.cong_dung || "Thanh nhiệt giải độc, an thần, điều hòa cơ thể.",
             kieng_ky: objData.kieng_ky || "Phụ nữ có thai hoặc người tỳ vị hư hàn nên tham khảo ý kiến chuyên gia.",
             cach_dung: objData.cach_dung || "Hãm với nước sôi 85-90°C trong 10-15 phút.",
             thanh_phan: Array.isArray(objData.thanh_phan) ? objData.thanh_phan : [query],
@@ -545,10 +544,10 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
         const newObj = {
             ten: objData.ten || query,
             nhom: objData.nhom || "Dược Thiện",
-            cong_dung: objData.cong_dung || "Bồi bổ cơ thể, hỗ trợ điều trị bệnh.",
+            cong_dung: objData.cong_dung || "Bồi bổ thể trạng, kiện tỳ dưỡng vị, nâng cao sức đề kháng.",
             thanh_phan: formattedThanhPhan,
-            so_che: objData.so_che || "",
-            cach_lam: Array.isArray(objData.cach_lam) ? objData.cach_lam : objData.cach_lam ? [objData.cach_lam] : ["Sơ chế nguyên liệu sạch sẽ.", "Nấu chín theo phương pháp cổ truyền."],
+            so_che: objData.so_che || "Sơ chế nguyên liệu sạch sẽ.",
+            cach_lam: Array.isArray(objData.cach_lam) ? objData.cach_lam : [objData.cach_lam || "Nấu chín ninh hầm theo phương pháp cổ truyền."],
             kieng_ky: objData.kieng_ky || "Tham khảo ý kiến thầy thuốc trước khi dùng.",
             isAiGenerated: true,
         };
@@ -592,6 +591,8 @@ async function chayLenhAi(btnElement, loaiLenh) {
                 if (descEl) {
                     descEl.classList.remove("hidden");
                     descEl.innerHTML = `<i class="fa-solid fa-brain fa-spin text-amber-500 mr-1"></i> Đang phân tích hội chứng...`;
+                    const prompt = `Phân tích cực kỳ ngắn gọn, súc tích hội chứng YHCT: ${query}. BẮT BUỘC trả lời bằng tiếng Việt, tối đa 3 ý chính. Tuyệt đối không dùng "..." (ba dấu chấm).`;
+
                     const res = await fetch(getApiEndpoint(), {
                         method: "POST",
                         headers: {
@@ -600,7 +601,7 @@ async function chayLenhAi(btnElement, loaiLenh) {
                             "X-Member-ID": AppState.auth?.user?.shortId || "GUEST",
                         },
                         body: JSON.stringify({
-                            prompt: `Phân tích cực kỳ ngắn gọn, súc tích hội chứng YHCT: ${query}. Tối đa 3 ý chính.`,
+                            prompt: prompt,
                             source: "assistant",
                             max_tokens: 200,
                         }),
@@ -622,6 +623,8 @@ async function chayLenhAi(btnElement, loaiLenh) {
                 if (descEl) {
                     descEl.classList.remove("hidden");
                     descEl.innerHTML = `<i class="fa-solid fa-brain fa-spin text-amber-500 mr-1"></i> Đang phân tích bài thuốc...`;
+                    const prompt = `Phân tích cực kỳ ngắn gọn, súc tích bài thuốc cổ phương: ${query}. BẮT BUỘC trả lời bằng tiếng Việt, tối đa 3 ý chính. Tuyệt đối không dùng "..." (ba dấu chấm).`;
+
                     const res = await fetch(getApiEndpoint(), {
                         method: "POST",
                         headers: {
@@ -630,7 +633,7 @@ async function chayLenhAi(btnElement, loaiLenh) {
                             "X-Member-ID": AppState.auth?.user?.shortId || "GUEST",
                         },
                         body: JSON.stringify({
-                            prompt: `Phân tích cực kỳ ngắn gọn, súc tích bài thuốc cổ phương: ${query}. Tối đa 3 ý chính.`,
+                            prompt: prompt,
                             source: "assistant",
                             max_tokens: 200,
                         }),
@@ -683,7 +686,7 @@ function triggerAiSearch(tab) {
             return;
         }
         fetchAIBackupResult(query, "Huyệt Vị YHCT", document.getElementById("gridHuyetVi"));
-    } else if (tab === "tra" || tab === "traduoc") { // <-- Thêm 'traduoc' vào đây
+    } else if (tab === "tra" || tab === "traduoc") {
         const input = document.getElementById("searchTra");
         const query = input ? input.value.trim() : "";
         if (!query) {
