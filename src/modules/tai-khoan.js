@@ -32,7 +32,10 @@ window.showRoleLockModal = function(minRole, featureName = 'Tính năng này') {
 // --- CORE QUOTA ENGINE (QUẢN LÝ HẠN MỨC TOÀN DIỆN) ---
 
 function getTodayDateString() {
-    return new Date().toISOString().slice(0, 10);
+    const now = new Date();
+    // Chuyển đổi về múi giờ UTC+7 (Việt Nam)
+    const vnTime = new Date(now.getTime() + (7 * 60 + now.getTimezoneOffset()) * 60000);
+    return vnTime.toISOString().slice(0, 10);
 }
 
 function getRoleMaxQuota(role) {
@@ -160,7 +163,6 @@ async function initUserAuthSession() {
 
         const result = await res.json();
         
-        // 🟢 BẮT LỖI BỊ ĐĂNG NHẬP Ở THIẾT BỊ KHÁC HOẶC TÀI KHOẢN BỊ KHÓA
         if (!res.ok || !result.user) {
             if (result.message) {
                 alert(`⚠️ ${result.message}`);
@@ -187,7 +189,22 @@ async function initUserAuthSession() {
 
         renderAuthUI(true);
     } catch (e) {
-        console.warn('Xác thực thất bại, ép về GUEST:', e.message);
+        console.warn('Xác thực thất bại:', e.message);
+        
+        // 🟢 NẾU LÀ LỖI MẠNG (Offline): Giữ lại session từ LocalStorage thay vì xóa trắng
+        const localUser = localStorage.getItem('app_user_data');
+        if (!navigator.onLine && localUser) {
+            try {
+                const parsedUser = JSON.parse(localUser);
+                AppState.auth.role = parsedUser.role || 'GUEST';
+                AppState.auth.token = savedToken;
+                AppState.auth.user = parsedUser;
+                renderAuthUI(true);
+                return;
+            } catch (err) {}
+        }
+
+        // Chỉ ép về Guest khi Token thực sự hết hạn / bị Server từ chối
         resetToGuestSession();
     }
     
@@ -572,20 +589,27 @@ window.refreshUserDataFromServer = refreshUserDataFromServer;
 async function tangVaDongBoQuotaAI() {
     if (!AppState || !AppState.auth || !AppState.auth.user) return;
 
-    const newQuota = (AppState.auth.user.aiUsedToday || 0) + 1;
-    capNhatQuotaUICucBo(newQuota);
+    // 1. Tăng tạm thời trên UI để giao diện phản hồi ngay lập tức
+    const currentLocalQuota = (AppState.auth.user.aiUsedToday || 0) + 1;
+    capNhatQuotaUICucBo(currentLocalQuota);
 
+    // 2. Đồng bộ với Server và nhận về con số thực tế trong CSDL
     if (AppState.auth.token) {
         try {
-            await fetch(`${API_BASE_URL}/auth`, {
+            const res = await fetch(`${API_BASE_URL}/auth`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     action: 'sync_quota',
-                    token: AppState.auth.token,
-                    aiUsedToday: newQuota
+                    token: AppState.auth.token
                 })
             });
+            const result = await res.json();
+            
+            // Cập nhật lại UI theo đúng giá trị Server đã tính toán
+            if (res.ok && typeof result.aiUsedToday === 'number') {
+                capNhatQuotaUICucBo(result.aiUsedToday);
+            }
         } catch (err) {
             console.warn('Lỗi đồng bộ Quota lên Server:', err.message);
         }
@@ -655,7 +679,7 @@ function renderLeaderboard(usersList = []) {
         return `
             <tr class="hover:bg-stone-800/40 transition-colors">
                 <td class="py-2 px-2 text-center font-bold text-stone-400">${rankBadge}</td>
-                <td class="py-2 px-2 font-mono text-stone-300">${user.displayName}</td>
+                <td class="py-2 px-2 font-mono text-stone-300">${escapeHTML(user.displayName)}</td>
                 <td class="py-2 px-2 text-center">
                     <span class="px-2 py-0.5 ${roleClass} border rounded text-[10px] font-bold">${user.role}</span>
                 </td>
