@@ -355,25 +355,36 @@ function getMaxTokens(sourceKey) {
 const ROLE_LEVELS = { 'GUEST': 1, 'FREE': 2, 'VIP': 3, 'SVIP': 4 };
 
 function getCurrentUserRole() {
-    return window.AppState?.auth?.role || window.currentUser?.role || 'GUEST';
+    try {
+        const sessionAuth = sessionStorage.getItem('session_auth');
+        if (sessionAuth) {
+            const parsed = JSON.parse(sessionAuth);
+            if (parsed && parsed.role) return String(parsed.role).toUpperCase();
+        }
+        const appUserData = localStorage.getItem('app_user_data');
+        if (appUserData) {
+            const parsed = JSON.parse(appUserData);
+            if (parsed && parsed.role) return String(parsed.role).toUpperCase();
+        }
+    } catch (e) {}
+
+    const role = window.AppState?.auth?.role || window.currentUser?.role || 'GUEST';
+    return String(role).toUpperCase();
 }
 
 function updateRoleLockUI() {
     const userRole = getCurrentUserRole();
     const userLevel = ROLE_LEVELS[userRole] || 1;
-
+    
     document.querySelectorAll('[data-min-role]').forEach(el => {
-        const minRole = el.getAttribute('data-min-role');
+        const minRole = (el.getAttribute('data-min-role') || 'FREE').toUpperCase();
         const requiredLevel = ROLE_LEVELS[minRole] || 1;
 
-        // Nếu là thẻ INPUT (như Checkbox/Radio), lấy thẻ cha bọc ngoài làm nơi hiển thị ổ khóa
         const targetContainer = (el.tagName === 'INPUT' && el.parentElement) ? el.parentElement : el;
 
-        // Dọn dẹp badge khóa cũ nếu có
         const oldLock = targetContainer.querySelector('.role-lock-badge');
         if (oldLock) oldLock.remove();
 
-        // Gắn ổ khóa nếu chưa đủ quyền
         if (userLevel < requiredLevel) {
             const lockBadge = document.createElement('i');
             lockBadge.className = 'fa-solid fa-lock text-amber-400 text-[10px] ml-1.5 role-lock-badge inline-block';
@@ -388,7 +399,7 @@ document.addEventListener('click', function (e) {
     const targetBtn = e.target.closest('[data-min-role]');
     if (!targetBtn) return;
 
-    const minRole = targetBtn.getAttribute('data-min-role');
+    const minRole = (targetBtn.getAttribute('data-min-role') || 'FREE').toUpperCase();
     const userRole = getCurrentUserRole();
 
     if ((ROLE_LEVELS[userRole] || 1) < (ROLE_LEVELS[minRole] || 1)) {
@@ -398,12 +409,16 @@ document.addEventListener('click', function (e) {
 
         const featureName = targetBtn.getAttribute('data-feature-name') || 'Tính năng này';
         
-        // Cập nhật thông tin lên Modal Khóa
-        document.getElementById('lock-modal-title').innerText = `TÍNH NĂNG DÀNH CHO CẤP ${minRole}`;
-        document.getElementById('lock-modal-desc').innerHTML = 
-            `Tính năng <strong>${featureName}</strong> yêu cầu tài khoản từ cấp <strong>${minRole}</strong> trở lên.<br>Vui lòng nâng cấp tài khoản để truy cập!`;
-        
-        document.getElementById('modal-role-lock').classList.remove('hidden');
+        const lockTitle = document.getElementById('lock-modal-title');
+        const lockDesc = document.getElementById('lock-modal-desc');
+        const lockModal = document.getElementById('modal-role-lock');
+
+        if (lockTitle) lockTitle.innerText = `TÍNH NĂNG DÀNH CHO CẤP ${minRole}`;
+        if (lockDesc) {
+            lockDesc.innerHTML = 
+                `Tính năng <strong>${featureName}</strong> yêu cầu tài khoản từ cấp <strong>${minRole}</strong> trở lên.<br>Vui lòng nâng cấp tài khoản để truy cập!`;
+        }
+        if (lockModal) lockModal.classList.remove('hidden');
         return false;
     }
 }, true);
