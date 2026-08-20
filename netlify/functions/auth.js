@@ -39,10 +39,6 @@ async function getEffectiveRole(profile) {
     return role;
 }
 
-// Hàm lấy ngày YYYY-MM-DD theo đúng múi giờ Việt Nam (UTC+7)
-function getVNFormattedDate() {
-    return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' });
-}
 
 exports.handler = async (event) => {
   const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
@@ -144,7 +140,7 @@ exports.handler = async (event) => {
           return { 
             statusCode: 403, 
             headers, 
-            body: JSON.stringify({ message: `Tài khoản đang bị tạm khóa đến ngày ${lockDateStr} do đăng nhập vượt quá 5 lần trong ngày.` }) 
+            body: JSON.stringify({ message: `Tài khoản đã bị tạm khóa đến ngày ${lockDateStr} do vi phạm đổi thiết bị.` }) 
           };
         }
 
@@ -234,8 +230,8 @@ exports.handler = async (event) => {
       }
     }
 
-    // F. XỬ LÝ LẤY BẢNG XẾP HẠNG TOP 10 (THAY THẾ BẰNG THỜI HẠN CÒN LẠI)
-    if (action === 'get_leaderboard') {
+                // F. XỬ LÝ LẤY BẢNG XẾP HẠNG TOP 10 (THAY THẾ BẰNG THỜI HẠN CÒN LẠI)
+        if (action === 'get_leaderboard') {
       try {
         const activeKey = SUPABASE_SERVICE_ROLE_KEY || SUPABASE_ANON_KEY;
 
@@ -257,6 +253,7 @@ exports.handler = async (event) => {
           };
         }
 
+        // Tính cấp độ thực tế và xử lý văn bản hiển thị thời hạn còn lại
         for (let user of leaderboardData) {
           user.effectiveRole = await getEffectiveRole(user);
           
@@ -300,22 +297,15 @@ exports.handler = async (event) => {
         return { statusCode: 500, headers, body: JSON.stringify({ message: "Lỗi xử lý bảng xếp hạng: " + err.message }) };
       }
     }
-
-    // G. XỬ LÝ NÂNG CẤP / GIA HẠN GÓI
+    // G. XỬ LÝ NÂNG CẤP / GIA HẠN GÓI (DÙNG CHUNG: GIỮ CẤP CAO NHẤT + CỘNG DỒN NGÀY)
     if (action === 'upgrade') {
       try {
-        const { targetEmail, newRole, addDays, adminSecretKey } = bodyData; 
-
-        // Kiểm tra Secret Key Admin
-        const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY || "MA_BAC_HAI_ADMIN_TOAN_QUYEN";
-        if (!adminSecretKey || adminSecretKey !== ADMIN_SECRET_KEY) {
-            return { statusCode: 403, headers, body: JSON.stringify({ message: 'Từ chối truy cập: Bạn không có quyền thực hiện nâng cấp.' }) };
-        }
-
+        const { targetEmail, newRole, addDays } = bodyData; 
         if (!targetEmail || !newRole || !addDays) {
           return { statusCode: 400, headers, body: JSON.stringify({ message: 'Thiếu thông tin nâng cấp (targetEmail, newRole, addDays).' }) };
         }
 
+        // Tìm tài khoản theo email trong bảng profiles
         const resFind = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${encodeURIComponent(targetEmail)}&select=*`, {
           method: 'GET',
           headers: { 'apikey': serviceKey, 'Authorization': `Bearer ${serviceKey}` }
@@ -329,14 +319,17 @@ exports.handler = async (event) => {
         let currentExpire = profile.expire_date ? new Date(profile.expire_date.replace(' ', 'T')).getTime() : 0;
         let now = Date.now();
 
+        // 1. Tính toán cộng dồn thời gian thông minh
         let baseTime = (currentExpire > now) ? currentExpire : now;
         let newExpireDate = new Date(baseTime + Number(addDays) * 24 * 60 * 60 * 1000).toISOString();
 
+        // 2. Xác định cấp độ tối ưu: Luôn lấy cấp cao nhất giữa cấp hiện tại và cấp mới mua
         const roleWeight = { 'SVIP': 4, 'VIP': 3, 'FREE': 2, 'GUEST': 1 };
         let currentRole = profile.role || 'FREE';
         
         let finalRole = (roleWeight[newRole] > roleWeight[currentRole]) ? newRole : currentRole;
 
+        // 3. Cập nhật vào CSDL Supabase
         const resUpdate = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${profile.id}`, {
           method: 'PATCH',
           headers: {
@@ -369,6 +362,7 @@ exports.handler = async (event) => {
       }
     }
 
+
     // D. XỬ LÝ ĐĂNG NHẬP MẶC ĐỊNH (LOGIN)
     try {
       const resAuth = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
@@ -382,6 +376,7 @@ exports.handler = async (event) => {
           return { statusCode: 400, headers, body: JSON.stringify({ message: authData.error_description || 'Email hoặc mật khẩu không đúng' }) };
       }
 
+      // Lấy thông tin profile kiểm tra vi phạm & thời hạn khóa
       const resProfile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${authData.user.id}&select=role,expire_date,ai_used_today,device_switch_count,last_switch_date,locked_until`, {
           method: 'GET',
           headers: {
@@ -405,29 +400,26 @@ exports.handler = async (event) => {
             statusCode: 403, 
             headers, 
             body: JSON.stringify({ 
-              message: `Tài khoản đang bị tạm khóa đến ngày ${lockDateStr} do đăng nhập vượt quá 5 lần trong ngày.` 
+              message: `Tài khoản bị tạm khóa đến ngày ${lockDateStr} do vi phạm đổi thiết bị quá 5 lần/ngày.` 
             }) 
           };
       }
 
       // 2. TÍNH SỐ LẦN ĐỔI THIẾT BỊ TRONG NGÀY
-      const todayStr = getVNFormattedDate();
+      const todayStr = new Date().toISOString().slice(0, 10);
       let switchCount = profile.last_switch_date === todayStr ? (profile.device_switch_count || 0) + 1 : 1;
 
       // 3. XỬ LÝ VI PHẠM (Đổi máy > 5 lần/ngày -> Khóa 30 ngày)
       if (switchCount > 5) {
           const lockedUntil = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString();
-          await fetch(`${SUPABASE_URL}/rest/v1/profiles`, {
-              method: 'POST',
+          await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${authData.user.id}`, {
+              method: 'PATCH',
               headers: {
                   'apikey': serviceKey,
                   'Authorization': `Bearer ${serviceKey}`,
-                  'Content-Type': 'application/json',
-                  'Prefer': 'resolution=merge-duplicates'
+                  'Content-Type': 'application/json'
               },
               body: JSON.stringify({ 
-                  id: authData.user.id,
-                  email: authData.user.email,
                   locked_until: lockedUntil,
                   device_switch_count: switchCount,
                   last_switch_date: todayStr
@@ -439,23 +431,20 @@ exports.handler = async (event) => {
             statusCode: 403, 
             headers, 
             body: JSON.stringify({ 
-              message: `Tài khoản đã thực hiện đăng nhập quá 5 lần trong ngày và bị tạm khóa 1 tháng (đến ngày ${lockDateStr}).` 
+              message: `Tài khoản đã đổi thiết bị vượt quá 5 lần/ngày và bị khóa 1 tháng (đến ${lockDateStr}).` 
             }) 
           };
       }
 
       // 4. LƯU TOKEN MỚI VÀ CẬP NHẬT LỢT ĐỔI MÁY
-      await fetch(`${SUPABASE_URL}/rest/v1/profiles`, {
-          method: 'POST',
+      await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${authData.user.id}`, {
+          method: 'PATCH',
           headers: {
               'apikey': serviceKey,
               'Authorization': `Bearer ${serviceKey}`,
-              'Content-Type': 'application/json',
-              'Prefer': 'resolution=merge-duplicates'
+              'Content-Type': 'application/json'
           },
           body: JSON.stringify({ 
-              id: authData.user.id,
-              email: authData.user.email,
               current_token: authData.access_token,
               device_switch_count: switchCount,
               last_switch_date: todayStr
@@ -471,8 +460,8 @@ exports.handler = async (event) => {
         body: JSON.stringify({
           token: authData.access_token,
           role: effectiveRole,
-          warning: `⚠️ Bạn đã bấm đăng nhập ${switchCount}/5 lần hôm nay (Còn ${remainingSwitches} lần). LƯU Ý: Không cần bấm Đăng xuất khi dùng xong, chỉ cần tắt tab để không bị tính thêm lượt!`,
-          user: {  
+          warning: `⚠️ Bạn đã đăng nhập/đổi thiết bị ${switchCount}/5 lần trong hôm nay (Còn ${remainingSwitches} lần). Nếu vượt quá 5 lần, tài khoản sẽ bị khóa 1 tháng!`,
+          user: { 
             id: authData.user.id, 
             email: authData.user.email,
             role: effectiveRole,
