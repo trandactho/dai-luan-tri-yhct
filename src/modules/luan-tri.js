@@ -1194,3 +1194,149 @@ async function chiaSeZaloDonThuoc() {
         window.open('https://zalo.me', '_blank');
     }
 }
+
+// ========================================================
+// 🟢 QUẢN LÝ & LƯU TRỮ HỒ SƠ BỆNH NHÂN (LOCALSTORAGE)
+// ========================================================
+const HO_SO_BENH_NHAN_KEY = 'yhct_ho_so_benh_nhan_list';
+
+// Lấy danh sách hồ sơ từ LocalStorage
+function getDanhSachHoSoBenhNhan() {
+    try {
+        return JSON.parse(localStorage.getItem(HO_SO_BENH_NHAN_KEY) || '[]');
+    } catch (e) {
+        return [];
+    }
+}
+
+// Lưu hoặc cập nhật hồ sơ bệnh nhân
+function luuHoSoBenhNhan() {
+    const tenBn = document.getElementById('don-ten-bn')?.value?.trim();
+    if (!tenBn) {
+        alert('⚠️ Vui lòng nhập Họ & Tên bệnh nhân trước khi lưu!');
+        document.getElementById('don-ten-bn')?.focus();
+        return;
+    }
+
+    const hoSoNew = {
+        id: 'bn_' + Date.now(),
+        tenBn: tenBn,
+        tuoi: document.getElementById('don-tuoi')?.value || '35',
+        theTrang: document.getElementById('don-thetrang')?.value || 'binhthuong',
+        chanDoan: document.getElementById('don-chandoan')?.value || '',
+        baiThuoc: document.getElementById('don-baithuoc-ten')?.value || '',
+        herbs: Array.isArray(window.donThuocCurrentHerbs) ? JSON.parse(JSON.stringify(window.donThuocCurrentHerbs)) : [],
+        huongDanSac: document.getElementById('don-huongdan-sac')?.value || '',
+        danDoKiengKy: document.getElementById('don-dando-kiengky')?.value || '',
+        tenBacSi: document.getElementById('don-ten-bacsi')?.value || '',
+        ngayCapNhat: new Date().toLocaleDateString('vi-VN')
+    };
+
+    let dsHoSo = getDanhSachHoSoBenhNhan();
+    const normTenNew = typeof removeAccents === 'function' ? removeAccents(tenBn).toLowerCase() : tenBn.toLowerCase();
+
+    // Nếu đã có bệnh nhân trùng tên -> Cập nhật đè, ngược lại thêm mới lên đầu danh sách
+    const idx = dsHoSo.findIndex(item => {
+        const itemTen = typeof removeAccents === 'function' ? removeAccents(item.tenBn).toLowerCase() : item.tenBn.toLowerCase();
+        return itemTen === normTenNew;
+    });
+
+    if (idx >= 0) {
+        dsHoSo[idx] = { ...dsHoSo[idx], ...hoSoNew, id: dsHoSo[idx].id };
+    } else {
+        dsHoSo.unshift(hoSoNew);
+    }
+
+    localStorage.setItem(HO_SO_BENH_NHAN_KEY, JSON.stringify(dsHoSo));
+    alert(`✅ Đã lưu hồ sơ bệnh nhân "${tenBn}" thành công!`);
+
+    const dropdown = document.getElementById('dropdown-tim-bn');
+    if (dropdown) dropdown.classList.add('hidden');
+}
+
+// Gợi ý & tìm kiếm hồ sơ bệnh nhân theo tên khi gõ vào ô nhập liệu
+function gieoGoiYTimHoSo() {
+    const input = document.getElementById('don-ten-bn');
+    const dropdown = document.getElementById('dropdown-tim-bn');
+    if (!input || !dropdown) return;
+
+    const query = input.value.trim().toLowerCase();
+    const dsHoSo = getDanhSachHoSoBenhNhan();
+
+    if (!query || dsHoSo.length === 0) {
+        dropdown.classList.add('hidden');
+        return;
+    }
+
+    const normQuery = typeof removeAccents === 'function' ? removeAccents(query) : query;
+    const matches = dsHoSo.filter(hs => {
+        const normTen = typeof removeAccents === 'function' ? removeAccents(hs.tenBn).toLowerCase() : hs.tenBn.toLowerCase();
+        return normTen.includes(normQuery);
+    }).slice(0, 8);
+
+    if (matches.length > 0) {
+        dropdown.innerHTML = matches.map(m => `
+            <div onclick="taiHoSoBenhNhan('${m.id}')" class="p-2 hover:bg-stone-800 cursor-pointer text-xs border-b border-stone-800/80 flex justify-between items-center transition-colors">
+                <div>
+                    <span class="font-bold text-amber-400">👤 ${typeof escapeHTML === 'function' ? escapeHTML(m.tenBn) : m.tenBn}</span>
+                    <span class="text-stone-400 text-[10px] ml-1.5">(${m.tuoi}T - ${typeof escapeHTML === 'function' ? escapeHTML(m.baiThuoc || 'Chưa rõ bài thuốc') : (m.baiThuoc || 'Chưa rõ bài thuốc')})</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-[10px] text-stone-500">${m.ngayCapNhat || ''}</span>
+                    <button onclick="event.stopPropagation(); xoaHoSoBenhNhan('${m.id}')" class="text-red-400 hover:text-red-300 p-1" title="Xóa hồ sơ">
+                        <i class="fa-solid fa-trash-can text-[10px]"></i>
+                    </button>
+                </div>
+            </div>
+        `).join('');
+        dropdown.classList.remove('hidden');
+    } else {
+        dropdown.classList.add('hidden');
+    }
+}
+
+// Nạp lại toàn bộ dữ liệu hồ sơ bệnh nhân cũ vào Modal Đơn Thuốc
+function taiHoSoBenhNhan(hoSoId) {
+    const dsHoSo = getDanhSachHoSoBenhNhan();
+    const hs = dsHoSo.find(item => item.id === hoSoId);
+    if (!hs) return;
+
+    if (document.getElementById('don-ten-bn')) document.getElementById('don-ten-bn').value = hs.tenBn || '';
+    if (document.getElementById('don-tuoi')) document.getElementById('don-tuoi').value = hs.tuoi || '35';
+    if (document.getElementById('don-thetrang')) document.getElementById('don-thetrang').value = hs.theTrang || 'binhthuong';
+    if (document.getElementById('don-chandoan')) document.getElementById('don-chandoan').value = hs.chanDoan || '';
+    if (document.getElementById('don-baithuoc-ten')) document.getElementById('don-baithuoc-ten').value = hs.baiThuoc || '';
+    if (document.getElementById('don-huongdan-sac')) document.getElementById('don-huongdan-sac').value = hs.huongDanSac || '';
+    if (document.getElementById('don-dando-kiengky')) document.getElementById('don-dando-kiengky').value = hs.danDoKiengKy || '';
+    if (document.getElementById('don-ten-bacsi')) document.getElementById('don-ten-bacsi').value = hs.tenBacSi || '';
+
+    window.donThuocCurrentHerbs = Array.isArray(hs.herbs) ? JSON.parse(JSON.stringify(hs.herbs)) : [];
+
+    if (typeof capNhatBangLieuLuongDonThuoc === 'function') {
+        capNhatBangLieuLuongDonThuoc();
+    }
+
+    const dropdown = document.getElementById('dropdown-tim-bn');
+    if (dropdown) dropdown.classList.add('hidden');
+}
+
+// Xóa hồ sơ bệnh nhân
+function xoaHoSoBenhNhan(hoSoId) {
+    if (!confirm('Bạn có chắc chắn muốn xóa hồ sơ bệnh nhân này?')) return;
+    let dsHoSo = getDanhSachHoSoBenhNhan();
+    dsHoSo = dsHoSo.filter(item => item.id !== hoSoId);
+    localStorage.setItem(HO_SO_BENH_NHAN_KEY, JSON.stringify(dsHoSo));
+    gieoGoiYTimHoSo();
+}
+
+// Lắng nghe sự kiện click ra ngoài để tự đóng Dropdown gợi ý bệnh nhân
+document.addEventListener('click', function(e) {
+    const input = document.getElementById('don-ten-bn');
+    const dropdown = document.getElementById('dropdown-tim-bn');
+    if (dropdown && !dropdown.classList.contains('hidden')) {
+        if (input && !input.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.classList.add('hidden');
+        }
+    }
+});
+
