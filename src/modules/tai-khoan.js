@@ -32,7 +32,7 @@ window.showRoleLockModal = function(minRole, featureName = 'Tính năng này') {
 // --- CORE QUOTA ENGINE (QUẢN LÝ HẠN MỨC TOÀN DIỆN) ---
 
 function getTodayDateString() {
-    return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Ho_Chi_Minh' });
+    return new Date().toISOString().slice(0, 10);
 }
 
 function getRoleMaxQuota(role) {
@@ -186,14 +186,10 @@ async function initUserAuthSession() {
         try { localStorage.setItem('app_user_data', JSON.stringify(AppState.auth.user)); } catch (e) {}
 
         renderAuthUI(true);
-    }     catch (e) {
-        console.warn('Xác thực thất bại:', e.message);
-        // Nếu token hết hạn hoặc không hợp lệ thì mới reset về Guest
-        if (e.message && (e.message.includes('Token') || e.message.includes('khóa') || e.message.includes('thiết bị'))) {
-            resetToGuestSession();
-        }
+    } catch (e) {
+        console.warn('Xác thực thất bại, ép về GUEST:', e.message);
+        resetToGuestSession();
     }
-
     
     try { applyRolePermissions(); } catch (e) {}
 }
@@ -727,11 +723,4 @@ async function loadLeaderboardFromDB() {
     }
 }
 window.loadLeaderboardFromDB = loadLeaderboardFromDB;
-
-// --- FIX NHANH: TỰ ĐỘNG MỞ KHÓA KHI CHUYỂN TAB ---
-new MutationObserver(() => {
-    if (typeof window.updateRoleLockUI === 'function') {
-        window.updateRoleLockUI();
-    }
-}).observe(document.body, { childList: true, subtree: true });
 
