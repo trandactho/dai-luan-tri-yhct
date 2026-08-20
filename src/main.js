@@ -112,7 +112,7 @@ async function switchTab(tabName) {
         }
     }
 
-        requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
         if (tabName === 'duoclieu' && typeof filterDuocLieu === 'function') filterDuocLieu();
         if (tabName === 'huyetvi' && typeof filterHuyetVi === 'function') filterHuyetVi();
         if (tabName === 'tra' && typeof filterTra === 'function') filterTra();
@@ -121,7 +121,6 @@ async function switchTab(tabName) {
         if (tabName === 'tuchan' && typeof hienThiLichSuVongChan === 'function') hienThiLichSuVongChan();
         if (tabName === 'phoingu' && typeof renderPhoiNguUI === 'function') renderPhoiNguUI();
         
-        // TỰ ĐỘNG ĐỒNG BỘ NGẦM VỚI SERVER KHI BẤM VÀO TAB TÀI KHOẢN
         if (tabName === 'taikhoan') {
             if (typeof refreshUserDataFromServer === 'function') {
                 refreshUserDataFromServer();
@@ -162,33 +161,75 @@ async function taiDuLieuOffline() {
     }
 }
 
+// --- BỘ XỬ LÝ VUỐT CHUYỂN TAB CHUẨN XÁC ---
+
 let touchStartX = 0;
 let touchStartY = 0;
-let touchEndX = 0;
-let touchEndY = 0;
+let touchStartTime = 0;
+let isSwipeIgnored = false;
 
 const ALL_TABS = ['luantri', 'huyetvi', 'duoclieu', 'duocthien', 'tra', 'tracnghiem', 'tracuusach', 'phoingu', 'tuchan', 'taikhoan'];
 
+function shouldIgnoreSwipe(target) {
+    if (!target) return false;
+
+    // 1. Chỉ chặn khi đang thao tác trực tiếp trong ô gõ chữ
+    const ignoredTags = ['INPUT', 'TEXTAREA', 'SELECT', 'OPTION'];
+    if (ignoredTags.includes(target.tagName)) return true;
+
+    // 2. Chặn khi đang mở Modal / Popup
+    const activeModal = target.closest('#modal-don-thuoc, #modal-thong-tin-yhct, #modal-role-lock');
+    if (activeModal && !activeModal.classList.contains('hidden')) return true;
+
+    // 3. Chỉ chặn nếu trúng vùng cuộn NGANG riêng biệt (bảng dữ liệu cuộn ngang)
+    const horizontalScrollBox = target.closest('.overflow-x-auto');
+    if (horizontalScrollBox && horizontalScrollBox.scrollWidth > horizontalScrollBox.clientWidth) {
+        return true;
+    }
+
+    return false;
+}
+
 document.addEventListener('touchstart', (e) => {
-    touchStartX = e.changedTouches[0].screenX;
-    touchStartY = e.changedTouches[0].screenY;
+    if (e.touches.length !== 1) {
+        isSwipeIgnored = true;
+        return;
+    }
+
+    if (shouldIgnoreSwipe(e.target)) {
+        isSwipeIgnored = true;
+        return;
+    }
+
+    isSwipeIgnored = false;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchStartTime = Date.now();
 }, { passive: true });
 
 document.addEventListener('touchend', (e) => {
-    touchEndX = e.changedTouches[0].screenX;
-    touchEndY = e.changedTouches[0].screenY;
-    handleSwipe();
-}, { passive: true });
+    if (isSwipeIgnored || !e.changedTouches || e.changedTouches.length === 0) return;
 
-function handleSwipe() {
+    const touchEndX = e.changedTouches[0].clientX;
+    const touchEndY = e.changedTouches[0].clientY;
+    const duration = Date.now() - touchStartTime;
+
+    if (duration > 500) return; // Bỏ qua nếu giữ tay quá 0.5s
+
     const deltaX = touchEndX - touchStartX;
     const deltaY = touchEndY - touchStartY;
 
-    if (Math.abs(deltaY) > Math.abs(deltaX)) return;
+    // Ngưỡng vuốt ngang (>= 35px và độ lệch ngang gấp 1.3 lần độ lệch dọc)
+    if (Math.abs(deltaX) >= 35 && Math.abs(deltaX) > Math.abs(deltaY) * 1.3) {
+        handleSwipeDirection(deltaX < 0 ? 'NEXT' : 'PREV');
+    }
+}, { passive: true });
 
-    const threshold = 60;
-    if (Math.abs(deltaX) < threshold) return;
+document.addEventListener('touchcancel', () => {
+    isSwipeIgnored = true;
+}, { passive: true });
 
+function handleSwipeDirection(direction) {
     const activeBtn = document.querySelector('nav button.tab-active');
     if (!activeBtn) return;
     
@@ -197,10 +238,10 @@ function handleSwipe() {
 
     if (currentIndex === -1) return;
 
-    if (deltaX < 0) {
+    if (direction === 'NEXT') {
         const nextIndex = (currentIndex + 1) % ALL_TABS.length;
         switchTab(ALL_TABS[nextIndex]);
-    } else if (deltaX > 0) {
+    } else if (direction === 'PREV') {
         const prevIndex = (currentIndex - 1 + ALL_TABS.length) % ALL_TABS.length;
         switchTab(ALL_TABS[prevIndex]);
     }
