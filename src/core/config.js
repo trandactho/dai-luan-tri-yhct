@@ -1,5 +1,5 @@
 const DOMAIN_NETLIFY = 'https://dailuantriyhct.com';
-const APP_VERSION = '1.7.2';
+const APP_VERSION = '1.7.3';
 
 function getApiEndpoint() {
     return (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
