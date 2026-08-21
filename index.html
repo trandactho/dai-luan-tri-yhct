@@ -316,9 +316,10 @@
                 </div>
                 
                 <div id="tra-action-bar" class="grid grid-cols-3 gap-1.5 pt-1">
-    <button type="button" onclick="triggerAiSearch('traduoc')" data-min-role="GUEST" data-feature-name="AI Tra Cứu Trà Dược" class="w-full px-1 py-1.5 bg-stone-900 hover:bg-stone-800 text-amber-400 border border-stone-800 font-bold rounded text-[11px] flex items-center justify-center gap-1 transition-all shadow-sm whitespace-nowrap">
+    <button type="button" onclick="triggerAiSearch('tra')" data-min-role="GUEST" data-feature-name="AI Tra Cứu Trà Dược" class="w-full px-1 py-1.5 bg-stone-900 hover:bg-stone-800 text-amber-400 border border-stone-800 font-bold rounded text-[11px] flex items-center justify-center gap-1 transition-all shadow-sm whitespace-nowrap">
     <i class="fa-solid fa-robot text-[10px]"></i> AI Tìm & lưu
 </button>
+
                     <div></div><div></div>
                 </div>
 
@@ -371,9 +372,10 @@
                     <div id="quiz-last-score" class="text-xs text-amber-500 font-medium pt-1"></div>
                 </div>
 
-                <button onclick="batDauTracNghiem()" class="btn-primary w-full py-3.5 text-xs font-bold rounded-lg flex items-center justify-center gap-2 cursor-pointer shadow-lg mt-auto">
-                    <i class="fa-solid fa-play"></i> Bắt Đầu Kiểm Tra
-                </button>
+                <button onclick="batDauTracNghiem()" data-min-role="FREE" data-feature-name="Khảo Thí Trắc Nghiệm" class="btn-primary w-full py-3.5 text-xs font-bold rounded-lg flex items-center justify-center gap-2 cursor-pointer shadow-lg mt-auto">
+    <i class="fa-solid fa-play"></i> Bắt Đầu Kiểm Tra
+</button>
+
             </div>
             
             <div id="quiz-play" class="hidden bg-dark-box p-5 rounded-xl space-y-4 border border-stone-800 shadow-2xl relative overflow-hidden min-h-[480px]">
@@ -1345,10 +1347,10 @@
           
 
         <!-- 1. CORE SYSTEM (Nạp trước) -->
-    <script src="src/core/config.js"></script>
-    <script src="src/core/utils.js"></script>
-    <script src="src/core/ai-service.js"></script>
-    <script src="src/modules/tai-khoan.js"></script> <!-- THÊM MỚI DÒNG NÀY -->
+    <script src="src/core/config.js" defer></script>
+    <script src="src/core/utils.js" defer></script>
+    <script src="src/core/ai-service.js" defer></script>
+    <script src="src/modules/tai-khoan.js" defer></script> <!-- THÊM MỚI DÒNG NÀY -->
       
     <!-- 2. CHỨC NĂNG MODULES (Tải song song, không chặn render) -->
     <script src="src/modules/luan-tri.js" defer></script>
