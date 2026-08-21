@@ -17,6 +17,7 @@ function decodeHtmlEntities(str) {
 function cleanTitleText(str) {
     if (!str) return '';
     let decoded = decodeHtmlEntities(String(str));
+    // Loại bỏ dấu gạch ngang, dấu hoa thị, khoảng trắng hoặc ký tự đặc biệt thừa ở đầu tiêu đề
     return decoded.replace(/^[\s\-–—*#]+/, '').trim();
 }
 
@@ -33,12 +34,16 @@ function parseJsonFromAI(replyText) {
 
         const arrayMatch = cleaned.match(/\[[\s\S]*\]/);
         if (arrayMatch) {
-            try { return JSON.parse(arrayMatch[0]); } catch (e) {}
+            try {
+                return JSON.parse(arrayMatch[0]);
+            } catch (e) {}
         }
 
         const objectMatch = cleaned.match(/\{[\s\S]*\}/);
         if (objectMatch) {
-            try { return JSON.parse(objectMatch[0]); } catch (e) {}
+            try {
+                return JSON.parse(objectMatch[0]);
+            } catch (e) {}
         }
 
         return null;
@@ -48,6 +53,10 @@ function parseJsonFromAI(replyText) {
     }
 }
 
+/**
+ * Hàm render thông minh: Tự động phân tích JSON hoặc xử lý văn bản thô, 
+ * loại bỏ hoàn toàn rác Markdown và tách bạch các ý, đề mục rõ ràng.
+ */
 function formatAIMessage(text) {
     if (!text) return '';
 
@@ -127,7 +136,7 @@ function formatAIMessage(text) {
     let safe = escapeHTML(decodeHtmlEntities(cleaned));
     const lines = safe.split('\n');
 
-    const formattedLines = lines.map((line) => {
+    const formattedLines = lines.map((line, index) => {
         let trimmed = line.trim();
         if (!trimmed || trimmed === '---') {
             return '<div class="h-2"></div>';
@@ -172,6 +181,7 @@ function formatAIMessage(text) {
     const rawHtml = formattedLines.join('');
     return typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(rawHtml, { ADD_ATTR: ['target', 'onclick', 'title'] }) : rawHtml;
 }
+
 
 // --- 2. TRỢ LÝ AI CHAT TRỰC TIẾP ---
 
@@ -252,6 +262,7 @@ async function sendAIWebMessage() {
 function validateAndCleanAIResult(obj, tabName) {
     if (!obj || typeof obj !== 'object') return null;
 
+    // 1. Danh mục Biện chứng Luận Trị
     if (tabName.includes('Luận Trị') || tabName.includes('luantri')) {
         return {
             hc: String(obj.hc || 'HỘI CHỨNG CHƯA RÕ'),
@@ -261,6 +272,8 @@ function validateAndCleanAIResult(obj, tabName) {
             tpbt: Array.isArray(obj.tpbt) ? obj.tpbt.map(String) : []
         };
     }
+    
+    // 2. Danh mục Dược Liệu
     else if (tabName.includes('Dược Liệu') || tabName.includes('duoclieu')) {
         return {
             ten: String(obj.ten || 'Dược liệu chưa rõ tên'),
@@ -271,6 +284,8 @@ function validateAndCleanAIResult(obj, tabName) {
             kieng_ky: String(obj.kieng_ky || obj.luu_y || 'Tuân thủ liều lượng tiêu chuẩn.')
         };
     } 
+    
+    // 3. Danh mục Huyệt Vị
     else if (tabName.includes('Huyệt Vị') || tabName.includes('huyetvi')) {
         return {
             ten: String(obj.ten || 'Huyệt chưa rõ tên'),
@@ -280,6 +295,8 @@ function validateAndCleanAIResult(obj, tabName) {
             vi_tri: String(obj.vi_tri || obj.dinh_vi || 'Đang cập nhật mô tả giải phẫu.')
         };
     }
+
+    // 4. Danh mục Trà Dược
     else if (tabName.includes('Trà Dược') || tabName.includes('Tra') || tabName.includes('tra')) {
         return {
             ten: String(obj.ten || 'Bài trà chưa rõ tên'),
@@ -290,6 +307,8 @@ function validateAndCleanAIResult(obj, tabName) {
             thanh_phan: Array.isArray(obj.thanh_phan) ? obj.thanh_phan.map(String) : []
         };
     }
+
+    // 5. Danh mục Dược Thiện
     else if (tabName.includes('Dược Thiện') || tabName.includes('DuocThien') || tabName.includes('duocthien')) {
         let formattedThanhPhan = [{ vi: 'Thành phần chính', lieu: 'Vừa đủ' }];
         if (Array.isArray(obj.thanh_phan)) {
@@ -300,6 +319,7 @@ function validateAndCleanAIResult(obj, tabName) {
                 return { vi: String(item), lieu: 'Vừa đủ' };
             });
         }
+    
         return {
             ten: String(obj.ten || 'Món dược thiện chưa rõ tên'),
             nhom: String(obj.nhom || 'Dược Thiện'),
@@ -310,6 +330,24 @@ function validateAndCleanAIResult(obj, tabName) {
             kieng_ky: String(obj.kieng_ky || 'Tham khảo ý kiến thầy thuốc trước khi dùng.')
         };
     }
+        // 6. Danh mục Tứ Chẩn & Hội Chẩn AI
+    else if (tabName.includes('Tứ Chẩn') || tabName.includes('tu_chan') || tabName.includes('vongchan')) {
+        return {
+            bat_cuong: String(obj.bat_cuong || 'Chưa xác định Bát cương'),
+            tang_phu: String(obj.tang_phu || 'Chưa xác định Tạng phủ'),
+            hoi_chung: String(obj.hoi_chung || 'Chưa rõ hội chứng'),
+            bien_chung: String(obj.bien_chung || 'Đang cập nhật biện chứng luận trị.'),
+            phap_tri: String(obj.phap_tri || 'Đang cập nhật pháp trị.'),
+            co_phuong: String(obj.co_phuong || '---'),
+            vi_thuoc: Array.isArray(obj.vi_thuoc) ? obj.vi_thuoc.map(v => ({
+                ten: String(v.ten || 'Vị thuốc'),
+                lieu: String(v.lieu || 'Vừa đủ'),
+                vai_tro: String(v.vai_tro || 'Thuốc')
+            })) : []
+        };
+    }
+    
+    // Mặc định trả về đối tượng gốc nếu không khớp danh mục nào
     return obj;
 }
 
@@ -336,27 +374,26 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
             body: JSON.stringify({ 
                 prompt: prompt, 
                 source: 'backup',
-                max_tokens: 250,
-                requireJson: true
+                max_tokens: 250 
             })
         });
         const data = await res.json();
     
-        if (res.ok && data.reply) {
-            let parsedObj = parseJsonFromAI(data.reply);
-            if (parsedObj) {
-                parsedObj = validateAndCleanAIResult(parsedObj, tabName);
-            } else {
-                parsedObj = { 
-                    ten: query, 
-                    nhom: tabName,
-                    cong_dung: data.reply,
-                    cach_dung: "Hãm với nước sôi 85-90°C trong 10-15 phút.",
-                    thanh_phan: [query]
-                };
-            }
-            
-            luuKetQuaAiVaoDb(query, tabName, parsedObj);
+    if (res.ok && data.reply) {
+        let parsedObj = parseJsonFromAI(data.reply);
+        if (parsedObj) {
+            parsedObj = validateAndCleanAIResult(parsedObj, tabName);
+        } else {
+            parsedObj = { 
+                ten: query, 
+                nhom: tabName,
+                cong_dung: data.reply,
+                cach_dung: "Hãm với nước sôi 85-90°C trong 10-15 phút.",
+                thanh_phan: [query]
+            };
+        }
+        
+        luuKetQuaAiVaoDb(query, tabName, parsedObj);
 
             if (tabName.includes('Trà Dược') || tabName.includes('Tra')) {
                 if (typeof filterTra === 'function') filterTra();
@@ -501,7 +538,7 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
     }
 }
 
-// --- 5. NÚT KÍCH HOẠT SỰ KIỆN TÌM AI ĐỘC LẬP TỪ GIAO DIỆN ---
+// --- 5. NÚT KÍCH HOẠT SỰ KIỆN TÌM AI ĐỘC LẬP TỪ GIAO DIỆN (NÚT LỆNH THỰC THI 1 LẦN) ---
 
 async function chayLenhAi(btnElement, loaiLenh) {
     if (!btnElement) return;
