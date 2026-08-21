@@ -5,6 +5,11 @@ const ROLE_CONFIG = {
         showAds: true,
         name: 'Tài khoản Miễn phí'
     },
+    FREE: {
+        tokenMultiplier: 1.0,
+        showAds: true,
+        name: 'Tài khoản Miễn phí'
+    },
     VIP: {
         tokenMultiplier: 1.5,
         showAds: false,
