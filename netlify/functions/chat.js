@@ -6,19 +6,11 @@ const ROLE_QUOTAS = { GUEST: 1, FREE: 3, VIP: 30, SVIP: 99 };
 const ROLE_MAX_TOKENS = { GUEST: 800, FREE: 1000, VIP: 2000, SVIP: 2500 };
 
 exports.handler = async function(event) {
-    const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:3000"];
+    const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
     const requestOrigin = event.headers.origin || event.headers.Origin;
 
-    if (requestOrigin && !allowedOrigins.includes(requestOrigin)) {
-        return { 
-            statusCode: 403, 
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ error: 'Truy cập bị từ chối (CORS Policy).' }) 
-        };
-    }
-
     const headers = {
-        'Access-Control-Allow-Origin': requestOrigin || "https://dailuantriyhct.com",
+        'Access-Control-Allow-Origin': allowedOrigins.includes(requestOrigin) ? requestOrigin : '*',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization, authorization, X-Member-ID, x-member-id',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Content-Type': 'application/json'
@@ -36,7 +28,7 @@ exports.handler = async function(event) {
         let userEmail = null;
         let aiUsedToday = 0;
 
-        // XÁC THỰC AN TOÀN QUA SUPABASE
+        // XÁC THỰC AN TOÀN (Không sập nếu thiếu Supabase)
         if (token && token !== 'null' && token !== 'undefined' && SUPABASE_URL && SUPABASE_ANON_KEY) {
             try {
                 const resUser = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
@@ -67,42 +59,43 @@ exports.handler = async function(event) {
         const { prompt, image, source, max_tokens: reqMaxTokens, requireJson } = bodyData;
 
         if (!prompt || prompt.trim().length === 0) {
-            return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung câu hỏi không được để trống.' }) };
+            return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung câu hỏi trống.' }) };
         }
 
-        if (prompt.length > 2000) {
-            return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung yêu cầu quá dài (tối đa 2000 ký tự).' }) };
-        }
-
-        // Kiểm tra quota lượt dùng
+        // Kiểm tra quota
         const maxQuota = ROLE_QUOTAS[userRole] || 1;
+        // Bỏ điều kiện 'userRole !== 'SVIP'' để SVIP tuân thủ mốc 99 lượt như giao diện
         if (aiUsedToday >= maxQuota) {
-            return {
-                statusCode: 429,
-                headers,
-                body: JSON.stringify({ error: `Bạn đã dùng hết ${aiUsedToday}/${maxQuota} lượt AI hôm nay.` })
-            };
+          return {
+             statusCode: 429,
+             headers,
+             body: JSON.stringify({ error: `Bạn đã dùng hết ${aiUsedToday}/${maxQuota} lượt AI hôm nay.` })
+          };
         }
 
+
+        // 🟢 GIỮ NGUYÊN PHÂN LUỒNG KEY THEO SOURCE CỦA ANH
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const secondKey  = process.env.SECOND_API_KEY;
         const backupKey  = process.env.BACKUP_API_KEY;
+        const quizKey    = process.env.QUIZ_API_KEY;
         const searchKey  = process.env.SEARCH_API_KEY;
-        const quizKey  = process.env.QUIZ_API_KEY;
-        
-        let keysToTry = [];
-        if (source === 'assistant') keysToTry = [primaryKey, backupKey];
-        else if (source === 'vongchan') keysToTry = [primaryKey, backupKey];
-        else if (source === 'quiz') keysToTry = [quizKey, secondKey];
-        else keysToTry = [searchKey, secondKey];
 
+        let keysToTry = [];
+        if (source === 'assistant' || source === 'vongchan') {
+            keysToTry = [primaryKey, backupKey];
+        } else if (source === 'quiz') {
+            keysToTry = [quizKey, secondKey];
+        } else {
+            keysToTry = [searchKey, secondKey];
+        }
         keysToTry = [...new Set(keysToTry.filter(Boolean))];
 
         if (keysToTry.length === 0) {
-            return { statusCode: 500, headers, body: JSON.stringify({ error: 'Cấu hình máy chủ chưa hoàn tất.' }) };
+            return { statusCode: 500, headers, body: JSON.stringify({ error: 'Chưa cấu hình API Key trên Netlify.' }) };
         }
 
-        const models = ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-3.5-flash'];
+        const models = ['gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-3.5-flash'];
         const roleMaxTokens = ROLE_MAX_TOKENS[userRole] || 1000;
         const maxTokens = reqMaxTokens ? Math.min(Number(reqMaxTokens), roleMaxTokens) : roleMaxTokens;
 
@@ -113,40 +106,29 @@ exports.handler = async function(event) {
                 partsPayload.push({ inline_data: { mime_type: matches[1], data: matches[2] } });
             }
         }
-        partsPayload.push({ 
-            text: "Bạn là chuyên gia YHCT Đại Luận Trị. BẮT BUỘC trả lời hoàn toàn bằng tiếng Việt, ngắn gọn, chuẩn xác: " + prompt 
-        });
-
-        const timeoutMs = (source === 'vongchan' || source === 'assistant') ? 25000 : 15000;
+        partsPayload.push({ text: "Bạn là chuyên gia YHCT Đại Luận Trị. BẮT BUỘC trả lời hoàn toàn bằng tiếng Việt, ngắn gọn, chuẩn xác: " + prompt });
 
         for (const apiKey of keysToTry) {
             for (const model of models) {
-                const controller = new AbortController();
-                const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
                 try {
                     const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey.trim()}`;
-                    
-                    let generationConfig = { maxOutputTokens: maxTokens };
-                    if (requireJson || source === 'backup') {
-                        generationConfig.responseMimeType = "application/json";
-                    }
-
-                    const response = await fetch(url, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        signal: controller.signal,
-                        body: JSON.stringify({ 
-                            contents: [{ parts: partsPayload }],
-                            generationConfig: generationConfig
-                        })
-                    });
-
-                    clearTimeout(timeoutId);
+                    let genConfig = { maxOutputTokens: maxTokens };
+// Chỉ ép chuẩn JSON khi frontend thực sự cần (vd: tính năng tra cứu tự động)
+if (requireJson || source === 'backup') {
+    genConfig.responseMimeType = "application/json";
+}
+const response = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+        contents: [{ parts: partsPayload }],
+        generationConfig: genConfig
+    })
+});
                     const data = await response.json();
-
                     if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
-                        // Đồng bộ lượt dùng vào DB nếu có tài khoản
+                        
+                        // Đồng bộ lượt dùng nếu có userEmail
                         if (userEmail && SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
                             try {
                                 await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${userEmail}`, {
@@ -171,15 +153,13 @@ exports.handler = async function(event) {
                             })
                         };
                     }
-                } catch (err) {
-                    clearTimeout(timeoutId);
-                }
+                } catch (e) {}
             }
         }
 
-        return { statusCode: 503, headers, body: JSON.stringify({ error: 'Hệ thống AI đang bận. Vui lòng thử lại sau ít phút.' }) };
+        return { statusCode: 503, headers, body: JSON.stringify({ error: 'Hệ thống AI đang bận.' }) };
 
     } catch (error) {
-        return { statusCode: 500, headers, body: JSON.stringify({ error: 'Lỗi xử lý hệ thống nội bộ.' }) };
+        return { statusCode: 500, headers, body: JSON.stringify({ error: 'Lỗi hệ thống.' }) };
     }
 };
