@@ -63,29 +63,48 @@ function parseJsonFromAI(replyText) {
 }
 
 function checkAiQuotaBeforeCall(featureName = "Tính năng AI") {
-    // Sửa lấy role chuẩn từ AppState.auth?.user?.role
-    const userRole = AppState.auth?.user?.role || AppState.auth?.role || "GUEST";
-    
-    const aiUsed = (typeof getDailyQuotaUsed === "function") 
-        ? getDailyQuotaUsed(userRole) 
-        : (AppState.auth?.user?.aiUsedToday || 0);
-
-    const maxQuota = (typeof getRoleMaxQuota === "function") 
-        ? getRoleMaxQuota(userRole) 
-        : (typeof ROLE_QUOTAS !== "undefined" ? (ROLE_QUOTAS[userRole] ?? 1) : 1);
-
-    if (aiUsed >= maxQuota) {
-        if (typeof showRoleLockModal === "function") {
-            showRoleLockModal(
-                userRole === "GUEST" || userRole === "FREE" ? "VIP" : "SVIP",
-                `Bạn đã dùng hết ${aiUsed}/${maxQuota} lượt AI hôm nay.`
-            );
+    try {
+        // Chống lỗi ReferenceError khiến script chết đứng
+        const appState = (typeof window !== "undefined" && window.AppState) ? window.AppState : {};
+        
+        // Xử lý lấy role chuẩn xác (Bỏ qua 'authenticated' của Supabase)
+        let rawRole = appState.profile?.role || appState.user?.role || appState.auth?.user?.role || appState.auth?.role || "GUEST";
+        let userRole = (rawRole === "authenticated") ? (appState.profile?.role || "GUEST") : rawRole;
+        userRole = String(userRole).toUpperCase();
+        
+        // Lấy số lượt đã dùng
+        let aiUsed = 0;
+        if (typeof window !== "undefined" && typeof window.getDailyQuotaUsed === "function") {
+            aiUsed = window.getDailyQuotaUsed(userRole);
         } else {
-            alert(`Bạn đã dùng hết ${aiUsed}/${maxQuota} lượt AI hôm nay.`);
+            aiUsed = appState.profile?.ai_used_today || appState.auth?.user?.aiUsedToday || 0;
         }
-        return false;
+
+        // Lấy hạn mức
+        let maxQuota = 1;
+        if (typeof window !== "undefined" && typeof window.getRoleMaxQuota === "function") {
+            maxQuota = window.getRoleMaxQuota(userRole);
+        } else if (typeof ROLE_QUOTAS !== "undefined") {
+            maxQuota = ROLE_QUOTAS[userRole] ?? 1;
+        }
+
+        // Kiểm tra
+        if (aiUsed >= maxQuota) {
+            if (typeof window !== "undefined" && typeof window.showRoleLockModal === "function") {
+                window.showRoleLockModal(
+                    (userRole === "GUEST" || userRole === "FREE") ? "VIP" : "SVIP",
+                    `Bạn đã dùng hết ${aiUsed}/${maxQuota} lượt AI hôm nay.`
+                );
+            } else {
+                alert(`Bạn đã dùng hết ${aiUsed}/${maxQuota} lượt AI hôm nay.`);
+            }
+            return false;
+        }
+        return true;
+    } catch (err) {
+        console.error("Lỗi âm thầm khi check Quota:", err);
+        return true; // Bypass nếu script lỗi để không chặn oan tài khoản SVIP
     }
-    return true;
 }
 
 
@@ -578,10 +597,6 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
 async function chayLenhAi(btnElement, loaiLenh) {
     if (!btnElement) return;
 
-    if (loaiLenh === "hc" || loaiLenh === "bt") {
-        if (!checkAiQuotaBeforeCall("Phân tích AI")) return;
-    }
-
     btnElement.disabled = true;
     btnElement.classList.add("opacity-50", "pointer-events-none");
     const originalHtml = btnElement.innerHTML;
@@ -593,6 +608,7 @@ async function chayLenhAi(btnElement, loaiLenh) {
         } else if (loaiLenh === "baithuoc") {
             await sendAIWebMessage();
         } else if (loaiLenh === "hc") {
+            if (!checkAiQuotaBeforeCall("Phân tích AI")) return;
             const query = document.getElementById("hoi-chung")?.innerText;
             if (query && query !== "---") {
                 const descEl = document.getElementById("ai-hc-desc");
@@ -608,14 +624,9 @@ async function chayLenhAi(btnElement, loaiLenh) {
                             Authorization: `Bearer ${AppState.auth?.token || ""}`,
                             "X-Member-ID": AppState.auth?.user?.shortId || "GUEST",
                         },
-                        body: JSON.stringify({
-                            prompt: prompt,
-                            source: "assistant",
-                            max_tokens: 200,
-                        }),
+                        body: JSON.stringify({ prompt: prompt, source: "assistant", max_tokens: 200 }),
                     });
                     const data = await res.json();
-                    
                     if (res.ok && !data.error) {
                         if (data.aiUsedToday !== undefined && typeof capNhatQuotaUICucBo === "function") {
                             capNhatQuotaUICucBo(data.aiUsedToday);
@@ -625,6 +636,7 @@ async function chayLenhAi(btnElement, loaiLenh) {
                 }
             }
         } else if (loaiLenh === "bt") {
+            if (!checkAiQuotaBeforeCall("Phân tích AI")) return;
             const query = document.getElementById("bai-thuoc")?.innerText;
             if (query && query !== "---") {
                 const descEl = document.getElementById("ai-bt-desc");
@@ -640,14 +652,9 @@ async function chayLenhAi(btnElement, loaiLenh) {
                             Authorization: `Bearer ${AppState.auth?.token || ""}`,
                             "X-Member-ID": AppState.auth?.user?.shortId || "GUEST",
                         },
-                        body: JSON.stringify({
-                            prompt: prompt,
-                            source: "assistant",
-                            max_tokens: 200,
-                        }),
+                        body: JSON.stringify({ prompt: prompt, source: "assistant", max_tokens: 200 }),
                     });
                     const data = await res.json();
-
                     if (res.ok && !data.error) {
                         if (data.aiUsedToday !== undefined && typeof capNhatQuotaUICucBo === "function") {
                             capNhatQuotaUICucBo(data.aiUsedToday);
@@ -657,7 +664,7 @@ async function chayLenhAi(btnElement, loaiLenh) {
                 }
             }
         } else {
-            // Bổ sung nhánh điều hướng cho tra, duoclieu, huyetvi, duocthien
+            // Nhánh cho: tra, duoclieu, huyetvi, duocthien
             await triggerAiSearch(loaiLenh);
         }
     } catch (err) {
@@ -669,51 +676,34 @@ async function chayLenhAi(btnElement, loaiLenh) {
     }
 }
 
+
 function triggerAiSearch(tab) {
     if (tab === "luantri") {
         const input = document.getElementById("search-input");
         const query = input ? input.value.trim() : "";
-        if (!query) {
-            alert("Vui lòng nhập từ khóa hội chứng hoặc triệu chứng trước khi tìm với AI.");
-            input?.focus();
-            return;
-        }
-        fetchAIBackupResult(query, "Biện chứng Luận Trị YHCT", document.getElementById("pdf-area"));
+        if (!query) { alert("Vui lòng nhập từ khóa hội chứng hoặc triệu chứng trước khi tìm với AI."); input?.focus(); return Promise.resolve(); }
+        return fetchAIBackupResult(query, "Biện chứng Luận Trị YHCT", document.getElementById("pdf-area"));
     } else if (tab === "duoclieu") {
         const input = document.getElementById("searchDuocLieu");
         const query = input ? input.value.trim() : "";
-        if (!query) {
-            alert("Vui lòng nhập tên dược liệu trước khi tìm với AI.");
-            input?.focus();
-            return;
-        }
-        fetchAIBackupResult(query, "Dược Liệu YHCT", document.getElementById("gridDuocLieu"));
+        if (!query) { alert("Vui lòng nhập tên dược liệu trước khi tìm với AI."); input?.focus(); return Promise.resolve(); }
+        return fetchAIBackupResult(query, "Dược Liệu YHCT", document.getElementById("gridDuocLieu"));
     } else if (tab === "huyetvi") {
         const input = document.getElementById("searchHuyetVi");
         const query = input ? input.value.trim() : "";
-        if (!query) {
-            alert("Vui lòng nhập tên huyệt vị trước khi tìm với AI.");
-            input?.focus();
-            return;
-        }
-        fetchAIBackupResult(query, "Huyệt Vị YHCT", document.getElementById("gridHuyetVi"));
+        if (!query) { alert("Vui lòng nhập tên huyệt vị trước khi tìm với AI."); input?.focus(); return Promise.resolve(); }
+        return fetchAIBackupResult(query, "Huyệt Vị YHCT", document.getElementById("gridHuyetVi"));
     } else if (tab === "tra" || tab === "traduoc") {
         const input = document.getElementById("searchTra");
         const query = input ? input.value.trim() : "";
-        if (!query) {
-            alert("Vui lòng nhập tên bài trà trước khi tìm với AI.");
-            input?.focus();
-            return;
-        }
-        fetchAIBackupResult(query, "Trà Dược YHCT", document.getElementById("gridTra"));
+        if (!query) { alert("Vui lòng nhập tên bài trà trước khi tìm với AI."); input?.focus(); return Promise.resolve(); }
+        return fetchAIBackupResult(query, "Trà Dược YHCT", document.getElementById("gridTra"));
     } else if (tab === "duocthien") {
         const input = document.getElementById("searchDuocThien");
         const query = input ? input.value.trim() : "";
-        if (!query) {
-            alert("Vui lòng nhập tên món ăn bài thuốc trước khi tìm với AI.");
-            input?.focus();
-            return;
-        }
-        fetchAIBackupResult(query, "Dược Thiện YHCT", document.getElementById("gridDuocThien"));
+        if (!query) { alert("Vui lòng nhập tên món ăn bài thuốc trước khi tìm với AI."); input?.focus(); return Promise.resolve(); }
+        return fetchAIBackupResult(query, "Dược Thiện YHCT", document.getElementById("gridDuocThien"));
     }
+    return Promise.resolve();
 }
+
