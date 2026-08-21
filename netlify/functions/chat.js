@@ -28,7 +28,6 @@ exports.handler = async function(event) {
         let userEmail = null;
         let aiUsedToday = 0;
 
-        // XÁC THỰC AN TOÀN (Không sập nếu thiếu Supabase)
         if (token && token !== 'null' && token !== 'undefined' && SUPABASE_URL && SUPABASE_ANON_KEY) {
             try {
                 const resUser = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
@@ -56,15 +55,18 @@ exports.handler = async function(event) {
         }
 
         const bodyData = JSON.parse(event.body || '{}');
-        const { prompt, image, source, max_tokens: reqMaxTokens, requireJson } = bodyData;
+        // Nhận cả camelCase lẫn snake_case để tránh lọt tham số
+        const prompt = bodyData.prompt;
+        const image = bodyData.image;
+        const source = bodyData.source;
+        const reqMaxTokens = bodyData.max_tokens || bodyData.maxTokens;
+        const requireJson = bodyData.requireJson || bodyData.require_json;
 
         if (!prompt || prompt.trim().length === 0) {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung câu hỏi trống.' }) };
         }
 
-        // Kiểm tra quota
         const maxQuota = ROLE_QUOTAS[userRole] || 1;
-        // Bỏ điều kiện 'userRole !== 'SVIP'' để SVIP tuân thủ mốc 99 lượt như giao diện
         if (aiUsedToday >= maxQuota) {
           return {
              statusCode: 429,
@@ -73,13 +75,11 @@ exports.handler = async function(event) {
           };
         }
 
-
-        // 🟢 GIỮ NGUYÊN PHÂN LUỒNG KEY THEO SOURCE CỦA ANH
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
-        const secondKey  = process.env.SECOND_API_KEY;
-        const backupKey  = process.env.BACKUP_API_KEY;
-        const quizKey    = process.env.QUIZ_API_KEY;
-        const searchKey  = process.env.SEARCH_API_KEY;
+        const secondKey  = process.env.SECOND_API_KEY || primaryKey; // Fallback an toàn nếu chưa điền key
+        const backupKey  = process.env.BACKUP_API_KEY || primaryKey;
+        const quizKey    = process.env.QUIZ_API_KEY || primaryKey;
+        const searchKey  = process.env.SEARCH_API_KEY || primaryKey;
 
         let keysToTry = [];
         if (source === 'assistant' || source === 'vongchan') {
@@ -95,7 +95,8 @@ exports.handler = async function(event) {
             return { statusCode: 500, headers, body: JSON.stringify({ error: 'Chưa cấu hình API Key trên Netlify.' }) };
         }
 
-        const models = ['gemini-1.5-flash', 'gemini-2.0-flash', 'gemini-3.5-flash'];
+        // Bỏ model rác gemini-3.5-flash
+        const models = ['gemini-1.5-flash', 'gemini-2.0-flash'];
         const roleMaxTokens = ROLE_MAX_TOKENS[userRole] || 1000;
         const maxTokens = reqMaxTokens ? Math.min(Number(reqMaxTokens), roleMaxTokens) : roleMaxTokens;
 
@@ -106,29 +107,54 @@ exports.handler = async function(event) {
                 partsPayload.push({ inline_data: { mime_type: matches[1], data: matches[2] } });
             }
         }
-        partsPayload.push({ text: "Bạn là chuyên gia YHCT Đại Luận Trị. BẮT BUỘC trả lời hoàn toàn bằng tiếng Việt, ngắn gọn, chuẩn xác: " + prompt });
+
+        // ÉP CHẶT SYSTEM PROMPT DÙNG TIẾNG VIỆT VÀ RA CHUẨN ĐỊNH DẠNG
+        let systemInstruction = "Bạn là chuyên gia YHCT Đại Luận Trị. BẮT BUỘC trả lời hoàn toàn bằng tiếng Việt, ngắn gọn, chuẩn xác.";
+        if (requireJson || source === 'backup') {
+            systemInstruction += " Trả về duy nhất 1 chuỗi JSON hợp lệ. KHÔNG thêm bất kỳ câu dẫn tiếng Anh/tiếng Việt nào như 'Here is the JSON' hay dấu đóng ngoặc markdown ```json.";
+        }
+        
+        partsPayload.push({ text: `${systemInstruction}\nNội dung: ${prompt}` });
 
         for (const apiKey of keysToTry) {
             for (const model of models) {
                 try {
-                    const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey.trim()}`;
+                    const url = `[https://generativelanguage.googleapis.com/v1beta/models/$](https://generativelanguage.googleapis.com/v1beta/models/$){model}:generateContent?key=${apiKey.trim()}`;
                     let genConfig = { maxOutputTokens: maxTokens };
-// Chỉ ép chuẩn JSON khi frontend thực sự cần (vd: tính năng tra cứu tự động)
-if (requireJson || source === 'backup') {
-    genConfig.responseMimeType = "application/json";
-}
-const response = await fetch(url, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 
-        contents: [{ parts: partsPayload }],
-        generationConfig: genConfig
-    })
-});
+
+                    if (requireJson || source === 'backup') {
+                        genConfig.responseMimeType = "application/json";
+                    }
+
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ 
+                            contents: [{ parts: partsPayload }],
+                            generationConfig: genConfig
+                        })
+                    });
+
                     const data = await response.json();
-                    if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
+                    let rawText = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (response.ok && rawText) {
+                        // 🛠 BỘ LỌC CẶT SẠCH CÂU DẪN RÁC
+                        let cleanReply = rawText.trim();
                         
-                        // Đồng bộ lượt dùng nếu có userEmail
+                        if (requireJson || source === 'backup') {
+                            // Xóa sạch markdown block ```json ... ```
+                            cleanReply = cleanReply.replace(/^```json\s*/i, '').replace(/^```\s*/, '').replace(/\s*```$/, '').trim();
+                            
+                            // Cắt bỏ mọi chữ tiếng Anh đứng trước dấu { đầu tiên
+                            const firstBracket = cleanReply.indexOf('{');
+                            const lastBracket = cleanReply.lastIndexOf('}');
+                            if (firstBracket !== -1 && lastBracket !== -1) {
+                                cleanReply = cleanReply.substring(firstBracket, lastBracket + 1);
+                            }
+                        }
+
+                        // Đồng bộ lượt dùng Supabase
                         if (userEmail && SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
                             try {
                                 await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${userEmail}`, {
@@ -147,7 +173,7 @@ const response = await fetch(url, {
                             statusCode: 200,
                             headers,
                             body: JSON.stringify({ 
-                                reply: data.candidates[0].content.parts[0].text,
+                                reply: cleanReply,
                                 aiUsedToday: aiUsedToday + 1,
                                 maxQuota: maxQuota
                             })
@@ -157,7 +183,7 @@ const response = await fetch(url, {
             }
         }
 
-        return { statusCode: 503, headers, body: JSON.stringify({ error: 'Hệ thống AI đang bận.' }) };
+        return { statusCode: 503, headers, body: JSON.stringify({ error: 'Hệ thống AI đang bận, vui lòng thử lại.' }) };
 
     } catch (error) {
         return { statusCode: 500, headers, body: JSON.stringify({ error: 'Lỗi hệ thống.' }) };
