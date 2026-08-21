@@ -1,9 +1,13 @@
+// ==========================================================================
+// UTILS.JS - TIỆN ÍCH HỆ THỐNG, LƯU TRỮ, TÌM KIẾM & QUẢN LÝ GIAO DIỆN
+// ==========================================================================
+
 // Cấu hình phân tầng quyền lợi tài khoản
 const ROLE_CONFIG = {
     GUEST: {
         tokenMultiplier: 1.0,
         showAds: true,
-        name: 'Tài khoản Miễn phí'
+        name: 'Tài khoản Khách'
     },
     FREE: {
         tokenMultiplier: 1.0,
@@ -95,10 +99,9 @@ function safeSetLocalStorage(key, dataArray, maxItems = 30) {
         localStorage.setItem(key, JSON.stringify(dataArray));
     } catch (e) {
         console.warn(`LocalStorage bị giới hạn hoặc đầy ở khóa "${key}":`, e);
-        // Tiến hành dọn dẹp khẩn cấp bộ nhớ cache
         cleanExpiredLocalStorage();
         try {
-            localStorage.setItem(key, JSON.stringify(dataArray.slice(0, 10))); // Lưu rút gọn
+            localStorage.setItem(key, JSON.stringify(dataArray.slice(0, 10)));
         } catch (err) {
             // Bỏ qua nếu vẫn không thể ghi
         }
@@ -129,7 +132,6 @@ function highlightText(text, query) {
     if (!query || !text) return escapeHTML(text);
     const safeText = String(text);
     
-    // Loại bỏ dấu câu khỏi chuỗi truy vấn
     const cleanQuery = query.replace(/[,\.;:?!()\[\]{}]/g, ' ');
     const words = cleanQuery.trim().split(/\s+/).filter(Boolean);
     
@@ -164,8 +166,8 @@ function getFilterVal(id) {
 function checkAndCleanStorage() {
     try {
         let history = JSON.parse(localStorage.getItem('vongChanHistory') || '[]');
-        if (Array.isArray(history) && history.length > 20) {
-            history = history.slice(0, 20); // Giữ tối đa 20 hồ sơ gần nhất
+        if (Array.isArray(history) && history.length > 8) {
+            history = history.slice(0, 8);
             localStorage.setItem('vongChanHistory', JSON.stringify(history));
         }
     } catch (e) {
@@ -181,12 +183,10 @@ function setCacheWithTTL(key, value, ttlDays = 180) {
     try {
         localStorage.setItem(key, JSON.stringify(item));
     } catch (e) {
-        // Bước 1: Dọn dẹp tất cả dữ liệu quá hạn
         cleanExpiredLocalStorage();
         try {
             localStorage.setItem(key, JSON.stringify(item));
         } catch (err) {
-            // Bước 2: Nếu vẫn đầy, tiến hành giải phóng cache AI cũ
             Object.keys(localStorage).forEach(k => {
                 if (k.startsWith('ai_hc_') || k.startsWith('ai_bt_')) {
                     localStorage.removeItem(k);
@@ -204,12 +204,12 @@ function getCacheWithTTL(key) {
     try {
         const item = JSON.parse(itemStr);
         if (!item || typeof item !== 'object' || !('expiry' in item)) {
-            return itemStr; // Fallback nếu dữ liệu lưu dạng chuỗi cũ
+            return itemStr; 
         }
 
         const now = new Date();
         if (now.getTime() > item.expiry) {
-            localStorage.removeItem(key); // Xóa cache quá hạn
+            localStorage.removeItem(key);
             return null;
         }
         return item.value;
@@ -222,17 +222,14 @@ function cleanExpiredLocalStorage() {
     const now = Date.now();
     Object.keys(localStorage).forEach(key => {
         try {
-            // Xóa các key cache AI quá hạn hoặc các key tạm thời
             const itemStr = localStorage.getItem(key);
-            if (itemStr.startsWith('{') && itemStr.includes('expiry')) {
+            if (itemStr && itemStr.startsWith('{') && itemStr.includes('expiry')) {
                 const item = JSON.parse(itemStr);
                 if (item && item.expiry && now > item.expiry) {
                     localStorage.removeItem(key);
                 }
             }
-        } catch (e) {
-            // Nếu key không đúng định dạng JSON, bỏ qua
-        }
+        } catch (e) {}
     });
 }
 
@@ -242,7 +239,6 @@ function tinhDiemKhopTongQuat(item, rawQuery, titleField = 'ten') {
     const queryRaw = rawQuery.toLowerCase().trim();
     const queryMain = queryRaw.replace(/\s*\(.*?\)/g, '').trim();
 
-    // 🟢 1. XỬ LÝ RIÊNG CHO TAB LUẬN TRỊ (Khi titleField === 'hc')
     if (titleField === 'hc') {
         const baiThuoc = (item.bt || '').toLowerCase().trim();
         const hoiChung = (item.hc || '').toLowerCase().trim();
@@ -250,17 +246,14 @@ function tinhDiemKhopTongQuat(item, rawQuery, titleField = 'ten') {
         const tpbtStr = Array.isArray(item.tpbt) ? item.tpbt.join(' ').toLowerCase() : '';
         const tcStr = Array.isArray(item.tc) ? item.tc.join(' ').toLowerCase() : '';
 
-        // Tầng 1: Khớp tuyệt đối (Bài thuốc ➔ Hội chứng)
         if (baiThuoc && baiThuoc === queryRaw) return 12000;
         if (hoiChung && (hoiChung === queryRaw || cleanTitle === queryMain)) return 10000;
 
-        // Tầng 2: Khớp chuỗi con (Bài thuốc ➔ Hội chứng ➔ Tên thuốc ➔ Triệu chứng)
         if (baiThuoc && baiThuoc.includes(queryMain)) return 8000;
         if (cleanTitle.includes(queryMain) || queryMain.includes(cleanTitle)) return 6000;
         if (tpbtStr && tpbtStr.includes(queryMain)) return 4000;
         if (tcStr && tcStr.includes(queryMain)) return 2000;
 
-        // Tầng 3: Phân rã Token theo thứ tự ưu tiên
         const tokens = queryMain.replace(/[,\.;:?!()\[\]{}]/g, ' ').split(/\s+/).filter(Boolean);
         if (tokens.length === 0) return 0;
 
@@ -270,16 +263,16 @@ function tinhDiemKhopTongQuat(item, rawQuery, titleField = 'ten') {
         tokens.forEach(token => {
             if (baiThuoc && baiThuoc.includes(token)) {
                 matchedTokens++;
-                score += 40; // 1. Ưu tiên 1: Bài thuốc
+                score += 40;
             } else if (hoiChung && hoiChung.includes(token)) {
                 matchedTokens++;
-                score += 30; // 2. Ưu tiên 2: Hội chứng
+                score += 30;
             } else if (tpbtStr && tpbtStr.includes(token)) {
                 matchedTokens++;
-                score += 20; // 3. Ưu tiên 3: Tên thuốc (Thành phần)
+                score += 20;
             } else if (tcStr && tcStr.includes(token)) {
                 matchedTokens++;
-                score += 10; // 4. Ưu tiên 4: Triệu chứng
+                score += 10;
             }
         });
 
@@ -288,7 +281,6 @@ function tinhDiemKhopTongQuat(item, rawQuery, titleField = 'ten') {
         return score * coverageRatio;
     }
 
-    // 🔵 2. GIỮ NGUYÊN CODE GỐC CHO CÁC TAB KHÁC (Dược liệu, Huyệt vị, Trà dược)
     const mainTitle = (item[titleField] || '').toLowerCase().trim();
     const cleanTitle = mainTitle.replace(/\s*\(.*?\)/g, '').trim();
     
@@ -296,7 +288,6 @@ function tinhDiemKhopTongQuat(item, rawQuery, titleField = 'ten') {
     const pinyin = (item.pinyin || '').toLowerCase().trim();
     const maWho = (item.ma_who || '').toLowerCase().trim();
 
-    // TẦNG 1: Khớp tuyệt đối tiêu đề chính, tên khoa học, pinyin hoặc mã WHO
     if (mainTitle === queryRaw || cleanTitle === queryMain) return 10000;
     if (tenKhoaHoc && tenKhoaHoc === queryRaw) return 9000;
     if (pinyin && pinyin === queryRaw) return 9000;
@@ -312,7 +303,6 @@ function tinhDiemKhopTongQuat(item, rawQuery, titleField = 'ten') {
         .join(' ')
         .toLowerCase();
 
-    // TẦNG 2: Phân rã Token + Tính tỷ lệ phủ từ khóa
     const tokens = queryMain.replace(/[,\.;:?!()\[\]{}]/g, ' ').split(/\s+/).filter(Boolean);
     if (tokens.length === 0) return 0;
 
@@ -338,24 +328,7 @@ function tinhDiemKhopTongQuat(item, rawQuery, titleField = 'ten') {
     return score * coverageRatio;
 }
 
-function getMaxTokens(sourceKey) {
-    const role = AppState.auth?.role || 'GUEST';
-    
-    const baseTokens = {
-        'luantri': 250,
-        'backup': 300,
-        'phoingu': 400,
-        'vongchan': 400,
-        'sach_ai': 400,
-        'chat': 500,
-        'tu_chan': 500,
-        'quiz': 800
-    }[sourceKey] || 300;
-
-    const multiplier = role === 'SVIP' ? 2.0 : (role === 'VIP' ? 1.5 : 1.0);
-    return Math.round(baseTokens * multiplier);
-}
-
+// --- QUẢN LÝ PHÂN QUYỀN VÀ KHÓA TÍNH NĂNG TRÊN UI ---
 const ROLE_LEVELS = { 'GUEST': 1, 'FREE': 2, 'VIP': 3, 'SVIP': 4 };
 
 function getCurrentUserRole() {
@@ -398,7 +371,7 @@ function updateRoleLockUI() {
 }
 window.updateRoleLockUI = updateRoleLockUI;
 
-// 2. Chặn click nút bị khóa & hiển thị Modal nâng cấp
+// Chặn click nút bị khóa & hiển thị Modal nâng cấp
 document.addEventListener('click', function (e) {
     const targetBtn = e.target.closest('[data-min-role]');
     if (!targetBtn) return;
@@ -427,5 +400,4 @@ document.addEventListener('click', function (e) {
     }
 }, true);
 
-// Khởi chạy khi tải trang & sau khi đăng nhập
 window.addEventListener('DOMContentLoaded', updateRoleLockUI);
