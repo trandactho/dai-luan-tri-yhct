@@ -112,7 +112,7 @@ exports.handler = async function(event) {
             for (const model of models) {
                 try {
                     // Đã sửa triệt để đường link URL bị lỗi markdown
-                    const url = `[https://generativelanguage.googleapis.com/v1beta/models/$](https://generativelanguage.googleapis.com/v1beta/models/$){model}:generateContent?key=${apiKey.trim()}`;
+                    const url = "https://generativelanguage.googleapis.com/v1beta/models/" + model + ":generateContent?key=" + apiKey.trim();
                     
                     const response = await fetch(url, {
                         method: 'POST',
