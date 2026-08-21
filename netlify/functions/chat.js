@@ -87,7 +87,7 @@ exports.handler = async function(event) {
             return { statusCode: 500, headers, body: JSON.stringify({ error: 'Chưa cấu hình API Key.' }) };
         }
 
-        const models = ['gemini-1.5-flash', 'gemini-2.0-flash'];
+        const models = ['gemini-3.5-flash', 'gemini-3.6-flash'];
         const roleMaxTokens = ROLE_MAX_TOKENS[userRole] || 1000;
         const maxTokens = reqMaxTokens ? Math.min(Number(reqMaxTokens), roleMaxTokens) : roleMaxTokens;
 
