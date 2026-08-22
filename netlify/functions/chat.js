@@ -120,13 +120,14 @@ exports.handler = async function(event) {
         const generationConfig = { maxOutputTokens: maxTokens };
 
 let finalPrompt = prompt;
+
 if (source === 'backup') {
-    // Ép kiểu JSON cho luồng AI tìm & lưu tự động
-    generationConfig.responseMimeType = "application/json";
+    // Giữ nguyên prompt yêu cầu JSON từ client, không ép responseMimeType để tránh xung đột
 } else {
     // Các luồng chat/hội chẩn thông thường mới thêm tiền tố chuyên gia
     finalPrompt = "Bạn là chuyên gia YHCT Đại Luận Trị. BẮT BUỘC trả lời hoàn toàn bằng tiếng Việt, ngắn gọn, chuẩn xác: " + prompt;
 }
+
         const partsPayload = [];
 if (image && typeof image === 'string' && image.startsWith('data:image')) {
     const matches = image.match(/^data:(image\/\w+);base64,(.+)$/);
