@@ -115,13 +115,21 @@ exports.handler = async function(event) {
         const model = 'gemini-3.6-flash';
         const maxTokens = getMaxTokens(source || 'chat', userRole);
 
-        // BẬT responseMimeType ĐỂ ÉP JSON CHO LUỒNG BACKUP
+        // ĐẶT VỀ CẤU HÌNH CHUẨN KHÔNG ÉP MIME TYPE ĐỂ MODEL 3.6 KHÔNG BỊ LỖI CÚ PHÁP
         const generationConfig = { 
-            maxOutputTokens: maxTokens,
-            ...(source === 'backup' ? { responseMimeType: 'application/json' } : {})
+            maxOutputTokens: maxTokens
         };
 
-        let finalPrompt = "Bạn là chuyên gia YHCT Đại Luận Trị. BẮT BUỘC tuân thủ tuyệt đối y đức, không bịa đặt, trả lời hoàn toàn bằng tiếng Việt chuẩn xác dựa trên y lý YHCT chính thống: \n\n" + prompt;
+        // YÊU CẦU MODEL TRẢ VỀ THEO CÁC DÒNG MÃ HÓA THAY VÌ JSON PHỨC TẠP
+        let finalPrompt = `Bạn là chuyên gia YHCT. BẮT BUỘC tuân thủ tuyệt đối y đức, không bịa đặt. 
+Hãy trả lời câu hỏi sau theo đúng định dạng các dòng tiêu đề chuẩn:
+- Tên: [Điền tên]
+- Nhóm: [Điền nhóm]
+- Công dụng: [Điền công dụng]
+- Lưu ý: [Điền kiêng kỵ]
+- Cách dùng: [Điền cách dùng]
+
+Nội dung cần xử lý: ${prompt}`;
         
         if (source === 'backup') {
             finalPrompt = "LỆNH HỆ THỐNG: BẮT BUỘC trả về chuẩn JSON hợp lệ. MỌI 'key' và 'value' BẮT BUỘC phải nằm trong dấu ngoặc kép. KHÔNG dùng Markdown, KHÔNG có văn bản dư thừa.\n\n" + finalPrompt;
