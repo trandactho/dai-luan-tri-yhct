@@ -1,39 +1,18 @@
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_ANON_KEY = process.env.SUPABASE_ANON_KEY;
-const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
-
-const ROLE_QUOTAS = { GUEST: 1, FREE: 3, VIP: 30, SVIP: 99 };
-const ROLE_CONFIG = {
-    GUEST: { tokenMultiplier: 1.0 },
-    FREE: { tokenMultiplier: 1.0 },
-    VIP: { tokenMultiplier: 1.5 },
-    SVIP: { tokenMultiplier: 2.0 }
-};
-
-function getMaxTokens(sourceKey, role = 'GUEST') {
-    const baseTokens = {
-        'luantri': 250,
-        'backup': 300,
-        'phoingu': 400,
-        'vongchan': 400,
-        'sach_ai': 400,
-        'chat': 500,
-        'tu_chan': 500,
-        'quiz': 800,
-        'assistant': 500
-    }[sourceKey] || 300;
-
-    const multiplier = ROLE_CONFIG[role]?.tokenMultiplier || 1.0;
-    return Math.round(baseTokens * multiplier);
-}
-
 exports.handler = async function(event) {
-    const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
+    const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:3000"];
     const requestOrigin = event.headers.origin || event.headers.Origin;
 
+    if (requestOrigin && !allowedOrigins.includes(requestOrigin)) {
+        return { 
+            statusCode: 403, 
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ error: 'Truy cập bị từ chối (CORS Policy).' }) 
+        };
+    }
+
     const headers = {
-        'Access-Control-Allow-Origin': allowedOrigins.includes(requestOrigin) ? requestOrigin : '*',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization, authorization, X-Member-ID, x-member-id',
+        'Access-Control-Allow-Origin': requestOrigin || "https://dailuantriyhct.com",
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Content-Type': 'application/json'
     };
@@ -43,53 +22,14 @@ exports.handler = async function(event) {
     }
 
     try {
-        const authHeader = event.headers.authorization || event.headers.Authorization || '';
-        const token = authHeader.replace(/^Bearer\s+/i, '').trim();
-
-        let userRole = 'GUEST';
-        let userEmail = null;
-        let aiUsedToday = 0;
-
-        if (token && token !== 'null' && token !== 'undefined' && SUPABASE_URL && SUPABASE_ANON_KEY) {
-            try {
-                const resUser = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
-                    headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${token}` }
-                });
-                
-                if (resUser.ok) {
-                    const userData = await resUser.json();
-                    userEmail = userData.email;
-
-                    if (SUPABASE_SERVICE_ROLE_KEY) {
-                        const resProfile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${userEmail}&select=role,expire_date,ai_used_today`, {
-                            headers: { 'apikey': SUPABASE_SERVICE_ROLE_KEY, 'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}` }
-                        });
-                        if (resProfile.ok) {
-                            const profiles = await resProfile.json();
-                            if (profiles && profiles[0]) {
-                                userRole = (profiles[0].role || 'FREE').toUpperCase();
-                                aiUsedToday = profiles[0].ai_used_today || 0;
-                            }
-                        }
-                    }
-                }
-            } catch (err) {}
-        }
-
-        const bodyData = JSON.parse(event.body || '{}');
-        const { prompt, image, source } = bodyData; 
+        const { prompt, image, source, max_tokens } = JSON.parse(event.body || '{}');
 
         if (!prompt || prompt.trim().length === 0) {
-            return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung câu hỏi trống.' }) };
+            return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung câu hỏi không được để trống.' }) };
         }
 
-        const maxQuota = ROLE_QUOTAS[userRole] || 1;
-        if (aiUsedToday >= maxQuota) {
-            return {
-                statusCode: 429,
-                headers,
-                body: JSON.stringify({ error: `Bạn đã dùng hết ${aiUsedToday}/${maxQuota} lượt AI hôm nay.` })
-            };
+        if (prompt.length > 2000) {
+            return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung yêu cầu quá dài (tối đa 2000 ký tự).' }) };
         }
 
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
@@ -111,92 +51,65 @@ exports.handler = async function(event) {
         if (keysToTry.length === 0) {
             return { statusCode: 500, headers, body: JSON.stringify({ error: 'Chưa cấu hình API Key trên Netlify.' }) };
         }
-
-        const model = 'gemini-3.6-flash';
-        const maxTokens = getMaxTokens(source || 'chat', userRole);
-
-        // ĐẶT VỀ CẤU HÌNH CHUẨN KHÔNG ÉP MIME TYPE ĐỂ MODEL 3.6 KHÔNG BỊ LỖI CÚ PHÁP
-        const generationConfig = { 
-            maxOutputTokens: maxTokens
-        };
-
-        // YÊU CẦU MODEL TRẢ VỀ THEO CÁC DÒNG MÃ HÓA THAY VÌ JSON PHỨC TẠP
-        let finalPrompt = `Bạn là chuyên gia YHCT. BẮT BUỘC tuân thủ tuyệt đối y đức, không bịa đặt. 
-Hãy trả lời câu hỏi sau theo đúng định dạng các dòng tiêu đề chuẩn:
-- Tên: [Điền tên]
-- Nhóm: [Điền nhóm]
-- Công dụng: [Điền công dụng]
-- Lưu ý: [Điền kiêng kỵ]
-- Cách dùng: [Điền cách dùng]
-
-Nội dung cần xử lý: ${prompt}`;
-        
-        if (source === 'backup') {
-            finalPrompt = "LỆNH HỆ THỐNG: BẮT BUỘC trả về chuẩn JSON hợp lệ. MỌI 'key' và 'value' BẮT BUỘC phải nằm trong dấu ngoặc kép. KHÔNG dùng Markdown, KHÔNG có văn bản dư thừa.\n\n" + finalPrompt;
-        }
-
+        const models = ['gemini-3.6-flash', 'gemini-3.5-flash'];
         const partsPayload = [];
+        
         if (image && typeof image === 'string' && image.startsWith('data:image')) {
             const matches = image.match(/^data:(image\/\w+);base64,(.+)$/);
             if (matches && matches.length === 3) {
                 partsPayload.push({ inline_data: { mime_type: matches[1], data: matches[2] } });
             }
         }
-        partsPayload.push({ text: finalPrompt });
 
-        let responseSuccess = false;
-        let responseData = null;
+        // Tùy biến prompt theo nguồn gửi lên
+        const finalPromptText = (source === 'backup') 
+            ? prompt 
+            : "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt;
+
+        partsPayload.push({ text: finalPromptText });
+
+        const generationConfig = {
+            maxOutputTokens: Number(max_tokens) || 300
+        };
+
+        const timeoutMs = (source === 'vongchan' || source === 'assistant') ? 25000 : 15000;
 
         for (const apiKey of keysToTry) {
-            try {
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey.trim()}`;
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        contents: [{ parts: partsPayload }],
-                        generationConfig: generationConfig 
-                    })
-                });
+            for (const model of models) {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
 
-                const data = await response.json();
-                if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
-                    responseData = data.candidates[0].content.parts[0].text;
-                    responseSuccess = true;
-                    break;
-                }
-            } catch (e) {}
-        }
-
-        if (responseSuccess && responseData) {
-            if (userEmail && SUPABASE_URL && SUPABASE_SERVICE_ROLE_KEY) {
                 try {
-                    await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${userEmail}`, {
-                        method: 'PATCH',
-                        headers: {
-                            'apikey': SUPABASE_SERVICE_ROLE_KEY,
-                            'Authorization': `Bearer ${SUPABASE_SERVICE_ROLE_KEY}`,
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ ai_used_today: aiUsedToday + 1 })
+                    const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${apiKey.trim()}`;
+                    const response = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        signal: controller.signal,
+                        body: JSON.stringify({ 
+                            contents: [{ parts: partsPayload }],
+                            generationConfig: generationConfig
+                        })
                     });
-                } catch (e) {}
-            }
 
-            return {
-                statusCode: 200,
-                headers,
-                body: JSON.stringify({ 
-                    reply: responseData,
-                    aiUsedToday: aiUsedToday + 1,
-                    maxQuota: maxQuota
-                })
-            };
+                    clearTimeout(timeoutId);
+                    const data = await response.json();
+
+                    if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
+                        return {
+                            statusCode: 200,
+                            headers,
+                            body: JSON.stringify({ reply: data.candidates[0].content.parts[0].text })
+                        };
+                    }
+                } catch (err) {
+                    clearTimeout(timeoutId);
+                }
+            }
         }
 
-        return { statusCode: 503, headers, body: JSON.stringify({ error: 'Hệ thống AI đang bận.' }) };
+        return { statusCode: 503, headers, body: JSON.stringify({ error: 'Hệ thống AI đang bận. Vui lòng thử lại sau ít phút.' }) };
 
     } catch (error) {
-        return { statusCode: 500, headers, body: JSON.stringify({ error: 'Lỗi hệ thống.' }) };
+        return { statusCode: 500, headers, body: JSON.stringify({ error: 'Lỗi xử lý hệ thống nội bộ.' }) };
     }
 };
