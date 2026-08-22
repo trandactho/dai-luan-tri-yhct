@@ -78,7 +78,7 @@ exports.handler = async function(event) {
         }
 
         const bodyData = JSON.parse(event.body || '{}');
-        const { prompt, image, source, max_tokens: reqMaxTokens } = bodyData;
+const { prompt, image, source } = bodyData; // Loại bỏ việc nhận reqMaxTokens từ client
 
         if (!prompt || prompt.trim().length === 0) {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung câu hỏi trống.' }) };
@@ -114,9 +114,8 @@ exports.handler = async function(event) {
         }
 
         const model = 'gemini-3.6-flash';
-        const calculatedMaxTokens = getMaxTokens(source || 'chat', userRole);
-        const maxTokens = reqMaxTokens ? Math.min(Number(reqMaxTokens), calculatedMaxTokens) : calculatedMaxTokens;
-        
+        // Server tự động tính toán maxTokens chuẩn xác 100% dựa vào role bảo mật từ Database
+        const maxTokens = getMaxTokens(source || 'chat', userRole);         
         const generationConfig = { maxOutputTokens: maxTokens };
 
 let finalPrompt = prompt;
