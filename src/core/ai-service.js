@@ -417,9 +417,17 @@ ${promptSpec}`;
 
         const dynamicMaxTokens = typeof getMaxTokens === 'function' ? getMaxTokens('backup') : 250;
 
+                // 🟢 Lấy Token từ localStorage để gửi kèm xác thực lên server
+        let savedToken = '';
+        try { savedToken = localStorage.getItem('access_token') || ''; } catch (e) {}
+
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: { 
+                'Content-Type': 'application/json',
+                // Bổ sung Header Authorization để Server nhận diện tài khoản và tính lượt
+                ...(savedToken ? { 'Authorization': `Bearer ${savedToken}` } : {})
+            },
             body: JSON.stringify({ 
                 prompt: prompt, 
                 source: 'backup',
@@ -429,6 +437,11 @@ ${promptSpec}`;
         const data = await res.json();
     
         if (res.ok && data.reply) {
+            // 🟢 CẬP NHẬT QUOTA NGAY LẬP TỨC KHI SERVER PHẢN HỒI THÀNH CÔNG
+            if (typeof data.aiUsedToday === 'number' && typeof capNhatQuotaUICucBo === 'function') {
+                capNhatQuotaUICucBo(data.aiUsedToday);
+            }
+
             let parsedObj = parseJsonFromAI(data.reply);
             if (parsedObj) {
                 parsedObj = validateAndCleanAIResult(parsedObj, tabName);
@@ -444,8 +457,7 @@ ${promptSpec}`;
             }
             
             // Lưu trữ vĩnh viễn vào CSDL & LocalStorage
-            luuKetQuaAiVaoDb(query, tabName, parsedObj);
-
+            luuKetQuaAiVaoDb(query, tabName, parsedObj);            
             // Tự động làm mới giao diện hiển thị sau khi lưu
             if (tabName.includes('Trà Dược') || tabName.includes('Tra')) {
                 if (typeof filterTra === 'function') filterTra();
