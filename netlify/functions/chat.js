@@ -112,19 +112,15 @@ exports.handler = async function(event) {
             return { statusCode: 500, headers, body: JSON.stringify({ error: 'Chưa cấu hình API Key trên Netlify.' }) };
         }
 
-        // Đã sửa model thành gemini-1.5-flash hợp lệ
+        // Giữ đúng model 3.6 theo yêu cầu của bạn
         const model = 'gemini-3.6-flash';
-        
-        // 1. TÍNH TOÁN TOKEN TỪ SERVER
         const maxTokens = getMaxTokens(source || 'chat', userRole);
 
-        // 2. ÉP KIỂU JSON NATIVE TỪ GOOGLE GEMINI API
+        // Đã bỏ responseMimeType để tránh lỗi định dạng trả về của model 3.6
         const generationConfig = { 
-            maxOutputTokens: maxTokens,
-            ...(source === 'backup' ? { responseMimeType: 'application/json' } : {})
+            maxOutputTokens: maxTokens
         };
 
-        // 3. KHÓA Y ĐỨC TOÀN DIỆN CHO TẤT CẢ CÁC LUỒNG
         const finalPrompt = "Bạn là chuyên gia YHCT Đại Luận Trị. BẮT BUỘC tuân thủ tuyệt đối y đức, không bịa đặt, trả lời hoàn toàn bằng tiếng Việt chuẩn xác dựa trên y lý YHCT chính thống: \n\n" + prompt;
 
         const partsPayload = [];
