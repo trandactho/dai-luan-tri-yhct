@@ -2,6 +2,7 @@
 // TAI-KHOAN.JS - QUẢN LÝ ĐĂNG NHẬP, ĐĂNG KÝ, XÁC THỰC OTP & HẠN MỨC AI TOÀN DIỆN
 // ==========================================================================
 
+// Thay thế dòng gán cứng API_BASE_URL trong tai-khoan.js thành:
 const API_BASE_URL = 'https://dailuantriyhct.com/.netlify/functions';
 
 // Khai báo các hàm toàn cục
@@ -589,11 +590,8 @@ window.refreshUserDataFromServer = refreshUserDataFromServer;
 async function tangVaDongBoQuotaAI() {
     if (!AppState || !AppState.auth || !AppState.auth.user) return;
 
-    // 1. Tăng tạm thời trên UI để giao diện phản hồi ngay lập tức
-    const currentLocalQuota = (AppState.auth.user.aiUsedToday || 0) + 1;
-    capNhatQuotaUICucBo(currentLocalQuota);
-
-    // 2. Đồng bộ với Server và nhận về con số thực tế trong CSDL
+    // Không tự ý cộng +1 ở client nữa để tránh lệch pha với Server.
+    // Thay vào đó, gọi action sync_quota để lấy đúng con số thực tế từ CSDL Supabase.
     if (AppState.auth.token) {
         try {
             const res = await fetch(`${API_BASE_URL}/auth`, {
