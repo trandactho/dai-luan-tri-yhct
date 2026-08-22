@@ -114,14 +114,23 @@ exports.handler = async function(event) {
 
         // Giữ đúng model 3.6 theo yêu cầu của bạn
         const model = 'gemini-3.6-flash';
-        const maxTokens = getMaxTokens(source || 'chat', userRole);
+                // 1. TÍNH TOÁN TOKEN TỪ SERVER
+        const maxTokens = getMaxTokens(source || 'chat', userRole);[span_0](start_span)[span_0](end_span)
 
-        // Đã bỏ responseMimeType để tránh lỗi định dạng trả về của model 3.6
+        // 2. CẤU HÌNH GENERATION CONFIG (Dùng responseMimeType khi source là backup để bắt buộc model trả về JSON chuẩn xác không bị tràn chữ thô)
         const generationConfig = { 
-            maxOutputTokens: maxTokens
-        };
+            maxOutputTokens: maxTokens,
+            ...(source === 'backup' ? { responseMimeType: 'application/json' } : {})
+        };[span_1](start_span)[span_1](end_span)
 
-        const finalPrompt = "Bạn là chuyên gia YHCT Đại Luận Trị. BẮT BUỘC tuân thủ tuyệt đối y đức, không bịa đặt, trả lời hoàn toàn bằng tiếng Việt chuẩn xác dựa trên y lý YHCT chính thống: \n\n" + prompt;
+        // 3. KHÓA Y ĐỨC VÀ ĐỊNH DẠNG TUYỆT ĐỐI CHO MODEL 3.6
+        let finalPrompt = "Bạn là chuyên gia YHCT Đại Luận Trị. BẮT BUỘC tuân thủ tuyệt đối y đức, không bịa đặt, trả lời hoàn toàn bằng tiếng Việt chuẩn xác dựa trên y lý YHCT chính thống: \n\n" + prompt;[span_2](start_span)[span_2](end_span)
+        
+        // Nếu là luồng backup tìm và lưu, ép chặt đầu ra phải là JSON thuần không kèm văn bản thừa
+        if (source === 'backup') {
+            finalPrompt = "QUAN TRỌNG: Hãy trả về ĐÚNG MỘT đối tượng JSON thuần túy (không kèm markdown như ```json, không kèm lời chào hay giải thích ngoài lề). " + finalPrompt;
+        }
+
 
         const partsPayload = [];
         if (image && typeof image === 'string' && image.startsWith('data:image')) {
@@ -184,7 +193,7 @@ exports.handler = async function(event) {
 
         return { statusCode: 503, headers, body: JSON.stringify({ error: 'Hệ thống AI đang bận.' }) };
 
-    } catch (error) {
-        return { statusCode: 500, headers, body: JSON.stringify({ error: 'Lỗi hệ thống.' }) };
+        } catch (error) {
+        return { statusCode: 500, headers, body: JSON.stringify({ error: 'Lỗi chi tiết: ' + error.message }) };
     }
 };
