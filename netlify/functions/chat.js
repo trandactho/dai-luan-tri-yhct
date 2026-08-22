@@ -116,30 +116,40 @@ exports.handler = async function(event) {
         const model = 'gemini-3.6-flash';
         const calculatedMaxTokens = getMaxTokens(source || 'chat', userRole);
         const maxTokens = reqMaxTokens ? Math.min(Number(reqMaxTokens), calculatedMaxTokens) : calculatedMaxTokens;
+        
+        const generationConfig = { maxOutputTokens: maxTokens };
 
+let finalPrompt = prompt;
+if (source === 'backup') {
+    // Ép kiểu JSON cho luồng AI tìm & lưu tự động
+    generationConfig.responseMimeType = "application/json";
+} else {
+    // Các luồng chat/hội chẩn thông thường mới thêm tiền tố chuyên gia
+    finalPrompt = "Bạn là chuyên gia YHCT Đại Luận Trị. BẮT BUỘC trả lời hoàn toàn bằng tiếng Việt, ngắn gọn, chuẩn xác: " + prompt;
+}
         const partsPayload = [];
-        if (image && typeof image === 'string' && image.startsWith('data:image')) {
-            const matches = image.match(/^data:(image\/\w+);base64,(.+)$/);
-            if (matches && matches.length === 3) {
-                partsPayload.push({ inline_data: { mime_type: matches[1], data: matches[2] } });
-            }
-        }
-        partsPayload.push({ text: "Bạn là chuyên gia YHCT Đại Luận Trị. BẮT BUỘC trả lời hoàn toàn bằng tiếng Việt, ngắn gọn, chuẩn xác: " + prompt });
+if (image && typeof image === 'string' && image.startsWith('data:image')) {
+    const matches = image.match(/^data:(image\/\w+);base64,(.+)$/);
+    if (matches && matches.length === 3) {
+        partsPayload.push({ inline_data: { mime_type: matches[1], data: matches[2] } });
+    }
+}
+partsPayload.push({ text: finalPrompt });
 
-        let responseSuccess = false;
-        let responseData = null;
+let responseSuccess = false;
+let responseData = null;
 
-        for (const apiKey of keysToTry) {
-            try {
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey.trim()}`;
-                const response = await fetch(url, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ 
-                        contents: [{ parts: partsPayload }],
-                        generationConfig: { maxOutputTokens: maxTokens }
-                    })
-                });
+for (const apiKey of keysToTry) {
+    try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey.trim()}`;
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                contents: [{ parts: partsPayload }],
+                generationConfig: generationConfig // 🟢 Sử dụng biến generationConfig đã cấu hình ở trên
+            })
+        });
 
                 const data = await response.json();
                 if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
