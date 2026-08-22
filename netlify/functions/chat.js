@@ -1,5 +1,5 @@
 exports.handler = async function(event) {
-    const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:3000"];
+    const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
     const requestOrigin = event.headers.origin || event.headers.Origin;
 
     if (requestOrigin && !allowedOrigins.includes(requestOrigin)) {
