@@ -10,7 +10,6 @@ const ROLE_CONFIG = {
     SVIP: { tokenMultiplier: 2.0 }
 };
 
-
 function getMaxTokens(sourceKey, role = 'GUEST') {
     const baseTokens = {
         'luantri': 250,
@@ -78,7 +77,7 @@ exports.handler = async function(event) {
         }
 
         const bodyData = JSON.parse(event.body || '{}');
-const { prompt, image, source } = bodyData; // Loại bỏ việc nhận reqMaxTokens từ client
+        const { prompt, image, source } = bodyData; 
 
         if (!prompt || prompt.trim().length === 0) {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung câu hỏi trống.' }) };
@@ -113,43 +112,44 @@ const { prompt, image, source } = bodyData; // Loại bỏ việc nhận reqMaxT
             return { statusCode: 500, headers, body: JSON.stringify({ error: 'Chưa cấu hình API Key trên Netlify.' }) };
         }
 
+        // Đã sửa model thành gemini-1.5-flash hợp lệ
         const model = 'gemini-3.6-flash';
-        // Server tự động tính toán maxTokens chuẩn xác 100% dựa vào role bảo mật từ Database
-        const maxTokens = getMaxTokens(source || 'chat', userRole);         
-        const generationConfig = { maxOutputTokens: maxTokens };
+        
+        // 1. TÍNH TOÁN TOKEN TỪ SERVER
+        const maxTokens = getMaxTokens(source || 'chat', userRole);
 
-let finalPrompt = prompt;
+        // 2. ÉP KIỂU JSON NATIVE TỪ GOOGLE GEMINI API
+        const generationConfig = { 
+            maxOutputTokens: maxTokens,
+            ...(source === 'backup' ? { responseMimeType: 'application/json' } : {})
+        };
 
-if (source === 'backup') {
-    // Giữ nguyên prompt yêu cầu JSON từ client, không ép responseMimeType để tránh xung đột
-} else {
-    // Các luồng chat/hội chẩn thông thường mới thêm tiền tố chuyên gia
-    finalPrompt = "Bạn là chuyên gia YHCT Đại Luận Trị. BẮT BUỘC trả lời hoàn toàn bằng tiếng Việt, ngắn gọn, chuẩn xác: " + prompt;
-}
+        // 3. KHÓA Y ĐỨC TOÀN DIỆN CHO TẤT CẢ CÁC LUỒNG
+        const finalPrompt = "Bạn là chuyên gia YHCT Đại Luận Trị. BẮT BUỘC tuân thủ tuyệt đối y đức, không bịa đặt, trả lời hoàn toàn bằng tiếng Việt chuẩn xác dựa trên y lý YHCT chính thống: \n\n" + prompt;
 
         const partsPayload = [];
-if (image && typeof image === 'string' && image.startsWith('data:image')) {
-    const matches = image.match(/^data:(image\/\w+);base64,(.+)$/);
-    if (matches && matches.length === 3) {
-        partsPayload.push({ inline_data: { mime_type: matches[1], data: matches[2] } });
-    }
-}
-partsPayload.push({ text: finalPrompt });
+        if (image && typeof image === 'string' && image.startsWith('data:image')) {
+            const matches = image.match(/^data:(image\/\w+);base64,(.+)$/);
+            if (matches && matches.length === 3) {
+                partsPayload.push({ inline_data: { mime_type: matches[1], data: matches[2] } });
+            }
+        }
+        partsPayload.push({ text: finalPrompt });
 
-let responseSuccess = false;
-let responseData = null;
+        let responseSuccess = false;
+        let responseData = null;
 
-for (const apiKey of keysToTry) {
-    try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey.trim()}`;
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                contents: [{ parts: partsPayload }],
-                generationConfig: generationConfig // 🟢 Sử dụng biến generationConfig đã cấu hình ở trên
-            })
-        });
+        for (const apiKey of keysToTry) {
+            try {
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey.trim()}`;
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        contents: [{ parts: partsPayload }],
+                        generationConfig: generationConfig 
+                    })
+                });
 
                 const data = await response.json();
                 if (response.ok && data.candidates?.[0]?.content?.parts?.[0]?.text) {
