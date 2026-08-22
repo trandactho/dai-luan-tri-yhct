@@ -588,32 +588,32 @@ async function refreshUserDataFromServer() {
 window.refreshUserDataFromServer = refreshUserDataFromServer;
 
 async function tangVaDongBoQuotaAI() {
-    if (!AppState || !AppState.auth || !AppState.auth.user) return;
-
-    // Không tự ý cộng +1 ở client nữa để tránh lệch pha với Server.
-    // Thay vào đó, gọi action sync_quota để lấy đúng con số thực tế từ CSDL Supabase.
-    if (AppState.auth.token) {
+    const role = getCurrentUserRole();
+    const used = getDailyQuotaUsed(role);
+    
+    // Nếu là thành viên đăng nhập, đồng bộ lên CSDL Supabase
+    if (AppState?.auth?.token) {
         try {
             const res = await fetch(`${API_BASE_URL}/auth`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    action: 'sync_quota',
-                    token: AppState.auth.token
-                })
+                body: JSON.stringify({ action: 'sync_quota', token: AppState.auth.token })
             });
             const result = await res.json();
-            
-            // Cập nhật lại UI theo đúng giá trị Server đã tính toán
             if (res.ok && typeof result.aiUsedToday === 'number') {
                 capNhatQuotaUICucBo(result.aiUsedToday);
+                return;
             }
         } catch (err) {
-            console.warn('Lỗi đồng bộ Quota lên Server:', err.message);
+            console.warn('Lỗi đồng bộ Quota Server:', err);
         }
     }
+    
+    // Nếu là Guest hoặc không có mạng, tăng quota cục bộ
+    capNhatQuotaUICucBo(used + 1);
 }
 window.tangVaDongBoQuotaAI = tangVaDongBoQuotaAI;
+
 
 function updateVietQRImages(userShortId) {
     const bankId = 'VPBANK';
