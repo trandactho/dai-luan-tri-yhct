@@ -17,7 +17,6 @@ function decodeHtmlEntities(str) {
 function cleanTitleText(str) {
     if (!str) return '';
     let decoded = decodeHtmlEntities(String(str));
-    // Loại bỏ dấu gạch ngang, dấu hoa thị, khoảng trắng hoặc ký tự đặc biệt thừa ở đầu tiêu đề
     return decoded.replace(/^[\s\-–—*#]+/, '').trim();
 }
 
@@ -34,16 +33,12 @@ function parseJsonFromAI(replyText) {
 
         const arrayMatch = cleaned.match(/\[[\s\S]*\]/);
         if (arrayMatch) {
-            try {
-                return JSON.parse(arrayMatch[0]);
-            } catch (e) {}
+            try { return JSON.parse(arrayMatch[0]); } catch (e) {}
         }
 
         const objectMatch = cleaned.match(/\{[\s\S]*\}/);
         if (objectMatch) {
-            try {
-                return JSON.parse(objectMatch[0]);
-            } catch (e) {}
+            try { return JSON.parse(objectMatch[0]); } catch (e) {}
         }
 
         return null;
@@ -53,10 +48,6 @@ function parseJsonFromAI(replyText) {
     }
 }
 
-/**
- * Hàm render thông minh: Tự động phân tích JSON hoặc xử lý văn bản thô, 
- * loại bỏ hoàn toàn rác Markdown và tách bạch các ý, đề mục rõ ràng.
- */
 function formatAIMessage(text) {
     if (!text) return '';
 
@@ -136,7 +127,7 @@ function formatAIMessage(text) {
     let safe = escapeHTML(decodeHtmlEntities(cleaned));
     const lines = safe.split('\n');
 
-    const formattedLines = lines.map((line, index) => {
+    const formattedLines = lines.map((line) => {
         let trimmed = line.trim();
         if (!trimmed || trimmed === '---') {
             return '<div class="h-2"></div>';
@@ -182,10 +173,29 @@ function formatAIMessage(text) {
     return typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(rawHtml, { ADD_ATTR: ['target', 'onclick', 'title'] }) : rawHtml;
 }
 
+function getApiEndpoint() {
+    // Nếu chạy trên localhost, ép trỏ thẳng về Production Netlify Function
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        return 'https://dailuantriyhct.com/.netlify/functions/chat';
+    }
+    if (typeof API_BASE_URL !== 'undefined') {
+        return `${API_BASE_URL}/chat`;
+    }
+    return '/.netlify/functions/chat';
+}
 
 // --- 2. TRỢ LÝ AI CHAT TRỰC TIẾP ---
-
 async function sendAIWebMessage() {
+    // 1. Kiểm tra hạn mức sử dụng AI trước khi gửi
+    const userRole = typeof getCurrentUserRole === 'function' ? getCurrentUserRole() : 'GUEST';
+    const usedQuota = typeof getDailyQuotaUsed === 'function' ? getDailyQuotaUsed(userRole) : 0;
+    const maxQuota = typeof getRoleMaxQuota === 'function' ? getRoleMaxQuota(userRole) : 1;
+
+    if (usedQuota >= maxQuota) {
+        alert(`⚠️ Bạn đã dùng hết ${usedQuota}/${maxQuota} lượt AI hôm nay. Vui lòng nâng cấp gói để tiếp tục!`);
+        return;
+    }
+
     const inputEl = document.getElementById('ai-input');
     const chatBox = document.getElementById('ai-chat-box');
     const btnSend = document.querySelector('button[onclick="sendAIWebMessage()"]');
@@ -219,7 +229,7 @@ async function sendAIWebMessage() {
         fullPrompt = `[NGỮ CẢNH HỘI CHẨN TRƯỚC ĐÓ]\n${currentDiagnosticContext}\n\n[CÂU HỎI TIẾP THEO CỦA BỆNH NHÂN - Yêu cầu ngắn gọn, súc tích]: "${query}"`;
     }
 
-        try {
+    try {
         const dynamicMaxTokens = typeof getMaxTokens === 'function' ? getMaxTokens('chat') : 200;
 
         const res = await fetch(getApiEndpoint(), {
@@ -228,13 +238,12 @@ async function sendAIWebMessage() {
             body: JSON.stringify({ 
                 prompt: fullPrompt, 
                 source: 'assistant',
-                max_tokens: dynamicMaxTokens 
+                max_tokens: dynamicMaxTokens
             })
         });
 
-        // 🟢 BẮT LỖI CHI TIẾT TỪ SERVER
         const responseText = await res.text();
-        let data;
+        let data = {};
         try {
             data = JSON.parse(responseText);
         } catch (e) {
@@ -244,13 +253,15 @@ async function sendAIWebMessage() {
         const loadingEl = document.getElementById(loadingId);
         if (loadingEl) loadingEl.remove();
 
-                if (!res.ok || data.error) {
+        if (!res.ok || data.error) {
             const errDetail = data.error || data.message || 'Lỗi không xác định từ máy chủ';
             chatBox.innerHTML += `<div class="bg-red-950/40 p-3 rounded-lg border border-red-800 text-red-300 text-xs"><i class="fa-solid fa-triangle-exclamation mr-1"></i> <b>Lỗi AI (${res.status}):</b> ${escapeHTML(errDetail)}</div>`;
             alert(`⚠️ Không thể dùng AI:\n${errDetail}`);
         } else {
-            // 🟢 CẬP NHẬT QUOTA CHUẨN TỪ SERVER LÊN GIAO DIỆN NGAY LẬP TỨC
-            if (typeof data.aiUsedToday === 'number' && typeof capNhatQuotaUICucBo === 'function') {
+            // Trừ lượt và đồng bộ quota với Server / CSDL
+            if (typeof tangVaDongBoQuotaAI === 'function') {
+                await tangVaDongBoQuotaAI();
+            } else if (typeof data.aiUsedToday === 'number' && typeof capNhatQuotaUICucBo === 'function') {
                 capNhatQuotaUICucBo(data.aiUsedToday);
             }
 
@@ -269,8 +280,7 @@ async function sendAIWebMessage() {
         if (loadingEl) loadingEl.remove();
         chatBox.innerHTML += `<div class="bg-red-950/40 p-3 rounded-lg border border-red-800 text-red-300 text-xs"><i class="fa-solid fa-plug-circle-xmark mr-1"></i> <b>Lỗi kết nối:</b> ${escapeHTML(err.message)}</div>`;
         alert(`❌ Lỗi kết nối AI: ${err.message}`);
-    
-        } finally {
+    } finally {
         if (btnSend) {
             btnSend.disabled = false;
             btnSend.classList.remove('opacity-50', 'pointer-events-none');
@@ -279,7 +289,8 @@ async function sendAIWebMessage() {
     }
 }
 
-// --- HÀM LÀM SẠCH CHUỖI GỐC (BỎ HOÀN TOÀN CÁC KÝ TỰ RÁC VỠ JSON) ---
+// --- 3. LÀM SẠCH VÀ CHUẨN HÓA KẾT QUẢ AI BACKUP ---
+
 function stripMarkdown(text) {
     if (!text) return '';
     return String(text)
@@ -296,7 +307,6 @@ function stripMarkdown(text) {
 function validateAndCleanAIResult(obj, tabName) {
     if (!obj || typeof obj !== 'object') return null;
 
-    // 1. Danh mục Biện chứng Luận Trị
     if (tabName.includes('Luận Trị') || tabName.includes('luantri')) {
         return {
             hc: stripMarkdown(obj.hc || 'HỘI CHỨNG CHƯA RÕ'),
@@ -305,10 +315,7 @@ function validateAndCleanAIResult(obj, tabName) {
             bt: stripMarkdown(obj.bt || 'Đối chứng nghiệm phương'),
             tpbt: Array.isArray(obj.tpbt) ? obj.tpbt.map(stripMarkdown) : []
         };
-    }
-    
-    // 2. Danh mục Dược Liệu
-    else if (tabName.includes('Dược Liệu') || tabName.includes('duoclieu')) {
+    } else if (tabName.includes('Dược Liệu') || tabName.includes('duoclieu')) {
         return {
             ten: stripMarkdown(obj.ten || 'Dược liệu chưa rõ tên'),
             nhom: stripMarkdown(obj.nhom || 'Dược liệu YHCT'),
@@ -317,10 +324,7 @@ function validateAndCleanAIResult(obj, tabName) {
             cong_dung: stripMarkdown((!obj.cong_dung || obj.cong_dung === "Đang cập nhật") ? "Tư âm dưỡng huyết, khu phong trừ thấp." : obj.cong_dung),
             kieng_ky: stripMarkdown(obj.kieng_ky || obj.luu_y || 'Tuân thủ liều lượng phối ngũ tiêu chuẩn.')
         };
-    } 
-    
-    // 3. Danh mục Huyệt Vị
-    else if (tabName.includes('Huyệt Vị') || tabName.includes('huyetvi')) {
+    } else if (tabName.includes('Huyệt Vị') || tabName.includes('huyetvi')) {
         return {
             ten: stripMarkdown(obj.ten || 'Huyệt chưa rõ tên'),
             kinh: stripMarkdown(obj.kinh || 'Kinh mạch YHCT'),
@@ -328,10 +332,7 @@ function validateAndCleanAIResult(obj, tabName) {
             chu_tri: stripMarkdown((!obj.chu_tri || obj.chu_tri === "Đang cập nhật") ? "Điều hòa khí huyết, thông kinh hoạt lạc." : obj.chu_tri),
             vi_tri: stripMarkdown(obj.vi_tri || obj.dinh_vi || 'Đang cập nhật mô tả giải phẫu.')
         };
-    }
-
-    // 4. Danh mục Trà Dược
-    else if (tabName.includes('Trà Dược') || tabName.includes('Tra') || tabName.includes('tra')) {
+    } else if (tabName.includes('Trà Dược') || tabName.includes('Tra') || tabName.includes('tra')) {
         return {
             ten: stripMarkdown(obj.ten || 'Bài trà chưa rõ tên'),
             nhom: stripMarkdown(obj.nhom || 'Trà Dược YHCT'),
@@ -340,10 +341,7 @@ function validateAndCleanAIResult(obj, tabName) {
             kieng_ky: stripMarkdown(obj.kieng_ky || 'Phụ nữ có thai hoặc người tỳ vị hư hàn nên tham khảo ý kiến chuyên gia.'),
             thanh_phan: Array.isArray(obj.thanh_phan) ? obj.thanh_phan.map(stripMarkdown) : []
         };
-    }
-
-    // 5. Danh mục Dược Thiện
-    else if (tabName.includes('Dược Thiện') || tabName.includes('DuocThien') || tabName.includes('duocthien')) {
+    } else if (tabName.includes('Dược Thiện') || tabName.includes('DuocThien') || tabName.includes('duocthien')) {
         let formattedThanhPhan = [{ vi: 'Thành phần chính', lieu: 'Vừa đủ' }];
         if (Array.isArray(obj.thanh_phan)) {
             formattedThanhPhan = obj.thanh_phan.map(item => {
@@ -365,10 +363,7 @@ function validateAndCleanAIResult(obj, tabName) {
                 : [stripMarkdown(obj.cach_lam || 'Nấu chín theo phương pháp cổ truyền.')],
             kieng_ky: stripMarkdown(obj.kieng_ky || 'Tham khảo ý kiến thầy thuốc trước khi dùng.')
         };
-    }
-
-    // 6. Danh mục Tứ Chẩn & Hội Chẩn AI
-    else if (tabName.includes('Tứ Chẩn') || tabName.includes('tu_chan') || tabName.includes('vongchan')) {
+    } else if (tabName.includes('Tứ Chẩn') || tabName.includes('tu_chan') || tabName.includes('vongchan')) {
         return {
             bat_cuong: stripMarkdown(obj.bat_cuong || 'Chưa xác định Bát cương'),
             tang_phu: stripMarkdown(obj.tang_phu || 'Chưa xác định Tạng phủ'),
@@ -383,13 +378,25 @@ function validateAndCleanAIResult(obj, tabName) {
             })) : []
         };
     }
-    
-    // Mặc định làm sạch chuỗi cho đối tượng khác nếu có
     return obj;
 }
 
 async function fetchAIBackupResult(query, tabName, containerEl) {
     if (!containerEl) return;
+
+    // Kiểm tra hạn mức sử dụng AI
+    const userRole = typeof getCurrentUserRole === 'function' ? getCurrentUserRole() : 'GUEST';
+    const usedQuota = typeof getDailyQuotaUsed === 'function' ? getDailyQuotaUsed(userRole) : 0;
+    const maxQuota = typeof getRoleMaxQuota === 'function' ? getRoleMaxQuota(userRole) : 1;
+
+    if (usedQuota >= maxQuota) {
+        containerEl.innerHTML = `
+            <div class="col-span-full text-center py-8 text-xs text-amber-400 bg-stone-900/80 rounded-xl border border-amber-800/50">
+                ⚠️ Bạn đã hết ${usedQuota}/${maxQuota} lượt dùng AI hôm nay. Vui lòng nâng cấp tài khoản!
+            </div>`;
+        return;
+    }
+
     containerEl.innerHTML = `
         <div class="col-span-full text-center py-12 space-y-2 text-stone-400 bg-stone-900/60 rounded-xl border border-amber-600/30">
             <i class="fa-solid fa-brain fa-spin text-3xl text-amber-500 block mb-1"></i>
@@ -397,8 +404,8 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
             <p class="text-xs text-stone-500">Từ khóa: "${escapeHTML(query)}"</p>
         </div>
     `;
+
     try {
-        // Xác định cấu trúc JSON mẫu phù hợp theo từng tab danh mục
         let promptSpec = `- Nếu là Dược Liệu: {"ten": "${query}", "nhom": "Dược liệu YHCT", "cong_dung": "...", "kieng_ky": "..."}`;
         if (tabName.includes('Luận Trị') || tabName.includes('luantri')) {
             promptSpec = `- Nếu là Biện chứng Luận Trị: {"hc": "${query}", "pdt": "Pháp trị chuẩn", "tc": ["Triệu chứng lâm sàng 1", "Triệu chứng 2"], "bt": "Bài thuốc cổ phương phù hợp", "tpbt": ["Vị thuốc 1", "Vị thuốc 2"]}`;
@@ -417,7 +424,6 @@ ${promptSpec}`;
 
         const dynamicMaxTokens = typeof getMaxTokens === 'function' ? getMaxTokens('backup') : 250;
 
-                // 🟢 Lấy Token từ localStorage để gửi kèm xác thực lên server
         let savedToken = '';
         try { savedToken = localStorage.getItem('access_token') || ''; } catch (e) {}
 
@@ -425,20 +431,20 @@ ${promptSpec}`;
             method: 'POST',
             headers: { 
                 'Content-Type': 'application/json',
-                // Bổ sung Header Authorization để Server nhận diện tài khoản và tính lượt
                 ...(savedToken ? { 'Authorization': `Bearer ${savedToken}` } : {})
             },
             body: JSON.stringify({ 
                 prompt: prompt, 
                 source: 'backup',
-                max_tokens: dynamicMaxTokens 
+                max_tokens: dynamicMaxTokens
             })
         });
         const data = await res.json();
     
         if (res.ok && data.reply) {
-            // 🟢 CẬP NHẬT QUOTA NGAY LẬP TỨC KHI SERVER PHẢN HỒI THÀNH CÔNG
-            if (typeof data.aiUsedToday === 'number' && typeof capNhatQuotaUICucBo === 'function') {
+            if (typeof tangVaDongBoQuotaAI === 'function') {
+                await tangVaDongBoQuotaAI();
+            } else if (typeof data.aiUsedToday === 'number' && typeof capNhatQuotaUICucBo === 'function') {
                 capNhatQuotaUICucBo(data.aiUsedToday);
             }
 
@@ -456,9 +462,7 @@ ${promptSpec}`;
                 };
             }
             
-            // Lưu trữ vĩnh viễn vào CSDL & LocalStorage
             luuKetQuaAiVaoDb(query, tabName, parsedObj);            
-            // Tự động làm mới giao diện hiển thị sau khi lưu
             if (tabName.includes('Trà Dược') || tabName.includes('Tra')) {
                 if (typeof filterTra === 'function') filterTra();
             } else if (tabName.includes('Dược Liệu')) {
@@ -479,7 +483,6 @@ ${promptSpec}`;
     }
 }
 
-
 // --- 4. HÀM QUẢN LÝ LƯU TRỮ VĨNH VIỄN VÀO CSDL VÀ LOCALSTORAGE ---
 
 function luuKetQuaAiVaoDb(query, tabName, objData) {
@@ -498,8 +501,7 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
             isAiGenerated: true
         };
         try { localStorage.setItem('custom_database', JSON.stringify(database)); } catch (e) {}
-    }
-    else if (tabName.includes('Dược Liệu')) {
+    } else if (tabName.includes('Dược Liệu')) {
         if (typeof duocLieuData === 'undefined') window.duocLieuData = [];
         const newObj = {
             ten: objData.ten || query,
@@ -520,8 +522,7 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
         
         if (typeof safeSetLocalStorage === 'function') safeSetLocalStorage('custom_duocLieuData', custom, 30);
         else localStorage.setItem('custom_duocLieuData', JSON.stringify(custom));
-    }
-    else if (tabName.includes('Huyệt Vị')) {
+    } else if (tabName.includes('Huyệt Vị')) {
         if (typeof huyetViData === 'undefined') window.huyetViData = [];
         const newObj = {
             ten: objData.ten || query,
@@ -541,8 +542,7 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
         
         if (typeof safeSetLocalStorage === 'function') safeSetLocalStorage('custom_huyetViData', custom, 30);
         else localStorage.setItem('custom_huyetViData', JSON.stringify(custom));
-    }
-    else if (tabName.includes('Trà Dược') || tabName.includes('Tra')) {
+    } else if (tabName.includes('Trà Dược') || tabName.includes('Tra')) {
         if (typeof traData === 'undefined') window.traData = [];
         const newObj = {
             ten: objData.ten || query,
@@ -563,8 +563,7 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
         
         if (typeof safeSetLocalStorage === 'function') safeSetLocalStorage('custom_traData', custom, 30);
         else localStorage.setItem('custom_traData', JSON.stringify(custom));
-    }
-    else if (tabName.includes('Dược Thiện') || tabName.includes('DuocThien')) {
+    } else if (tabName.includes('Dược Thiện') || tabName.includes('DuocThien')) {
         if (typeof duocThienData === 'undefined') window.duocThienData = [];
 
         let formattedThanhPhan = [{ vi: query, lieu: "Vừa đủ" }];
@@ -603,7 +602,7 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
     }
 }
 
-// --- 5. NÚT KÍCH HOẠT SỰ KIỆN TÌM AI ĐỘC LẬP TỪ GIAO DIỆN (NÚT LỆNH THỰC THI 1 LẦN) ---
+// --- 5. NÚT KÍCH HOẠT SỰ KIỆN TÌM AI ĐỘC LẬP TỪ GIAO DIỆN ---
 
 async function chayLenhAi(btnElement, loaiLenh) {
     if (!btnElement) return;
@@ -625,13 +624,15 @@ async function chayLenhAi(btnElement, loaiLenh) {
                 if (descEl) {
                     descEl.classList.remove('hidden');
                     descEl.innerHTML = `<i class="fa-solid fa-brain fa-spin text-amber-500 mr-1"></i> Đang phân tích hội chứng...`;
+                    const dynamicMaxTokens = typeof getMaxTokens === 'function' ? getMaxTokens('chat') : 200;
+                    
                     const res = await fetch(getApiEndpoint(), {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ 
-                            prompt: `Phân tích cực kỳ ngắn gọn, súc tích hội chứng YHCT: ${query}. Tối đa 3 ý chính.`, 
+                            prompt: `Phân tích ngắn gọn, súc tích hội chứng YHCT: ${query}.`, 
                             source: 'assistant', 
-                            max_tokens: 200 
+                            max_tokens: dynamicMaxTokens 
                         })
                     });
                     const data = await res.json();
@@ -645,13 +646,15 @@ async function chayLenhAi(btnElement, loaiLenh) {
                 if (descEl) {
                     descEl.classList.remove('hidden');
                     descEl.innerHTML = `<i class="fa-solid fa-brain fa-spin text-amber-500 mr-1"></i> Đang phân tích bài thuốc...`;
+                    const dynamicMaxTokens = typeof getMaxTokens === 'function' ? getMaxTokens('chat') : 200;
+                    
                     const res = await fetch(getApiEndpoint(), {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ 
-                            prompt: `Phân tích cực kỳ ngắn gọn, súc tích bài thuốc cổ phương: ${query}. Tối đa 3 ý chính.`, 
+                            prompt: `Phân tích ngắn gọn, súc tích bài thuốc cổ phương: ${query}.`, 
                             source: 'assistant', 
-                            max_tokens: 200 
+                            max_tokens: dynamicMaxTokens 
                         })
                     });
                     const data = await res.json();

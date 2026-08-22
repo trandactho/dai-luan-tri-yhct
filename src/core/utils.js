@@ -1,26 +1,13 @@
-// Cấu hình phân tầng quyền lợi tài khoản
+// UTILS.JS - Cấu hình định mức & Cấp bậc hệ thống
+const ROLE_QUOTAS = { GUEST: 1, FREE: 3, VIP: 30, SVIP: 99 };
 const ROLE_CONFIG = {
-    GUEST: {
-        tokenMultiplier: 1.0,
-        showAds: true,
-        name: 'Tài khoản Miễn phí'
-    },
-    FREE: {
-        tokenMultiplier: 1.0,
-        showAds: true,
-        name: 'Tài khoản Miễn phí'
-    },
-    VIP: {
-        tokenMultiplier: 1.5,
-        showAds: false,
-        name: 'Tài khoản VIP'
-    },
-    SVIP: {
-        tokenMultiplier: 2.0,
-        showAds: false,
-        name: 'Tài khoản SVIP'
-    }
+    GUEST: { tokenMultiplier: 1.0, showAds: true, name: 'Tài khoản Miễn phí' },
+    FREE:  { tokenMultiplier: 1.0, showAds: true, name: 'Tài khoản Miễn phí' },
+    VIP:   { tokenMultiplier: 1.5, showAds: false, name: 'Tài khoản VIP' },
+    SVIP:  { tokenMultiplier: 2.0, showAds: false, name: 'Tài khoản SVIP' }
 };
+window.ROLE_QUOTAS = ROLE_QUOTAS;
+window.ROLE_CONFIG = ROLE_CONFIG;
 
 // 1. Hàm kiểm tra ẩn/hiện quảng cáo
 function shouldShowAds() {
