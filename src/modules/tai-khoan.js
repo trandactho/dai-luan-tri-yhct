@@ -277,9 +277,9 @@ function renderAuthUI(isLoggedIn) {
     if (paidSections) paidSections.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch max-w-6xl mx-auto";
     if (guestCard) guestCard.style.display = 'flex';
     if (freeCard) freeCard.style.display = 'flex';
-    if (vip3Card) vip3Card.style.display = 'flex';   // 🟢 Đổi 'none' thành 'flex'
-    if (vipCard) vipCard.style.display = 'flex';     // 🟢 Đổi 'none' thành 'flex'
-    if (svipCard) svipCard.style.display = 'flex';   // 🟢 Đổi 'none' thành 'flex'
+    if (vip3Card) vip3Card.style.display = 'none';   // 🟢 Đổi 'none' thành 'flex'
+    if (vipCard) vipCard.style.display = 'none';     // 🟢 Đổi 'none' thành 'flex'
+    if (svipCard) svipCard.style.display = 'none';   // 🟢 Đổi 'none' thành 'flex'
         
         if (elRoleDesc) elRoleDesc.innerHTML = '👤 <strong>Cấp GUEST:</strong> Tra cứu CSDL YHCT cơ bản. Hãy <strong>Đăng ký/Đăng nhập</strong> để nhận Cấp FREE vĩnh viễn.';
     } else {
@@ -312,8 +312,8 @@ function renderAuthUI(isLoggedIn) {
 
         if (paidSections) paidSections.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch max-w-6xl mx-auto";
         if (guestCard) guestCard.style.display = 'flex';
-        if (freeCard) guestCard.style.display = 'flex';
-        if (vip3Card) guestCard.style.display = 'flex';
+        if (freeCard) freeCard.style.display = 'flex';
+        if (vip3Card) vip3Card.style.display = 'flex';
         if (vipCard) vipCard.style.display = 'flex';
         if (svipCard) svipCard.style.display = 'flex';
 
@@ -339,11 +339,11 @@ function renderAuthUI(isLoggedIn) {
         }
 
         if (userRole === 'FREE') {
-            if (elRoleDesc) elRoleDesc.innerHTML = '✨ <strong>Đặc quyền FREE:</strong> AI Tìm & Lưu tra cứu, Trắc nghiệm CSDL & Phối ngũ bài thuốc.';
+            if (elRoleDesc) elRoleDesc.innerHTML = '✨ <strong>Đặc quyền FREE:</strong> Bao gồm toàn bộ quyền cấp FREE + AI Tìm & Lưu tra cứu, Trắc nghiệm CSDL & Phối ngũ bài thuốc.';
         } else if (userRole === 'VIP') {
-            if (elRoleDesc) elRoleDesc.innerHTML = `👑 <strong>Đặc quyền VIP:</strong> Bao gồm FREE + Tứ Chẩn AI, AI Sinh Trắc Nghiệm lâm sàng, Kê đơn PDF & Tắt quảng cáo.${countdownHtml}`;
+            if (elRoleDesc) elRoleDesc.innerHTML = `👑 <strong>Đặc quyền VIP:</strong> Bao gồm toàn bộ quyền cấp FREE + Tứ Chẩn AI, AI Sinh Trắc Nghiệm lâm sàng, Kê đơn PDF & Tắt quảng cáo.${countdownHtml}`;
         } else if (userRole === 'SVIP') {
-            if (elRoleDesc) elRoleDesc.innerHTML = `⚡ <strong>Đặc quyền SVIP:</strong> Bao gồm VIP + Phản hồi AI dài tối đa & ưu tiên xử lý cao nhất.${countdownHtml}`;
+            if (elRoleDesc) elRoleDesc.innerHTML = `⚡ <strong>Đặc quyền SVIP:</strong> Bao gồm toàn bộ quyền cấp VIP + Phản hồi AI dài tối đa & ưu tiên xử lý cao nhất.${countdownHtml}`;
         }
     }
 
