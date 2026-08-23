@@ -1196,11 +1196,12 @@ async function chiaSeZaloDonThuoc() {
 }
 
 // ========================================================
-// 🟢 QUẢN LÝ & LƯU TRỮ HỒ SƠ BỆNH NHÂN (LOCALSTORAGE)
+// 🟢 QUẢN LÝ & LƯU TRỮ HỒ SƠ BỆNH NHÂN
 // ========================================================
 const HO_SO_BENH_NHAN_KEY = 'yhct_ho_so_benh_nhan_list';
+let activeHoSoId = null; // Biến lưu ID hồ sơ đang mở/xem
 
-// Lấy danh sách hồ sơ từ LocalStorage
+// 1. Lấy danh sách hồ sơ từ LocalStorage
 function getDanhSachHoSoBenhNhan() {
     try {
         return JSON.parse(localStorage.getItem(HO_SO_BENH_NHAN_KEY) || '[]');
@@ -1209,19 +1210,32 @@ function getDanhSachHoSoBenhNhan() {
     }
 }
 
-// Lưu hoặc cập nhật hồ sơ bệnh nhân
+// 2. Lưu hồ sơ mới (Độc lập từng lần khám)
 function luuHoSoBenhNhan() {
     const tenBn = document.getElementById('don-ten-bn')?.value?.trim();
+    const tuoi = document.getElementById('don-tuoi')?.value || '35';
+    const diachi = document.getElementById('don-diachi')?.value?.trim() || '';
+
     if (!tenBn) {
         alert('⚠️ Vui lòng nhập Họ & Tên bệnh nhân trước khi lưu!');
         document.getElementById('don-ten-bn')?.focus();
         return;
     }
 
+    const ngayHienTai = new Date().toLocaleDateString('vi-VN');
+    const gioHienTai = new Date().toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+
+    const cleanName = typeof removeAccents === 'function' ? removeAccents(tenBn).toLowerCase().replace(/\s+/g, '_') : tenBn.toLowerCase();
+    const cleanAddress = typeof removeAccents === 'function' ? removeAccents(diachi).toLowerCase().replace(/\s+/g, '_') : diachi.toLowerCase();
+    
+    // Gán ID mới và cập nhật vào biến activeHoSoId
+    activeHoSoId = `bn_${cleanName}_${tuoi}_${cleanAddress}_${Date.now()}`;
+
     const hoSoNew = {
-        id: 'bn_' + Date.now(),
+        id: activeHoSoId,
         tenBn: tenBn,
-        tuoi: document.getElementById('don-tuoi')?.value || '35',
+        tuoi: tuoi,
+        diachi: diachi,
         theTrang: document.getElementById('don-thetrang')?.value || 'binhthuong',
         chanDoan: document.getElementById('don-chandoan')?.value || '',
         baiThuoc: document.getElementById('don-baithuoc-ten')?.value || '',
@@ -1229,32 +1243,19 @@ function luuHoSoBenhNhan() {
         huongDanSac: document.getElementById('don-huongdan-sac')?.value || '',
         danDoKiengKy: document.getElementById('don-dando-kiengky')?.value || '',
         tenBacSi: document.getElementById('don-ten-bacsi')?.value || '',
-        ngayCapNhat: new Date().toLocaleDateString('vi-VN')
+        ngayCapNhat: `${ngayHienTai} lúc ${gioHienTai}`
     };
 
     let dsHoSo = getDanhSachHoSoBenhNhan();
-    const normTenNew = typeof removeAccents === 'function' ? removeAccents(tenBn).toLowerCase() : tenBn.toLowerCase();
-
-    // Nếu đã có bệnh nhân trùng tên -> Cập nhật đè, ngược lại thêm mới lên đầu danh sách
-    const idx = dsHoSo.findIndex(item => {
-        const itemTen = typeof removeAccents === 'function' ? removeAccents(item.tenBn).toLowerCase() : item.tenBn.toLowerCase();
-        return itemTen === normTenNew;
-    });
-
-    if (idx >= 0) {
-        dsHoSo[idx] = { ...dsHoSo[idx], ...hoSoNew, id: dsHoSo[idx].id };
-    } else {
-        dsHoSo.unshift(hoSoNew);
-    }
-
+    dsHoSo.unshift(hoSoNew);
     localStorage.setItem(HO_SO_BENH_NHAN_KEY, JSON.stringify(dsHoSo));
-    alert(`✅ Đã lưu hồ sơ bệnh nhân "${tenBn}" thành công!`);
+    alert(`✅ Đã lưu hồ sơ mới cho bệnh nhân "${tenBn}" thành công!`);
 
     const dropdown = document.getElementById('dropdown-tim-bn');
     if (dropdown) dropdown.classList.add('hidden');
 }
 
-// Gợi ý & tìm kiếm hồ sơ bệnh nhân theo tên khi gõ vào ô nhập liệu
+// 3. Gợi ý tìm kiếm khi gõ tên bệnh nhân
 function gieoGoiYTimHoSo() {
     const input = document.getElementById('don-ten-bn');
     const dropdown = document.getElementById('dropdown-tim-bn');
@@ -1272,16 +1273,17 @@ function gieoGoiYTimHoSo() {
     const matches = dsHoSo.filter(hs => {
         const normTen = typeof removeAccents === 'function' ? removeAccents(hs.tenBn).toLowerCase() : hs.tenBn.toLowerCase();
         return normTen.includes(normQuery);
-    }).slice(0, 8);
+    }).slice(0, 10);
 
     if (matches.length > 0) {
         dropdown.innerHTML = matches.map(m => `
             <div onclick="taiHoSoBenhNhan('${m.id}')" class="p-2 hover:bg-stone-800 cursor-pointer text-xs border-b border-stone-800/80 flex justify-between items-center transition-colors">
                 <div>
                     <span class="font-bold text-amber-400">👤 ${typeof escapeHTML === 'function' ? escapeHTML(m.tenBn) : m.tenBn}</span>
-                    <span class="text-stone-400 text-[10px] ml-1.5">(${m.tuoi}T - ${typeof escapeHTML === 'function' ? escapeHTML(m.baiThuoc || 'Chưa rõ bài thuốc') : (m.baiThuoc || 'Chưa rõ bài thuốc')})</span>
+                    <span class="text-stone-300 text-[11px] ml-1">(${m.tuoi} tuổi${m.diachi ? ' - ' + escapeHTML(m.diachi) : ''})</span>
+                    <div class="text-stone-400 text-[10px] mt-0.5">${typeof escapeHTML === 'function' ? escapeHTML(m.baiThuoc || 'Chưa rõ bài thuốc') : (m.baiThuoc || 'Chưa rõ bài thuốc')}</div>
                 </div>
-                <div class="flex items-center gap-2">
+                <div class="flex items-center gap-2 flex-shrink-0">
                     <span class="text-[10px] text-stone-500">${m.ngayCapNhat || ''}</span>
                     <button onclick="event.stopPropagation(); xoaHoSoBenhNhan('${m.id}')" class="text-red-400 hover:text-red-300 p-1" title="Xóa hồ sơ">
                         <i class="fa-solid fa-trash-can text-[10px]"></i>
@@ -1295,14 +1297,17 @@ function gieoGoiYTimHoSo() {
     }
 }
 
-// Nạp lại toàn bộ dữ liệu hồ sơ bệnh nhân cũ vào Modal Đơn Thuốc
+// 4. Nạp lại thông tin vào modal và ghi nhớ ID đang mở
 function taiHoSoBenhNhan(hoSoId) {
     const dsHoSo = getDanhSachHoSoBenhNhan();
     const hs = dsHoSo.find(item => item.id === hoSoId);
     if (!hs) return;
 
+    activeHoSoId = hs.id; // Ghi nhớ ID hồ sơ đang tải lên
+
     if (document.getElementById('don-ten-bn')) document.getElementById('don-ten-bn').value = hs.tenBn || '';
     if (document.getElementById('don-tuoi')) document.getElementById('don-tuoi').value = hs.tuoi || '35';
+    if (document.getElementById('don-diachi')) document.getElementById('don-diachi').value = hs.diachi || '';
     if (document.getElementById('don-thetrang')) document.getElementById('don-thetrang').value = hs.theTrang || 'binhthuong';
     if (document.getElementById('don-chandoan')) document.getElementById('don-chandoan').value = hs.chanDoan || '';
     if (document.getElementById('don-baithuoc-ten')) document.getElementById('don-baithuoc-ten').value = hs.baiThuoc || '';
@@ -1320,16 +1325,40 @@ function taiHoSoBenhNhan(hoSoId) {
     if (dropdown) dropdown.classList.add('hidden');
 }
 
-// Xóa hồ sơ bệnh nhân
+// 5. Xóa hồ sơ đang hiển thị trên form (Nút Xóa hồ sơ)
+function xoaHoSoHienTai() {
+    if (!activeHoSoId) {
+        alert('⚠️ Chưa có hồ sơ nào được chọn hoặc tải lên từ hệ thống!');
+        return;
+    }
+    if (confirm('Bạn có chắc chắn muốn xóa hồ sơ này không?')) {
+        xoaHoSoBenhNhan(activeHoSoId);
+        activeHoSoId = null;
+        
+        // Reset sạch form
+        document.getElementById('don-ten-bn').value = '';
+        document.getElementById('don-tuoi').value = '35';
+        document.getElementById('don-diachi').value = '';
+        document.getElementById('don-chandoan').value = '';
+        document.getElementById('don-baithuoc-ten').value = '';
+        window.donThuocCurrentHerbs = [];
+        if (typeof capNhatBangLieuLuongDonThuoc === 'function') {
+            capNhatBangLieuLuongDonThuoc();
+        }
+        alert('🗑️ Đã xóa hồ sơ thành công!');
+    }
+}
+
+// 6. Xóa hồ sơ bất kỳ theo ID (Dùng chung cho cả nút trong dropdown lẫn hàm trên)
 function xoaHoSoBenhNhan(hoSoId) {
-    if (!confirm('Bạn có chắc chắn muốn xóa hồ sơ bệnh nhân này?')) return;
     let dsHoSo = getDanhSachHoSoBenhNhan();
     dsHoSo = dsHoSo.filter(item => item.id !== hoSoId);
     localStorage.setItem(HO_SO_BENH_NHAN_KEY, JSON.stringify(dsHoSo));
+    if (activeHoSoId === hoSoId) activeHoSoId = null;
     gieoGoiYTimHoSo();
 }
 
-// Lắng nghe sự kiện click ra ngoài để tự đóng Dropdown gợi ý bệnh nhân
+// 7. Đóng Dropdown khi click ra ngoài
 document.addEventListener('click', function(e) {
     const input = document.getElementById('don-ten-bn');
     const dropdown = document.getElementById('dropdown-tim-bn');
@@ -1340,3 +1369,144 @@ document.addEventListener('click', function(e) {
     }
 });
 
+// ========================================================
+// 🟢 SAO LƯU & PHỤC HỒI DỮ LIỆU
+// ========================================================
+function xuatDuLieuHoSo() {
+    const dsHoSo = getDanhSachHoSoBenhNhan();
+    if (dsHoSo.length === 0) {
+        alert('⚠️ Hiện tại chưa có hồ sơ nào để sao lưu!');
+        return;
+    }
+
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(dsHoSo, null, 2));
+    const downloadAnchor = document.createElement('a');
+    const ngayTruyXuat = new Date().toISOString().slice(0, 10);
+    
+    downloadAnchor.setAttribute("href", dataStr);
+    downloadAnchor.setAttribute("download", `Backup_HoSoBenhNhan_${ngayTruyXuat}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+    
+    alert(`✅ Đã xuất thành công ${dsHoSo.length} hồ sơ lưu trữ!`);
+}
+
+function nhapDuLieuHoSo(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const importedData = JSON.parse(e.target.result);
+            if (Array.isArray(importedData)) {
+                if (confirm(`⚠️ Tìm thấy ${importedData.length} hồ sơ. Bạn có muốn gộp vào hệ thống không?`)) {
+                    let currentDs = getDanhSachHoSoBenhNhan();
+                    const existingIds = new Set(currentDs.map(item => item.id));
+                    let addedCount = 0;
+
+                    importedData.forEach(item => {
+                        if (!existingIds.has(item.id)) {
+                            currentDs.push(item);
+                            addedCount++;
+                        }
+                    });
+
+                    localStorage.setItem(HO_SO_BENH_NHAN_KEY, JSON.stringify(currentDs));
+                    alert(`✅ Phục hồi thành công ${addedCount} hồ sơ mới.`);
+                }
+            } else {
+                alert('❌ Định dạng tệp không hợp lệ!');
+            }
+        } catch (err) {
+            alert('❌ Lỗi đọc tệp dữ liệu!');
+        }
+        event.target.value = '';
+    };
+    reader.readAsText(file);
+}
+// ========================================================
+// 🟢 TÌM KIẾM & CHỌN BÀI THUỐC TỪ CSDL LUANTRIDATA.JS
+// ========================================================
+
+// 1. Gợi ý tìm kiếm bài thuốc khi gõ vào ô Bài thuốc chủ phương
+function gieoGoiYBaiThuocLuanTri() {
+    const input = document.getElementById('don-baithuoc-ten');
+    const dropdown = document.getElementById('dropdown-tim-baithuoc');
+    if (!input || !dropdown) return;
+
+    const query = input.value.trim().toLowerCase();
+    
+    // Kiểm tra biến database (nạp từ luantridata.js)
+    if (typeof database === 'undefined' || !database) {
+        dropdown.classList.add('hidden');
+        return;
+    }
+
+    const matches = [];
+    for (let key in database) {
+        const item = database[key];
+        const btName = item.bt || '';
+        if (!btName || btName === "Đối chứng nghiệm phương") continue;
+
+        const normBtName = typeof removeAccents === 'function' ? removeAccents(btName).toLowerCase() : btName.toLowerCase();
+        const normQuery = typeof removeAccents === 'function' ? removeAccents(query) : query;
+
+        if (normBtName.includes(normQuery)) {
+            if (!matches.some(m => m.bt.toLowerCase() === btName.toLowerCase())) {
+                matches.push({ key, ...item });
+            }
+        }
+        if (matches.length >= 15) break;
+    }
+
+    if (matches.length > 0 && query !== '') {
+        dropdown.innerHTML = matches.map(m => `
+            <div onclick="chonBaiThuocLuanTri('${m.key}')" class="p-2 hover:bg-stone-800 cursor-pointer text-xs border-b border-stone-800/80 flex justify-between items-center transition-colors">
+                <div>
+                    <span class="font-bold text-emerald-400">🌿 ${typeof escapeHTML === 'function' ? escapeHTML(m.bt) : m.bt}</span>
+                    <div class="text-stone-400 text-[10px] mt-0.5">Hội chứng: ${typeof escapeHTML === 'function' ? escapeHTML(m.hc || '') : (m.hc || '')}</div>
+                </div>
+                <span class="text-[10px] text-amber-500 bg-amber-950/40 px-1.5 py-0.5 rounded border border-amber-800/50">Chọn</span>
+            </div>
+        `).join('');
+        dropdown.classList.remove('hidden');
+    } else {
+        dropdown.classList.add('hidden');
+    }
+}
+
+// 2. Nạp bài thuốc và danh sách vị thuốc tương ứng khi người dùng bấm chọn
+function chonBaiThuocLuanTri(key) {
+    if (typeof database === 'undefined' || !database || !database[key]) return;
+    const item = database[key];
+
+    const inputBt = document.getElementById('don-baithuoc-ten');
+    if (inputBt) inputBt.value = item.bt || '';
+
+    if (Array.isArray(item.tpbt) && item.tpbt.length > 0) {
+        window.donThuocCurrentHerbs = item.tpbt.map(v => {
+            if (typeof v === 'string') return { ten: v, lieu: 12, lieuCustom: null };
+            return { ten: v.ten || '', lieu: v.lieu || 12, lieuCustom: v.lieuCustom || null };
+        });
+        
+        if (typeof capNhatBangLieuLuongDonThuoc === 'function') {
+            capNhatBangLieuLuongDonThuoc();
+        }
+    }
+
+    const dropdown = document.getElementById('dropdown-tim-baithuoc');
+    if (dropdown) dropdown.classList.add('hidden');
+}
+
+// 3. Tự động đóng dropdown danh sách bài thuốc khi click ra ngoài
+document.addEventListener('click', function(e) {
+    const input = document.getElementById('don-baithuoc-ten');
+    const dropdown = document.getElementById('dropdown-tim-baithuoc');
+    if (dropdown && !dropdown.classList.contains('hidden')) {
+        if (input && !input.contains(e.target) && !dropdown.contains(e.target)) {
+            dropdown.classList.add('hidden');
+        }
+    }
+});
