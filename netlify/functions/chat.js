@@ -1,7 +1,8 @@
 exports.handler = async function(event) {
-    const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
+    const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:3000"];
     const requestOrigin = event.headers.origin || event.headers.Origin;
 
+    // Chặn truy cập từ Origin không hợp lệ ngay từ đầu
     if (requestOrigin && !allowedOrigins.includes(requestOrigin)) {
         return { 
             statusCode: 403, 
@@ -12,7 +13,7 @@ exports.handler = async function(event) {
 
     const headers = {
         'Access-Control-Allow-Origin': requestOrigin || "https://dailuantriyhct.com",
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Content-Type': 'application/json'
     };
@@ -22,7 +23,7 @@ exports.handler = async function(event) {
     }
 
     try {
-        const { prompt, image, source, max_tokens } = JSON.parse(event.body || '{}');
+        const { prompt, image, source } = JSON.parse(event.body || '{}');
 
         if (!prompt || prompt.trim().length === 0) {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung câu hỏi không được để trống.' }) };
@@ -35,22 +36,18 @@ exports.handler = async function(event) {
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const secondKey  = process.env.SECOND_API_KEY;
         const backupKey  = process.env.BACKUP_API_KEY;
-        const quizKey    = process.env.QUIZ_API_KEY;
-        const searchKey  = process.env.SEARCH_API_KEY;
 
         let keysToTry = [];
-        if (source === 'assistant' || source === 'vongchan') {
-            keysToTry = [primaryKey, backupKey];
-        } else if (source === 'quiz') {
-            keysToTry = [quizKey, secondKey];
-        } else {
-            keysToTry = [searchKey, secondKey];
-        }
+        if (source === 'assistant') keysToTry = [primaryKey, backupKey];
+        else if (source === 'vongchan') keysToTry = [primaryKey, secondKey, backupKey];
+        else keysToTry = [process.env.SEARCH_API_KEY || primaryKey, backupKey];
+
         keysToTry = [...new Set(keysToTry.filter(Boolean))];
 
         if (keysToTry.length === 0) {
-            return { statusCode: 500, headers, body: JSON.stringify({ error: 'Chưa cấu hình API Key trên Netlify.' }) };
+            return { statusCode: 500, headers, body: JSON.stringify({ error: 'Cấu hình máy chủ chưa hoàn tất.' }) };
         }
+
         const models = ['gemini-3.6-flash', 'gemini-3.5-flash'];
         const partsPayload = [];
         
@@ -61,16 +58,9 @@ exports.handler = async function(event) {
             }
         }
 
-        // Tùy biến prompt theo nguồn gửi lên
-        const finalPromptText = (source === 'backup') 
-            ? prompt 
-            : "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt;
-
-        partsPayload.push({ text: finalPromptText });
-
-        const generationConfig = {
-            maxOutputTokens: Number(max_tokens) || 300
-        };
+        partsPayload.push({ 
+            text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt 
+        });
 
         const timeoutMs = (source === 'vongchan' || source === 'assistant') ? 25000 : 15000;
 
@@ -85,10 +75,7 @@ exports.handler = async function(event) {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         signal: controller.signal,
-                        body: JSON.stringify({ 
-                            contents: [{ parts: partsPayload }],
-                            generationConfig: generationConfig
-                        })
+                        body: JSON.stringify({ contents: [{ parts: partsPayload }] })
                     });
 
                     clearTimeout(timeoutId);
