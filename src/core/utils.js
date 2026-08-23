@@ -294,3 +294,67 @@ function tinhDiemKhopTongQuat(item, rawQuery, titleField = 'ten') {
 
     return score * coverageRatio;
 }
+// --- BỔ SUNG LOGIC KHÓA CẤP ĐỘ (ROLE LOCK) ---
+const ROLE_LEVELS = { 'GUEST': 1, 'FREE': 2, 'VIP': 3, 'SVIP': 4 };
+
+function getCurrentUserRole() {
+    try {
+        const appUserData = localStorage.getItem('app_user_data');
+        if (appUserData) {
+            const parsed = JSON.parse(appUserData);
+            if (parsed && parsed.role) return String(parsed.role).toUpperCase();
+        }
+    } catch (e) {}
+    const role = window.AppState?.auth?.role || 'GUEST';
+    return String(role).toUpperCase();
+}
+
+function updateRoleLockUI() {
+    const userRole = getCurrentUserRole();
+    const userLevel = ROLE_LEVELS[userRole] || 1;
+    
+    document.querySelectorAll('[data-min-role]').forEach(el => {
+        const minRole = (el.getAttribute('data-min-role') || 'FREE').toUpperCase();
+        const requiredLevel = ROLE_LEVELS[minRole] || 1;
+        const targetContainer = (el.tagName === 'INPUT' && el.parentElement) ? el.parentElement : el;
+
+        const oldLock = targetContainer.querySelector('.role-lock-badge');
+        if (oldLock) oldLock.remove();
+
+        if (userLevel < requiredLevel) {
+            const lockBadge = document.createElement('i');
+            lockBadge.className = 'fa-solid fa-lock text-amber-400 text-[10px] ml-1.5 role-lock-badge inline-block';
+            targetContainer.appendChild(lockBadge);
+        }
+    });
+}
+window.updateRoleLockUI = updateRoleLockUI;
+
+// Chặn click tính năng bị khóa & hiện modal nâng cấp
+document.addEventListener('click', function (e) {
+    const targetBtn = e.target.closest('[data-min-role]');
+    if (!targetBtn) return;
+
+    const minRole = (targetBtn.getAttribute('data-min-role') || 'FREE').toUpperCase();
+    const userRole = getCurrentUserRole();
+
+    if ((ROLE_LEVELS[userRole] || 1) < (ROLE_LEVELS[minRole] || 1)) {
+        e.preventDefault();
+        e.stopPropagation();
+        e.stopImmediatePropagation();
+
+        const featureName = targetBtn.getAttribute('data-feature-name') || 'Tính năng này';
+        const lockTitle = document.getElementById('lock-modal-title');
+        const lockDesc = document.getElementById('lock-modal-desc');
+        const lockModal = document.getElementById('modal-role-lock');
+
+        if (lockTitle) lockTitle.innerText = `TÍNH NĂNG DÀNH CHO CẤP ${minRole}`;
+        if (lockDesc) {
+            lockDesc.innerHTML = `Tính năng <strong>${featureName}</strong> yêu cầu tài khoản từ cấp <strong>${minRole}</strong> trở lên.<br>Vui lòng nâng cấp tài khoản để truy cập!`;
+        }
+        if (lockModal) lockModal.classList.remove('hidden');
+        return false;
+    }
+}, true);
+
+window.addEventListener('DOMContentLoaded', updateRoleLockUI);

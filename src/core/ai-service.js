@@ -182,6 +182,13 @@ function formatAIMessage(text) {
     return typeof DOMPurify !== 'undefined' ? DOMPurify.sanitize(rawHtml, { ADD_ATTR: ['target', 'onclick', 'title'] }) : rawHtml;
 }
 
+function getApiEndpoint() {
+    // Nếu chạy trên localhost, ép trỏ thẳng về Production Netlify Function
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        return 'https://dailuantriyhct.com/.netlify/functions/chat';
+    }
+    return '/.netlify/functions/chat';
+}
 
 // --- 2. TRỢ LÝ AI CHAT TRỰC TIẾP ---
 
