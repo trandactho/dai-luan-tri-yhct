@@ -40,34 +40,12 @@ function getTodayDateString() {
 }
 
 function getRoleMaxQuota(role) {
-    if (typeof ROLE_QUOTAS !== 'undefined' && ROLE_QUOTAS[role] !== undefined) {
-        return ROLE_QUOTAS[role];
-    }
-    const defaultQuotas = { GUEST: 1, FREE: 3, VIP: 30, SVIP: 99 };
-    return defaultQuotas[role] || 1;
+    return 99999; // Không giới hạn
 }
 
 function getDailyQuotaUsed(role) {
-    const today = getTodayDateString();
-    if (role === 'GUEST') {
-        try {
-            const data = JSON.parse(localStorage.getItem('guest_ai_quota') || '{}');
-            return data.date === today ? (data.used || 0) : 0;
-        } catch (e) { return 0; }
-    } else {
-        try {
-            const data = JSON.parse(localStorage.getItem('app_user_data') || '{}');
-            if (data.lastUsedDate && data.lastUsedDate !== today) {
-                data.aiUsedToday = 0;
-                data.lastUsedDate = today;
-                localStorage.setItem('app_user_data', JSON.stringify(data));
-                return 0;
-            }
-            return data.aiUsedToday || 0;
-        } catch (e) { return 0; }
-    }
+    return 0; // Luôn trả về 0 để không theo dõi
 }
-
 function capNhatQuotaUICucBo(newQuota) {
     if (!window.AppState) window.AppState = { auth: {} };
     if (!AppState.auth) AppState.auth = {};
@@ -241,10 +219,6 @@ function renderAuthUI(isLoggedIn) {
 
     const u = AppState.auth?.user || {};
     const userRole = checkAndApplyExpiration(u) || 'GUEST';
-    const maxQuota = getRoleMaxQuota(userRole);
-    const usedQuota = getDailyQuotaUsed(userRole);
-
-    if (AppState.auth?.user) AppState.auth.user.aiUsedToday = usedQuota;
     const shortId = u.shortId || getFixedIdFromEmail(u.email) || 'DL1000';
 
     if (!isLoggedIn || userRole === 'GUEST') {
@@ -252,9 +226,6 @@ function renderAuthUI(isLoggedIn) {
         guestView.classList.remove('hidden');
         memberView.style.display = 'none';
         memberView.classList.add('hidden');
-
-        const elGuestQuota = document.getElementById('guest-display-quota');
-        if (elGuestQuota) elGuestQuota.innerText = `${usedQuota}/${maxQuota} lượt`;
     } else {
         guestView.style.display = 'none';
         guestView.classList.add('hidden');
@@ -265,11 +236,9 @@ function renderAuthUI(isLoggedIn) {
         const elRole = document.getElementById('user-display-role');
         const elRoleText = document.getElementById('user-display-role-text');
         const elId = document.getElementById('user-display-id');
-        const elQuota = document.getElementById('user-display-quota');
 
         if (elEmail) elEmail.innerText = u.email || 'Thành viên';
         if (elId) elId.innerText = shortId;
-        if (elQuota) elQuota.innerText = `${usedQuota}/${maxQuota}`;
         if (elRoleText) elRoleText.innerText = userRole;
 
         if (elRole) {
@@ -283,7 +252,7 @@ function renderAuthUI(isLoggedIn) {
             }
         }
     }
-
+    
     const freeCard = document.getElementById('card-upgrade-free');
     const vipCard = document.getElementById('card-upgrade-vip');
     const SVIPCard = document.getElementById('card-upgrade-svip');
@@ -301,10 +270,11 @@ function renderAuthUI(isLoggedIn) {
         }
     }
 
+    // --- ĐÃ SỬA LẠI ĐÓNG MỞ NGOẶC CHUẨN XÁC TẠI ĐÂY ---
     if (!isLoggedIn || userRole === 'GUEST') {
         if (freeCard) freeCard.style.display = 'block';
         if (paidSections) paidSections.style.display = 'none';
-        if (elRoleDesc) elRoleDesc.innerText = '';
+        if (elRoleDesc) elRoleDesc.innerHTML = '👤 <strong>Cấp GUEST:</strong> Tra cứu CSDL YHCT cơ bản. Hãy <strong>Đăng ký/Đăng nhập</strong> để lên Cấp FREE.';
     } else {
         if (freeCard) freeCard.style.display = 'block';
         if (vipCard) vipCard.style.display = 'block';
@@ -333,25 +303,25 @@ function renderAuthUI(isLoggedIn) {
         }
 
         if (userRole === 'FREE') {
-            if (elRoleDesc) elRoleDesc.innerHTML = '✨ <strong>Đặc quyền FREE:</strong> 3 lượt AI/ngày, tìm kiếm cơ bản Luận Trị & Trắc nghiệm.';
+            if (elRoleDesc) elRoleDesc.innerHTML = '✨ <strong>Đặc quyền FREE:</strong> AI Tìm & Lưu tra cứu, Trắc nghiệm CSDL & Phối ngũ bài thuốc.';
         } else if (userRole === 'VIP') {
-            if (elRoleDesc) elRoleDesc.innerHTML = `👑 <strong>Đặc quyền VIP:</strong> 30 lượt AI/ngày, mở khóa Kê đơn, Xuất PDF & Lưu lịch sử AI.${countdownHtml}`;
+            if (elRoleDesc) elRoleDesc.innerHTML = `👑 <strong>Đặc quyền VIP:</strong> Bao gồm FREE + Tứ Chẩn AI, AI Sinh Trắc Nghiệm lâm sàng, Kê đơn PDF & Tắt quảng cáo.${countdownHtml}`;
         } else if (userRole === 'SVIP') {
-            if (elRoleDesc) elRoleDesc.innerHTML = `⚡ <strong>Đặc quyền SVIP:</strong> 99 lượt AI/ngày (Max token), toàn quyền mọi tính năng cao cấp không giới hạn.${countdownHtml}`;
+            if (elRoleDesc) elRoleDesc.innerHTML = `⚡ <strong>Đặc quyền SVIP:</strong> Bao gồm VIP + Phản hồi AI dài tối đa & ưu tiên xử lý cao nhất.${countdownHtml}`;
         }
-    }
+    } // Đóng ngoặc khối else
 
     updateVietQRImages(shortId);
     
-    // Tự động tải bảng xếp hạng mỗi khi render UI
     if (typeof loadLeaderboardFromDB === 'function') {
         loadLeaderboardFromDB();
     }
-    // 🟢 THÊM DÒNG NÀY ĐỂ ÉP QUÉT VÀ GỠ Ổ KHÓA TRÊN TOÀN BỘ GIAO DIỆN NGAY LẬP TỨC
+    
     if (typeof updateRoleLockUI === 'function') {
         updateRoleLockUI();
     }
 }
+
 
 function getFixedIdFromEmail(email) {
     if (!email) return 'DL1000';
@@ -588,32 +558,9 @@ async function refreshUserDataFromServer() {
 window.refreshUserDataFromServer = refreshUserDataFromServer;
 
 async function tangVaDongBoQuotaAI() {
-    const role = getCurrentUserRole();
-    const used = getDailyQuotaUsed(role);
-    
-    // Nếu là thành viên đăng nhập, đồng bộ lên CSDL Supabase
-    if (AppState?.auth?.token) {
-        try {
-            const res = await fetch(`${API_BASE_URL}/auth`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'sync_quota', token: AppState.auth.token })
-            });
-            const result = await res.json();
-            if (res.ok && typeof result.aiUsedToday === 'number') {
-                capNhatQuotaUICucBo(result.aiUsedToday);
-                return;
-            }
-        } catch (err) {
-            console.warn('Lỗi đồng bộ Quota Server:', err);
-        }
-    }
-    
-    // Nếu là Guest hoặc không có mạng, tăng quota cục bộ
-    capNhatQuotaUICucBo(used + 1);
+    // Không làm gì cả để bỏ qua việc cộng dồn/đồng bộ lượt dùng
+    return true; 
 }
-window.tangVaDongBoQuotaAI = tangVaDongBoQuotaAI;
-
 
 function updateVietQRImages(userShortId) {
     const bankId = 'VPBANK';
