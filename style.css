@@ -1,5 +1,5 @@
 /* ==========================================================================
-   ĐẠI LUẬN TRỊ YHCT - FILE STYLE.CSS TỔNG HỢP HOÀN CHỈNH
+   ĐẠI LUẬN TRỊ YHCT - FILE STYLE.CSS TỔNG HỢP HOÀN CHỈNH & TỐI ƯU
    ========================================================================== */
 
 :root {
@@ -15,7 +15,7 @@
     --accent-amber-light: #fbbf24;
 }
 
-/* 1. ÉP NỀN TỐI TOÀN CỤC */
+/* 1. ÉP NỀN TỐI TOÀN CỤC & TỐI ƯU CHẠM MOBILE */
 *, *::before, *::after {
     box-sizing: border-box;
 }
@@ -28,6 +28,7 @@ html, body {
     margin: 0;
     padding: 0;
     min-height: 100vh;
+    touch-action: pan-y;
 }
 
 /* 2. TIÊU ĐỀ CHÍNH ÁNH KIM */
@@ -42,7 +43,7 @@ header h1, header .app-title {
    CHUẨN HÓA KHỐI 3D TOÀN HỆ THỐNG - HOÀN HẢO MỌI TAB
    ========================================================================== */
 
-/* 1. Ô Tìm kiếm & Bộ lọc phía trên */
+/* Ô Tìm kiếm & Bộ lọc phía trên */
 #sectionLuanTri > div:first-child,
 #sectionDuocLieu > div:first-child,
 #sectionHuyetVi > div:first-child,
@@ -57,7 +58,7 @@ header h1, header .app-title {
     box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.7) !important;
 }
 
-/* 2. Cấu trúc nền và viền 3D chung cho toàn bộ các Thẻ Card */
+/* Cấu trúc nền và viền 3D chung cho toàn bộ các Thẻ Card */
 .bg-dark-box,
 #lt-card-hc, 
 #lt-card-pdt, 
@@ -73,12 +74,10 @@ header h1, header .app-title {
     transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease !important;
 }
 
-/* 3. Xử lý cạnh trái mặc định */
 .bg-dark-box:not(.border-l-4) {
     border-left: 1px solid #5c4a3d !important;
 }
 
-/* 4. Hiệu ứng Hover nổi khối */
 .bg-dark-box:hover,
 #lt-card-hc:hover, 
 #lt-card-pdt:hover, 
@@ -91,7 +90,7 @@ header h1, header .app-title {
     transform: translateY(-2px) !important;
 }
 
-/* 4. THANH NAVIGATION TAB */
+/* THANH NAVIGATION TAB */
 nav {
     background-color: #110e0c !important;
     border-bottom: 1px solid var(--border-color) !important;
@@ -105,7 +104,7 @@ nav {
 }
 
 /* ==========================================================================
-   5. CHUẨN HÓA CÁC Ô NHẬP LIỆU
+   3. CHUẨN HÓA CÁC Ô NHẬP LIỆU & TỐI ƯU VUỐT MOBILE
    ========================================================================== */
 select, 
 input:not([type="checkbox"]):not([type="radio"]), 
@@ -117,6 +116,7 @@ textarea {
     font-size: 0.75rem !important;
     width: 100% !important;
     box-sizing: border-box !important;
+    touch-action: pan-y !important;
 }
 
 select, 
@@ -201,13 +201,14 @@ input[type="radio"] {
     flex-shrink: 0 !important;
     cursor: pointer;
     margin: 0 !important;
+    touch-action: pan-y !important;
 }
 
 /* ==========================================================================
-   PHÂN CHIA NGŨ HÀNH CẠNH TRÁI 4PX CHO CÁC TAB
+   4. PHÂN CHIA NGŨ HÀNH CẠNH TRÁI 4PX CHO CÁC TAB
    ========================================================================== */
 
-/* 1. Tab Luận Trị - Hành KIM (Trắng / Bạc ánh kim) */
+/* Tab Luận Trị - Hành KIM (Trắng / Bạc ánh kim) */
 #sectionLuanTri #lt-card-hc, 
 #sectionLuanTri #lt-card-pdt, 
 #sectionLuanTri #lt-card-bt,
@@ -221,7 +222,7 @@ input[type="radio"] {
     border-top-color: #8c6e57 !important;
     border-right-color: #5c4a3d !important;
     border-bottom-color: #31261e !important;
-    border-left-color: #e2e8f0 !important; /* Trắng bạc ánh kim */
+    border-left-color: #e2e8f0 !important;
     border-radius: 0.875rem !important;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), inset 0 -1px 0 rgba(0, 0, 0, 0.6), 0 10px 25px rgba(0, 0, 0, 0.95) !important;
     transition: transform 0.15s ease, box-shadow 0.15s ease !important;
@@ -235,15 +236,8 @@ input[type="radio"] {
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), inset 0 -1px 0 rgba(0, 0, 0, 0.7), 0 14px 30px rgba(0, 0, 0, 1) !important;
     transform: translateY(-2px) !important;
 }
-#sectionLuanTri > div {
-    max-width: 100% !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-}
 
-#sectionLuanTri #luan-tri-action-bar {
-    width: 100% !important;
-}
+#sectionLuanTri > div,
 #sectionLuanTri .bg-dark-box {
     max-width: 100% !important;
     width: 100% !important;
@@ -262,7 +256,7 @@ input[type="radio"] {
     width: 100% !important;
 }
 
-/* 2. Tab Dược Thiện - Hành HỎA (Đỏ ấm / Đỏ son) */
+/* Tab Dược Thiện - Hành HỎA (Đỏ ấm / Đỏ son) */
 #sectionDuocThien .bg-dark-box {
     border-left-width: 4px !important;
     border-left-color: #dc2626 !important;
@@ -271,27 +265,19 @@ input[type="radio"] {
 #sectionDuocThien .bg-dark-box:hover {
     border-left-color: #ef4444 !important;
 }
-/* 3. Tab Thư Tịch - Hành MỘC (Xanh ngọc lục bảo / Xanh lá trầm sang trọng) */
+
+/* Tab Thư Tịch - Hành MỘC (Xanh ngọc lục bảo) */
 #sectionTraCuuSach #grid-sach-pdf > div:not(.col-span-full) {
     border-left-width: 4px !important;
-    border-left-color: #059669 !important; /* Xanh ngọc trầm ấm, tinh tế */
+    border-left-color: #059669 !important;
 }
 
 #sectionTraCuuSach #grid-sach-pdf > div:not(.col-span-full):hover {
-    border-left-color: #10b981 !important; /* Sáng hơn khi rê chuột */
-}
-#sectionLuanTri > div {
-    max-width: 100% !important;
-    width: 100% !important;
-    box-sizing: border-box !important;
-}
-
-#sectionLuanTri #luan-tri-action-bar {
-    width: 100% !important;
+    border-left-color: #10b981 !important;
 }
 
 /* ========================================================
-   🖨️ CSS TỐI ƯU IN A4: HIỂN THỊ ĐẦY ĐỦ CÁCH DÙNG & CHỮ KÝ
+   5. CSS TỐI ƯU IN A4: HIỂN THỊ ĐẦY ĐỦ CÁCH DÙNG & CHỮ KÝ
    ======================================================== */
 @page {
     size: A4 portrait;
@@ -299,14 +285,12 @@ input[type="radio"] {
 }
 
 @media print {
-    /* 1. Ẩn toàn bộ phần tử ngoài Modal */
     body > *:not(#modal-don-thuoc),
     header, nav, main, footer, #app-loader {
         display: none !important;
         visibility: hidden !important;
     }
 
-    /* 2. Cấu hình trang in tràn lề an toàn */
     html, body {
         background: #ffffff !important;
         color: #000000 !important;
@@ -320,7 +304,6 @@ input[type="radio"] {
         print-color-adjust: exact !important;
     }
 
-    /* 3. Kéo Modal lên đỉnh và chừa lề trên đúng 20mm (2cm) */
     #modal-don-thuoc {
         display: block !important;
         position: absolute !important;
@@ -339,7 +322,6 @@ input[type="radio"] {
         page-break-inside: avoid !important;
     }
 
-    /* 4. Triệt tiêu khoảng trống thừa bên trong */
     #modal-don-thuoc > div {
         width: 100% !important;
         max-width: 100% !important;
@@ -349,7 +331,6 @@ input[type="radio"] {
         max-height: none !important;
     }
 
-    /* 5. Ép TẤT CẢ con bên trong Modal về Nền Trắng - Chữ Đen */
     #modal-don-thuoc, 
     #modal-don-thuoc * {
         background: #ffffff !important;
@@ -359,7 +340,6 @@ input[type="radio"] {
         text-shadow: none !important;
     }
 
-    /* 6. Định dạng ô nhập thông tin & Textarea (Cách dùng & Kiêng kỵ) */
     #modal-don-thuoc input, 
     #modal-don-thuoc select {
         background: #ffffff !important;
@@ -381,7 +361,6 @@ input[type="radio"] {
         min-height: 0 !important;
     }
 
-    /* 7. Định dạng Bảng vị thuốc */
     #modal-don-thuoc table {
         background: #ffffff !important;
         border-collapse: collapse !important;
@@ -410,13 +389,11 @@ input[type="radio"] {
         padding: 0 !important;
     }
 
-    /* 8. Định dạng Ngày tháng & Chữ ký bác sĩ */
     #modal-don-thuoc #don-ngay-thang,
     #modal-don-thuoc #don-ten-bacsi {
         color: #000000 !important;
     }
 
-    /* 9. Ẩn các nút chức năng, ô tìm kiếm, cảnh báo phản úy và nút đóng X */
     .no-print, 
     .no-print *, 
     #search-don-vithuoc, 

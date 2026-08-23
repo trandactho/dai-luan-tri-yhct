@@ -660,7 +660,8 @@
                 </div>
             </div>
         </section>
-        <!-- TAB 10: QUẢN LÝ TÀI KHOẢN -->
+        
+        <<!-- TAB 10: QUẢN LÝ TÀI KHOẢN & NÂNG CẤP -->
 <section id="sectionTaiKhoan" class="hidden space-y-6 max-w-6xl mx-auto">
 
     <!-- KHU VỰC THÔNG TIN TÀI KHOẢN & ĐĂNG NHẬP -->
@@ -685,7 +686,7 @@
                 <button type="button" onclick="toggleAuthMode('forgot')" id="btn-auth-forgot" class="flex-1 py-2 text-stone-400">Quên MK</button>
             </div>
 
-                        <!-- Form Đăng nhập -->
+            <!-- Form Đăng nhập -->
             <form id="form-auth-login" onsubmit="event.preventDefault(); handleUserLogin(event);" class="space-y-3 text-xs">
                 <div>
                     <label class="block text-stone-400 mb-1 font-bold">Email:</label>
@@ -769,7 +770,7 @@
         </div>
     </div>
 
-        <!-- KHU VỰC BẢNG SO SÁNH QUYỀN HẠN CẤP ĐỘ -->
+    <!-- KHU VỰC BẢNG SO SÁNH QUYỀN HẠN CẤP ĐỘ -->
     <div class="space-y-6 pt-2">
         <div class="text-center space-y-1">
             <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center justify-center gap-2">
@@ -778,7 +779,7 @@
             <p class="text-[11px] text-stone-400">Chi tiết quyền hạn và tính năng mở khóa theo từng cấp độ tài khoản</p>
         </div>
 
-        <!-- GRID 5 CỘT: Thêm margin-bottom (mb-4) cho từng card để không bị dính khi xếp dọc trên mobile -->
+        <!-- GRID 5 CỘT: 5 Card hiển thị đầy đủ chi tiết -->
         <div id="paid-upgrade-sections" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch">
             
             <!-- 1. CẤP GUEST -->
@@ -852,11 +853,7 @@
                         </li>
                     </ul>
                 </div>
-                <div class="text-center bg-stone-950 p-2.5 rounded-xl border border-emerald-800/60 mt-3">
-                    <button type="button" onclick="toggleAuthMode('register'); window.scrollTo({top: 0, behavior: 'smooth'});" class="text-[11px] text-emerald-400 font-bold hover:underline">
-                        Đăng Ký Đã Nhận
-                    </button>
-                </div>
+                <div id="free-card-action-box" class="text-center bg-stone-950 p-2.5 rounded-xl border border-emerald-800/60 mt-3"></div>
             </div>
 
             <!-- 3. GÓI VIP TRẢI NGHIỆM (3 NGÀY) -->
@@ -876,7 +873,7 @@
                         </li>
                         <li class="flex items-start gap-2">
                             <i class="fa-solid fa-bolt text-amber-500 mt-0.5 text-[11px] shrink-0"></i>
-                            <span>Trải nghiệm <strong>Full tính năng VIP</strong> (Tứ chẩn, Kê đơn, Hỏi sách) trong 3 ngày.</span>
+                            <span>Trải nghiệm <strong>Full tính năng VIP</strong> trong 3 ngày.</span>
                         </li>
                         <li class="flex items-center gap-2 font-bold text-emerald-400 pt-1 border-t border-stone-800/60">
                             <i class="fa-solid fa-ban text-emerald-500 text-[10px]"></i>
@@ -919,11 +916,7 @@
                         </li>
                         <li class="flex items-start gap-2">
                             <i class="fa-solid fa-file-pdf text-amber-400 mt-0.5 text-[11px] shrink-0"></i>
-                            <span><strong>Kê Đơn & Xuất PDF / Zalo.</strong></span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <i class="fa-solid fa-book-open-reader text-amber-400 mt-0.5 text-[11px] shrink-0"></i>
-                            <span><strong>AI Hỏi Đáp Thư Tịch / Sách.</strong></span>
+                            <span><strong>Kê Đơn & Xuất PDF.</strong></span>
                         </li>
                         <li class="flex items-center gap-2 font-bold text-emerald-400 pt-1 border-t border-stone-800/60">
                             <i class="fa-solid fa-ban text-emerald-500 text-[10px]"></i>
@@ -965,7 +958,7 @@
                         </li>
                         <li class="flex items-start gap-2">
                             <i class="fa-solid fa-scroll text-purple-400 mt-0.5 text-[11px] shrink-0"></i>
-                            <span><strong>Độ dài AI tối đa:</strong> Phân tích chuyên sâu & ưu tiên xử lý.</span>
+                            <span><strong>Độ dài AI tối đa:</strong> Phản hồi chuyên sâu.</span>
                         </li>
                         <li class="flex items-center gap-2 font-bold text-emerald-400 pt-1 border-t border-stone-800/60">
                             <i class="fa-solid fa-ban text-emerald-500 text-[10px]"></i>
@@ -982,68 +975,47 @@
         </div>
     </div>
 
-    <!-- 🟢 ĐƯỜNG PHÂN CÁCH HOA VĂN SANG TRỌNG -->
-<div class="relative my-12 py-3 flex items-center justify-center">
-    <!-- Đường viền gradient ánh vàng chạy ngang -->
-    <div class="absolute inset-0 flex items-center">
-        <div class="w-full border-t border-stone-800 bg-gradient-to-r from-transparent via-amber-500/70 to-transparent"></div>
-    </div>
-    <!-- Huy hiệu vinh danh ở giữa -->
-    <div class="relative bg-gradient-to-r from-stone-950 via-stone-900 to-stone-950 px-5 py-2 rounded-xl border border-amber-500/60 shadow-xl shadow-amber-950/50 flex items-center gap-2.5">
-        <i class="fa-solid fa-crown text-amber-400 text-xs animate-pulse"></i>
-        <span class="text-xs font-black text-amber-400 uppercase tracking-wider bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 bg-clip-text text-transparent">
-            Bảng Vàng Vinh Danh Thành Viên
-        </span>
-        <i class="fa-solid fa-crown text-amber-400 text-xs animate-pulse"></i>
-    </div>
-</div>
-
-    <!-- BẢNG XẾP HẠNG THÀNH VIÊN -->
-    <div id="card-leaderboard" class="bg-stone-900 p-5 rounded-2xl border border-amber-500/40 space-y-3 shadow-xl">
-        <div class="flex items-center justify-between border-b border-stone-800 pb-2.5">
-            <span class="font-bold text-amber-400 text-xs flex items-center gap-1.5 uppercase tracking-wider">
-                <i class="fa-solid fa-trophy text-amber-500 text-sm"></i> Bảng Xếp Hạng Cấp Độ (Top 10)
-            </span>
-            <span class="text-[10px] text-stone-400 font-medium">Cập nhật tự động</span>
+        <!-- 🟢 BỌC PHẦN VINH DANH VÀO ĐÂY ĐỂ ẨN/HIỆN THEO TRẠNG THÁI ĐĂNG NHẬP -->
+    <div id="leaderboard-section-wrapper" class="hidden">
+        <!-- ĐƯỜNG PHÂN CÁCH HOA VĂN SANG TRỌNG -->
+        <div class="relative my-12 py-3 flex items-center justify-center">
+            <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-stone-800 bg-gradient-to-r from-transparent via-amber-500/70 to-transparent"></div>
+            </div>
+            <div class="relative bg-gradient-to-r from-stone-950 via-stone-900 to-stone-950 px-5 py-2 rounded-xl border border-amber-500/60 shadow-xl shadow-amber-950/50 flex items-center gap-2.5">
+                <i class="fa-solid fa-crown text-amber-400 text-xs animate-pulse"></i>
+                <span class="text-xs font-black text-amber-400 uppercase tracking-wider bg-gradient-to-r from-amber-200 via-amber-400 to-amber-600 bg-clip-text text-transparent">
+                    Bảng Vàng Vinh Danh Thành Viên
+                </span>
+                <i class="fa-solid fa-crown text-amber-400 text-xs animate-pulse"></i>
+            </div>
         </div>
 
-        <div class="overflow-x-auto">
-            <table class="w-full text-left text-xs border-collapse">
-                <thead>
-                    <tr class="text-stone-400 border-b border-stone-800 text-[10px] uppercase bg-stone-950/60">
-                        <th class="py-2 px-2 text-center w-10">Hạng</th>
-                        <th class="py-2 px-2">Thành viên</th>
-                        <th class="py-2 px-2 text-center">Cấp độ</th>
-                        <th class="py-2 px-2 text-right">THỜI HẠN</th>
-                    </tr>
-                </thead>
-                <tbody id="leaderboard-list" class="divide-y divide-stone-800/60 text-stone-200 text-[11px]">
-                    <tr class="hover:bg-stone-800/40 transition-colors">
-                        <td class="py-2 px-2 text-center font-bold text-amber-400"><i class="fa-solid fa-crown text-amber-400"></i> 1</td>
-                        <td class="py-2 px-2 font-mono font-bold text-amber-300">DL9821***</td>
-                        <td class="py-2 px-2 text-center"><span class="px-2 py-0.5 bg-purple-950 text-purple-400 border border-purple-800 rounded text-[10px] font-bold">SVIP</span></td>
-                        <td class="py-2 px-2 text-right font-mono text-emerald-400 font-bold">1 Năm</td>
-                    </tr>
-                    <tr class="hover:bg-stone-800/40 transition-colors">
-                        <td class="py-2 px-2 text-center font-bold text-slate-300"><i class="fa-solid fa-medal text-slate-300"></i> 2</td>
-                        <td class="py-2 px-2 font-mono text-stone-300">DL8712***</td>
-                        <td class="py-2 px-2 text-center"><span class="px-2 py-0.5 bg-purple-950 text-purple-400 border border-purple-800 rounded text-[10px] font-bold">SVIP</span></td>
-                        <td class="py-2 px-2 text-right font-mono text-emerald-400 font-bold">1 Năm</td>
-                    </tr>
-                    <tr class="hover:bg-stone-800/40 transition-colors">
-                        <td class="py-2 px-2 text-center font-bold text-amber-600"><i class="fa-solid fa-award text-amber-600"></i> 3</td>
-                        <td class="py-2 px-2 font-mono text-stone-300">DL5541***</td>
-                        <td class="py-2 px-2 text-center"><span class="px-2 py-0.5 bg-amber-950 text-amber-400 border border-amber-800 rounded text-[10px] font-bold">VIP</span></td>
-                        <td class="py-2 px-2 text-right font-mono text-emerald-400 font-bold">30 Ngày</td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- BẢNG XẾP HẠNG THÀNH VIÊN -->
+        <div id="card-leaderboard" class="bg-stone-900 p-5 rounded-2xl border border-amber-500/40 space-y-3 shadow-xl">
+            <div class="flex items-center justify-between border-b border-stone-800 pb-2.5">
+                <span class="font-bold text-amber-400 text-xs flex items-center gap-1.5 uppercase tracking-wider">
+                    <i class="fa-solid fa-trophy text-amber-500 text-sm"></i> Bảng Xếp Hạng Cấp Độ (Top 10)
+                </span>
+                <span class="text-[10px] text-stone-400 font-medium">Cập nhật tự động</span>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs border-collapse">
+                    <thead>
+                        <tr class="text-stone-400 border-b border-stone-800 text-[10px] uppercase bg-stone-950/60">
+                            <th class="py-2 px-2 text-center w-10">Hạng</th>
+                            <th class="py-2 px-2">Thành viên</th>
+                            <th class="py-2 px-2 text-center">Cấp độ</th>
+                            <th class="py-2 px-2 text-right">THỜI HẠN</th>
+                        </tr>
+                    </thead>
+                    <tbody id="leaderboard-list" class="divide-y divide-stone-800/60 text-stone-200 text-[11px]"></tbody>
+                </table>
+            </div>
         </div>
     </div>
-
 </section>
-
-
 
     </main>
     <footer class="text-center text-xs text-stone-500 py-6 border-t border-stone-800 mt-8 mb-10 space-y-2">
