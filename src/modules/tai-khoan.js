@@ -219,14 +219,49 @@ function renderAuthUI(isLoggedIn) {
 
     const u = AppState.auth?.user || {};
     const userRole = checkAndApplyExpiration(u) || 'GUEST';
+    updateFreeCardActionUI(isLoggedIn && userRole !== 'GUEST');
+
     const shortId = u.shortId || getFixedIdFromEmail(u.email) || 'DL1000';
+    const leaderboardWrapper = document.getElementById('leaderboard-section-wrapper');
+
+    const guestCard = document.getElementById('card-upgrade-guest');
+    const freeCard = document.getElementById('card-upgrade-free');
+    const vip3Card = document.getElementById('card-upgrade-vip3');
+    const vipCard = document.getElementById('card-upgrade-vip');
+    const svipCard = document.getElementById('card-upgrade-svip');
+    const paidSections = document.getElementById('paid-upgrade-sections');
+
+    let elRoleDesc = document.getElementById('user-role-description');
+    if (!elRoleDesc && memberView) {
+        const infoBox = memberView.querySelector('.bg-stone-900');
+        if (infoBox) {
+            const descDiv = document.createElement('div');
+            descDiv.id = 'user-role-description';
+            descDiv.className = 'text-[11px] text-stone-300 pt-2 border-t border-stone-800 leading-relaxed space-y-1';
+            infoBox.appendChild(descDiv);
+            elRoleDesc = descDiv;
+        }
+    }
 
     if (!isLoggedIn || userRole === 'GUEST') {
+        if (leaderboardWrapper) leaderboardWrapper.style.display = 'none';
+
         guestView.style.display = 'block';
         guestView.classList.remove('hidden');
         memberView.style.display = 'none';
         memberView.classList.add('hidden');
+
+        if (paidSections) paidSections.className = "grid grid-cols-1 sm:grid-cols-2 gap-6 items-stretch max-w-2xl mx-auto";
+        if (guestCard) guestCard.style.display = 'flex';
+        if (freeCard) freeCard.style.display = 'flex';
+        if (vip3Card) vip3Card.style.display = 'none';
+        if (vipCard) vipCard.style.display = 'none';
+        if (svipCard) svipCard.style.display = 'none';
+        
+        if (elRoleDesc) elRoleDesc.innerHTML = '👤 <strong>Cấp GUEST:</strong> Tra cứu CSDL YHCT cơ bản. Hãy <strong>Đăng ký/Đăng nhập</strong> để nhận Cấp FREE vĩnh viễn.';
     } else {
+        if (leaderboardWrapper) leaderboardWrapper.style.display = 'block';
+
         guestView.style.display = 'none';
         guestView.classList.add('hidden');
         memberView.style.display = 'block';
@@ -251,35 +286,13 @@ function renderAuthUI(isLoggedIn) {
                 elRole.className = "px-2.5 py-1 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded-lg text-xs font-bold";
             }
         }
-    }
-    
-    const freeCard = document.getElementById('card-upgrade-free');
-    const vipCard = document.getElementById('card-upgrade-vip');
-    const SVIPCard = document.getElementById('card-upgrade-svip');
-    const paidSections = document.getElementById('paid-upgrade-sections');
 
-    let elRoleDesc = document.getElementById('user-role-description');
-    if (!elRoleDesc && memberView) {
-        const infoBox = memberView.querySelector('.bg-stone-900');
-        if (infoBox) {
-            const descDiv = document.createElement('div');
-            descDiv.id = 'user-role-description';
-            descDiv.className = 'text-[11px] text-stone-300 pt-2 border-t border-stone-800 leading-relaxed space-y-1';
-            infoBox.appendChild(descDiv);
-            elRoleDesc = descDiv;
-        }
-    }
-
-    // --- ĐÃ SỬA LẠI ĐÓNG MỞ NGOẶC CHUẨN XÁC TẠI ĐÂY ---
-    if (!isLoggedIn || userRole === 'GUEST') {
-        if (freeCard) freeCard.style.display = 'block';
-        if (paidSections) paidSections.style.display = 'none';
-        if (elRoleDesc) elRoleDesc.innerHTML = '👤 <strong>Cấp GUEST:</strong> Tra cứu CSDL YHCT cơ bản. Hãy <strong>Đăng ký/Đăng nhập</strong> để lên Cấp FREE.';
-    } else {
-        if (freeCard) freeCard.style.display = 'block';
-        if (vipCard) vipCard.style.display = 'block';
-        if (SVIPCard) SVIPCard.style.display = 'block';
-        if (paidSections) paidSections.style.display = 'block';
+        if (paidSections) paidSections.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch max-w-6xl mx-auto";
+        if (guestCard) guestCard.style.display = 'flex';
+        if (freeCard) guestCard.style.display = 'flex';
+        if (vip3Card) guestCard.style.display = 'flex';
+        if (vipCard) vipCard.style.display = 'flex';
+        if (svipCard) svipCard.style.display = 'flex';
 
         let countdownHtml = '';
         if (u && u.expireDate && userRole !== 'FREE') {
@@ -309,7 +322,7 @@ function renderAuthUI(isLoggedIn) {
         } else if (userRole === 'SVIP') {
             if (elRoleDesc) elRoleDesc.innerHTML = `⚡ <strong>Đặc quyền SVIP:</strong> Bao gồm VIP + Phản hồi AI dài tối đa & ưu tiên xử lý cao nhất.${countdownHtml}`;
         }
-    } // Đóng ngoặc khối else
+    }
 
     updateVietQRImages(shortId);
     
@@ -635,7 +648,6 @@ function renderLeaderboard(usersList = []) {
 }
 window.renderLeaderboard = renderLeaderboard;
 
-// Tải bảng xếp hạng từ API
 // Tải bảng xếp hạng từ API (Đã sửa để nhận diện đúng timeText)
 async function loadLeaderboardFromDB() {
     const container = document.getElementById('leaderboard-list');
@@ -702,4 +714,24 @@ async function loadLeaderboardFromDB() {
     }
 }
 window.loadLeaderboardFromDB = loadLeaderboardFromDB;
+
+function updateFreeCardActionUI(isLoggedIn) {
+    const box = document.getElementById('free-card-action-box');
+    if (!box) return;
+
+    if (!isLoggedIn) {
+        box.innerHTML = `
+            <button type="button" onclick="toggleAuthMode('register'); window.scrollTo({top: 0, behavior: 'smooth'});" class="text-[11px] text-emerald-400 font-bold hover:underline cursor-pointer flex items-center justify-center gap-1 w-full">
+                <i class="fa-solid fa-user-plus text-[10px]"></i> Đăng nhập nhận ngay
+            </button>
+        `;
+    } else {
+        box.innerHTML = `
+            <span class="text-[11px] text-emerald-400 font-semibold flex items-center justify-center gap-1">
+                <i class="fa-solid fa-check-circle text-[10px]"></i> Cấp độ cơ bản vĩnh viễn
+            </span>
+        `;
+    }
+}
+window.updateFreeCardActionUI = updateFreeCardActionUI;
 
