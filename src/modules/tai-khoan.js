@@ -106,12 +106,27 @@ function toggleAuthMode(mode) {
 }
 
 function checkAndApplyExpiration(userData) {
-    if (!userData) return 'GUEST';
-    let role = userData.role || 'GUEST';
+    if (!userData || !userData.email) return 'GUEST';
+    let role = userData.role || 'FREE';
     
     if (role !== 'FREE' && role !== 'GUEST' && userData.expireDate) {
+        const now = Date.now();
         const expireMs = new Date(userData.expireDate).getTime();
-        if (!isNaN(expireMs) && Date.now() > expireMs) {
+        
+        // 🟢 CHỐNG HACK LÙI GIỜ ĐIỆN THOẠI
+        let lastTime = Number(localStorage.getItem('last_known_time') || 0);
+        if (now < lastTime) { 
+            // Phát hiện gian lận lùi giờ máy -> Ép về FREE ngay
+            role = 'FREE';
+            userData.role = 'FREE';
+            return role;
+        }
+        if (navigator.onLine) {
+            localStorage.setItem('last_known_time', now.toString());
+        }
+
+        // 🟢 KIỂM TRA HẾT HẠN (Hoạt động tốt cả khi Offline)
+        if (!isNaN(expireMs) && now > expireMs) {
             role = 'FREE';
             userData.role = 'FREE';
             userData.expireDate = null;
@@ -120,7 +135,13 @@ function checkAndApplyExpiration(userData) {
     return role;
 }
 
+    // 🟢 BIẾN CHỐNG GỌI TRÙNG LẶP XÁC THỰC
+let isVerifyingSession = false;
+
 async function initUserAuthSession() {
+    // 🟢 Nếu đang xác thực thì bỏ qua request thứ 2
+    if (isVerifyingSession) return;
+    
     let savedToken = null;
     try { savedToken = localStorage.getItem('access_token'); } catch (e) {}
 
@@ -134,6 +155,8 @@ async function initUserAuthSession() {
     }
 
     try {
+        isVerifyingSession = true; // Đánh dấu bắt đầu xác thực
+
         const res = await fetch(`${API_BASE_URL}/auth`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -170,12 +193,11 @@ async function initUserAuthSession() {
     } catch (e) {
         console.warn('Xác thực thất bại:', e.message);
         
-        // 🟢 NẾU LÀ LỖI MẠNG (Offline): Giữ lại session từ LocalStorage thay vì xóa trắng
         const localUser = localStorage.getItem('app_user_data');
-        if (!navigator.onLine && localUser) {
+        if (localUser) {
             try {
                 const parsedUser = JSON.parse(localUser);
-                AppState.auth.role = parsedUser.role || 'GUEST';
+                AppState.auth.role = parsedUser.role || 'FREE';
                 AppState.auth.token = savedToken;
                 AppState.auth.user = parsedUser;
                 renderAuthUI(true);
@@ -183,8 +205,9 @@ async function initUserAuthSession() {
             } catch (err) {}
         }
 
-        // Chỉ ép về Guest khi Token thực sự hết hạn / bị Server từ chối
         resetToGuestSession();
+    } finally {
+        isVerifyingSession = false; // 🟢 Mở khóa sau khi xác thực xong
     }
     
     try { applyRolePermissions(); } catch (e) {}
@@ -244,19 +267,19 @@ function renderAuthUI(isLoggedIn) {
     }
 
     if (!isLoggedIn || userRole === 'GUEST') {
-        if (leaderboardWrapper) leaderboardWrapper.style.display = 'none';
+    if (leaderboardWrapper) leaderboardWrapper.style.display = 'none';
 
-        guestView.style.display = 'block';
-        guestView.classList.remove('hidden');
-        memberView.style.display = 'none';
-        memberView.classList.add('hidden');
+    guestView.style.display = 'block';
+    guestView.classList.remove('hidden');
+    memberView.style.display = 'none';
+    memberView.classList.add('hidden');
 
-        if (paidSections) paidSections.className = "grid grid-cols-1 sm:grid-cols-2 gap-6 items-stretch max-w-2xl mx-auto";
-        if (guestCard) guestCard.style.display = 'flex';
-        if (freeCard) freeCard.style.display = 'flex';
-        if (vip3Card) vip3Card.style.display = 'none';
-        if (vipCard) vipCard.style.display = 'none';
-        if (svipCard) svipCard.style.display = 'none';
+    if (paidSections) paidSections.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch max-w-6xl mx-auto";
+    if (guestCard) guestCard.style.display = 'flex';
+    if (freeCard) freeCard.style.display = 'flex';
+    if (vip3Card) vip3Card.style.display = 'flex';   // 🟢 Đổi 'none' thành 'flex'
+    if (vipCard) vipCard.style.display = 'flex';     // 🟢 Đổi 'none' thành 'flex'
+    if (svipCard) svipCard.style.display = 'flex';   // 🟢 Đổi 'none' thành 'flex'
         
         if (elRoleDesc) elRoleDesc.innerHTML = '👤 <strong>Cấp GUEST:</strong> Tra cứu CSDL YHCT cơ bản. Hãy <strong>Đăng ký/Đăng nhập</strong> để nhận Cấp FREE vĩnh viễn.';
     } else {
@@ -526,6 +549,9 @@ function togglePasswordVisibility(inputId, btn) {
 }
 
 async function refreshUserDataFromServer() {
+    // 🟢 Chặn trùng lặp request
+    if (isVerifyingSession) return;
+
     let savedToken = null;
     try { savedToken = localStorage.getItem('access_token'); } catch (e) {}
 
@@ -535,6 +561,8 @@ async function refreshUserDataFromServer() {
     }
 
     try {
+        isVerifyingSession = true; // 🟢 Đánh dấu đang gửi request
+
         const res = await fetch(`${API_BASE_URL}/auth`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -565,7 +593,8 @@ async function refreshUserDataFromServer() {
         }
     } catch (e) {
         console.warn('Không thể kết nối server:', e.message);
-        if (typeof initUserAuthSession === 'function') initUserAuthSession();
+    } finally {
+        isVerifyingSession = false; // 🟢 Mở khóa cờ
     }
 }
 window.refreshUserDataFromServer = refreshUserDataFromServer;
@@ -599,9 +628,13 @@ function updateVietQRImages(userShortId) {
 // 🟢 TỰ ĐỘNG KIỂM TRA PHIÊN DÀNH CHO MULTI-TAB / THIẾT BỊ KHÁC
 document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible' && localStorage.getItem('access_token')) {
-        refreshUserDataFromServer();
+        // Chỉ gọi khi không có tiến trình xác thực nào đang chạy
+        if (!isVerifyingSession) {
+            refreshUserDataFromServer();
+        }
     }
 });
+
 
 // Render dữ liệu bảng xếp hạng ra HTML
 function renderLeaderboard(usersList = []) {
