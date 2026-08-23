@@ -233,7 +233,7 @@ function renderAuthUI(isLoggedIn) {
 
     let elRoleDesc = document.getElementById('user-role-description');
     if (!elRoleDesc && memberView) {
-        const infoBox = memberView.querySelector('.bg-stone-900');
+        const infoBox = memberView.querySelector('.bg-stone-950');
         if (infoBox) {
             const descDiv = document.createElement('div');
             descDiv.id = 'user-role-description';
