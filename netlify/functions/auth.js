@@ -54,16 +54,23 @@ exports.handler = async (event) => {
   };
 
   if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
-  if (event.httpMethod !== 'POST') return { statusCode: 405, headers, body: JSON.stringify({ message: 'Method Not Allowed' }) };
+  if (event.httpMethod !== 'POST') {
+      console.error('❌ 405 Method Not Allowed:', event.httpMethod);
+      return { statusCode: 405, headers, body: JSON.stringify({ message: 'Method Not Allowed' }) };
+  }
 
   const serviceKey = SUPABASE_SERVICE_ROLE_KEY;
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY || !serviceKey) {
+      console.error('❌ 500 Thiếu biến môi trường Server[span_1](start_span)[span_1](end_span)');
       return { statusCode: 500, headers, body: JSON.stringify({ message: 'Chưa cấu hình biến môi trường Server.' }) };
   }
 
   try {
     let bodyData = {};
-    try { bodyData = JSON.parse(event.body || '{}'); } catch (e) {
+    try { 
+        bodyData = JSON.parse(event.body || '{}'); 
+    } catch (e) {
+        console.error('❌ 400 JSON không hợp lệ:', e.message);
         return { statusCode: 400, headers, body: JSON.stringify({ message: 'JSON không hợp lệ.' }) };
     }
 
@@ -78,9 +85,13 @@ exports.handler = async (event) => {
             body: JSON.stringify({ email, password })
         });
         const regData = await resReg.json();
-        if (!resReg.ok) return { statusCode: resReg.status || 400, headers, body: JSON.stringify({ message: regData.msg || regData.error_description || 'Đăng ký thất bại' }) };
+        if (!resReg.ok) {
+            console.error(`❌ Đăng ký thất bại [${resReg.status}]:`, regData);
+            return { statusCode: resReg.status || 400, headers, body: JSON.stringify({ message: regData.msg || regData.error_description || 'Đăng ký thất bại' }) };
+        }
         return { statusCode: 200, headers, body: JSON.stringify({ message: 'Đăng ký thành công', user: regData.user || regData }) };
       } catch (err) {
+        console.error('❌ Lỗi exception register:', err.message);
         return { statusCode: 500, headers, body: JSON.stringify({ message: err.message }) };
       }
     }
@@ -93,24 +104,32 @@ exports.handler = async (event) => {
           headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${token}` }
         });
         const userData = await resUser.json();
-        if (!resUser.ok || !userData.id) return { statusCode: 401, headers, body: JSON.stringify({ message: 'Token hết hạn' }) };
+        if (!resUser.ok || !userData.id) {
+            console.error('❌ 401 Token hết hạn hoặc không hợp lệ');
+            return { statusCode: 401, headers, body: JSON.stringify({ message: 'Token hết hạn' }) };
+        }
 
         const resProfile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${userData.id}&select=role,expire_date,ai_used_today,current_token,locked_until`, {
           method: 'GET',
           headers: { 'apikey': serviceKey, 'Authorization': `Bearer ${serviceKey}` }
         });
         const profiles = await resProfile.json();
-        if (!resProfile.ok || !Array.isArray(profiles)) return { statusCode: 500, headers, body: JSON.stringify({ message: 'Lỗi hồ sơ' }) };
+        if (!resProfile.ok || !Array.isArray(profiles)) {
+            console.error('❌ 500 Lỗi truy vấn profile');
+            return { statusCode: 500, headers, body: JSON.stringify({ message: 'Lỗi hồ sơ' }) };
+        }
 
         const profile = profiles[0] || {};
         profile.id = userData.id;
 
         if (profile.locked_until && Date.now() < safeParseMs(profile.locked_until)) {
+          console.error('❌ 403 Tài khoản bị khóa:', profile.locked_until);
           const lockDateStr = new Date(safeParseMs(profile.locked_until)).toLocaleDateString('vi-VN');
           return { statusCode: 403, headers, body: JSON.stringify({ message: `Tài khoản bị khóa đến ngày ${lockDateStr}.` }) };
         }
 
         if (profile.current_token && profile.current_token !== token) {
+          console.error('❌ 401 Đăng nhập ở thiết bị khác');
           return { statusCode: 401, headers, body: JSON.stringify({ message: 'Tài khoản đang đăng nhập ở thiết bị khác' }) };
         }
 
@@ -121,6 +140,7 @@ exports.handler = async (event) => {
           body: JSON.stringify({ user: { id: userData.id, email: userData.email, role: effectiveRole, expireDate: profile.expire_date || null, aiUsedToday: profile.ai_used_today || 0 } })
         };
       } catch (err) {
+        console.error('❌ Lỗi exception verify_token:', err.message);
         return { statusCode: 500, headers, body: JSON.stringify({ message: err.message }) };
       }
     }
@@ -133,7 +153,10 @@ exports.handler = async (event) => {
           headers: { 'apikey': SUPABASE_ANON_KEY, 'Authorization': `Bearer ${token}` }
         });
         const userData = await resUser.json();
-        if (!resUser.ok || !userData.id) return { statusCode: 401, headers, body: JSON.stringify({ message: 'Token không hợp lệ' }) };
+        if (!resUser.ok || !userData.id) {
+            console.error('❌ 401 Sync quota token không hợp lệ');
+            return { statusCode: 401, headers, body: JSON.stringify({ message: 'Token không hợp lệ' }) };
+        }
 
         const resProfile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${userData.id}&select=ai_used_today`, {
           method: 'GET',
@@ -150,6 +173,7 @@ exports.handler = async (event) => {
 
         return { statusCode: 200, headers, body: JSON.stringify({ success: true, aiUsedToday: currentUsed + 1 }) };
       } catch (err) {
+        console.error('❌ Lỗi exception sync_quota:', err.message);
         return { statusCode: 500, headers, body: JSON.stringify({ message: err.message }) };
       }
     }
@@ -166,6 +190,7 @@ exports.handler = async (event) => {
         }
         return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
       } catch (err) {
+        console.error('❌ Lỗi exception logout:', err.message);
         return { statusCode: 500, headers, body: JSON.stringify({ message: err.message }) };
       }
     }
@@ -178,7 +203,10 @@ exports.handler = async (event) => {
           headers: { 'apikey': serviceKey, 'Authorization': `Bearer ${serviceKey}` }
         });
         const leaderboardData = await resLeaderboard.json();
-        if (!resLeaderboard.ok || !Array.isArray(leaderboardData)) return { statusCode: 500, headers, body: JSON.stringify({ message: "Lỗi CSDL" }) };
+        if (!resLeaderboard.ok || !Array.isArray(leaderboardData)) {
+            console.error('❌ 500 Lỗi lấy dữ liệu leaderboard');
+            return { statusCode: 500, headers, body: JSON.stringify({ message: "Lỗi CSDL" }) };
+        }
 
         for (let user of leaderboardData) {
           user.effectiveRole = await getEffectiveRole(user);
@@ -205,6 +233,7 @@ exports.handler = async (event) => {
 
         return { statusCode: 200, headers, body: JSON.stringify({ leaderboard: sortedList }) };
       } catch (err) {
+        console.error('❌ Lỗi exception get_leaderboard:', err.message);
         return { statusCode: 500, headers, body: JSON.stringify({ message: err.message }) };
       }
     }
@@ -213,18 +242,25 @@ exports.handler = async (event) => {
     if (action === 'upgrade') {
       const adminSecret = event.headers['x-admin-secret'] || event.headers['X-Admin-Secret'];
       if (!process.env.ADMIN_SECRET_KEY || adminSecret !== process.env.ADMIN_SECRET_KEY) {
+        console.error('❌ 403 Sai Admin Secret Key');
         return { statusCode: 403, headers, body: JSON.stringify({ message: 'Sai Admin Secret Key.' }) };
       }
       try {
         const { targetEmail, newRole, addDays } = bodyData; 
-        if (!targetEmail || !newRole || !addDays) return { statusCode: 400, headers, body: JSON.stringify({ message: 'Thiếu thông tin.' }) };
+        if (!targetEmail || !newRole || !addDays) {
+            console.error('❌ 400 Thiếu thông tin upgrade');
+            return { statusCode: 400, headers, body: JSON.stringify({ message: 'Thiếu thông tin.' }) };
+        }
 
         const resFind = await fetch(`${SUPABASE_URL}/rest/v1/profiles?email=eq.${encodeURIComponent(targetEmail)}&select=*`, {
           method: 'GET',
           headers: { 'apikey': serviceKey, 'Authorization': `Bearer ${serviceKey}` }
         });
         const profiles = await resFind.json();
-        if (!resFind.ok || !Array.isArray(profiles) || profiles.length === 0) return { statusCode: 404, headers, body: JSON.stringify({ message: 'Không tìm thấy tài khoản.' }) };
+        if (!resFind.ok || !Array.isArray(profiles) || profiles.length === 0) {
+            console.error('❌ 404 Không tìm thấy tài khoản:', targetEmail);
+            return { statusCode: 404, headers, body: JSON.stringify({ message: 'Không tìm thấy tài khoản.' }) };
+        }
 
         const profile = profiles[0];
         let currentExpire = safeParseMs(profile.expire_date);
@@ -242,11 +278,12 @@ exports.handler = async (event) => {
 
         return { statusCode: 200, headers, body: JSON.stringify({ success: true, message: `Gia hạn thành công cấp ${finalRole} đến ${newExpireDate}` }) };
       } catch (err) {
+        console.error('❌ Lỗi exception upgrade:', err.message);
         return { statusCode: 500, headers, body: JSON.stringify({ message: err.message }) };
       }
     }
 
-    // G. LOGIN (ĐÃ SỬA NHẬN DIỆN THIẾT BỊ BẰNG USER-AGENT)
+    // G. LOGIN & DEFAULT (Xử lý Đăng nhập)
     try {
       const resAuth = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
           method: 'POST',
@@ -255,26 +292,31 @@ exports.handler = async (event) => {
       });
       
       const authData = await resAuth.json();
-      if (!resAuth.ok) return { statusCode: 400, headers, body: JSON.stringify({ message: authData.error_description || 'Email hoặc mật khẩu không đúng' }) };
+      if (!resAuth.ok) {
+          console.error('❌ 400 Đăng nhập thất bại (Sai email/mật khẩu):', authData.error_description);
+          return { statusCode: 400, headers, body: JSON.stringify({ message: authData.error_description || 'Email hoặc mật khẩu không đúng' }) };
+      }
 
       const resProfile = await fetch(`${SUPABASE_URL}/rest/v1/profiles?id=eq.${authData.user.id}&select=role,expire_date,ai_used_today,device_switch_count,last_switch_date,locked_until,last_user_agent`, {
           method: 'GET',
           headers: { 'apikey': serviceKey, 'Authorization': `Bearer ${serviceKey}` }
       });
       const profiles = await resProfile.json();
-      if (!resProfile.ok || !Array.isArray(profiles)) return { statusCode: 500, headers, body: JSON.stringify({ message: 'Lỗi hồ sơ' }) };
+      if (!resProfile.ok || !Array.isArray(profiles)) {
+          console.error('❌ 500 Lỗi lấy thông tin profile khi login');
+          return { statusCode: 500, headers, body: JSON.stringify({ message: 'Lỗi hồ sơ' }) };
+      }
 
       const profile = profiles[0] || {};
       profile.id = authData.user.id;
 
       if (profile.locked_until && Date.now() < safeParseMs(profile.locked_until)) {
+          console.error('❌ 403 Tài khoản đang bị khóa:', profile.locked_until);
           const lockDateStr = new Date(safeParseMs(profile.locked_until)).toLocaleDateString('vi-VN');
           return { statusCode: 403, headers, body: JSON.stringify({ message: `Tài khoản bị tạm khóa đến ngày ${lockDateStr}.` }) };
       }
 
       const todayStr = new Date().toISOString().slice(0, 10);
-      
-      // Đăng nhập thiết bị mới thực sự khi User-Agent thay đổi
       let isNewDevice = profile.last_user_agent && profile.last_user_agent !== userAgent;
       let currentSwitches = profile.last_switch_date === todayStr ? (profile.device_switch_count || 0) : 0;
       let switchCount = isNewDevice ? currentSwitches + 1 : currentSwitches;
@@ -287,6 +329,7 @@ exports.handler = async (event) => {
               body: JSON.stringify({ locked_until: lockedUntil, device_switch_count: switchCount, last_switch_date: todayStr })
           });
 
+          console.error('❌ 403 Khóa tài khoản do đổi thiết bị quá 5 lần:', email);
           const lockDateStr = new Date(safeParseMs(lockedUntil)).toLocaleDateString('vi-VN');
           return { statusCode: 403, headers, body: JSON.stringify({ message: `Tài khoản đổi thiết bị quá 5 lần/ngày và bị khóa đến ${lockDateStr}.` }) };
       }
@@ -310,9 +353,11 @@ exports.handler = async (event) => {
         })
       };
     } catch (err) {
+      console.error('❌ Lỗi exception login:', err.message);
       return { statusCode: 500, headers, body: JSON.stringify({ message: 'Lỗi đăng nhập: ' + err.message }) };
     }
   } catch (err) {
+    console.error('❌ Lỗi hệ thống chung:', err.message);
     return { statusCode: 500, headers, body: JSON.stringify({ message: err.message }) };
   }
 };
