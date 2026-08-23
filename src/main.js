@@ -161,7 +161,7 @@ async function taiDuLieuOffline() {
     }
 }
 
-// --- BỘ XỬ LÝ VUỐT CHUYỂN TAB CHUẨN XÁC ---
+// --- BỘ XỬ LÝ VUỐT CHUYỂN TAB TỐI ƯU HÓA MOBILE ---
 
 let touchStartX = 0;
 let touchStartY = 0;
@@ -173,17 +173,24 @@ const ALL_TABS = ['luantri', 'huyetvi', 'duoclieu', 'duocthien', 'tra', 'tracngh
 function shouldIgnoreSwipe(target) {
     if (!target) return false;
 
-    // 1. Chỉ chặn khi đang thao tác trực tiếp trong ô gõ chữ
+    // 1. Chỉ chặn khi người dùng đang gõ trực tiếp trong ô input, textarea hoặc chọn select/option
     const ignoredTags = ['INPUT', 'TEXTAREA', 'SELECT', 'OPTION'];
-    if (ignoredTags.includes(target.tagName)) return true;
+    if (ignoredTags.includes(target.tagName) || target.closest('input, textarea, select')) {
+        return true;
+    }
 
-    // 2. Chặn khi đang mở Modal / Popup
+    // 2. Chặn khi đang mở Modal / Popup chức năng
     const activeModal = target.closest('#modal-don-thuoc, #modal-thong-tin-yhct, #modal-role-lock');
     if (activeModal && !activeModal.classList.contains('hidden')) return true;
 
-    // 3. Chỉ chặn nếu trúng vùng cuộn NGANG riêng biệt (bảng dữ liệu cuộn ngang)
+    // 3. Chặn nếu trúng vùng cuộn NGANG riêng biệt (bảng dữ liệu, danh sách ngang)
     const horizontalScrollBox = target.closest('.overflow-x-auto');
     if (horizontalScrollBox && horizontalScrollBox.scrollWidth > horizontalScrollBox.clientWidth) {
+        return true;
+    }
+
+    // 4. Chặn nếu đang tương tác bên trong khung Chat AI hoặc danh sách lịch sử có thể cuộn dọc
+    if (target.closest('#sach-chat-box, #ai-chat-box, #vong-chan-history-list, #quiz-review-list')) {
         return true;
     }
 
@@ -214,13 +221,15 @@ document.addEventListener('touchend', (e) => {
     const touchEndY = e.changedTouches[0].clientY;
     const duration = Date.now() - touchStartTime;
 
-    if (duration > 500) return; // Bỏ qua nếu giữ tay quá 0.5s
+    // Giới hạn thời gian vuốt trong vòng 0.5s để đảm bảo thao tác dứt khoát
+    if (duration > 500) return;
 
     const deltaX = touchEndX - touchStartX;
     const deltaY = touchEndY - touchStartY;
 
-    // Ngưỡng vuốt ngang (>= 35px và độ lệch ngang gấp 1.3 lần độ lệch dọc)
-    if (Math.abs(deltaX) >= 35 && Math.abs(deltaX) > Math.abs(deltaY) * 1.3) {
+    // Đặt ngưỡng dịch chuyển ngang tối thiểu 45px và độ lệch ngang lớn hơn 1.5 lần độ lệch dọc
+    // Giúp người dùng lướt đọc nội dung dọc thoải mái mà không bị nhảy tab oan.
+    if (Math.abs(deltaX) >= 45 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
         handleSwipeDirection(deltaX < 0 ? 'NEXT' : 'PREV');
     }
 }, { passive: true });
@@ -238,11 +247,14 @@ function handleSwipeDirection(direction) {
 
     if (currentIndex === -1) return;
 
+    let targetIndex = currentIndex;
     if (direction === 'NEXT') {
-        const nextIndex = (currentIndex + 1) % ALL_TABS.length;
-        switchTab(ALL_TABS[nextIndex]);
+        targetIndex = (currentIndex + 1) % ALL_TABS.length;
     } else if (direction === 'PREV') {
-        const prevIndex = (currentIndex - 1 + ALL_TABS.length) % ALL_TABS.length;
-        switchTab(ALL_TABS[prevIndex]);
+        targetIndex = (currentIndex - 1 + ALL_TABS.length) % ALL_TABS.length;
     }
+
+    const targetTabName = ALL_TABS[targetIndex];
+    switchTab(targetTabName);
 }
+
