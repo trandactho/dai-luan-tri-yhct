@@ -1,34 +1,3 @@
-// UTILS.JS - Cấu hình định mức & Cấp bậc hệ thống
-const ROLE_QUOTAS = { GUEST: 1, FREE: 3, VIP: 30, SVIP: 99 };
-const ROLE_CONFIG = {
-    GUEST: { tokenMultiplier: 1.0, showAds: true, name: 'Tài khoản Miễn phí' },
-    FREE:  { tokenMultiplier: 1.0, showAds: true, name: 'Tài khoản Miễn phí' },
-    VIP:   { tokenMultiplier: 1.5, showAds: false, name: 'Tài khoản VIP' },
-    SVIP:  { tokenMultiplier: 2.0, showAds: false, name: 'Tài khoản SVIP' }
-};
-window.ROLE_QUOTAS = ROLE_QUOTAS;
-window.ROLE_CONFIG = ROLE_CONFIG;
-
-// 1. Hàm kiểm tra ẩn/hiện quảng cáo
-function shouldShowAds() {
-    const role = AppState.auth?.role || 'GUEST';
-    return ROLE_CONFIG[role]?.showAds ?? true;
-}
-
-// 2. Hàm ẩn/hiện Banner Quảng cáo trên UI
-function renderAdsControl() {
-    const adContainers = document.querySelectorAll('.ad-banner-container');
-    const isShow = shouldShowAds();
-    
-    adContainers.forEach(el => {
-        if (isShow) {
-            el.classList.remove('hidden');
-        } else {
-            el.classList.add('hidden');
-        }
-    });
-}
-
 // --- QUẢN LÝ LƯU TRẠNG THÁI TÌM KIẾM ---
 function saveDuocLieuState() {
     sessionStorage.setItem('dl_search', getVal('searchDuocLieu'));
@@ -151,8 +120,9 @@ function getFilterVal(id) {
 function checkAndCleanStorage() {
     try {
         let history = JSON.parse(localStorage.getItem('vongChanHistory') || '[]');
-        if (Array.isArray(history) && history.length > 20) {
-            history = history.slice(0, 20); // Giữ tối đa 20 hồ sơ gần nhất
+        if (Array.isArray(history) && history.length > 8) {
+            // Tự động cắt giảm bớt các bản ghi cũ nhất, chỉ giữ lại 8 bản ghi gần nhất
+            history = history.slice(0, 8);
             localStorage.setItem('vongChanHistory', JSON.stringify(history));
         }
     } catch (e) {
@@ -324,98 +294,3 @@ function tinhDiemKhopTongQuat(item, rawQuery, titleField = 'ten') {
 
     return score * coverageRatio;
 }
-
-function getMaxTokens(sourceKey) {
-    const role = AppState.auth?.role || 'GUEST';
-    
-    const baseTokens = {
-        'luantri': 250,
-        'backup': 300,
-        'phoingu': 400,
-        'vongchan': 400,
-        'sach_ai': 400,
-        'chat': 500,
-        'tu_chan': 500,
-        'quiz': 800,
-        'assistant': 500 // Đồng bộ thêm nguồn assistant với server
-    }[sourceKey] || 300;
-
-    // Lấy trực tiếp hệ số từ ROLE_CONFIG để đồng bộ tuyệt đối
-    const multiplier = ROLE_CONFIG[role]?.tokenMultiplier || 1.0;
-    return Math.round(baseTokens * multiplier);
-}
-
-
-const ROLE_LEVELS = { 'GUEST': 1, 'FREE': 2, 'VIP': 3, 'SVIP': 4 };
-
-function getCurrentUserRole() {
-    try {
-        const sessionAuth = sessionStorage.getItem('session_auth');
-        if (sessionAuth) {
-            const parsed = JSON.parse(sessionAuth);
-            if (parsed && parsed.role) return String(parsed.role).toUpperCase();
-        }
-        const appUserData = localStorage.getItem('app_user_data');
-        if (appUserData) {
-            const parsed = JSON.parse(appUserData);
-            if (parsed && parsed.role) return String(parsed.role).toUpperCase();
-        }
-    } catch (e) {}
-
-    const role = window.AppState?.auth?.role || window.currentUser?.role || 'GUEST';
-    return String(role).toUpperCase();
-}
-
-function updateRoleLockUI() {
-    const userRole = getCurrentUserRole();
-    const userLevel = ROLE_LEVELS[userRole] || 1;
-    
-    document.querySelectorAll('[data-min-role]').forEach(el => {
-        const minRole = (el.getAttribute('data-min-role') || 'FREE').toUpperCase();
-        const requiredLevel = ROLE_LEVELS[minRole] || 1;
-
-        const targetContainer = (el.tagName === 'INPUT' && el.parentElement) ? el.parentElement : el;
-
-        const oldLock = targetContainer.querySelector('.role-lock-badge');
-        if (oldLock) oldLock.remove();
-
-        if (userLevel < requiredLevel) {
-            const lockBadge = document.createElement('i');
-            lockBadge.className = 'fa-solid fa-lock text-amber-400 text-[10px] ml-1.5 role-lock-badge inline-block';
-            targetContainer.appendChild(lockBadge);
-        }
-    });
-}
-window.updateRoleLockUI = updateRoleLockUI;
-
-// 2. Chặn click nút bị khóa & hiển thị Modal nâng cấp
-document.addEventListener('click', function (e) {
-    const targetBtn = e.target.closest('[data-min-role]');
-    if (!targetBtn) return;
-
-    const minRole = (targetBtn.getAttribute('data-min-role') || 'FREE').toUpperCase();
-    const userRole = getCurrentUserRole();
-
-    if ((ROLE_LEVELS[userRole] || 1) < (ROLE_LEVELS[minRole] || 1)) {
-        e.preventDefault();
-        e.stopPropagation();
-        e.stopImmediatePropagation();
-
-        const featureName = targetBtn.getAttribute('data-feature-name') || 'Tính năng này';
-        
-        const lockTitle = document.getElementById('lock-modal-title');
-        const lockDesc = document.getElementById('lock-modal-desc');
-        const lockModal = document.getElementById('modal-role-lock');
-
-        if (lockTitle) lockTitle.innerText = `TÍNH NĂNG DÀNH CHO CẤP ${minRole}`;
-        if (lockDesc) {
-            lockDesc.innerHTML = 
-                `Tính năng <strong>${featureName}</strong> yêu cầu tài khoản từ cấp <strong>${minRole}</strong> trở lên.<br>Vui lòng nâng cấp tài khoản để truy cập!`;
-        }
-        if (lockModal) lockModal.classList.remove('hidden');
-        return false;
-    }
-}, true);
-
-// Khởi chạy khi tải trang & sau khi đăng nhập
-window.addEventListener('DOMContentLoaded', updateRoleLockUI);
