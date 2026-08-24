@@ -1,4 +1,4 @@
-const CACHE_NAME = 'yhct-v1.7.5'; // Tăng số phiên bản khi có cập nhật dữ liệu nặng
+const CACHE_NAME = 'yhct-v1.7.6'; // Tăng phiên bản mới để dọn sạch cache phình to cũ
 
 const CORE_ASSETS = [
     './',
@@ -42,7 +42,7 @@ const EXTERNAL_CDN_ASSETS = [
     'https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js'
 ];
 
-// 1. Khi cài đặt: Chỉ cache các tệp cốt lõi nhẹ gọn để khởi động ngay lập tức
+// 1. Khi cài đặt: Chỉ cache các tệp cốt lõi nhẹ gọn
 self.addEventListener('install', (event) => {
     self.skipWaiting();
     event.waitUntil(
@@ -50,14 +50,14 @@ self.addEventListener('install', (event) => {
     );
 });
 
-// 2. Khi kích hoạt: Dọn dẹp cache cũ, đồng thời nếu thay đổi CACHE_NAME (tăng phiên bản), 
-// hệ thống sẽ tự động làm mới bộ đệm dữ liệu nặng
+// 2. Khi kích hoạt: Dọn dẹp sạch toàn bộ cache cũ khác tên
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((keys) => {
             return Promise.all(
                 keys.map((key) => {
-                    if (key !== CACHE_NAME && key.startsWith('yhct-')) {
+                    if (key !== CACHE_NAME) {
+                        console.log('[Service Worker] Xóa cache cũ:', key);
                         return caches.delete(key);
                     }
                 })
@@ -66,7 +66,7 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// 3. Cho phép chủ động kích hoạt tải qua nút Offline hoặc khi đổi version
+// 3. Chỉ tải toàn bộ file nặng khi có lệnh chủ động (Ví dụ: bấm nút tải offline)
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'CACHE_ALL') {
         event.waitUntil(
@@ -84,8 +84,7 @@ self.addEventListener('message', (event) => {
     }
 });
 
-// 4. Cơ chế thông minh: Tệp cốt lõi luôn ưu tiên mạng (Network-First) để cập nhật liên tục. 
-// Tệp dữ liệu lớn/nặng nếu có sẵn ưu tiên dùng hoặc cập nhật theo version.
+// 4. Cơ chế fetch kiểm soát chặt chẽ chống phình cache
 self.addEventListener('fetch', (event) => {
     if (event.request.method !== 'GET') return;
     if (!event.request.url.startsWith('http')) return;
@@ -101,10 +100,10 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // Kiểm tra nếu là tệp cốt lõi (Core assets) hoặc trang chính -> Áp dụng Network-First tuyệt đối
     const isCoreAsset = CORE_ASSETS.some(asset => reqUrl.includes(asset.replace('./', '')));
 
     if (isCoreAsset) {
+        // Tệp core: Network-First, luôn cập nhật bản mới nhất và ghi đè an toàn
         event.respondWith(
             fetch(event.request)
                 .then((networkResponse) => {
@@ -117,19 +116,14 @@ self.addEventListener('fetch', (event) => {
                 .catch(() => caches.match(event.request))
         );
     } else {
-        // Các tệp dữ liệu khác: Dùng Cache trước, nếu chưa có mới fetch mạng
+        // Các tệp khác: Ưu tiên đọc từ Cache nếu có sẵn để chạy nhanh/offline, 
+        // nếu chưa có thì gọi mạng bình thường nhưng KHÔNG tự động nhồi vào cache để tránh phình bộ nhớ
         event.respondWith(
             caches.match(event.request).then((cachedResponse) => {
                 if (cachedResponse) {
                     return cachedResponse;
                 }
-                return fetch(event.request).then((networkResponse) => {
-                    if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
-                        const responseClone = networkResponse.clone();
-                        caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
-                    }
-                    return networkResponse;
-                });
+                return fetch(event.request);
             })
         );
     }
