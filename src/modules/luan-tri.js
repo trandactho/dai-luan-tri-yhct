@@ -848,13 +848,36 @@ function tinhLieuDanhSachVi(danhSachVi, tuoi, theTrang) {
     const lieuDefault = 12; // Liều tiêu chuẩn mặc định 12g
 
     return danhSachVi.map(item => {
-        let tenVi = typeof item === 'string' ? item : (item.ten || '');
-        let lieuChuan = typeof item === 'object' && item.lieu ? parseFloat(item.lieu) : lieuDefault;
+        let tenVi = '';
+        let lieuChuan = lieuDefault;
+
+        // Xử lý tách chuỗi tên và liều gốc trực tiếp nếu chuỗi có dạng "Tên vị thuốc Xg"
+        if (typeof item === 'string') {
+            const match = item.match(/^(.*?)\s+(\d+(?:\.\d+)?)\s*g$/i);
+            if (match) {
+                tenVi = match[1].trim();
+                lieuChuan = parseFloat(match[2]);
+            } else {
+                tenVi = item;
+                lieuChuan = lieuDefault;
+            }
+        } else if (typeof item === 'object' && item !== null) {
+            let rawTen = item.ten || '';
+            const match = rawTen.match(/^(.*?)\s+(\d+(?:\.\d+)?)\s*g$/i);
+            if (match) {
+                tenVi = match[1].trim();
+                lieuChuan = item.lieu !== undefined ? parseFloat(item.lieu) : parseFloat(match[2]);
+            } else {
+                tenVi = rawTen;
+                lieuChuan = item.lieu !== undefined ? parseFloat(item.lieu) : lieuDefault;
+            }
+        }
+
         if (isNaN(lieuChuan)) lieuChuan = lieuDefault;
 
         // Nếu người dùng đã tự tay sửa liều kê (lieuCustom) -> Giữ nguyên liều người dùng chọn
         // Ngược lại -> Tự động tính theo hệ số tuổi & thể trạng
-        let lieuDieuChinh = (typeof item === 'object' && item.lieuCustom !== undefined && item.lieuCustom !== null) 
+        let lieuDieuChinh = (typeof item === 'object' && item !== null && item.lieuCustom !== undefined && item.lieuCustom !== null) 
             ? parseFloat(item.lieuCustom) 
             : Math.round(lieuChuan * heSo);
 
@@ -872,6 +895,7 @@ function tinhLieuDanhSachVi(danhSachVi, tuoi, theTrang) {
         return { ten: tenVi, lieuGoc: lieuChuan, lieuTinh: lieuDieuChinh, canhBao };
     });
 }
+
 
 // Cấu hình LocalStorage lưu mặc định đơn thuốc
 const DON_THUOC_SETTINGS_KEY = 'yhct_don_thuoc_settings';
@@ -953,10 +977,20 @@ function moModalDonThuoc() {
         rawHerbs = ['Nhân sâm', 'Bạch truật', 'Phục linh', 'Cam thảo'];
     }
 
-    window.donThuocCurrentHerbs = rawHerbs.map(item => {
-        if (typeof item === 'string') return { ten: item, lieu: 12, lieuCustom: null };
-        return { ten: item.ten || '', lieu: item.lieu || 12, lieuCustom: item.lieuCustom || null };
+        window.donThuocCurrentHerbs = rawHerbs.map(item => {
+        let ten = '', lieu = 12;
+        if (typeof item === 'string') {
+            const m = item.match(/^(.*?)\s+(\d+(?:\.\d+)?)\s*g$/i);
+            if (m) { ten = m[1].trim(); lieu = parseFloat(m[2]); } else { ten = item; }
+        } else if (typeof item === 'object' && item !== null) {
+            const raw = item.ten || '';
+            const m = raw.match(/^(.*?)\s+(\d+(?:\.\d+)?)\s*g$/i);
+            if (m) { ten = m[1].trim(); lieu = item.lieu !== undefined ? parseFloat(item.lieu) : parseFloat(m[2]); } 
+            else { ten = raw; lieu = item.lieu !== undefined ? parseFloat(item.lieu) : 12; }
+        }
+        return { ten, lieu, lieuCustom: item.lieuCustom || null };
     });
+
 
     capNhatBangLieuLuongDonThuoc();
     modal.classList.remove('hidden');
@@ -1026,7 +1060,7 @@ function capNhatBangLieuLuongDonThuoc() {
                 ${safeEscape(v.ten)}
                 ${v.canhBao ? `<span class="text-red-400 font-normal block text-[10px]">${v.canhBao}</span>` : ''}
             </td>
-            <td class="py-2 px-1 text-stone-300 text-center">${v.lieuGoc}g</td>
+            <td class="py-2 px-1 text-stone-300 text-center no-print">${v.lieuGoc}g</td>
             <td class="py-1 px-1 text-center bg-amber-950/20">
                 <div class="flex items-center justify-center gap-0.5">
                     <input type="number" min="1" max="500" value="${v.lieuTinh}" 
@@ -1487,8 +1521,17 @@ function chonBaiThuocLuanTri(key) {
 
     if (Array.isArray(item.tpbt) && item.tpbt.length > 0) {
         window.donThuocCurrentHerbs = item.tpbt.map(v => {
-            if (typeof v === 'string') return { ten: v, lieu: 12, lieuCustom: null };
-            return { ten: v.ten || '', lieu: v.lieu || 12, lieuCustom: v.lieuCustom || null };
+            let ten = '', lieu = 12;
+            if (typeof v === 'string') {
+                const m = v.match(/^(.*?)\s+(\d+(?:\.\d+)?)\s*g$/i);
+                if (m) { ten = m[1].trim(); lieu = parseFloat(m[2]); } else { ten = v; }
+            } else if (typeof v === 'object' && v !== null) {
+                const raw = v.ten || '';
+                const m = raw.match(/^(.*?)\s+(\d+(?:\.\d+)?)\s*g$/i);
+                if (m) { ten = m[1].trim(); lieu = v.lieu !== undefined ? parseFloat(v.lieu) : parseFloat(m[2]); } 
+                else { ten = raw; lieu = v.lieu !== undefined ? parseFloat(v.lieu) : 12; }
+            }
+            return { ten, lieu, lieuCustom: v.lieuCustom || null };
         });
         
         if (typeof capNhatBangLieuLuongDonThuoc === 'function') {
@@ -1499,14 +1542,3 @@ function chonBaiThuocLuanTri(key) {
     const dropdown = document.getElementById('dropdown-tim-baithuoc');
     if (dropdown) dropdown.classList.add('hidden');
 }
-
-// 3. Tự động đóng dropdown danh sách bài thuốc khi click ra ngoài
-document.addEventListener('click', function(e) {
-    const input = document.getElementById('don-baithuoc-ten');
-    const dropdown = document.getElementById('dropdown-tim-baithuoc');
-    if (dropdown && !dropdown.classList.contains('hidden')) {
-        if (input && !input.contains(e.target) && !dropdown.contains(e.target)) {
-            dropdown.classList.add('hidden');
-        }
-    }
-});
