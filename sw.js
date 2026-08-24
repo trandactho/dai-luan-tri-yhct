@@ -1,23 +1,16 @@
-const CACHE_NAME = 'yhct-v1.7.6'; // Tăng phiên bản mới để dọn sạch cache phình to cũ
+// ==========================================
+// SERVICE WORKER - ĐẠI LUẬN TRỊ YHCT v1.7.7 (Tối ưu hóa Cache)
+// ==========================================
 
-const CORE_ASSETS = [
+const CACHE_NAME = 'dailuantri-v1.7.6-fixed-v2';
+
+// Khai báo CHÍNH XÁC các tệp đang sử dụng trong index.html
+const ASSETS_TO_CACHE = [
     './',
     './index.html',
     './style.css',
     './manifest.json',
-    './about.html',
-    './changelog.html',
-    './disclaimer.html',
-    './privacy.html',
-    './contact.html',
-    './src/core/config.js',
-    './src/core/utils.js',
-    './src/core/ai-service.js',
-    './src/modules/tai-khoan.js',
-    './src/main.js'
-];
-
-const HEAVY_ASSETS = [
+    // Dữ liệu tĩnh
     './luantridata.js',
     './huyetvidata.js',
     './duoclieudata1.js',
@@ -28,103 +21,91 @@ const HEAVY_ASSETS = [
     './duocthiendata.js',
     './tradata.js',
     './questiondata.js',
+    // Core Scripts
+    './src/core/config.js',
+    './src/core/utils.js',
+    './src/core/ai-service.js',
+    // Module Scripts
+    './src/modules/tai-khoan.js',
     './src/modules/luan-tri.js',
     './src/modules/catalog.js',
     './src/modules/phoi-ngu.js',
-    './src/modules/tu-chan.js',
     './src/modules/trac-nghiem.js',
-    './src/modules/thu-vien.js'
+    './src/modules/thu-vien.js',
+    './src/modules/tu-chan.js',
+    // Main Script
+    './src/main.js'
 ];
 
-const EXTERNAL_CDN_ASSETS = [
-    'https://cdn.tailwindcss.com',
-    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
-    'https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js'
-];
-
-// 1. Khi cài đặt: Chỉ cache các tệp cốt lõi nhẹ gọn
+// 1. Cài đặt và nạp sẵn toàn bộ dữ liệu vào cache
 self.addEventListener('install', (event) => {
-    self.skipWaiting();
     event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => cache.addAll(CORE_ASSETS))
+        caches.open(CACHE_NAME).then((cache) => {
+            return cache.addAll(ASSETS_TO_CACHE);
+        }).catch(err => console.log('Lỗi nạp cache tĩnh (kiểm tra lại tên file có sai sót không):', err))
     );
+    self.skipWaiting();
 });
 
-// 2. Khi kích hoạt: Dọn dẹp sạch toàn bộ cache cũ khác tên
+// 2. Kích hoạt và dọn dẹp sạch sẽ các bản cache rác cũ
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((keys) => {
             return Promise.all(
                 keys.map((key) => {
                     if (key !== CACHE_NAME) {
-                        console.log('[Service Worker] Xóa cache cũ:', key);
+                        console.log('🗑️ Đã xóa cache rác cũ:', key);
                         return caches.delete(key);
                     }
                 })
             );
-        }).then(() => self.clients.claim())
+        })
     );
+    self.clients.claim();
 });
 
-// 3. Chỉ tải toàn bộ file nặng khi có lệnh chủ động (Ví dụ: bấm nút tải offline)
-self.addEventListener('message', (event) => {
-    if (event.data && event.data.type === 'CACHE_ALL') {
-        event.waitUntil(
-            caches.open(CACHE_NAME).then(async (cache) => {
-                await cache.addAll([...CORE_ASSETS, ...HEAVY_ASSETS]);
-                await Promise.allSettled(
-                    EXTERNAL_CDN_ASSETS.map(url => 
-                        fetch(url, { mode: 'no-cors' })
-                            .then(res => cache.put(url, res))
-                            .catch(() => {})
-                    )
-                );
-            })
-        );
-    }
-});
-
-// 4. Cơ chế fetch kiểm soát chặt chẽ chống phình cache
+// 3. Xử lý Fetch: Chặn phình bộ nhớ, NHƯNG cho phép lưu cache các CDN giao diện
 self.addEventListener('fetch', (event) => {
-    if (event.request.method !== 'GET') return;
-    if (!event.request.url.startsWith('http')) return;
+    const url = new URL(event.request.url);
 
-    const reqUrl = event.request.url;
-
-    if (
-        reqUrl.includes('generativelanguage.googleapis.com') ||
-        reqUrl.includes('pagead2.googlesyndication.com') ||
-        reqUrl.includes('.netlify/functions') ||
-        reqUrl.includes('supabase.co')
-    ) {
+    // Bỏ qua không can thiệp API Netlify hoặc method khác GET
+    if (url.pathname.includes('/.netlify/functions/') || event.request.method !== 'GET') {
         return;
     }
 
-    const isCoreAsset = CORE_ASSETS.some(asset => reqUrl.includes(asset.replace('./', '')));
-
-    if (isCoreAsset) {
-        // Tệp core: Network-First, luôn cập nhật bản mới nhất và ghi đè an toàn
-        event.respondWith(
-            fetch(event.request)
-                .then((networkResponse) => {
-                    if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
-                        const responseClone = networkResponse.clone();
-                        caches.open(CACHE_NAME).then(cache => cache.put(event.request, responseClone));
-                    }
-                    return networkResponse;
-                })
-                .catch(() => caches.match(event.request))
-        );
-    } else {
-        // Các tệp khác: Ưu tiên đọc từ Cache nếu có sẵn để chạy nhanh/offline, 
-        // nếu chưa có thì gọi mạng bình thường nhưng KHÔNG tự động nhồi vào cache để tránh phình bộ nhớ
-        event.respondWith(
-            caches.match(event.request).then((cachedResponse) => {
-                if (cachedResponse) {
-                    return cachedResponse;
+    event.respondWith(
+        caches.match(event.request).then((cachedResponse) => {
+            // Có trong cache thì trả về luôn
+            if (cachedResponse) {
+                return cachedResponse;
+            }
+            
+            // Không có thì gọi mạng
+            return fetch(event.request).then((response) => {
+                // CHỈ lưu cache tự động đối với các CDN giao diện (Tailwind, FontAwesome, DOMPurify)
+                // TUYỆT ĐỐI KHÔNG lưu cache các file local để chống phình rác
+                if (response && response.status === 200 && (url.hostname === 'cdn.tailwindcss.com' || url.hostname === 'cdnjs.cloudflare.com')) {
+                    const responseToCache = response.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, responseToCache);
+                    });
                 }
-                return fetch(event.request);
-            })
-        );
+                return response;
+            }).catch(() => {
+                console.log('Mất mạng và không tìm thấy file trong cache:', event.request.url);
+            });
+        })
+    );
+});
+
+// 4. Lắng nghe lệnh tải Offline thủ công từ giao diện
+self.addEventListener('message', (event) => {
+    if (event.data && event.data.type === 'CACHE_ALL') {
+        caches.open(CACHE_NAME).then((cache) => {
+            // Thực sự gọi lệnh nạp lại danh sách để chắc chắn 100% file đã được tải
+            cache.addAll(ASSETS_TO_CACHE).then(() => {
+                console.log('📥 Đã đồng bộ toàn bộ dữ liệu Offline thành công.');
+            }).catch(err => console.log('Lỗi khi đồng bộ thủ công:', err));
+        });
     }
 });
