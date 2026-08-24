@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>    
-    <title>Đại Luận Trị & Tra Cứu YHCT v1.7.3 Premium</title>
+    <title>Đại Luận Trị & Tra Cứu YHCT v1.7.5 Premium</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7294224585301638" crossorigin="anonymous"></script>            
     <meta name="description" content="Ứng dụng tra cứu Y Học Cổ Truyền toàn diện: Biện chứng luận trị, Dược liệu học, Châm cứu huyệt vị, Trà dược trị liệu và Trợ lý AI tư vấn YHCT.">
     <meta name="author" content="Trần Đắc Thọ">
@@ -51,7 +51,7 @@
         
     <header class="bg-dark-box p-2 text-center border-b border-stone-800 space-y-0.5">
         <h1 class="text-sm font-bold text-primary flex items-center justify-center gap-1">
-            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.7.3)
+            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.7.4)
         </h1>
         <div class="text-[10px] text-stone-400 space-x-2">
             <span>Biện chứng (<span id="total-chung" class="text-amber-500 font-bold">0</span>)</span> · 
@@ -754,7 +754,7 @@
                 <div class="flex items-center justify-between border-b border-stone-800/80 pb-2.5">
                     <div>
                         <div class="font-bold text-amber-400 text-sm" id="user-display-email">---</div>
-                        <div class="text-[10px] text-stone-400 mt-0.5">Cấp độ: <strong id="user-display-role-text" class="text-emerald-400">FREE</strong></div>
+                        <div class="text-[10px] text-stone-400 mt-0.5">Cấp hiện tại: <strong id="user-display-role-text" class="text-emerald-400">FREE</strong></div>
                     </div>
                     <span id="user-display-role" class="px-2.5 py-1 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded-lg text-xs font-bold">FREE</span>
                 </div>
@@ -762,6 +762,7 @@
                     <div class="text-[10px] text-stone-400 uppercase font-bold tracking-wider">Mã Định Danh ID</div>
                     <div id="user-display-id" class="text-amber-400 font-mono font-bold text-base">DL0000</div>
                 </div>
+                <div id="user-role-description" class="text-[11px] text-stone-300 pt-2 border-t border-stone-800/80 leading-relaxed space-y-1"></div>
             </div>
             
             <div id="auth-logout-btn-container">
@@ -1227,7 +1228,7 @@
                         <tr class="bg-stone-800/90 text-stone-400 text-[11px] border-b border-stone-800">
                             <th class="py-2 px-1 text-center w-8 border border-stone-800">STT</th>
                             <th class="py-2 px-2 border border-stone-800">Vị thuốc</th>
-                            <th class="py-2 px-1 text-center w-16 border border-stone-800">Liều gốc</th>
+                            <th class="py-2 px-1 text-center w-16 border border-stone-800 no-print">Liều gốc</th>
                             <th class="py-2 px-1 text-center w-24 border border-stone-800">Liều kê (g)</th>
                             <th class="py-2 px-1 text-center w-8 no-print border border-stone-800"></th>
                         </tr>

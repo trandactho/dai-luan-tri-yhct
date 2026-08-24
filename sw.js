@@ -1,4 +1,4 @@
-const CACHE_NAME = 'yhct-v1.7.4'; // Tăng số phiên bản khi có cập nhật dữ liệu nặng
+const CACHE_NAME = 'yhct-v1.7.5'; // Tăng số phiên bản khi có cập nhật dữ liệu nặng
 
 const CORE_ASSETS = [
     './',
