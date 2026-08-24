@@ -269,10 +269,11 @@ async function sendAIWebMessage() {
 function validateAndCleanAIResult(obj, tabName) {
     if (!obj || typeof obj !== 'object') return null;
 
-    // 1. Danh mục Biện chứng Luận Trị
+        // 1. Danh mục Biện chứng Luận Trị
     if (tabName.includes('Luận Trị') || tabName.includes('luantri')) {
         return {
             hc: String(obj.hc || 'HỘI CHỨNG CHƯA RÕ'),
+            phanloai: Array.isArray(obj.phanloai) ? obj.phanloai.map(String) : ['Tạng Phế', 'Bình', 'Thực', '---'],
             pdt: String(obj.pdt || 'Theo chỉ định chuyên môn'),
             tc: Array.isArray(obj.tc) ? obj.tc.map(String) : [String(obj.tc || 'Đang cập nhật triệu chứng')],
             bt: String(obj.bt || 'Đối chứng nghiệm phương'),
@@ -428,19 +429,21 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
     if (!query || !objData) return;
     const cleanKey = removeAccents(query).trim().replace(/\s+/g, '_');
 
-    if (tabName.includes('Luận Trị')) {
+        if (tabName.includes('Luận Trị')) {
         if (typeof database === 'undefined') window.database = {};
         
         database[cleanKey] = {
             hc: objData.hc || query.toUpperCase(),
-            pdt: objData.pdt || "Theo chỉ định AI",
+            phanloai: Array.isArray(objData.phanloai) ? objData.phanloai : ["Tạng Phế", "Bình", "Thực", "---"],
             tc: Array.isArray(objData.tc) ? objData.tc : [query],
+            pdt: objData.pdt || "Theo chỉ định AI",
             bt: objData.bt || "Đối chứng nghiệm phương",
             tpbt: Array.isArray(objData.tpbt) ? objData.tpbt : [],
             isAiGenerated: true
         };
         try { localStorage.setItem('custom_database', JSON.stringify(database)); } catch (e) {}
     }
+
     else if (tabName.includes('Dược Liệu')) {
         if (typeof duocLieuData === 'undefined') window.duocLieuData = [];
         const newObj = {
