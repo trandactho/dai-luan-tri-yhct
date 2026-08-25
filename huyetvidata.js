@@ -419,9 +419,10 @@ window.huyetViDataBatch3 = [
     { stt: 382, ma_who: "EX-HN2", kinh: "Kỳ Huyệt", ten: "Đương Dương", vi_tri: "Thẳng trên đồng tử, vào trong chân tóc trán 1 thốn", chu_tri: "Đau đầu, cảm mạo, chóng mặt, đau mắt" },
     { stt: 383, ma_who: "EX-HN17", kinh: "Kỳ Huyệt", ten: "Cảnh Tý", vi_tri: "Bờ sau cơ ức đòn chũm, trên xương đòn 1 thốn", chu_tri: "Tê đau chi trên, liệt chi trên, đau vai gáy" },
     { stt: 384, ma_who: "EX-B4", kinh: "Kỳ Huyệt", ten: "Bĩ Căn", vi_tri: "Dưới gai đốt sống thắt lưng 1 đo ngang ra 3.5 thốn", chu_tri: "Đau thắt lưng, khối bĩ, tiêu hóa kém" },
-    { stt: 385, ma_who: "EX-LE2", kinh: "Kỳ Huyệt", ten: "Bách Trùng Oa", vi_tri: "mặt trong đùi, trên huyệt Huyết Hải (SP10) 1 thốn, tức là trên bờ trên trong xương bánh chè 3 thốn.", chu_tri: "Liệt chi dưới, đau khớp gối, phong thấp" },
+    { stt: 385, ma_who: "EX-LE2", kinh: "Kỳ Huyệt", ten: "Bách Trùng Oa", vi_tri: "mặt trong đùi, trên huyệt Huyết Hải (SP10) 1 thốn, tức là trên bờ trên trong xương bánh chè 3 thốn.", 
+    chu_tri: "mẩn ngứa, mề đay, dị ứng ngoài da, chàm (eczema) và giun trùng" },
     { stt: 386, ma_who: "EX-CA3", kinh: "Kỳ Huyệt", ten: "Khí Môn", vi_tri: "Dưới rốn 3 thốn (Quan Nguyên), đo ngang ra 3 thốn", chu_tri: "Đau bụng kinh, bế kinh, sa tử cung, băng lậu" },
-    { stt: 387, ma_who: "EX-HN18", kinh: "Kỳ Huyệt", ten: "Nhĩ Trung", vi_tri: "Chính giữa cơ hoành vành tai (ngay trên lỗ tai)", chu_tri: "Nấc cục, dạ dày co thắt, ngứa da, vàng da" },
+    { stt: 387, ma_who: "EX-HN18", kinh: "Kỳ Huyệt", ten: "Nhĩ Trung", vi_tri: "Chính giữa trụ vành tai (Crus of helix) (ngay trên lỗ tai)", chu_tri: "Nấc cục, dạ dày co thắt, ngứa da, vàng da" },
     { stt: 388, ma_who: "EX-HN19", kinh: "Kỳ Huyệt", ten: "Thừa Mệnh", vi_tri: "Phía sau dái tai 0.5 thốn", chu_tri: "Liệt mặt, ù tai, đau răng" },
     { stt: 389, ma_who: "EX-LE7", kinh: "Kỳ Huyệt", ten: "Nội Hoài Tiêm", vi_tri: "Chỗ lõm đỉnh mắt cá trong chân", chu_tri: "Đau cổ chân, sưng bàn chân" },
     { stt: 390, ma_who: "EX-LE8", kinh: "Kỳ Huyệt",ten: "Ngoại Hoài Tiêm", vi_tri: "Chỗ lõm đỉnh mắt cá ngoài chân", chu_tri: "Đau cổ chân, vẹo cổ chân" },
@@ -432,13 +433,58 @@ window.huyetViDataBatch3 = [
     { stt: 395, ma_who: "EX-LE3", kinh: "Kỳ Huyệt", ten: "Nội Tất Nhãn", vi_tri: "Mặt trước gối, chỗ lõm bờ dưới trong xương bánh chè (đối diện Độc Tỵ ST35)", chu_tri: "Đau sưng khớp gối, yếu liệt chân, hạn chế co duỗi gối" },
 
 ];
+function chuanHoaVaSapXepHuyetVi() {
+    // 1. Gộp toàn bộ dữ liệu hiện tại
+    const rawData = [
+        ...(window.huyetViDataBatch1 || []),
+        ...(window.huyetViDataBatch2 || []),
+        ...(window.huyetViDataBatch3 || [])
+    ];
 
-// --- HÀM HỢP NHẤT DỮ LIỆU TẤT CẢ 3 ĐỢT ---
-window.huyetViData = [
-    ...(window.huyetViDataBatch1 || []),
-    ...(window.huyetViDataBatch2 || []),
-    ...(window.huyetViDataBatch3 || [])
-];
-console.log(`Đã hoàn tất hợp nhất toàn bộ ${window.huyetViData.length} huyệt vị chuẩn hóa WHO!`);
+    // 2. Định nghĩa thứ tự ưu tiên: Kinh Bàng Quang lên đầu tiên
+    const thuTuKinh = [
+        "Kinh Bàng Quang",
+        "Kinh Phế",
+        "Kinh Đại Trường",
+        "Kinh Vị",
+        "Kinh Tỳ",
+        "Kinh Tâm",
+        "Kinh Tiểu Trường",
+        "Kinh Thận",
+        "Kinh Tâm Bào",
+        "Kinh Tam Tiêu",
+        "Kinh Đởm",
+        "Kinh Can",
+        "Mạch Nhâm",
+        "Mạch Đốc",
+        "Kỳ Huyệt"
+    ];
+    
+    // 3. Sắp xếp dữ liệu theo danh sách thứ tự mới
+    rawData.sort((a, b) => {
+        return thuTuKinh.indexOf(a.kinh) - thuTuKinh.indexOf(b.kinh);
+    });
+
+    // 4. Đánh lại STT tự động liên tục từ 1
+    rawData.forEach((huyet, index) => {
+        huyet.stt = index + 1;
+    });
+
+    // 5. Cập nhật lại các Batch
+    const nhomBatch1 = ["Kinh Bàng Quang", "Kinh Phế", "Kinh Đại Trường", "Kinh Vị", "Kinh Tỳ", "Kinh Tâm", "Kinh Tiểu Trường"];
+    const nhomBatch2 = ["Kinh Thận", "Kinh Tâm Bào", "Kinh Tam Tiêu"];
+
+    window.huyetViDataBatch1 = rawData.filter(h => nhomBatch1.includes(h.kinh));
+    window.huyetViDataBatch2 = rawData.filter(h => nhomBatch2.includes(h.kinh));
+    window.huyetViDataBatch3 = rawData.filter(h => !nhomBatch1.includes(h.kinh) && !nhomBatch2.includes(h.kinh));
+
+    window.huyetViData = rawData;
+
+    console.log(`Đã đưa Kinh Bàng Quang lên đầu và cập nhật STT mới cho ${rawData.length} huyệt!`);
+    return rawData;
+}
+
+// Thực thi sắp xếp
+chuanHoaVaSapXepHuyetVi();
 
 
