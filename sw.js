@@ -1,8 +1,8 @@
 // ==========================================
-// SERVICE WORKER - ĐẠI LUẬN TRỊ YHCT v1.7.6 (Tối ưu hóa Cache)
+// SERVICE WORKER - ĐẠI LUẬN TRỊ YHCT v1.7.7 (Tối ưu hóa Cache)
 // ==========================================
 
-const CACHE_NAME = 'dailuantri-v1.7.6-fixed-v3';
+const CACHE_NAME = 'dailuantri-v1.7.7';
 
 // Khai báo CHÍNH XÁC các tệp đang sử dụng trong index.html
 const ASSETS_TO_CACHE = [
