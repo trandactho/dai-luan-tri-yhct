@@ -24,11 +24,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             loader.classList.add('opacity-0');
             setTimeout(() => {
                 loader.classList.add('hidden');
-              }, 500);
+            }, 500);
         }
     }
 });
-
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && e.target && e.target.tagName === 'INPUT') {
@@ -109,7 +108,6 @@ async function switchTab(tabName, pushHistory = true) {
         }
     }
 
-    // Đẩy lịch sử trình duyệt để nút Back có thể bắt được sự kiện chuyển tab
     if (pushHistory) {
         history.pushState({ tab: tabName }, '', window.location.href);
     }
@@ -176,23 +174,19 @@ const ALL_TABS = ['luantri', 'huyetvi', 'duoclieu', 'duocthien', 'tra', 'tracngh
 function shouldIgnoreSwipe(target) {
     if (!target) return false;
 
-    // 1. Chỉ chặn khi người dùng đang gõ trực tiếp trong ô input, textarea hoặc chọn select/option
     const ignoredTags = ['INPUT', 'TEXTAREA', 'SELECT', 'OPTION'];
     if (ignoredTags.includes(target.tagName) || target.closest('input, textarea, select')) {
         return true;
     }
 
-    // 2. Chặn khi đang mở Modal / Popup chức năng
     const activeModal = target.closest('#modal-don-thuoc, #modal-thong-tin-yhct, #modal-role-lock');
     if (activeModal && !activeModal.classList.contains('hidden')) return true;
 
-    // 3. Chặn nếu trúng vùng cuộn NGANG riêng biệt (bảng dữ liệu, danh sách ngang)
     const horizontalScrollBox = target.closest('.overflow-x-auto');
     if (horizontalScrollBox && horizontalScrollBox.scrollWidth > horizontalScrollBox.clientWidth) {
         return true;
     }
 
-    // 4. Chặn nếu đang tương tác bên trong khung Chat AI hoặc danh sách lịch sử có thể cuộn dọc
     if (target.closest('#sach-chat-box, #ai-chat-box, #vong-chan-history-list, #quiz-review-list')) {
         return true;
     }
@@ -224,14 +218,11 @@ document.addEventListener('touchend', (e) => {
     const touchEndY = e.changedTouches[0].clientY;
     const duration = Date.now() - touchStartTime;
 
-    // Giới hạn thời gian vuốt trong vòng 0.5s để đảm bảo thao tác dứt khoát
     if (duration > 500) return;
 
     const deltaX = touchEndX - touchStartX;
     const deltaY = touchEndY - touchStartY;
 
-    // Đặt ngưỡng dịch chuyển ngang tối thiểu 45px và độ lệch ngang lớn hơn 1.5 lần độ lệch dọc
-    // Giúp người dùng lướt đọc nội dung dọc thoải mái mà không bị nhảy tab oan.
     if (Math.abs(deltaX) >= 45 && Math.abs(deltaX) > Math.abs(deltaY) * 1.5) {
         handleSwipeDirection(deltaX < 0 ? 'NEXT' : 'PREV');
     }
@@ -261,45 +252,8 @@ function handleSwipeDirection(direction) {
     switchTab(targetTabName);
 }
 
-// --- BỘ KHÔI PHỤC VỊ TRÍ & TAB KHI BẤM BACK TỪ GOOGLE ---
-function khoiPhucTrangThaiTruocDo() {
-    const rawState = sessionStorage.getItem('last_catalog_state') || localStorage.getItem('last_catalog_state');
-    if (!rawState) return;
-
-    try {
-        const state = JSON.parse(rawState);
-        if (state.tab && typeof switchTab === 'function') {
-            // Chuyển về đúng tab đang xem
-            switchTab(state.tab);
-
-            // Điền lại từ khóa tìm kiếm
-            const searchInput = document.getElementById(`search${capitalize(state.tab)}`);
-            if (searchInput && state.search) searchInput.value = state.search;
-
-            // Chờ dữ liệu Render xong rồi cuộn về đúng tọa độ ban đầu
-            setTimeout(() => {
-                const filterEl = document.getElementById(`filterNhom${capitalize(state.tab)}`) || document.getElementById(`filterKinhLac`);
-                if (filterEl && state.group) filterEl.value = state.group;
-
-                if (state.tab === 'duoclieu' && typeof filterDuocLieu === 'function') filterDuocLieu();
-                else if (state.tab === 'huyetvi' && typeof filterHuyetVi === 'function') filterHuyetVi();
-                else if (state.tab === 'tra' && typeof filterTra === 'function') filterTra();
-                else if (state.tab === 'duocthien' && typeof filterDuocThien === 'function') filterDuocThien();
-
-                // Tự động cuộn trang xuống đúng vị trí cũ
-                if (typeof state.scroll === 'number' && state.scroll > 0) {
-                    window.scrollTo({ top: state.scroll, behavior: 'instant' });
-                }
-            }, 150);
-        }
-    } catch (e) {
-        console.error("Lỗi khôi phục vị trí catalog:", e);
-    }
-}
-// Khôi phục ngay khi app được mở lại từ tab Google
-window.addEventListener('pageshow', khoiPhucTrangThaiTruocDo);
-
 // --- BỘ KHÔI PHỤC TRẠNG THÁI & XỬ LÝ NÚT BACK ---
+
 function khoiPhucTrangThaiTruocDo() {
     const rawState = sessionStorage.getItem('last_catalog_state') || localStorage.getItem('last_catalog_state');
     if (!rawState) return;
@@ -344,5 +298,4 @@ window.addEventListener('popstate', (e) => {
         history.pushState({ tab: 'taikhoan' }, '', window.location.href);
         switchTab('taikhoan', false);
     } 
-    // Nếu ĐÃ ĐANG ở tab 10 (taikhoan), không can thiệp để hệ thống/trình duyệt tự xử lý mặc định (thoát trang hoặc về trang trước)
 });
