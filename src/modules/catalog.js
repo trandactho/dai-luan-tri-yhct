@@ -440,10 +440,12 @@ function executeRenderHuyetVi(filteredData) {
                 return;
             }
             if (isImgBox && imgPath && !e.target.closest('a')) {
-                e.stopPropagation();
-                window.open(imgPath, '_blank', 'noopener,noreferrer');
-                return;
-            }
+    e.stopPropagation();
+    saveCurrentTabState(); // THÊM DÒNG NÀY
+    window.open(imgPath, '_blank', 'noopener,noreferrer');
+    return;
+}
+
             if (isTitle) {
                 kichHoatTimAnh('Huyệt ' + (h.ten || ''));
             }
@@ -675,49 +677,57 @@ async function xemHuyetVi(tenHuyet) {
 function kichHoatTimAnh(keyword = "") {
     const kw = keyword.trim();
     if (!kw) return;
-    
-    const activeBtn = document.querySelector('nav button.tab-active');
-    if (activeBtn) {
-        const currentTabId = activeBtn.id.replace('btnTab', '').toLowerCase();
-        saveCatalogState(currentTabId);
-    }
 
     const kwClean = kw.replace(/\(.*?\)/g, '').replace(/[^\w\sàáảãạăắằẳẵặâấầẩẫậèéẻẽẹêếềểễệìíỉĩịòóỏõọôốồổỗộơớờởỡợùúủũụưứừửữựỳýỷỹỵđ]/gi, ' ').trim();
     const suffix = kwClean.toLowerCase().includes('huyệt') ? ' huyệt vị YHCT' : ' vị thuốc YHCT';
     const q = encodeURIComponent(kwClean + suffix);
-    window.open(`https://www.google.com/search?q=${q}&udm=2`, '_blank', 'noopener,noreferrer');
+    
+    saveCurrentTabState(); // THÊM DÒNG NÀY
+
+    const link = document.createElement('a');
+    link.href = `https://www.google.com/search?q=${q}&udm=2`;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.click();
 }
 
-window.addEventListener('DOMContentLoaded', () => {
+
+function khoiPhucCatalog() {
     const savedState = sessionStorage.getItem('last_catalog_state');
     if (savedState) {
         try {
             const state = JSON.parse(savedState);
             if (state.tab && typeof switchTab === 'function') {
-                switchTab(state.tab).then(() => {
-                    const searchInput = document.getElementById(`search${capitalize(state.tab)}`);
-                    if (searchInput && state.search) searchInput.value = state.search;
-                    
-                    setTimeout(() => {
-                        const filterEl = document.getElementById(`filterNhom${capitalize(state.tab)}`) || document.getElementById(`filterKinhLac`);
-                        if (filterEl && state.group) filterEl.value = state.group;
-                        
-                        if (state.tab === 'duoclieu') filterDuocLieu();
-                        else if (state.tab === 'huyetvi') filterHuyetVi();
-                        else if (state.tab === 'tra') filterTra();
-                        else if (state.tab === 'duocthien') filterDuocThien();
+                switchTab(state.tab);
 
-                        if (state.scroll) {
-                            window.scrollTo({ top: state.scroll, behavior: 'instant' });
-                        }
-                    }, 50);
-                });
+                const searchInput = document.getElementById(`search${capitalize(state.tab)}`);
+                if (searchInput && state.search) searchInput.value = state.search;
+                
+                setTimeout(() => {
+                    const filterEl = document.getElementById(`filterNhom${capitalize(state.tab)}`) || document.getElementById(`filterKinhLac`);
+                    if (filterEl && state.group) filterEl.value = state.group;
+                    
+                    if (state.tab === 'duoclieu') filterDuocLieu();
+                    else if (state.tab === 'huyetvi') filterHuyetVi();
+                    else if (state.tab === 'tra') filterTra();
+                    else if (state.tab === 'duocthien') filterDuocThien();
+
+                    if (state.scroll) {
+                        window.scrollTo({ top: state.scroll, behavior: 'instant' });
+                    }
+                }, 100);
             }
         } catch (e) {
             console.error("Lỗi khôi phục trạng thái catalog:", e);
         }
     }
-});
+}
+
+// Chạy khi khởi động ứng dụng
+window.addEventListener('DOMContentLoaded', khoiPhucCatalog);
+
+// Chạy khi bấm Back từ Google quay lại ứng dụng
+window.addEventListener('pageshow', khoiPhucCatalog);
 
 function saveCurrentTabState() {
     const activeBtn = document.querySelector('nav button.tab-active');
