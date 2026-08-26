@@ -1,8 +1,8 @@
 // ==========================================
-// SERVICE WORKER - ĐẠI LUẬN TRỊ YHCT v1.7.7 (Tối ưu hóa Cache)
+// SERVICE WORKER - ĐẠI LUẬN TRỊ YHCT v1.7.8 (Tối ưu hóa Cache 388 Ảnh)
 // ==========================================
 
-const CACHE_NAME = 'dailuantri-v1.7.7';
+const CACHE_NAME = 'dailuantri-v1.7.8';
 
 // Khai báo CHÍNH XÁC các tệp đang sử dụng trong index.html
 const ASSETS_TO_CACHE = [
@@ -20,8 +20,7 @@ const ASSETS_TO_CACHE = [
     './duoclieudata5.js',
     './duocthiendata.js',
     './tradata.js',
-    './questiondata.js',
-    './hinhanhhuyetvi',    
+    './questiondata.js',    
     // Core Scripts
     './src/core/config.js',
     './src/core/utils.js',
@@ -38,12 +37,12 @@ const ASSETS_TO_CACHE = [
     './src/main.js'
 ];
 
-// 1. Cài đặt và nạp sẵn toàn bộ dữ liệu vào cache
+// 1. Cài đặt và nạp sẵn toàn bộ dữ liệu cấu trúc vào cache
 self.addEventListener('install', (event) => {
     event.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
             return cache.addAll(ASSETS_TO_CACHE);
-        }).catch(err => console.log('Lỗi nạp cache tĩnh (kiểm tra lại tên file có sai sót không):', err))
+        }).catch(err => console.log('Lỗi nạp cache tĩnh:', err))
     );
     self.skipWaiting();
 });
@@ -65,7 +64,7 @@ self.addEventListener('activate', (event) => {
     self.clients.claim();
 });
 
-// 3. Xử lý Fetch: Chặn phình bộ nhớ, NHƯNG cho phép lưu cache các CDN giao diện
+// 3. Xử lý Fetch: Ưu tiên lấy từ Cache, hỗ trợ lưu CDN giao diện
 self.addEventListener('fetch', (event) => {
     const url = new URL(event.request.url);
 
@@ -76,15 +75,14 @@ self.addEventListener('fetch', (event) => {
 
     event.respondWith(
         caches.match(event.request).then((cachedResponse) => {
-            // Có trong cache thì trả về luôn
+            // Có trong cache thì trả về ngay
             if (cachedResponse) {
                 return cachedResponse;
             }
             
-           // Không có thì gọi mạng
+            // Không có thì gọi mạng
             return fetch(event.request).then((response) => {
                 // CHỈ lưu cache tự động đối với các CDN giao diện (Tailwind, FontAwesome, DOMPurify)
-                // TUYỆT ĐỐI KHÔNG lưu cache các file local để chống phình rác
                 if (response && response.status === 200 && (url.hostname === 'cdn.tailwindcss.com' || url.hostname === 'cdnjs.cloudflare.com')) {
                     const responseToCache = response.clone();
                     caches.open(CACHE_NAME).then((cache) => {
@@ -92,21 +90,41 @@ self.addEventListener('fetch', (event) => {
                     });
                 }
                 return response;
-            })            ).catch(() => {
-                console.log('Mất mạng và không tìm thấy file trong cache:', event.request.url);
             });
+        }).catch(() => {
+            console.log('Mất mạng và không tìm thấy file trong cache:', event.request.url);
         })
     );
 });
 
-// 4. Lắng nghe lệnh tải Offline thủ công từ giao diện
+// 4. Lắng nghe lệnh tải Offline thủ công: Tải toàn bộ tài nguyên + 388 tệp ảnh
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'CACHE_ALL') {
-        caches.open(CACHE_NAME).then((cache) => {
-            // Thực sự gọi lệnh nạp lại danh sách để chắc chắn 100% file đã được tải
-            cache.addAll(ASSETS_TO_CACHE).then(() => {
-                console.log('📥 Đã đồng bộ toàn bộ dữ liệu Offline thành công.');
-            }).catch(err => console.log('Lỗi khi đồng bộ thủ công:', err));
+        caches.open(CACHE_NAME).then(async (cache) => {
+            // 1. Tải lại cấu trúc tệp tĩnh
+            try {
+                await cache.addAll(ASSETS_TO_CACHE);
+            } catch (e) {
+                console.log('Lỗi nạp tệp tĩnh:', e);
+            }
+
+            // 2. Tạo danh sách 388 tệp ảnh theo quy luật
+            const listAnhHuyetVi = [];
+            for (let i = 1; i <= 388; i++) {
+                listAnhHuyetVi.push(`./hinhanhhuyetvi/BL${i}.png`);
+            }
+
+            // 3. Tải song song từng tệp an toàn (tránh văng lỗi hỏng cả tiến trình nếu thiếu 1 ảnh)
+            let successCount = 0;
+            await Promise.all(
+                listAnhHuyetVi.map(url => 
+                    cache.add(url)
+                        .then(() => { successCount++; })
+                        .catch(err => console.warn(`Không tìm thấy file ${url}`))
+                )
+            );
+
+            console.log(`📥 Đã đồng bộ thành công ${successCount}/${listAnhHuyetVi.length} ảnh huyệt vị vào Cache Offline!`);
         });
     }
 });

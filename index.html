@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>    
-    <title>Đại Luận Trị & Tra Cứu YHCT v1.7.6 Premium</title>
+    <title>Đại Luận Trị & Tra Cứu YHCT v1.7.7 Premium</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7294224585301638" crossorigin="anonymous"></script>            
     <meta name="description" content="Ứng dụng tra cứu Y Học Cổ Truyền toàn diện: Biện chứng luận trị, Dược liệu học, Châm cứu huyệt vị, Trà dược trị liệu và Trợ lý AI tư vấn YHCT.">
     <meta name="author" content="Trần Đắc Thọ">
@@ -32,9 +32,7 @@
     }
   });
 }
-
 </script>
-    <!-- ĐÃ XÓA <script src="app.js"></script> -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
@@ -51,7 +49,7 @@
         
     <header class="relative bg-dark-box p-2 text-center border-b border-stone-800 space-y-0.5">        
         <h1 class="text-sm font-bold text-primary flex items-center justify-center gap-1">
-            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.7.6)
+            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.7.7)
         </h1>
         <div class="text-[10px] text-stone-400 space-x-2">
             <span>Biện chứng (<span id="total-chung" class="text-amber-500 font-bold">0</span>)</span> · 
@@ -325,7 +323,6 @@
     <i class="fa-solid fa-robot text-[10px]"></i> AI Tìm & lưu
 </button>
 
-
                     <div></div><div></div>
                 </div>
 
@@ -334,7 +331,7 @@
             <div id="gridTra" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
         
-                <!-- TAB 6: TRẮC NGHIỆM -->
+        <!-- TAB 6: TRẮC NGHIỆM -->
         <section id="sectionTracNghiem" class="hidden space-y-5 min-h-[600px]">
             <div id="quiz-setup" class="bg-dark-box p-5 rounded-lg space-y-4 min-h-[520px] flex flex-col justify-between">
                 <div class="space-y-4">
@@ -423,7 +420,6 @@
                 <div id="quiz-review-list" class="space-y-3 max-h-96 overflow-y-auto text-xs text-left pr-1"></div>
             </div>
         </section>
-        
 
         <!-- TAB 7: TRA CỨU SÁCH YHCT -->
         <section id="sectionTraCuuSach" class="hidden space-y-4">
@@ -481,6 +477,7 @@
                 </div>
             </div>
         </section>
+
         <!-- TAB 8: PHỐI NGŨ BÀI THUỐC TỰ DO -->
 <section id="sectionPhoiNgu" class="hidden space-y-4">
     <div class="bg-dark-box p-5 rounded-lg space-y-4">
@@ -584,6 +581,7 @@
                         <div class="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
                             <i class="fa-solid fa-ear-listen"></i> 2. Văn Chẩn (Lắng nghe & Mùi)
                         </div>
+                        <!-- Giữ nguyên ID chuẩn van-chan-note cho Văn Chẩn -->
                         <textarea id="van-chan-note" rows="2" placeholder="Mô tả tiếng ho, tiếng nói (nhỏ/to), hơi thở, mùi cơ thể..." class="w-full p-2 rounded text-xs bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500"></textarea>
                     </div>
 
@@ -591,7 +589,8 @@
                         <div class="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
                             <i class="fa-solid fa-comments"></i> 3. Vấn Chẩn (Hỏi bệnh)
                         </div>
-                        <textarea id="vong-chan-note" rows="2" placeholder="Hàn nhiệt, mồ hôi, ăn uống, giấc ngủ, đại tiểu tiện, đau nhức..." class="w-full p-2 rounded text-xs bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500"></textarea>
+                        <!-- Đã đổi ID từ vong-chan-note thành van-chuan-note để tránh nhầm lẫn Vọng/Vấn/Văn chẩn -->
+                        <textarea id="van-chuan-note" rows="2" placeholder="Hàn nhiệt, mồ hôi, ăn uống, giấc ngủ, đại tiểu tiện, đau nhức..." class="w-full p-2 rounded text-xs bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500"></textarea>
                     </div>
                 </div>
 
@@ -1057,8 +1056,9 @@
             </div>
         </div>
     </div>
-        <!-- MODAL ĐƠN THUỐC & XUẤT PDF (KẾT HỢP GIA GIẢM TỰ ĐỘNG) -->
-<div id="modal-don-thuoc" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-3">
+
+    <!-- MODAL ĐƠN THUỐC & XUẤT PDF (KẾT HỢP GIA GIẢM TỰ ĐỘNG) -->
+    <div id="modal-don-thuoc" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-3">
     <style>
         /* Tối ưu hóa cho bản in A4 & file PDF xuất ra */
         @media print {
@@ -1149,65 +1149,65 @@
     <div class="bg-stone-900 border border-amber-600/50 rounded-2xl max-w-2xl w-full p-5 space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto">
         
         <!-- HEADER MODAL (DÒNG 1 & DÒNG 2 SÁT NHAU) -->
-<div class="space-y-0.5 pb-2">
-    <!-- Dòng 1: Tiêu đề -->
-    <div class="relative flex items-center justify-center">
-        <h3 class="font-bold text-base text-amber-400 flex items-center justify-center gap-2 text-center w-full uppercase leading-none">
-            <i class="fa-solid fa-file-prescription text-amber-500 no-print"></i> Đơn Thuốc & Phác Đồ YHCT
-        </h3>
-        <button onclick="document.getElementById('modal-don-thuoc').classList.add('hidden')" class="absolute right-0 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-stone-800 text-stone-400 hover:text-white flex items-center justify-center no-print">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-    </div>
-    <!-- Dòng 2: Tên phòng khám -->
-    <div>
-        <input type="text" id="don-ten-phongkham" placeholder="PHÒNG KHÁM Y HỌC CỔ TRUYỀN ĐẠI LUẬN TRỊ" class="w-full p-0 text-center font-bold text-xs sm:text-sm bg-transparent text-amber-400 border-none outline-none focus:ring-0 uppercase leading-none">
-    </div>
-</div>
-
-<!-- DÒNG 3: THÔNG TIN BỆNH NHÂN -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs pt-3">
-    <div class="space-y-1 relative">
-        <label class="block text-stone-400 font-bold mb-1">Họ & Tên bệnh nhân:</label>
-        <div class="relative">
-            <input type="text" id="don-ten-bn" placeholder="Gõ tên tìm kiếm..." 
-                oninput="gieoGoiYTimHoSo()" 
-                onfocus="gieoGoiYTimHoSo()" 
-                class="w-full p-2 bg-stone-950 text-amber-300 font-semibold border border-stone-800 rounded outline-none focus:border-amber-500">
-            <div id="dropdown-tim-bn" class="hidden absolute left-0 right-0 top-full mt-1 bg-stone-900 border border-amber-600/60 rounded-lg shadow-2xl z-50 max-h-48 overflow-y-auto"></div>
+        <div class="space-y-0.5 pb-2">
+            <!-- Dòng 1: Tiêu đề -->
+            <div class="relative flex items-center justify-center">
+                <h3 class="font-bold text-base text-amber-400 flex items-center justify-center gap-2 text-center w-full uppercase leading-none">
+                    <i class="fa-solid fa-file-prescription text-amber-500 no-print"></i> Đơn Thuốc & Phác Đồ YHCT
+                </h3>
+                <button onclick="document.getElementById('modal-don-thuoc').classList.add('hidden')" class="absolute right-0 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-stone-800 text-stone-400 hover:text-white flex items-center justify-center no-print">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <!-- Dòng 2: Tên phòng khám -->
+            <div>
+                <input type="text" id="don-ten-phongkham" placeholder="PHÒNG KHÁM Y HỌC CỔ TRUYỀN ĐẠI LUẬN TRỊ" class="w-full p-0 text-center font-bold text-xs sm:text-sm bg-transparent text-amber-400 border-none outline-none focus:ring-0 uppercase leading-none">
+            </div>
         </div>
-    </div>
-    <div>
-        <label class="block text-stone-400 mb-1 font-bold">Tuổi:</label>
-        <input type="number" id="don-tuoi" value="35" min="1" max="120" onchange="capNhatBangLieuLuongDonThuoc()" oninput="capNhatBangLieuLuongDonThuoc()" class="w-full p-2 rounded bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500">
-    </div>
-    <div>
-        <label class="block text-stone-400 mb-1 font-bold">Địa chỉ:</label>
-        <input type="text" id="don-diachi" placeholder="Số nhà, đường, quận/huyện..." class="w-full p-2 rounded bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500">
-    </div>
-    <div>
-        <label class="block text-stone-400 mb-1 font-bold">Thể trạng / Đối tượng:</label>
-        <select id="don-thetrang" onchange="capNhatBangLieuLuongDonThuoc()" class="w-full p-2 rounded bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500">
-            <option value="binhthuong">Bình thường / Trung bình</option>
-            <option value="pntt">Phụ nữ mang thai</option>
-            <option value="suynhuoc">Cơ thể suy nhược / Lão suy</option>
-            <option value="theluc">Thể lực tốt / Tráng kiện</option>
-        </select>
-    </div>
-</div>
 
-               <!-- CHẨN ĐOÁN & BÀI THUỐC -->
-                    <div>
-                <label class="block text-stone-400 mb-1 font-bold">Bài thuốc chủ phương:</label>
+        <!-- DÒNG 3: THÔNG TIN BỆNH NHÂN -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs pt-3">
+            <div class="space-y-1 relative">
+                <label class="block text-stone-400 font-bold mb-1">Họ & Tên bệnh nhân:</label>
                 <div class="relative">
-                    <input type="text" id="don-baithuoc-ten" 
-                        oninput="gieoGoiYBaiThuocLuanTri()" 
-                        onfocus="gieoGoiYBaiThuocLuanTri()" 
-                        placeholder="Gõ tên bài thuốc để tìm trong CSDL..." 
-                        class="w-full p-2 rounded bg-stone-950 text-emerald-400 font-bold border border-stone-800 outline-none focus:border-amber-500">
-                    <div id="dropdown-tim-baithuoc" class="hidden absolute left-0 right-0 top-full mt-1 bg-stone-900 border border-amber-600/60 rounded-lg shadow-2xl z-50 max-h-48 overflow-y-auto"></div>
+                    <input type="text" id="don-ten-bn" placeholder="Gõ tên tìm kiếm..." 
+                        oninput="gieoGoiYTimHoSo()" 
+                        onfocus="gieoGoiYTimHoSo()" 
+                        class="w-full p-2 bg-stone-950 text-amber-300 font-semibold border border-stone-800 rounded outline-none focus:border-amber-500">
+                    <div id="dropdown-tim-bn" class="hidden absolute left-0 right-0 top-full mt-1 bg-stone-900 border border-amber-600/60 rounded-lg shadow-2xl z-50 max-h-48 overflow-y-auto"></div>
                 </div>
             </div>
+            <div>
+                <label class="block text-stone-400 mb-1 font-bold">Tuổi:</label>
+                <input type="number" id="don-tuoi" value="35" min="1" max="120" onchange="capNhatBangLieuLuongDonThuoc()" oninput="capNhatBangLieuLuongDonThuoc()" class="w-full p-2 rounded bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500">
+            </div>
+            <div>
+                <label class="block text-stone-400 mb-1 font-bold">Địa chỉ:</label>
+                <input type="text" id="don-diachi" placeholder="Số nhà, đường, quận/huyện..." class="w-full p-2 rounded bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500">
+            </div>
+            <div>
+                <label class="block text-stone-400 mb-1 font-bold">Thể trạng / Đối tượng:</label>
+                <select id="don-thetrang" onchange="capNhatBangLieuLuongDonThuoc()" class="w-full p-2 rounded bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500">
+                    <option value="binhthuong">Bình thường / Trung bình</option>
+                    <option value="pntt">Phụ nữ mang thai</option>
+                    <option value="suynhuoc">Cơ thể suy nhược / Lão suy</option>
+                    <option value="theluc">Thể lực tốt / Tráng kiện</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- CHẨN ĐOÁN & BÀI THUỐC -->
+        <div>
+            <label class="block text-stone-400 mb-1 font-bold">Bài thuốc chủ phương:</label>
+            <div class="relative">
+                <input type="text" id="don-baithuoc-ten" 
+                    oninput="gieoGoiYBaiThuocLuanTri()" 
+                    onfocus="gieoGoiYBaiThuocLuanTri()" 
+                    placeholder="Gõ tên bài thuốc để tìm trong CSDL..." 
+                    class="w-full p-2 rounded bg-stone-950 text-emerald-400 font-bold border border-stone-800 outline-none focus:border-amber-500">
+                <div id="dropdown-tim-baithuoc" class="hidden absolute left-0 right-0 top-full mt-1 bg-stone-900 border border-amber-600/60 rounded-lg shadow-2xl z-50 max-h-48 overflow-y-auto"></div>
+            </div>
+        </div>
 
         <!-- Ô TÌM KIẾM & THÊM VỊ THUỐC MỚI -->
         <div class="relative no-print">
@@ -1238,7 +1238,7 @@
             </div>
         </div>
 
-        <!-- HƯỚNG DẪN SẮC THUỐC & KIÊNG KỴ (Đã bỏ gạch ngang phía trên) -->
+        <!-- HƯỚNG DẪN SẮC THUỐC & KIÊNG KỴ -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs pt-1 no-border-print-top">
             <div>
                 <label class="block text-stone-400 mb-1 font-bold">🥣 Hướng dẫn sắc & uống thuốc:</label>
@@ -1249,7 +1249,8 @@
                 <textarea id="don-dando-kiengky" rows="2" class="w-full p-2 rounded bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500 text-xs" placeholder="Kiêng đồ ăn cay nóng, sống lạnh, chất kích thích và các món nhiều mỡ."></textarea>
             </div>
         </div>
-        <!-- NGÀY THÁNG & BÁC SĨ KÊ ĐƠN (Đã bỏ gạch ngang phía trên & bỏ khung tên bác sĩ) -->
+
+        <!-- NGÀY THÁNG & BÁC SĨ KÊ ĐƠN -->
         <div class="pt-3 flex justify-between items-end text-center text-xs">
             <div class="w-1/2"></div>
             <div class="w-1/2 space-y-1">
@@ -1261,88 +1262,82 @@
             </div>
         </div>
         
-       <!-- NÚT HÀNH ĐỘNG ĐỒNG BỘ (GRID 5 CỘT TRÊN MỌI THIẾT BỊ) -->
-<div class="pt-3 border-t border-stone-800 grid grid-cols-2 sm:grid-cols-5 gap-1.5 sm:gap-2 no-print">
-    <!-- 1. Lưu hồ sơ -->
-    <button type="button" onclick="luuHoSoBenhNhan()" class="w-full px-1.5 py-2 bg-emerald-700 hover:bg-emerald-600 text-white text-[11px] font-bold rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer shadow-md whitespace-nowrap">
-        <i class="fa-solid fa-floppy-disk text-[10px]"></i> Lưu hồ sơ
-    </button>
-
-    <!-- 2. In / Xuất PDF -->
-    <button type="button" onclick="inDonThuoc()" class="w-full px-1.5 py-2 bg-amber-600 hover:bg-amber-500 text-white text-[11px] font-bold rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer shadow-md whitespace-nowrap">
-        <i class="fa-solid fa-print text-[10px]"></i> In / PDF
-    </button>
-    
-    <!-- 3. Sao lưu .json -->
-    <button type="button" onclick="xuatDuLieuHoSo()" class="w-full px-1.5 py-2 bg-stone-800 hover:bg-stone-700 text-emerald-400 border border-stone-700 text-[11px] font-bold rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer shadow-md whitespace-nowrap">
-        <i class="fa-solid fa-download text-[10px]"></i> Sao lưu
-    </button>
-    
-    <!-- 4. Gửi Zalo -->
-    <button type="button" onclick="chiaSeZaloDonThuoc()" class="w-full px-1.5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer shadow-md whitespace-nowrap">
-        <i class="fa-solid fa-share-nodes text-[10px]"></i> Gửi Zalo
-    </button>
-    
-    <!-- 5. Phục hồi dữ liệu -->
-    <label class="w-full px-1.5 py-2 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 text-[11px] font-bold rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer shadow-md whitespace-nowrap col-span-2 sm:col-span-1">
-        <i class="fa-solid fa-upload text-[10px]"></i> Phục hồi
-        <input type="file" id="import-file-input" accept=".json" onchange="nhapDuLieuHoSo(event)" class="hidden">
-    </label>
-</div>
-    
-
-        <!-- MODAL THÔNG BÁO KHÓA QUYỀN THÀNH VIÊN -->
-<div id="modal-role-lock" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
-    <div class="bg-stone-900 border border-amber-500/50 rounded-2xl max-w-sm w-full p-5 space-y-4 text-center shadow-2xl">
-        <div class="w-12 h-12 bg-amber-950/80 border border-amber-600/50 rounded-full flex items-center justify-center mx-auto text-amber-400 text-xl">
-            <i class="fa-solid fa-lock"></i>
-        </div>
-        <div class="space-y-1">
-            <h3 class="font-bold text-amber-400 text-sm uppercase" id="lock-modal-title">TÍNH NĂNG BỊ KHÓA</h3>
-            <p class="text-xs text-stone-300 leading-relaxed" id="lock-modal-desc">
-                Tính năng này yêu cầu cấp độ tài khoản cao hơn để truy cập.
-            </p>
-        </div>
-        <div class="pt-2 border-t border-stone-800 flex gap-2">
-            <button onclick="document.getElementById('modal-role-lock').classList.add('hidden')" class="flex-1 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-bold rounded-lg">
-                Đóng
+        <!-- NÚT HÀNH ĐỘNG ĐỒNG BỘ -->
+        <div class="pt-3 border-t border-stone-800 grid grid-cols-2 sm:grid-cols-5 gap-1.5 sm:gap-2 no-print">
+            <button type="button" onclick="luuHoSoBenhNhan()" class="w-full px-1.5 py-2 bg-emerald-700 hover:bg-emerald-600 text-white text-[11px] font-bold rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer shadow-md whitespace-nowrap">
+                <i class="fa-solid fa-floppy-disk text-[10px]"></i> Lưu hồ sơ
             </button>
-            <button onclick="document.getElementById('modal-role-lock').classList.add('hidden'); switchTab('taikhoan');" class="flex-1 py-2 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-lg shadow">
-                Nâng Cấp Ngay
+
+            <button type="button" onclick="inDonThuoc()" class="w-full px-1.5 py-2 bg-amber-600 hover:bg-amber-500 text-white text-[11px] font-bold rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer shadow-md whitespace-nowrap">
+                <i class="fa-solid fa-print text-[10px]"></i> In / PDF
             </button>
+            
+            <button type="button" onclick="xuatDuLieuHoSo()" class="w-full px-1.5 py-2 bg-stone-800 hover:bg-stone-700 text-emerald-400 border border-stone-700 text-[11px] font-bold rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer shadow-md whitespace-nowrap">
+                <i class="fa-solid fa-download text-[10px]"></i> Sao lưu
+            </button>
+            
+            <button type="button" onclick="chiaSeZaloDonThuoc()" class="w-full px-1.5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer shadow-md whitespace-nowrap">
+                <i class="fa-solid fa-share-nodes text-[10px]"></i> Gửi Zalo
+            </button>
+            
+            <label class="w-full px-1.5 py-2 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 text-[11px] font-bold rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer shadow-md whitespace-nowrap col-span-2 sm:col-span-1">
+                <i class="fa-solid fa-upload text-[10px]"></i> Phục hồi
+                <input type="file" id="import-file-input" accept=".json" onchange="nhapDuLieuHoSo(event)" class="hidden">
+            </label>
         </div>
     </div>
 </div>
 
-        <!-- 0. CƠ SỞ DỮ LIỆU (Bắt buộc nạp trước để các module có dữ liệu đọc) -->
-    <script src="luantridata.js" defer></script>
-     <script src="huyetvidata.js" defer></script>
-     <script src="duoclieudata1.js" defer></script>
-     <script src="duoclieudata2.js" defer></script>
-     <script src="duoclieudata3.js" defer></script>
-     <script src="duoclieudata4.js" defer></script>
-     <script src="duoclieudata5.js" defer></script>
-     <script src="duocthiendata.js" defer></script>
-     <script src="tradata.js" defer></script>
-     <script src="questiondata.js" defer></script>
-          
+    <!-- MODAL THÔNG BÁO KHÓA QUYỀN THÀNH VIÊN -->
+    <div id="modal-role-lock" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+        <div class="bg-stone-900 border border-amber-500/50 rounded-2xl max-w-sm w-full p-5 space-y-4 text-center shadow-2xl">
+            <div class="w-12 h-12 bg-amber-950/80 border border-amber-600/50 rounded-full flex items-center justify-center mx-auto text-amber-400 text-xl">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <div class="space-y-1">
+                <h3 class="font-bold text-amber-400 text-sm uppercase" id="lock-modal-title">TÍNH NĂNG BỊ KHÓA</h3>
+                <p class="text-xs text-stone-300 leading-relaxed" id="lock-modal-desc">
+                    Tính năng này yêu cầu cấp độ tài khoản cao hơn để truy cập.
+                </p>
+            </div>
+            <div class="pt-2 border-t border-stone-800 flex gap-2">
+                <button onclick="document.getElementById('modal-role-lock').classList.add('hidden')" class="flex-1 py-2 bg-stone-800 hover:bg-stone-700 text-stone-300 text-xs font-bold rounded-lg">
+                    Đóng
+                </button>
+                <button onclick="document.getElementById('modal-role-lock').classList.add('hidden'); switchTab('taikhoan');" class="flex-1 py-2 bg-amber-600 hover:bg-amber-500 text-white text-xs font-bold rounded-lg shadow">
+                    Nâng Cấp Ngay
+                </button>
+            </div>
+        </div>
+    </div>
 
-        <!-- 1. CORE SYSTEM (Nạp trước) -->
+    <!-- 0. CƠ SỞ DỮ LIỆU -->
+    <script src="luantridata.js" defer></script>
+    <script src="huyetvidata.js" defer></script>
+    <script src="duoclieudata1.js" defer></script>
+    <script src="duoclieudata2.js" defer></script>
+    <script src="duoclieudata3.js" defer></script>
+    <script src="duoclieudata4.js" defer></script>
+    <script src="duoclieudata5.js" defer></script>
+    <script src="duocthiendata.js" defer></script>
+    <script src="tradata.js" defer></script>
+    <script src="questiondata.js" defer></script>
+
+    <!-- 1. CORE SYSTEM -->
     <script src="src/core/config.js" defer></script>
     <script src="src/core/utils.js" defer></script>
     <script src="src/core/ai-service.js" defer></script>
-    <script src="src/modules/tai-khoan.js" defer></script> <!-- THÊM MỚI DÒNG NÀY -->
+    <script src="src/modules/tai-khoan.js" defer></script>
       
-    <!-- 2. CHỨC NĂNG MODULES (Tải song song, không chặn render) -->
+    <!-- 2. CHỨC NĂNG MODULES -->
     <script src="src/modules/luan-tri.js" defer></script>
     <script src="src/modules/catalog.js" defer></script>
     <script src="src/modules/phoi-ngu.js" defer></script>
-           
     <script src="src/modules/trac-nghiem.js" defer></script>
     <script src="src/modules/thu-vien.js" defer></script>
     <script src="src/modules/tu-chan.js" defer></script>
      
-    <!-- 3. MAIN (Thực thi cuối cùng) -->
+    <!-- 3. MAIN -->
     <script src="src/main.js" defer></script>
 </body>
 </html>
