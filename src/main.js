@@ -257,3 +257,46 @@ function handleSwipeDirection(direction) {
     switchTab(targetTabName);
 }
 
+// --- BỘ KHÔI PHỤC VỊ TRÍ & TAB KHI BẤM BACK TỪ GOOGLE ---
+function khoiPhucTrangThaiTruocDo() {
+    const rawState = sessionStorage.getItem('last_catalog_state') || localStorage.getItem('last_catalog_state');
+    if (!rawState) return;
+
+    try {
+        const state = JSON.parse(rawState);
+        if (state.tab && typeof switchTab === 'function') {
+            // Chuyển về đúng tab đang xem
+            switchTab(state.tab);
+
+            // Điền lại từ khóa tìm kiếm
+            const searchInput = document.getElementById(`search${capitalize(state.tab)}`);
+            if (searchInput && state.search) searchInput.value = state.search;
+
+            // Chờ dữ liệu Render xong rồi cuộn về đúng tọa độ ban đầu
+            setTimeout(() => {
+                const filterEl = document.getElementById(`filterNhom${capitalize(state.tab)}`) || document.getElementById(`filterKinhLac`);
+                if (filterEl && state.group) filterEl.value = state.group;
+
+                if (state.tab === 'duoclieu' && typeof filterDuocLieu === 'function') filterDuocLieu();
+                else if (state.tab === 'huyetvi' && typeof filterHuyetVi === 'function') filterHuyetVi();
+                else if (state.tab === 'tra' && typeof filterTra === 'function') filterTra();
+                else if (state.tab === 'duocthien' && typeof filterDuocThien === 'function') filterDuocThien();
+
+                // Tự động cuộn trang xuống đúng vị trí cũ
+                if (typeof state.scroll === 'number' && state.scroll > 0) {
+                    window.scrollTo({ top: state.scroll, behavior: 'instant' });
+                }
+            }, 150);
+        }
+    } catch (e) {
+        console.error("Lỗi khôi phục vị trí catalog:", e);
+    }
+}
+
+// Bắt sự kiện khi bấm nút Back của điện thoại
+window.addEventListener('popstate', khoiPhucTrangThaiTruocDo);
+
+// Khôi phục ngay khi app được mở lại từ tab Google
+window.addEventListener('pageshow', khoiPhucTrangThaiTruocDo);
+
+
