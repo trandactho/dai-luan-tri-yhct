@@ -125,7 +125,8 @@ async function guiPhanTichVongChan() {
     }
 
     const typeSelect = document.getElementById('vong-chan-type')?.value;
-    const noteText = document.getElementById('vong-chan-note')?.value.trim();
+    // Đã cập nhật ID mới van-chuan-note
+    const noteText = document.getElementById('van-chuan-note')?.value.trim();
     const useHistory = !!document.getElementById('vong-chan-use-history')?.checked; 
     
     // Bắt an toàn cả 2 trường hợp ID nút bấm
@@ -175,7 +176,6 @@ Yêu cầu súc tích (<200 từ, tiếng Việt, không dùng chữ Hán):
 2. Biện chứng YHCT (Căn bệnh, Bát cương, Tạng phủ)
 3. Định hướng điều trị & Cổ phương`;
 
-    // Kiểm tra tồn tại trước khi set thuộc tính
     if (btnSubmit) {
         btnSubmit.disabled = true;
         btnSubmit.classList.add('opacity-50', 'pointer-events-none');
@@ -228,7 +228,8 @@ Yêu cầu súc tích (<200 từ, tiếng Việt, không dùng chữ Hán):
 
 async function guiPhanTichTuChan() {
     const noteVan = document.getElementById('van-chan-note')?.value.trim();
-    const noteVanSu = document.getElementById('vong-chan-note')?.value.trim();
+    // Đã cập nhật ID mới van-chuan-note
+    const noteVanSu = document.getElementById('van-chuan-note')?.value.trim();
     const mach = document.getElementById('thiet-chan-mach')?.value;
     const xucChan = document.getElementById('thiet-chan-xuc')?.value.trim();
     const useHistory = !!document.getElementById('vong-chan-use-history')?.checked;
@@ -457,7 +458,8 @@ async function xemLaiVongChan(id) {
             }
 
             const elVan = document.getElementById('van-chan-note');
-            const elVanSu = document.getElementById('vong-chan-note');
+            // Đã cập nhật ID mới van-chuan-note
+            const elVanSu = document.getElementById('van-chuan-note');
             const elMach = document.getElementById('thiet-chan-mach');
             const elXuc = document.getElementById('thiet-chan-xuc');
 
