@@ -47,7 +47,7 @@ function moModalThongTin(loai) {
 function dongModalThongTin() {
     const modal = document.getElementById('modal-thong-tin-yhct');
     if (modal) modal.classList.add('hidden');
-}
+} 
 
 window.addEventListener('click', (e) => {
     const modal = document.getElementById('modal-thong-tin-yhct');
@@ -112,10 +112,10 @@ function capNhatTongSoTrieuChung() {
 // --- QUẢN LÝ CUỘN VÔ HẠN THÔNG MINH (INFINITE SCROLL) ---
 let currentActiveList = [];
 let currentRenderType = '';
-let displayLimit = 50;
+let displayLimit = 25;
 
 function renderActiveGrid(reset = true) {
-    if (reset) displayLimit = 50;
+    if (reset) displayLimit = 25;
     if (currentRenderType === 'duoclieu') executeRenderDuocLieu(currentActiveList);
     else if (currentRenderType === 'huyetvi') executeRenderHuyetVi(currentActiveList);
     else if (currentRenderType === 'tra') executeRenderTra(currentActiveList);
@@ -291,9 +291,7 @@ function executeRenderDuocLieu(filteredData) {
 function getKinhTheme(kinhName) {
     const norm = removeAccents(kinhName || '').toLowerCase();
     
-    // 1. Đặt Kinh Bàng Quang lên ưu tiên hàng đầu / mặc định
     if (norm.includes('bang quang')) return { border: 'border-l-4 border-blue-500', tag: 'bg-blue-950 text-blue-400', text: 'text-blue-400', textLight: 'text-blue-200', bgBox: 'bg-blue-950/30' };
-    
     if (norm.includes('phoi') || norm.includes('phe')) return { border: 'border-l-4 border-slate-400', tag: 'bg-slate-800 text-slate-300', text: 'text-slate-300', textLight: 'text-slate-200', bgBox: 'bg-slate-950/40' };
     if (norm.includes('dai truong')) return { border: 'border-l-4 border-amber-600', tag: 'bg-amber-950 text-amber-400', text: 'text-amber-400', textLight: 'text-amber-200', bgBox: 'bg-amber-950/30' };
     if (norm.includes('vi') || norm.includes('da day')) return { border: 'border-l-4 border-yellow-500', tag: 'bg-yellow-950 text-yellow-400', text: 'text-yellow-400', textLight: 'text-yellow-200', bgBox: 'bg-yellow-950/30' };
@@ -306,10 +304,8 @@ function getKinhTheme(kinhName) {
     if (norm.includes('dam') || norm.includes('mat')) return { border: 'border-l-4 border-emerald-500', tag: 'bg-emerald-950 text-emerald-400', text: 'text-emerald-400', textLight: 'text-emerald-200', bgBox: 'bg-emerald-950/30' };
     if (norm.includes('can') || norm.includes('gan')) return { border: 'border-l-4 border-green-500', tag: 'bg-green-950 text-green-400', text: 'text-green-400', textLight: 'text-green-200', bgBox: 'bg-green-950/30' };
     
-    // Thay giao diện mặc định (nếu không trùng đường kinh nào) thành giao diện Kinh Bàng Quang
     return { border: 'border-l-4 border-blue-500', tag: 'bg-blue-950 text-blue-400', text: 'text-blue-400', textLight: 'text-blue-200', bgBox: 'bg-blue-950/30' };
 }
-
 
 function filterHuyetVi(isEnter = false, forceExact = false) {
     saveHuyetViState();
@@ -339,7 +335,7 @@ function filterHuyetVi(isEnter = false, forceExact = false) {
     }
 
     const txtRaw = getVal('searchHuyetVi').trim();
-    const kinh = getVal('filterKinhLac');
+    const kinh = document.getElementById('filterKinhLac')?.value || '';
     
     const scoredData = [];
     activeHuyetViData.forEach(h => {
@@ -362,53 +358,90 @@ function filterHuyetVi(isEnter = false, forceExact = false) {
     renderActiveGrid(true);
 }
 
+function getKinhFolder(kinhName) {
+    if (!kinhName) return 'khac';
+    const norm = removeAccents(String(kinhName)).toLowerCase().replace(/[^a-z0-9]/g, '');
+    return norm.startsWith('kinh') ? norm : 'kinh' + norm;
+}
+
+// --- ĐÃ KHÔI PHỤC: MÃ WHO NẰM CÙNG DÒNG VỚI TÊN HUYỆT ---
 function executeRenderHuyetVi(filteredData) {
     const grid = document.getElementById('gridHuyetVi');
     if (!grid) return;
-    const txtRaw = getVal('searchHuyetVi').trim();
+    const txtRaw = getVal('searchDuocLieu')?.trim() || getVal('searchHuyetVi')?.trim() || '';
 
     grid.innerHTML = "";
     const frag = document.createDocumentFragment();
+    
     filteredData.slice(0, displayLimit).forEach(h => {
         const theme = getKinhTheme(h.kinh);
         let card = document.createElement('div'); 
-        card.className = `bg-dark-box p-4 rounded-lg space-y-3 relative cursor-pointer ${theme.border} shadow-md shadow-black/40`;
-        const blurHV = AppState.isQuizHV ? 'blur-md transition-all duration-300' : '';
-        const maWhoHtml = h.ma_who ? `<a href="https://www.google.com/search?q=${encodeURIComponent('Huyệt ' + (h.ten || '') + ' ' + h.ma_who + ' YHCT')}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="px-1.5 py-0.5 text-[10px] font-mono font-bold bg-stone-800 text-amber-400 border border-stone-700/80 rounded hover:border-amber-500 hover:text-amber-300 transition-all cursor-pointer shadow-sm inline-block">${highlightText(h.ma_who, txtRaw)}</a>` : '';
-        const kinhBadgeHtml = h.kinh ? `<div class="absolute top-0 right-0 ${theme.tag} font-bold px-2 py-0.5 text-[9px] uppercase rounded-bl border-b border-l border-stone-800/60">${escapeHTML(h.kinh)}</div>` : '';
+        card.className = `bg-dark-box p-3.5 rounded-lg relative cursor-pointer ${theme.border} shadow-md shadow-black/40 hover:border-amber-500/50 transition-colors grid grid-cols-12 gap-3.5 items-center`;
+        const blurHV = AppState.isQuizHV ? 'blur-md transition-all duration-300 select-none' : '';
+        
+        const safeMaWho = h.ma_who ? String(h.ma_who).trim().replace(/[^a-zA-Z0-9]/g, '').toUpperCase() : '';
+        const maWhoHtml = safeMaWho ? `<a href="https://www.google.com/search?q=${encodeURIComponent('Huyệt ' + (h.ten || '') + ' ' + safeMaWho + ' YHCT')}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="px-1.5 py-0.5 text-[10px] font-mono font-bold bg-stone-800 text-amber-400 border border-stone-700/80 rounded hover:border-amber-500 hover:text-amber-300 transition-all cursor-pointer shadow-sm inline-block shrink-0">${highlightText(h.ma_who, txtRaw)}</a>` : '';
+        const kinhBadgeHtml = h.kinh ? `<div class="absolute top-0 right-0 ${theme.tag} font-bold px-2.5 py-0.5 text-[9px] uppercase rounded-bl border-b border-l border-stone-800/60 z-20">${escapeHTML(h.kinh)}</div>` : '';
+
+        const imgPath = safeMaWho ? `./hinhanhhuyetvi/${safeMaWho}.png` : '';
 
         card.innerHTML = `
             ${kinhBadgeHtml}
-            <div class="mb-2 flex items-center gap-2 flex-wrap">
-                <span class="font-bold ${theme.text} text-base inline-flex items-center gap-1.5 cursor-pointer hover:underline card-title-el w-fit">
-                    <i class="fa-solid fa-circle-dot text-xs"></i> Huyệt ${highlightText(h.ten || '', txtRaw)}
-                </span>
-                ${maWhoHtml}
-            </div>
-            <div class="blur-target ${blurHV} transition-all duration-300 space-y-2">
-                <div class="${theme.bgBox} border border-sky-600/60 p-2.5 rounded-md chu-tri-el cursor-pointer hover:border-amber-500/80 transition-colors" title="Bấm để tra cứu phác đồ Luận trị">
-                    <div class="${theme.text} text-[10px] font-bold tracking-wider uppercase flex items-center gap-1"><i class="fa-solid fa-kit-medical text-[9px]"></i> CHỦ TRỊ ĐẶC HIỆU:</div>
-                    <p class="text-sm ${theme.textLight} font-medium mt-0.5 leading-relaxed">${highlightText(h.chu_tri || '', txtRaw)}</p>
+            
+            <div class="col-span-7 flex flex-col gap-2 min-w-0">
+                <!-- Thêm z-10 để tiêu đề & mã WHO nổi lên trên khung ảnh khi bị tràn -->
+                <div class="flex items-center gap-1.5 min-w-0 pr-2 relative z-10">
+                    <span class="font-bold ${theme.text} text-base cursor-pointer hover:underline card-title-el shrink-0">
+                        <i class="fa-solid fa-circle-dot text-[11px]"></i> Huyệt ${highlightText(h.ten || '', txtRaw)}
+                    </span>
+                    ${maWhoHtml}
                 </div>
-                <div class="bg-stone-900/90 border border-stone-700/80 p-2.5 rounded-md">
-                    <div class="text-amber-400 text-[10px] font-bold tracking-wider uppercase flex items-center gap-1 mb-0.5"><i class="fa-solid fa-location-dot text-[9px]"></i> ĐỊNH VỊ GIẢI PHẪU:</div>
-                    <p class="text-xs text-stone-200 font-medium leading-relaxed">${highlightText(h.vi_tri || h.dinh_vi || 'Đang cập nhật', txtRaw)}</p>
+                
+                <div class="blur-target ${blurHV} flex flex-col gap-2">
+                    <div class="${theme.bgBox} border border-sky-600/60 p-2.5 rounded-md chu-tri-el cursor-pointer hover:border-amber-500/80 transition-colors flex flex-col justify-center" title="Bấm để tra cứu phác đồ">
+                        <div class="${theme.text} text-[9px] font-bold tracking-wider uppercase flex items-center gap-1 mb-0.5"><i class="fa-solid fa-kit-medical text-[9px]"></i> CHỦ TRỊ ĐẶC HIỆU:</div>
+                        <p class="text-[11px] ${theme.textLight} font-medium leading-relaxed line-clamp-3">${highlightText(h.chu_tri || '', txtRaw)}</p>
+                    </div>
+                    <div class="bg-stone-900/90 border border-stone-700/80 p-2.5 rounded-md flex flex-col justify-center">
+                        <div class="text-amber-400 text-[9px] font-bold tracking-wider uppercase flex items-center gap-1 mb-0.5"><i class="fa-solid fa-location-dot text-[9px]"></i> ĐỊNH VỊ GIẢI PHẪU:</div>
+                        <p class="text-[10px] text-stone-300 font-medium leading-relaxed line-clamp-3">${highlightText(h.vi_tri || h.dinh_vi || 'Đang cập nhật', txtRaw)}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- KHUNG ẢNH CHỮ NHẬT ĐỨNG CĂN GIỮA DỌC (SELF-CENTER) -->
+            <div class="col-span-5 w-full aspect-[3/4] mt-3.5 self-center bg-stone-950 border border-stone-800 rounded-lg relative group cursor-pointer overflow-hidden img-box-el flex flex-col items-center justify-center shadow-inner z-0" title="Bấm để xem ảnh lớn">
+                <div class="absolute inset-0 flex flex-col items-center justify-center bg-stone-900/50 text-center p-1 z-0">
+                    <i class="fa-solid fa-image text-stone-700 text-2xl mb-1"></i>
+                    <span class="text-[9px] text-stone-500 font-bold leading-tight tracking-wider">${safeMaWho || 'NO IMG'}</span>
+                </div>
+                
+                ${imgPath ? `<img src="${imgPath}" loading="lazy" class="absolute inset-0 w-full h-full object-cover z-10 bg-stone-950 transition-transform duration-300 group-hover:scale-105" onerror="this.style.display='none';">` : ''}
+                
+                <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white text-[11px] font-bold gap-1 z-20 pointer-events-none">
+                    <i class="fa-solid fa-expand"></i> Phóng to
                 </div>
             </div>`;
 
         card.onclick = (e) => {
             const isTitle = e.target.closest('.card-title-el');
             const isChuTri = e.target.closest('.chu-tri-el');
+            const isImgBox = e.target.closest('.img-box-el');
             const blurEl = card.querySelector('.blur-target');
             const isBlurred = blurEl && blurEl.classList.contains('blur-md');
 
             if (AppState.isQuizHV && isBlurred) {
-                if (blurEl) blurEl.classList.remove('blur-md');
+                if (blurEl) blurEl.classList.remove('blur-md', 'select-none');
                 return;
             }
             if (isChuTri) {
                 e.stopPropagation();
                 chuyenQuaLuanTriVaTim(h.chu_tri || '');
+                return;
+            }
+            if (isImgBox && imgPath && !e.target.closest('a')) {
+                e.stopPropagation();
+                window.open(imgPath, '_blank', 'noopener,noreferrer');
                 return;
             }
             if (isTitle) {
@@ -419,6 +452,7 @@ function executeRenderHuyetVi(filteredData) {
     });
     grid.appendChild(frag);
 }
+
 
 // --- 3. TAB TRÀ DƯỢC ---
 function filterTra(isEnter = false) {
@@ -684,9 +718,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 });
-// --- BỔ SUNG LẠI CƠ CHẾ LƯU VÀ KHÔI PHỤC TRẠNG THÁI TRANG (CATALOG STATE) ---
 
-// Gọi hàm này trước khi nhảy sang tab khác hoặc thoát sang Google tìm ảnh
 function saveCurrentTabState() {
     const activeBtn = document.querySelector('nav button.tab-active');
     if (activeBtn) {
@@ -694,4 +726,3 @@ function saveCurrentTabState() {
         saveCatalogState(currentTabId);
     }
 }
-
