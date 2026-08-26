@@ -1,8 +1,8 @@
 // ==========================================
-// SERVICE WORKER - ĐẠI LUẬN TRỊ YHCT v1.7.7 (Tối ưu hóa Cache)
+// SERVICE WORKER - ĐẠI LUẬN TRỊ YHCT v1.7.6 (Tối ưu hóa Cache)
 // ==========================================
 
-const CACHE_NAME = 'dailuantri-v1.7.6-fixed-v2';
+const CACHE_NAME = 'dailuantri-v1.7.6-fixed-v3';
 
 // Khai báo CHÍNH XÁC các tệp đang sử dụng trong index.html
 const ASSETS_TO_CACHE = [
@@ -21,6 +21,7 @@ const ASSETS_TO_CACHE = [
     './duocthiendata.js',
     './tradata.js',
     './questiondata.js',
+    './hinhanhhuyetvi',    
     // Core Scripts
     './src/core/config.js',
     './src/core/utils.js',
@@ -80,7 +81,7 @@ self.addEventListener('fetch', (event) => {
                 return cachedResponse;
             }
             
-            // Không có thì gọi mạng
+           // Không có thì gọi mạng
             return fetch(event.request).then((response) => {
                 // CHỈ lưu cache tự động đối với các CDN giao diện (Tailwind, FontAwesome, DOMPurify)
                 // TUYỆT ĐỐI KHÔNG lưu cache các file local để chống phình rác
@@ -91,7 +92,7 @@ self.addEventListener('fetch', (event) => {
                     });
                 }
                 return response;
-            }).catch(() => {
+            })            ).catch(() => {
                 console.log('Mất mạng và không tìm thấy file trong cache:', event.request.url);
             });
         })
