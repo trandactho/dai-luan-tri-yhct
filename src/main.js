@@ -2,9 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        if (typeof restoreDuocLieuState === 'function') restoreDuocLieuState();
-        if (typeof restoreHuyetViState === 'function') restoreHuyetViState();
-
+        // Bỏ qua việc tự động khôi phục / lọc nặng khi vừa mở app để giảm tải cho CPU
         capNhatThongKeHeader();
         if (typeof capNhatTongSoTrieuChung === 'function') capNhatTongSoTrieuChung();
         if (typeof capNhatTongSoTracNghiem === 'function') capNhatTongSoTracNghiem();
@@ -12,13 +10,11 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (typeof updateLuanTri === 'function') updateLuanTri();
 
-        if (typeof taiDanhSachSachTuDrive === 'function') {
-            taiDanhSachSachTuDrive();
-        }
-
-        if (typeof initUserAuthSession === 'function') {
-            initUserAuthSession();
-        }
+        // Cho phép đồng bộ Drive chạy sau cùng bằng setTimeout để không nghẽn luồng chính
+        setTimeout(() => {
+            if (typeof taiDanhSachSachTuDrive === 'function') taiDanhSachSachTuDrive();
+            if (typeof initUserAuthSession === 'function') initUserAuthSession();
+        }, 500);
 
     } catch (err) {
         console.error("Lỗi trong quá trình khởi chạy ứng dụng:", err);
@@ -28,10 +24,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             loader.classList.add('opacity-0');
             setTimeout(() => {
                 loader.classList.add('hidden');
-            }, 300);
+              }, 500);
         }
     }
 });
+
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && e.target && e.target.tagName === 'INPUT') {
@@ -113,10 +110,12 @@ async function switchTab(tabName) {
     }
 
     requestAnimationFrame(() => {
-        if (tabName === 'duoclieu' && typeof filterDuocLieu === 'function') filterDuocLieu();
-        if (tabName === 'huyetvi' && typeof filterHuyetVi === 'function') filterHuyetVi();
-        if (tabName === 'tra' && typeof filterTra === 'function') filterTra();
-        if (tabName === 'duocthien' && typeof filterDuocThien === 'function') filterDuocThien();
+        // Chỉ render lại mảng hiện tại nếu lưới đang trống, tuyệt đối không làm mới toàn bộ bộ lọc khi chuyển tab thông thường
+        if (tabName === 'duoclieu' && typeof renderActiveGrid === 'function' && currentRenderType !== 'duoclieu') filterDuocLieu();
+        if (tabName === 'huyetvi' && typeof renderActiveGrid === 'function' && currentRenderType !== 'huyetvi') filterHuyetVi();
+        if (tabName === 'tra' && typeof renderActiveGrid === 'function' && currentRenderType !== 'tra') filterTra();
+        if (tabName === 'duocthien' && typeof renderActiveGrid === 'function' && currentRenderType !== 'duocthien') filterDuocThien();
+        
         if (tabName === 'tracuusach' && typeof taiDanhSachSachTuDrive === 'function') taiDanhSachSachTuDrive();
         if (tabName === 'tuchan' && typeof hienThiLichSuVongChan === 'function') hienThiLichSuVongChan();
         if (tabName === 'phoingu' && typeof renderPhoiNguUI === 'function') renderPhoiNguUI();
@@ -128,7 +127,7 @@ async function switchTab(tabName) {
                 initUserAuthSession();
             }
         }
-    });
+    });                
 }
 
 function exportPDF() {
