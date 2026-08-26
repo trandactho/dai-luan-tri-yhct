@@ -71,7 +71,7 @@ function capNhatThongKeHeader() {
     }
 }
 
-async function switchTab(tabName) {
+async function switchTab(tabName, pushHistory = true) {
     const tabs = [
         { id: 'luantri', sec: 'sectionLuanTri', btn: 'btnTabLuanTri' },
         { id: 'huyetvi', sec: 'sectionHuyetVi', btn: 'btnTabHuyetVi' },
@@ -109,8 +109,12 @@ async function switchTab(tabName) {
         }
     }
 
+    // Đẩy lịch sử trình duyệt để nút Back có thể bắt được sự kiện chuyển tab
+    if (pushHistory) {
+        history.pushState({ tab: tabName }, '', window.location.href);
+    }
+
     requestAnimationFrame(() => {
-        // Chỉ render lại mảng hiện tại nếu lưới đang trống, tuyệt đối không làm mới toàn bộ bộ lọc khi chuyển tab thông thường
         if (tabName === 'duoclieu' && typeof renderActiveGrid === 'function' && currentRenderType !== 'duoclieu') filterDuocLieu();
         if (tabName === 'huyetvi' && typeof renderActiveGrid === 'function' && currentRenderType !== 'huyetvi') filterHuyetVi();
         if (tabName === 'tra' && typeof renderActiveGrid === 'function' && currentRenderType !== 'tra') filterTra();
@@ -292,11 +296,53 @@ function khoiPhucTrangThaiTruocDo() {
         console.error("Lỗi khôi phục vị trí catalog:", e);
     }
 }
-
-// Bắt sự kiện khi bấm nút Back của điện thoại
-window.addEventListener('popstate', khoiPhucTrangThaiTruocDo);
-
 // Khôi phục ngay khi app được mở lại từ tab Google
 window.addEventListener('pageshow', khoiPhucTrangThaiTruocDo);
 
+// --- BỘ KHÔI PHỤC TRẠNG THÁI & XỬ LÝ NÚT BACK ---
+function khoiPhucTrangThaiTruocDo() {
+    const rawState = sessionStorage.getItem('last_catalog_state') || localStorage.getItem('last_catalog_state');
+    if (!rawState) return;
 
+    try {
+        const state = JSON.parse(rawState);
+        if (state.tab && typeof switchTab === 'function') {
+            switchTab(state.tab, false);
+
+            const searchInput = document.getElementById(`search${capitalize(state.tab)}`);
+            if (searchInput && state.search) searchInput.value = state.search;
+
+            setTimeout(() => {
+                const filterEl = document.getElementById(`filterNhom${capitalize(state.tab)}`) || document.getElementById(`filterKinhLac`);
+                if (filterEl && state.group) filterEl.value = state.group;
+
+                if (state.tab === 'duoclieu' && typeof filterDuocLieu === 'function') filterDuocLieu();
+                else if (state.tab === 'huyetvi' && typeof filterHuyetVi === 'function') filterHuyetVi();
+                else if (state.tab === 'tra' && typeof filterTra === 'function') filterTra();
+                else if (state.tab === 'duocthien' && typeof filterDuocThien === 'function') filterDuocThien();
+
+                if (typeof state.scroll === 'number' && state.scroll > 0) {
+                    window.scrollTo({ top: state.scroll, behavior: 'instant' });
+                }
+            }, 150);
+        }
+    } catch (e) {
+        console.error("Lỗi khôi phục vị trí catalog:", e);
+    }
+}
+
+// Khôi phục khi mở lại app từ trình duyệt
+window.addEventListener('pageshow', khoiPhucTrangThaiTruocDo);
+
+// Xử lý nút Back của trình duyệt / thiết bị di động
+window.addEventListener('popstate', (e) => {
+    const activeBtn = document.querySelector('nav button.tab-active');
+    const currentTabId = activeBtn ? activeBtn.id.replace('btnTab', '').toLowerCase() : '';
+
+    // Nếu KHÔNG phải tab 10 (taikhoan), bấm back sẽ nhảy về tab 10
+    if (currentTabId && currentTabId !== 'taikhoan') {
+        history.pushState({ tab: 'taikhoan' }, '', window.location.href);
+        switchTab('taikhoan', false);
+    } 
+    // Nếu ĐÃ ĐANG ở tab 10 (taikhoan), không can thiệp để hệ thống/trình duyệt tự xử lý mặc định (thoát trang hoặc về trang trước)
+});
