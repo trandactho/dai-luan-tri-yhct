@@ -1,8 +1,9 @@
-// --- KHỞI CHẠY ỨNG DỤNG & ĐIỀU HƯỚNG TAB ---
+// ==========================================================================
+// MAIN.JS - KHỞI CHẠY ỨNG DỤNG, ĐIỀU HƯỚNG TAB & SỰ KIỆN VUỐT MOBILE
+// ==========================================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        // Bỏ qua việc tự động khôi phục / lọc nặng khi vừa mở app để giảm tải cho CPU
         capNhatThongKeHeader();
         if (typeof capNhatTongSoTrieuChung === 'function') capNhatTongSoTrieuChung();
         if (typeof capNhatTongSoTracNghiem === 'function') capNhatTongSoTracNghiem();
@@ -10,7 +11,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (typeof updateLuanTri === 'function') updateLuanTri();
 
-        // Cho phép đồng bộ Drive chạy sau cùng bằng setTimeout để không nghẽn luồng chính
         setTimeout(() => {
             if (typeof taiDanhSachSachTuDrive === 'function') taiDanhSachSachTuDrive();
             if (typeof initUserAuthSession === 'function') initUserAuthSession();
@@ -162,8 +162,7 @@ async function taiDuLieuOffline() {
     }
 }
 
-// --- BỘ XỬ LÝ VUỐT CHUYỂN TAB TỐI ƯU HÓA MOBILE ---
-
+// BỘ XỬ LÝ VUỐT CHUYỂN TAB MOBILE
 let touchStartX = 0;
 let touchStartY = 0;
 let touchStartTime = 0;
@@ -187,7 +186,7 @@ function shouldIgnoreSwipe(target) {
         return true;
     }
 
-    if (target.closest('#sach-chat-box, #ai-chat-box, #vong-chan-history-list, #quiz-review-list')) {
+    if (target.closest('#sach-chat-box, #ai-chat-box, #vong-chan-history-list, #quiz-review-list, #chat-messages')) {
         return true;
     }
 
@@ -252,8 +251,7 @@ function handleSwipeDirection(direction) {
     switchTab(targetTabName);
 }
 
-// --- BỘ KHÔI PHỤC TRẠNG THÁI & XỬ LÝ NÚT BACK ---
-
+// BỘ KHÔI PHỤC TRẠNG THÁI & NÚT BACK
 function khoiPhucTrangThaiTruocDo() {
     const rawState = sessionStorage.getItem('last_catalog_state') || localStorage.getItem('last_catalog_state');
     if (!rawState) return;
@@ -285,15 +283,12 @@ function khoiPhucTrangThaiTruocDo() {
     }
 }
 
-// Khôi phục khi mở lại app từ trình duyệt
 window.addEventListener('pageshow', khoiPhucTrangThaiTruocDo);
 
-// Xử lý nút Back của trình duyệt / thiết bị di động
 window.addEventListener('popstate', (e) => {
     const activeBtn = document.querySelector('nav button.tab-active');
     const currentTabId = activeBtn ? activeBtn.id.replace('btnTab', '').toLowerCase() : '';
 
-    // Nếu KHÔNG phải tab 10 (taikhoan), bấm back sẽ nhảy về tab 10
     if (currentTabId && currentTabId !== 'taikhoan') {
         history.pushState({ tab: 'taikhoan' }, '', window.location.href);
         switchTab('taikhoan', false);
