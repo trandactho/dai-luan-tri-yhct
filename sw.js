@@ -2,14 +2,11 @@
 // SERVICE WORKER - ĐẠI LUẬN TRỊ YHCT v1.7.8 (Tối ưu hóa Cache 388 Ảnh)
 // ==========================================
 
-const CACHE_NAME = 'dailuantri-v1.7.8-fixed-v1';
+const CACHE_NAME = 'dailuantri-v1.7.8-fixed-v2';
 
 // Khai báo CHÍNH XÁC các tệp đang sử dụng trong index.html
 const ASSETS_TO_CACHE = [
-    './',
-    './index.html',
-    './style.css',
-    './manifest.json',
+    
     // Dữ liệu tĩnh
     './luantridata.js',
     './huyetvidata.js',

@@ -15,22 +15,23 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <script>
   if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    // 🟢 Nếu chạy ở Localhost: Tự động gỡ bỏ SW để không chặn API AI
-    if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
-      navigator.serviceWorker.getRegistrations().then(registrations => {
-        for (let registration of registrations) {
-          registration.unregister();
+    window.addEventListener('load', () => {
+        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+            navigator.serviceWorker.getRegistrations().then(regs => regs.forEach(r => r.unregister()));
+        } else {
+            navigator.serviceWorker.register('./sw.js').then(reg => {
+                reg.addEventListener('updatefound', () => {
+                    const newWorker = reg.installing;
+                    newWorker.addEventListener('statechange', () => {
+                        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                            // Phát hiện bản cập nhật mới -> Tự động làm mới trang cho khách hàng
+                            window.location.reload();
+                        }
+                    });
+                });
+            }).catch(err => console.error('Lỗi đăng ký SW:', err));
         }
-      });
-      console.log('🚧 Đã gỡ bỏ Service Worker ở Localhost.');
-    } else {
-      // 🟢 Khi đưa lên domain thật mới cho phép Service Worker hoạt động
-      navigator.serviceWorker.register('./sw.js')
-        .then(reg => console.log('✅ Service Worker đăng ký thành công!', reg))
-        .catch(err => console.error('❌ Lỗi đăng ký Service Worker:', err));
-    }
-  });
+    });
 }
 </script>
     <script src="https://cdn.tailwindcss.com"></script>
