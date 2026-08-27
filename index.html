@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js"></script>    
-    <title>Đại Luận Trị & Tra Cứu YHCT v1.7.7 Premium</title>
+    <title>Đại Luận Trị & Tra Cứu YHCT v1.7.8 Premium</title>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7294224585301638" crossorigin="anonymous"></script>            
     <meta name="description" content="Ứng dụng tra cứu Y Học Cổ Truyền toàn diện: Biện chứng luận trị, Dược liệu học, Châm cứu huyệt vị, Trà dược trị liệu và Trợ lý AI tư vấn YHCT.">
     <meta name="author" content="Trần Đắc Thọ">
@@ -49,7 +49,7 @@
         
     <header class="relative bg-dark-box p-2 text-center border-b border-stone-800 space-y-0.5">        
         <h1 class="text-sm font-bold text-primary flex items-center justify-center gap-1">
-            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.7.7)
+            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.7.8)
         </h1>
         <div class="text-[10px] text-stone-400 space-x-2">
             <span>Biện chứng (<span id="total-chung" class="text-amber-500 font-bold">0</span>)</span> · 
@@ -747,37 +747,53 @@
             </form>
         </div>
 
-        <!-- KHI ĐÃ ĐĂNG NHẬP -->
-        <div id="auth-member-view" class="hidden space-y-3 text-xs">
-            <div class="bg-stone-950 p-4 rounded-xl border border-stone-800 space-y-3">
-                <div class="flex items-center justify-between border-b border-stone-800/80 pb-2.5">
-                    <div>
-                        <div class="font-bold text-amber-400 text-sm" id="user-display-email">---</div>
-                        <div class="text-[10px] text-stone-400 mt-0.5">Cấp hiện tại: <strong id="user-display-role-text" class="text-emerald-400">FREE</strong></div>
-                    </div>
-                    <span id="user-display-role" class="px-2.5 py-1 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded-lg text-xs font-bold">FREE</span>
-                </div>
-                <div class="text-center pt-1">
-                    <div class="text-[10px] text-stone-400 uppercase font-bold tracking-wider">Mã Định Danh ID</div>
-                    <div id="user-display-id" class="text-amber-400 font-mono font-bold text-base">DL0000</div>
-                </div>
-                <div id="user-role-description" class="text-[11px] text-stone-300 pt-2 border-t border-stone-800/80 leading-relaxed space-y-1"></div>
+       <!-- KHI ĐÃ ĐĂNG NHẬP -->
+<div id="auth-member-view" class="hidden space-y-3 text-xs">
+    <div class="bg-stone-950 p-4 rounded-xl border border-stone-800 space-y-3">
+        <div class="flex items-center justify-between border-b border-stone-800/80 pb-2.5">
+            <div>
+                <div class="font-bold text-amber-400 text-sm" id="user-display-email">---</div>
+                <div class="text-[10px] text-stone-400 mt-0.5">Cấp hiện tại: <strong id="user-display-role-text" class="text-emerald-400">FREE</strong></div>
             </div>
-            
-            <div id="auth-logout-btn-container">
-                <button onclick="handleUserLogout()" class="w-full py-2 bg-stone-800 hover:bg-stone-700 text-red-400 border border-stone-700 font-bold rounded-xl text-xs cursor-pointer transition-colors">Đăng Xuất</button>
-            </div>
+            <span id="user-display-role" class="px-2.5 py-1 bg-emerald-950 text-emerald-400 border border-emerald-800 rounded-lg text-xs font-bold">FREE</span>
+        </div>
+        <div class="text-center pt-1">
+            <div class="text-[10px] text-stone-400 uppercase font-bold tracking-wider">Mã Định Danh ID</div>
+            <div id="user-display-id" class="text-amber-400 font-mono font-bold text-base">DL0000</div>
+        </div>
+        <div id="user-role-description" class="text-[11px] text-stone-300 pt-2 border-t border-stone-800/80 leading-relaxed space-y-1"></div>
+
+        <!-- 🟢 NÚT THÔNG BÁO & ĐẾN NHANH KÊNH THẢO LUẬN -->
+        <div class="pt-2 border-t border-stone-800/80 flex items-center justify-between">
+            <span class="text-[10px] text-stone-400 font-medium">Kênh thảo luận cộng đồng:</span>
+            <button type="button" onclick="goToChatSection()" class="relative px-3 py-1.5 bg-stone-900 hover:bg-stone-800 text-amber-400 border border-stone-700 rounded-lg text-[11px] font-bold flex items-center gap-1.5 transition-all cursor-pointer shadow-sm">
+                <i class="fa-solid fa-comments text-amber-500"></i> Xem tin nhắn
+                <!-- Chấm đỏ báo có tin nhắn mới -->
+                <span id="chat-noti-dot" class="hidden absolute -top-1 -right-1 w-3 h-3 bg-red-500 rounded-full border-2 border-stone-950 animate-pulse"></span>
+            </button>
         </div>
     </div>
+    
+    <div id="auth-logout-btn-container">
+        <button onclick="handleUserLogout()" class="w-full py-2 bg-stone-800 hover:bg-stone-700 text-red-400 border border-stone-700 font-bold rounded-xl text-xs cursor-pointer transition-colors">Đăng Xuất</button>
+    </div>
+</div>
+
 
     <!-- KHU VỰC BẢNG SO SÁNH QUYỀN HẠN CẤP ĐỘ -->
-    <div class="space-y-6 pt-2">
-        <div class="text-center space-y-1">
-            <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center justify-center gap-2">
-                <i class="fa-solid fa-crown text-amber-500"></i> Bảng Cấp Độ & Mở Khóa Đặc Quyền
-            </h3>
-            <p class="text-[11px] text-stone-400">Chi tiết quyền hạn và tính năng mở khóa theo từng cấp độ tài khoản</p>
-        </div>
+    <div class="text-center space-y-1">
+    <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center justify-center gap-2">
+        <i class="fa-solid fa-crown text-amber-500"></i> Bảng Cấp Độ & Mở Khóa Đặc Quyền
+        <button type="button" id="btn-toggle-upgrade" onclick="toggleUpgradeSections()" class="px-2 py-0.5 bg-stone-800 hover:bg-stone-700 text-stone-300 border border-stone-700 rounded text-xs transition-colors cursor-pointer ml-1" title="Thu gọn / Mở rộng">
+            <i id="icon-toggle-upgrade" class="fa-solid fa-chevron-down"></i>
+        </button>
+    </h3>
+    <p class="text-[11px] text-stone-400">Chi tiết quyền hạn và tính năng mở khóa theo từng cấp độ tài khoản</p>
+</div>
+
+<!-- Thêm class 'hidden' ở đây để mặc định thu gọn -->
+<div id="paid-upgrade-sections" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch">
+
 
         <!-- GRID 5 CỘT: 5 Card hiển thị đầy đủ chi tiết -->
         <div id="paid-upgrade-sections" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch">
@@ -975,7 +991,7 @@
         </div>
     </div>
 
-        <!-- 🟢 BỌC PHẦN VINH DANH VÀO ĐÂY ĐỂ ẨN/HIỆN THEO TRẠNG THÁI ĐĂNG NHẬP -->
+    <!-- 🟢 KHỐI 1: BẢNG XẾP HẠNG (Điêu khiển ẩn/hiện theo nút thu gọn) -->
     <div id="leaderboard-section-wrapper" class="hidden">
         <!-- ĐƯỜNG PHÂN CÁCH HOA VĂN SANG TRỌNG -->
         <div class="relative my-12 py-3 flex items-center justify-center">
@@ -1013,6 +1029,26 @@
                     <tbody id="leaderboard-list" class="divide-y divide-stone-800/60 text-stone-200 text-[11px]"></tbody>
                 </table>
             </div>
+        </div>
+    </div>
+
+    <!-- 🟢 KHỐI 2: BOX CHAT THẢO LUẬN (Độc lập, luôn hiển thị khi đã đăng nhập) -->
+    <div id="chat-section-wrapper" class="hidden">
+    <div id="card-vip-chat" class="bg-stone-900 p-5 rounded-2xl border border-amber-500/40 space-y-3 shadow-xl mt-6">
+        <div class="flex items-center justify-between border-b border-stone-800 pb-2.5">
+            <span class="font-bold text-amber-400 text-xs flex items-center gap-1.5 uppercase tracking-wider">
+                <i class="fa-solid fa-comments text-amber-500 text-sm"></i> GIAO LƯU VÀ GIÚP ĐỠ CỘNG ĐỒNG
+            </span>
+            <span class="text-[10px] text-stone-400 font-medium flex items-center gap-1">
+                <i class="fa-solid fa-clock-rotate-left text-amber-500"></i> Lưu lịch sử 7 ngày
+            </span>
+        </div>
+            <!-- Sửa từ h-64 thành h-[450px] hoặc h-96 -->
+<div id="chat-messages" class="bg-stone-950 p-3.5 rounded-xl h-[450px] overflow-y-auto space-y-2.5 text-xs text-stone-200 border border-stone-800/80 leading-relaxed scroll-smooth">
+    <div class="text-stone-500 text-center italic text-xs py-2">Đang tải lịch sử thảo luận...</div>
+</div>
+            <!-- Ô nhập tin nhắn -->
+            <div id="chat-input-container" class="pt-1"></div>
         </div>
     </div>
 </section>
