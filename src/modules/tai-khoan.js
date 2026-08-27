@@ -3,7 +3,7 @@
 // ==========================================================================
 
 const API_BASE_URL = 'https://dailuantriyhct.com/.netlify/functions';
-window.GAS_CHAT_API = 'https://script.google.com/macros/s/AKfycbzp9PWlmqoNszwekjr0Of02dMSHrZAp9nbRDKvtSIh640bsGnAdaNvuTPCCC0lVlrPBwQ/exec';
+window.GAS_CHAT_API = 'https://script.google.com/macros/s/AKfycbxgjSJ2xuqoSTrXACWMesXYrKQSi20s_ySBwL9g6EPkcmknyqgz6cqs1Tn628PK1LHN2Q/exec';
 
 // Khai báo các hàm toàn cục
 window.toggleAuthMode = toggleAuthMode;
@@ -827,6 +827,8 @@ function formatChatTime(timestamp) {
     return `${timeString} ${dayString}`;
 }
 
+window._chatHistoryCache = []; // Khai báo biến cache toàn cục
+
 async function loadChatHistoryFromDrive() {
     const messagesEl = document.getElementById('chat-messages');
     if (!messagesEl) return;
@@ -836,6 +838,8 @@ async function loadChatHistoryFromDrive() {
     try {
         const res = await fetch(`${window.GAS_CHAT_API}?userId=GLOBAL_COMMUNITY`);
         const history = await res.json();
+        
+        window._chatHistoryCache = Array.isArray(history) ? history : []; // Lưu cache
 
         if (!Array.isArray(history) || history.length === 0) {
             messagesEl.innerHTML = '<div class="text-stone-500 text-center italic text-xs py-4">Chưa có tin nhắn nào trong 7 ngày qua. Hãy là người đầu tiên thảo luận!</div>';
@@ -1003,8 +1007,8 @@ function updateChatPermissionUI(forcedRole) {
 
     if (upperRole === 'VIP' || upperRole === 'SVIP') {
         container.innerHTML = `
-            <div class="flex gap-2">
-                <input type="text" id="chat-input" placeholder="Nhập tin nhắn thảo luận (có thể dùng @tên)..." class="flex-1 p-2.5 rounded-xl bg-stone-950 border border-stone-800 text-stone-200 text-xs outline-none focus:border-amber-500" onkeydown="if(event.key==='Enter') sendChatMessage()">
+            <div class="flex gap-2 relative">
+                <input type="text" id="chat-input" placeholder="Nhập tin nhắn thảo luận (có thể dùng @tên)..." class="flex-1 p-2.5 rounded-xl bg-stone-950 border border-stone-800 text-stone-200 text-xs outline-none focus:border-amber-500" oninput="handleChatInput(event)" onkeydown="if(event.key==='Enter') sendChatMessage()">
                 <button type="button" onclick="sendChatMessage()" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer shrink-0">
                     <i class="fa-solid fa-paper-plane"></i> Gửi
                 </button>
@@ -1021,8 +1025,90 @@ function updateChatPermissionUI(forcedRole) {
         `;
     }
 }
-
 window.loadChatHistoryFromDrive = loadChatHistoryFromDrive;
 window.renderMessagesToDOM = renderMessagesToDOM;
 window.sendChatMessage = sendChatMessage;
 window.updateChatPermissionUI = updateChatPermissionUI;
+
+function getUniqueChatMembers() {
+    const history = window._chatHistoryCache || [];
+    const names = new Set();
+    history.forEach(item => {
+        const sender = (item.sender || item.senderName || '').trim();
+        if (sender && !['user', 'thành viên', 'thành viên vip', 'thành viên khác', 'ẩn danh'].includes(sender.toLowerCase())) {
+            names.add(sender);
+        }
+    });
+    return Array.from(names);
+}
+
+function handleChatInput(e) {
+    const input = e.target;
+    const val = input.value;
+    const cursorPos = input.selectionStart;
+    
+    let dropdown = document.getElementById('chat-mention-dropdown');
+    if (!dropdown) {
+        dropdown = document.createElement('div');
+        dropdown.id = 'chat-mention-dropdown';
+        dropdown.className = 'absolute bottom-full left-0 mb-1 w-full bg-stone-900 border border-stone-700 rounded-xl shadow-lg max-h-40 overflow-y-auto hidden z-50 text-xs';
+        if (input.parentNode) {
+            input.parentNode.style.position = 'relative';
+            input.parentNode.appendChild(dropdown);
+        }
+    }
+
+    const textBeforeCursor = val.slice(0, cursorPos);
+    const match = textBeforeCursor.match(/@([^\s@]*)$/);
+
+    if (!match) {
+        dropdown.classList.add('hidden');
+        return;
+    }
+
+    const query = match[1].toLowerCase();
+    const members = getUniqueChatMembers();
+    const filtered = members.filter(m => m.toLowerCase().includes(query));
+
+    if (filtered.length === 0) {
+        dropdown.classList.add('hidden');
+        return;
+    }
+
+    dropdown.innerHTML = filtered.map(name => `
+        <div class="px-3 py-2 hover:bg-amber-600/20 text-stone-300 hover:text-amber-300 cursor-pointer font-medium transition-colors" onclick="selectChatMention('${name}')">
+            @${name}
+        </div>
+    `).join('');
+    dropdown.classList.remove('hidden');
+}
+
+function selectChatMention(name) {
+    const input = document.getElementById('chat-input');
+    if (!input) return;
+    const cursorPos = input.selectionStart;
+    const val = input.value;
+    
+    const textBeforeCursor = val.slice(0, cursorPos);
+    const textAfterCursor = val.slice(cursorPos);
+    const newTextBefore = textBeforeCursor.replace(/@([^\s@]*)$/, `@${name} `);
+    
+    input.value = newTextBefore + textAfterCursor;
+    input.focus();
+    input.setSelectionRange(newTextBefore.length, newTextBefore.length);
+
+    const dropdown = document.getElementById('chat-mention-dropdown');
+    if (dropdown) dropdown.classList.add('hidden');
+}
+
+// Ẩn dropdown khi click ra ngoài
+document.addEventListener('click', (e) => {
+    const dropdown = document.getElementById('chat-mention-dropdown');
+    const input = document.getElementById('chat-input');
+    if (dropdown && input && !dropdown.contains(e.target) && e.target !== input) {
+        dropdown.classList.add('hidden');
+    }
+});
+
+window.handleChatInput = handleChatInput;
+window.selectChatMention = selectChatMention;
