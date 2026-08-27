@@ -2,7 +2,7 @@
 // SERVICE WORKER - ĐẠI LUẬN TRỊ YHCT v1.7.8 (Tối ưu tuyệt đối & Có dọn rác)
 // ==========================================
 
-const CACHE_NAME = 'dailuantri-v1.7.8-fixed-v7';
+const CACHE_NAME = 'dailuantri-v1.7.8-fixed-v8';
 
 // Chỉ khai báo khung giao diện tối thiểu để web bật lên tức thì[span_0](start_span)[span_0](end_span)
 const ASSETS_TO_CACHE = [
@@ -50,11 +50,21 @@ self.addEventListener('activate', (event) => {
     self.clients.claim();
 });
 
-// 3. Xử lý Fetch phân loại tối ưu[span_3](start_span)[span_3](end_span)
+// 3. Xử lý Fetch phân loại tối ưu
 self.addEventListener('fetch', (event) => {
     const url = new URL(event.request.url);
 
-    // Bỏ qua Netlify Functions và Google Apps Script (Chat API)[span_4](start_span)[span_4](end_span)
+    // 🟢 CHẶN TRIỆT ĐỂ: Nếu yêu cầu hướng tới tên miền ngoài (như Google, Facebook,...) 
+    // và không nằm trong danh sách CDN cho phép thì bỏ qua hoàn toàn, KHÔNG BAO GIỜ CACHE.
+    if (
+        url.origin !== self.location.origin &&
+        !url.hostname.includes('cdnjs.cloudflare.com') &&
+        !url.hostname.includes('tailwindcss.com')
+    ) {
+        return;
+    }
+
+    // Bỏ qua Netlify Functions và Google Apps Script (Chat API)[span_0](start_span)[span_0](end_span)
     if (
         url.pathname.includes('/.netlify/functions/') || 
         url.hostname.includes('script.google.com') || 
@@ -63,7 +73,7 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // A. Tệp HTML / Điều hướng: Network First (Luôn ưu tiên lấy bản mới nhất từ mạng)[span_5](start_span)[span_5](end_span)
+    // A. Tệp HTML / Điều hướng trong app: Network First[span_1](start_span)[span_1](end_span)
     if (event.request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname === '/') {
         event.respondWith(
             fetch(event.request)
@@ -79,7 +89,7 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // B. Thư viện CDN ngoài, Dữ liệu (*data.js), Hình ảnh huyệt vị: CACHE FIRST[span_6](start_span)[span_6](end_span)
+    // B. Thư viện CDN ngoài, Dữ liệu (*data.js), Hình ảnh huyệt vị: CACHE FIRST[span_2](start_span)[span_2](end_span)
     if (
         url.hostname.includes('cdnjs.cloudflare.com') ||
         url.hostname.includes('tailwindcss.com') ||
@@ -105,7 +115,7 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // C. Các tệp JS module / CSS chính: Stale-While-Revalidate[span_7](start_span)[span_7](end_span)
+    // C. Các tệp JS module / CSS chính: Stale-While-Revalidate[span_3](start_span)[span_3](end_span)
     event.respondWith(
         caches.match(event.request).then((cachedResponse) => {
             const fetchPromise = fetch(event.request).then((networkResponse) => {
