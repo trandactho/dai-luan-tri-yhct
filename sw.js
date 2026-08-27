@@ -2,11 +2,17 @@
 // SERVICE WORKER - ĐẠI LUẬN TRỊ YHCT v1.7.8 (Tối ưu hóa Cache 388 Ảnh)
 // ==========================================
 
-const CACHE_NAME = 'dailuantri-v1.7.8-fixed-v2';
+const CACHE_NAME = 'dailuantri-v1.7.8-fixed-v3';
 
 // Khai báo CHÍNH XÁC các tệp đang sử dụng trong index.html
 const ASSETS_TO_CACHE = [
-    
+    './',
+    './index.html',
+    './style.css',
+    './manifest.json',
+    'https://cdn.tailwindcss.com',
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
+    'https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js',    
     // Dữ liệu tĩnh
     './luantridata.js',
     './huyetvidata.js',
@@ -61,21 +67,24 @@ self.addEventListener('activate', (event) => {
     self.clients.claim();
 });
 
-// 3. Xử lý Fetch: Network First cho HTML, Cache First cho tài nguyên tĩnh
+// 3. Xử lý Fetch: Network First cho HTML, Stale-While-Revalidate cho tài nguyên tĩnh
 self.addEventListener('fetch', (event) => {
     const url = new URL(event.request.url);
 
-    // Bỏ qua không can thiệp API Netlify hoặc method khác GET
-    if (url.pathname.includes('/.netlify/functions/') || event.request.method !== 'GET') {
+    // BỎ QUA KHÔNG CAN THIỆP: API Netlify, Google Apps Script (Chat API) hoặc method khác GET
+    if (
+        url.pathname.includes('/.netlify/functions/') || 
+        url.hostname.includes('script.google.com') || 
+        event.request.method !== 'GET'
+    ) {
         return;
     }
 
-    // Riêng tệp HTML / Điều hướng trang: Luôn ưu tiên gọi mạng trước (Network First) để cập nhật giao diện mới nhất
+    // Riêng tệp HTML / Điều hướng trang: Luôn ưu tiên gọi mạng trước (Network First)
     if (event.request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname === '/') {
         event.respondWith(
             fetch(event.request)
                 .then((response) => {
-                    // Nếu gọi mạng thành công, lưu lại bản mới vào cache và trả về
                     const responseToCache = response.clone();
                     caches.open(CACHE_NAME).then((cache) => {
                         cache.put(event.request, responseToCache);
@@ -83,51 +92,45 @@ self.addEventListener('fetch', (event) => {
                     return response;
                 })
                 .catch(() => {
-                    // Nếu mất mạng, fallback về cache cũ
                     return caches.match(event.request);
                 })
         );
         return;
     }
 
-    // Các tệp tĩnh khác (JS, CSS, Ảnh): Ưu tiên lấy từ Cache trước cho nhanh
+    // Các tệp tĩnh khác (JS, CSS): Sử dụng Stale-While-Revalidate để tự động cập nhật ngầm
     event.respondWith(
         caches.match(event.request).then((cachedResponse) => {
-            if (cachedResponse) {
-                return cachedResponse;
-            }
-            return fetch(event.request).then((response) => {
-                if (response && response.status === 200 && (url.hostname === 'cdn.tailwindcss.com' || url.hostname === 'cdnjs.cloudflare.com')) {
-                    const responseToCache = response.clone();
+            const fetchPromise = fetch(event.request).then((networkResponse) => {
+                if (networkResponse && networkResponse.status === 200) {
+                    const responseToCache = networkResponse.clone();
                     caches.open(CACHE_NAME).then((cache) => {
                         cache.put(event.request, responseToCache);
                     });
                 }
-                return response;
-            });
+                return networkResponse;
+            }).catch(() => {});
+
+            return cachedResponse || fetchPromise;
         })
     );
-});
-
+}); // 🟢 Đã đóng ngoặc đầy đủ cho addEventListener('fetch')
 
 // 4. Lắng nghe lệnh tải Offline thủ công: Tải toàn bộ tài nguyên + 388 tệp ảnh
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'CACHE_ALL') {
         caches.open(CACHE_NAME).then(async (cache) => {
-            // 1. Tải lại cấu trúc tệp tĩnh
             try {
                 await cache.addAll(ASSETS_TO_CACHE);
             } catch (e) {
                 console.log('Lỗi nạp tệp tĩnh:', e);
             }
 
-            // 2. Tạo danh sách 388 tệp ảnh theo quy luật
             const listAnhHuyetVi = [];
             for (let i = 1; i <= 388; i++) {
                 listAnhHuyetVi.push(`./hinhanhhuyetvi/BL${i}.png`);
             }
 
-            // 3. Tải song song từng tệp an toàn (tránh văng lỗi hỏng cả tiến trình nếu thiếu 1 ảnh)
             let successCount = 0;
             await Promise.all(
                 listAnhHuyetVi.map(url => 
