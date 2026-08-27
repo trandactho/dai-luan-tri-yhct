@@ -3,7 +3,7 @@
 // ==========================================================================
 
 const API_BASE_URL = 'https://dailuantriyhct.com/.netlify/functions';
-window.GAS_CHAT_API = 'https://script.google.com/macros/s/AKfycbxgjSJ2xuqoSTrXACWMesXYrKQSi20s_ySBwL9g6EPkcmknyqgz6cqs1Tn628PK1LHN2Q/exec';
+window.GAS_CHAT_API = 'https://script.google.com/macros/s/AKfycbzp9PWlmqoNszwekjr0Of02dMSHrZAp9nbRDKvtSIh640bsGnAdaNvuTPCCC0lVlrPBwQ/exec';
 
 // Khai báo các hàm toàn cục
 window.toggleAuthMode = toggleAuthMode;
