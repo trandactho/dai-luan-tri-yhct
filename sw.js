@@ -2,7 +2,7 @@
 // SERVICE WORKER - ĐẠI LUẬN TRỊ YHCT v1.7.8 (Tối ưu hóa Cache 388 Ảnh)
 // ==========================================
 
-const CACHE_NAME = 'dailuantri-v1.7.8';
+const CACHE_NAME = 'dailuantri-v1.7.8-fixed-v1';
 
 // Khai báo CHÍNH XÁC các tệp đang sử dụng trong index.html
 const ASSETS_TO_CACHE = [
@@ -64,7 +64,7 @@ self.addEventListener('activate', (event) => {
     self.clients.claim();
 });
 
-// 3. Xử lý Fetch: Ưu tiên lấy từ Cache, hỗ trợ lưu CDN giao diện
+// 3. Xử lý Fetch: Network First cho HTML, Cache First cho tài nguyên tĩnh
 self.addEventListener('fetch', (event) => {
     const url = new URL(event.request.url);
 
@@ -73,16 +73,33 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
+    // Riêng tệp HTML / Điều hướng trang: Luôn ưu tiên gọi mạng trước (Network First) để cập nhật giao diện mới nhất
+    if (event.request.mode === 'navigate' || url.pathname.endsWith('.html') || url.pathname === '/') {
+        event.respondWith(
+            fetch(event.request)
+                .then((response) => {
+                    // Nếu gọi mạng thành công, lưu lại bản mới vào cache và trả về
+                    const responseToCache = response.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, responseToCache);
+                    });
+                    return response;
+                })
+                .catch(() => {
+                    // Nếu mất mạng, fallback về cache cũ
+                    return caches.match(event.request);
+                })
+        );
+        return;
+    }
+
+    // Các tệp tĩnh khác (JS, CSS, Ảnh): Ưu tiên lấy từ Cache trước cho nhanh
     event.respondWith(
         caches.match(event.request).then((cachedResponse) => {
-            // Có trong cache thì trả về ngay
             if (cachedResponse) {
                 return cachedResponse;
             }
-            
-            // Không có thì gọi mạng
             return fetch(event.request).then((response) => {
-                // CHỈ lưu cache tự động đối với các CDN giao diện (Tailwind, FontAwesome, DOMPurify)
                 if (response && response.status === 200 && (url.hostname === 'cdn.tailwindcss.com' || url.hostname === 'cdnjs.cloudflare.com')) {
                     const responseToCache = response.clone();
                     caches.open(CACHE_NAME).then((cache) => {
@@ -91,11 +108,10 @@ self.addEventListener('fetch', (event) => {
                 }
                 return response;
             });
-        }).catch(() => {
-            console.log('Mất mạng và không tìm thấy file trong cache:', event.request.url);
         })
     );
 });
+
 
 // 4. Lắng nghe lệnh tải Offline thủ công: Tải toàn bộ tài nguyên + 388 tệp ảnh
 self.addEventListener('message', (event) => {
