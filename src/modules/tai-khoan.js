@@ -2,8 +2,8 @@
 // TAI-KHOAN.JS - QUẢN LÝ ĐĂNG NHẬP, ĐĂNG KÝ, XÁC THỰC OTP & HẠN MỨC AI TOÀN DIỆN
 // ==========================================================================
 
-// Thay thế dòng gán cứng API_BASE_URL trong tai-khoan.js thành:
 const API_BASE_URL = 'https://dailuantriyhct.com/.netlify/functions';
+window.GAS_CHAT_API = 'https://script.google.com/macros/s/AKfycbxgjSJ2xuqoSTrXACWMesXYrKQSi20s_ySBwL9g6EPkcmknyqgz6cqs1Tn628PK1LHN2Q/exec';
 
 // Khai báo các hàm toàn cục
 window.toggleAuthMode = toggleAuthMode;
@@ -30,22 +30,20 @@ window.showRoleLockModal = function(minRole, featureName = 'Tính năng này') {
     modal.classList.remove('hidden');
 };
 
-// --- CORE QUOTA ENGINE (QUẢN LÝ HẠN MỨC TOÀN DIỆN) ---
-
 function getTodayDateString() {
     const now = new Date();
-    // Chuyển đổi về múi giờ UTC+7 (Việt Nam)
     const vnTime = new Date(now.getTime() + (7 * 60 + now.getTimezoneOffset()) * 60000);
     return vnTime.toISOString().slice(0, 10);
 }
 
 function getRoleMaxQuota(role) {
-    return 99999; // Không giới hạn
+    return 99999;
 }
 
 function getDailyQuotaUsed(role) {
-    return 0; // Luôn trả về 0 để không theo dõi
+    return 0;
 }
+
 function capNhatQuotaUICucBo(newQuota) {
     if (!window.AppState) window.AppState = { auth: {} };
     if (!AppState.auth) AppState.auth = {};
@@ -72,8 +70,6 @@ function capNhatQuotaUICucBo(newQuota) {
 window.capNhatQuotaUICucBo = capNhatQuotaUICucBo;
 window.getDailyQuotaUsed = getDailyQuotaUsed;
 window.getRoleMaxQuota = getRoleMaxQuota;
-
-// --- QUẢN LÝ PHIÊN VÀ GIAO DIỆN ---
 
 function toggleAuthMode(mode) {
     const formLogin = document.getElementById('form-auth-login');
@@ -113,10 +109,8 @@ function checkAndApplyExpiration(userData) {
         const now = Date.now();
         const expireMs = new Date(userData.expireDate).getTime();
         
-        // 🟢 CHỐNG HACK LÙI GIỜ ĐIỆN THOẠI
         let lastTime = Number(localStorage.getItem('last_known_time') || 0);
         if (now < lastTime) { 
-            // Phát hiện gian lận lùi giờ máy -> Ép về FREE ngay
             role = 'FREE';
             userData.role = 'FREE';
             return role;
@@ -125,7 +119,6 @@ function checkAndApplyExpiration(userData) {
             localStorage.setItem('last_known_time', now.toString());
         }
 
-        // 🟢 KIỂM TRA HẾT HẠN (Hoạt động tốt cả khi Offline)
         if (!isNaN(expireMs) && now > expireMs) {
             role = 'FREE';
             userData.role = 'FREE';
@@ -135,11 +128,9 @@ function checkAndApplyExpiration(userData) {
     return role;
 }
 
-    // 🟢 BIẾN CHỐNG GỌI TRÙNG LẶP XÁC THỰC
 let isVerifyingSession = false;
 
 async function initUserAuthSession() {
-    // 🟢 Nếu đang xác thực thì bỏ qua request thứ 2
     if (isVerifyingSession) return;
     
     let savedToken = null;
@@ -155,7 +146,7 @@ async function initUserAuthSession() {
     }
 
     try {
-        isVerifyingSession = true; // Đánh dấu bắt đầu xác thực
+        isVerifyingSession = true;
 
         const res = await fetch(`${API_BASE_URL}/auth`, {
             method: 'POST',
@@ -207,7 +198,7 @@ async function initUserAuthSession() {
 
         resetToGuestSession();
     } finally {
-        isVerifyingSession = false; // 🟢 Mở khóa sau khi xác thực xong
+        isVerifyingSession = false;
     }
     
     try { applyRolePermissions(); } catch (e) {}
@@ -241,18 +232,21 @@ function renderAuthUI(isLoggedIn) {
     if (!guestView || !memberView) return;
 
     const u = AppState.auth?.user || {};
-    const userRole = checkAndApplyExpiration(u) || 'GUEST';
+    const userRole = checkAndApplyExpiration(u) || AppState.auth?.role || 'GUEST';
     updateFreeCardActionUI(isLoggedIn && userRole !== 'GUEST');
 
     const shortId = u.shortId || getFixedIdFromEmail(u.email) || 'DL1000';
     const leaderboardWrapper = document.getElementById('leaderboard-section-wrapper');
+    const chatWrapper = document.getElementById('chat-section-wrapper');
+    
+    const paidSections = document.getElementById('paid-upgrade-sections');
+    const isPaidHidden = paidSections ? paidSections.classList.contains('hidden') : true;
 
     const guestCard = document.getElementById('card-upgrade-guest');
     const freeCard = document.getElementById('card-upgrade-free');
     const vip3Card = document.getElementById('card-upgrade-vip3');
     const vipCard = document.getElementById('card-upgrade-vip');
     const svipCard = document.getElementById('card-upgrade-svip');
-    const paidSections = document.getElementById('paid-upgrade-sections');
 
     let elRoleDesc = document.getElementById('user-role-description');
     if (!elRoleDesc && memberView) {
@@ -267,23 +261,30 @@ function renderAuthUI(isLoggedIn) {
     }
 
     if (!isLoggedIn || userRole === 'GUEST') {
-    if (leaderboardWrapper) leaderboardWrapper.style.display = 'none';
+        if (leaderboardWrapper) leaderboardWrapper.style.display = 'none';
+        if (chatWrapper) chatWrapper.style.display = 'none';
 
-    guestView.style.display = 'block';
-    guestView.classList.remove('hidden');
-    memberView.style.display = 'none';
-    memberView.classList.add('hidden');
+        guestView.style.display = 'block';
+        guestView.classList.remove('hidden');
+        memberView.style.display = 'none';
+        memberView.classList.add('hidden');
 
-    if (paidSections) paidSections.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch max-w-6xl mx-auto";
-    if (guestCard) guestCard.style.display = 'flex';
-    if (freeCard) freeCard.style.display = 'flex';
-    if (vip3Card) vip3Card.style.display = 'none';   // 🟢 Đổi 'none' thành 'flex'
-    if (vipCard) vipCard.style.display = 'none';     // 🟢 Đổi 'none' thành 'flex'
-    if (svipCard) svipCard.style.display = 'none';   // 🟢 Đổi 'none' thành 'flex'
+        if (paidSections) paidSections.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch max-w-6xl mx-auto";
         
+        if (guestCard) guestCard.style.display = 'flex';
+        if (freeCard) freeCard.style.display = 'flex';
+        if (vip3Card) vip3Card.style.display = 'none';
+        if (vipCard) vipCard.style.display = 'none';
+        if (svipCard) svipCard.style.display = 'none';
+            
         if (elRoleDesc) elRoleDesc.innerHTML = '👤 <strong>Cấp GUEST:</strong> Tra cứu CSDL YHCT cơ bản. Hãy <strong>Đăng ký/Đăng nhập</strong> để nhận Cấp FREE vĩnh viễn.';
     } else {
-        if (leaderboardWrapper) leaderboardWrapper.style.display = 'block';
+        if (leaderboardWrapper) {
+            leaderboardWrapper.style.display = isPaidHidden ? 'none' : 'block';
+        }
+        if (chatWrapper) {
+            chatWrapper.style.display = 'block';
+        }
 
         guestView.style.display = 'none';
         guestView.classList.add('hidden');
@@ -310,7 +311,11 @@ function renderAuthUI(isLoggedIn) {
             }
         }
 
-        if (paidSections) paidSections.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch max-w-6xl mx-auto";
+        if (paidSections) {
+            const isHidden = paidSections.classList.contains('hidden');
+            paidSections.className = `${isHidden ? 'hidden ' : ''}grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch max-w-6xl mx-auto`;
+        }
+
         if (guestCard) guestCard.style.display = 'flex';
         if (freeCard) freeCard.style.display = 'flex';
         if (vip3Card) vip3Card.style.display = 'flex';
@@ -353,11 +358,20 @@ function renderAuthUI(isLoggedIn) {
         loadLeaderboardFromDB();
     }
     
+    if (typeof updateChatPermissionUI === 'function') {
+        updateChatPermissionUI(userRole);
+    }
+
+    if (isLoggedIn && userRole !== 'GUEST') {
+        if (typeof loadChatHistoryFromDrive === 'function') {
+            loadChatHistoryFromDrive();
+        }
+    }
+    
     if (typeof updateRoleLockUI === 'function') {
         updateRoleLockUI();
     }
 }
-
 
 function getFixedIdFromEmail(email) {
     if (!email) return 'DL1000';
@@ -387,12 +401,10 @@ function saveUserSession(token, user) {
     renderAuthUI(true);
     applyRolePermissions();
     
-    // Thêm dòng này để quét và gỡ bỏ ổ khóa ngay lập tức khi đăng nhập thành công
     if (typeof updateRoleLockUI === 'function') {
         updateRoleLockUI();
     }
 }
-
 
 async function handleUserLogin(e) {
     if (e && e.preventDefault) e.preventDefault();
@@ -549,7 +561,6 @@ function togglePasswordVisibility(inputId, btn) {
 }
 
 async function refreshUserDataFromServer() {
-    // 🟢 Chặn trùng lặp request
     if (isVerifyingSession) return;
 
     let savedToken = null;
@@ -561,7 +572,7 @@ async function refreshUserDataFromServer() {
     }
 
     try {
-        isVerifyingSession = true; // 🟢 Đánh dấu đang gửi request
+        isVerifyingSession = true;
 
         const res = await fetch(`${API_BASE_URL}/auth`, {
             method: 'POST',
@@ -594,13 +605,12 @@ async function refreshUserDataFromServer() {
     } catch (e) {
         console.warn('Không thể kết nối server:', e.message);
     } finally {
-        isVerifyingSession = false; // 🟢 Mở khóa cờ
+        isVerifyingSession = false;
     }
 }
 window.refreshUserDataFromServer = refreshUserDataFromServer;
 
 async function tangVaDongBoQuotaAI() {
-    // Không làm gì cả để bỏ qua việc cộng dồn/đồng bộ lượt dùng
     return true; 
 }
 
@@ -625,23 +635,18 @@ function updateVietQRImages(userShortId) {
     if (memoSvip) memoSvip.innerText = `SVIP ${userShortId}`;
 }
 
-// 🟢 TỰ ĐỘNG KIỂM TRA PHIÊN DÀNH CHO MULTI-TAB / THIẾT BỊ KHÁC
 document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible' && localStorage.getItem('access_token')) {
-        // Chỉ gọi khi không có tiến trình xác thực nào đang chạy
         if (!isVerifyingSession) {
             refreshUserDataFromServer();
         }
     }
 });
 
-
-// Render dữ liệu bảng xếp hạng ra HTML
 function renderLeaderboard(usersList = []) {
     const container = document.getElementById('leaderboard-list');
     if (!container) return;
 
-    // Tự động đổi tiêu đề cột 4 thành THỜI HẠN
     const table = container.closest('table');
     if (table) {
         const headers = table.querySelectorAll('th');
@@ -681,11 +686,9 @@ function renderLeaderboard(usersList = []) {
 }
 window.renderLeaderboard = renderLeaderboard;
 
-// Tải bảng xếp hạng từ API (Đã sửa để nhận diện đúng timeText)
 async function loadLeaderboardFromDB() {
     const container = document.getElementById('leaderboard-list');
     
-    // Xóa dữ liệu mẫu, hiển thị trạng thái đang tải
     if (container) {
         container.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-amber-500 italic">Đang tải dữ liệu từ Server...</td></tr>`;
     }
@@ -699,7 +702,6 @@ async function loadLeaderboardFromDB() {
         
         const result = await res.json();
         
-        // 1. NẾU SERVER BÁO LỖI -> IN THẲNG RA MÀN HÌNH MÀU ĐỎ
         if (!res.ok) {
             const errorMsg = result.message || result.error || JSON.stringify(result);
             if (container) {
@@ -708,7 +710,6 @@ async function loadLeaderboardFromDB() {
             return;
         }
         
-        // 2. NẾU THÀNH CÔNG NHƯNG DB TRỐNG -> BÁO DB TRỐNG
         if (result.leaderboard && Array.isArray(result.leaderboard)) {
             if (result.leaderboard.length === 0) {
                  if (container) {
@@ -717,7 +718,6 @@ async function loadLeaderboardFromDB() {
                  return;
             }
             
-            // Nếu có dữ liệu thì map đúng thuộc tính timeText để hiển thị thời hạn
             const formattedList = result.leaderboard.map(user => {
                 const userRole = user.effectiveRole || user.role || 'FREE';
                 let displayName = 'Thành viên';
@@ -734,15 +734,13 @@ async function loadLeaderboardFromDB() {
             });
             renderLeaderboard(formattedList);
         } else {
-            // Dữ liệu rác không đúng định dạng
             if (container) {
                 container.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-red-500 italic">API trả về sai định dạng dữ liệu!</td></tr>`;
             }
         }
     } catch (err) {
-        // 3. NẾU LỖI MẠNG HOẶC CORS -> IN THẲNG RA MÀN HÌNH
         if (container) {
-            container.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-red-500 italic font-bold">Lỗi kết nối (Có thể do CORS localhost): ${err.message}</td></tr>`;
+            container.innerHTML = `<tr><td colspan="4" class="py-4 text-center text-red-500 italic font-bold">Lỗi kết nối: ${err.message}</td></tr>`;
         }
     }
 }
@@ -768,3 +766,263 @@ function updateFreeCardActionUI(isLoggedIn) {
 }
 window.updateFreeCardActionUI = updateFreeCardActionUI;
 
+function toggleUpgradeSections() {
+    const sections = document.getElementById('paid-upgrade-sections');
+    const leaderboardWrapper = document.getElementById('leaderboard-section-wrapper');
+    const icon = document.getElementById('icon-toggle-upgrade');
+    if (!sections) return;
+
+    const isHidden = sections.classList.toggle('hidden');
+    
+    const u = AppState.auth?.user || {};
+    const userRole = checkAndApplyExpiration(u) || AppState.auth?.role || 'GUEST';
+    const isLoggedIn = AppState.auth?.token && userRole !== 'GUEST';
+
+    if (leaderboardWrapper && isLoggedIn) {
+        leaderboardWrapper.style.display = isHidden ? 'none' : 'block';
+    }
+
+    if (icon) {
+        if (isHidden) {
+            icon.classList.remove('fa-chevron-up');
+            icon.classList.add('fa-chevron-down');
+        } else {
+            icon.classList.remove('fa-chevron-down');
+            icon.classList.add('fa-chevron-up');
+        }
+    }
+}
+window.toggleUpgradeSections = toggleUpgradeSections;
+
+// --------------------------------------------------------------------------
+// HÀM XỬ LÝ BOX CHAT THẢO LUẬN TÍCH HỢP CỘNG ĐỒNG
+// --------------------------------------------------------------------------
+
+function getCurrentUserChatName() {
+    const u = window.AppState?.auth?.user || {};
+    if (u.email) return u.email.split('@')[0];
+    if (u.shortId && u.shortId !== 'GUEST') return u.shortId;
+
+    try {
+        const local = JSON.parse(localStorage.getItem('app_user_data') || '{}');
+        if (local.email) return local.email.split('@')[0];
+        if (local.shortId && local.shortId !== 'GUEST') return local.shortId;
+    } catch(e) {}
+
+    return u.shortId || 'Thành viên'; 
+}
+
+function formatChatTime(timestamp) {
+    if (!timestamp) return '';
+    const date = new Date(timestamp);
+    if (isNaN(date.getTime())) return '';
+
+    const now = new Date();
+    const isToday = date.toDateString() === now.toDateString();
+    
+    const timeString = date.toLocaleTimeString('vi-VN', { hour: '2-digit', minute: '2-digit' });
+    if (isToday) return timeString;
+    
+    const dayString = date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' });
+    return `${timeString} ${dayString}`;
+}
+
+async function loadChatHistoryFromDrive() {
+    const messagesEl = document.getElementById('chat-messages');
+    if (!messagesEl) return;
+
+    messagesEl.innerHTML = '<div class="text-stone-500 text-center italic text-xs py-4"><i class="fa-solid fa-spinner fa-spin text-amber-500 mr-1.5"></i> Đang tải dữ liệu thảo luận...</div>';
+
+    try {
+        const res = await fetch(`${window.GAS_CHAT_API}?userId=GLOBAL_COMMUNITY`);
+        const history = await res.json();
+
+        if (!Array.isArray(history) || history.length === 0) {
+            messagesEl.innerHTML = '<div class="text-stone-500 text-center italic text-xs py-4">Chưa có tin nhắn nào trong 7 ngày qua. Hãy là người đầu tiên thảo luận!</div>';
+            return;
+        }
+
+        renderMessagesToDOM(messagesEl, history);
+    } catch (e) {
+        console.error('Lỗi tải chat:', e);
+        messagesEl.innerHTML = '<div class="text-red-400 text-center text-xs py-2">Không thể tải nội dung thảo luận.</div>';
+    }
+}
+window.loadChatHistoryFromDrive = loadChatHistoryFromDrive;
+
+function renderMessagesToDOM(messagesEl, history) {
+    const myName = getCurrentUserChatName().toLowerCase();
+    let lastTimestamp = 0;
+    
+    // Lọc chỉ lấy tin nhắn trong vòng 7 ngày qua
+    const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+    const recentHistory = history.filter(item => {
+        const msgTime = new Date(item.timestamp || 0).getTime();
+        return !isNaN(msgTime) && msgTime >= sevenDaysAgo;
+    });
+
+    const latestMessages = recentHistory.slice(-50);
+    let htmlContent = '';
+
+    if (latestMessages.length === 0) {
+        messagesEl.innerHTML = '<div class="text-stone-500 text-center italic text-xs py-4">Chưa có tin nhắn nào trong 7 ngày qua. Hãy là người đầu tiên thảo luận!</div>';
+        return;
+    }
+
+    latestMessages.forEach(item => {
+        const rawSender = item.sender || item.senderName || '';
+        const senderNameClean = rawSender.trim().toLowerCase();
+        const isMe = senderNameClean === myName;            
+        
+        let displayName = rawSender;
+        if (!displayName || displayName === 'user' || displayName === 'Thành viên' || displayName === 'Thành viên VIP' || displayName === 'Thành viên khác' || displayName === 'Ẩn danh') {
+            displayName = isMe ? getCurrentUserChatName() : 'Thành viên';
+        }
+
+        let safeText = typeof escapeHTML === 'function' ? escapeHTML(item.text) : item.text;
+        
+        safeText = safeText.replace(/@([^\s,]+)/g, '<span class="bg-amber-500/20 text-amber-300 font-bold px-1.5 py-0.5 rounded border border-amber-500/40">@$1</span>');
+
+        const safeSender = typeof escapeHTML === 'function' ? escapeHTML(displayName) : displayName;
+
+        let timeDividerHtml = '';
+        const msgTime = item.timestamp ? new Date(item.timestamp).getTime() : 0;
+        if (msgTime && (msgTime - lastTimestamp > 15 * 60 * 1000)) {
+            timeDividerHtml = `
+                <div class="flex justify-center my-2">
+                    <span class="px-2 py-0.5 bg-stone-900 text-stone-400 text-[10px] rounded-full border border-stone-800 font-mono">
+                        ${formatChatTime(msgTime)}
+                    </span>
+                </div>
+            `;
+            lastTimestamp = msgTime;
+        }
+
+        htmlContent += `
+            ${timeDividerHtml}
+            <div class="space-y-0.5">
+                <div class="text-[10px] text-stone-500 ${isMe ? 'text-right' : 'text-left'} px-1 font-mono">${safeSender}</div>
+                <div class="flex justify-${isMe ? 'end' : 'start'}">
+                    <div class="${isMe ? 'bg-amber-600/30 border border-amber-500/50 text-amber-200' : 'bg-stone-800 border border-stone-700 text-stone-300'} p-2.5 rounded-xl max-w-[85%] font-medium leading-relaxed">
+                        ${safeText}
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+
+    messagesEl.innerHTML = htmlContent;
+    messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: 'smooth' });
+
+    if (latestMessages.length > 0) {
+        const lastMsg = latestMessages[latestMessages.length - 1];
+        const lastSender = (lastMsg.sender || lastMsg.senderName || '').trim().toLowerCase();
+        const lastTime = new Date(lastMsg.timestamp || 0).getTime();
+        const viewedTime = Number(localStorage.getItem('last_viewed_chat_time') || 0);
+
+        const notiDot = document.getElementById('chat-noti-dot');
+        if (notiDot) {
+            if (lastSender !== myName && lastTime > viewedTime) {
+                notiDot.classList.remove('hidden');
+            } else {
+                notiDot.classList.add('hidden');
+            }
+        }
+    }
+}
+
+async function sendChatMessage() {
+    const input = document.getElementById('chat-input');
+    const messages = document.getElementById('chat-messages');
+    if (!input || !messages) return;
+
+    const text = input.value.trim();
+    if (!text) return;
+
+    const senderName = getCurrentUserChatName();
+    const nowTime = new Date().toISOString();
+    let safeText = typeof escapeHTML === 'function' ? escapeHTML(text) : text;
+    
+    safeText = safeText.replace(/@([^\s,]+)/g, '<span class="bg-amber-500/20 text-amber-300 font-bold px-1.5 py-0.5 rounded border border-amber-500/40">@$1</span>');
+
+    messages.innerHTML += `
+        <div class="space-y-0.5">
+            <div class="text-[10px] text-stone-500 text-right px-1 font-mono">${senderName}</div>
+            <div class="flex justify-end">
+                <div class="bg-amber-600/30 border border-amber-500/50 p-2.5 rounded-xl max-w-[85%] text-amber-200 font-medium leading-relaxed">
+                    ${safeText}
+                </div>
+            </div>
+        </div>
+    `;
+    input.value = '';
+    messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+
+    try {
+        await fetch(window.GAS_CHAT_API, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+                userId: 'GLOBAL_COMMUNITY', 
+                senderId: senderName, 
+                senderName: senderName, 
+                sender: senderName, 
+                text: text,
+                timestamp: nowTime 
+            })
+        });
+    } catch (e) {
+        console.error('Lỗi lưu tin nhắn:', e);
+    }
+}
+
+function goToChatSection() {
+    const chatCard = document.getElementById('card-vip-chat');
+    if (chatCard) {
+        chatCard.scrollIntoView({ behavior: 'smooth' });
+    }
+    localStorage.setItem('last_viewed_chat_time', Date.now().toString());
+    const notiDot = document.getElementById('chat-noti-dot');
+    if (notiDot) {
+        notiDot.classList.add('hidden');
+    }
+}
+window.goToChatSection = goToChatSection;
+
+function updateChatPermissionUI(forcedRole) {
+    const container = document.getElementById('chat-input-container');
+    if (!container) return;
+
+    let role = forcedRole;
+    if (!role) {
+        const u = window.AppState?.auth?.user || {};
+        role = window.AppState?.auth?.role || u.role || 'GUEST';
+    }
+    const upperRole = String(role).toUpperCase();
+
+    if (upperRole === 'VIP' || upperRole === 'SVIP') {
+        container.innerHTML = `
+            <div class="flex gap-2">
+                <input type="text" id="chat-input" placeholder="Nhập tin nhắn thảo luận (có thể dùng @tên)..." class="flex-1 p-2.5 rounded-xl bg-stone-950 border border-stone-800 text-stone-200 text-xs outline-none focus:border-amber-500" onkeydown="if(event.key==='Enter') sendChatMessage()">
+                <button type="button" onclick="sendChatMessage()" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs rounded-xl transition-colors flex items-center gap-1.5 cursor-pointer shrink-0">
+                    <i class="fa-solid fa-paper-plane"></i> Gửi
+                </button>
+            </div>
+        `;
+    } else {
+        container.innerHTML = `
+            <div class="p-3 bg-stone-950/80 border border-amber-900/40 rounded-xl text-center text-xs text-stone-400 flex items-center justify-between">
+                <span><i class="fa-solid fa-lock text-amber-500 mr-1.5"></i> Bạn đang ở chế độ <strong>Chỉ Xem</strong>.</span>
+                <button type="button" onclick="switchTab('taikhoan'); window.scrollTo({top: 0, behavior: 'smooth'});" class="px-2.5 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold text-[11px] rounded-lg transition-colors cursor-pointer">
+                    Nâng Cấp VIP
+                </button>
+            </div>
+        `;
+    }
+}
+
+window.loadChatHistoryFromDrive = loadChatHistoryFromDrive;
+window.renderMessagesToDOM = renderMessagesToDOM;
+window.sendChatMessage = sendChatMessage;
+window.updateChatPermissionUI = updateChatPermissionUI;
