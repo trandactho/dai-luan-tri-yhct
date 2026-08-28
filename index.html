@@ -781,8 +781,8 @@
 </div>
 
 
-    <!-- KHU VỰC BẢNG SO SÁNH QUYỀN HẠN CẤP ĐỘ -->
-    <div class="text-center space-y-1">
+   <!-- KHU VỰC BẢNG SO SÁNH QUYỀN HẠN CẤP ĐỘ -->
+<div class="text-center space-y-1">
     <h3 class="text-sm font-bold text-amber-400 uppercase tracking-wider flex items-center justify-center gap-2">
         <i class="fa-solid fa-crown text-amber-500"></i> Bảng Cấp Độ & Mở Khóa Đặc Quyền
         <button type="button" id="btn-toggle-upgrade" onclick="toggleUpgradeSections()" class="px-2 py-0.5 bg-stone-800 hover:bg-stone-700 text-stone-300 border border-stone-700 rounded text-xs transition-colors cursor-pointer ml-1" title="Thu gọn / Mở rộng">
@@ -792,12 +792,8 @@
     <p class="text-[11px] text-stone-400">Chi tiết quyền hạn và tính năng mở khóa theo từng cấp độ tài khoản</p>
 </div>
 
-<!-- Thêm class 'hidden' ở đây để mặc định thu gọn -->
+<!-- GRID 5 CỘT: 5 Card hiển thị đầy đủ chi tiết -->
 <div id="paid-upgrade-sections" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch">
-
-
-        <!-- GRID 5 CỘT: 5 Card hiển thị đầy đủ chi tiết -->
-        <div id="paid-upgrade-sections" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch">
             
             <!-- 1. CẤP GUEST -->
             <div id="card-upgrade-guest" class="bg-stone-900/60 p-4 rounded-2xl border border-stone-800 space-y-3 text-xs shadow-md flex flex-col justify-between relative mb-4 sm:mb-0">
@@ -807,7 +803,7 @@
                     </div>
                     <div class="text-center py-1">
                         <div class="text-stone-300 font-bold text-lg">0đ</div>
-                        <div class="text-[10px] text-stone-400">Chưa đăng nhập</div>
+                        <div class="text-[10px] text-stone-400">Không cần đăng nhập</div>
                     </div>
                     <ul class="text-stone-300 space-y-1.5 text-[11px]">
                         <li class="flex items-start gap-2">
@@ -833,45 +829,57 @@
                 </div>
             </div>
 
-            <!-- 2. CẤP FREE -->
+                        <!-- 2. CẤP FREE -->
             <div id="card-upgrade-free" class="bg-stone-900/90 p-4 rounded-2xl border border-emerald-500/50 space-y-3 text-xs shadow-lg flex flex-col justify-between relative mb-4 sm:mb-0">
-                <div class="space-y-3">
-                    <div class="font-bold text-emerald-400 text-xs border-b border-stone-800 pb-2.5 flex items-center justify-between">
-                        <span class="flex items-center gap-1.5 text-sm font-bold"><i class="fa-solid fa-user-check text-emerald-400"></i> Cấp FREE</span>
-                    </div>
-                    <div class="text-center py-1">
-                        <div class="text-emerald-400 font-bold text-lg">Miễn Phí</div>
-                        <div class="text-[10px] text-stone-400">Thời hạn: Vĩnh viễn</div>
-                    </div>
-                    <ul class="text-stone-200 space-y-1.5 text-[11px]">
-                        <li class="flex items-center gap-2 text-emerald-300 font-bold border-b border-stone-800/60 pb-1">
-                            <i class="fa-solid fa-shield-halved text-[10px]"></i>
-                            <span>Toàn bộ quyền hạn GUEST +</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <i class="fa-solid fa-robot text-amber-400 mt-0.5 text-[11px] shrink-0"></i>
-                            <span><strong>AI Tìm & Lưu:</strong> Tra cứu CSDL.</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <i class="fa-solid fa-graduation-cap text-amber-400 mt-0.5 text-[11px] shrink-0"></i>
-                            <span><strong>Khảo thí & Phối ngũ.</strong></span>
-                        </li>
-                        <li class="flex items-start gap-2 text-stone-500 line-through pt-1 border-t border-stone-800/60">
-                            <i class="fa-solid fa-xmark text-red-400 mt-0.5 text-[11px] shrink-0"></i>
-                            <span>Khóa Tứ Chẩn AI toàn diện.</span>
-                        </li>
-                        <li class="flex items-start gap-2 text-stone-500 line-through">
-                            <i class="fa-solid fa-xmark text-red-400 mt-0.5 text-[11px] shrink-0"></i>
-                            <span>Khóa AI Sinh Trắc Nghiệm.</span>
-                        </li>
-                        <li class="flex items-start gap-2 text-stone-500 line-through">
-                            <i class="fa-solid fa-xmark text-red-400 mt-0.5 text-[11px] shrink-0"></i>
-                            <span>Khóa Kê Đơn Xuất PDF / AI Hỏi Sách.</span>
-                        </li>
-                    </ul>
-                </div>
-                <div id="free-card-action-box" class="text-center bg-stone-950 p-2.5 rounded-xl border border-emerald-800/60 mt-3"></div>
-            </div>
+    <div class="space-y-3">
+        <div class="font-bold text-emerald-400 text-xs border-b border-stone-800 pb-2.5 flex items-center justify-between">
+            <span class="flex items-center gap-1.5 text-sm font-bold"><i class="fa-solid fa-user-check text-emerald-400"></i> Cấp FREE</span>
+        </div>
+        <div class="text-center py-1">
+            <div class="text-emerald-400 font-bold text-lg">Miễn Phí</div>
+            <div class="text-[10px] text-stone-400">Chỉ cần tạo tài khoản và đăng nhập</div>
+        </div>
+        <ul class="text-stone-200 space-y-1.5 text-[11px]">
+            <li class="flex items-center gap-2 text-emerald-300 font-bold border-b border-stone-800/60 pb-1">
+                <i class="fa-solid fa-shield-halved text-[10px] w-4 text-center"></i>
+                <span>Toàn bộ quyền hạn GUEST +</span>
+            </li>
+            <li class="flex items-start gap-2">
+                <i class="fa-solid fa-robot text-amber-400 mt-0.5 text-[11px] shrink-0 w-4 text-center"></i>
+                <span><strong>AI Tìm & Lưu:</strong> Tra cứu ngoài và lưu thêm vào CSDL.</span>
+            </li>
+            <li class="flex items-start gap-2">
+                <i class="fa-solid fa-graduation-cap text-amber-400 mt-0.5 text-[11px] shrink-0 w-4 text-center"></i>
+                <span><strong>Khảo thí & Phối ngũ:</strong> Trợ lý AI chuyên nghiệp hỗ trợ.</span>
+            </li>
+            <li class="flex items-start gap-2">
+                <i class="fa-solid fa-file-pdf text-amber-400 mt-0.5 text-[11px] shrink-0 w-4 text-center"></i>
+                <span><strong>Kê đơn và xuất PDF:</strong> Tham khảo đơn thuốc của thầy thuốc chuyên nghiệp.</span>
+            </li>
+            <li class="flex items-start gap-2 pt-1 border-t border-stone-800/60">
+                <i class="fa-solid fa-crown text-amber-400 mt-0.5 text-[11px] shrink-0 w-4 text-center"></i>
+                <span><strong>Nâng cấp linh hoạt:</strong> Được mở khóa lên cấp VIP và SVIP bất cứ lúc nào.</span>
+            </li>
+            <li class="flex items-start gap-2 text-stone-500 line-through pt-1 border-t border-stone-800/60">
+                <i class="fa-solid fa-xmark text-red-400 mt-0.5 text-[11px] shrink-0 w-4 text-center"></i>
+                <span>Khóa Tứ Chẩn AI toàn diện.</span>
+            </li>
+            <li class="flex items-start gap-2 text-stone-500 line-through">
+                <i class="fa-solid fa-xmark text-red-400 mt-0.5 text-[11px] shrink-0 w-4 text-center"></i>
+                <span>Khóa AI Sinh Trắc Nghiệm.</span>
+            </li>
+            <li class="flex items-start gap-2 text-stone-500 line-through">
+                <i class="fa-solid fa-xmark text-red-400 mt-0.5 text-[11px] shrink-0 w-4 text-center"></i>
+                <span>Khóa AI Hỏi Sách.</span>
+            </li>
+            <li class="flex items-start gap-2 text-stone-500 line-through">
+                <i class="fa-solid fa-xmark text-red-400 mt-0.5 text-[11px] shrink-0 w-4 text-center"></i>
+                <span>Khóa Chỉnh sửa đơn thuốc.</span>
+            </li>
+        </ul>
+    </div>
+    <div id="free-card-action-box" class="text-center bg-stone-950 p-2.5 rounded-xl border border-emerald-800/60 mt-3"></div>
+</div>
 
             <!-- 3. GÓI VIP TRẢI NGHIỆM (3 NGÀY) -->
             <div id="card-upgrade-vip3" class="bg-stone-900 p-4 rounded-2xl border border-amber-700/50 space-y-3 text-xs shadow-lg flex flex-col justify-between relative mb-4 sm:mb-0">
@@ -919,27 +927,32 @@
                         <div class="text-[10px] text-stone-400">Thời hạn: 30 ngày</div>
                     </div>
                     <ul class="text-stone-200 space-y-1.5 text-[11px]">
-                        <li class="flex items-center gap-2 text-amber-300 font-bold border-b border-stone-800/60 pb-1">
-                            <i class="fa-solid fa-shield-halved text-[10px]"></i>
-                            <span>Toàn bộ quyền FREE +</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <i class="fa-solid fa-brain text-amber-400 mt-0.5 text-[11px] shrink-0"></i>
-                            <span><strong>Tứ Chẩn AI:</strong> Phân tích hội chẩn.</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <i class="fa-solid fa-wand-magic-sparkles text-amber-400 mt-0.5 text-[11px] shrink-0"></i>
-                            <span><strong>AI Sinh Trắc Nghiệm:</strong> Lâm sàng.</span>
-                        </li>
-                        <li class="flex items-start gap-2">
-                            <i class="fa-solid fa-file-pdf text-amber-400 mt-0.5 text-[11px] shrink-0"></i>
-                            <span><strong>Kê Đơn & Xuất PDF.</strong></span>
-                        </li>
-                        <li class="flex items-center gap-2 font-bold text-emerald-400 pt-1 border-t border-stone-800/60">
-                            <i class="fa-solid fa-ban text-emerald-500 text-[10px]"></i>
-                            <span>Tắt 100% Quảng cáo.</span>
-                        </li>
-                    </ul>
+    <li class="flex items-center gap-2 text-amber-300 font-bold border-b border-stone-800/60 pb-1">
+        <i class="fa-solid fa-shield-halved text-[10px] w-4 text-center"></i>
+        <span>Toàn bộ quyền FREE +</span>
+    </li>
+    <li class="flex items-start gap-2">
+        <i class="fa-solid fa-brain text-amber-400 mt-0.5 text-[11px] shrink-0 w-4 text-center"></i>
+        <span><strong>Tứ Chẩn AI:</strong> Phân tích hội chẩn.</span>
+    </li>
+    <li class="flex items-start gap-2">
+        <i class="fa-solid fa-wand-magic-sparkles text-amber-400 mt-0.5 text-[11px] shrink-0 w-4 text-center"></i>
+        <span><strong>AI Sinh Trắc Nghiệm:</strong> Lâm sàng.</span>
+    </li>                        
+    <li class="flex items-start gap-2">
+        <i class="fa-solid fa-book-medical text-amber-400 mt-0.5 text-[11px] shrink-0 w-4 text-center"></i>
+        <span><strong>AI Hỏi Sách.</strong></span>
+    </li>
+    <li class="flex items-start gap-2">
+        <i class="fa-solid fa-file-pdf text-amber-400 mt-0.5 text-[11px] shrink-0 w-4 text-center"></i>
+        <span><strong>Chỉnh sửa đơn thuốc.</strong></span>
+    </li>
+    <li class="flex items-center gap-2 font-bold text-emerald-400 pt-1 border-t border-stone-800/60">
+        <i class="fa-solid fa-ban text-emerald-500 text-[10px] w-4 text-center"></i>
+        <span>Tắt 100% Quảng cáo.</span>
+    </li>
+</ul>
+
                 </div>
                 <div class="text-center space-y-2 bg-stone-950 p-3 rounded-xl border border-amber-500/30 mt-3">
                     <p class="text-[10px] text-stone-400">Quét mã VietQR (99.000đ):</p>
