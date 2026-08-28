@@ -917,7 +917,16 @@ function luuCaiDatDonThuoc(field, value) {
     localStorage.setItem(DON_THUOC_SETTINGS_KEY, JSON.stringify(currentSettings));
 }
 
-// Cập nhật hàm moModalDonThuoc để tự động nạp và ghi nhớ dữ liệu
+ function hienThiModalKhoaQuyen(title, desc) {
+    const titleEl = document.getElementById('lock-modal-title');
+    const descEl = document.getElementById('lock-modal-desc');
+    const modal = document.getElementById('modal-role-lock');
+    if (titleEl) titleEl.innerText = title;
+    if (descEl) descEl.innerText = desc;
+    if (modal) modal.classList.remove('hidden');
+}
+
+// 3. Cập nhật trong hàm moModalDonThuoc để hiển thị biểu tượng ổ khóa và trạng thái khóa cho ô tên phòng khám
 function moModalDonThuoc() {
     const modal = document.getElementById('modal-don-thuoc');
     if (!modal) {
@@ -925,19 +934,37 @@ function moModalDonThuoc() {
         return;
     }
 
-    // 1. Nạp dữ liệu cấu hình đã lưu (hoặc mặc định) vào các ô nhập
     const settings = loadDonThuocSettings();
+    const role = typeof getCurrentUserRole === 'function' ? getCurrentUserRole() : (window.currentUser?.role || 'GUEST');
+    const isVIPOrAbove = (role === 'VIP' || role === 'SVIP');
 
     const gánLuuGiaTri = (id, key) => {
         const el = document.getElementById(id);
         if (el) {
+            if (id === 'don-ten-phongkham') {
+                if (!isVIPOrAbove) {
+                    el.readOnly = true;
+                    el.value = "";
+                    el.placeholder = "🔒 Phòng chẩn trị y học cổ truyền đại luận trị";
+                    el.title = "Tính năng tùy chỉnh tên phòng khám yêu cầu cấp độ VIP trở lên";
+                    el.classList.add('cursor-not-allowed', 'opacity-80');
+                    el.onclick = () => {
+                        hienThiModalKhoaQuyen('Tùy Chỉnh Tên Phòng Khám', 'Tính năng thay đổi tên phòng khám yêu cầu tài khoản cấp độ VIP trở lên.');
+                    };
+                    el.onfocus = () => {
+                        el.blur();
+                        hienThiModalKhoaQuyen('Tùy Chỉnh Tên Phòng Khám', 'Tính năng thay đổi tên phòng khám yêu cầu tài khoản cấp độ VIP trở lên.');
+                    };
+                    return;
+                }
+            }
+
             if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA') {
                 el.value = settings[key] || '';
             } else {
                 el.innerText = settings[key] || '';
             }
-            
-            // Đăng ký sự kiện: Sửa lần nào lưu lại làm mặc định cho lần sau
+
             el.oninput = (e) => {
                 const val = (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') ? e.target.value : e.target.innerText;
                 luuCaiDatDonThuoc(key, val);
@@ -948,9 +975,32 @@ function moModalDonThuoc() {
     gánLuuGiaTri('don-ten-phongkham', 'tenPhongKham');
     gánLuuGiaTri('don-huongdan-sac', 'huongDanSac');
     gánLuuGiaTri('don-dando-kiengky', 'danDoKiengKy');
-    gánLuuGiaTri('don-ten-bacsi', 'tenBacSi');
+    gánLuuGiaTri('don-ten-bacsi', 'tenBacSi');   
 
-    // 2. Trích xuất thông tin bệnh nhân & chẩn đoán
+    const searchViInput = document.getElementById('search-don-vithuoc');
+    if (searchViInput) {
+        if (!isVIPOrAbove) {
+            searchViInput.readOnly = true;
+            searchViInput.placeholder = "🔒 Thêm vị thuốc từ CSDL";
+            searchViInput.classList.add('cursor-not-allowed', 'opacity-80');
+            searchViInput.onclick = () => {
+                hienThiModalKhoaQuyen('Thêm Vị Thuốc', 'Tính năng tìm kiếm và thêm vị thuốc từ cơ sở dữ liệu yêu cầu tài khoản cấp độ VIP trở lên.');
+            };
+            searchViInput.onfocus = () => {
+                searchViInput.blur();
+                hienThiModalKhoaQuyen('Thêm Vị Thuốc', 'Tính năng tìm kiếm và thêm vị thuốc từ cơ sở dữ liệu yêu cầu tài khoản cấp độ VIP trở lên.');
+            };
+            searchViInput.oninput = null;
+        } else {
+            searchViInput.readOnly = false;
+            searchViInput.placeholder = "🔍 Gõ tên vị thuốc từ CSDL để thêm vào đơn...";
+            searchViInput.classList.remove('cursor-not-allowed', 'opacity-80');
+            searchViInput.onclick = null;
+            searchViInput.onfocus = null;
+            searchViInput.oninput = gieoGoiYViThuocDon;
+        }
+    }
+
     const hcText = document.getElementById('hoi-chung')?.innerText || 'Chưa xác định';
     const pdtText = document.getElementById('phap-dieu-tri')?.innerText || 'Chưa xác định';
     const btText = document.getElementById('bai-thuoc')?.innerText || 'Đối chứng nghiệm phương';
@@ -961,7 +1011,6 @@ function moModalDonThuoc() {
     if (elChanDoan) elChanDoan.value = `${hcText} (Pháp trị: ${pdtText})`;
     if (elBaiThuoc) elBaiThuoc.value = btText;
 
-    // 3. Ngày tháng
     const elNgay = document.getElementById('don-ngay-thang');
     if (elNgay) {
         const d = new Date();
@@ -977,7 +1026,7 @@ function moModalDonThuoc() {
         rawHerbs = ['Nhân sâm', 'Bạch truật', 'Phục linh', 'Cam thảo'];
     }
 
-        window.donThuocCurrentHerbs = rawHerbs.map(item => {
+    window.donThuocCurrentHerbs = rawHerbs.map(item => {
         let ten = '', lieu = 12;
         if (typeof item === 'string') {
             const m = item.match(/^(.*?)\s+(\d+(?:\.\d+)?)\s*g$/i);
@@ -990,7 +1039,6 @@ function moModalDonThuoc() {
         }
         return { ten, lieu, lieuCustom: item.lieuCustom || null };
     });
-
 
     capNhatBangLieuLuongDonThuoc();
     modal.classList.remove('hidden');
@@ -1039,7 +1087,7 @@ function kiemTraTuongKyDonThuoc(danhSachVi) {
     return canhBao;
 }
 
-// 4. Cập nhật bảng tính liều & Tự động cảnh báo Phản Úy (no-print)
+// 4. Cập nhật trong hàm capNhatBangLieuLuongDonThuoc để hiển thị biểu tượng ổ khóa ở các ô liều kê khi chưa đạt cấp VIP
 function capNhatBangLieuLuongDonThuoc() {
     const tuoi = parseInt(document.getElementById('don-tuoi')?.value) || 35;
     const theTrang = document.getElementById('don-thetrang')?.value || 'binhthuong';
@@ -1050,35 +1098,46 @@ function capNhatBangLieuLuongDonThuoc() {
         window.donThuocCurrentHerbs = [];
     }
 
+    const role = typeof getCurrentUserRole === 'function' ? getCurrentUserRole() : (window.currentUser?.role || 'GUEST');
+    const isVIPOrAbove = (role === 'VIP' || role === 'SVIP');
+
     const listCalculated = tinhLieuDanhSachVi(window.donThuocCurrentHerbs, tuoi, theTrang);
     const safeEscape = typeof escapeHTML === 'function' ? escapeHTML : (s => s);
 
     container.innerHTML = listCalculated.map((v, idx) => `
-        <tr class="border-b border-stone-800 text-xs">
-            <td class="py-2 px-1 text-center text-stone-400 font-mono">${idx + 1}</td>
-            <td class="py-2 px-2 text-emerald-400 font-bold whitespace-normal break-words">
+        <tr class="border-b border-stone-800 text-xs print:border-stone-400">
+            <td class="py-2 px-1 text-center text-stone-400 font-mono print:text-black">${idx + 1}</td>
+            <td class="py-2 px-2 text-emerald-400 font-bold whitespace-normal break-words print:text-black">
                 ${safeEscape(v.ten)}
-                ${v.canhBao ? `<span class="text-red-400 font-normal block text-[10px]">${v.canhBao}</span>` : ''}
+                ${v.canhBao ? `<span class="text-red-400 font-normal block text-[10px] print:text-red-600">${v.canhBao}</span>` : ''}
             </td>
             <td class="py-2 px-1 text-stone-300 text-center no-print">${v.lieuGoc}g</td>
-            <td class="py-1 px-1 text-center bg-amber-950/20">
+            <td class="py-1 px-1 text-center bg-amber-950/25 print:bg-transparent">
+                <!-- Vùng bọc Input & Chữ g (Căn giữa khi hiển thị web) -->
                 <div class="flex items-center justify-center gap-0.5">
-                    <input type="number" min="1" max="500" value="${v.lieuTinh}" 
-                        onchange="suaLieuKeViThuoc(${idx}, this.value)" 
-                        oninput="suaLieuKeViThuoc(${idx}, this.value)" 
-                        class="w-12 p-0.5 text-center bg-stone-900 text-amber-400 font-bold border border-amber-600/60 rounded outline-none focus:border-amber-400 text-xs">
-                    <span class="text-amber-500 font-medium text-[11px]">g</span>
+                    
+                    <!-- 1. Ô Input: Chỉnh sửa mượt mà trên app - SẼ BỊ ẨN KHI IN (print:hidden) -->
+                    <input type="${isVIPOrAbove ? 'number' : 'text'}" ${isVIPOrAbove ? 'min="1" max="500"' : ''} value="${isVIPOrAbove ? v.lieuTinh : '🔒 ' + v.lieuTinh}" 
+                        ${!isVIPOrAbove ? `readonly onclick="hienThiModalKhoaQuyen('Tùy Chỉnh Liều Lượng', 'Tính năng chỉnh sửa liều lượng vị thuốc yêu cầu cấp độ VIP trở lên.')" onfocus="this.blur(); hienThiModalKhoaQuyen('Tùy Chỉnh Liều Lượng', 'Tính năng chỉnh sửa liều lượng vị thuốc yêu cầu cấp độ VIP trở lên.');"` : ''}
+                        onchange="${isVIPOrAbove ? `suaLieuKeViThuoc(${idx}, this.value)` : ''}" 
+                        oninput="${isVIPOrAbove ? `this.nextElementSibling.innerText = this.value; suaLieuKeViThuoc(${idx}, this.value)` : ''}" 
+                        class="w-16 p-0.5 text-center bg-stone-900 text-amber-400 font-bold border border-amber-600/60 rounded outline-none text-xs print:hidden ${!isVIPOrAbove ? 'cursor-not-allowed opacity-80' : 'focus:border-amber-400'}">
+                    
+                    <!-- 2. Văn bản Text: Cập nhật trực tiếp số liệu từ Input - CHỈ HIỆN KHI IN (hidden print:inline-block) -->
+                    <span class="hidden print:inline-block font-bold text-black text-right">${isVIPOrAbove ? v.lieuTinh : '🔒 ' + v.lieuTinh}</span>
+                    
+                    <!-- 3. Đơn vị g -->
+                    <span class="text-amber-500 font-medium text-[11px] print:text-black">g</span>
                 </div>
             </td>
             <td class="py-2 px-1 text-center no-print">
-                <button onclick="xoaViThuocDon(${idx})" class="text-red-400 hover:text-red-300 p-0.5 rounded" title="Xóa vị thuốc">
+                <button onclick="${isVIPOrAbove ? `xoaViThuocDon(${idx})` : `hienThiModalKhoaQuyen('Xóa Vị Thuốc', 'Tính năng xóa vị thuốc trong đơn yêu cầu cấp độ VIP trở lên.')`}" class="text-red-400 hover:text-red-300 p-0.5 rounded ${!isVIPOrAbove ? 'opacity-60 cursor-not-allowed' : ''}" title="${isVIPOrAbove ? 'Xóa vị thuốc' : 'Yêu cầu cấp VIP để xóa vị thuốc'}">
                     <i class="fa-solid fa-trash-can text-xs"></i>
                 </button>
             </td>
         </tr>
     `).join('');
 
-    // Hiển thị khung cảnh báo Phản Úy (Thêm class no-print để không xuất PDF)
     let warningBox = document.getElementById('don-tuongky-warning');
     if (!warningBox) {
         warningBox = document.createElement('div');
@@ -1106,7 +1165,6 @@ function capNhatBangLieuLuongDonThuoc() {
         warningBox.innerHTML = '';
     }
 }
-
 
 // 5. Hàm ghi nhận giá trị liều kê do thầy thuốc tự nhập
 function suaLieuKeViThuoc(index, val) {
