@@ -461,12 +461,13 @@ async function handleUserRegister(e) {
         const result = await res.json();
         if (!res.ok) throw new Error(result.message || 'Đăng ký thất bại');
 
-        alert('🎉 Đăng ký thành công! Vui lòng kiểm tra hộp thư email (cả mục Spam/Thư rác) để xác thực tài khoản.');
+        alert('🎉 Đăng ký thành công! Bạn có thể đăng nhập ngay bây giờ.');
         toggleAuthMode('login');
     } catch (err) {
         alert('Lỗi đăng ký: ' + err.message);
     }
 }
+
 
 async function handleUserLogout() {
     if (confirm("Bạn có chắc chắn muốn đăng xuất không?")) {
