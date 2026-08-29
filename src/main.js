@@ -1,9 +1,8 @@
-// ==========================================================================
-// MAIN.JS - KHỞI CHẠY ỨNG DỤNG, ĐIỀU HƯỚNG TAB & SỰ KIỆN VUỐT MOBILE
-// ==========================================================================
+// --- KHỞI CHẠY ỨNG DỤNG & ĐIỀU HƯỚNG TAB ---
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
+        // Bỏ qua việc tự động khôi phục / lọc nặng khi vừa mở app để giảm tải cho CPU
         capNhatThongKeHeader();
         if (typeof capNhatTongSoTrieuChung === 'function') capNhatTongSoTrieuChung();
         if (typeof capNhatTongSoTracNghiem === 'function') capNhatTongSoTracNghiem();
@@ -11,6 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (typeof updateLuanTri === 'function') updateLuanTri();
 
+        // Cho phép đồng bộ Drive chạy sau cùng bằng setTimeout để không nghẽn luồng chính
         setTimeout(() => {
             if (typeof taiDanhSachSachTuDrive === 'function') taiDanhSachSachTuDrive();
             if (typeof initUserAuthSession === 'function') initUserAuthSession();
@@ -162,7 +162,8 @@ async function taiDuLieuOffline() {
     }
 }
 
-// BỘ XỬ LÝ VUỐT CHUYỂN TAB MOBILE
+// --- BỘ XỬ LÝ VUỐT CHUYỂN TAB TỐI ƯU HÓA MOBILE ---
+
 let touchStartX = 0;
 let touchStartY = 0;
 let touchStartTime = 0;
@@ -186,7 +187,7 @@ function shouldIgnoreSwipe(target) {
         return true;
     }
 
-    if (target.closest('#sach-chat-box, #ai-chat-box, #vong-chan-history-list, #quiz-review-list, #chat-messages')) {
+    if (target.closest('#sach-chat-box, #ai-chat-box, #vong-chan-history-list, #quiz-review-list')) {
         return true;
     }
 
@@ -251,7 +252,8 @@ function handleSwipeDirection(direction) {
     switchTab(targetTabName);
 }
 
-// BỘ KHÔI PHỤC TRẠNG THÁI & NÚT BACK
+// --- BỘ KHÔI PHỤC TRẠNG THÁI & XỬ LÝ NÚT BACK ---
+
 function khoiPhucTrangThaiTruocDo() {
     const rawState = sessionStorage.getItem('last_catalog_state') || localStorage.getItem('last_catalog_state');
     if (!rawState) return;
@@ -283,9 +285,32 @@ function khoiPhucTrangThaiTruocDo() {
     }
 }
 
+// Khôi phục khi mở lại app từ trình duyệt
 window.addEventListener('pageshow', khoiPhucTrangThaiTruocDo);
 
+// Xử lý nút Back của trình duyệt / thiết bị di động
 window.addEventListener('popstate', (e) => {
+    // 1. Kiểm tra và đóng các modal đang mở trước
+    const openModals = [
+        'modal-don-thuoc',
+        'modal-tuan-nay-an-gi',
+        'modal-thong-tin-yhct',
+        'modal-role-lock'
+    ];
+    
+    let closedAnyModal = false;
+    for (const modalId of openModals) {
+        const modalEl = document.getElementById(modalId);
+        if (modalEl && !modalEl.classList.contains('hidden')) {
+            modalEl.classList.add('hidden');
+            closedAnyModal = true;
+        }
+    }
+
+    // Nếu có modal đang mở và vừa được đóng, dừng việc chuyển tab
+    if (closedAnyModal) return;
+
+    // 2. Logic xử lý chuyển tab cũ khi không có modal nào mở
     const activeBtn = document.querySelector('nav button.tab-active');
     const currentTabId = activeBtn ? activeBtn.id.replace('btnTab', '').toLowerCase() : '';
 
