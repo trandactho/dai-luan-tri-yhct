@@ -69,7 +69,7 @@ exports.handler = async function(event) {
             text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt 
         });
 
-        const timeoutMs = (source === 'vongchan' || source === 'assistant'|| source === 'thucdon'|| source === 'quiz') ? 25000 : 15000;
+        const timeoutMs = (source === 'vongchan' || source === 'assistant'|| source === 'thucdon'|| source === 'quiz') ? 35000 : 15000;
 
         for (const apiKey of keysToTry) {
             for (const model of models) {
