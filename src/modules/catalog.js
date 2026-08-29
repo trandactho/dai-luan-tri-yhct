@@ -377,6 +377,8 @@ function executeRenderHuyetVi(filteredData) {
         const theme = getKinhTheme(h.kinh);
         let card = document.createElement('div'); 
         card.className = `bg-dark-box p-3.5 rounded-lg relative cursor-pointer ${theme.border} shadow-md shadow-black/40 hover:border-amber-500/50 transition-colors grid grid-cols-12 gap-3.5 items-center`;
+        
+        // 🟢 Áp dụng lớp làm mờ blur cho cả phần chữ (đã có từ trước) VÀ khung ảnh khi bật chế độ ôn tập huyệt vị
         const blurHV = AppState.isQuizHV ? 'blur-md transition-all duration-300 select-none' : '';
         
         const safeMaWho = h.ma_who ? String(h.ma_who).trim().replace(/[^a-zA-Z0-9]/g, '').toUpperCase() : '';
@@ -389,7 +391,7 @@ function executeRenderHuyetVi(filteredData) {
             ${kinhBadgeHtml}
             
             <div class="col-span-7 flex flex-col gap-2 min-w-0">
-                <!-- Thêm z-10 để tiêu đề & mã WHO nổi lên trên khung ảnh khi bị tràn -->
+                <!-- Tiêu đề & mã WHO -->
                 <div class="flex items-center gap-1.5 min-w-0 pr-2 relative z-10">
                     <span class="font-bold ${theme.text} text-base cursor-pointer hover:underline card-title-el shrink-0">
                         <i class="fa-solid fa-circle-dot text-[11px]"></i> Huyệt ${highlightText(h.ten || '', txtRaw)}
@@ -409,8 +411,8 @@ function executeRenderHuyetVi(filteredData) {
                 </div>
             </div>
 
-            <!-- KHUNG ẢNH CHỮ NHẬT ĐỨNG CĂN GIỮA DỌC (SELF-CENTER) -->
-            <div class="col-span-5 w-full aspect-[3/4] mt-3.5 self-center bg-stone-950 border border-stone-800 rounded-lg relative group cursor-pointer overflow-hidden img-box-el flex flex-col items-center justify-center shadow-inner z-0" title="Bấm để xem ảnh lớn">
+            <!-- KHUNG ẢNH ĐƯỢC TÍCH HỢP BIẾN CHE ${blurHV} -->
+            <div class="col-span-5 w-full aspect-[3/4] mt-3.5 self-center bg-stone-950 border border-stone-800 rounded-lg relative group cursor-pointer overflow-hidden img-box-el flex flex-col items-center justify-center shadow-inner z-0 ${blurHV}" title="Bấm để xem ảnh lớn">
                 <div class="absolute inset-0 flex flex-col items-center justify-center bg-stone-900/50 text-center p-1 z-0">
                     <i class="fa-solid fa-image text-stone-700 text-2xl mb-1"></i>
                     <span class="text-[9px] text-stone-500 font-bold leading-tight tracking-wider">${safeMaWho || 'NO IMG'}</span>
@@ -427,11 +429,12 @@ function executeRenderHuyetVi(filteredData) {
             const isTitle = e.target.closest('.card-title-el');
             const isChuTri = e.target.closest('.chu-tri-el');
             const isImgBox = e.target.closest('.img-box-el');
-            const blurEl = card.querySelector('.blur-target');
-            const isBlurred = blurEl && blurEl.classList.contains('blur-md');
+            const blurTargets = card.querySelectorAll('.blur-target, .img-box-el');
+            const isBlurred = blurTargets[0] && blurTargets[0].classList.contains('blur-md');
 
+            // Khi đang bật chế độ ôn tập và nội dung đang bị che, bấm vào thẻ sẽ mở khóa hiển thị (cả chữ và ảnh)
             if (AppState.isQuizHV && isBlurred) {
-                if (blurEl) blurEl.classList.remove('blur-md', 'select-none');
+                blurTargets.forEach(el => el.classList.remove('blur-md', 'select-none'));
                 return;
             }
             if (isChuTri) {
@@ -440,11 +443,11 @@ function executeRenderHuyetVi(filteredData) {
                 return;
             }
             if (isImgBox && imgPath && !e.target.closest('a')) {
-    e.stopPropagation();
-    saveCurrentTabState(); // THÊM DÒNG NÀY
-    window.open(imgPath, '_blank', 'noopener,noreferrer');
-    return;
-}
+                e.stopPropagation();
+                saveCurrentTabState();
+                window.open(imgPath, '_blank', 'noopener,noreferrer');
+                return;
+            }
 
             if (isTitle) {
                 kichHoatTimAnh('Huyệt ' + (h.ten || ''));
