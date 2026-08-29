@@ -1354,19 +1354,15 @@
             <button type="button" onclick="inDonThuoc()" class="w-full px-1.5 py-2 bg-amber-600 hover:bg-amber-500 text-white text-[11px] font-bold rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer shadow-md whitespace-nowrap">
                 <i class="fa-solid fa-print text-[10px]"></i> In / PDF
             </button>
-            
             <button type="button" onclick="xuatDuLieuHoSo()" class="w-full px-1.5 py-2 bg-stone-800 hover:bg-stone-700 text-emerald-400 border border-stone-700 text-[11px] font-bold rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer shadow-md whitespace-nowrap">
                 <i class="fa-solid fa-download text-[10px]"></i> Sao lưu
-            </button>
+            </button>                        
             
-            <button type="button" onclick="chiaSeZaloDonThuoc()" class="w-full px-1.5 py-2 bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer shadow-md whitespace-nowrap">
-                <i class="fa-solid fa-share-nodes text-[10px]"></i> Gửi Zalo
-            </button>
-            
-            <label class="w-full px-1.5 py-2 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 text-[11px] font-bold rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer shadow-md whitespace-nowrap col-span-2 sm:col-span-1">
+            <label class="w-full px-1.5 py-2 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 text-[11px] font-bold rounded-xl transition-all flex items-center justify-center gap-1 cursor-pointer shadow-md whitespace-nowrap">
                 <i class="fa-solid fa-upload text-[10px]"></i> Phục hồi
                 <input type="file" id="import-file-input" accept=".json" onchange="nhapDuLieuHoSo(event)" class="hidden">
             </label>
+
         </div>
     </div>
 </div>
@@ -1392,7 +1388,7 @@
                 </button>
             </div>
         </div>
-    </div>class=""
+    </div>
     <!-- MODAL RIÊNG CHO TÍNH NĂNG "TUẦN NAY ĂN GÌ" -->
 <div id="modal-tuan-nay-an-gi" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-2.5">
     <div class="bg-stone-900 border border-amber-600/50 rounded-xl max-w-2xl w-full p-3.5 space-y-3 shadow-2xl max-h-[90vh] overflow-y-auto text-[11px]">
@@ -1448,10 +1444,7 @@
             <div class="flex items-center gap-1.5">
                 <button onclick="saoChepThucDonTuan()" class="px-2.5 py-1.5 bg-stone-800 hover:bg-stone-700 text-amber-400 text-[11px] font-bold rounded-lg transition-all flex items-center gap-1 cursor-pointer">
                     <i class="fa-solid fa-copy"></i> Sao chép
-                </button>
-                <button onclick="chiaSeZaloThucDonTuan()" class="px-2.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold rounded-lg transition-all flex items-center gap-1 cursor-pointer">
-                    <i class="fa-solid fa-share-nodes"></i> Zalo
-                </button>
+                </button>             
             </div>
             <button onclick="dongModalTuanNayAnGi()" class="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-300 text-[11px] font-bold rounded-lg transition-all cursor-pointer">
                 Đóng
