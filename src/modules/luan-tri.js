@@ -1042,6 +1042,7 @@ function moModalDonThuoc() {
 
     capNhatBangLieuLuongDonThuoc();
     modal.classList.remove('hidden');
+    history.pushState({ modal: 'don-thuoc' }, '', window.location.href); // 🟢 Thêm dòng này để ghi nhận lịch sử mở modal
 }
 
 // 3.1. Thuật toán kiểm tra Tương Kỵ / Phản Úy YHCT

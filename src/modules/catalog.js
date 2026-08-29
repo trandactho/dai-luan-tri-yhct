@@ -743,7 +743,10 @@ function saveCurrentTabState() {
 // Khôi phục hàm về trạng thái chuẩn, không tự kiểm tra riêng lẻ gây xung đột
 function moModalTuanNayAnGi() {
     const modal = document.getElementById('modal-tuan-nay-an-gi');
-    if (modal) modal.classList.remove('hidden');
+    if (modal) {
+        modal.classList.remove('hidden');
+        history.pushState({ modal: 'tuan-nay-an-gi' }, '', window.location.href); // 🟢 Thêm dòng này
+    }
 }
 window.moModalTuanNayAnGi = moModalTuanNayAnGi;
 
