@@ -6,6 +6,13 @@
     <title>Liên Hệ & Tài Trợ - Đại Luận Trị & Tra Cứu YHCT</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="canonical" href="https://dailuantriyhct.com/contact.html">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dailuantriyhct.com/contact.html">
+<meta property="og:title" content="Liên Hệ & Tài Trợ - Đại Luận Trị & Tra Cứu YHCT">
+<meta property="og:description" content="Thông tin liên hệ, tài trợ duy trì máy chủ và gửi góp ý, báo lỗi dữ liệu cho Đại Luận Trị YHCT.">
+<meta property="og:image" content="https://dailuantriyhct.com/icon.png">
+
     <style>
         body { background-color: #0a0908; color: #e0d8cf; font-family: system-ui, -apple-system, sans-serif; }
         .bg-dark-box { background-color: #1a1614; border: 1px solid #332a22; }
@@ -121,24 +128,36 @@
 
     <script>
         const form = document.getElementById('contact-form');
-        if (form) {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                const formData = new FormData(form);
-                fetch('/', {
-                    method: 'POST',
-                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-                    body: new URLSearchParams(formData).toString()
-                })
-                .then(() => {
-                    alert('Cảm ơn bạn! Ý kiến đóng góp của bạn đã được gửi thành công.');
-                    form.reset();
-                })
-                .catch(() => {
-                    alert('Có lỗi xảy ra, vui lòng thử lại sau.');
-                });
-            });
-        }
+if (form) {
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalContent = submitBtn.innerHTML;
+        
+        // Khóa nút và đổi trạng thái
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Đang gửi...';
+
+        const formData = new FormData(form);
+        fetch('/', {
+            method: 'POST',
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: new URLSearchParams(formData).toString()
+        })
+        .then(() => {
+            alert('Cảm ơn bạn! Ý kiến đóng góp của bạn đã được gửi thành công.');
+            form.reset();
+        })
+        .catch(() => {
+            alert('Có lỗi xảy ra, vui lòng thử lại sau.');
+        })
+        .finally(() => {
+            // Mở khóa lại nút bấm
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = originalContent;
+        });
+    });
+}
     </script>
 </body>
 </html>
