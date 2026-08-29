@@ -77,7 +77,7 @@
         
     <header class="relative bg-dark-box p-2 text-center border-b border-stone-800 space-y-0.5">        
         <h1 class="text-sm font-bold text-primary flex items-center justify-center gap-1">
-            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.7.8)
+            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.7.9)
         </h1>
         <div class="text-[10px] text-stone-400 space-x-2">
             <span>Biện chứng (<span id="total-chung" class="text-amber-500 font-bold">0</span>)</span> · 
@@ -324,17 +324,19 @@
                 <div class="relative w-full">
                     <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-stone-500 pointer-events-none"></i>
                     <input type="search" id="searchDuocThien" class="w-full pl-9 py-2 px-3 rounded bg-stone-900 border border-stone-700 text-stone-200 outline-none focus:border-amber-500 text-xs" placeholder="Tìm món ăn bài thuốc..." oninput="filterDuocThien()" onkeydown="if(event.key==='Enter') filterDuocThien(true)">
-                </div>
-                
+                </div>                               
                 <div id="duocthien-action-bar" class="grid grid-cols-3 gap-1.5 pt-1">
-    <button type="button" onclick="triggerAiSearch('duocthien')" data-min-role="FREE" data-feature-name="AI Tra Cứu Dược Thiện" class="w-full px-1 py-1.5 bg-stone-900 hover:bg-stone-800 text-amber-400 border border-stone-800 font-bold rounded text-[11px] flex items-center justify-center gap-1 transition-all shadow-sm whitespace-nowrap">
-    <i class="fa-solid fa-robot text-[10px]"></i> AI Tìm & lưu
+                   <button type="button" onclick="triggerAiSearch('duocthien')" data-min-role="FREE" data-feature-name="AI Tra Cứu Dược Thiện" class="w-full px-1 py-1.5 bg-stone-900 hover:bg-stone-800 text-amber-400 border border-stone-800 font-bold rounded text-[11px] flex items-center justify-center gap-1 transition-all shadow-sm whitespace-nowrap">
+        <i class="fa-solid fa-robot text-[10px]"></i> AI Tìm & lưu
+    </button>
+                <div></div>
+    <button type="button" onclick="moModalTuanNayAnGi()" data-min-role="VIP" data-feature-name="Tuần Nay Ăn Gì" class="w-full px-1 py-1.5 bg-stone-900 hover:bg-stone-800 text-amber-400 border border-stone-800 font-bold rounded text-[11px] flex items-center justify-center gap-1 transition-all shadow-sm whitespace-nowrap">
+    <i class="fa-solid fa-calendar-days text-[10px]"></i> Tuần này ăn gì
 </button>
-
-                    <div></div><div></div>
-                </div>
+</div>               
+                </div>                
                 <select id="filterNhomDuocThien" onchange="filterDuocThien()" class="w-full p-3 rounded bg-stone-900 text-stone-200 border border-stone-700 outline-none focus:border-amber-500 text-sm font-medium"></select>
-            </div>
+            </div>           
             <div id="gridDuocThien" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
         </section>
 
@@ -1390,7 +1392,73 @@
                 </button>
             </div>
         </div>
+    </div>class=""
+    <!-- MODAL RIÊNG CHO TÍNH NĂNG "TUẦN NAY ĂN GÌ" -->
+<div id="modal-tuan-nay-an-gi" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-2.5">
+    <div class="bg-stone-900 border border-amber-600/50 rounded-xl max-w-2xl w-full p-3.5 space-y-3 shadow-2xl max-h-[90vh] overflow-y-auto text-[11px]">
+        <div class="flex items-center justify-between border-b border-stone-800 pb-2">
+            <h3 class="font-bold text-xs sm:text-sm text-amber-400 flex items-center gap-1.5">
+                <i class="fa-solid fa-calendar-days text-amber-500"></i> Thực Đơn "Tuần Nay Ăn Gì"
+            </h3>
+            <button onclick="dongModalTuanNayAnGi()" class="w-7 h-7 rounded-full bg-stone-800 text-stone-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer text-xs">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        
+        <div class="space-y-2.5">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <div>
+                    <label class="block text-stone-400 font-bold mb-0.5 text-[10px]">Chế độ ăn:</label>
+                    <select id="tna-che-do" class="w-full p-1.5 rounded bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500 text-[11px]">
+                        <option value="bth">Cân bằng dinh dưỡng</option>
+                        <option value="an-kieng">Ăn kiêng giữ cân</option>
+                        <option value="an-chay">Ăn chay thuần</option>
+                        <option value="boi-duong-sau-om">Bồi dưỡng sau ốm</option>
+                        <option value="dang-om">Thanh nhiệt giải cảm</option>
+                        <option value="giam-duong">Hỗ trợ tiểu đường/tim mạch</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-stone-400 font-bold mb-0.5 text-[10px]">Vùng miền:</label>
+                    <select id="tna-vung-mien" class="w-full p-1.5 rounded bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500 text-[11px]">
+                        <option value="mien-nui-cao">Miền núi cao (Thịt rừng, rau củ)</option>
+                        <option value="dong-bang">Đồng bằng (Đa dạng thực phẩm)</option>
+                        <option value="mien-bien">Vùng biển (Ưu tiên hải sản)</option>
+                        <option value="tay-nguyen">Cao nguyên / Tây Nguyên</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-stone-400 font-bold mb-0.5 text-[10px]">Yêu cầu phụ:</label>
+                    <input type="text" id="tna-yeu-cau-phu" placeholder="Ví dụ: Giảm mỡ, thanh nhiệt, ưu tiên món hấp..." class="w-full p-1.5 rounded bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500 text-[11px]">
+                </div>
+            </div>
+
+            <button type="button" onclick="chayAIthucDonTuanModal()" data-min-role="FREE" data-feature-name="AI Gợi Ý Thực Đơn Tuần" class="w-full py-2.5 bg-amber-600 hover:bg-amber-500 text-white font-bold text-[11px] rounded-lg transition-all shadow-md flex items-center justify-center gap-1.5 cursor-pointer">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> Lập Thực Đơn Cùng AI
+            </button>
+        </div>
+
+        <div id="tna-result-area" class="space-y-2.5 pt-2.5 border-t border-stone-800 text-[11px]">
+            <div class="text-stone-500 text-center py-4 italic">Chưa có thực đơn nào được tạo. Vui lòng chọn tùy chọn và bấm lập thực đơn.</div>
+        </div>
+
+        <!-- PHẦN CHÂN MODAL ĐÃ BỔ SUNG NÚT SAO CHÉP & ZALO -->
+        <div class="pt-2 border-t border-stone-800 flex items-center justify-between gap-2">
+            <div class="flex items-center gap-1.5">
+                <button onclick="saoChepThucDonTuan()" class="px-2.5 py-1.5 bg-stone-800 hover:bg-stone-700 text-amber-400 text-[11px] font-bold rounded-lg transition-all flex items-center gap-1 cursor-pointer">
+                    <i class="fa-solid fa-copy"></i> Sao chép
+                </button>
+                <button onclick="chiaSeZaloThucDonTuan()" class="px-2.5 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-bold rounded-lg transition-all flex items-center gap-1 cursor-pointer">
+                    <i class="fa-solid fa-share-nodes"></i> Zalo
+                </button>
+            </div>
+            <button onclick="dongModalTuanNayAnGi()" class="px-3 py-1.5 bg-stone-800 hover:bg-stone-700 text-stone-300 text-[11px] font-bold rounded-lg transition-all cursor-pointer">
+                Đóng
+            </button>
+        </div>
     </div>
+</div>
+
 
     <!-- 0. CƠ SỞ DỮ LIỆU -->
     <script src="luantridata.js" defer></script>
