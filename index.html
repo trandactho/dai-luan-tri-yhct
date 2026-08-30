@@ -607,22 +607,23 @@
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    <div class="bg-stone-900/80 p-3.5 rounded-lg border border-stone-800 space-y-2">
-                        <div class="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
-                            <i class="fa-solid fa-ear-listen"></i> 2. Văn Chẩn (Lắng nghe & Mùi)
-                        </div>
-                        <!-- Giữ nguyên ID chuẩn van-chan-note cho Văn Chẩn -->
-                        <textarea id="van-chan-note" rows="2" placeholder="Mô tả tiếng ho, tiếng nói (nhỏ/to), hơi thở, mùi cơ thể..." class="w-full p-2 rounded text-xs bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500"></textarea>
-                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+    <!-- 2. Văn Chẩn -->
+    <div class="bg-stone-900/80 p-3.5 rounded-lg border border-stone-800 space-y-2">
+        <div class="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
+            <i class="fa-solid fa-ear-listen"></i> 2. Văn Chẩn (Lắng nghe & Mùi)
+        </div>
+        <textarea id="van-nghe-note" rows="2" placeholder="Mô tả tiếng ho, tiếng nói (nhỏ/to), hơi thở, mùi cơ thể..." class="w-full p-2 rounded text-xs bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500"></textarea>
+    </div>
 
-                    <div class="bg-stone-900/80 p-3.5 rounded-lg border border-stone-800 space-y-2">
-                        <div class="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
-                            <i class="fa-solid fa-comments"></i> 3. Vấn Chẩn (Hỏi bệnh)
-                        </div>
-                        <!-- Đã đổi ID từ vong-chan-note thành van-chuan-note để tránh nhầm lẫn Vọng/Vấn/Văn chẩn -->
-                        <textarea id="van-chuan-note" rows="2" placeholder="Hàn nhiệt, mồ hôi, ăn uống, giấc ngủ, đại tiểu tiện, đau nhức..." class="w-full p-2 rounded text-xs bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500"></textarea>
-                    </div>
-                </div>
+    <!-- 3. Vấn Chẩn -->
+    <div class="bg-stone-900/80 p-3.5 rounded-lg border border-stone-800 space-y-2">
+        <div class="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
+            <i class="fa-solid fa-comments"></i> 3. Vấn Chẩn (Hỏi bệnh)
+        </div>
+        <textarea id="van-hoi-note" rows="2" placeholder="Hàn nhiệt, mồ hôi, ăn uống, giấc ngủ, đại tiểu tiện, đau nhức..." class="w-full p-2 rounded text-xs bg-stone-950 text-stone-200 border border-stone-800 outline-none focus:border-amber-500"></textarea>
+    </div>
+</div>
 
                 <div class="bg-stone-900/80 p-3.5 rounded-lg border border-stone-800 space-y-2">
                     <div class="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
@@ -1341,7 +1342,7 @@
                 <div class="font-bold text-amber-400 uppercase">Y Bác sĩ / Thầy thuốc kê đơn</div>
                 <div class="h-10 flex items-center justify-center italic text-stone-500 text-[11px]"></div>
                 <!-- Tên Bác sĩ (Không khung) -->
-                <input type="text" id="don-ten-bacsi" placeholder="BS. Trần Đắc Thọ" class="w-full text-center font-bold text-stone-200 bg-transparent border-none outline-none focus:ring-0 p-0 m-0">
+                <input type="text" id="don-ten-bacsi" placeholder="BS. Trần Thị Đoan Trang" class="w-full text-center font-bold text-stone-200 bg-transparent border-none outline-none focus:ring-0 p-0 m-0">
             </div>
         </div>
         
