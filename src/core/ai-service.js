@@ -2,6 +2,35 @@
 // AI-SERVICE.JS - TỔNG HỢP TOÀN BỘ XỬ LÝ DỊCH VỤ AI, TRA CỨU & HỘI CHẨN
 // ==========================================================================
 
+// Hàm điều tiết source, max_tokens và kiểm tra quyền theo cấp độ tài khoản
+function getAiParams(source, maxTokens = 250) {
+    const role = (typeof getCurrentUserRole === 'function' ? getCurrentUserRole() : 'GUEST').toUpperCase();
+    
+    // Danh sách tính năng giới hạn cho VIP & SVIP
+    const vipOnlySources = ['vongchan', 'sach_ai', 'thucdon', 'quiz'];
+    const isAllowed = !(vipOnlySources.includes(source) && (role === 'GUEST' || role === 'FREE'));
+    
+    if (!isAllowed) {
+        console.warn(`[AI Access Denied] Tài khoản ${role} bị giới hạn tính năng ${source}`);
+    }
+
+    let finalSource = source;
+    if (role === 'VIP' || role === 'SVIP') {
+        // finalSource = 'assistant';
+    }
+
+    let multiplier = 1;
+    if (role === 'VIP') multiplier = 1.2;
+    else if (role === 'SVIP') multiplier = 1.5;
+
+    return {
+        allowed: isAllowed,
+        source: finalSource,
+        max_tokens: Math.round(maxTokens * multiplier),
+        role: role
+    };
+}
+
 function decodeHtmlEntities(str) {
     if (!str) return '';
     return String(str)
@@ -198,7 +227,7 @@ async function sendAIWebMessage() {
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: fullPrompt, source: 'search', max_tokens: 200 })
+            body: JSON.stringify({ prompt: fullPrompt, ...getAiParams('search', 200) })
         });
         const data = await res.json();
 
@@ -322,7 +351,7 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: prompt, source: 'backup', max_tokens: 250 })
+            body: JSON.stringify({ prompt: prompt, ...getAiParams('backup', 250) })
         });
         const data = await res.json();
     
@@ -500,7 +529,10 @@ async function chayLenhAi(btnElement, loaiLenh) {
                     const res = await fetch(getApiEndpoint(), {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ prompt: `Phân tích cực kỳ ngắn gọn, súc tích hội chứng YHCT: ${query}. Tối đa 3 ý chính.`, source: 'search', max_tokens: 200 })
+                        body: JSON.stringify({ 
+                            prompt: `Phân tích cực kỳ ngắn gọn, súc tích hội chứng YHCT: ${query}. Tối đa 3 ý chính.`, 
+                            ...getAiParams('search', 200) 
+                        })
                     });
                     const data = await res.json();
                     descEl.innerHTML = formatAIMessage(data.reply || 'Không có phản hồi.');
@@ -516,7 +548,10 @@ async function chayLenhAi(btnElement, loaiLenh) {
                     const res = await fetch(getApiEndpoint(), {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ prompt: `Phân tích cực kỳ ngắn gọn, súc tích bài thuốc cổ phương: ${query}. Tối đa 3 ý chính.`, source: 'search', max_tokens: 200 })
+                        body: JSON.stringify({ 
+                            prompt: `Phân tích cực kỳ ngắn gọn, súc tích bài thuốc cổ phương: ${query}. Tối đa 3 ý chính.`, 
+                            ...getAiParams('search', 200) 
+                        })
                     });
                     const data = await res.json();
                     descEl.innerHTML = formatAIMessage(data.reply || 'Không có phản hồi.');
@@ -565,11 +600,19 @@ function triggerAiSearch(tab) {
 
 // 1. Từ catalog.js (Thực đơn tuần AI)
 async function chayAIthucDonTuanModal() {
+    const params = getAiParams('thucdon', 1200);
+    const resultArea = document.getElementById('tna-result-area');
+    if (!resultArea) return;
+
+    // Chặn quyền ngay tại Client nếu không phải VIP/SVIP
+    if (!params.allowed) {
+        resultArea.innerHTML = `<div class="bg-amber-950/40 p-4 rounded-xl border border-amber-800 text-amber-300 text-xs text-center"><i class="fa-solid fa-lock mr-1.5"></i> Tính năng Tạo Thực Đơn Tuần yêu cầu tài khoản từ cấp <strong>VIP</strong> trở lên.</div>`;
+        return;
+    }
+
     const cheDo = document.getElementById('tna-che-do')?.value || 'bth';
     const vungMien = document.getElementById('tna-vung-mien')?.value || 'dong-bang';
     const yeuCauPhu = document.getElementById('tna-yeu-cau-phu')?.value.trim() || '';
-    const resultArea = document.getElementById('tna-result-area');
-    if (!resultArea) return;
 
     const now = new Date();
     const thang = now.getMonth() + 1;
@@ -596,7 +639,7 @@ async function chayAIthucDonTuanModal() {
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: prompt, source: 'thucdon', max_tokens: 1200 })
+            body: JSON.stringify({ prompt: prompt, ...params })
         });
         const data = await res.json();
 
@@ -679,7 +722,7 @@ async function fetchAIHcDesc(hcName) {
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt, source: 'luantrihc', max_tokens: 250 })
+            body: JSON.stringify({ prompt, ...getAiParams('luantrihc', 250) })
         });
         const data = await res.json();
 
@@ -722,7 +765,7 @@ async function fetchAIBtDesc(btName) {
             method: 'POST',
             signal: aiBtAbortController.signal,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt, source: 'luantribt', max_tokens: 250 })
+            body: JSON.stringify({ prompt, ...getAiParams('luantribt', 250) })
         });
         const data = await res.json();
 
@@ -757,7 +800,7 @@ async function aiDanhGiaTongTheBaiThuoc() {
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: prompt, source: 'phoingu_danhgia', max_tokens: 400 })
+            body: JSON.stringify({ prompt: prompt, ...getAiParams('phoingu_danhgia', 400) })
         });
         const data = await res.json();
 
@@ -776,9 +819,19 @@ async function aiDanhGiaTongTheBaiThuoc() {
 async function hoiAIveSach(e) {
     if (e && e.preventDefault) e.preventDefault();
 
-    const inputEl = document.getElementById('sach-ai-input');
+    const params = getAiParams('sach_ai', 400);
     const chatBox = document.getElementById('sach-ai-chat-box') || document.getElementById('sach-chat-box');
-    if (!inputEl || !chatBox || typeof selectedBookForAI === 'undefined' || !selectedBookForAI) return;
+    const inputEl = document.getElementById('sach-ai-input');
+    
+    if (!chatBox) return;
+
+    // Chặn quyền ngay tại Client nếu không phải VIP/SVIP
+    if (!params.allowed) {
+        chatBox.innerHTML += `<div class="bg-amber-950/40 p-2.5 rounded border border-amber-800 text-amber-300 text-xs"><i class="fa-solid fa-lock mr-1.5"></i> Tính năng Trích xuất Sách AI yêu cầu tài khoản từ cấp <strong>VIP</strong> trở lên.</div>`;
+        return;
+    }
+
+    if (!inputEl || typeof selectedBookForAI === 'undefined' || !selectedBookForAI) return;
 
     const query = inputEl.value.trim();
     if (!query) return;
@@ -802,7 +855,7 @@ async function hoiAIveSach(e) {
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: prompt, source: 'sach_ai', max_tokens: 400 })
+            body: JSON.stringify({ prompt: prompt, ...params })
         });
         const data = await res.json();
 
@@ -829,6 +882,13 @@ async function hoiAIveSach(e) {
 
 // 5. Từ trac-nghiem.js (Tạo câu hỏi trắc nghiệm AI)
 async function fetchAIQuizQuestions(category, count) {
+    const params = getAiParams('quiz', 800);
+    
+    // Chặn ngay nếu getAiParams báo không có quyền (GUEST / FREE)
+    if (!params.allowed) {
+        return [];
+    }
+
     try {
         const prompt = `Hãy soạn chính xác ${count} câu hỏi trắc nghiệm khách quan về chuyên đề ${category} trong Y học cổ truyền (YHCT). 
         Yêu cầu trả về đúng định dạng JSON chuẩn gồm một mảng đúng ${count} object với các trường:
@@ -841,7 +901,10 @@ async function fetchAIQuizQuestions(category, count) {
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt, source: 'quiz', max_tokens: 800 })
+            body: JSON.stringify({ 
+                prompt, 
+                ...params 
+            })
         });
         
         const data = await res.json();
@@ -866,18 +929,29 @@ async function fetchAIQuizQuestions(category, count) {
 
 // 6. Từ tu-chan.js (Phân tích Vọng chẩn & Tứ chẩn AI)
 async function guiPhanTichVongChan() {
+    const params = getAiParams('vongchan', 400);
+    const outputEl = document.getElementById('vong-chan-output');
+    const chatBox = document.getElementById('ai-chat-box');
+
+    // Chặn quyền ngay tại Client nếu không phải VIP/SVIP
+    if (!params.allowed) {
+        const errHtml = `<div class="bg-amber-950/40 p-3 rounded-lg border border-amber-800 text-amber-300 text-xs text-center"><i class="fa-solid fa-lock mr-1.5"></i> Tính năng Phân Tích Vọng Chẩn bằng AI yêu cầu tài khoản từ cấp <strong>VIP</strong> trở lên.</div>`;
+        if (outputEl) outputEl.innerHTML = errHtml;
+        if (chatBox) chatBox.innerHTML = errHtml;
+        return;
+    }
+
     if (typeof vongChanImageBase64 === 'undefined' || !vongChanImageBase64) {
         alert("Vui lòng chụp ảnh hoặc tải ảnh lên trước khi thực hiện phân tích!");
         return;
     }
 
     const typeSelect = document.getElementById('vong-chan-type')?.value;
-    const noteText = document.getElementById('van-chan-note')?.value.trim() || '';
+    const noteText = document.getElementById('van-hoi-note')?.value.trim() || '';
     const useHistory = !!document.getElementById('vong-chan-use-history')?.checked;
     
     const btnSubmit = document.getElementById('btn-phan-tich-vong-chan');
     const resultBox = document.getElementById('vong-chan-result');
-    const outputEl = document.getElementById('vong-chan-output');
     const btnSave = document.getElementById('btn-save-vongchan');
 
     if (btnSave) btnSave.classList.add('hidden');
@@ -937,27 +1011,27 @@ Yêu cầu súc tích (<200 từ, tiếng Việt, không dùng chữ Hán):
             body: JSON.stringify({ 
                 prompt: promptText, 
                 image: vongChanImageBase64,
-                source: 'vongchan',
-                max_tokens: 400
+                ...params
             })
         });
 
         const data = await res.json();
         if (res.ok && data.reply) {
+            if (chatBox) chatBox.innerHTML = formatAIMessage(data.reply);          
             if (outputEl) outputEl.innerHTML = formatAIMessage(data.reply);
 
             if (typeof currentVongChanRecord !== 'undefined') {
                 currentVongChanRecord = {
-    id: Date.now(),
-    date: new Date().toLocaleString('vi-VN'),
-    type: "Vọng Chẩn (Hình Ảnh)",
-    noteVanSu: noteText || '',
-    mach: '',
-    xucChan: '',
-    note: `Vấn: ${noteText || 'Không'}`,
-    image: vongChanImageBase64 || '',
-    reply: data.reply
-};
+                    id: Date.now(),
+                    date: new Date().toLocaleString('vi-VN'),
+                    type: "Vọng Chẩn (Hình Ảnh)",
+                    noteVanSu: noteText || '',
+                    mach: '',
+                    xucChan: '',
+                    note: `Vấn: ${noteText || 'Không'}`,
+                    image: vongChanImageBase64 || '',
+                    reply: data.reply
+                };
             }
             if (btnSave) btnSave.classList.remove('hidden');
         } else {
@@ -976,16 +1050,23 @@ Yêu cầu súc tích (<200 từ, tiếng Việt, không dùng chữ Hán):
 }
 
 async function guiPhanTichTuChan() {
-    // 1. Đọc đúng 2 ô ID đã chuẩn hóa
-    const noteVanNghe = document.getElementById('van-nghe-note')?.value.trim() || ''; // Văn Chẩn (Nghe/Mùi)
-    const noteVanHoi = document.getElementById('van-hoi-note')?.value.trim() || '';   // Vấn Chẩn (Hỏi bệnh)
+    const params = getAiParams('vongchan', 600);
+    const chatBox = document.getElementById('ai-chat-box');
+
+    // Chặn quyền ngay tại Client nếu không phải VIP/SVIP
+    if (!params.allowed) {
+        if (chatBox) chatBox.innerHTML = `<div class="bg-amber-950/40 p-3 rounded-lg border border-amber-800 text-amber-300 text-xs text-center"><i class="fa-solid fa-lock mr-1.5"></i> Tính năng Hội Chẩn Tứ Chẩn AI yêu cầu tài khoản từ cấp <strong>VIP</strong> trở lên.</div>`;
+        return;
+    }
+
+    const noteVanNghe = document.getElementById('van-nghe-note')?.value.trim() || '';
+    const noteVanHoi = document.getElementById('van-hoi-note')?.value.trim() || '';
     const mach = document.getElementById('thiet-chan-mach')?.value || '';
     const xucChan = document.getElementById('thiet-chan-xuc')?.value.trim() || '';
     const useHistory = !!document.getElementById('vong-chan-use-history')?.checked;
     
     const btnSubmit = document.getElementById('btn-phan-tich-tu-chan');
     const resultBox = document.getElementById('vong-chan-result');
-    const chatBox = document.getElementById('ai-chat-box');
 
     let historyContext = "";
     if (useHistory && typeof openVongChanDB === 'function') {
@@ -1013,7 +1094,6 @@ async function guiPhanTichTuChan() {
         }
     }
 
-    // 2. Prompt gửi AI ghi rõ ngữ cảnh
     const promptText = `Bạn là chuyên gia Y học cổ truyền. Hãy phân tích Tứ Chẩn dựa trên dữ liệu bệnh nhân sau:
 - Văn chẩn (Thanh âm, hơi thở, mùi cơ thể): ${noteVanNghe || 'Không có'}
 - Vấn chẩn (Triệu chứng bệnh nhân khai báo): ${noteVanHoi || 'Không có'}
@@ -1047,8 +1127,7 @@ Yêu cầu: BẮT BUỘC trả về DUY NHẤT một đối tượng JSON thuầ
             body: JSON.stringify({ 
                 prompt: promptText, 
                 image: (typeof vongChanImageBase64 !== 'undefined' ? vongChanImageBase64 : undefined),
-                source: 'vongchan',
-                max_tokens: 600
+                ...params
             })
         });
 
@@ -1063,13 +1142,12 @@ Yêu cầu: BẮT BUỘC trả về DUY NHẤT một đối tượng JSON thuầ
                 chatBox.innerHTML = typeof renderTuChanCards === 'function' ? renderTuChanCards(data.reply) : data.reply;
             }
 
-            // 3. Tên thuộc tính rõ ràng khi lưu vào Record
             currentVongChanRecord = {
                 id: Date.now(),
                 date: new Date().toLocaleString('vi-VN'),
                 type: "Tứ Chẩn YHCT",
-                noteVanNghe: noteVanNghe, // Văn chẩn
-                noteVanHoi: noteVanHoi,   // Vấn chẩn
+                noteVanNghe: noteVanNghe,
+                noteVanHoi: noteVanHoi,
                 mach: mach || '',
                 xucChan: xucChan || '',
                 reply: data.reply

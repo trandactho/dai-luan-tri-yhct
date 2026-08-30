@@ -3,7 +3,7 @@
 // ==========================================================================
 
 const DOMAIN_NETLIFY = 'https://dailuantriyhct.com';
-const APP_VERSION = '1.7.6';
+const APP_VERSION = '1.7.9'; // Đồng bộ với phiên bản giao diện v1.7.9
 
 function getApiEndpoint() {
     return (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
@@ -66,7 +66,7 @@ const ORIGINAL_PDF_AREA_HTML = `
                 <div class="text-stone-300 text-xs font-bold uppercase tracking-wider">Hội chứng biện chứng</div>
                 <div id="hoi-chung" class="text-lg font-bold text-amber-400 transition-all">---</div>
             </div>
-            <button id="ai-toggle-hc" onclick="toggleAiFeature('hc')" data-min-role="FREE" data-feature-name="AI Phân Tích Hội Chứng" class="px-2 py-1 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold rounded text-[11px] flex items-center gap-1 transition-all shadow-sm whitespace-nowrap flex-shrink-0">
+            <button id="ai-toggle-hc" onclick="chayLenhAi(this, 'hc')" data-min-role="FREE" data-feature-name="AI Phân Tích Hội Chứng" class="px-2 py-1 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold rounded text-[11px] flex items-center gap-1 transition-all shadow-sm whitespace-nowrap flex-shrink-0">
                 <i class="fa-solid fa-robot text-[10px]"></i> AI
             </button>
         </div>
@@ -89,7 +89,7 @@ const ORIGINAL_PDF_AREA_HTML = `
                 <div class="text-stone-300 text-xs font-bold uppercase tracking-wider">Đối chiếu cổ phương</div>
                 <div id="bai-thuoc" class="text-lg font-bold text-amber-400 transition-all">---</div>
             </div>
-            <button id="ai-toggle-bt" onclick="toggleAiFeature('bt')" data-min-role="FREE" data-feature-name="AI Phân Tích Bài Thuốc" class="px-2 py-1 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold rounded text-[11px] flex items-center gap-1 transition-all shadow-sm whitespace-nowrap flex-shrink-0">
+            <button id="ai-toggle-bt" onclick="chayLenhAi(this, 'bt')" data-min-role="FREE" data-feature-name="AI Phân Tích Bài Thuốc" class="px-2 py-1 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold rounded text-[11px] flex items-center gap-1 transition-all shadow-sm whitespace-nowrap flex-shrink-0">
                 <i class="fa-solid fa-robot text-[10px]"></i> AI
             </button>
         </div>
