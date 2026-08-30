@@ -12,19 +12,26 @@ function getApiEndpoint() {
 }
 
 // --- QUẢN LÝ TRẠNG THÁI ỨNG DỤNG ---
-const AppState = {
-    quizActive: false,
+// Khởi tạo không gian tên và biến toàn cục dùng chung cho toàn bộ hệ thống
+window.AppState = window.AppState || {
     isQuizDL: false,
     isQuizHV: false,
     isQuizLT: false,
-    aiHcActive: false, // Trạng thái AI Hội chứng
-    aiBtActive: false, // Trạng thái AI Bài thuốc
+    quizActive: false,
+    aiHcActive: false,
+    aiBtActive: false,
     auth: {
         role: 'GUEST',
         user: null,
         token: null
     }
 };
+window.currentVongChanRecord = null;
+window.vongChanImageBase64 = null;
+window.currentDiagnosticContext = "";
+window.currentFormulaHerbs = [];
+window.selectedBookForAI = null;
+
 
 const AppStore = {
     database: {},
@@ -59,7 +66,7 @@ const ORIGINAL_PDF_AREA_HTML = `
                 <div class="text-stone-300 text-xs font-bold uppercase tracking-wider">Hội chứng biện chứng</div>
                 <div id="hoi-chung" class="text-lg font-bold text-amber-400 transition-all">---</div>
             </div>
-            <button id="ai-toggle-hc" onclick="chayLenhAi(this, 'hc')" data-min-role="FREE" data-feature-name="AI Phân Tích Hội Chứng" class="px-2 py-1 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold rounded text-[11px] flex items-center gap-1 transition-all shadow-sm whitespace-nowrap flex-shrink-0">
+            <button id="ai-toggle-hc" onclick="toggleAiFeature('hc')" data-min-role="FREE" data-feature-name="AI Phân Tích Hội Chứng" class="px-2 py-1 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold rounded text-[11px] flex items-center gap-1 transition-all shadow-sm whitespace-nowrap flex-shrink-0">
                 <i class="fa-solid fa-robot text-[10px]"></i> AI
             </button>
         </div>
@@ -82,7 +89,7 @@ const ORIGINAL_PDF_AREA_HTML = `
                 <div class="text-stone-300 text-xs font-bold uppercase tracking-wider">Đối chiếu cổ phương</div>
                 <div id="bai-thuoc" class="text-lg font-bold text-amber-400 transition-all">---</div>
             </div>
-            <button id="ai-toggle-bt" onclick="chayLenhAi(this, 'bt')" data-min-role="FREE" data-feature-name="AI Phân Tích Bài Thuốc" class="px-2 py-1 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold rounded text-[11px] flex items-center gap-1 transition-all shadow-sm whitespace-nowrap flex-shrink-0">
+            <button id="ai-toggle-bt" onclick="toggleAiFeature('bt')" data-min-role="FREE" data-feature-name="AI Phân Tích Bài Thuốc" class="px-2 py-1 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold rounded text-[11px] flex items-center gap-1 transition-all shadow-sm whitespace-nowrap flex-shrink-0">
                 <i class="fa-solid fa-robot text-[10px]"></i> AI
             </button>
         </div>

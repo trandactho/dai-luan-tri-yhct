@@ -29,6 +29,11 @@ function restoreHuyetViState() {
     if (select && kinh !== null) select.value = kinh;
 }
 
+function capitalize(str) {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
 function escapeHTML(str) {
     if (!str) return '';
     return String(str).replace(/[&<>'"]/g, 
