@@ -117,220 +117,6 @@ function chupAnhVongChan() {
     tatCameraVongChan();
 }
 
-// Xử lý khi chọn file ảnh từ thiết bị
-async function guiPhanTichVongChan() {
-    if (!vongChanImageBase64) {
-        alert("Vui lòng chụp ảnh hoặc tải ảnh lên trước khi thực hiện phân tích!");
-        return;
-    }
-
-    const typeSelect = document.getElementById('vong-chan-type')?.value;
-    // Đã cập nhật ID mới van-chuan-note
-    const noteText = document.getElementById('van-chuan-note')?.value.trim();
-    const useHistory = !!document.getElementById('vong-chan-use-history')?.checked; 
-    
-    // Bắt an toàn cả 2 trường hợp ID nút bấm
-    const btnSubmit = document.getElementById('btn-phan-tich-vong-chan');
-    const resultBox = document.getElementById('vong-chan-result');
-    const outputEl = document.getElementById('vong-chan-output');
-    const btnSave = document.getElementById('btn-save-vongchan');
-
-    if (btnSave) btnSave.classList.add('hidden');
-    currentVongChanRecord = null;
-
-    let typeText = "Thiệt chẩn (Lưỡi)";
-    if (typeSelect === "dien_chan") typeText = "Diện chẩn (Sắc mặt, thần thái)";
-    if (typeSelect === "da_da") typeText = "Sắc da / Thương tổn ngoài da";
-
-    let historyContext = "";
-    if (useHistory) {
-        try {
-            const db = await openVongChanDB();
-            const tx = db.transaction('history', 'readonly');
-            const store = tx.objectStore('history');
-            const request = store.getAll();
-            
-            await new Promise((resolve) => {
-                request.onsuccess = () => {
-                    const history = request.result || [];
-                    if (history.length > 0) {
-                        history.sort((a, b) => b.id - a.id);
-                        const last = history[0];
-                        const safeReply = last.reply ? String(last.reply).replace(/[\n\r]+/g, ' ').substring(0, 80) : '';
-                        historyContext = `\nLần khám gần nhất (${last.date}): ${last.note}. KQ: ${safeReply}...`;
-                    }
-                    resolve();
-                };
-                request.onerror = () => resolve();
-            });
-        } catch (e) {
-            console.error("Lỗi trích xuất lịch sử:", e);
-        }
-    }
-
-    const promptText = `Chuyên gia YHCT: Phân tích hình ảnh theo phương pháp "${typeText}".
-Triệu chứng: "${noteText || 'Không'}". ${historyContext}
-
-Yêu cầu súc tích (<200 từ, tiếng Việt, không dùng chữ Hán):
-1. Hình thái đặc trưng
-2. Biện chứng YHCT (Căn bệnh, Bát cương, Tạng phủ)
-3. Định hướng điều trị & Cổ phương`;
-
-    if (btnSubmit) {
-        btnSubmit.disabled = true;
-        btnSubmit.classList.add('opacity-50', 'pointer-events-none');
-        btnSubmit.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> AI đang soi hình ảnh & đối chiếu lịch sử...`;
-    }
-    
-    if (resultBox) resultBox.classList.remove('hidden');
-    if (outputEl) outputEl.innerHTML = `<div class="text-amber-400 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang phân tích hình ảnh & dữ liệu...</div>`;
-
-    try {
-        const res = await fetch(getApiEndpoint(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                prompt: promptText, 
-                image: vongChanImageBase64,
-                source: 'vongchan',
-                max_tokens: 400
-            })
-        });
-
-        const data = await res.json();
-        if (res.ok && data.reply) {
-            if (outputEl) outputEl.innerHTML = formatAIMessage(data.reply);
-
-            currentVongChanRecord = {
-                id: Date.now(),
-                date: new Date().toLocaleString('vi-VN'),
-                type: typeText,
-                note: noteText || 'Không có',
-                image: vongChanImageBase64,
-                reply: data.reply
-            };
-
-            if (btnSave) btnSave.classList.remove('hidden');
-        } else {
-            if (outputEl) outputEl.innerHTML = `<div class="text-red-400 font-medium p-2 bg-red-950/40 border border-red-800 rounded">⚠️ ${escapeHTML(data.error || 'AI không thể nhận diện được hình ảnh.')}</div>`;
-        }
-    } catch (err) {
-        console.error("Lỗi gửi Vọng chẩn:", err);
-        if (outputEl) outputEl.innerHTML = `<div class="text-red-400 font-medium p-2 bg-red-950/40 border border-red-800 rounded">⚠️ Lỗi kết nối đến server AI.</div>`;
-    } finally {
-        if (btnSubmit) {
-            btnSubmit.disabled = false;
-            btnSubmit.classList.remove('opacity-50', 'pointer-events-none');
-            btnSubmit.innerHTML = `<i class="fa-solid fa-brain"></i> AI Phân Tích Vọng Chẩn`;
-        }
-    }
-}
-
-async function guiPhanTichTuChan() {
-    const noteVan = document.getElementById('van-chan-note')?.value.trim();
-    // Đã cập nhật ID mới van-chuan-note
-    const noteVanSu = document.getElementById('van-chuan-note')?.value.trim();
-    const mach = document.getElementById('thiet-chan-mach')?.value;
-    const xucChan = document.getElementById('thiet-chan-xuc')?.value.trim();
-    const useHistory = !!document.getElementById('vong-chan-use-history')?.checked;
-    
-    const btnSubmit = document.getElementById('btn-phan-tich-tu-chan');
-    const resultBox = document.getElementById('vong-chan-result');
-    const chatBox = document.getElementById('ai-chat-box');
-
-    let historyContext = "";
-    if (useHistory) {
-        try {
-            const db = await openVongChanDB();
-            const tx = db.transaction('history', 'readonly');
-            const store = tx.objectStore('history');
-            const request = store.getAll();
-            
-            await new Promise((resolve) => {
-                request.onsuccess = () => {
-                    const history = request.result || [];
-                    if (history.length > 0) {
-                        history.sort((a, b) => b.id - a.id);
-                        const last = history[0];
-                        const safeReply = last.reply ? String(last.reply).replace(/[\n\r]+/g, ' ').substring(0, 80) : '';
-                        historyContext = ` Lần trước (${last.date}): ${safeReply}...`;
-                    }
-                    resolve();
-                };
-                request.onerror = () => resolve();
-            });
-        } catch (e) {
-            console.error("Lỗi trích xuất lịch sử:", e);
-        }
-    }
-
-    const promptText = `Bạn là API YHCT. Trả về DUY NHẤT đối tượng JSON, KHÔNG Markdown, KHÔNG lời chào.
-Cấu trúc bắt buộc: 
-{
-  "bat_cuong": "...", 
-  "tang_phu": "...", 
-  "hoi_chung": "...",
-  "bien_chung": "...", 
-  "phap_tri": "...", 
-  "co_phuong": "...", 
-  "vi_thuoc": [{"ten": "...", "lieu": "...", "vai_tro": "..."}]
-}`;
-
-    if (btnSubmit) {
-        btnSubmit.disabled = true;
-        btnSubmit.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> AI đang phân tích...`;
-    }
-    
-    if (resultBox) resultBox.classList.remove('hidden');
-    if (chatBox) chatBox.innerHTML = `<div class="bg-stone-900 p-3 rounded text-amber-400 italic flex items-center gap-2"><i class="fa-solid fa-brain fa-spin"></i> AI đang hội chẩn Tứ Chẩn...</div>`;
-
-    try {
-        const res = await fetch(getApiEndpoint(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                prompt: promptText, 
-                image: vongChanImageBase64 || undefined,
-                source: 'vongchan',
-                max_tokens: 500
-            })
-        });
-
-        const data = await res.json();
-        if (res.ok && data.reply) {
-            currentDiagnosticContext = `HỒ SƠ BỆNH NHÂN HIỆN TẠI:
-- Vấn chẩn: ${noteVanSu || 'Không'} | Mạch: ${mach || 'Chưa bắt mạch'}
-- KẾT QUẢ AI: ${data.reply}`;
-
-            if (chatBox) {
-                chatBox.innerHTML = renderTuChanCards(data.reply);
-            }
-
-            currentVongChanRecord = {
-                id: Date.now(),
-                date: new Date().toLocaleString('vi-VN'),
-                type: "Tứ Chẩn YHCT",
-                noteVan: noteVan || '',
-                noteVanSu: noteVanSu || '',
-                mach: mach || '',
-                xucChan: xucChan || '',
-                note: `Vấn: ${noteVanSu || 'Không'} | Mạch: ${mach || 'Không'}`,
-                image: vongChanImageBase64 || '',
-                reply: data.reply
-            };
-        } else {
-            if (chatBox) chatBox.innerHTML = `<div class="text-red-400 p-2 bg-red-950/40 rounded">⚠️ ${escapeHTML(data.error || 'Lỗi phân tích')}</div>`;
-        }
-    } catch (err) {
-        if (chatBox) chatBox.innerHTML = `<div class="text-red-400 p-2 bg-red-950/40 rounded">⚠️ Lỗi kết nối máy chủ AI.</div>`;
-    } finally {
-        if (btnSubmit) {
-            btnSubmit.disabled = false;
-            btnSubmit.innerHTML = `<i class="fa-solid fa-brain"></i> AI Tổng Hội Chẩn Tứ Chẩn`;
-        }
-    }
-}
-
 function resetVongChanState() {
     vongChanImageBase64 = null;
     currentVongChanRecord = null;
@@ -457,25 +243,30 @@ async function xemLaiVongChan(id) {
                 }
             }
 
-            const elVan = document.getElementById('van-chan-note');
-            // Đã cập nhật ID mới van-chuan-note
-            const elVanSu = document.getElementById('van-chuan-note');
+            // Đọc 2 ô element mới
+            const elVanNghe = document.getElementById('van-nghe-note');
+            const elVanHoi = document.getElementById('van-hoi-note');
             const elMach = document.getElementById('thiet-chan-mach');
             const elXuc = document.getElementById('thiet-chan-xuc');
 
-            if (elVan) elVan.value = record.noteVan || '';
+            // Khôi phục Văn Chẩn (Có đọc lại biến cũ noteVan nếu có)
+            if (elVanNghe) {
+                elVanNghe.value = record.noteVanNghe || record.noteVan || '';
+            }
             
-            if (elVanSu) {
-                let cleanNote = record.noteVanSu || record.note || '';
+            // Khôi phục Vấn Chẩn (Có đọc lại biến cũ noteVanSu/note nếu có)
+            if (elVanHoi) {
+                let cleanNote = record.noteVanHoi || record.noteVanSu || record.note || '';
                 cleanNote = cleanNote.replace(/^Vấn:\s*/i, '').replace(/\s*\|\s*Mạch:.*$/i, '');
-                elVanSu.value = (cleanNote !== 'Không' && cleanNote !== 'Không có') ? cleanNote : '';
+                elVanHoi.value = (cleanNote !== 'Không' && cleanNote !== 'Không có') ? cleanNote : '';
             }
 
             if (elMach) elMach.value = record.mach || '';
             if (elXuc) elXuc.value = record.xucChan || '';
 
             currentDiagnosticContext = `HỒ SƠ CHẨN ĐOÁN CŨ (${record.date}):
-- Vấn chẩn: ${record.noteVanSu || record.note || 'Không'}
+- Văn chẩn: ${record.noteVanNghe || record.noteVan || 'Không'}
+- Vấn chẩn: ${record.noteVanHoi || record.noteVanSu || record.note || 'Không'}
 - Mạch tượng: ${record.mach || 'Chưa bắt mạch'}
 - KẾT QUẢ AI: ${record.reply}`;
 
@@ -496,15 +287,17 @@ async function xemLaiVongChan(id) {
     }
 }
 
-function renderTuChanCards(aiReply) {
-    let parsed;
-    try {
-        const jsonStr = aiReply.replace(/```json/g, '').replace(/```/g, '').trim();
-        parsed = JSON.parse(jsonStr);
-    } catch (e) {
-        return `<div class="p-3 bg-red-950/20 text-red-400 text-xs rounded border border-red-900">⚠️ Dữ liệu AI trả về chưa chuẩn định dạng, vui lòng thử lại.</div>`;
-    }
 
+function renderTuChanCards(aiReply) {
+    let parsed = typeof parseJsonFromAI === 'function' ? parseJsonFromAI(aiReply) : null;
+    if (!parsed) {
+        try {
+            const jsonStr = aiReply.replace(/```json/g, '').replace(/```/g, '').trim();
+            parsed = JSON.parse(jsonStr);
+        } catch (e) {
+            return `<div class="p-3 bg-red-950/20 text-red-400 text-xs rounded border border-red-900">⚠️ Dữ liệu AI trả về chưa chuẩn định dạng, vui lòng thử lại.</div>`;
+        }
+    }
     const coPhuong = parsed.co_phuong || '';
     const hoiChung = parsed.hoi_chung || '';
 

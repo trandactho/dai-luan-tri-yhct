@@ -112,9 +112,10 @@ function renderDanhSachSach(arr) {
                 <button onclick="window.open('${s.url}', '_blank')" class="px-3 py-1 bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold rounded text-[11px] cursor-pointer transition-colors border border-stone-700 flex items-center gap-1">
                     <i class="fa-solid fa-book-open text-amber-400"></i> Đọc sách
                 </button>
-                <button onclick="moHoiDapSach('${s.ten.replace(/'/g, "\\'")}', '${s.dungLuong}')" class="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded text-[11px] cursor-pointer transition-colors flex items-center gap-1 shadow-sm">
-                    <i class="fa-solid fa-brain"></i> Hỏi AI
-                </button>
+                <button data-ten-sach="${escapeHTML(s.ten)}" data-dung-luong="${escapeHTML(s.dungLuong)}" onclick="xuLyMoHoiDapSach(this)" class="px-3 py-1 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded text-[11px] cursor-pointer transition-colors flex items-center gap-1 shadow-sm">
+    <i class="fa-solid fa-brain"></i> Hỏi AI
+</button>
+
             </div>
         </div>
     `;
@@ -129,6 +130,13 @@ function filterSachPDF() {
     const keyword = removeAccents(document.getElementById('search-sach-input').value).toLowerCase().trim();
     const filtered = danhSachSachPDF.filter(s => removeAccents(s.ten).toLowerCase().includes(keyword));
     renderDanhSachSach(filtered);
+}
+
+function xuLyMoHoiDapSach(btn) {
+    if (!btn) return;
+    const tenSach = btn.dataset.tenSach || '';
+    const dungLuong = btn.dataset.dungLuong || '';
+    moHoiDapSach(tenSach, dungLuong);
 }
 
 function moHoiDapSach(tenSach, dungLuong) {
@@ -157,57 +165,3 @@ function dongDocSach() {
     document.getElementById('sach-reader-container')?.classList.add('hidden');
 }
 
-async function hoiAIveSach(e) {
-    if (e && e.preventDefault) e.preventDefault();
-
-    const inputEl = document.getElementById('sach-ai-input');
-    const chatBox = document.getElementById('sach-chat-box');
-    if (!inputEl || !chatBox || !selectedBookForAI) return;
-
-    const query = inputEl.value.trim();
-    if (!query) return;
-
-    chatBox.innerHTML += `
-        <div class="bg-amber-950/40 p-2.5 rounded border border-amber-900/50 text-amber-200 text-right font-medium text-xs">
-            <span class="font-bold text-amber-400">Bạn:</span> ${escapeHTML(query)}
-        </div>`;
-    inputEl.value = '';
-
-    const loadingId = 'sach-loading-' + Date.now();
-    chatBox.innerHTML += `
-        <div id="${loadingId}" class="bg-stone-900 p-2.5 rounded border border-stone-800 text-stone-400 flex items-center gap-2 text-xs">
-            <i class="fa-solid fa-brain text-amber-500 animate-spin"></i>
-            <span>Đang tra cứu nội dung trong sách "${escapeHTML(selectedBookForAI)}"...</span>
-        </div>`;
-    
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-    try {
-        const prompt = `Dựa trên nội dung chuẩn của cuốn sách y học cổ truyền "${selectedBookForAI}", hãy giải đáp chi tiết câu hỏi sau: "${query}". Trả lời súc tích, chuyên môn cao bằng tiếng Việt.`;
-        const res = await fetch(getApiEndpoint(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: prompt, source: 'sach_ai', max_tokens: 400 })
-        });
-        const data = await res.json();
-
-        document.getElementById(loadingId)?.remove();
-
-        if (res.ok && data.reply) {
-            chatBox.innerHTML += `
-                <div class="bg-stone-900 p-3 rounded border border-stone-800 text-stone-300 space-y-1 text-xs">
-                    <div class="font-bold text-amber-500 flex items-center gap-1.5 mb-1 pb-1 border-b border-stone-800">
-                        <i class="fa-solid fa-robot"></i> Trích xuất từ "${escapeHTML(selectedBookForAI)}"
-                    </div>
-                    <div class="leading-relaxed space-y-1">${formatAIMessage(data.reply)}</div>
-                </div>`;
-        } else {
-            chatBox.innerHTML += `<div class="bg-red-950/40 p-2.5 rounded border border-red-800 text-red-300 text-xs">⚠️ Không nhận được phản hồi từ AI.</div>`;
-        }
-    } catch (err) {
-        document.getElementById(loadingId)?.remove();
-        chatBox.innerHTML += `<div class="bg-red-950/40 p-2.5 rounded border border-red-800 text-red-300 text-xs">⚠️ Lỗi kết nối máy chủ.</div>`;
-    } finally {
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
-}

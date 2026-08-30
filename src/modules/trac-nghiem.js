@@ -153,42 +153,6 @@ function taoCauHoiTamTuDuLieu(category) {
     return generated;
 }
 
-async function fetchAIQuizQuestions(category, count) {
-    try {
-        const prompt = `Hãy soạn chính xác ${count} câu hỏi trắc nghiệm khách quan về chuyên đề ${category} trong Y học cổ truyền (YHCT). 
-        Yêu cầu trả về đúng định dạng JSON chuẩn gồm một mảng đúng ${count} object với các trường:
-        - "cau_hoi": Nội dung câu hỏi lâm sàng hoặc lý luận.
-        - "lua_chon": Mảng gồm đúng 4 đáp án (chỉ chứa nội dung đáp án, KHÔNG ghi ký tự A, B, C, D ở đầu).
-        - "dap_an": Chỉ số đáp án đúng (từ 0 đến 3 ứng với 4 lựa chọn).
-        - "giai_thich": Giải thích chi tiết ngắn gọn vì sao đáp án đó chính xác.
-        Chỉ trả về định dạng JSON thuần túy, không kèm theo chữ giải thích nào khác ngoài JSON.`;
-
-        const res = await fetch(getApiEndpoint(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt, source: 'quiz', max_tokens: 800 })
-        });
-        
-        const data = await res.json();
-        if (res.ok && data.reply) {
-            const parsedArray = parseJsonFromAI(data.reply);
-            if (Array.isArray(parsedArray)) {
-                return parsedArray.slice(0, count).map(q => {
-                    if (Array.isArray(q.lua_chon)) {
-                        q.lua_chon = q.lua_chon.map(opt => 
-                            String(opt).replace(/^[A-D][\.\:\-\s]+/i, '').trim()
-                        );
-                    }
-                    return q;
-                });
-            }
-        }
-    } catch (err) {
-        console.error("Lỗi khi tạo câu hỏi bằng AI:", err);
-    }
-    return [];
-}
-
 function toggleAiQuizCountLock(checkboxEl) {
     const countSelect = document.getElementById('quiz-count');
     if (!countSelect) return;

@@ -699,93 +699,6 @@ function huyBoChuanDoan() {
     updateLuanTri();
 }
 
-async function fetchAIHcDesc(hcName) {
-    const aiHcEl = document.getElementById('ai-hc-desc');
-    if (!aiHcEl || !hcName || hcName === "---") return;
-
-    const cacheKey = 'ai_hc_' + (typeof removeAccents === 'function' ? removeAccents(hcName) : hcName.toLowerCase()).replace(/\s+/g, '_');
-    
-    const cachedHTML = typeof getCacheWithTTL === 'function' ? getCacheWithTTL(cacheKey) : null; 
-    if (cachedHTML) {
-        aiHcEl.classList.remove('hidden');
-        aiHcEl.innerHTML = cachedHTML;
-        return;
-    }
-
-    aiHcEl.classList.remove('hidden');
-    aiHcEl.innerHTML = `<div class="text-amber-400/80 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang phân tích...</div>`;
-
-    try {
-        const prompt = `Phân tích súc tích (<150 từ, tiếng Việt, không chữ Hán) về cơ chế, nguyên nhân, biểu hiện của hội chứng YHCT: "${hcName}".`;
-        const res = await fetch(getApiEndpoint(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt, source: 'luantrihc', max_tokens: 250 })
-        });
-        const data = await res.json();
-
-        if (res.ok && data.reply) {
-            const htmlResult = `
-                <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Mô tả chi tiết hội chứng:</div>
-                <div class="space-y-1">${typeof formatAIMessage === 'function' ? formatAIMessage(data.reply) : data.reply}</div>
-            `;
-            
-            if (typeof setCacheWithTTL === 'function') setCacheWithTTL(cacheKey, htmlResult, 99); 
-            aiHcEl.innerHTML = htmlResult;
-        } else {
-            let errorMsg = data.error || 'Không nhận được phản hồi từ AI.';
-            aiHcEl.innerHTML = `<div class="text-amber-400/90 bg-amber-950/40 p-2.5 rounded border border-amber-800/60 text-xs">${typeof escapeHTML === 'function' ? escapeHTML(errorMsg) : errorMsg}</div>`;
-        }
-    } catch (err) {
-        aiHcEl.innerHTML = `<div class="text-red-400 font-mono text-[11px] p-2 bg-red-950/50 border border-red-800 rounded">⚠️ Lỗi kết nối.</div>`;
-    }
-}
-
-let aiBtAbortController = null;
-
-async function fetchAIBtDesc(btName) {
-    const aiBtEl = document.getElementById('ai-bt-desc');
-    if (!aiBtEl || !btName || btName === "---" || btName === "Đối chứng nghiệm phương") return;
-
-    const cacheKey = 'ai_bt_' + (typeof removeAccents === 'function' ? removeAccents(btName) : btName.toLowerCase()).replace(/\s+/g, '_');
-    const cachedHTML = typeof getCacheWithTTL === 'function' ? getCacheWithTTL(cacheKey) : null; 
-    if (cachedHTML) {
-        aiBtEl.classList.remove('hidden');
-        aiBtEl.innerHTML = cachedHTML;
-        return;
-    }
-
-    if (aiBtAbortController) aiBtAbortController.abort();
-    aiBtAbortController = new AbortController();
-
-    aiBtEl.classList.remove('hidden');
-    aiBtEl.innerHTML = `<div class="text-amber-400/80 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang tra cứu...</div>`;
-
-    try {
-        const prompt = `Phân tích súc tích (<150 từ, tiếng Việt, không chữ Hán) về nguồn gốc, xuất xứ, đặc điểm nổi bật của bài thuốc YHCT: "${btName}".`;
-        const res = await fetch(getApiEndpoint(), {
-            method: 'POST',
-            signal: aiBtAbortController.signal,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt, source: 'luantribt', max_tokens: 250 })
-        });
-        const data = await res.json();
-
-        if (res.ok && data.reply) {
-            const htmlResult = `
-                <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Nguồn gốc & đặc điểm cổ phương:</div>
-                <div class="space-y-1">${typeof formatAIMessage === 'function' ? formatAIMessage(data.reply) : data.reply}</div>
-            `;
-            if (typeof setCacheWithTTL === 'function') setCacheWithTTL(cacheKey, htmlResult, 99); 
-            aiBtEl.innerHTML = htmlResult;
-        }
-    } catch (err) {
-        if (err.name !== 'AbortError') {
-            aiBtEl.innerHTML = `<div class="text-red-400 font-mono text-[11px] p-2 bg-red-950/50 border border-red-800 rounded">⚠️ Lỗi kết nối.</div>`;
-        }
-    }
-}
-
 function toggleAiFeature(type) {
     if (typeof AppState === 'undefined') return;
 
@@ -1042,7 +955,6 @@ function moModalDonThuoc() {
 
     capNhatBangLieuLuongDonThuoc();
     modal.classList.remove('hidden');
-    history.pushState({ modal: 'don-thuoc' }, '', window.location.href); // 🟢 Thêm dòng này để ghi nhận lịch sử mở modal
 }
 
 // 3.1. Thuật toán kiểm tra Tương Kỵ / Phản Úy YHCT
@@ -1221,11 +1133,13 @@ function gieoGoiYViThuocDon() {
     }
 
     let dbHerbs = [];
-    if (typeof duoclieuData !== 'undefined' && Array.isArray(duoclieuData)) {
-        dbHerbs = duoclieuData;
-    } else if (typeof database_duoclieu !== 'undefined') {
-        dbHerbs = Object.values(database_duoclieu);
-    }
+if (typeof getCombinedDuocLieuData === 'function') {
+    dbHerbs = getCombinedDuocLieuData();
+} else if (typeof duocLieuData !== 'undefined' && Array.isArray(duocLieuData)) {
+    dbHerbs = duocLieuData;
+} else if (typeof database_duoclieu !== 'undefined') {
+    dbHerbs = Object.values(database_duoclieu);
+}
 
     const normQuery = typeof removeAccents === 'function' ? removeAccents(query) : query;
     const matches = dbHerbs.filter(herb => {

@@ -263,37 +263,6 @@ async function renderPhoiNguUI() {
     }
 }
 
-async function aiDanhGiaTongTheBaiThuoc() {
-    const contentEl = document.getElementById('ai-tong-the-content');
-    if (!contentEl || currentFormulaHerbs.length === 0) return;
-
-    contentEl.innerHTML = `<div class="text-amber-400 italic flex items-center gap-1.5 py-2"><i class="fa-solid fa-brain fa-spin"></i> Chuyên gia AI đang phân tích Quân Thần Tá Sứ và tổng thể bài thuốc...</div>`;
-
-    try {
-        const prompt = `Bạn là một chuyên gia Y học cổ truyền (YHCT). Hãy đánh giá tổng thể bài thuốc tự do gồm các vị thuốc sau: ${currentFormulaHerbs.join(', ')}. 
-        Yêu cầu phân tích ngắn gọn (<200 từ, tiếng Việt, không dùng chữ Hán):
-        1. Phân định Quân - Thần - Tá - Sứ (vị nào chủ đạo, vị nào hỗ trợ).
-        2. Tổng hợp chủ trị lâm sàng chính của bài thuốc.
-        3. Đánh giá mức độ phối ngũ và lưu ý khi sử dụng.`;
-
-        const res = await fetch(getApiEndpoint(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: prompt, source: 'phoingu_danhgia', max_tokens: 400 })
-        });
-        const data = await res.json();
-
-        if (res.ok && data.reply) {
-            contentEl.innerHTML = formatAIMessage(data.reply);
-        } else {
-            contentEl.innerHTML = `<div class="text-red-400 font-medium">⚠️ Không nhận được phản hồi từ AI.</div>`;
-        }
-    } catch (err) {
-        console.error("Lỗi AI đánh giá tổng thể:", err);
-        contentEl.innerHTML = `<div class="text-red-400 font-medium">⚠️ Lỗi kết nối đến máy chủ AI.</div>`;
-    }
-}
-
 function napBaiThuocMau(arrViThuoc) {
     if (!Array.isArray(arrViThuoc)) return;
     currentFormulaHerbs = [...arrViThuoc];

@@ -181,7 +181,7 @@ function getCombinedDuocThienData() {
 
 // --- 1. TAB DƯỢC LIỆU ---
 function filterDuocLieu(isEnter = false, forceExact = false) {
-    saveDuocLieuState();
+    saveCatalogState('duoclieu');
     const grid = document.getElementById('gridDuocLieu'); 
     if (!grid) return; 
 
@@ -308,7 +308,7 @@ function getKinhTheme(kinhName) {
 }
 
 function filterHuyetVi(isEnter = false, forceExact = false) {
-    saveHuyetViState();
+    saveCatalogState('huyetvi');
     const grid = document.getElementById('gridHuyetVi'); 
     if (!grid) return; 
 
@@ -334,7 +334,7 @@ function filterHuyetVi(isEnter = false, forceExact = false) {
         }
     }
 
-    const txtRaw = getVal('searchHuyetVi').trim();
+    const txtRaw = getVal('searchHuyetVi')?.trim() || '';
     const kinh = document.getElementById('filterKinhLac')?.value || '';
     
     const scoredData = [];
@@ -368,8 +368,7 @@ function getKinhFolder(kinhName) {
 function executeRenderHuyetVi(filteredData) {
     const grid = document.getElementById('gridHuyetVi');
     if (!grid) return;
-    const txtRaw = getVal('searchDuocLieu')?.trim() || getVal('searchHuyetVi')?.trim() || '';
-
+    const txtRaw = getVal('searchHuyetVi')?.trim() || '';
     grid.innerHTML = "";
     const frag = document.createDocumentFragment();
     
@@ -729,9 +728,6 @@ function khoiPhucCatalog() {
 // Chạy khi khởi động ứng dụng
 window.addEventListener('DOMContentLoaded', khoiPhucCatalog);
 
-// Chạy khi bấm Back từ Google quay lại ứng dụng
-window.addEventListener('pageshow', khoiPhucCatalog);
-
 function saveCurrentTabState() {
     const activeBtn = document.querySelector('nav button.tab-active');
     if (activeBtn) {
@@ -743,10 +739,7 @@ function saveCurrentTabState() {
 // Khôi phục hàm về trạng thái chuẩn, không tự kiểm tra riêng lẻ gây xung đột
 function moModalTuanNayAnGi() {
     const modal = document.getElementById('modal-tuan-nay-an-gi');
-    if (modal) {
-        modal.classList.remove('hidden');
-        history.pushState({ modal: 'tuan-nay-an-gi' }, '', window.location.href); // 🟢 Thêm dòng này
-    }
+    if (modal) modal.classList.remove('hidden');
 }
 window.moModalTuanNayAnGi = moModalTuanNayAnGi;
 
@@ -755,123 +748,6 @@ function dongModalTuanNayAnGi() {
     if (modal) modal.classList.add('hidden');
 }
 window.dongModalTuanNayAnGi = dongModalTuanNayAnGi;
-
-async function chayAIthucDonTuanModal() {
-    const cheDo = document.getElementById('tna-che-do')?.value || 'bth';
-    const vungMien = document.getElementById('tna-vung-mien')?.value || 'dong-bang';
-    const yeuCauPhu = document.getElementById('tna-yeu-cau-phu')?.value.trim() || '';
-    const resultArea = document.getElementById('tna-result-area');
-    if (!resultArea) return;
-
-    const now = new Date();
-    const thang = now.getMonth() + 1;
-    const muaHienTai = (thang >= 7 && thang <= 9) ? "Mùa Hạ/Thu giao mùa (Nóng ẩm, mưa nhiều tại Việt Nam)" : "Theo mùa khí hậu hiện tại";
-
-    resultArea.innerHTML = `
-        <div class="text-center py-10 space-y-2 text-stone-400 bg-stone-950 rounded-xl border border-amber-600/30">
-            <i class="fa-solid fa-brain fa-spin text-2xl text-amber-500 block mb-1"></i>
-            <p class="text-xs font-bold text-amber-400">AI đang phân tích vùng miền, khí hậu và lập thực đơn 7 ngày...</p>
-            <p class="text-[11px] text-stone-500">Khu vực: ${vungMien} - Đặc thù: ${muaHienTai}</p>
-        </div>
-    `;
-
-    const prompt = `Bạn là chuyên gia Dinh dưỡng và Dược thiện Y học cổ truyền. Hãy lập một thực đơn 7 ngày lý tưởng ("Tuần nay ăn gì") dựa trên các thông số sau:
-    - Vùng miền / Địa lý: ${vungMien} (Lưu ý: BẮT BUỘC lựa chọn nguyên liệu thực phẩm phổ biến, dễ mua tại vùng này. Ví dụ nếu là miền núi cao thì hạn chế tối đa hải sản biển, thay bằng gà bản địa, thịt lợn bản, rau rừng, măng, các loại đậu hạt; nếu là miền biển thì linh hoạt hải sản).
-    - Thời điểm & Khí hậu: ${muaHienTai}.
-    - Chế độ ăn: ${cheDo}.
-    - Yêu cầu phụ của người dùng: "${yeuCauPhu}".
-    
-    BẮT BUỘC trả về đúng định dạng JSON thuần túy (không kèm markdown ngoài JSON) với cấu trúc sau:
-    {
-      "tieu_de": "Thực đơn dược thiện tuần chuyên biệt...",
-      "phan_tich_khu_vuc": "Phân tích ngắn gọn tại sao chọn thực đơn này phù hợp với đặc trưng vùng miền và khí hậu hiện tại",
-      "cac_ngay": [
-        {
-          "thu": "Thứ Hai",
-          "sang": {"mon": "...", "cong_dung": "..."},
-          "trua": {"mon": "...", "cong_dung": "..."},
-          "toi": {"mon": "...", "cong_dung": "..."}
-        }
-      ],
-      "luu_y_chung": "Lưu ý về cách chế biến và phối hợp nguyên liệu theo YHCT."
-    }`;
-
-    try {
-        const res = await fetch(getApiEndpoint(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                prompt: prompt, 
-                source: 'thucdon',
-                max_tokens: 1200 
-            })
-        });
-        const data = await res.json();
-
-        if (res.ok && data.reply) {
-            let parsedObj = parseJsonFromAI(data.reply);
-            if (parsedObj) {
-                renderThucDonTuanModalUI(parsedObj);
-            } else {
-                resultArea.innerHTML = `<div class="bg-stone-950 p-3 rounded-lg text-stone-300 text-xs leading-relaxed">${formatAIMessage(data.reply)}</div>`;
-            }
-        } else {
-            resultArea.innerHTML = `<div class="text-center py-6 text-xs text-red-400">AI không phản hồi dữ liệu thực đơn.</div>`;
-        }
-    } catch (err) {
-        console.error("Lỗi tạo thực đơn tuần:", err);
-        resultArea.innerHTML = `<div class="text-center py-6 text-xs text-red-400">Lỗi kết nối máy chủ AI.</div>`;
-    }
-}
-
-function renderThucDonTuanModalUI(data) {
-    const resultArea = document.getElementById('tna-result-area');
-    if (!resultArea) return;
-
-    let html = `
-        <div class="bg-stone-950 p-4 rounded-xl border border-amber-500/40 space-y-3">
-            <div class="border-b border-stone-800 pb-2">
-                <h4 class="font-bold text-amber-400 text-sm uppercase flex items-center gap-1.5">
-                    <i class="fa-solid fa-utensils text-amber-500"></i> ${escapeHTML(data.tieu_de || 'Thực Đơn Dược Thiện Lý Tưởng Tuần Nay')}
-                </h4>
-                <p class="text-[11px] text-stone-300 mt-1 leading-relaxed bg-stone-900 p-2.5 rounded border border-stone-800">
-                    <strong class="text-amber-400"><i class="fa-solid fa-cloud-sun"></i> Khí hậu & Mùa:</strong> ${escapeHTML(data.phan_tich_khu_vuc || '')}
-                </p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[50vh] overflow-y-auto pr-1">
-    `;
-
-    if (Array.isArray(data.cac_ngay)) {
-        data.cac_ngay.forEach(ngay => {
-            html += `
-                <div class="bg-stone-900 p-3 rounded-lg border border-stone-800 space-y-1.5 text-xs">
-                    <div class="font-bold text-emerald-400 border-b border-stone-800 pb-1 flex items-center gap-1">
-                        <i class="fa-solid fa-calendar-day text-amber-500 text-[10px]"></i> ${escapeHTML(ngay.thu)}
-                    </div>
-                    <div class="space-y-1 text-[11px] text-stone-300">
-                        <div><strong>☀️ Sáng:</strong> ${escapeHTML(ngay.sang?.mon || '')} <span class="text-stone-500 text-[10px]">(${escapeHTML(ngay.sang?.cong_dung || '')})</span></div>
-                        <div><strong>🍛 Trưa:</strong> ${escapeHTML(ngay.trua?.mon || '')} <span class="text-stone-500 text-[10px]">(${escapeHTML(ngay.trua?.cong_dung || '')})</span></div>
-                        <div><strong>🌙 Tối:</strong> ${escapeHTML(ngay.toi?.mon || '')} <span class="text-stone-500 text-[10px]">(${escapeHTML(ngay.toi?.cong_dung || '')})</span></div>
-                    </div>
-                </div>
-            `;
-        });
-    }
-
-    html += `
-            </div>
-            ${data.luu_y_chung ? `
-                <div class="bg-amber-950/40 border-l-4 border-amber-500 p-2.5 rounded-r text-amber-200 text-[11px] leading-relaxed">
-                    <strong class="text-amber-400 uppercase tracking-wider text-[10px] block mb-0.5"><i class="fa-solid fa-triangle-exclamation"></i> Lưu ý phối hợp & chế biến:</strong>
-                    ${escapeHTML(data.luu_y_chung)}
-                </div>
-            ` : ''}
-        </div>
-    `;
-
-    resultArea.innerHTML = html;
-}
 
 function layNoiDungThucDonTuanText() {
     const resultArea = document.getElementById('tna-result-area');
