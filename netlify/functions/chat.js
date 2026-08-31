@@ -1,29 +1,45 @@
 exports.handler = async function(event) {
-    const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
-    const requestOrigin = event.headers.origin || event.headers.Origin;
-
-    // Chặn truy cập từ Origin không hợp lệ ngay từ đầu
-    if (requestOrigin && !allowedOrigins.includes(requestOrigin)) {
-        return { 
-            statusCode: 403, 
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ error: 'Truy cập bị từ chối (CORS Policy).' }) 
-        };
+    // 1. Trích xuất Origin case-insensitive & chuẩn hóa chuỗi
+    const headersRaw = event.headers || {};
+    const originHeader = headersRaw.origin || headersRaw.Origin || headersRaw.referer || headersRaw.Referer || '';
+    
+    let requestOrigin = '';
+    if (originHeader) {
+        try {
+            const url = new URL(originHeader);
+            requestOrigin = url.origin; // Trả về đúng dạng http://localhost:8080
+        } catch (e) {
+            requestOrigin = originHeader.replace(/\/+$/, '');
+        }
     }
 
+    const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080", "http://127.0.0.1:8080", "http://127.0.0.1:8888"];
+    const isAllowed = allowedOrigins.includes(requestOrigin);
+    const corsOrigin = isAllowed ? requestOrigin : "https://dailuantriyhct.com";
+
+    // 2. Khai báo CORS Headers dùng chung cho TẤT CẢ các phản hồi
     const headers = {
-        'Access-Control-Allow-Origin': requestOrigin || "https://dailuantriyhct.com",
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Origin': corsOrigin,
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Content-Type': 'application/json'
     };
 
+    // Xử lý Preflight Request (OPTIONS)
     if (event.httpMethod === 'OPTIONS') {
         return { statusCode: 200, headers, body: '' };
     }
 
+    // Chặn Origin không hợp lệ nhưng VẪN ĐÈ HEADERS CORS để trình duyệt không báo lỗi đỏ
+    if (requestOrigin && !isAllowed) {
+        return { 
+            statusCode: 403, 
+            headers,
+            body: JSON.stringify({ error: 'Truy cập bị từ chối (CORS Policy).' }) 
+        };
+    }
+
     try {
-        // Trích xuất thêm max_tokens gửi từ ai-service.js
         const { prompt, image, source, max_tokens } = JSON.parse(event.body || '{}');
 
         if (!prompt || prompt.trim().length === 0) {
@@ -35,7 +51,7 @@ exports.handler = async function(event) {
         }
 
         const primaryKey  = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
-        const svipKey     = process.env.PRIMARY_SVIP_API_KEY || primaryKey; // Ưu tiên Key SVIP riêng nếu có
+        const svipKey     = process.env.PRIMARY_SVIP_API_KEY || primaryKey;
         const secondKey   = process.env.SECOND_API_KEY;
         const backupKey   = process.env.BACKUP_API_KEY;
         const quizKey     = process.env.QUIZ_API_KEY;
@@ -71,7 +87,6 @@ exports.handler = async function(event) {
             text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt 
         });
 
-        // Đóng gói payload gửi sang Gemini API (bao gồm generationConfig nếu có max_tokens)
         const requestPayload = {
             contents: [{ parts: partsPayload }]
         };
@@ -82,6 +97,7 @@ exports.handler = async function(event) {
             };
         }
 
+        // Giữ nguyên timeout 35s / 15s theo chuẩn thiết kế của bạn
         const longTimeoutSources = ['vongchan', 'assistant', 'thucdon', 'quiz', 'primarysvip'];
         const timeoutMs = longTimeoutSources.includes(source) ? 35000 : 15000;
 
