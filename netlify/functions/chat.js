@@ -2,7 +2,6 @@ exports.handler = async function(event) {
     const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
     const requestOrigin = event.headers.origin || event.headers.Origin;
 
-    // Chặn truy cập từ Origin không hợp lệ ngay từ đầu
     if (requestOrigin && !allowedOrigins.includes(requestOrigin)) {
         return { 
             statusCode: 403, 
@@ -23,7 +22,8 @@ exports.handler = async function(event) {
     }
 
     try {
-        const { prompt, image, source } = JSON.parse(event.body || '{}');
+        // Bóc tách thêm role gửi từ client
+        const { prompt, image, source, max_tokens, role } = JSON.parse(event.body || '{}');
 
         if (!prompt || prompt.trim().length === 0) {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung câu hỏi không được để trống.' }) };
@@ -33,6 +33,20 @@ exports.handler = async function(event) {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung yêu cầu quá dài (tối đa 2000 ký tự).' }) };
         }
 
+        // =========================================================================
+        // [NÂNG CAO] CHẶN QUYỀN TÍNH NĂNG VIP/SVIP BẰNG BACKEND GUARD
+        // =========================================================================
+        const vipOnlySources = ['vongchan', 'sach_ai', 'thucdon', 'quiz'];
+        const userRole = (role || 'GUEST').toUpperCase();
+        
+        if (vipOnlySources.includes(source) && ['GUEST', 'FREE'].includes(userRole)) {
+            return { 
+                statusCode: 403, 
+                headers, 
+                body: JSON.stringify({ error: `Tính năng [${source}] yêu cầu tài khoản cấp VIP trở lên.` }) 
+            };
+        }
+
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const secondKey  = process.env.SECOND_API_KEY;
         const backupKey  = process.env.BACKUP_API_KEY;
@@ -40,13 +54,13 @@ exports.handler = async function(event) {
         const searchKey  = process.env.SEARCH_API_KEY;
         const thucdonKey  = process.env.THUCDON_API_KEY;
         const thirdKey  = process.env.THIRD_API_KEY;
-        
+        const luantriKey  = process.env.LUANTRI_API_KEY;
         let keysToTry = [];
         if (source === 'assistant') keysToTry = [primaryKey, backupKey];
         else if (source === 'vongchan') keysToTry = [primaryKey, backupKey];
         else if (source === 'quiz') keysToTry = [quizKey, secondKey];
         else if (source === 'thucdon') keysToTry = [thucdonKey, thirdKey];
-        
+        else if (source === 'luantri') keysToTry = [luantriKey, thirdKey];               
         else keysToTry = [searchKey, secondKey];
 
         keysToTry = [...new Set(keysToTry.filter(Boolean))];
@@ -69,7 +83,17 @@ exports.handler = async function(event) {
             text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt 
         });
 
-        const timeoutMs = (source === 'vongchan' || source === 'assistant'|| source === 'thucdon'|| source === 'quiz') ? 35000 : 15000;
+        const payload = {
+            contents: [{ parts: partsPayload }]
+        };
+
+        if (max_tokens) {
+            payload.generationConfig = {
+                maxOutputTokens: Number(max_tokens)
+            };
+        }
+
+        const timeoutMs = (source === 'vongchan' || source === 'assistant'|| source === 'thucdon'|| source === 'quiz'|| source === 'luantri') ? 30000 : 15000;
 
         for (const apiKey of keysToTry) {
             for (const model of models) {
@@ -82,7 +106,7 @@ exports.handler = async function(event) {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         signal: controller.signal,
-                        body: JSON.stringify({ contents: [{ parts: partsPayload }] })
+                        body: JSON.stringify(payload)
                     });
 
                     clearTimeout(timeoutId);
