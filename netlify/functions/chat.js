@@ -1,8 +1,14 @@
+const { createClient } = require('@supabase/supabase-js');
+
+// Khởi tạo kết nối Supabase
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
+const supabase = (supabaseUrl && supabaseAnonKey) ? createClient(supabaseUrl, supabaseAnonKey) : null;
+
 exports.handler = async function(event) {
     const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
     const requestOrigin = event.headers.origin || event.headers.Origin;
 
-    // Chặn truy cập từ Origin không hợp lệ
     if (requestOrigin && !allowedOrigins.includes(requestOrigin)) {
         return { 
             statusCode: 403, 
@@ -13,7 +19,7 @@ exports.handler = async function(event) {
 
     const headers = {
         'Access-Control-Allow-Origin': requestOrigin || "https://dailuantriyhct.com",
-        'Access-Control-Allow-Headers': 'Content-Type',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Content-Type': 'application/json'
     };
@@ -23,7 +29,7 @@ exports.handler = async function(event) {
     }
 
     try {
-        // 1. Nhận thêm tham số max_tokens gửi từ Client (ai-service.js)
+        // Trích xuất tham số từ Body (bao gồm max_tokens từ client)
         const { prompt, image, source, max_tokens } = JSON.parse(event.body || '{}');
 
         if (!prompt || prompt.trim().length === 0) {
@@ -34,6 +40,33 @@ exports.handler = async function(event) {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung yêu cầu quá dài (tối đa 2000 ký tự).' }) };
         }
 
+        // =========================================================================
+        // 🔒 CHỐT CHẶN BẢO MẬT SERVER-SIDE: XÁC THỰC TOKEN & KIỂM TRA ROLE
+        // =========================================================================
+        const vipOnlySources = ['vongchan', 'sach_ai', 'thucdon', 'quiz'];
+        
+        if (vipOnlySources.includes(source)) {
+            const authHeader = event.headers.authorization || event.headers.Authorization;
+            let userRole = 'GUEST';
+
+            if (authHeader && supabase) {
+                const token = authHeader.replace(/^Bearer\s+/i, '');
+                const { data: { user }, error } = await supabase.auth.getUser(token);
+                if (user && !error) {
+                    userRole = (user.user_metadata?.role || 'FREE').toUpperCase();
+                }
+            }
+
+            if (userRole === 'GUEST' || userRole === 'FREE') {
+                return {
+                    statusCode: 403,
+                    headers,
+                    body: JSON.stringify({ error: `Tài khoản cấp ${userRole} không có quyền sử dụng tính năng VIP này.` })
+                };
+            }
+        }
+        // =========================================================================
+
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const secondKey  = process.env.SECOND_API_KEY;
         const backupKey  = process.env.BACKUP_API_KEY;
@@ -43,11 +76,17 @@ exports.handler = async function(event) {
         const thirdKey   = process.env.THIRD_API_KEY;
         
         let keysToTry = [];
-        if (source === 'assistant') keysToTry = [primaryKey, backupKey];
-        else if (source === 'vongchan') keysToTry = [primaryKey, backupKey];
-        else if (source === 'quiz') keysToTry = [quizKey, secondKey];
-        else if (source === 'thucdon') keysToTry = [thucdonKey, thirdKey];
-        else keysToTry = [searchKey, secondKey];
+        if (source === 'assistant' || source === 'vongchan') {
+            keysToTry = [primaryKey, backupKey];
+        } else if (source === 'quiz') {
+            keysToTry = [quizKey, secondKey];
+        } else if (source === 'thucdon') {
+            keysToTry = [thucdonKey, thirdKey];
+        } else if (source === 'sach_ai') {
+            keysToTry = [thirdKey, backupKey];
+        } else {
+            keysToTry = [searchKey, secondKey];
+        }
 
         keysToTry = [...new Set(keysToTry.filter(Boolean))];
 
@@ -55,6 +94,7 @@ exports.handler = async function(event) {
             return { statusCode: 500, headers, body: JSON.stringify({ error: 'Cấu hình máy chủ chưa hoàn tất.' }) };
         }
 
+        // Model tương thích chính xác với AI Studio dự án dailuantriyhct
         const models = ['gemini-3.6-flash', 'gemini-3.5-flash'];
         const partsPayload = [];
         
@@ -69,19 +109,18 @@ exports.handler = async function(event) {
             text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt 
         });
 
-        // 2. Chuẩn bị payload gửi sang API
-        const requestPayload = {
+        const apiRequestBody = {
             contents: [{ parts: partsPayload }]
         };
 
-        // Gán maxOutputTokens vào generationConfig nếu có giá trị max_tokens từ client gửi lên
-        if (max_tokens && typeof max_tokens === 'number') {
-            requestPayload.generationConfig = {
-                maxOutputTokens: max_tokens
+        // Bổ sung maxOutputTokens nếu client gửi max_tokens lên
+        if (max_tokens && !isNaN(max_tokens)) {
+            apiRequestBody.generationConfig = {
+                maxOutputTokens: parseInt(max_tokens, 10)
             };
         }
 
-        const timeoutMs = (source === 'vongchan' || source === 'assistant' || source === 'thucdon' || source === 'quiz') ? 35000 : 15000;
+        const timeoutMs = (source === 'vongchan' || source === 'assistant' || source === 'thucdon' || source === 'quiz' || source === 'sach_ai') ? 35000 : 15000;
 
         for (const apiKey of keysToTry) {
             for (const model of models) {
@@ -94,7 +133,7 @@ exports.handler = async function(event) {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         signal: controller.signal,
-                        body: JSON.stringify(requestPayload)
+                        body: JSON.stringify(apiRequestBody)
                     });
 
                     clearTimeout(timeoutId);
