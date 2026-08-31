@@ -109,8 +109,15 @@ exports.handler = async function(event) {
             text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt 
         });
 
+        // Đã bổ sung mảng safetySettings để chặn Google ngắt kết nối khi sinh dữ liệu y tế
         const apiRequestBody = {
-            contents: [{ parts: partsPayload }]
+            contents: [{ parts: partsPayload }],
+            safetySettings: [
+                { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
+                { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
+                { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
+                { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" }
+            ]
         };
 
         // Bổ sung maxOutputTokens nếu client gửi max_tokens lên
