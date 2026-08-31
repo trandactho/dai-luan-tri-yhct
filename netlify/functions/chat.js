@@ -2,6 +2,7 @@ exports.handler = async function(event) {
     const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
     const requestOrigin = event.headers.origin || event.headers.Origin;
 
+    // Chặn truy cập từ Origin không hợp lệ ngay từ đầu
     if (requestOrigin && !allowedOrigins.includes(requestOrigin)) {
         return { 
             statusCode: 403, 
@@ -22,6 +23,7 @@ exports.handler = async function(event) {
     }
 
     try {
+        // Trích xuất thêm max_tokens gửi từ ai-service.js
         const { prompt, image, source, max_tokens } = JSON.parse(event.body || '{}');
 
         if (!prompt || prompt.trim().length === 0) {
@@ -32,24 +34,22 @@ exports.handler = async function(event) {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung yêu cầu quá dài (tối đa 2000 ký tự).' }) };
         }
 
-        const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
-        const secondKey  = process.env.SECOND_API_KEY;
-        const backupKey  = process.env.BACKUP_API_KEY;
-        const quizKey    = process.env.QUIZ_API_KEY;
-        const searchKey  = process.env.SEARCH_API_KEY;
-        const thucdonKey = process.env.THUCDON_API_KEY;
-        const thirdKey   = process.env.THIRD_API_KEY;
+        const primaryKey  = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
+        const svipKey     = process.env.PRIMARY_SVIP_API_KEY || primaryKey; // Ưu tiên Key SVIP riêng nếu có
+        const secondKey   = process.env.SECOND_API_KEY;
+        const backupKey   = process.env.BACKUP_API_KEY;
+        const quizKey     = process.env.QUIZ_API_KEY;
+        const searchKey   = process.env.SEARCH_API_KEY;
+        const thucdonKey  = process.env.THUCDON_API_KEY;
+        const thirdKey    = process.env.THIRD_API_KEY;
         
         let keysToTry = [];
-        if (source === 'assistant' || source === 'vongchan' || source === 'sach_ai') {
-            keysToTry = [primaryKey, backupKey];
-        } else if (source === 'quiz') {
-            keysToTry = [quizKey, secondKey];
-        } else if (source === 'thucdon') {
-            keysToTry = [thucdonKey, thirdKey];
-        } else {
-            keysToTry = [searchKey, secondKey];
-        }
+        if (source === 'primarysvip') keysToTry = [svipKey, primaryKey, backupKey];
+        else if (source === 'assistant') keysToTry = [primaryKey, backupKey];
+        else if (source === 'vongchan') keysToTry = [primaryKey, backupKey];
+        else if (source === 'quiz') keysToTry = [quizKey, secondKey];
+        else if (source === 'thucdon') keysToTry = [thucdonKey, thirdKey];
+        else keysToTry = [searchKey, secondKey];
 
         keysToTry = [...new Set(keysToTry.filter(Boolean))];
 
@@ -57,8 +57,7 @@ exports.handler = async function(event) {
             return { statusCode: 500, headers, body: JSON.stringify({ error: 'Cấu hình máy chủ chưa hoàn tất.' }) };
         }
 
-        // Đổi tên model về chuẩn API Google Gemini
-        const models = ['gemini-3.5-flash', 'gemini-3.6-flash'];
+        const models = ['gemini-3.6-flash', 'gemini-3.5-flash'];
         const partsPayload = [];
         
         if (image && typeof image === 'string' && image.startsWith('data:image')) {
@@ -72,8 +71,19 @@ exports.handler = async function(event) {
             text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt 
         });
 
-        // Giới hạn timeout tối đa 24 giây để tránh 504 của Netlify
-        const timeoutMs = (source === 'vongchan' || source === 'assistant'|| source === 'thucdon'|| source === 'quiz') ? 25000 : 15000;
+        // Đóng gói payload gửi sang Gemini API (bao gồm generationConfig nếu có max_tokens)
+        const requestPayload = {
+            contents: [{ parts: partsPayload }]
+        };
+
+        if (max_tokens && typeof max_tokens === 'number' && max_tokens > 0) {
+            requestPayload.generationConfig = {
+                maxOutputTokens: max_tokens
+            };
+        }
+
+        const longTimeoutSources = ['vongchan', 'assistant', 'thucdon', 'quiz', 'primarysvip'];
+        const timeoutMs = longTimeoutSources.includes(source) ? 35000 : 15000;
 
         for (const apiKey of keysToTry) {
             for (const model of models) {
@@ -86,12 +96,7 @@ exports.handler = async function(event) {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         signal: controller.signal,
-                        body: JSON.stringify({ 
-                            contents: [{ parts: partsPayload }],
-                            generationConfig: {
-                                maxOutputTokens: Number(max_tokens) || 300
-                            }
-                        })
+                        body: JSON.stringify(requestPayload)
                     });
 
                     clearTimeout(timeoutId);
