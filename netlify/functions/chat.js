@@ -2,6 +2,7 @@ exports.handler = async function(event) {
     const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
     const requestOrigin = event.headers.origin || event.headers.Origin;
 
+    // Chặn truy cập từ Origin không hợp lệ ngay từ đầu
     if (requestOrigin && !allowedOrigins.includes(requestOrigin)) {
         return { 
             statusCode: 403, 
@@ -22,8 +23,7 @@ exports.handler = async function(event) {
     }
 
     try {
-        // Bóc tách thêm role gửi từ client
-        const { prompt, image, source, max_tokens, role } = JSON.parse(event.body || '{}');
+        const { prompt, image, source, max_tokens } = JSON.parse(event.body || '{}');
 
         if (!prompt || prompt.trim().length === 0) {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung câu hỏi không được để trống.' }) };
@@ -33,34 +33,21 @@ exports.handler = async function(event) {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung yêu cầu quá dài (tối đa 2000 ký tự).' }) };
         }
 
-        // =========================================================================
-        // [NÂNG CAO] CHẶN QUYỀN TÍNH NĂNG VIP/SVIP BẰNG BACKEND GUARD
-        // =========================================================================
-        const vipOnlySources = ['vongchan', 'sach_ai', 'thucdon', 'quiz'];
-        const userRole = (role || 'GUEST').toUpperCase();
-        
-        if (vipOnlySources.includes(source) && ['GUEST', 'FREE'].includes(userRole)) {
-            return { 
-                statusCode: 403, 
-                headers, 
-                body: JSON.stringify({ error: `Tính năng [${source}] yêu cầu tài khoản cấp VIP trở lên.` }) 
-            };
-        }
-
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const secondKey  = process.env.SECOND_API_KEY;
         const backupKey  = process.env.BACKUP_API_KEY;
-        const quizKey  = process.env.QUIZ_API_KEY;
+        const quizKey    = process.env.QUIZ_API_KEY;
         const searchKey  = process.env.SEARCH_API_KEY;
-        const thucdonKey  = process.env.THUCDON_API_KEY;
-        const thirdKey  = process.env.THIRD_API_KEY;
-        const luantriKey  = process.env.LUANTRI_API_KEY;
+        const thucdonKey = process.env.THUCDON_API_KEY;
+        const thirdKey   = process.env.THIRD_API_KEY;
+        const luantriKey = process.env.LUANTRI_API_KEY;
+
         let keysToTry = [];
         if (source === 'assistant') keysToTry = [primaryKey, backupKey];
         else if (source === 'vongchan') keysToTry = [primaryKey, backupKey];
         else if (source === 'quiz') keysToTry = [quizKey, secondKey];
         else if (source === 'thucdon') keysToTry = [thucdonKey, thirdKey];
-        else if (source === 'luantri') keysToTry = [luantriKey, thirdKey];               
+        else if (source === 'luantri') keysToTry = [luantriKey, thirdKey, searchKey]; // Có thêm searchKey dự phòng
         else keysToTry = [searchKey, secondKey];
 
         keysToTry = [...new Set(keysToTry.filter(Boolean))];
