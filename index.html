@@ -564,10 +564,11 @@
         </div>
 
         <!-- Khu vực hiển thị kết quả phân tích -->
-        <div id="phoingu-analysis-result" class="space-y-3 pt-3 border-t border-stone-800">
-            <div class="text-xs text-stone-500 italic text-center py-4">Thêm ít nhất 2 vị thuốc để hệ thống phân tích tương kỵ và phối ngũ.</div>
-        </div>
+<div id="phoingu-analysis-result" class="space-y-3 pt-3 border-t border-stone-800">
+    <div id="ai-tong-the-content" class="text-xs text-stone-500 italic text-center py-4">
+        Thêm ít nhất 2 vị thuốc để hệ thống phân tích tương kỵ và phối ngũ.
     </div>
+</div>
 </section>
 
         <!-- TAB 9: TỨ CHẨN AI TÍCH HỢP -->
@@ -580,31 +581,48 @@
                     <p class="text-xs text-stone-400">Kết hợp Vọng, Văn, Vấn, Thiết chẩn để AI phân tích và hội chẩn</p>
                 </div>
 
-                <div class="bg-stone-900/80 p-3.5 rounded-lg border border-stone-800 space-y-2">
-                    <div class="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
-                        <i class="fa-solid fa-eye"></i> 1. Vọng Chẩn (Xem hình thái, sắc mặt, lưỡi)
-                    </div>
-                    <div id="vong-chan-preview-container" class="relative w-full h-48 bg-stone-950 rounded border border-dashed border-stone-700 flex flex-col items-center justify-center overflow-hidden">
-                        <div id="vong-chan-placeholder" class="text-center space-y-1 p-2">
-                            <i class="fa-solid fa-camera text-2xl text-stone-600"></i>
-                            <div class="text-[11px] text-stone-400">Chọn hoặc chụp ảnh Thiệt chẩn / Diện chẩn</div>
-                        </div>
-                        <img id="vong-chan-img-preview" class="hidden w-full h-full object-contain" alt="Ảnh Vọng chẩn">
-                        <video id="vong-chan-video" class="hidden w-full h-full object-cover" autoplay playsinline muted></video>
-                    </div>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-                        <label class="py-1.5 px-2 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold rounded flex items-center justify-center gap-1 cursor-pointer">
-                            <i class="fa-solid fa-upload"></i> Tải ảnh
-                            <input type="file" id="vong-chan-file-input" accept="image/*" class="hidden" onchange="xuLyChonFileVongChan(event)">
-                        </label>
-                        <button id="btn-toggle-camera" onclick="moCameraVongChan()" class="py-1.5 px-2 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold rounded flex items-center justify-center gap-1">
-                            <i class="fa-solid fa-video"></i> Camera
-                        </button>
-                        <button id="btn-capture-photo" onclick="chupAnhVongChan()" class="hidden col-span-full py-1.5 px-2 bg-emerald-700 hover:bg-emerald-600 text-white font-bold rounded flex items-center justify-center gap-1">
-                            <i class="fa-solid fa-circle-dot"></i> Chụp
-                        </button>
-                    </div>
-                </div>
+                <div class="bg-stone-900/80 p-3.5 rounded-xl border border-stone-800 space-y-3">
+    <!-- Header chuyển sang flex-col ở Mobile để không bị ép chữ -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-800 pb-2">
+        <div class="text-xs font-bold text-amber-400 uppercase flex items-center gap-1.5">
+            <i class="fa-solid fa-eye text-amber-500"></i> 
+            <span>1. Vọng Chẩn</span>
+            <span class="text-[10px] text-stone-400 font-normal lowercase">(hình thái, sắc mặt, lưỡi)</span>
+        </div>
+        <select id="vong-chan-type" class="w-full sm:w-auto p-1.5 text-[11px] rounded-lg bg-stone-950 text-amber-400 border border-stone-800 outline-none focus:border-amber-500">
+            <option value="thiet_chan">Thiệt chẩn (Lưỡi)</option>
+            <option value="dien_chan">Diện chẩn (Sắc mặt)</option>
+            <option value="da_da">Sắc da / Thương tổn</option>
+        </select>
+    </div>
+    
+    <!-- Khung xem ảnh vừa vặn trên điện thoại (h-36 ở mobile, h-48 ở máy tính) -->
+    <div id="vong-chan-preview-container" class="relative w-full h-36 sm:h-48 bg-stone-950 rounded-xl border border-dashed border-stone-700 flex flex-col items-center justify-center overflow-hidden">
+        <div id="vong-chan-placeholder" class="text-center space-y-1 p-2">
+            <i class="fa-solid fa-camera text-2xl text-stone-600"></i>
+            <div class="text-[11px] text-stone-400">Chọn hoặc chụp ảnh Thiệt chẩn / Diện chẩn</div>
+        </div>
+        <img id="vong-chan-img-preview" class="hidden w-full h-full object-contain" alt="Ảnh Vọng chẩn">
+        <video id="vong-chan-video" class="hidden w-full h-full object-cover" autoplay playsinline muted></video>
+    </div>
+
+    <div id="vong-chan-output" class="hidden text-xs text-stone-300 p-2.5 bg-stone-950 rounded-lg border border-stone-800 leading-relaxed"></div>
+
+    <div class="grid grid-cols-2 gap-2 text-xs">
+        <label class="py-2 px-2 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold rounded-lg flex items-center justify-center gap-1.5 cursor-pointer transition-all shadow-sm">
+            <i class="fa-solid fa-upload"></i> Tải ảnh
+            <input type="file" id="vong-chan-file-input" accept="image/*" class="hidden" onchange="xuLyChonFileVongChan(event)">
+        </label>
+        <button id="btn-toggle-camera" onclick="moCameraVongChan()" class="py-2 px-2 bg-stone-800 hover:bg-stone-700 text-amber-400 border border-stone-700 font-bold rounded-lg flex items-center justify-center gap-1.5 transition-all shadow-sm">
+            <i class="fa-solid fa-video"></i> Camera
+        </button>
+        <button id="btn-capture-photo" onclick="chupAnhVongChan()" class="hidden col-span-2 py-2 px-2 bg-emerald-700 hover:bg-emerald-600 text-white font-bold rounded-lg flex items-center justify-center gap-1.5 shadow-md">
+            <i class="fa-solid fa-circle-dot"></i> Chụp ảnh
+        </button>
+    </div>
+</div>
+
+
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
