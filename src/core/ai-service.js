@@ -348,10 +348,18 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
         - Nếu là Dược Thiện: {"ten": "...", "nhom": "...", "cong_dung": "...", "thanh_phan": [{"vi": "...", "lieu": "..."}], "so_che": "...", "cach_lam": ["..."], "kieng_ky": "..."}
         - Nếu là Dược Liệu/Huyệt/Trà: {"ten": "...", "nhom": "...", "cong_dung": "...", "cach_dung": "...", "thanh_phan": ["..."]}`;
 
+        // Tự động điều chỉnh source và maxTokens theo tabName
+        let source = 'backup';
+        let maxTokens = 250;
+        if (tabName.includes('Luận Trị') || tabName.includes('luantri')) {
+            source = 'luantri';
+            maxTokens = 300;
+        }
+
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: prompt, ...getAiParams('backup', 250) })
+            body: JSON.stringify({ prompt: prompt, ...getAiParams(source, maxTokens) })
         });
         const data = await res.json();
     
