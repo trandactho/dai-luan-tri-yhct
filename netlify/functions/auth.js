@@ -42,18 +42,36 @@ async function getEffectiveRole(profile) {
 }
 
 exports.handler = async (event) => {
-  const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
-  const requestOrigin = event.headers.origin || event.headers.Origin;
+  // 1. Danh sách Origin được phép truy cập (bao gồm cả Localhost & Live)
+  const allowedOrigins = [
+    "https://dailuantriyhct.com",
+    "https://www.dailuantriyhct.com",
+    "http://localhost:8888",
+    "http://localhost:8080",
+    "http://127.0.0.1:8888",
+    "http://127.0.0.1:8080"
+  ];
+  
+  const requestOrigin = event.headers.origin || event.headers.Origin || event.headers.ORIGIN || '';
   const userAgent = event.headers['user-agent'] || event.headers['User-Agent'] || 'unknown';
 
+  // Xác định Origin phản hồi chính xác để tránh bị lỗi Preflight
+  const responseOrigin = allowedOrigins.includes(requestOrigin) 
+    ? requestOrigin 
+    : (requestOrigin ? requestOrigin : "https://dailuantriyhct.com");
+
   const headers = {
-    'Access-Control-Allow-Origin': allowedOrigins.includes(requestOrigin) ? requestOrigin : '*',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Admin-Secret',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Origin': responseOrigin,
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Admin-Secret, apikey, x-client-info',
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
     'Content-Type': 'application/json'
   };
 
-  if (event.httpMethod === 'OPTIONS') return { statusCode: 200, headers, body: '' };
+  // 2. Xử lý Request OPTIONS (Preflight)
+  if (event.httpMethod === 'OPTIONS') {
+      return { statusCode: 200, headers, body: '' };
+  }
+
   if (event.httpMethod !== 'POST') {
       console.error('❌ 405 Method Not Allowed:', event.httpMethod);
       return { statusCode: 405, headers, body: JSON.stringify({ message: 'Method Not Allowed' }) };
@@ -61,7 +79,7 @@ exports.handler = async (event) => {
 
   const serviceKey = SUPABASE_SERVICE_ROLE_KEY;
   if (!SUPABASE_URL || !SUPABASE_ANON_KEY || !serviceKey) {
-      console.error('❌ 500 Thiếu biến môi trường Server[span_1](start_span)[span_1](end_span)');
+      console.error('❌ 500 Thiếu biến môi trường Server');
       return { statusCode: 500, headers, body: JSON.stringify({ message: 'Chưa cấu hình biến môi trường Server.' }) };
   }
 
