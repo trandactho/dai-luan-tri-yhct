@@ -105,13 +105,11 @@ exports.handler = async function(event) {
             }
         }
 
-        // Xử lý không thêm câu dẫn nhập nếu yêu cầu là JSON để tránh AI trả về lỗi văn bản
-        const isJsonPrompt = prompt.includes('JSON') || source === 'backup' || source === 'quiz';
+        // Khôi phục lại Persona để AI luôn giữ văn phong YHCT tiếng Việt
         partsPayload.push({ 
-            text: isJsonPrompt ? prompt : ("Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt)
+            text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời bằng tiếng Việt, chuẩn xác: " + prompt 
         });
 
-        // Bổ sung mảng safetySettings để chặn Google ngắt kết nối khi sinh dữ liệu y tế
         const apiRequestBody = {
             contents: [{ parts: partsPayload }],
             safetySettings: [
@@ -119,14 +117,19 @@ exports.handler = async function(event) {
                 { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
                 { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
                 { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" }
-            ]
+            ],
+            generationConfig: {}
         };
 
-        // Bổ sung maxOutputTokens nếu client gửi max_tokens lên
+        // Kích hoạt tính năng ép AI trả về 100% JSON thuần túy (không markdown, không chữ thừa)
+        const isJsonTask = source === 'backup' || source === 'quiz' || source === 'thucdon' || prompt.includes('JSON');
+        if (isJsonTask) {
+            apiRequestBody.generationConfig.responseMimeType = "application/json";
+        }
+
+        // Giới hạn Token
         if (max_tokens && !isNaN(max_tokens)) {
-            apiRequestBody.generationConfig = {
-                maxOutputTokens: parseInt(max_tokens, 10)
-            };
+            apiRequestBody.generationConfig.maxOutputTokens = parseInt(max_tokens, 10);
         }
 
         const timeoutMs = (source === 'vongchan' || source === 'assistant' || source === 'thucdon' || source === 'quiz' || source === 'sach_ai') ? 35000 : 15000;
