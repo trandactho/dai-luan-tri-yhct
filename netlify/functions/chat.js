@@ -1,14 +1,8 @@
-const { createClient } = require('@supabase/supabase-js');
-
-// Khởi tạo kết nối Supabase
-const supabaseUrl = process.env.SUPABASE_URL;
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
-const supabase = (supabaseUrl && supabaseAnonKey) ? createClient(supabaseUrl, supabaseAnonKey) : null;
-
 exports.handler = async function(event) {
     const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
     const requestOrigin = event.headers.origin || event.headers.Origin;
 
+    // Chặn truy cập từ Origin không hợp lệ ngay từ đầu
     if (requestOrigin && !allowedOrigins.includes(requestOrigin)) {
         return { 
             statusCode: 403, 
@@ -19,7 +13,7 @@ exports.handler = async function(event) {
 
     const headers = {
         'Access-Control-Allow-Origin': requestOrigin || "https://dailuantriyhct.com",
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Headers': 'Content-Type',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
         'Content-Type': 'application/json'
     };
@@ -29,8 +23,7 @@ exports.handler = async function(event) {
     }
 
     try {
-        // Trích xuất tham số từ Body (bao gồm max_tokens từ client)
-        const { prompt, image, source, max_tokens } = JSON.parse(event.body || '{}');
+        const { prompt, image, source } = JSON.parse(event.body || '{}');
 
         if (!prompt || prompt.trim().length === 0) {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung câu hỏi không được để trống.' }) };
@@ -40,53 +33,21 @@ exports.handler = async function(event) {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung yêu cầu quá dài (tối đa 2000 ký tự).' }) };
         }
 
-        // =========================================================================
-        // 🔒 CHỐT CHẶN BẢO MẬT SERVER-SIDE: XÁC THỰC TOKEN & KIỂM TRA ROLE
-        // =========================================================================
-        const vipOnlySources = ['vongchan', 'sach_ai', 'thucdon', 'quiz'];
-        
-        if (vipOnlySources.includes(source)) {
-            const authHeader = event.headers.authorization || event.headers.Authorization;
-            let userRole = 'GUEST';
-
-            if (authHeader && supabase) {
-                const token = authHeader.replace(/^Bearer\s+/i, '');
-                const { data: { user }, error } = await supabase.auth.getUser(token);
-                if (user && !error) {
-                    userRole = (user.user_metadata?.role || 'FREE').toUpperCase();
-                }
-            }
-
-            if (userRole === 'GUEST' || userRole === 'FREE') {
-                return {
-                    statusCode: 403,
-                    headers,
-                    body: JSON.stringify({ error: `Tài khoản cấp ${userRole} không có quyền sử dụng tính năng VIP này.` })
-                };
-            }
-        }
-        // =========================================================================
-
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const secondKey  = process.env.SECOND_API_KEY;
         const backupKey  = process.env.BACKUP_API_KEY;
-        const quizKey    = process.env.QUIZ_API_KEY;
+        const quizKey  = process.env.QUIZ_API_KEY;
         const searchKey  = process.env.SEARCH_API_KEY;
-        const thucdonKey = process.env.THUCDON_API_KEY;
-        const thirdKey   = process.env.THIRD_API_KEY;
+        const thucdonKey  = process.env.THUCDON_API_KEY;
+        const thirdKey  = process.env.THIRD_API_KEY;
         
         let keysToTry = [];
-        if (source === 'assistant' || source === 'vongchan') {
-            keysToTry = [primaryKey, backupKey];
-        } else if (source === 'quiz') {
-            keysToTry = [quizKey, secondKey];
-        } else if (source === 'thucdon') {
-            keysToTry = [thucdonKey, thirdKey];
-        } else if (source === 'sach_ai') {
-            keysToTry = [thirdKey, backupKey];
-        } else {
-            keysToTry = [searchKey, secondKey];
-        }
+        if (source === 'assistant') keysToTry = [primaryKey, backupKey];
+        else if (source === 'vongchan') keysToTry = [primaryKey, backupKey];
+        else if (source === 'quiz') keysToTry = [quizKey, secondKey];
+        else if (source === 'thucdon') keysToTry = [thucdonKey, thirdKey];
+        
+        else keysToTry = [searchKey, secondKey];
 
         keysToTry = [...new Set(keysToTry.filter(Boolean))];
 
@@ -94,7 +55,6 @@ exports.handler = async function(event) {
             return { statusCode: 500, headers, body: JSON.stringify({ error: 'Cấu hình máy chủ chưa hoàn tất.' }) };
         }
 
-        // Model tương thích chính xác với AI Studio dự án dailuantriyhct
         const models = ['gemini-3.6-flash', 'gemini-3.5-flash'];
         const partsPayload = [];
         
@@ -105,34 +65,11 @@ exports.handler = async function(event) {
             }
         }
 
-        // Khôi phục lại Persona để AI luôn giữ văn phong YHCT tiếng Việt
         partsPayload.push({ 
-            text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời bằng tiếng Việt, chuẩn xác: " + prompt 
+            text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt 
         });
 
-        const apiRequestBody = {
-            contents: [{ parts: partsPayload }],
-            safetySettings: [
-                { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" },
-                { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-                { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-                { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" }
-            ],
-            generationConfig: {}
-        };
-
-        // Kích hoạt tính năng ép AI trả về 100% JSON thuần túy (không markdown, không chữ thừa)
-        const isJsonTask = source === 'backup' || source === 'quiz' || source === 'thucdon' || prompt.includes('JSON');
-        if (isJsonTask) {
-            apiRequestBody.generationConfig.responseMimeType = "application/json";
-        }
-
-        // Giới hạn Token
-        if (max_tokens && !isNaN(max_tokens)) {
-            apiRequestBody.generationConfig.maxOutputTokens = parseInt(max_tokens, 10);
-        }
-
-        const timeoutMs = (source === 'vongchan' || source === 'assistant' || source === 'thucdon' || source === 'quiz' || source === 'sach_ai') ? 35000 : 15000;
+        const timeoutMs = (source === 'vongchan' || source === 'assistant'|| source === 'thucdon'|| source === 'quiz' || source === 'sach_ai' ) ? 35000 : 15000;
 
         for (const apiKey of keysToTry) {
             for (const model of models) {
@@ -145,7 +82,7 @@ exports.handler = async function(event) {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         signal: controller.signal,
-                        body: JSON.stringify(apiRequestBody)
+                        body: JSON.stringify({ contents: [{ parts: partsPayload }] })
                     });
 
                     clearTimeout(timeoutId);
