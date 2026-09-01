@@ -105,11 +105,13 @@ exports.handler = async function(event) {
             }
         }
 
+        // Xử lý không thêm câu dẫn nhập nếu yêu cầu là JSON để tránh AI trả về lỗi văn bản
+        const isJsonPrompt = prompt.includes('JSON') || source === 'backup' || source === 'quiz';
         partsPayload.push({ 
-            text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt 
+            text: isJsonPrompt ? prompt : ("Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt)
         });
 
-        // Đã bổ sung mảng safetySettings để chặn Google ngắt kết nối khi sinh dữ liệu y tế
+        // Bổ sung mảng safetySettings để chặn Google ngắt kết nối khi sinh dữ liệu y tế
         const apiRequestBody = {
             contents: [{ parts: partsPayload }],
             safetySettings: [
