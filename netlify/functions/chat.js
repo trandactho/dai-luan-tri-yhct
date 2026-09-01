@@ -23,7 +23,7 @@ exports.handler = async function(event) {
     }
 
     try {
-        const { prompt, image, source } = JSON.parse(event.body || '{}');
+        const { prompt, image, source, max_tokens } = JSON.parse(event.body || '{}');
 
         if (!prompt || prompt.trim().length === 0) {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung câu hỏi không được để trống.' }) };
@@ -46,7 +46,6 @@ exports.handler = async function(event) {
         else if (source === 'vongchan') keysToTry = [primaryKey, backupKey];
         else if (source === 'quiz') keysToTry = [quizKey, secondKey];
         else if (source === 'thucdon') keysToTry = [thucdonKey, thirdKey];
-        
         else keysToTry = [searchKey, secondKey];
 
         keysToTry = [...new Set(keysToTry.filter(Boolean))];
@@ -55,13 +54,14 @@ exports.handler = async function(event) {
             return { statusCode: 500, headers, body: JSON.stringify({ error: 'Cấu hình máy chủ chưa hoàn tất.' }) };
         }
 
+        // Giữ nguyên danh sách model thực tế dự án đang dùng ổn định
         const models = ['gemini-3.6-flash', 'gemini-3.5-flash'];
         const partsPayload = [];
         
         if (image && typeof image === 'string' && image.startsWith('data:image')) {
             const matches = image.match(/^data:(image\/\w+);base64,(.+)$/);
             if (matches && matches.length === 3) {
-                partsPayload.push({ inline_data: { mime_type: matches[1], data: matches[2] } });
+                partsPayload.push({ inlineData: { mimeType: matches[1], data: matches[2] } });
             }
         }
 
@@ -78,11 +78,19 @@ exports.handler = async function(event) {
 
                 try {
                     const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${apiKey.trim()}`;
+                    
+                    const payload = {
+                        contents: [{ parts: partsPayload }],
+                        generationConfig: {
+                            maxOutputTokens: max_tokens || 300
+                        }
+                    };
+
                     const response = await fetch(url, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         signal: controller.signal,
-                        body: JSON.stringify({ contents: [{ parts: partsPayload }] })
+                        body: JSON.stringify(payload)
                     });
 
                     clearTimeout(timeoutId);
