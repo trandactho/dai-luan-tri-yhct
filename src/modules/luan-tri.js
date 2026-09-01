@@ -511,28 +511,7 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
             } else {
                 warningContainer.innerHTML = "";
             }
-        }
-
-        if (typeof AppState !== 'undefined' && AppState.aiHcActive && data.hc) {
-            fetchAIHcDesc(data.hc);
-        } else {
-            const aiHcEl = document.getElementById('ai-hc-desc');
-            if (aiHcEl) {
-                aiHcEl.classList.add('hidden');
-                aiHcEl.innerHTML = '';
-            }
-        }
-
-        if (typeof AppState !== 'undefined' && AppState.aiBtActive && data.bt) {
-            fetchAIBtDesc(data.bt);
-        } else {
-            const aiBtEl = document.getElementById('ai-bt-desc');
-            if (aiBtEl) {
-                aiBtEl.classList.add('hidden');
-                aiBtEl.innerHTML = '';
-            }
-        }
-
+        }       
     } else {
         if (query && isEnter && typeof fetchAIBackupResult === 'function') {
             fetchAIBackupResult(query, 'Biện chứng Luận Trị YHCT', pdfArea);
