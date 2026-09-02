@@ -684,95 +684,83 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
 async function chayLenhAi(btnElement, loaiLenh) {
     if (!btnElement) return;
 
-    btnElement.disabled = true;
-    btnElement.classList.add('opacity-50', 'pointer-events-none');
-    const originalHtml = btnElement.innerHTML;
-    btnElement.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> Đang xử lý...`;
-
-    try {
-        if (loaiLenh === 'luantri') {
-            await triggerAiSearch('luantri');
-        } else if (loaiLenh === 'baithuoc') {
-            await sendAIWebMessage();
-        } else if (loaiLenh === 'hc') {
-            const cardEl = btnElement.closest('.bg-dark-box') || btnElement.parentElement;
-            let queryEl = cardEl ? cardEl.querySelector('.font-bold.text-amber-400, h3, h4') : null;
-            let query = queryEl ? queryEl.innerText.trim() : '';
-            
-            if (!query || query === '---' || query.includes('AI')) {
-                const fallbackEl = document.querySelector('#pdf-area .font-bold.text-amber-400');
-                query = fallbackEl ? fallbackEl.innerText.trim() : '';
-            }
-            
-            if (!query || query === '---') {
-                alert('Vui lòng chọn hoặc tra cứu một hội chứng cụ thể trước khi phân tích AI.');
-                return;
-            }
-
-            let descEl = document.getElementById('ai-hc-desc');
-            if (!descEl) {
-                descEl = document.createElement('div');
-                descEl.id = 'ai-hc-desc';
-                descEl.className = 'text-xs text-stone-300 pt-2 border-t border-stone-800/80 leading-relaxed mt-2';
-                cardEl?.appendChild(descEl);
-            }
-            descEl.classList.remove('hidden');
-            descEl.innerHTML = `<i class="fa-solid fa-brain fa-spin text-amber-500 mr-1"></i> Đang phân tích hội chứng...`;
-            
-            const res = await fetch(getApiEndpoint(), {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    prompt: `Phân tích cực kỳ ngắn gọn, súc tích hội chứng YHCT: ${query}. Tối đa 3 ý chính.`, 
-                    ...getAiParams('search', 300) 
-                })
-            });
-            const data = await res.json();
-            descEl.innerHTML = formatAIMessage(data.reply || 'Không có phản hồi từ AI.');
-
-        } else if (loaiLenh === 'bt') {
-            const cardEl = btnElement.closest('.bg-dark-box') || btnElement.parentElement;
-            let queryEl = cardEl ? cardEl.querySelector('.font-bold.text-amber-400, h3, h4') : null;
-            let query = queryEl ? queryEl.innerText.trim() : '';
-            
-            if (!query || query === '---' || query.includes('AI')) {
-                const fallbackEl = document.querySelector('#pdf-area .font-bold.text-amber-400');
-                query = fallbackEl ? fallbackEl.innerText.trim() : '';
-            }
-            
-            if (!query || query === '---' || query === 'Đối chứng nghiệm phương') {
-                alert('Vui lòng chọn hoặc tra cứu một bài thuốc cụ thể trước khi phân tích AI.');
-                return;
-            }
-
-            let descEl = document.getElementById('ai-bt-desc');
-            if (!descEl) {
-                descEl = document.createElement('div');
-                descEl.id = 'ai-bt-desc';
-                descEl.className = 'text-xs text-stone-300 pt-2 border-t border-stone-800/80 leading-relaxed mt-2';
-                cardEl?.appendChild(descEl);
-            }
-            descEl.classList.remove('hidden');
-            descEl.innerHTML = `<i class="fa-solid fa-brain fa-spin text-amber-500 mr-1"></i> Đang phân tích bài thuốc...`;
-            
-            const res = await fetch(getApiEndpoint(), {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                    prompt: `Phân tích cực kỳ ngắn gọn, súc tích bài thuốc cổ phương: ${query}. Tối đa 3 ý chính.`, 
-                    ...getAiParams('search', 300) 
-                })
-            });
-            const data = await res.json();
-            descEl.innerHTML = formatAIMessage(data.reply || 'Không có phản hồi từ AI.');
+    if (loaiLenh === 'hc') {
+        const hcName = document.getElementById('hoi-chung')?.innerText?.trim();
+        if (!hcName || hcName === '---' || hcName.includes('Không tìm thấy')) {
+            alert('Vui lòng chọn hoặc tra cứu một hội chứng cụ thể trước khi phân tích AI.');
+            return;
         }
-    } catch (err) {
-        console.error("Lỗi thực thi lệnh AI:", err);
-        alert('Lỗi kết nối máy chủ AI. Vui lòng thử lại sau.');
-    } finally {
-        btnElement.disabled = false;
-        btnElement.classList.remove('opacity-50', 'pointer-events-none');
-        btnElement.innerHTML = originalHtml;
+
+        let descEl = document.getElementById('ai-hc-desc');
+        if (!descEl) {
+            descEl = document.createElement('div');
+            descEl.id = 'ai-hc-desc';
+            descEl.className = 'text-xs text-stone-300 pt-2 border-t border-stone-800/80 leading-relaxed mt-2';
+            btnElement.closest('.bg-dark-box')?.appendChild(descEl);
+        }
+
+        descEl.classList.remove('hidden');
+        descEl.innerHTML = `<i class="fa-solid fa-brain fa-spin text-amber-500 mr-1"></i> AI đang phân tích hội chứng...`;
+
+        btnElement.disabled = true;
+        btnElement.classList.add('opacity-50', 'pointer-events-none');
+
+        try {
+            const res = await fetch(getApiEndpoint(), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    prompt: `Phân tích cực kỳ ngắn gọn, súc tích hội chứng YHCT: ${hcName}. Tối đa 3 ý chính.`,
+                    ...getAiParams('search', 300)
+                })
+            });
+            const data = await res.json();
+            descEl.innerHTML = formatAIMessage(data.reply || 'Không có phản hồi từ AI.');
+        } catch (err) {
+            descEl.innerHTML = `<div class="text-red-400 text-xs py-1">⚠️ Lỗi kết nối AI. Vui lòng thử lại.</div>`;
+        } finally {
+            btnElement.disabled = false;
+            btnElement.classList.remove('opacity-50', 'pointer-events-none');
+        }
+
+    } else if (loaiLenh === 'bt') {
+        const btName = document.getElementById('bai-thuoc')?.innerText?.trim();
+        if (!btName || btName === '---' || btName === 'Đối chứng nghiệm phương') {
+            alert('Vui lòng chọn hoặc tra cứu một bài thuốc cụ thể trước khi phân tích AI.');
+            return;
+        }
+
+        let descEl = document.getElementById('ai-bt-desc');
+        if (!descEl) {
+            descEl = document.createElement('div');
+            descEl.id = 'ai-bt-desc';
+            descEl.className = 'text-xs text-stone-300 pt-2 border-t border-stone-800/80 leading-relaxed mt-2';
+            btnElement.closest('.bg-dark-box')?.appendChild(descEl);
+        }
+
+        descEl.classList.remove('hidden');
+        descEl.innerHTML = `<i class="fa-solid fa-brain fa-spin text-amber-500 mr-1"></i> AI đang phân tích bài thuốc...`;
+
+        btnElement.disabled = true;
+        btnElement.classList.add('opacity-50', 'pointer-events-none');
+
+        try {
+            const res = await fetch(getApiEndpoint(), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    prompt: `Phân tích cực kỳ ngắn gọn, súc tích bài thuốc cổ phương: ${btName}. Tối đa 3 ý chính.`,
+                    ...getAiParams('search', 300)
+                })
+            });
+            const data = await res.json();
+            descEl.innerHTML = formatAIMessage(data.reply || 'Không có phản hồi từ AI.');
+        } catch (err) {
+            descEl.innerHTML = `<div class="text-red-400 text-xs py-1">⚠️ Lỗi kết nối AI. Vui lòng thử lại.</div>`;
+        } finally {
+            btnElement.disabled = false;
+            btnElement.classList.remove('opacity-50', 'pointer-events-none');
+        }
     }
 }
 
@@ -933,66 +921,6 @@ function renderThucDonTuanModalUI(rawObj) {
 // ==========================================================================
 // CÁC HÀM AI MODULE KHÁC
 // ==========================================================================
-async function fetchAIHcDesc(hcName) {
-    const aiHcEl = document.getElementById('ai-hc-desc');
-    if (!aiHcEl || !hcName || hcName === "---") return;
-
-    aiHcEl.classList.remove('hidden');
-    aiHcEl.innerHTML = `<div class="text-amber-400/80 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang phân tích...</div>`;
-
-    try {
-        const prompt = `Phân tích súc tích (<150 từ, tiếng Việt, không chữ Hán) về cơ chế, nguyên nhân, biểu hiện của hội chứng YHCT: "${hcName}".`;
-        const res = await fetch(getApiEndpoint(), {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt, ...getAiParams('luantrihc', 250) })
-        });
-        const data = await res.json();
-
-        if (res.ok && data.reply) {
-            aiHcEl.innerHTML = `
-                <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Mô tả chi tiết hội chứng:</div>
-                <div class="space-y-1">${formatAIMessage(data.reply)}</div>`;
-        } else {
-            aiHcEl.innerHTML = `<div class="text-amber-400/90 bg-amber-950/40 p-2.5 rounded border border-amber-800/60 text-xs">${escapeHTML(data.error || 'Lỗi')}</div>`;
-        }
-    } catch (err) {
-        aiHcEl.innerHTML = `<div class="text-red-400 font-mono text-[11px] p-2 bg-red-950/50 border border-red-800 rounded">⚠️ Lỗi kết nối.</div>`;
-    }
-}
-
-let aiBtAbortController = null;
-async function fetchAIBtDesc(btName) {
-    const aiBtEl = document.getElementById('ai-bt-desc');
-    if (!aiBtEl || !btName || btName === "---" || btName === "Đối chứng nghiệm phương") return;
-
-    if (aiBtAbortController) aiBtAbortController.abort();
-    aiBtAbortController = new AbortController();
-
-    aiBtEl.classList.remove('hidden');
-    aiBtEl.innerHTML = `<div class="text-amber-400/80 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang tra cứu...</div>`;
-
-    try {
-        const prompt = `Phân tích súc tích (<150 từ, tiếng Việt, không chữ Hán) về nguồn gốc, xuất xứ, đặc điểm nổi bật của bài thuốc YHCT: "${btName}".`;
-        const res = await fetch(getApiEndpoint(), {
-            method: 'POST',
-            signal: aiBtAbortController.signal,
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt, ...getAiParams('luantribt', 250) })
-        });
-        const data = await res.json();
-
-        if (res.ok && data.reply) {
-            aiBtEl.innerHTML = `
-                <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Nguồn gốc & đặc điểm cổ phương:</div>
-                <div class="space-y-1">${formatAIMessage(data.reply)}</div>`;
-        }
-    } catch (err) {
-        if (err.name !== 'AbortError') {
-            aiBtEl.innerHTML = `<div class="text-red-400 font-mono text-[11px] p-2 bg-red-950/50 border border-red-800 rounded">⚠️ Lỗi kết nối.</div>`;
-        }
-    }
-}
 
 async function aiDanhGiaTongTheBaiThuoc() {
     const contentEl = document.getElementById('ai-tong-the-content');
