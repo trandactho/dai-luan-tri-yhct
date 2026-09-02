@@ -1,5 +1,4 @@
 exports.handler = async function(event) {
-    // Bổ sung localhost:8080 và 127.0.0.1:8080 đầy đủ
     const allowedOrigins = [
         "https://dailuantriyhct.com", 
         "http://localhost:8888", 
@@ -47,7 +46,6 @@ exports.handler = async function(event) {
         const thucdonKey = process.env.THUCDON_API_KEY;
         const thirdKey   = process.env.THIRD_API_KEY;
         
-        // Phân luồng API Keys chuẩn hóa đầy đủ theo tham số source
         let keysToTry = [];
         if (source === 'vongchan' || source === 'assistant') {
             keysToTry = [primaryKey, backupKey];
@@ -79,8 +77,9 @@ exports.handler = async function(event) {
             }
         }
 
-        // Tối ưu hóa: Không thêm chuỗi dẫn dắt nếu câu hỏi đã yêu cầu format JSON
-        if (prompt.includes('JSON') || prompt.includes('BẮT BUỘC')) {
+        // Chống chèn văn bản dẫn dắt làm hỏng định dạng JSON (Không phân biệt hoa thường)
+        const isJsonRequest = /json|bắt buộc|thuần túy/i.test(prompt);
+        if (isJsonRequest) {
             partsPayload.push({ text: prompt });
         } else {
             partsPayload.push({ 
@@ -88,7 +87,7 @@ exports.handler = async function(event) {
             });
         }
 
-        // Bổ sung 'backup' vào timeout 35s
+        // Giữ nguyên thời gian xử lý linh hoạt (35s cho tác vụ phân tích sâu, 15s cho tra cứu)
         const longRunningSources = ['vongchan', 'assistant', 'thucdon', 'quiz', 'sach_ai', 'backup'];
         const timeoutMs = longRunningSources.includes(source) ? 35000 : 15000;
 
