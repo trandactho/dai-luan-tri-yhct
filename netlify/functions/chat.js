@@ -1,8 +1,14 @@
 exports.handler = async function(event) {
-    const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
+    // Bổ sung localhost:8080 và 127.0.0.1:8080 đầy đủ
+    const allowedOrigins = [
+        "https://dailuantriyhct.com", 
+        "http://localhost:8888", 
+        "http://localhost:8080",
+        "http://127.0.0.1:8080",
+        "http://127.0.0.1:8888"
+    ];
     const requestOrigin = event.headers.origin || event.headers.Origin;
 
-    // Chặn truy cập từ Origin không hợp lệ ngay từ đầu
     if (requestOrigin && !allowedOrigins.includes(requestOrigin)) {
         return { 
             statusCode: 403, 
@@ -36,17 +42,26 @@ exports.handler = async function(event) {
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const secondKey  = process.env.SECOND_API_KEY;
         const backupKey  = process.env.BACKUP_API_KEY;
-        const quizKey  = process.env.QUIZ_API_KEY;
+        const quizKey    = process.env.QUIZ_API_KEY;
         const searchKey  = process.env.SEARCH_API_KEY;
-        const thucdonKey  = process.env.THUCDON_API_KEY;
-        const thirdKey  = process.env.THIRD_API_KEY;
+        const thucdonKey = process.env.THUCDON_API_KEY;
+        const thirdKey   = process.env.THIRD_API_KEY;
         
+        // Phân luồng API Keys chuẩn hóa đầy đủ theo tham số source
         let keysToTry = [];
-        if (source === 'assistant') keysToTry = [primaryKey, backupKey];
-        else if (source === 'vongchan') keysToTry = [primaryKey, backupKey];
-        else if (source === 'quiz') keysToTry = [quizKey, secondKey];
-        else if (source === 'thucdon') keysToTry = [thucdonKey, thirdKey];
-        else keysToTry = [searchKey, secondKey];
+        if (source === 'vongchan' || source === 'assistant') {
+            keysToTry = [primaryKey, backupKey];
+        } else if (source === 'backup') {
+            keysToTry = [backupKey, primaryKey, secondKey];
+        } else if (source === 'quiz') {
+            keysToTry = [quizKey, secondKey];
+        } else if (source === 'thucdon') {
+            keysToTry = [thucdonKey, thirdKey];
+        } else if (source === 'sach_ai') {
+            keysToTry = [thirdKey, primaryKey];
+        } else {
+            keysToTry = [searchKey, secondKey, primaryKey];
+        }
 
         keysToTry = [...new Set(keysToTry.filter(Boolean))];
 
@@ -54,7 +69,6 @@ exports.handler = async function(event) {
             return { statusCode: 500, headers, body: JSON.stringify({ error: 'Cấu hình máy chủ chưa hoàn tất.' }) };
         }
 
-        // Giữ nguyên danh sách model thực tế dự án đang dùng ổn định
         const models = ['gemini-3.6-flash', 'gemini-3.5-flash'];
         const partsPayload = [];
         
@@ -65,11 +79,18 @@ exports.handler = async function(event) {
             }
         }
 
-        partsPayload.push({ 
-            text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt 
-        });
+        // Tối ưu hóa: Không thêm chuỗi dẫn dắt nếu câu hỏi đã yêu cầu format JSON
+        if (prompt.includes('JSON') || prompt.includes('BẮT BUỘC')) {
+            partsPayload.push({ text: prompt });
+        } else {
+            partsPayload.push({ 
+                text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt 
+            });
+        }
 
-        const timeoutMs = (source === 'vongchan' || source === 'assistant'|| source === 'thucdon'|| source === 'quiz' || source === 'sach_ai' ) ? 35000 : 15000;
+        // Bổ sung 'backup' vào timeout 35s
+        const longRunningSources = ['vongchan', 'assistant', 'thucdon', 'quiz', 'sach_ai', 'backup'];
+        const timeoutMs = longRunningSources.includes(source) ? 35000 : 15000;
 
         for (const apiKey of keysToTry) {
             for (const model of models) {
@@ -82,7 +103,7 @@ exports.handler = async function(event) {
                     const payload = {
                         contents: [{ parts: partsPayload }],
                         generationConfig: {
-                            maxOutputTokens: max_tokens || 300
+                            maxOutputTokens: max_tokens || 500
                         }
                     };
 
