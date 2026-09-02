@@ -109,8 +109,6 @@ function startQuizMode() {
     
     AppState.quizActive = true;
     AppState.isQuizLT = true;
-    AppState.aiHcActive = false;
-    AppState.aiBtActive = false;
     
     const aiCheck = document.getElementById('ai-backup-luantri');
     if (aiCheck) {
@@ -427,6 +425,17 @@ function searchLuanTri(isEnter = false) {
 }
 
 function renderDetailLuanTri(data, query = "", isEnter = false) {
+    const aiHcEl = document.getElementById('ai-hc-desc');
+if (aiHcEl) { 
+    aiHcEl.classList.add('hidden'); 
+    aiHcEl.innerHTML = ''; 
+}
+
+const aiBtEl = document.getElementById('ai-bt-desc');
+if (aiBtEl) { 
+    aiBtEl.classList.add('hidden'); 
+    aiBtEl.innerHTML = ''; 
+}
     const pdfArea = document.getElementById('pdf-area');
     
     if (!document.getElementById('hoi-chung') && pdfArea && typeof ORIGINAL_PDF_AREA_HTML !== 'undefined') {
@@ -444,18 +453,6 @@ function renderDetailLuanTri(data, query = "", isEnter = false) {
         warningContainer = document.createElement('div');
         warningContainer.id = 'tuong-ky-warning';
         divBt.parentNode.appendChild(warningContainer);
-    }
-
-    if (typeof AppState !== 'undefined') {
-        const btnHc = document.getElementById('ai-toggle-hc');
-        if (btnHc) {
-            btnHc.className = `px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer ${AppState.aiHcActive ? 'bg-amber-600 text-white shadow-amber-900/50' : 'bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60'}`;
-        }
-
-        const btnBt = document.getElementById('ai-toggle-bt');
-        if (btnBt) {
-            btnBt.className = `px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer ${AppState.aiBtActive ? 'bg-amber-600 text-white shadow-amber-900/50' : 'bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60'}`;
-        }
     }
 
     if (data) {
@@ -678,41 +675,6 @@ function huyBoChuanDoan() {
     updateLuanTri();
 }
 
-function toggleAiFeature(type) {
-    if (typeof AppState === 'undefined') return;
-
-    if (type === 'hc') {
-        AppState.aiHcActive = !AppState.aiHcActive;
-        const btnHc = document.getElementById('ai-toggle-hc');
-        const aiHcEl = document.getElementById('ai-hc-desc');
-        
-        if (btnHc) {
-            btnHc.className = `px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer ${AppState.aiHcActive ? 'bg-amber-600 text-white shadow-amber-900/50' : 'bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60'}`;
-        }
-        
-        if (AppState.aiHcActive) {
-            const hcName = document.getElementById('hoi-chung')?.innerText;
-            fetchAIHcDesc(hcName);
-        } else if (aiHcEl) {
-            aiHcEl.classList.add('hidden');
-        }
-    } else if (type === 'bt') {
-        AppState.aiBtActive = !AppState.aiBtActive;
-        const btnBt = document.getElementById('ai-toggle-bt');
-        const aiBtEl = document.getElementById('ai-bt-desc');
-        
-        if (btnBt) {
-            btnBt.className = `px-2 py-0.5 rounded text-[10px] font-bold flex items-center gap-1 transition-all shadow cursor-pointer ${AppState.aiBtActive ? 'bg-amber-600 text-white shadow-amber-900/50' : 'bg-stone-900/90 text-amber-400 border border-stone-800 hover:border-amber-500/60'}`;
-        }
-        
-        if (AppState.aiBtActive) {
-            const btName = document.getElementById('bai-thuoc')?.innerText;
-            fetchAIBtDesc(btName);
-        } else if (aiBtEl) {
-            aiBtEl.classList.add('hidden');
-        }
-    }
-}
 
 // ========================================================
 // 🟢 BỔ SUNG GIA GIẢM LIỀU LƯỢNG, THÊM BỚT & SỬA LIỀU KÊ
