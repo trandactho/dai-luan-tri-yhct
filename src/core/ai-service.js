@@ -2,35 +2,72 @@
 // AI-SERVICE.JS - TỔNG HỢP TOÀN BỘ XỬ LÝ DỊCH VỤ AI, TRA CỨU & HỘI CHẨN
 // ==========================================================================
 function getApiEndpoint() {
-    return '/.netlify/functions/chat'; // Hoặc URL endpoint Netlify Function của bạn
+    if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+        if (window.location.port === '8080') {
+            return 'https://dailuantriyhct.com/.netlify/functions/chat';
+        }
+    }
+    return '/.netlify/functions/chat';
 }
 
-// Hàm điều tiết source, max_tokens và kiểm tra quyền theo cấp độ tài khoản
-function getAiParams(source, maxTokens = 250) {
-    // 1. Trích xuất Session từ LocalStorage
+const memoryStorage = {};
+
+function safeLocalStorageGet(key, fallback = '{}') {
+    try {
+        return localStorage.getItem(key) || fallback;
+    } catch (e) {
+        return memoryStorage[key] || fallback;
+    }
+}
+
+function safeLocalStorageSet(key, value) {
+    try {
+        localStorage.setItem(key, value);
+    } catch (e) {
+        memoryStorage[key] = value;
+    }
+}
+
+function safeLocalStorageRemove(key) {
+    try {
+        localStorage.removeItem(key);
+    } catch (e) {
+        delete memoryStorage[key];
+    }
+}
+
+
+function getAiParams(source, customMaxTokens = null) {
     let userSession = {};
     try {
-        userSession = JSON.parse(localStorage.getItem('app_user_session') || localStorage.getItem('user') || '{}');
+        // Use safe retrieval instead of direct localStorage access
+        userSession = JSON.parse(safeLocalStorageGet('app_user_session', '{}') || safeLocalStorageGet('user', '{}'));
     } catch (e) {
         console.warn("[AI Service] Không đọc được session từ localStorage:", e);
     }
 
-    // 2. Xác định Role (Ưu tiên: getCurrentUserRole() -> userSession -> localStorage -> GUEST)
     let role = (typeof getCurrentUserRole === 'function' ? getCurrentUserRole() : '').toUpperCase();
-    if (!role || role === 'GUEST') {
-        role = (userSession.role || localStorage.getItem('user_role') || 'GUEST').toUpperCase();
+    if (!role) {
+        // Replace direct localStorage calls here too
+        role = (userSession.role || safeLocalStorageGet('user_role', 'GUEST').replace(/["']/g, '')).toUpperCase();
     }
+    const email = window.currentUser?.email || userSession.email || '';
+    const userId = window.currentUser?.id || userSession.id || '';
 
-    // 3. Tự động cấp quyền SVIP khi phát hiện chạy ở môi trường Localhost / Dev
-    if ((window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') && role === 'GUEST') {
-        role = 'SVIP';
-    }
+    const BASE_TOKENS = {
+        'search': 500,
+        'backup': 1100,
+        'luantrihc': 500,
+        'luantribt': 500,
+        'phoingu_danhgia': 1000,
+        'sach_ai': 1200,
+        'vongchan': 1500,
+        'quiz': 1500,
+        'assistant': 3200,
+        'default': 500
+    };
 
-    // 4. Trích xuất thông tin định danh người dùng gửi lên Backend xác minh
-    const email = window.currentUser?.email || userSession.email || 'trandactho@gmail.com';
-    const userId = window.currentUser?.id || userSession.id || 'DL8463';
-
-    // 5. Kiểm tra phân quyền theo tính năng (Source)
+    const baseTokens = BASE_TOKENS[source] || customMaxTokens ||  BASE_TOKENS['default'];
     const vipOnlySources = ['vongchan', 'sach_ai', 'thucdon', 'quiz'];
     const isAllowed = !(vipOnlySources.includes(source) && (role === 'GUEST' || role === 'FREE'));
     
@@ -38,23 +75,14 @@ function getAiParams(source, maxTokens = 250) {
         console.warn(`[AI Access Denied] Tài khoản ${role} bị giới hạn tính năng ${source}`);
     }
 
-    // 6. KHÔI PHỤC CƠ CHẾ ĐỔI SOURCE DÀNH CHO VIP & SVIP
-    let finalSource = source;
-    if (role === 'VIP' || role === 'SVIP') {
-        //chưa tới thời điểm triển khai
-        //finalSource = 'assistant';
-    }
-
-    // 7. Tính toán hệ số max_tokens theo cấp độ tài khoản
     let multiplier = 1;
     if (role === 'VIP') multiplier = 1.2;
     else if (role === 'SVIP') multiplier = 1.5;
 
-    // 8. Trả về Object đầy đủ (Tự động bung vào Body request nhờ toán tử `...getAiParams()`)
     return {
         allowed: isAllowed,
-        source: finalSource,
-        max_tokens: Math.round(maxTokens * multiplier),
+        source: source,
+        max_tokens: Math.round(baseTokens * multiplier),
         role: role,
         user_id: userId,
         email: email
@@ -79,51 +107,87 @@ function cleanTitleText(str) {
 
 function parseJsonFromAI(replyText) {
     if (!replyText) return null;
-    try {
-        let cleaned = String(replyText).replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
-        try { return JSON.parse(cleaned); } catch (e) {}
+    let cleaned = String(replyText).replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
 
-        const arrayMatch = cleaned.match(/\[[\s\S]*\]/);
-        if (arrayMatch) { try { return JSON.parse(arrayMatch[0]); } catch (e) {} }
-
-        const objectMatch = cleaned.match(/\{[\s\S]*\}/);
-        if (objectMatch) { try { return JSON.parse(objectMatch[0]); } catch (e) {} }
-
-        return null;
-    } catch (e) {
-        console.warn("AI không trả về JSON hợp lệ:", e);
+    if (cleaned.toLowerCase().includes('valid json string') || cleaned.toLowerCase().includes('no prefix/suffix')) {
         return null;
     }
+
+    try { 
+        let parsed = JSON.parse(cleaned);
+        if (parsed) return parsed;
+    } catch (e) {}
+
+    // Fallback cleanup for slightly malformed JSON or placeholder keys
+    try {
+        let fixedCleaned = cleaned
+            .replace(/([{,]\s*)([a-zA-Z0-9_]+)(\s*:\s*)/g, '$1"$2"$3') // Quote unquoted keys
+            .replace(/:\s*"([^"]*)"\s*(?=[,}])/g, (match, p1) => {
+                if (p1.toUpperCase().includes('PHANTICH') || p1 === '...' || p1 === '') {
+                    return ': "Đang cập nhật phân tích chi tiết theo vùng khí hậu."';
+                }
+                return match;
+            });
+        let parsedFixed = JSON.parse(fixedCleaned);
+        if (parsedFixed) return parsedFixed;
+    } catch (e) {}
+
+    const objectMatch = cleaned.match(/\{[\s\S]*\}/);
+    if (objectMatch) { 
+        try { return JSON.parse(objectMatch[0]); } catch (e) {} 
+    }
+
+    const arrayMatch = cleaned.match(/\[[\s\S]*\]/);
+    if (arrayMatch) { try { return JSON.parse(arrayMatch[0]); } catch (e) {} }
+
+    return null;
 }
 
 function formatAIMessage(text) {
     if (!text) return '';
 
     let data = parseJsonFromAI(text);
-    if (data && (data.cac_muc || data.tieu_de || data.hc || data.ten)) {
+    if (data && (data.cac_muc || data.tieu_de || data.tieude || data.hc || data.ten || data.cac_ngay || data.cacngay)) {
+        let title = data.tieu_de || data.tieude || data.hc || data.ten;
         let html = `<div class="space-y-3 text-xs text-stone-300">`;
-        let mainTitle = cleanTitleText(data.tieu_de || data.hc || data.ten);
+        let mainTitle = cleanTitleText(title);
         
         if (mainTitle) {
             html += `<div class="text-amber-400 font-bold text-sm uppercase tracking-wider border-b border-stone-800 pb-1.5 mb-2.5 flex items-center gap-1.5">
-                        <i class="fa-solid fa-seedling text-amber-500 text-xs"></i> ${escapeHTML(mainTitle)}
+                        <i class="fa-solid fa-utensils text-amber-500 text-xs"></i> ${escapeHTML(mainTitle)}
                      </div>`;
         }
 
-        if (data.pdt || data.nhom) {
-            html += `<div class="bg-stone-900/90 px-2.5 py-1.5 rounded border border-stone-800 text-emerald-400 font-semibold mb-2 flex items-center gap-1.5">
-                        <i class="fa-solid fa-prescription-bottle-medical text-xs"></i> ${escapeHTML(cleanTitleText(data.pdt || data.nhom))}
+        let khuVuc = data.phan_tich_khu_vuc || data.phantichkhuvuc;
+        if (khuVuc) {
+            html += `<div class="bg-stone-900 p-2.5 rounded border border-stone-800 text-stone-300 mb-2 leading-relaxed">
+                        <strong class="text-amber-400"><i class="fa-solid fa-cloud-sun"></i> Khí hậu & Mùa:</strong> ${escapeHTML(khuVuc)}
                      </div>`;
+        }
+
+        let days = data.cac_ngay || data.cacngay || [];
+        if (Array.isArray(days) && days.length > 0) {
+            html += `<div class="grid grid-cols-1 gap-2 my-2">`;
+            days.forEach(ngay => {
+                const thu = ngay.thu || ngay.day || 'Ngày';
+                const sang = ngay.sang || { mon: '', cong_dung: '' };
+                const trua = ngay.trua || { mon: '', cong_dung: '' };
+                const toi = ngay.toi || { mon: '', cong_dung: '' };
+                html += `<div class="bg-stone-900 p-2.5 rounded border border-stone-800 space-y-1">
+                            <div class="font-bold text-emerald-400 border-b border-stone-800 pb-1 text-[11px] flex items-center gap-1">
+                                <i class="fa-solid fa-calendar-day text-amber-500 text-[10px]"></i> ${escapeHTML(thu)}
+                            </div>
+                            <div class="text-[11px] space-y-1 text-stone-300 pt-1">
+                                <div><strong>☀️ Sáng:</strong> ${escapeHTML(sang.mon || '')} <span class="text-stone-500 text-[10px]">(${escapeHTML(sang.cong_dung || '')})</span></div>
+                                <div><strong>🍛 Trưa:</strong> ${escapeHTML(trua.mon || '')} <span class="text-stone-500 text-[10px]">(${escapeHTML(trua.cong_dung || '')})</span></div>
+                                <div><strong>🌙 Tối:</strong> ${escapeHTML(toi.mon || '')} <span class="text-stone-500 text-[10px]">(${escapeHTML(toi.cong_dung || '')})</span></div>
+                            </div>
+                         </div>`;
+            });
+            html += `</div>`;
         }
 
         let sections = data.cac_muc || [];
-        if (sections.length === 0) {
-            if (data.nguon_goc) sections.push({ tieu_de_muc: "Nguồn gốc & Xuất xứ", noi_dung: Array.isArray(data.nguon_goc) ? data.nguon_goc : [data.nguon_goc] });
-            if (data.co_che) sections.push({ tieu_de_muc: "Cơ chế tác động", noi_dung: Array.isArray(data.co_che) ? data.co_che : [data.co_che] });
-            if (data.bieu_hien) sections.push({ tieu_de_muc: "Biểu hiện lâm sàng", noi_dung: Array.isArray(data.bieu_hien) ? data.bieu_hien : [data.bieu_hien] });
-            if (data.cong_dung) sections.push({ tieu_de_muc: "Công năng chủ trị", noi_dung: Array.isArray(data.cong_dung) ? data.cong_dung : [data.cong_dung] });
-        }
-
         sections.forEach(muc => {
             let titleMuc = cleanTitleText(muc.tieu_de_muc || muc.muc || "");
             let noiDungMuc = muc.noi_dung || muc.noi_dung_chinh || muc.chi_tiet || [];
@@ -150,11 +214,11 @@ function formatAIMessage(text) {
             html += `</div>`;
         });
 
-        let warningText = data.luu_y || data.kieng_ky;
+        let warningText = data.luu_y || data.kieng_ky || data.luu_y_chung;
         if (warningText) {
             html += `<div class="bg-amber-950/60 border-l-4 border-amber-500 p-3 mt-3 rounded-r-lg text-amber-200 leading-relaxed shadow-md">
                         <div class="font-bold text-amber-400 mb-1 uppercase tracking-wider text-[10px] flex items-center gap-1.5">
-                            <i class="fa-solid fa-triangle-exclamation"></i> Lưu ý lâm sàng & Kiêng kỵ:
+                            <i class="fa-solid fa-triangle-exclamation"></i> Lưu ý phối hợp & chế biến:
                         </div>
                         ${escapeHTML(decodeHtmlEntities(String(warningText)))}
                      </div>`;
@@ -290,73 +354,99 @@ async function sendAIWebMessage() {
 function validateAndCleanAIResult(obj, tabName) {
     if (!obj || typeof obj !== 'object') return null;
 
+    const getVal = (keys, defaultVal = '') => {
+        for (let k of keys) {
+            if (obj[k] && String(obj[k]).trim()) return String(obj[k]).trim();
+        }
+        return defaultVal;
+    };
+
     if (tabName.includes('Luận Trị') || tabName.includes('luantri')) {
         return {
-            hc: String(obj.hc || 'HỘI CHỨNG CHƯA RÕ'),
+            hc: getVal(['hc', 'hoi_chung', 'ten'], 'HỘI CHỨNG CHƯA RÕ'),
             phanloai: Array.isArray(obj.phanloai) ? obj.phanloai.map(String) : ['Tạng Phế', 'Bình', 'Thực', '---'],
-            pdt: String(obj.pdt || 'Theo chỉ định chuyên môn'),
-            tc: Array.isArray(obj.tc) ? obj.tc.map(String) : [String(obj.tc || 'Đang cập nhật triệu chứng')],
-            bt: String(obj.bt || 'Đối chứng nghiệm phương'),
+            pdt: getVal(['pdt', 'phap_tri', 'phap_dieu_tri'], 'Theo chỉ định chuyên môn'),
+            tc: Array.isArray(obj.tc) ? obj.tc.map(String) : [getVal(['tc', 'trieu_chung'], 'Đang cập nhật triệu chứng')],
+            bt: getVal(['bt', 'bai_thuoc', 'co_phuong'], 'Đối chứng nghiệm phương'),
             tpbt: Array.isArray(obj.tpbt) ? obj.tpbt.map(String) : []
         };
     } else if (tabName.includes('Dược Liệu') || tabName.includes('duoclieu')) {
         return {
-            ten: String(obj.ten || 'Dược liệu chưa rõ tên'),
-            nhom: String(obj.nhom || 'Dược liệu YHCT'),
-            ten_khoa_hoc: String(obj.ten_khoa_hoc || ''),
-            pinyin: String(obj.pinyin || ''),
-            cong_dung: String(obj.cong_dung || 'Đang cập nhật công năng chủ trị.'),
-            kieng_ky: String(obj.kieng_ky || obj.luu_y || 'Tuân thủ liều lượng tiêu chuẩn.')
+            ten: getVal(['ten', 'ten_duoc_lieu'], 'Dược liệu chưa rõ tên'),
+            nhom: getVal(['nhom', 'nhom_duoc_lieu'], 'Dược liệu YHCT'),
+            ten_khoa_hoc: getVal(['ten_khoa_hoc', 'khoa_hoc'], ''),
+            pinyin: getVal(['pinyin', 'ten_trung_quoc'], ''),
+            cong_dung: getVal(['cong_dung', 'tac_dung', 'chu_tri'], 'Tư âm dưỡng huyết, khu phong trừ thấp.'),
+            kieng_ky: getVal(['kieng_ky', 'luu_y', 'chong_chi_dinh'], 'Tuân thủ liều lượng tiêu chuẩn.')
         };
     } else if (tabName.includes('Huyệt Vị') || tabName.includes('huyetvi')) {
         return {
-            ten: String(obj.ten || 'Huyệt chưa rõ tên'),
-            kinh: String(obj.kinh || 'Kinh mạch YHCT'),
-            ma_who: String(obj.ma_who || ''),
-            chu_tri: String(obj.chu_tri || 'Điều hòa khí huyết, thông kinh hoạt lạc.'),
-            vi_tri: String(obj.vi_tri || obj.dinh_vi || 'Đang cập nhật mô tả giải phẫu.')
+            ten: getVal(['ten', 'ten_huyet'], 'Huyệt chưa rõ tên'),
+            kinh: getVal(['kinh', 'kinh_mach'], 'Kinh mạch YHCT'),
+            ma_who: getVal(['ma_who', 'ma_huyet'], ''),
+            chu_tri: getVal(['chu_tri', 'cong_dung', 'tac_dung'], 'Điều hòa khí huyết, thông kinh hoạt lạc.'),
+            vi_tri: getVal(['vi_tri', 'dinh_vi', 'mota'], 'Đang cập nhật mô tả giải phẫu.')
         };
     } else if (tabName.includes('Trà Dược') || tabName.includes('Tra') || tabName.includes('tra')) {
+        let rawThanhPhan = obj.thanh_phan || obj.thanhphan || obj.cac_vi_thuoc || obj.nguyen_lieu || obj.thanh_phan_chinh;
+        let thanhPhanArr = [];
+        
+        if (Array.isArray(rawThanhPhan)) {
+            thanhPhanArr = rawThanhPhan.map(v => String(v).replace(/^[\s,.\-]+/, '').trim()).filter(Boolean);
+        } else if (typeof rawThanhPhan === 'string' && rawThanhPhan.trim()) {
+            thanhPhanArr = rawThanhPhan.split(/[,;\n]+/).map(v => v.replace(/^[\s,.\-]+/, '').trim()).filter(Boolean);
+        }
+
+        let rawCongDung = getVal(['cong_dung', 'tac_dung', 'chu_tri', 'cong_nang'], '').replace(/^[\s,.\-]+/, '').trim();
+        let rawCachDung = getVal(['cach_dung', 'cach_pha', 'huong_dan', 'lieu_dung'], '').replace(/^[\s,.\-]+/, '').trim();
+
+        const isUsageText = (txt) => /hãm|pha|uống|nước sôi|phút|ngày|lần|dùng/i.test(txt);
+        const looksLikeIngredients = (txt) => !isUsageText(txt) && (txt.includes(',') || txt.includes('(') || /hoa|táo|trà|cúc|lài|kỷ tử|nhân sâm|cam thảo/i.test(txt));
+
+        if (looksLikeIngredients(rawCachDung)) {
+            if (thanhPhanArr.length === 0 || (thanhPhanArr.length === 1 && thanhPhanArr[0] === obj.ten)) {
+                thanhPhanArr = rawCachDung.split(/[,;\n]+/).map(v => v.replace(/^[\s,.\-]+/, '').trim()).filter(Boolean);
+            }
+            rawCachDung = 'Hãm với nước sôi 85-90°C trong 10-15 phút, uống ấm hàng ngày.';
+        }
+
+        if (isUsageText(rawCongDung) && !isUsageText(rawCachDung)) {
+            rawCachDung = rawCongDung;
+            rawCongDung = 'Thanh nhiệt, giải độc, điều hòa cơ thể, tăng cường sức khỏe.';
+        }
+
+        let finalTen = getVal(['ten', 'ten_tra', 'ten_bai_tra'], 'Bài trà YHCT');
+        
+        if (thanhPhanArr.length === 0 || (thanhPhanArr.length === 1 && thanhPhanArr[0].toLowerCase() === finalTen.toLowerCase())) {
+            thanhPhanArr = ["Chưa phân tách được thành phần"];
+        }
+
         return {
-            ten: String(obj.ten || 'Bài trà chưa rõ tên'),
-            nhom: String(obj.nhom || 'Trà Dược YHCT'),
-            cong_dung: String(obj.cong_dung || 'Thanh nhiệt, giải độc, điều hòa cơ thể.'),
-            cach_dung: String(obj.cach_dung || 'Hãm với nước sôi 85-90°C trong 10-15 phút.'),
-            kieng_ky: String(obj.kieng_ky || 'Phụ nữ có thai hoặc tỳ vị hư hàn nên tham khảo ý kiến chuyên gia.'),
-            thanh_phan: Array.isArray(obj.thanh_phan) ? obj.thanh_phan.map(String) : []
+            ten: finalTen,
+            nhom: getVal(['nhom', 'nhom_tra'], 'Trà Dược YHCT'),
+            cong_dung: rawCongDung || 'Thanh nhiệt, giải độc, an thần, điều hòa cơ thể.',
+            cach_dung: rawCachDung || 'Hãm với nước sôi 85-90°C trong 10-15 phút.',
+            kieng_ky: getVal(['kieng_ky', 'luu_y', 'chong_chi_dinh'], 'Phụ nữ có thai hoặc người tỳ vị hư hàn nên tham khảo ý kiến chuyên gia.'),
+            thanh_phan: thanhPhanArr
         };
     } else if (tabName.includes('Dược Thiện') || tabName.includes('DuocThien') || tabName.includes('duocthien')) {
         let formattedThanhPhan = [{ vi: 'Thành phần chính', lieu: 'Vừa đủ' }];
         if (Array.isArray(obj.thanh_phan)) {
             formattedThanhPhan = obj.thanh_phan.map(item => {
                 if (typeof item === 'object' && item !== null) {
-                    return { vi: String(item.vi || 'Vị thuốc'), lieu: String(item.lieu || 'Vừa đủ') };
+                    return { vi: String(item.vi || item.ten || 'Vị thuốc'), lieu: String(item.lieu || item.lieu_luong || 'Vừa đủ') };
                 }
                 return { vi: String(item), lieu: 'Vừa đủ' };
             });
         }
         return {
-            ten: String(obj.ten || 'Món dược thiện chưa rõ tên'),
-            nhom: String(obj.nhom || 'Dược Thiện'),
-            cong_dung: String(obj.cong_dung || 'Bồi bổ cơ thể, hỗ trợ điều trị bệnh.'),
+            ten: getVal(['ten', 'ten_mon'], 'Món dược thiện chưa rõ tên'),
+            nhom: getVal(['nhom', 'nhom_duoc_thien'], 'Dược Thiện YHCT'),
+            cong_dung: getVal(['cong_dung', 'tac_dung', 'chu_tri'], 'Bồi bổ cơ thể, hỗ trợ điều trị bệnh.'),
             thanh_phan: formattedThanhPhan,
-            so_che: String(obj.so_che || 'Sơ chế nguyên liệu sạch sẽ.'),
-            cach_lam: Array.isArray(obj.cach_lam) ? obj.cach_lam.map(String) : [String(obj.cach_lam || 'Nấu chín theo phương pháp cổ truyền.')],
-            kieng_ky: String(obj.kieng_ky || 'Tham khảo ý kiến thầy thuốc trước khi dùng.')
-        };
-    } else if (tabName.includes('Tứ Chẩn') || tabName.includes('tu_chan') || tabName.includes('vongchan')) {
-        return {
-            bat_cuong: String(obj.bat_cuong || 'Chưa xác định Bát cương'),
-            tang_phu: String(obj.tang_phu || 'Chưa xác định Tạng phủ'),
-            hoi_chung: String(obj.hoi_chung || 'Chưa rõ hội chứng'),
-            bien_chung: String(obj.bien_chung || 'Đang cập nhật biện chứng luận trị.'),
-            phap_tri: String(obj.phap_tri || 'Đang cập nhật pháp trị.'),
-            co_phuong: String(obj.co_phuong || '---'),
-            vi_thuoc: Array.isArray(obj.vi_thuoc) ? obj.vi_thuoc.map(v => ({
-                ten: String(v.ten || 'Vị thuốc'),
-                lieu: String(v.lieu || 'Vừa đủ'),
-                vai_tro: String(v.vai_tro || 'Thuốc')
-            })) : []
+            so_che: getVal(['so_che', 'chuan_bi'], 'Sơ chế nguyên liệu sạch sẽ.'),
+            cach_lam: Array.isArray(obj.cach_lam) ? obj.cach_lam.map(String) : [getVal(['cach_lam', 'huong_dan'], 'Nấu chín theo phương pháp cổ truyền.')],
+            kieng_ky: getVal(['kieng_ky', 'luu_y'], 'Tham khảo ý kiến thầy thuốc trước khi dùng.')
         };
     }
     return obj;
@@ -372,60 +462,127 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
         </div>
     `;
     try {
-        const prompt = `Bạn là hệ thống CSDL YHCT. Hãy cung cấp thông tin ngắn gọn về "${query}" thuộc danh mục ${tabName}. 
-        BẮT BUỘC trả về đúng định dạng JSON thuần túy (không kèm chữ nào khác ngoài JSON):
-        - Nếu là Luận Trị: {"hc": "...", "pdt": "...", "tc": ["..."], "bt": "...", "tpbt": ["..."]}
-        - Nếu là Dược Thiện: {"ten": "...", "nhom": "...", "cong_dung": "...", "thanh_phan": [{"vi": "...", "lieu": "..."}], "so_che": "...", "cach_lam": ["..."], "kieng_ky": "..."}
-        - Nếu là Dược Liệu/Huyệt/Trà: {"ten": "...", "nhom": "...", "cong_dung": "...", "cach_dung": "...", "thanh_phan": ["..."]}`;
+        let prompt = '';
+        if (tabName.includes('Dược Liệu') || tabName.includes('duoclieu')) {
+            prompt = `Yêu cầu: Hãy đóng vai CSDL YHCT chuẩn xác và trả về DUY NHẤT 1 JSON string hợp lệ cho dược liệu "${query}", KHÔNG kèm bất kỳ chữ dẫn dắt nào ngoài JSON.
+
+Cấu trúc JSON:
+{
+  "ten": "${query}",
+  "nhom": "Tên nhóm dược liệu phù hợp",
+  "ten_khoa_hoc": "Tên khoa học Latinh chính xác",
+  "pinyin": "Tên phiên âm Pinyin/tiếng Trung",
+  "cong_dung": "Mô tả tác dụng chữa bệnh chính",
+  "kieng_ky": "Lưu ý kiêng kỵ"
+}`;
+        } else if (tabName.includes('Huyệt Vị') || tabName.includes('huyetvi')) {
+            prompt = `Yêu cầu: Hãy đóng vai CSDL YHCT chuẩn xác và trả về DUY NHẤT 1 JSON string hợp lệ cho huyệt vị "${query}", KHÔNG kèm bất kỳ chữ dẫn dắt nào ngoài JSON.
+
+Cấu trúc JSON:
+{
+  "ten": "${query}",
+  "kinh": "Tên kinh mạch (ví dụ: Kinh Phế, Kinh Vị...)",
+  "ma_who": "Mã chuẩn WHO (nếu có, vd: LU7, ST36)",
+  "chu_tri": "Công dụng chủ trị chính của huyệt",
+  "vi_tri": "Mô tả vị trí giải phẫu cụ thể"
+}`;
+        } else if (tabName.includes('Trà Dược') || tabName.includes('Tra') || tabName.includes('tra')) {
+            prompt = `Yêu cầu: Hãy đóng vai CSDL YHCT chuẩn xác và trả về DUY NHẤT 1 JSON string hợp lệ cho bài trà "${query}", KHÔNG kèm bất kỳ chữ dẫn dắt nào ngoài JSON.
+
+Cấu trúc JSON:
+{
+  "ten": "${query}",
+  "nhom": "Nhóm trà dược phù hợp",
+  "cong_dung": "Công dụng chính",
+  "cach_dung": "Cách hãm/pha trà chi tiết",
+  "kieng_ky": "Lưu ý kiêng kỵ",
+  "thanh_phan": ["Thành phần vị 1", "Thành phần vị 2"]
+}`;
+        } else if (tabName.includes('Dược Thiện') || tabName.includes('DuocThien') || tabName.includes('duocthien')) {
+            prompt = `Yêu cầu: Hãy đóng vai CSDL YHCT chuẩn xác và trả về DUY NHẤT 1 JSON string hợp lệ cho món dược thiện "${query}", KHÔNG kèm bất kỳ chữ dẫn dắt nào ngoài JSON.
+
+Cấu trúc JSON:
+{
+  "ten": "${query}",
+  "nhom": "Nhóm dược thiện",
+  "cong_dung": "Tác dụng bồi bổ/chữa bệnh",
+  "thanh_phan": [{"vi": "Tên vị/nguyên liệu", "lieu": "Liều lượng"}],
+  "so_che": "Cách sơ chế nguyên liệu",
+  "cach_lam": ["Bước 1...", "Bước 2..."],
+  "kieng_ky": "Lưu ý khi dùng"
+}`;
+        } else {
+            prompt = `Yêu cầu: Hãy đóng vai CSDL YHCT chuẩn xác và trả về DUY NHẤT 1 JSON string hợp lệ cho hội chứng/triệu chứng "${query}" (Biện chứng Luận Trị), KHÔNG kèm bất kỳ chữ dẫn dắt nào ngoài JSON.
+
+Cấu trúc JSON:
+{
+  "hc": "${query.toUpperCase()}",
+  "phanloai": ["Tạng phủ", "Âm dương", "Biểu lý", "Hư thực"],
+  "pdt": "Pháp điều trị chính",
+  "tc": ["Triệu chứng lâm sàng 1", "Triệu chứng lâm sàng 2"],
+  "bt": "Bài thuốc cổ phương đại diện",
+  "tpbt": ["Thành phần bài thuốc 1", "Thành phần bài thuốc 2"]
+}`;
+        }
 
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: prompt, ...getAiParams('backup', 250) })
+            body: JSON.stringify({ prompt: prompt, ...getAiParams('backup', 1000) })
         });
-        const data = await res.json();
+
+        let data = {};
+        try {
+            data = await res.json();
+        } catch (e) {
+            throw new Error('Máy chủ trả về dữ liệu không hợp lệ.');
+        }
     
         if (res.ok && data.reply) {
             let parsedObj = parseJsonFromAI(data.reply);
             if (parsedObj) {
                 parsedObj = validateAndCleanAIResult(parsedObj, tabName);
-            } else {
-                parsedObj = { 
-                    ten: query, 
-                    nhom: tabName,
-                    cong_dung: data.reply,
-                    cach_dung: "Hãm với nước sôi 85-90°C trong 10-15 phút.",
-                    thanh_phan: [query]
-                };
-            }
-            
-            luuKetQuaAiVaoDb(query, tabName, parsedObj);
+                luuKetQuaAiVaoDb(query, tabName, parsedObj);
 
-            if (tabName.includes('Trà Dược') || tabName.includes('Tra')) {
-                if (typeof filterTra === 'function') filterTra();
-            } else if (tabName.includes('Dược Liệu')) {
-                if (typeof filterDuocLieu === 'function') filterDuocLieu();
-            } else if (tabName.includes('Huyệt Vị')) {
-                if (typeof filterHuyetVi === 'function') filterHuyetVi();
-            } else if (tabName.includes('Dược Thiện') || tabName.includes('DuocThien')) {
-                if (typeof filterDuocThien === 'function') filterDuocThien();
+                if (tabName.includes('Trà Dược') || tabName.includes('Tra')) {
+                    if (typeof filterTra === 'function') filterTra();
+                } else if (tabName.includes('Dược Liệu')) {
+                    if (typeof filterDuocLieu === 'function') filterDuocLieu();
+                } else if (tabName.includes('Huyệt Vị')) {
+                    if (typeof filterHuyetVi === 'function') filterHuyetVi();
+                } else if (tabName.includes('Dược Thiện') || tabName.includes('DuocThien')) {
+                    if (typeof filterDuocThien === 'function') filterDuocThien();
+                } else {
+                    if (typeof updateLuanTri === 'function') updateLuanTri(query, true);
+                }
             } else {
-                if (typeof updateLuanTri === 'function') updateLuanTri(query, true);
+                const isMetaError = data.reply && (data.reply.includes('valid JSON string') || data.reply.includes('no prefix'));
+                containerEl.innerHTML = `
+                    <div class="col-span-full bg-stone-900 p-4 rounded-xl border border-amber-600/40 text-stone-300 space-y-2 shadow-inner">
+                        <div class="font-bold text-amber-400 text-sm flex items-center gap-2 border-b border-stone-800 pb-2">
+                            <i class="fa-solid fa-robot"></i> Trợ lý AI YHCT:
+                        </div>
+                        <div class="text-xs leading-relaxed text-stone-300">
+                            ${isMetaError ? 'Hệ thống đang bận định dạng phản hồi. Vui lòng bấm lại nút "AI Tìm & lưu" để tiếp tục.' : formatAIMessage(data.reply)}
+                        </div>
+                    </div>`;
             }
         } else {
-            containerEl.innerHTML = `<div class="col-span-full text-center py-8 text-xs text-stone-500">AI Backup không phản hồi.</div>`;
+            containerEl.innerHTML = `<div class="col-span-full text-center py-8 text-xs text-stone-500">${escapeHTML(data.error || 'AI Backup không phản hồi.')}</div>`;
         }
     } catch (err) {
         console.error("Lỗi AI Backup:", err);
-        containerEl.innerHTML = `<div class="col-span-full text-center py-8 text-xs text-red-400">Lỗi kết nối AI.</div>`;
+        containerEl.innerHTML = `<div class="col-span-full text-center py-8 text-xs text-red-400">Lỗi kết nối AI. Vui lòng thử lại sau.</div>`;
     }
 }
 
 function luuKetQuaAiVaoDb(query, tabName, objData) {
     if (!query || !objData) return;
-    const cleanKey = removeAccents(query).trim().replace(/\s+/g, '_');
 
-    if (tabName.includes('Luận Trị')) {
+    const cleanKey = typeof removeAccents === 'function' ? removeAccents(query).trim().replace(/\s+/g, '_') : query.toLowerCase().replace(/\s+/g, '_');
+
+    // 1. LUẬN TRỊ
+    if (tabName.includes('Luận Trị') || tabName.includes('luantri')) {
         if (typeof database === 'undefined') window.database = {};
         database[cleanKey] = {
             hc: objData.hc || query.toUpperCase(),
@@ -436,103 +593,91 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
             tpbt: Array.isArray(objData.tpbt) ? objData.tpbt : [],
             isAiGenerated: true
         };
-        try { localStorage.setItem('custom_database', JSON.stringify(database)); } catch (e) {}
-    } else if (tabName.includes('Dược Liệu')) {
+        safeLocalStorageSet('custom_database', JSON.stringify(database));
+    } 
+    // 2. DƯỢC LIỆU
+    else if (tabName.includes('Dược Liệu') || tabName.includes('duoclieu')) {
         if (typeof duocLieuData === 'undefined') window.duocLieuData = [];
         const newObj = {
             ten: objData.ten || query,
-            nhom: objData.nhom || "Dược liệu YHCT",
-            ten_khoa_hoc: objData.ten_khoa_hoc || "",
-            pinyin: objData.pinyin || "",
-            cong_dung: (!objData.cong_dung || objData.cong_dung === "Đang cập nhật") ? "Tư âm dưỡng huyết, khu phong trừ thấp." : objData.cong_dung,
-            kieng_ky: objData.kieng_ky || objData.luu_y || "Tuân thủ liều lượng phối ngũ tiêu chuẩn.",
+            nhom: objData.nhom || "Dược Liệu YHCT",
+            ten_khoa_hoc: objData.ten_khoa_hoc || '',
+            pinyin: objData.pinyin || '',
+            cong_dung: objData.cong_dung || 'Tư âm dưỡng huyết, khu phong trừ thấp.',
+            kieng_ky: objData.kieng_ky || 'Tuân thủ liều lượng tiêu chuẩn.',
             isAiGenerated: true
         };
-        let idx = duocLieuData.findIndex(d => removeAccents(d.ten) === removeAccents(query));
-        if (idx >= 0) duocLieuData[idx] = { ...duocLieuData[idx], ...newObj };
-        else duocLieuData.unshift(newObj);
+        let idx = duocLieuData.findIndex(t => (typeof removeAccents === 'function' ? removeAccents(t.ten) : t.ten) === (typeof removeAccents === 'function' ? removeAccents(query) : query));
+        if (idx >= 0) duocLieuData[idx] = { ...duocLieuData[idx], ...newObj }; else duocLieuData.unshift(newObj);
 
-        let custom = JSON.parse(localStorage.getItem('custom_duocLieuData') || '[]');
-        let cIdx = custom.findIndex(d => removeAccents(d.ten) === removeAccents(query));
+        let custom = JSON.parse(safeLocalStorageGet('custom_duocLieuData', '[]'));
+        let cIdx = custom.findIndex(t => (typeof removeAccents === 'function' ? removeAccents(t.ten) : t.ten) === (typeof removeAccents === 'function' ? removeAccents(query) : query));
         if (cIdx >= 0) custom[cIdx] = newObj; else custom.unshift(newObj);
         
-        if (typeof safeSetLocalStorage === 'function') safeSetLocalStorage('custom_duocLieuData', custom, 30);
-        else localStorage.setItem('custom_duocLieuData', JSON.stringify(custom));
-    } else if (tabName.includes('Huyệt Vị')) {
+        safeLocalStorageSet('custom_duocLieuData', JSON.stringify(custom));
+    }
+    // 3. HUYỆT VỊ
+    else if (tabName.includes('Huyệt Vị') || tabName.includes('huyetvi')) {
         if (typeof huyetViData === 'undefined') window.huyetViData = [];
         const newObj = {
             ten: objData.ten || query,
             kinh: objData.kinh || "Kinh mạch YHCT",
-            ma_who: objData.ma_who || "",
-            chu_tri: (!objData.chu_tri || objData.chu_tri === "Đang cập nhật") ? "Điều hòa khí huyết, thông kinh hoạt lạc." : objData.chu_tri,
-            vi_tri: objData.vi_tri || objData.dinh_vi || "Xem mô tả chi tiết giải phẫu.",
+            ma_who: objData.ma_who || '',
+            chu_tri: objData.chu_tri || 'Điều hòa khí huyết, thông kinh hoạt lạc.',
+            vi_tri: objData.vi_tri || 'Đang cập nhật mô tả giải phẫu.',
             isAiGenerated: true
         };
-        let idx = huyetViData.findIndex(h => removeAccents(h.ten) === removeAccents(query));
-        if (idx >= 0) huyetViData[idx] = { ...huyetViData[idx], ...newObj };
-        else huyetViData.unshift(newObj);
+        let idx = huyetViData.findIndex(t => (typeof removeAccents === 'function' ? removeAccents(t.ten) : t.ten) === (typeof removeAccents === 'function' ? removeAccents(query) : query));
+        if (idx >= 0) huyetViData[idx] = { ...huyetViData[idx], ...newObj }; else huyetViData.unshift(newObj);
 
-        let custom = JSON.parse(localStorage.getItem('custom_huyetViData') || '[]');
-        let cIdx = custom.findIndex(h => removeAccents(h.ten) === removeAccents(query));
+        let custom = JSON.parse(safeLocalStorageGet('custom_huyetViData', '[]'));
+        let cIdx = custom.findIndex(t => (typeof removeAccents === 'function' ? removeAccents(t.ten) : t.ten) === (typeof removeAccents === 'function' ? removeAccents(query) : query));
         if (cIdx >= 0) custom[cIdx] = newObj; else custom.unshift(newObj);
         
-        if (typeof safeSetLocalStorage === 'function') safeSetLocalStorage('custom_huyetViData', custom, 30);
-        else localStorage.setItem('custom_huyetViData', JSON.stringify(custom));
-    } else if (tabName.includes('Trà Dược') || tabName.includes('Tra')) {
+        safeLocalStorageSet('custom_huyetViData', JSON.stringify(custom));
+    }
+    // 4. TRÀ DƯỢC
+    else if (tabName.includes('Trà Dược') || tabName.includes('Tra') || tabName.includes('tra')) {
         if (typeof traData === 'undefined') window.traData = [];
         const newObj = {
             ten: objData.ten || query,
             nhom: objData.nhom || "Trà Dược YHCT",
-            cong_dung: (!objData.cong_dung || objData.cong_dung === "Đang cập nhật") ? "Thanh nhiệt, giải độc, mát gan; An thần, trị mất ngủ, giảm căng thẳng." : objData.cong_dung,
-            kieng_ky: objData.kieng_ky || "Phụ nữ có thai hoặc người tỳ vị hư hàn nên tham khảo ý kiến chuyên gia.",
-            cach_dung: objData.cach_dung || "Hãm với nước sôi 85-90°C trong 10-15 phút.",
-            thanh_phan: Array.isArray(objData.thanh_phan) ? objData.thanh_phan : [query],
+            cong_dung: objData.cong_dung || 'Thanh nhiệt, giải độc, điều hòa cơ thể.',
+            kieng_ky: objData.kieng_ky || 'Tham khảo ý kiến chuyên gia.',
+            cach_dung: objData.cach_dung || 'Hãm với nước sôi 10-15 phút.',
+            thanh_phan: Array.isArray(objData.thanh_phan) && objData.thanh_phan.length > 0 ? objData.thanh_phan : [query],
             isAiGenerated: true
         };
-        let idx = traData.findIndex(t => removeAccents(t.ten) === removeAccents(query));
-        if (idx >= 0) traData[idx] = { ...traData[idx], ...newObj };
-        else traData.unshift(newObj);
+        let idx = traData.findIndex(t => (typeof removeAccents === 'function' ? removeAccents(t.ten) : t.ten) === (typeof removeAccents === 'function' ? removeAccents(query) : query));
+        if (idx >= 0) traData[idx] = { ...traData[idx], ...newObj }; else traData.unshift(newObj);
 
-        let custom = JSON.parse(localStorage.getItem('custom_traData') || '[]');
-        let cIdx = custom.findIndex(t => removeAccents(t.ten) === removeAccents(query));
+        let custom = JSON.parse(safeLocalStorageGet('custom_traData', '[]'));
+        let cIdx = custom.findIndex(t => (typeof removeAccents === 'function' ? removeAccents(t.ten) : t.ten) === (typeof removeAccents === 'function' ? removeAccents(query) : query));
         if (cIdx >= 0) custom[cIdx] = newObj; else custom.unshift(newObj);
-        
-        if (typeof safeSetLocalStorage === 'function') safeSetLocalStorage('custom_traData', custom, 30);
-        else localStorage.setItem('custom_traData', JSON.stringify(custom));
-    } else if (tabName.includes('Dược Thiện') || tabName.includes('DuocThien')) {
+
+        safeLocalStorageSet('custom_traData', JSON.stringify(custom));
+    }
+    // 5. DƯỢC THIỆN
+    else if (tabName.includes('Dược Thiện') || tabName.includes('DuocThien') || tabName.includes('duocthien')) {
         if (typeof duocThienData === 'undefined') window.duocThienData = [];
-
-        let formattedThanhPhan = [{ vi: query, lieu: "Vừa đủ" }];
-        if (Array.isArray(objData.thanh_phan)) {
-            formattedThanhPhan = objData.thanh_phan.map(item => {
-                if (typeof item === 'object' && item !== null) {
-                    return { vi: item.vi || query, lieu: item.lieu || "Vừa đủ" };
-                }
-                return { vi: String(item), lieu: "Vừa đủ" };
-            });
-        }
-
         const newObj = {
             ten: objData.ten || query,
-            nhom: objData.nhom || "Dược Thiện",
-            cong_dung: objData.cong_dung || "Bồi bổ cơ thể, hỗ trợ điều trị bệnh.",
-            thanh_phan: formattedThanhPhan,
-            so_che: objData.so_che || "",
-            cach_lam: Array.isArray(objData.cach_lam) ? objData.cach_lam : (objData.cach_lam ? [objData.cach_lam] : ["Sơ chế nguyên liệu sạch sẽ.", "Nấu chín theo phương pháp cổ truyền."]),
-            kieng_ky: objData.kieng_ky || "Tham khảo ý kiến thầy thuốc trước khi dùng.",
+            nhom: objData.nhom || "Dược Thiện YHCT",
+            cong_dung: objData.cong_dung || 'Bồi bổ cơ thể, hỗ trợ điều trị bệnh.',
+            thanh_phan: Array.isArray(objData.thanh_phan) ? objData.thanh_phan : [{ vi: 'Thành phần chính', lieu: 'Vừa đủ' }],
+            so_che: objData.so_che || 'Sơ chế nguyên liệu sạch sẽ.',
+            cach_lam: Array.isArray(objData.cach_lam) ? objData.cach_lam : [objData.cach_lam || 'Nấu chín theo phương pháp cổ truyền.'],
+            kieng_ky: objData.kieng_ky || 'Tham khảo ý kiến thầy thuốc trước khi dùng.',
             isAiGenerated: true
         };
+        let idx = duocThienData.findIndex(t => (typeof removeAccents === 'function' ? removeAccents(t.ten) : t.ten) === (typeof removeAccents === 'function' ? removeAccents(query) : query));
+        if (idx >= 0) duocThienData[idx] = { ...duocThienData[idx], ...newObj }; else duocThienData.unshift(newObj);
 
-        let idx = duocThienData.findIndex(t => removeAccents(t.ten) === removeAccents(query));
-        if (idx >= 0) duocThienData[idx] = { ...duocThienData[idx], ...newObj };
-        else duocThienData.unshift(newObj);
-
-        let custom = JSON.parse(localStorage.getItem('custom_duocThienData') || '[]');
-        let cIdx = custom.findIndex(t => removeAccents(t.ten) === removeAccents(query));
+        let custom = JSON.parse(safeLocalStorageGet('custom_duocThienData', '[]'));
+        let cIdx = custom.findIndex(t => (typeof removeAccents === 'function' ? removeAccents(t.ten) : t.ten) === (typeof removeAccents === 'function' ? removeAccents(query) : query));
         if (cIdx >= 0) custom[cIdx] = newObj; else custom.unshift(newObj);
-        
-        if (typeof safeSetLocalStorage === 'function') safeSetLocalStorage('custom_duocThienData', custom, 30);
-        else localStorage.setItem('custom_duocThienData', JSON.stringify(custom));
+
+        safeLocalStorageSet('custom_duocThienData', JSON.stringify(custom));
     }
 }
 
@@ -545,51 +690,85 @@ async function chayLenhAi(btnElement, loaiLenh) {
     btnElement.innerHTML = `<i class="fa-solid fa-spinner fa-spin mr-1"></i> Đang xử lý...`;
 
     try {
-        if (loaiLenh === 'hoiduc') {
+        if (loaiLenh === 'luantri') {
             await triggerAiSearch('luantri');
         } else if (loaiLenh === 'baithuoc') {
             await sendAIWebMessage();
         } else if (loaiLenh === 'hc') {
-            const query = document.getElementById('hoi-chung')?.innerText;
-            if (query && query !== '---') {
-                const descEl = document.getElementById('ai-hc-desc');
-                if (descEl) {
-                    descEl.classList.remove('hidden');
-                    descEl.innerHTML = `<i class="fa-solid fa-brain fa-spin text-amber-500 mr-1"></i> Đang phân tích hội chứng...`;
-                    const res = await fetch(getApiEndpoint(), {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ 
-                            prompt: `Phân tích cực kỳ ngắn gọn, súc tích hội chứng YHCT: ${query}. Tối đa 3 ý chính.`, 
-                            ...getAiParams('search', 200) 
-                        })
-                    });
-                    const data = await res.json();
-                    descEl.innerHTML = formatAIMessage(data.reply || 'Không có phản hồi.');
-                }
+            const cardEl = btnElement.closest('.bg-dark-box') || btnElement.parentElement;
+            let queryEl = cardEl ? cardEl.querySelector('.font-bold.text-amber-400, h3, h4') : null;
+            let query = queryEl ? queryEl.innerText.trim() : '';
+            
+            if (!query || query === '---' || query.includes('AI')) {
+                const fallbackEl = document.querySelector('#pdf-area .font-bold.text-amber-400');
+                query = fallbackEl ? fallbackEl.innerText.trim() : '';
             }
+            
+            if (!query || query === '---') {
+                alert('Vui lòng chọn hoặc tra cứu một hội chứng cụ thể trước khi phân tích AI.');
+                return;
+            }
+
+            let descEl = document.getElementById('ai-hc-desc');
+            if (!descEl) {
+                descEl = document.createElement('div');
+                descEl.id = 'ai-hc-desc';
+                descEl.className = 'text-xs text-stone-300 pt-2 border-t border-stone-800/80 leading-relaxed mt-2';
+                cardEl?.appendChild(descEl);
+            }
+            descEl.classList.remove('hidden');
+            descEl.innerHTML = `<i class="fa-solid fa-brain fa-spin text-amber-500 mr-1"></i> Đang phân tích hội chứng...`;
+            
+            const res = await fetch(getApiEndpoint(), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    prompt: `Phân tích cực kỳ ngắn gọn, súc tích hội chứng YHCT: ${query}. Tối đa 3 ý chính.`, 
+                    ...getAiParams('search', 300) 
+                })
+            });
+            const data = await res.json();
+            descEl.innerHTML = formatAIMessage(data.reply || 'Không có phản hồi từ AI.');
+
         } else if (loaiLenh === 'bt') {
-            const query = document.getElementById('bai-thuoc')?.innerText;
-            if (query && query !== '---') {
-                const descEl = document.getElementById('ai-bt-desc');
-                if (descEl) {
-                    descEl.classList.remove('hidden');
-                    descEl.innerHTML = `<i class="fa-solid fa-brain fa-spin text-amber-500 mr-1"></i> Đang phân tích bài thuốc...`;
-                    const res = await fetch(getApiEndpoint(), {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ 
-                            prompt: `Phân tích cực kỳ ngắn gọn, súc tích bài thuốc cổ phương: ${query}. Tối đa 3 ý chính.`, 
-                            ...getAiParams('search', 200) 
-                        })
-                    });
-                    const data = await res.json();
-                    descEl.innerHTML = formatAIMessage(data.reply || 'Không có phản hồi.');
-                }
+            const cardEl = btnElement.closest('.bg-dark-box') || btnElement.parentElement;
+            let queryEl = cardEl ? cardEl.querySelector('.font-bold.text-amber-400, h3, h4') : null;
+            let query = queryEl ? queryEl.innerText.trim() : '';
+            
+            if (!query || query === '---' || query.includes('AI')) {
+                const fallbackEl = document.querySelector('#pdf-area .font-bold.text-amber-400');
+                query = fallbackEl ? fallbackEl.innerText.trim() : '';
             }
+            
+            if (!query || query === '---' || query === 'Đối chứng nghiệm phương') {
+                alert('Vui lòng chọn hoặc tra cứu một bài thuốc cụ thể trước khi phân tích AI.');
+                return;
+            }
+
+            let descEl = document.getElementById('ai-bt-desc');
+            if (!descEl) {
+                descEl = document.createElement('div');
+                descEl.id = 'ai-bt-desc';
+                descEl.className = 'text-xs text-stone-300 pt-2 border-t border-stone-800/80 leading-relaxed mt-2';
+                cardEl?.appendChild(descEl);
+            }
+            descEl.classList.remove('hidden');
+            descEl.innerHTML = `<i class="fa-solid fa-brain fa-spin text-amber-500 mr-1"></i> Đang phân tích bài thuốc...`;
+            
+            const res = await fetch(getApiEndpoint(), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ 
+                    prompt: `Phân tích cực kỳ ngắn gọn, súc tích bài thuốc cổ phương: ${query}. Tối đa 3 ý chính.`, 
+                    ...getAiParams('search', 300) 
+                })
+            });
+            const data = await res.json();
+            descEl.innerHTML = formatAIMessage(data.reply || 'Không có phản hồi từ AI.');
         }
     } catch (err) {
         console.error("Lỗi thực thi lệnh AI:", err);
+        alert('Lỗi kết nối máy chủ AI. Vui lòng thử lại sau.');
     } finally {
         btnElement.disabled = false;
         btnElement.classList.remove('opacity-50', 'pointer-events-none');
@@ -626,15 +805,14 @@ function triggerAiSearch(tab) {
     }
 }
 
-// --- CÁC HÀM AI ĐÃ DI DỜI TỪ CÁC FILE KHÁC ---
-
-// 1. Từ catalog.js (Thực đơn tuần AI)
+// ==========================================================================
+// THỰC ĐƠN TUẦN AI ("TUẦN NAY ĂN GÌ")
+// ==========================================================================
 async function chayAIthucDonTuanModal() {
-    const params = getAiParams('thucdon', 1200);
+    const params = getAiParams('assistant', 1200);
     const resultArea = document.getElementById('tna-result-area');
     if (!resultArea) return;
 
-    // Chặn quyền ngay tại Client nếu không phải VIP/SVIP
     if (!params.allowed) {
         resultArea.innerHTML = `<div class="bg-amber-950/40 p-4 rounded-xl border border-amber-800 text-amber-300 text-xs text-center"><i class="fa-solid fa-lock mr-1.5"></i> Tính năng Tạo Thực Đơn Tuần yêu cầu tài khoản từ cấp <strong>VIP</strong> trở lên.</div>`;
         return;
@@ -662,7 +840,7 @@ async function chayAIthucDonTuanModal() {
     - Chế độ ăn: ${cheDo}.
     - Yêu cầu phụ của người dùng: "${yeuCauPhu}".
     
-    BẮT BUỘC trả về đúng định dạng JSON thuần túy (không kèm markdown ngoài JSON) với cấu trúc:
+    BẮT BUỘC trả về đúng định dạng JSON thuần túy (không kèm markdown ngoài JSON) với cấu trúc chính xác:
     {"tieu_de": "...", "phan_tich_khu_vuc": "...", "cac_ngay": [{"thu": "Thứ Hai", "sang": {"mon": "...", "cong_dung": "..."}, "trua": {"mon": "...", "cong_dung": "..."}, "toi": {"mon": "...", "cong_dung": "..."}}], "luu_y_chung": "..."}`;
 
     try {
@@ -675,6 +853,14 @@ async function chayAIthucDonTuanModal() {
 
         if (res.ok && data.reply) {
             let parsedObj = parseJsonFromAI(data.reply);
+            if (!parsedObj) {
+                // Cố gắng quét trích xuất JSON thủ công nếu AI trả về bọc thêm text hoặc lỗi nhẹ
+                const match = data.reply.match(/\{[\s\S]*\}/);
+                if (match) {
+                    try { parsedObj = JSON.parse(match[0]); } catch (e) {}
+                }
+            }
+
             if (parsedObj) {
                 renderThucDonTuanModalUI(parsedObj);
             } else {
@@ -689,33 +875,46 @@ async function chayAIthucDonTuanModal() {
     }
 }
 
-function renderThucDonTuanModalUI(data) {
+function renderThucDonTuanModalUI(rawObj) {
     const resultArea = document.getElementById('tna-result-area');
     if (!resultArea) return;
+
+    // Chuẩn hóa linh hoạt các key để phòng trường hợp AI sinh ra tên khác nhau
+    const data = {
+        tieu_de: rawObj.tieu_de || rawObj.tieude || rawObj.title || 'Thực Đơn Dược Thiện Lý Tưởng Tuần Nay',
+        phan_tich_khu_vuc: rawObj.phan_tich_khu_vuc || rawObj.phantichkhuvuc || rawObj.phanTichKhuVuc || '',
+        cac_ngay: rawObj.cac_ngay || rawObj.cacngay || rawObj.days || [],
+        luu_y_chung: rawObj.luu_y_chung || rawObj.luuychung || rawObj.note || ''
+    };
 
     let html = `
         <div class="bg-stone-950 p-4 rounded-xl border border-amber-500/40 space-y-3">
             <div class="border-b border-stone-800 pb-2">
                 <h4 class="font-bold text-amber-400 text-sm uppercase flex items-center gap-1.5">
-                    <i class="fa-solid fa-utensils text-amber-500"></i> ${escapeHTML(data.tieu_de || 'Thực Đơn Dược Thiện Lý Tưởng Tuần Nay')}
+                    <i class="fa-solid fa-utensils text-amber-500"></i> ${escapeHTML(data.tieu_de)}
                 </h4>
                 <p class="text-[11px] text-stone-300 mt-1 leading-relaxed bg-stone-900 p-2.5 rounded border border-stone-800">
-                    <strong class="text-amber-400"><i class="fa-solid fa-cloud-sun"></i> Khí hậu & Mùa:</strong> ${escapeHTML(data.phan_tich_khu_vuc || '')}
+                    <strong class="text-amber-400"><i class="fa-solid fa-cloud-sun"></i> Khí hậu & Mùa:</strong> ${escapeHTML(data.phan_tich_khu_vuc)}
                 </p>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 max-h-[50vh] overflow-y-auto pr-1">`;
 
     if (Array.isArray(data.cac_ngay)) {
         data.cac_ngay.forEach(ngay => {
+            const thu = ngay.thu || ngay.day || 'Ngày';
+            const sang = ngay.sang || ngay.breakfast || { mon: '', cong_dung: '' };
+            const trua = ngay.trua || ngay.lunch || { mon: '', cong_dung: '' };
+            const toi = ngay.toi || ngay.dinner || { mon: '', cong_dung: '' };
+
             html += `
                 <div class="bg-stone-900 p-3 rounded-lg border border-stone-800 space-y-1.5 text-xs">
                     <div class="font-bold text-emerald-400 border-b border-stone-800 pb-1 flex items-center gap-1">
-                        <i class="fa-solid fa-calendar-day text-amber-500 text-[10px]"></i> ${escapeHTML(ngay.thu)}
+                        <i class="fa-solid fa-calendar-day text-amber-500 text-[10px]"></i> ${escapeHTML(thu)}
                     </div>
                     <div class="space-y-1 text-[11px] text-stone-300">
-                        <div><strong>☀️ Sáng:</strong> ${escapeHTML(ngay.sang?.mon || '')} <span class="text-stone-500 text-[10px]">(${escapeHTML(ngay.sang?.cong_dung || '')})</span></div>
-                        <div><strong>🍛 Trưa:</strong> ${escapeHTML(ngay.trua?.mon || '')} <span class="text-stone-500 text-[10px]">(${escapeHTML(ngay.trua?.cong_dung || '')})</span></div>
-                        <div><strong>🌙 Tối:</strong> ${escapeHTML(ngay.toi?.mon || '')} <span class="text-stone-500 text-[10px]">(${escapeHTML(ngay.toi?.cong_dung || '')})</span></div>
+                        <div><strong>☀️ Sáng:</strong> ${escapeHTML(sang.mon || sang.ten || '')} <span class="text-stone-500 text-[10px]">(${escapeHTML(sang.cong_dung || sang.tac_dung || '')})</span></div>
+                        <div><strong>🍛 Trưa:</strong> ${escapeHTML(trua.mon || trua.ten || '')} <span class="text-stone-500 text-[10px]">(${escapeHTML(trua.cong_dung || trua.tac_dung || '')})</span></div>
+                        <div><strong>🌙 Tối:</strong> ${escapeHTML(toi.mon || toi.ten || '')} <span class="text-stone-500 text-[10px]">(${escapeHTML(toi.cong_dung || toi.tac_dung || '')})</span></div>
                     </div>
                 </div>`;
         });
@@ -731,18 +930,12 @@ function renderThucDonTuanModalUI(data) {
     resultArea.innerHTML = html;
 }
 
-// 2. Từ luan-tri.js (Phân tích Hội chứng & Bài thuốc AI)
+// ==========================================================================
+// CÁC HÀM AI MODULE KHÁC
+// ==========================================================================
 async function fetchAIHcDesc(hcName) {
     const aiHcEl = document.getElementById('ai-hc-desc');
     if (!aiHcEl || !hcName || hcName === "---") return;
-
-    const cacheKey = 'ai_hc_' + (typeof removeAccents === 'function' ? removeAccents(hcName) : hcName.toLowerCase()).replace(/\s+/g, '_');
-    const cachedHTML = typeof getCacheWithTTL === 'function' ? getCacheWithTTL(cacheKey) : null; 
-    if (cachedHTML) {
-        aiHcEl.classList.remove('hidden');
-        aiHcEl.innerHTML = cachedHTML;
-        return;
-    }
 
     aiHcEl.classList.remove('hidden');
     aiHcEl.innerHTML = `<div class="text-amber-400/80 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang phân tích...</div>`;
@@ -757,11 +950,9 @@ async function fetchAIHcDesc(hcName) {
         const data = await res.json();
 
         if (res.ok && data.reply) {
-            const htmlResult = `
+            aiHcEl.innerHTML = `
                 <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Mô tả chi tiết hội chứng:</div>
                 <div class="space-y-1">${formatAIMessage(data.reply)}</div>`;
-            if (typeof setCacheWithTTL === 'function') setCacheWithTTL(cacheKey, htmlResult, 99); 
-            aiHcEl.innerHTML = htmlResult;
         } else {
             aiHcEl.innerHTML = `<div class="text-amber-400/90 bg-amber-950/40 p-2.5 rounded border border-amber-800/60 text-xs">${escapeHTML(data.error || 'Lỗi')}</div>`;
         }
@@ -774,14 +965,6 @@ let aiBtAbortController = null;
 async function fetchAIBtDesc(btName) {
     const aiBtEl = document.getElementById('ai-bt-desc');
     if (!aiBtEl || !btName || btName === "---" || btName === "Đối chứng nghiệm phương") return;
-
-    const cacheKey = 'ai_bt_' + (typeof removeAccents === 'function' ? removeAccents(btName) : btName.toLowerCase()).replace(/\s+/g, '_');
-    const cachedHTML = typeof getCacheWithTTL === 'function' ? getCacheWithTTL(cacheKey) : null; 
-    if (cachedHTML) {
-        aiBtEl.classList.remove('hidden');
-        aiBtEl.innerHTML = cachedHTML;
-        return;
-    }
 
     if (aiBtAbortController) aiBtAbortController.abort();
     aiBtAbortController = new AbortController();
@@ -800,11 +983,9 @@ async function fetchAIBtDesc(btName) {
         const data = await res.json();
 
         if (res.ok && data.reply) {
-            const htmlResult = `
+            aiBtEl.innerHTML = `
                 <div class="font-bold text-amber-400 mb-1 flex items-center gap-1"><i class="fa-solid fa-robot"></i> Nguồn gốc & đặc điểm cổ phương:</div>
                 <div class="space-y-1">${formatAIMessage(data.reply)}</div>`;
-            if (typeof setCacheWithTTL === 'function') setCacheWithTTL(cacheKey, htmlResult, 99); 
-            aiBtEl.innerHTML = htmlResult;
         }
     } catch (err) {
         if (err.name !== 'AbortError') {
@@ -813,7 +994,6 @@ async function fetchAIBtDesc(btName) {
     }
 }
 
-// 3. Từ phoi-ngu.js (Đánh giá phối ngũ bài thuốc AI)
 async function aiDanhGiaTongTheBaiThuoc() {
     const contentEl = document.getElementById('ai-tong-the-content');
     if (!contentEl || typeof currentFormulaHerbs === 'undefined' || currentFormulaHerbs.length === 0) return;
@@ -845,7 +1025,6 @@ async function aiDanhGiaTongTheBaiThuoc() {
     }
 }
 
-// 4. Từ thu-vien.js (Hỏi đáp sách PDF AI)
 async function hoiAIveSach(e) {
     if (e && e.preventDefault) e.preventDefault();
 
@@ -855,7 +1034,6 @@ async function hoiAIveSach(e) {
     
     if (!chatBox) return;
 
-    // Chặn quyền ngay tại Client nếu không phải VIP/SVIP
     if (!params.allowed) {
         chatBox.innerHTML += `<div class="bg-amber-950/40 p-2.5 rounded border border-amber-800 text-amber-300 text-xs"><i class="fa-solid fa-lock mr-1.5"></i> Tính năng Trích xuất Sách AI yêu cầu tài khoản từ cấp <strong>VIP</strong> trở lên.</div>`;
         return;
@@ -910,14 +1088,9 @@ async function hoiAIveSach(e) {
     }
 }
 
-// 5. Từ trac-nghiem.js (Tạo câu hỏi trắc nghiệm AI)
 async function fetchAIQuizQuestions(category, count) {
     const params = getAiParams('quiz', 800);
-    
-    // Chặn ngay nếu getAiParams báo không có quyền (GUEST / FREE)
-    if (!params.allowed) {
-        return [];
-    }
+    if (!params.allowed) return [];
 
     try {
         const prompt = `Hãy soạn chính xác ${count} câu hỏi trắc nghiệm khách quan về chuyên đề ${category} trong Y học cổ truyền (YHCT). 
@@ -931,10 +1104,7 @@ async function fetchAIQuizQuestions(category, count) {
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                prompt, 
-                ...params 
-            })
+            body: JSON.stringify({ prompt, ...params })
         });
         
         const data = await res.json();
@@ -957,13 +1127,11 @@ async function fetchAIQuizQuestions(category, count) {
     return [];
 }
 
-// 6. Từ tu-chan.js (Phân tích Vọng chẩn & Tứ chẩn AI)
 async function guiPhanTichVongChan() {
     const params = getAiParams('vongchan', 400);
     const outputEl = document.getElementById('vong-chan-output');
     const chatBox = document.getElementById('ai-chat-box');
 
-    // Chặn quyền ngay tại Client nếu không phải VIP/SVIP
     if (!params.allowed) {
         const errHtml = `<div class="bg-amber-950/40 p-3 rounded-lg border border-amber-800 text-amber-300 text-xs text-center"><i class="fa-solid fa-lock mr-1.5"></i> Tính năng Phân Tích Vọng Chẩn bằng AI yêu cầu tài khoản từ cấp <strong>VIP</strong> trở lên.</div>`;
         if (outputEl) outputEl.innerHTML = errHtml;
@@ -978,7 +1146,6 @@ async function guiPhanTichVongChan() {
 
     const typeSelect = document.getElementById('vong-chan-type')?.value;
     const noteText = document.getElementById('van-hoi-note')?.value.trim() || '';
-    const useHistory = !!document.getElementById('vong-chan-use-history')?.checked;
     
     const btnSubmit = document.getElementById('btn-phan-tich-vong-chan');
     const resultBox = document.getElementById('vong-chan-result');
@@ -991,34 +1158,8 @@ async function guiPhanTichVongChan() {
     if (typeSelect === "dien_chan") typeText = "Diện chẩn (Sắc mặt, thần thái)";
     if (typeSelect === "da_da") typeText = "Sắc da / Thương tổn ngoài da";
 
-    let historyContext = "";
-    if (useHistory && typeof openVongChanDB === 'function') {
-        try {
-            const db = await openVongChanDB();
-            const tx = db.transaction('history', 'readonly');
-            const store = tx.objectStore('history');
-            const request = store.getAll();
-            
-            await new Promise((resolve) => {
-                request.onsuccess = () => {
-                    const history = request.result || [];
-                    if (history.length > 0) {
-                        history.sort((a, b) => b.id - a.id);
-                        const last = history[0];
-                        const safeReply = last.reply ? String(last.reply).replace(/[\n\r]+/g, ' ').substring(0, 80) : '';
-                        historyContext = `\nLần khám gần nhất (${last.date}): ${last.note}. KQ: ${safeReply}...`;
-                    }
-                    resolve();
-                };
-                request.onerror = () => resolve();
-            });
-        } catch (e) {
-            console.error("Lỗi trích xuất lịch sử:", e);
-        }
-    }
-
     const promptText = `Chuyên gia YHCT: Phân tích hình ảnh theo phương pháp "${typeText}".
-Triệu chứng: "${noteText || 'Không'}". ${historyContext}
+Triệu chứng: "${noteText || 'Không'}".
 
 Yêu cầu súc tích (<200 từ, tiếng Việt, không dùng chữ Hán):
 1. Hình thái đặc trưng
@@ -1028,11 +1169,11 @@ Yêu cầu súc tích (<200 từ, tiếng Việt, không dùng chữ Hán):
     if (btnSubmit) {
         btnSubmit.disabled = true;
         btnSubmit.classList.add('opacity-50', 'pointer-events-none');
-        btnSubmit.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> AI đang soi hình ảnh & đối chiếu lịch sử...`;
+        btnSubmit.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> AI đang soi hình ảnh...`;
     }
     
     if (resultBox) resultBox.classList.remove('hidden');
-    if (outputEl) outputEl.innerHTML = `<div class="text-amber-400 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang phân tích hình ảnh & dữ liệu...</div>`;
+    if (outputEl) outputEl.innerHTML = `<div class="text-amber-400 italic flex items-center gap-1.5"><i class="fa-solid fa-brain fa-spin"></i> AI đang phân tích hình ảnh...</div>`;
 
     try {
         const res = await fetch(getApiEndpoint(), {
@@ -1083,7 +1224,6 @@ async function guiPhanTichTuChan() {
     const params = getAiParams('vongchan', 600);
     const chatBox = document.getElementById('ai-chat-box');
 
-    // Chặn quyền ngay tại Client nếu không phải VIP/SVIP
     if (!params.allowed) {
         if (chatBox) chatBox.innerHTML = `<div class="bg-amber-950/40 p-3 rounded-lg border border-amber-800 text-amber-300 text-xs text-center"><i class="fa-solid fa-lock mr-1.5"></i> Tính năng Hội Chẩn Tứ Chẩn AI yêu cầu tài khoản từ cấp <strong>VIP</strong> trở lên.</div>`;
         return;
@@ -1093,45 +1233,17 @@ async function guiPhanTichTuChan() {
     const noteVanHoi = document.getElementById('van-hoi-note')?.value.trim() || '';
     const mach = document.getElementById('thiet-chan-mach')?.value || '';
     const xucChan = document.getElementById('thiet-chan-xuc')?.value.trim() || '';
-    const useHistory = !!document.getElementById('vong-chan-use-history')?.checked;
     
     const btnSubmit = document.getElementById('btn-phan-tich-tu-chan');
     const resultBox = document.getElementById('vong-chan-result');
-
-    let historyContext = "";
-    if (useHistory && typeof openVongChanDB === 'function') {
-        try {
-            const db = await openVongChanDB();
-            const tx = db.transaction('history', 'readonly');
-            const store = tx.objectStore('history');
-            const request = store.getAll();
-            
-            await new Promise((resolve) => {
-                request.onsuccess = () => {
-                    const history = request.result || [];
-                    if (history.length > 0) {
-                        history.sort((a, b) => b.id - a.id);
-                        const last = history[0];
-                        const safeReply = last.reply ? String(last.reply).replace(/[\n\r]+/g, ' ').substring(0, 80) : '';
-                        historyContext = ` Lần trước (${last.date}): ${safeReply}...`;
-                    }
-                    resolve();
-                };
-                request.onerror = () => resolve();
-            });
-        } catch (e) {
-            console.error("Lỗi trích xuất lịch sử:", e);
-        }
-    }
 
     const promptText = `Bạn là chuyên gia Y học cổ truyền. Hãy phân tích Tứ Chẩn dựa trên dữ liệu bệnh nhân sau:
 - Văn chẩn (Thanh âm, hơi thở, mùi cơ thể): ${noteVanNghe || 'Không có'}
 - Vấn chẩn (Triệu chứng bệnh nhân khai báo): ${noteVanHoi || 'Không có'}
 - Mạch tượng: ${mach || 'Chưa bắt mạch'}
 - Xúc chẩn / Biểu hiện khác: ${xucChan || 'Không'}
-${historyContext ? `- Lịch sử khám: ${historyContext}` : ''}
 
-Yêu cầu: BẮT BUỘC trả về DUY NHẤT một đối tượng JSON thuần túy (không kèm Markdown, không lời chào) theo đúng cấu trúc:
+Yêu cầu: BẮT BUỘC trả về DUY NHẤT một đối tượng JSON thuần túy (không kèm Markdown) theo đúng cấu trúc:
 {
   "bat_cuong": "...", 
   "tang_phu": "...", 
@@ -1163,7 +1275,8 @@ Yêu cầu: BẮT BUỘC trả về DUY NHẤT một đối tượng JSON thuầ
 
         const data = await res.json();
         if (res.ok && data.reply) {
-            currentDiagnosticContext = `HỒ SƠ BỆNH NHÂN HIỆN TẠI:
+            // Gán an toàn vào window object để tránh lỗi ReferenceError ở Strict Mode
+            window.currentDiagnosticContext = `HỒ SƠ BỆNH NHÂN HIỆN TẠI:
 - Văn chẩn: ${noteVanNghe || 'Không'}
 - Vấn chẩn: ${noteVanHoi || 'Không'} | Mạch: ${mach || 'Chưa bắt mạch'}
 - KẾT QUẢ AI: ${data.reply}`;
@@ -1172,7 +1285,7 @@ Yêu cầu: BẮT BUỘC trả về DUY NHẤT một đối tượng JSON thuầ
                 chatBox.innerHTML = typeof renderTuChanCards === 'function' ? renderTuChanCards(data.reply) : data.reply;
             }
 
-            currentVongChanRecord = {
+            window.currentVongChanRecord = {
                 id: Date.now(),
                 date: new Date().toLocaleString('vi-VN'),
                 type: "Tứ Chẩn YHCT",
@@ -1196,4 +1309,85 @@ Yêu cầu: BẮT BUỘC trả về DUY NHẤT một đối tượng JSON thuầ
             btnSubmit.innerHTML = `<i class="fa-solid fa-brain"></i> AI Tổng Hội Chẩn Tứ Chẩn`;
         }
     }
+}
+
+// ==========================================================================
+// HÀM QUÉT & DỌN RÁC TOÀN BỘ LOCALSTORAGE (TẤT CẢ TÁC VỤ AI & CSDL)
+// ==========================================================================
+function donDepDuLieuRacLocalStorage() {
+    try {
+        const isInvalid = (item, keyName = 'ten') => {
+            if (!item || typeof item !== 'object') return true;
+            const val = String(item[keyName] || item.hc || '').trim().toLowerCase();
+            return !val || val === '---' || val.includes('undefined') || val.includes('null');
+        };
+
+        // 1. Quét Dược Liệu[span_11](start_span)[span_11](end_span)
+        try {
+            let customDL = JSON.parse(safeLocalStorageGet('custom_duocLieuData', '[]'));
+            if (Array.isArray(customDL)) {
+                safeLocalStorageSet('custom_duocLieuData', JSON.stringify(customDL.filter(i => !isInvalid(i, 'ten'))));
+            }
+        } catch (err) { safeLocalStorageRemove('custom_duocLieuData'); }
+
+        // 2. Quét Huyệt Vị[span_12](start_span)[span_12](end_span)
+        try {
+            let customHV = JSON.parse(safeLocalStorageGet('custom_huyetViData', '[]'));
+            if (Array.isArray(customHV)) {
+                safeLocalStorageSet('custom_huyetViData', JSON.stringify(customHV.filter(i => !isInvalid(i, 'ten'))));
+            }
+        } catch (err) { safeLocalStorageRemove('custom_huyetViData'); }
+
+        // 3. Quét Trà Dược[span_13](start_span)[span_13](end_span)
+        try {
+            let customTra = JSON.parse(safeLocalStorageGet('custom_traData', '[]'));
+            if (Array.isArray(customTra)) {
+                safeLocalStorageSet('custom_traData', JSON.stringify(customTra.filter(i => !isInvalid(i, 'ten'))));
+            }
+        } catch (err) { safeLocalStorageRemove('custom_traData'); }
+
+        // 4. Quét Dược Thiện[span_14](start_span)[span_14](end_span)
+        try {
+            let customDT = JSON.parse(safeLocalStorageGet('custom_duocThienData', '[]'));
+            if (Array.isArray(customDT)) {
+                safeLocalStorageSet('custom_duocThienData', JSON.stringify(customDT.filter(i => !isInvalid(i, 'ten'))));
+            }
+        } catch (err) { safeLocalStorageRemove('custom_duocThienData'); }
+
+        // 5. Quét CSDL Luận Trị[span_15](start_span)[span_15](end_span)
+        try {
+            let customDb = JSON.parse(safeLocalStorageGet('custom_database', '{}'));
+            if (customDb && typeof customDb === 'object' && !Array.isArray(customDb)) {
+                let hasChanged = false;
+                Object.keys(customDb).forEach(key => {
+                    if (isInvalid(customDb[key], 'hc') || key.includes('undefined') || key.includes('null')) {
+                        delete customDb[key];
+                        hasChanged = true;
+                    }
+                });
+                if (hasChanged) safeLocalStorageSet('custom_database', JSON.stringify(customDb));
+            } else {
+                safeLocalStorageSet('custom_database', '{}');
+            }
+        } catch (err) { safeLocalStorageSet('custom_database', '{}'); }
+
+        // 6. Quét Lịch Sử Vọng Chẩn[span_16](start_span)[span_16](end_span)
+        try {
+            let historyVC = JSON.parse(safeLocalStorageGet('vongchan_history', '[]'));
+            if (Array.isArray(historyVC)) {
+                const cleanVC = historyVC.filter(item => item && item.id && item.reply && !item.reply.includes('undefined'));
+                safeLocalStorageSet('vongchan_history', JSON.stringify(cleanVC));
+            }
+        } catch (err) { safeLocalStorageSet('vongchan_history', '[]'); }
+
+    } catch (e) {
+        console.warn("[Garbage Collector] Lỗi khi làm sạch LocalStorage:", e?.message || String(e));
+    }
+}
+
+// Tự động kích hoạt khi ứng dụng khởi chạy
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', donDepDuLieuRacLocalStorage);
+} else {
+    donDepDuLieuRacLocalStorage();
 }
