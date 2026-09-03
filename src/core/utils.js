@@ -186,7 +186,7 @@ function cleanExpiredLocalStorage() {
         try {
             // Xóa các key cache AI quá hạn hoặc các key tạm thời
             const itemStr = localStorage.getItem(key);
-            if (itemStr && itemStr.startsWith('{') && itemStr.includes('expiry')) {
+            if (itemStr.startsWith('{') && itemStr.includes('expiry')) {
                 const item = JSON.parse(itemStr);
                 if (item && item.expiry && now > item.expiry) {
                     localStorage.removeItem(key);
