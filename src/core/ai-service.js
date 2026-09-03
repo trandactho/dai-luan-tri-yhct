@@ -233,7 +233,7 @@ async function sendAIWebMessage() {
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: fullPrompt, ...getAiParams('search', 200) })
+            body: JSON.stringify({ prompt: fullPrompt, ...getAiParams('search') })
         });
         const data = await res.json();
 
@@ -357,7 +357,7 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: prompt, ...getAiParams('backup', 250) })
+            body: JSON.stringify({ prompt: prompt, ...getAiParams('backup') })
         });
         const data = await res.json();
     
@@ -538,7 +538,7 @@ async function chayLenhAi(btnElement, loaiLenh) {
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ 
                                 prompt: `Phân tích cực kỳ ngắn gọn, súc tích hội chứng YHCT: ${query}. Tối đa 3 ý chính.`, 
-                                ...getAiParams('search', 200) 
+                                ...getAiParams('search') 
                             })
                         });
                         const data = await res.json();
@@ -564,7 +564,7 @@ async function chayLenhAi(btnElement, loaiLenh) {
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ 
                             prompt: `Phân tích bài thuốc cổ phương: "${query}". BẮT BUỘC bao gồm các ý: 1. Nguồn gốc & xuất xứ (Sách kinh điển, tác giả), 2. Công dụng chủ trị, 3. Cơ chế phối ngũ. Ngắn gọn, súc tích.`, 
-                            ...getAiParams('search', 250) 
+                            ...getAiParams('search') 
                         })
                     });
                     const data = await res.json();
@@ -615,7 +615,7 @@ function triggerAiSearch(tab) {
 
 // 1. Từ catalog.js (Thực đơn tuần AI)
 async function chayAIthucDonTuanModal() {
-    const params = getAiParams('thucdon', 1200);
+    const params = getAiParams('thucdon');
     const resultArea = document.getElementById('tna-result-area');
     if (!resultArea) return;
 
@@ -737,7 +737,7 @@ async function fetchAIHcDesc(hcName) {
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt, ...getAiParams('luantrihc', 250) })
+            body: JSON.stringify({ prompt, ...getAiParams('luantrihc') })
         });
         const data = await res.json();
 
@@ -780,7 +780,7 @@ async function fetchAIBtDesc(btName) {
             method: 'POST',
             signal: aiBtAbortController.signal,
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt, ...getAiParams('luantribt', 250) })
+            body: JSON.stringify({ prompt, ...getAiParams('luantribt') })
         });
         const data = await res.json();
 
@@ -815,7 +815,7 @@ async function aiDanhGiaTongTheBaiThuoc() {
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ prompt: prompt, ...getAiParams('phoingu_danhgia', 400) })
+            body: JSON.stringify({ prompt: prompt, ...getAiParams('phoingu_danhgia') })
         });
         const data = await res.json();
 
@@ -834,7 +834,7 @@ async function aiDanhGiaTongTheBaiThuoc() {
 async function hoiAIveSach(e) {
     if (e && e.preventDefault) e.preventDefault();
 
-    const params = getAiParams('sach_ai', 400);
+    const params = getAiParams('sach_ai');
     const chatBox = document.getElementById('sach-ai-chat-box') || document.getElementById('sach-chat-box');
     const inputEl = document.getElementById('sach-ai-input');
     
@@ -897,7 +897,7 @@ async function hoiAIveSach(e) {
 
 // 5. Từ trac-nghiem.js (Tạo câu hỏi trắc nghiệm AI)
 async function fetchAIQuizQuestions(category, count) {
-    const params = getAiParams('quiz', 800);
+    const params = getAiParams('quiz');
     
     // Chặn ngay nếu getAiParams báo không có quyền (GUEST / FREE)
     if (!params.allowed) {
@@ -944,7 +944,7 @@ async function fetchAIQuizQuestions(category, count) {
 
 // 6. Từ tu-chan.js (Phân tích Vọng chẩn & Tứ chẩn AI)
 async function guiPhanTichVongChan() {
-    const params = getAiParams('vongchan', 400);
+    const params = getAiParams('vongchan');
     const outputEl = document.getElementById('vong-chan-output');
     const chatBox = document.getElementById('ai-chat-box');
 
@@ -1065,7 +1065,7 @@ Yêu cầu súc tích (<200 từ, tiếng Việt, không dùng chữ Hán):
 }
 
 async function guiPhanTichTuChan() {
-    const params = getAiParams('vongchan', 600);
+    const params = getAiParams('vongchan');
     const chatBox = document.getElementById('ai-chat-box');
 
     // Chặn quyền ngay tại Client nếu không phải VIP/SVIP
