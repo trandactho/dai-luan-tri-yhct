@@ -3,31 +3,37 @@
 // ==========================================================================
 
 // Hàm điều tiết source, max_tokens và kiểm tra quyền theo cấp độ tài khoản
-function getAiParams(source, maxTokens = 250) {
-    const role = (typeof getCurrentUserRole === 'function' ? getCurrentUserRole() : 'GUEST').toUpperCase();
-    
-    // Danh sách tính năng giới hạn cho VIP & SVIP
+function getAiParams(source) {
+    let role = 'GUEST';
+    let serverAuthenticated = false;
+
+    try {
+        const serverToken = localStorage.getItem('sb-access-token') || localStorage.getItem('supabase.auth.token') || sessionStorage.getItem('auth_token');
+        const storedUser = localStorage.getItem('current_user') || localStorage.getItem('user_profile');
+        
+        if (serverToken && storedUser) {
+            const userData = JSON.parse(storedUser);
+            role = (userData.role || 'FREE').toUpperCase();
+            serverAuthenticated = true;
+        }
+    } catch (e) {
+        console.warn("Lỗi đối chiếu phiên làm việc với server:", e);
+    }
+
+    const verifiedRole = serverAuthenticated ? role : (typeof getCurrentUserRole === 'function' ? getCurrentUserRole() : 'GUEST').toUpperCase();
+
     const vipOnlySources = ['vongchan', 'sach_ai', 'thucdon', 'quiz'];
-    const isAllowed = !(vipOnlySources.includes(source) && (role === 'GUEST' || role === 'FREE'));
+    const isAllowed = !(vipOnlySources.includes(source) && (verifiedRole === 'GUEST' || verifiedRole === 'FREE'));
     
     if (!isAllowed) {
-        console.warn(`[AI Access Denied] Tài khoản ${role} bị giới hạn tính năng ${source}`);
+        console.warn(`[AI Access Denied] Tài khoản ${verifiedRole} (Server Authenticated: ${serverAuthenticated}) bị giới hạn tính năng ${source}`);
     }
-
-    let finalSource = source;
-    if (role === 'VIP' || role === 'SVIP') {
-        // finalSource = 'assistant';
-    }
-
-    let multiplier = 1;
-    if (role === 'VIP') multiplier = 1.2;
-    else if (role === 'SVIP') multiplier = 1.5;
 
     return {
         allowed: isAllowed,
-        source: finalSource,
-        max_tokens: Math.round(maxTokens * multiplier),
-        role: role
+        source: source,
+        role: verifiedRole,
+        serverAuthenticated: serverAuthenticated
     };
 }
 
