@@ -1,13 +1,8 @@
 exports.handler = async function(event) {
-    const allowedOrigins = [
-        "https://dailuantriyhct.com", 
-        "http://localhost:8888", 
-        "http://localhost:8080",
-        "http://127.0.0.1:8080",
-        "http://127.0.0.1:8888"
-    ];
+    const allowedOrigins = ["https://dailuantriyhct.com", "http://localhost:8888", "http://localhost:8080"];
     const requestOrigin = event.headers.origin || event.headers.Origin;
 
+    // Chặn truy cập từ Origin không hợp lệ ngay từ đầu
     if (requestOrigin && !allowedOrigins.includes(requestOrigin)) {
         return { 
             statusCode: 403, 
@@ -28,7 +23,7 @@ exports.handler = async function(event) {
     }
 
     try {
-        const { prompt, image, source, max_tokens } = JSON.parse(event.body || '{}');
+        const { prompt, image, source } = JSON.parse(event.body || '{}');
 
         if (!prompt || prompt.trim().length === 0) {
             return { statusCode: 400, headers, body: JSON.stringify({ error: 'Nội dung câu hỏi không được để trống.' }) };
@@ -41,25 +36,18 @@ exports.handler = async function(event) {
         const primaryKey = process.env.PRIMARY_API_KEY || process.env.AI_API_KEY;
         const secondKey  = process.env.SECOND_API_KEY;
         const backupKey  = process.env.BACKUP_API_KEY;
-        const quizKey    = process.env.QUIZ_API_KEY;
+        const quizKey  = process.env.QUIZ_API_KEY;
         const searchKey  = process.env.SEARCH_API_KEY;
-        const thucdonKey = process.env.THUCDON_API_KEY;
-        const thirdKey   = process.env.THIRD_API_KEY;
+        const thucdonKey  = process.env.THUCDON_API_KEY;
+        const thirdKey  = process.env.THIRD_API_KEY;
         
         let keysToTry = [];
-        if (source === 'vongchan' || source === 'assistant') {
-            keysToTry = [primaryKey, backupKey];
-        } else if (source === 'backup') {
-            keysToTry = [backupKey, primaryKey, secondKey];
-        } else if (source === 'quiz') {
-            keysToTry = [quizKey, secondKey];
-        } else if (source === 'thucdon') {
-            keysToTry = [thucdonKey, thirdKey];
-        } else if (source === 'sach_ai') {
-            keysToTry = [thirdKey, primaryKey];
-        } else {
-            keysToTry = [searchKey, secondKey, primaryKey];
-        }
+        if (source === 'assistant') keysToTry = [primaryKey, backupKey];
+        else if (source === 'vongchan') keysToTry = [primaryKey, backupKey];
+        else if (source === 'quiz') keysToTry = [quizKey, secondKey];
+        else if (source === 'thucdon') keysToTry = [thucdonKey, thirdKey];
+        
+        else keysToTry = [searchKey, secondKey];
 
         keysToTry = [...new Set(keysToTry.filter(Boolean))];
 
@@ -73,23 +61,15 @@ exports.handler = async function(event) {
         if (image && typeof image === 'string' && image.startsWith('data:image')) {
             const matches = image.match(/^data:(image\/\w+);base64,(.+)$/);
             if (matches && matches.length === 3) {
-                partsPayload.push({ inlineData: { mimeType: matches[1], data: matches[2] } });
+                partsPayload.push({ inline_data: { mime_type: matches[1], data: matches[2] } });
             }
         }
 
-        // Chống chèn văn bản dẫn dắt làm hỏng định dạng JSON (Không phân biệt hoa thường)
-        const isJsonRequest = /json|bắt buộc|thuần túy/i.test(prompt);
-        if (isJsonRequest) {
-            partsPayload.push({ text: prompt });
-        } else {
-            partsPayload.push({ 
-                text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt 
-            });
-        }
+        partsPayload.push({ 
+            text: "Bạn là trợ lý YHCT chuyên nghiệp. Hãy trả lời ngắn gọn, chuẩn xác: " + prompt 
+        });
 
-        // Giữ nguyên thời gian xử lý linh hoạt (35s cho tác vụ phân tích sâu, 15s cho tra cứu)
-        const longRunningSources = ['vongchan', 'assistant', 'thucdon', 'quiz', 'sach_ai', 'backup'];
-        const timeoutMs = longRunningSources.includes(source) ? 35000 : 15000;
+        const timeoutMs = (source === 'vongchan' || source === 'assistant'|| source === 'thucdon'|| source === 'quiz') ? 35000 : 15000;
 
         for (const apiKey of keysToTry) {
             for (const model of models) {
@@ -98,19 +78,11 @@ exports.handler = async function(event) {
 
                 try {
                     const url = `https://generativelanguage.googleapis.com/v1/models/${model}:generateContent?key=${apiKey.trim()}`;
-                    
-                    const payload = {
-                        contents: [{ parts: partsPayload }],
-                        generationConfig: {
-                            maxOutputTokens: max_tokens || 500
-                        }
-                    };
-
                     const response = await fetch(url, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         signal: controller.signal,
-                        body: JSON.stringify(payload)
+                        body: JSON.stringify({ contents: [{ parts: partsPayload }] })
                     });
 
                     clearTimeout(timeoutId);
