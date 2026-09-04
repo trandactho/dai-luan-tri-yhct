@@ -1165,6 +1165,7 @@ Yêu cầu: BẮT BUỘC trả về DUY NHẤT một đối tượng JSON thuầ
                 noteVanHoi: noteVanHoi,
                 mach: mach || '',
                 xucChan: xucChan || '',
+                image: vongChanImageBase64 || '',
                 reply: data.reply
             };
 
