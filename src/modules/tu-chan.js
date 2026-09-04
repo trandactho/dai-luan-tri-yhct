@@ -298,11 +298,39 @@ function renderTuChanCards(aiReply) {
             return `<div class="p-3 bg-red-950/20 text-red-400 text-xs rounded border border-red-900">⚠️ Dữ liệu AI trả về chưa chuẩn định dạng, vui lòng thử lại.</div>`;
         }
     }
+    
+    const vongChan = parsed.vong_chan || '';
+    const vanChan = parsed.van_chan || '';
+    const vanHoi = parsed.van_hoi || '';
+    const thietChan = parsed.thiet_chan || '';
     const coPhuong = parsed.co_phuong || '';
     const hoiChung = parsed.hoi_chung || '';
 
     return `
     <div class="space-y-4">
+        <!-- TỨ CHẨN TỔNG HỢP -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            ${vongChan ? `<div class="bg-stone-900 p-3 rounded-lg border border-stone-800 space-y-1">
+                <div class="text-[10px] text-amber-400 uppercase font-bold"><i class="fa-solid fa-eye"></i> Vọng chẩn</div>
+                <p class="text-xs text-stone-200 leading-relaxed">${escapeHTML(vongChan)}</p>
+            </div>` : ''}
+            
+            ${vanChan ? `<div class="bg-stone-900 p-3 rounded-lg border border-stone-800 space-y-1">
+                <div class="text-[10px] text-amber-400 uppercase font-bold"><i class="fa-solid fa-ear-listen"></i> Văn chẩn</div>
+                <p class="text-xs text-stone-200 leading-relaxed">${escapeHTML(vanChan)}</p>
+            </div>` : ''}
+
+            ${vanHoi ? `<div class="bg-stone-900 p-3 rounded-lg border border-stone-800 space-y-1">
+                <div class="text-[10px] text-amber-400 uppercase font-bold"><i class="fa-solid fa-comments"></i> Vấn chẩn</div>
+                <p class="text-xs text-stone-200 leading-relaxed">${escapeHTML(vanHoi)}</p>
+            </div>` : ''}
+
+            ${thietChan ? `<div class="bg-stone-900 p-3 rounded-lg border border-stone-800 space-y-1">
+                <div class="text-[10px] text-amber-400 uppercase font-bold"><i class="fa-solid fa-hand-holding-medical"></i> Thiết chẩn</div>
+                <p class="text-xs text-stone-200 leading-relaxed">${escapeHTML(thietChan)}</p>
+            </div>` : ''}
+        </div>
+
         <!-- 1. Bát Cương, Tạng Phủ & Hội Chứng -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
             <div class="bg-stone-900 p-3 rounded-lg border border-stone-800">
@@ -331,7 +359,7 @@ function renderTuChanCards(aiReply) {
             <div class="text-xs font-bold text-emerald-400 mt-2">Pháp trị: <span class="text-stone-300 font-normal">${escapeHTML(parsed.phap_tri)}</span></div>
         </div>
 
-        <!-- 3. Cổ phương & Vị thuốc có gắn link tương tác -->
+        <!-- 3. Cổ phương & Vị thuốc -->
         <div class="bg-stone-900 p-4 rounded-lg border border-stone-800 space-y-3">
             <div class="flex items-center justify-between border-b border-stone-800 pb-2">
                 <div class="text-xs font-bold text-amber-400 uppercase">Bài thuốc chủ phương:</div>
@@ -343,7 +371,7 @@ function renderTuChanCards(aiReply) {
             </div>
 
             <div class="space-y-2">
-                <div class="text-[11px] font-bold text-stone-400 uppercase tracking-wide">Thành phần vị thuốc (Bấm để xem chi tiết):</div>
+                <div class="text-[11px] font-bold text-stone-400 uppercase tracking-wide">Thành phần vị thuốc:</div>
                 ${Array.isArray(parsed.vi_thuoc) && parsed.vi_thuoc.length > 0 ? parsed.vi_thuoc.map(v => `
                     <div class="flex items-center justify-between p-2.5 bg-stone-800/90 rounded-lg border border-stone-700/60 text-xs">
                         <div class="flex items-center gap-2">
