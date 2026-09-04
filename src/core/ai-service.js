@@ -1110,14 +1110,18 @@ async function guiPhanTichTuChan() {
     }
 
     const promptText = `Bạn là chuyên gia Y học cổ truyền. Hãy phân tích Tứ Chẩn dựa trên dữ liệu bệnh nhân sau:
-- Văn chẩn (Thanh âm, hơi thở, mùi cơ thể): ${noteVanNghe || 'Không có'}
-- Vấn chẩn (Triệu chứng bệnh nhân khai báo): ${noteVanHoi || 'Không có'}
-- Mạch tượng: ${mach || 'Chưa bắt mạch'}
-- Xúc chẩn / Biểu hiện khác: ${xucChan || 'Không'}
+- Vọng chẩn (Hình ảnh sắc mặt/lưỡi): Phân tích đặc điểm hình thái quan sát được từ ảnh.
+- Văn chẩn (Âm thanh, hơi thở): ${noteVanNghe || 'Không có'}
+- Vấn chẩn (Triệu chứng hỏi bệnh): ${noteVanHoi || 'Không có'}
+- Thiết chẩn (Mạch tượng & Xúc chẩn): Mạch ${mach || 'Chưa bắt'}, Xúc chẩn: ${xucChan || 'Không'}
 ${historyContext ? `- Lịch sử khám: ${historyContext}` : ''}
 
-Yêu cầu: BẮT BUỘC trả về DUY NHẤT một đối tượng JSON thuần túy (không kèm Markdown, không lời chào) theo đúng cấu trúc:
+Yêu cầu: BẮT BUỘC trả về DUY NHẤT một đối tượng JSON thuần túy theo đúng cấu trúc:
 {
+  "vong_chan": "...",
+  "van_chan": "...",
+  "van_hoi": "...",
+  "thiet_chan": "...",
   "bat_cuong": "...", 
   "tang_phu": "...", 
   "hoi_chung": "...",
@@ -1126,6 +1130,7 @@ Yêu cầu: BẮT BUỘC trả về DUY NHẤT một đối tượng JSON thuầ
   "co_phuong": "...", 
   "vi_thuoc": [{"ten": "...", "lieu": "...", "vai_tro": "..."}]
 }`;
+
 
     if (btnSubmit) {
         btnSubmit.disabled = true;
