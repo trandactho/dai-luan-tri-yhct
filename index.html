@@ -77,9 +77,12 @@
     </div>
         
     <header class="relative bg-dark-box p-2 text-center border-b border-stone-800 space-y-0.5 w-full max-w-full overflow-hidden">        
-        <h1 class="text-sm font-bold text-primary flex items-center justify-center gap-1">
-            <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.7.9)
-        </h1>
+    <h1 class="text-sm font-bold text-primary flex items-center justify-center gap-1">
+        <i class="fa-solid fa-mortar-pestle"></i> ĐẠI LUẬN TRỊ YHCT (v1.7.9)
+    </h1>
+    <button onclick="moModalCaiDat()" class="absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-amber-400 p-1 rounded-lg transition-colors cursor-pointer" title="Cài đặt ứng dụng">
+        <i class="fa-solid fa-ellipsis-vertical text-sm"></i>
+    </button>
         <div class="text-[10px] text-stone-400 space-x-2">
             <span>Biện chứng (<span id="total-chung" class="text-amber-500 font-bold">0</span>)</span> · 
             <span>Khảo thí(<span id="total-quiz" class="text-amber-500 font-bold">0</span>)</span> · 
@@ -1463,6 +1466,48 @@
             </div>
         </div>
     </div>
+    <!-- MODAL CÀI ĐẶT ỨNG DỤNG -->
+<div id="modal-cai-dat" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-4">
+    <div class="bg-stone-900 border border-stone-800 rounded-2xl max-w-md w-full p-5 space-y-4 shadow-2xl relative animate-fade-in text-xs">
+        <div class="flex items-center justify-between border-b border-stone-800 pb-3">
+            <h3 class="font-bold text-sm text-amber-400 flex items-center gap-2">
+                <i class="fa-solid fa-gear text-amber-500"></i> Cài Đặt Ứng Dụng
+            </h3>
+            <button onclick="dongModalCaiDat()" class="w-7 h-7 rounded-full bg-stone-800 text-stone-400 hover:text-white flex items-center justify-center transition-colors cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="space-y-3">
+            <!-- Nút gạt 1: Vuốt chuyển tab -->
+            <div class="flex items-center justify-between p-3 bg-stone-950 rounded-xl border border-stone-800">
+                <div class="space-y-0.5">
+                    <div class="font-bold text-stone-200">Vuốt màn hình chuyển tab</div>
+                    <div class="text-[10px] text-stone-400">Cho phép vuốt trái/phải để chuyển tab trên di động</div>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="setting-swipe-tabs" onchange="toggleSettingSwipe(this)" class="sr-only peer" checked>
+                    <div class="w-9 h-5 bg-stone-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-600"></div>
+                </label>
+            </div>
+            <!-- Nút gạt 2: Chặn nút back thoát ứng dụng -->
+            <div class="flex items-center justify-between p-3 bg-stone-950 rounded-xl border border-stone-800">
+                <div class="space-y-0.5">
+                    <div class="font-bold text-stone-200">Chặn nút Back thoát ứng dụng</div>
+                    <div class="text-[10px] text-stone-400">Ngăn nút Back đóng modal đột ngột hoặc thoát ứng dụng</div>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" id="setting-back-block" onchange="toggleSettingBackBlock(this)" class="sr-only peer" checked>
+                    <div class="w-9 h-5 bg-stone-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-600"></div>
+                </label>
+            </div>
+        </div>
+        <div class="pt-2 border-t border-stone-800 flex justify-end">
+            <button onclick="dongModalCaiDat()" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl transition-all cursor-pointer">
+                Đóng
+            </button>
+        </div>
+    </div>
+</div>
 
     <!-- 0. CƠ SỞ DỮ LIỆU -->
     <script src="luantridata.js" defer></script>
