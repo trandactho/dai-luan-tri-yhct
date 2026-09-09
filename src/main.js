@@ -179,7 +179,7 @@ function shouldIgnoreSwipe(target) {
         return true;
     }
 
-    const activeModal = target.closest('#modal-don-thuoc, #modal-thong-tin-yhct, #modal-role-lock');
+    const activeModal = target.closest('#modal-don-thuoc, #modal-thong-tin-yhct, #modal-role-lock, #modal-cai-dat');
     if (activeModal && !activeModal.classList.contains('hidden')) return true;
 
     const horizontalScrollBox = target.closest('.overflow-x-auto');
@@ -195,6 +195,12 @@ function shouldIgnoreSwipe(target) {
 }
 
 document.addEventListener('touchstart', (e) => {
+    // Nếu tắt tính năng vuốt chuyển tab trong cài đặt -> bỏ qua và đánh dấu ignore ngay lập tức
+    if (localStorage.getItem('setting_swipe_tabs') === 'false') {
+        isSwipeIgnored = true;
+        return;
+    }
+
     if (e.touches.length !== 1) {
         isSwipeIgnored = true;
         return;
@@ -212,6 +218,8 @@ document.addEventListener('touchstart', (e) => {
 }, { passive: true });
 
 document.addEventListener('touchend', (e) => {
+    // Kiểm tra thêm điều kiện cài đặt ở touchend để đảm bảo tuyệt đối
+    if (localStorage.getItem('setting_swipe_tabs') === 'false') return;
     if (isSwipeIgnored || !e.changedTouches || e.changedTouches.length === 0) return;
 
     const touchEndX = e.changedTouches[0].clientX;
@@ -290,8 +298,12 @@ window.addEventListener('pageshow', khoiPhucTrangThaiTruocDo);
 
 // Xử lý nút Back của trình duyệt / thiết bị di động
 window.addEventListener('popstate', (e) => {
+    // Nếu tắt tính năng chặn nút back trong cài đặt -> cho phép trình duyệt xử lý tự nhiên hoàn toàn
+    if (localStorage.getItem('setting_back_block') === 'false') return;
+
     // 1. Kiểm tra và đóng các modal đang mở trước
     const openModals = [
+        'modal-cai-dat',
         'modal-don-thuoc',
         'modal-tuan-nay-an-gi',
         'modal-thong-tin-yhct',
@@ -307,10 +319,94 @@ window.addEventListener('popstate', (e) => {
         }
     }
 
-    // Nếu có modal đang mở và vừa được đóng, dừng việc chuyển tab
     if (closedAnyModal) return;
 
-    // 2. Logic xử lý chuyển tab cũ khi không có modal nào mở
+    const activeBtn = document.querySelector('nav button.tab-active');
+    const currentTabId = activeBtn ? activeBtn.id.replace('btnTab', '').toLowerCase() : '';
+
+    if (currentTabId && currentTabId !== 'taikhoan') {
+        history.pushState({ tab: 'taikhoan' }, '', window.location.href);
+        switchTab('taikhoan', false);
+    } 
+});
+
+// --- QUẢN LÝ MODAL CÀI ĐẶT & TRẠNG THÁI ---
+
+function moModalCaiDat() {
+    const modal = document.getElementById('modal-cai-dat');
+    if (modal) {
+        modal.classList.remove('hidden');
+        
+        // Đồng bộ trạng thái checkbox với localStorage
+        const swipeToggle = document.getElementById('setting-swipe-tabs');
+        const backToggle = document.getElementById('setting-back-block');
+        
+        const isSwipeOn = localStorage.getItem('setting_swipe_tabs') !== 'false';
+        const isBackBlockOn = localStorage.getItem('setting_back_block') !== 'false';
+        
+        if (swipeToggle) swipeToggle.checked = isSwipeOn;
+        if (backToggle) backToggle.checked = isBackBlockOn;
+    }
+}
+
+function dongModalCaiDat() {
+    const modal = document.getElementById('modal-cai-dat');
+    if (modal) modal.classList.add('hidden');
+}
+
+function toggleSettingSwipe(checkbox) {
+    localStorage.setItem('setting_swipe_tabs', checkbox.checked);
+}
+
+function toggleSettingBackBlock(checkbox) {
+    localStorage.setItem('setting_back_block', checkbox.checked);
+}
+
+// --- ĐIỀU CHỈNH TRONG SỰ KIỆN VUỐT TAB ---
+document.addEventListener('touchstart', (e) => {
+    // Nếu tắt tính năng vuốt chuyển tab trong cài đặt -> bỏ qua
+    if (localStorage.getItem('setting_swipe_tabs') === 'false') return;
+
+    if (e.touches.length !== 1) {
+        isSwipeIgnored = true;
+        return;
+    }
+
+    if (shouldIgnoreSwipe(e.target)) {
+        isSwipeIgnored = true;
+        return;
+    }
+
+    isSwipeIgnored = false;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchStartTime = Date.now();
+}, { passive: true });
+
+// --- ĐIỀU CHỈNH TRONG SỰ KIỆN POPSTATE (NÚT BACK) ---
+window.addEventListener('popstate', (e) => {
+    // Nếu tắt tính năng chặn nút back trong cài đặt -> cho phép trình duyệt xử lý tự nhiên
+    if (localStorage.getItem('setting_back_block') === 'false') return;
+
+    const openModals = [
+        'modal-cai-dat',
+        'modal-don-thuoc',
+        'modal-tuan-nay-an-gi',
+        'modal-thong-tin-yhct',
+        'modal-role-lock'
+    ];
+    
+    let closedAnyModal = false;
+    for (const modalId of openModals) {
+        const modalEl = document.getElementById(modalId);
+        if (modalEl && !modalEl.classList.contains('hidden')) {
+            modalEl.classList.add('hidden');
+            closedAnyModal = true;
+        }
+    }
+
+    if (closedAnyModal) return;
+
     const activeBtn = document.querySelector('nav button.tab-active');
     const currentTabId = activeBtn ? activeBtn.id.replace('btnTab', '').toLowerCase() : '';
 
