@@ -151,8 +151,16 @@ async function taiDuLieuOffline() {
         const activeWorker = navigator.serviceWorker.controller || registration.active;
 
         if (activeWorker) {
-            activeWorker.postMessage({ type: 'CACHE_ALL' });
-            alert('Đã lưu toàn bộ 10 module và dữ liệu Offline thành công!');
+            // Tạo kênh phản hồi 2 chiều
+            const messageChannel = new MessageChannel();
+            messageChannel.port1.onmessage = (event) => {
+                if (event.data && event.data.success) {
+                    alert(`Đã lưu toàn bộ dữ liệu & ${event.data.count} ảnh huyệt vị Offline thành công!`);
+                }
+            };
+
+            activeWorker.postMessage({ type: 'CACHE_ALL' }, [messageChannel.port2]);
+            console.log('Đang bắt đầu tiến trình đồng bộ Cache Offline...');
         } else {
             alert('Service Worker đang khởi tạo, vui lòng tải lại trang (F5) và thử lại.');
         }
@@ -161,6 +169,7 @@ async function taiDuLieuOffline() {
         alert('Chưa thể lưu Offline: ' + err.message);
     }
 }
+
 
 // --- BỘ XỬ LÝ VUỐT CHUYỂN TAB TỐI ƯU HÓA MOBILE ---
 
