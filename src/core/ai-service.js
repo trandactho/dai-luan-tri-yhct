@@ -276,13 +276,15 @@ function validateAndCleanAIResult(obj, tabName) {
             tpbt: Array.isArray(obj.tpbt) ? obj.tpbt.map(String) : []
         };
     } else if (tabName.includes('Dược Liệu') || tabName.includes('duoclieu')) {
-        return {
-            ten: String(obj.ten || 'Dược liệu chưa rõ tên'),
-            nhom: String(obj.nhom || 'Dược liệu YHCT'),
-            ten_khoa_hoc: String(obj.ten_khoa_hoc || ''),
-            pinyin: String(obj.pinyin || ''),
-            cong_dung: String(obj.cong_dung || 'Đang cập nhật công năng chủ trị.'),
-            kieng_ky: String(obj.kieng_ky || obj.luu_y || 'Tuân thủ liều lượng tiêu chuẩn.')
+    return {
+        ten: String(obj.ten || 'Dược liệu chưa rõ tên'),
+        nhom: String(obj.nhom || 'Dược liệu YHCT'),
+        ten_khoa_hoc: String(obj.ten_khoa_hoc || ''),
+        pinyin: String(obj.pinyin || ''),
+        dac_tinh: String(obj.dac_tinh || ''),
+        hinh_dang: String(obj.hinh_dang || ''),
+        cong_dung: String(obj.cong_dung || 'Đang cập nhật công năng chủ trị.'),
+        kieng_ky: String(obj.kieng_ky || obj.luu_y || 'Tuân thủ liều lượng tiêu chuẩn.')
         };
     } else if (tabName.includes('Huyệt Vị') || tabName.includes('huyetvi')) {
         return {
@@ -348,11 +350,14 @@ async function fetchAIBackupResult(query, tabName, containerEl) {
         </div>
     `;
     try {
-        const prompt = `Bạn là hệ thống CSDL YHCT. Hãy cung cấp thông tin ngắn gọn về "${query}" thuộc danh mục ${tabName}. 
-        BẮT BUỘC trả về đúng định dạng JSON thuần túy (không kèm chữ nào khác ngoài JSON):
-        - Nếu là Luận Trị: {"hc": "...", "pdt": "...", "tc": ["..."], "bt": "...", "tpbt": ["..."]}
-        - Nếu là Dược Thiện: {"ten": "...", "nhom": "...", "cong_dung": "...", "thanh_phan": [{"vi": "...", "lieu": "..."}], "so_che": "...", "cach_lam": ["..."], "kieng_ky": "..."}
-        - Nếu là Dược Liệu/Huyệt/Trà: {"ten": "...", "nhom": "...", "cong_dung": "...", "cach_dung": "...", "thanh_phan": ["..."]}`;
+        // Thay đoạn prompt cũ trong fetchAIBackupResult bằng:
+const prompt = `Bạn là hệ thống CSDL YHCT. Hãy cung cấp thông tin ngắn gọn về "${query}" thuộc danh mục ${tabName}. 
+BẮT BUỘC trả về đúng định dạng JSON thuần túy (không kèm chữ nào khác ngoài JSON):
+- Nếu là Luận Trị: {"hc": "...", "pdt": "...", "tc": ["..."], "bt": "...", "tpbt": ["..."]}
+- Nếu là Dược Thiện: {"ten": "...", "nhom": "...", "cong_dung": "...", "thanh_phan": [{"vi": "...", "lieu": "..."}], "so_che": "...", "cach_lam": ["..."], "kieng_ky": "..."}
+- Nếu là Dược Liệu: {"ten": "...", "nhom": "...", "ten_khoa_hoc": "...", "pinyin": "...", "dac_tinh": "...", "hinh_dang": "...", "cong_dung": "...", "kieng_ky": "..."}
+- Nếu là Huyệt Vị: {"ten": "...", "kinh": "...", "ma_who": "...", "chu_tri": "...", "vi_tri": "..."}
+- Nếu là Trà Dược: {"ten": "...", "nhom": "...", "cong_dung": "...", "cach_dung": "...", "thanh_phan": ["..."], "kieng_ky": "..."}`;
 
         const res = await fetch(getApiEndpoint(), {
             method: 'POST',
@@ -414,26 +419,28 @@ function luuKetQuaAiVaoDb(query, tabName, objData) {
         };
         try { localStorage.setItem('custom_database', JSON.stringify(database)); } catch (e) {}
     } else if (tabName.includes('Dược Liệu')) {
-        if (typeof duocLieuData === 'undefined') window.duocLieuData = [];
-        const newObj = {
-            ten: objData.ten || query,
-            nhom: objData.nhom || "Dược liệu YHCT",
-            ten_khoa_hoc: objData.ten_khoa_hoc || "",
-            pinyin: objData.pinyin || "",
-            cong_dung: (!objData.cong_dung || objData.cong_dung === "Đang cập nhật") ? "Tư âm dưỡng huyết, khu phong trừ thấp." : objData.cong_dung,
-            kieng_ky: objData.kieng_ky || objData.luu_y || "Tuân thủ liều lượng phối ngũ tiêu chuẩn.",
-            isAiGenerated: true
-        };
-        let idx = duocLieuData.findIndex(d => removeAccents(d.ten) === removeAccents(query));
-        if (idx >= 0) duocLieuData[idx] = { ...duocLieuData[idx], ...newObj };
-        else duocLieuData.unshift(newObj);
+    if (typeof duocLieuData === 'undefined') window.duocLieuData = [];
+    const newObj = {
+        ten: objData.ten || query,
+        nhom: objData.nhom || "Dược liệu YHCT",
+        ten_khoa_hoc: objData.ten_khoa_hoc || "",
+        pinyin: objData.pinyin || "",
+        dac_tinh: objData.dac_tinh || "",
+        hinh_dang: objData.hinh_dang || "",
+        cong_dung: (!objData.cong_dung || objData.cong_dung === "Đang cập nhật") ? "Tư âm dưỡng huyết, khu phong trừ thấp." : objData.cong_dung,
+        kieng_ky: objData.kieng_ky || objData.luu_y || "Tuân thủ liều lượng phối ngũ tiêu chuẩn.",
+        isAiGenerated: true
+    };
+    let idx = duocLieuData.findIndex(d => removeAccents(d.ten) === removeAccents(query));
+    if (idx >= 0) duocLieuData[idx] = { ...duocLieuData[idx], ...newObj };
+    else duocLieuData.unshift(newObj);
 
-        let custom = JSON.parse(localStorage.getItem('custom_duocLieuData') || '[]');
-        let cIdx = custom.findIndex(d => removeAccents(d.ten) === removeAccents(query));
-        if (cIdx >= 0) custom[cIdx] = newObj; else custom.unshift(newObj);
-        
-        if (typeof safeSetLocalStorage === 'function') safeSetLocalStorage('custom_duocLieuData', custom, 30);
-        else localStorage.setItem('custom_duocLieuData', JSON.stringify(custom));
+    let custom = JSON.parse(localStorage.getItem('custom_duocLieuData') || '[]');
+    let cIdx = custom.findIndex(d => removeAccents(d.ten) === removeAccents(query));
+    if (cIdx >= 0) custom[cIdx] = newObj; else custom.unshift(newObj);
+    
+    if (typeof safeSetLocalStorage === 'function') safeSetLocalStorage('custom_duocLieuData', custom, 30);
+    else localStorage.setItem('custom_duocLieuData', JSON.stringify(custom));
     } else if (tabName.includes('Huyệt Vị')) {
         if (typeof huyetViData === 'undefined') window.huyetViData = [];
         const newObj = {
