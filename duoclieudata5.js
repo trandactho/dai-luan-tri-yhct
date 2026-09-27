@@ -6,7 +6,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Asparagus cochinchinensis (Lour.) Merr.",
     pinyin: "Tiān Mén Dōng",
     cong_dung: "Tư âm nhuận táo, thanh phế giáng hỏa.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính đại hàn, vị ngọt đắng.",
+    hinh_dang: "Củ thoi mọng nước, nhiều chất nhầy, ruột trắng mọng; tránh chọn củ úng thối hay mốc đen."
   },
   {
     stt: 2050,
@@ -15,7 +17,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morinda officinalis How",
     pinyin: "Bā Jǐ Tiān",
     cong_dung: "Ôn bổ thận dương, tráng gân cốt.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ôn, vị cay ngọt.",
+    hinh_dang: "Củ nhỏ dẹt, thịt màu hồng tím nhạt tươi mọng, lõi gỗ cứng; chọn củ không xập xẹp hay sâu giập."
   },
   {
     stt: 2051,
@@ -24,7 +28,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morinda officinalis How",
     pinyin: "Bā Jǐ Tiān",
     cong_dung: "Ôn bổ thận dương, khu phong thấp.",
-    kieng_ky: "Tiểu buốt dắt."
+    kieng_ky: "Tiểu buốt dắt.",
+    dac_tinh: "Tính ôn, vị cay ngọt.",
+    hinh_dang: "Củ dẹt nhỏ tươi, vỏ xám nếp nhăn dẻo, thịt trắng ngà; chọn củ chắc thịt không thối úng."
   },
   {
     stt: 2052,
@@ -33,7 +39,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Epimedium brevicornu Maxim.",
     pinyin: "Yín Yáng Huò",
     cong_dung: "Bổ thận tráng dương, cường gân cốt.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ôn, vị cay ngọt.",
+    hinh_dang: "Lá tươi xanh, mép lá răng cưa nhọn, cành mảnh; tránh chọn chùm lá héo dập thối nát."
   },
   {
     stt: 2053,
@@ -42,7 +50,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cistanche deserticola Y.C.Ma",
     pinyin: "Ròu Cōng Róng",
     cong_dung: "Bổ thận tráng dương, nhuận tràng thông tiện.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính ôn, vị ngọt mặn.",
+    hinh_dang: "Củ hình trụ nhiều vảy thịt xếp vẩy cá, thịt mềm mọng mặn ngọt; không chọn củ mốc đen."
   },
   {
     stt: 2054,
@@ -51,7 +61,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Eucommia ulmoides Oliv.",
     pinyin: "Dù Zhòng",
     cong_dung: "Bổ can thận, cường gân cốt, an thai.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ôn, vị ngọt hơi đắng.",
+    hinh_dang: "Vỏ thân dầy tươi mọng, khi bẻ ra có vô số sợi nhựa tơ trắng dính dẻo; chọn vỏ nhựa thơm nồng."
   },
   {
     stt: 2055,
@@ -60,7 +72,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Dipsacus asper Wall. ex DC.",
     pinyin: "Xù Duàn",
     cong_dung: "Bổ can thận, nối gân xương, giảm đau lưng.",
-    kieng_ky: "Phong thấp thể nhiệt."
+    kieng_ky: "Phong thấp thể nhiệt.",
+    dac_tinh: "Tính ôn, vị đắng cay.",
+    hinh_dang: "Rễ củ tươi mọng dài, vằn nhăn dọc, thịt xám xanh nhạt; chọn củ mẩy chắc không sâu thối."
   },
   {
     stt: 2056,
@@ -69,7 +83,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cullen corylifolium (L.) Medik.",
     pinyin: "Bǔ Gǔ Zhǐ",
     cong_dung: "Ôn thận tráng dương, cố tinh sáp niệu.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ôn, vị cay đắng.",
+    hinh_dang: "Quả hạt nhỏ tươi hình thận màu nâu đen, vỏ có hạt lấm tấm; thơm cay nồng đặc trưng."
   },
   {
     stt: 2057,
@@ -78,7 +94,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Alpinia oxyphylla Miq.",
     pinyin: "Yì Zhì Rén",
     cong_dung: "Ôn tỳ sáp khí, cố tinh sáp niệu.",
-    kieng_ky: "Tiểu buốt do nhiệt."
+    kieng_ky: "Tiểu buốt do nhiệt.",
+    dac_tinh: "Tính ôn, vị cay.",
+    hinh_dang: "Quả hình thoi tươi, vỏ ngoài có nhiều gờ dọc, chứa hạt nhiều tinh dầu thơm cay."
   },
   {
     stt: 2058,
@@ -87,7 +105,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Drynaria fortunei (Kunze) J.Sm.",
     pinyin: "Gǔ Suì Bǔ",
     cong_dung: "Bổ thận cường gân cốt, liền xương gãy.",
-    kieng_ky: "Âm hư."
+    kieng_ky: "Âm hư.",
+    dac_tinh: "Tính hơi ôn, vị đắng.",
+    hinh_dang: "Thân rễ dẹt phủ đầy vảy lông màu vàng nâu sáng, thịt trong mọng màu xám đỏ."
   },
   {
     stt: 2059,
@@ -96,7 +116,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Curculigo orchioides Gaertn.",
     pinyin: "Xiān Máo",
     cong_dung: "Bổ thận tráng dương, khu hàn trừ thấp.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính nhiệt (độc nhẹ), vị cay đắng.",
+    hinh_dang: "Thân rễ hình trụ nhỏ tươi, vỏ ngoài xám đen có vằn đốt ngang, ruột trắng đục."
   },
   {
     stt: 2060,
@@ -105,7 +127,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus reticulata Blanco",
     pinyin: "Chén Pí",
     cong_dung: "Lý khí hòa vị, tiêu đờm hăng cay.",
-    kieng_ky: "Ho khan âm hư."
+    kieng_ky: "Ho khan âm hư.",
+    dac_tinh: "Tính ôn, vị cay đắng.",
+    hinh_dang: "Vỏ quả quýt chín tươi màu vàng cam, nhiều tuyến tinh dầu sần sùi nổi rõ, thơm nồng."
   },
   {
     stt: 2061,
@@ -114,7 +138,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Clausena lansium (Lour.) Skeels",
     pinyin: "Huáng Pí",
     cong_dung: "Ôn phế trừ đờm, tiêu thực lý khí.",
-    kieng_ky: "Nhiệt uất phế."
+    kieng_ky: "Nhiệt uất phế.",
+    dac_tinh: "Tính ôn, vị cay chua ngọt.",
+    hinh_dang: "Vỏ quả hồng bì tươi màu vàng sẫm, giàu tuyến tinh dầu thơm; chọn quả không giập úng."
   },
   {
     stt: 2062,
@@ -123,7 +149,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cyperus rotundus L.",
     pinyin: "Xiāng Fù",
     cong_dung: "Sơ can giải uất, điều kinh chỉ thống.",
-    kieng_ky: "Âm hư huyết nhiệt."
+    kieng_ky: "Âm hư huyết nhiệt.",
+    dac_tinh: "Tính bình, vị cay hơi đắng ngọt.",
+    hinh_dang: "Củ cỏ gấu tươi thoi tròn, phủ nhiều rễ râu, thịt trắng ngà thơm nồng mùi tinh dầu."
   },
   {
     stt: 2063,
@@ -132,7 +160,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Aucklandia lappa Decne.",
     pinyin: "Mù Xiāng",
     cong_dung: "Hành khí chỉ thống, tiêu trướng bụng tỳ vị.",
-    kieng_ky: "Âm hư nội nhiệt."
+    kieng_ky: "Âm hư nội nhiệt.",
+    dac_tinh: "Tính ôn, vị cay đắng.",
+    hinh_dang: "Rễ củ tươi mọng, vỏ nâu xám, thịt chắc xám nâu, thơm nồng hăng đặc trưng."
   },
   {
     stt: 2064,
@@ -141,7 +171,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus aurantium L.",
     pinyin: "Zhǐ Shí",
     cong_dung: "Phá khí tiêu tích, hóa đờm trừ bĩ.",
-    kieng_ky: "Tỳ vị hư nhược."
+    kieng_ky: "Tỳ vị hư nhược.",
+    dac_tinh: "Tính hàn, vị đắng chua.",
+    hinh_dang: "Quả non tươi bổ đôi màu xanh đen, vỏ dày nhiều túi dầu nổi, đắng chát nồng."
   },
   {
     stt: 2065,
@@ -150,7 +182,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus aurantium L.",
     pinyin: "Zhǐ Ké",
     cong_dung: "Lý khí khoan hung, giảm trướng bụng nhẹ.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính hơi hàn, vị đắng chua.",
+    hinh_dang: "Quả bánh tẻ cắt đôi tươi, vỏ xanh sẫm, hạt đắng nhiều tinh dầu, không giập thối."
   },
   {
     stt: 2066,
@@ -159,7 +193,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Lindera aggregata (Sims) Kosterm.",
     pinyin: "Wū Yào",
     cong_dung: "Hành khí chỉ thống, ôn thận tán hàn.",
-    kieng_ky: "Khí hư nội nhiệt."
+    kieng_ky: "Khí hư nội nhiệt.",
+    dac_tinh: "Tính ôn, vị cay.",
+    hinh_dang: "Rễ củ tươi giống chuỗi hạt thoi, vỏ nâu xám, thịt ruột màu vàng nhạt thơm nhẹ."
   },
   {
     stt: 2067,
@@ -168,7 +204,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus medica L. var. sarcodactylis (Swingle) Swingle",
     pinyin: "Fó Shǒu",
     cong_dung: "Sơ can lý khí, hòa vị chỉ thống, táo thấp.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ôn, vị cay đắng chua.",
+    hinh_dang: "Quả tươi chia ngón tay phật xanh vàng, vỏ mọng nhiều túi tinh dầu thơm sực."
   },
   {
     stt: 2068,
@@ -177,7 +215,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Magnolia officinalis Rehd. & Wils.",
     pinyin: "Hòu Pò",
     cong_dung: "Hành khí táo thấp, ấm trung tiêu, tiêu trướng.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ôn, vị cay đắng.",
+    hinh_dang: "Vỏ thân cuộn tươi, thịt màu nâu xám tím, bẻ có dải xơ mềm, thơm nồng hắc."
   },
   {
     stt: 2069,
@@ -186,7 +226,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus reticulata Blanco",
     pinyin: "Qīng Pí",
     cong_dung: "Sơ can phá khí, tiêu tích trệ tỳ vị.",
-    kieng_ky: "Thai phụ."
+    kieng_ky: "Thai phụ.",
+    dac_tinh: "Tính ôn, vị cay đắng.",
+    hinh_dang: "Vỏ quýt non tươi màu xanh đen sẫm, nhiều túi dầu nổi sần sùi, đắng chát nồng."
   },
   {
     stt: 2070,
@@ -195,7 +237,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Prunus armeniaca L.",
     pinyin: "Xìng Rén",
     cong_dung: "Chỉ khái bình suyễn, nhuận tràng thông tiện.",
-    kieng_ky: "Tiêu chảy."
+    kieng_ky: "Tiêu chảy.",
+    dac_tinh: "Tính ôn (độc nhẹ), vị đắng.",
+    hinh_dang: "Hạt đắng tươi hình tim dẹt, vỏ lụa vàng nâu, nhân đục trắng giàu dầu béo."
   },
   {
     stt: 2071,
@@ -204,7 +248,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Pinellia ternata (Thunb.) Makino",
     pinyin: "Bàn Xià",
     cong_dung: "Chỉ dùng ngoài giã đắp, cấm uống sống.",
-    kieng_ky: "Không uống sống trực tiếp."
+    kieng_ky: "Không uống sống trực tiếp.",
+    dac_tinh: "Tính nhiệt (độc cao), vị cay ngứa tê.",
+    hinh_dang: "Củ tròn tươi màu trắng xám, nhiều nhựa chảy gây ngứa rát cực mạnh nếu chạm da."
   },
   {
     stt: 2072,
@@ -213,7 +259,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Platycodon grandiflorus (Jacq.) A.DC.",
     pinyin: "Jié Gèng",
     cong_dung: "Tuyên phế khứ đờm, lợi họng, giải ho.",
-    kieng_ky: "Ho ra máu."
+    kieng_ky: "Ho ra máu.",
+    dac_tinh: "Tính bình, vị đắng cay.",
+    hinh_dang: "Rễ củ tươi mọng giống sâm nhỏ, thịt trắng đục, giòn dẻo có mùi thơm nhẹ."
   },
   {
     stt: 2073,
@@ -222,7 +270,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Stemona tuberosa Lour.",
     pinyin: "Bǎi Bù",
     cong_dung: "Nhuận phế chỉ khái, sát trùng diệt giun kim.",
-    kieng_ky: "Tiêu chảy."
+    kieng_ky: "Tiêu chảy.",
+    dac_tinh: "Tính ấm, vị ngọt đắng.",
+    hinh_dang: "Chùm rễ củ tươi chụm lại như củ sắn nhỏ, màu trắng ngà, dẻo mọng nước."
   },
   {
     stt: 2074,
@@ -231,7 +281,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Aster tataricus L.f.",
     pinyin: "Zǐ Yuǎn",
     cong_dung: "Nhuận phế hạ khí, hóa đàm chỉ khái.",
-    kieng_ky: "Ho khan âm hư."
+    kieng_ky: "Ho khan âm hư.",
+    dac_tinh: "Tính ấm, vị đắng cay ngọt.",
+    hinh_dang: "Rễ chùm nhỏ tươi màu xám tím nhạt, thịt dẻo mọng, mùi thơm phế mộc."
   },
   {
     stt: 2075,
@@ -240,7 +292,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Peucedanum praeruptorum Dunn",
     pinyin: "Qián Hú",
     cong_dung: "Tuyên tán phong nhiệt, giáng khí hóa đờm.",
-    kieng_ky: "Ho phong hàn."
+    kieng_ky: "Ho phong hàn.",
+    dac_tinh: "Tính hơi hàn, vị đắng cay.",
+    hinh_dang: "Rễ củ nhọn tươi phân nhánh, vỏ nâu đen, thịt xám trắng thơm mùi tinh dầu."
   },
   {
     stt: 2076,
@@ -249,7 +303,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Sinapis alba L.",
     pinyin: "Bái Jiè Zǐ",
     cong_dung: "Ôn phế hóa đờm, trừ hàn ẩm chỉ thống.",
-    kieng_ky: "Phế hỏa ho khan."
+    kieng_ky: "Phế hỏa ho khan.",
+    dac_tinh: "Tính ấm, vị cay nồng.",
+    hinh_dang: "Hạt cải trắng tươi hình cầu nhỏ, màu vàng đục, giã ra xộc hương cay nồng."
   },
   {
     stt: 2077,
@@ -258,7 +314,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morus alba L.",
     pinyin: "Sāng Bái Pí",
     cong_dung: "Tả phế bình suyễn, lợi thủy tiêu thũng.",
-    kieng_ky: "Ho phế hàn."
+    kieng_ky: "Ho phế hàn.",
+    dac_tinh: "Tính hàn, vị ngọt.",
+    hinh_dang: "Vỏ rễ dâu tươi bóc tách vỏ thô bên ngoài, dải xơ màu trắng ngà mọng dẻo dai."
   },
   {
     stt: 2078,
@@ -267,7 +325,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Tussilago farfara L.",
     pinyin: "Kuǎn Dōng Huā",
     cong_dung: "Ôn phế giáng khí, hóa đờm chỉ ho.",
-    kieng_ky: "Ho phế nhiệt."
+    kieng_ky: "Ho phế nhiệt.",
+    dac_tinh: "Tính ấm, vị cay đắng.",
+    hinh_dang: "Nụ hoa tươi chưa nở nhung mịn, màu tím hồng nhạt nhung lông, mềm mại."
   },
   {
     stt: 2079,
@@ -276,7 +336,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Pouzolzia zeylanica (L.) Benn.",
     pinyin: "Tǔ Pái Qián Cǎo",
     cong_dung: "Thanh phế hóa đờm, giảm ho lao, tiêu viêm.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính mát, vị ngọt nhạt.",
+    hinh_dang: "Rễ củ tươi xám đục, thịt mềm dẻo mọng; không dùng rễ giập thối."
   },
   {
     stt: 2080,
@@ -285,7 +347,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Crataegus pinnatifida Bunge",
     pinyin: "Shān Zhā",
     cong_dung: "Tiêu tích trệ, hoạt huyết, hạ mỡ máu.",
-    kieng_ky: "Dạ dày thừa acid."
+    kieng_ky: "Dạ dày thừa acid.",
+    dac_tinh: "Tính hơi ôn, vị chua ngọt.",
+    hinh_dang: "Quả chín tươi màu đỏ thắm, thịt xốp chua ngọt thơm; chọn quả chắc bóng."
   },
   {
     stt: 2081,
@@ -294,7 +358,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Hordeum vulgare L.",
     pinyin: "Mài Yá",
     cong_dung: "Tiêu thực hóa tích, kiện tỳ khai vị.",
-    kieng_ky: "Phụ nữ cho con bú."
+    kieng_ky: "Phụ nữ cho con bú.",
+    dac_tinh: "Tính bình, vị ngọt nhạt.",
+    hinh_dang: "Hạt lúa mạch vừa nảy mầm trắng nhạt dài 0.5cm tươi, thơm mùi mầm ngũ cốc."
   },
   {
     stt: 2082,
@@ -303,7 +369,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Gallus gallus domesticus Brisson",
     pinyin: "Jī Nèi Jīn",
     cong_dung: "Kiện tỳ tiêu thực, hóa tích sỏi, ấm vị.",
-    kieng_ky: "Không có tích trệ."
+    kieng_ky: "Không có tích trệ.",
+    dac_tinh: "Tính bình, vị ngọt.",
+    hinh_dang: "Lớp màng niêm mạc mề gà mỏng tươi bóc rửa sạch, màu vàng xám nhạt, giòn dẻo."
   },
   {
     stt: 2083,
@@ -312,7 +380,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Massa Medicata Fermentata",
     pinyin: "Shén Qū",
     cong_dung: "Khai vị tiêu thực, hòa trung tiêu tích.",
-    kieng_ky: "Tỳ hư nặng."
+    kieng_ky: "Tỳ hư nặng.",
+    dac_tinh: "Tính ấm, vị cay ngọt.",
+    hinh_dang: "Bánh bột lên men tươi dẻo nhẹ, thoảng mùi men chua mốc đặc trưng tự nhiên."
   },
   {
     stt: 2084,
@@ -321,7 +391,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Raphanus sativus L.",
     pinyin: "Lái Fú Zǐ",
     cong_dung: "Tiêu thực giáng khí, hóa đờm trệ.",
-    kieng_ky: "Khí hư không tích."
+    kieng_ky: "Khí hư không tích.",
+    dac_tinh: "Tính bình, vị cay ngọt.",
+    hinh_dang: "Hạt củ cải tươi nhỏ dẹt, màu nâu đỏ sáng, giã tỏa hương cay nồng nhẹ."
   },
   {
     stt: 2085,
@@ -330,7 +402,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Setaria italica (L.) Beauv.",
     pinyin: "Gǔ Yá",
     cong_dung: "Tiêu thực hòa tỳ, kiện vị khai vị.",
-    kieng_ky: "Tích nhiệt."
+    kieng_ky: "Tích nhiệt.",
+    dac_tinh: "Tính bình, vị ngọt.",
+    hinh_dang: "Hạt lúa mầm tươi nảy mầm ngắn, màu vàng ruộm mẩy tròn, thơm mùi mầm lúa."
   },
   {
     stt: 2086,
@@ -339,7 +413,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus sinensis (L.) Osbeck",
     pinyin: "Chéng Pí",
     cong_dung: "Lý khí hòa vị, tiêu đờm, ấm tỳ.",
-    kieng_ky: "Âm hư."
+    kieng_ky: "Âm hư.",
+    dac_tinh: "Tính ấm, vị cay đắng ngọt.",
+    hinh_dang: "Vỏ quả cam tươi chín mọng vàng cam, chứa dày túi tinh dầu thơm nồng."
   },
   {
     stt: 2087,
@@ -348,7 +424,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus maxima (Burm.) Merr.",
     pinyin: "Yù Pí",
     cong_dung: "Hóa đờm giáng khí, hòa vị tiêu mỡ.",
-    kieng_ky: "Người thể hư hàn."
+    kieng_ky: "Người thể hư hàn.",
+    dac_tinh: "Tính ấm, vị cay đắng thơm.",
+    hinh_dang: "Lớp vỏ xanh ngoài quả bưởi tươi lấm tấm chấm tinh dầu nổi, thơm sực nồng."
   },
   {
     stt: 2088,
@@ -357,7 +435,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Styphnolobium japonicum (L.) Schott",
     pinyin: "Huái Mǐ",
     cong_dung: "Lương huyết chỉ huyết, thanh can hạ áp.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính hơi hàn, vị đắng.",
+    hinh_dang: "Nụ hoa nhỏ xanh tươi hình trứng nhọn chưa nở, hạt mẩy xanh mỏng dẻo."
   },
   {
     stt: 2089,
@@ -366,7 +446,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Zingiber officinale Roscoe",
     pinyin: "Shēn Jiāng",
     cong_dung: "Phát tán phong hàn, ôn trung chỉ nôn, đắp ngoài.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay nồng.",
+    hinh_dang: "Gừng củ mọng nước ruột vàng, nhiều sợi tinh dầu giã nhuyễn cay xộc nồng."
   },
   {
     stt: 2090,
@@ -375,7 +457,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Mentha haplocalyx Briq.",
     pinyin: "Bò He",
     cong_dung: "Sơ tán phong nhiệt, đắp dịu ngứa da.",
-    kieng_ky: "Mồ hôi ra quá nhiều."
+    kieng_ky: "Mồ hôi ra quá nhiều.",
+    dac_tinh: "Tính mát, vị cay mát.",
+    hinh_dang: "Lá ngọn tươi xanh mờ giã giập tỏa hương menthol cay mát lạnh xộc mũi."
   },
   {
     stt: 2091,
@@ -384,7 +468,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Perilla frutescens (L.) Britt.",
     pinyin: "Zǐ Sū",
     cong_dung: "Phát tán phong hàn, đắp giải độc vết cắn.",
-    kieng_ky: "Biểu hư tự hãn."
+    kieng_ky: "Biểu hư tự hãn.",
+    dac_tinh: "Tính ấm, vị cay thơm.",
+    hinh_dang: "Lá tươi mặt trên xanh mặt dưới tím nhạt, giã nhuyễn tỏa mùi tinh dầu dễ chịu."
   },
   {
     stt: 2092,
@@ -393,7 +479,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Elsholtzia ciliata (Thunb.) Hyland.",
     pinyin: "Jīng Jiè",
     cong_dung: "Phát tán phong hàn, thấu chẩn, giảm mẩn ngứa.",
-    kieng_ky: "Mụn nhọt đã vỡ."
+    kieng_ky: "Mụn nhọt đã vỡ.",
+    dac_tinh: "Tính ấm, vị cay thơm.",
+    hinh_dang: "Cành lá hoa tươi màu xanh nhạt giã giập tỏa hương thảo mộc thanh dịu."
   },
   {
     stt: 2093,
@@ -402,7 +490,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Chrysanthemum indicum L.",
     pinyin: "Yě Jū Huā",
     cong_dung: "Tán phong thanh nhiệt, đắp mụn nhọt.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát, vị đắng cay.",
+    hinh_dang: "Bông hoa cúc vàng tươi bông nhỏ rực rỡ, đài xanh, giã nồng vị đắng thanh."
   },
   {
     stt: 2094,
@@ -411,7 +501,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Chrysanthemum morifolium Ramat.",
     pinyin: "Jū Huā",
     cong_dung: "Thanh nhiệt bình can, đắp dịu mắt.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát, vị ngọt đắng.",
+    hinh_dang: "Bông hoa cúc trắng tươi cánh dài đài xanh, giã tỏa hương ngọt đắng dịu mát."
   },
   {
     stt: 2095,
@@ -420,7 +512,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Vitex trifolia L.",
     pinyin: "Màn Jīng Zǐ",
     cong_dung: "Sơ tán phong nhiệt, thanh lợi đầu mục.",
-    kieng_ky: "Huyết hư đau đầu."
+    kieng_ky: "Huyết hư đau đầu.",
+    dac_tinh: "Tính bình, vị cay đắng.",
+    hinh_dang: "Quả nhỏ tròn tươi xanh đen vỏ cứng, giã nồng mùi tinh dầu hắc nhẹ."
   },
   {
     stt: 2096,
@@ -429,7 +523,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morus alba L.",
     pinyin: "Sāng Yè",
     cong_dung: "Sơ phong thanh nhiệt, đắp mắt sưng đỏ.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát, vị đắng ngọt.",
+    hinh_dang: "Lá dâu tằm tươi xanh mọng mỏng, không sâu cuốn giã nát ra nhựa mát dịu."
   },
   {
     stt: 2097,
@@ -438,7 +534,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Saposhnikovia divaricata (Turcz.) Schischk.",
     pinyin: "Fáng Fēng",
     cong_dung: "Khu phong giải biểu, thắng thấp chỉ thống.",
-    kieng_ky: "Huyết hư sốt."
+    kieng_ky: "Huyết hư sốt.",
+    dac_tinh: "Tính ôn, vị cay ngọt.",
+    hinh_dang: "Rễ củ tươi xám nâu, đầu rễ xơ xơ rêu, thịt xốp mềm thơm mùi thảo mộc."
   },
   {
     stt: 2098,
@@ -447,7 +545,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Angelica dahurica (Fisch. ex Hoffm.) Benth. & Hook.f.",
     pinyin: "Bái Zhǐ",
     cong_dung: "Giải biểu tán hàn, đắp giảm đau nhức.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay.",
+    hinh_dang: "Rễ củ tươi hình củ cải trắng nhỏ, vỏ vàng xám, thịt trắng mọng thơm cay nồng."
   },
   {
     stt: 2099,
@@ -456,7 +556,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Pueraria montana var. lobata (Willd.) Maesen & S.M.Almeida",
     pinyin: "Gě Gēn",
     cong_dung: "Giải cơ thoái nhiệt, sinh tân chỉ khát.",
-    kieng_ky: "Vị hàn."
+    kieng_ky: "Vị hàn.",
+    dac_tinh: "Tính mát, vị ngọt.",
+    hinh_dang: "Củ sắn dây tươi vỏ nâu nhạt, ruột trắng mọng bột ngọt mát, chắc nặng hand."
   },
   {
     stt: 2100,
@@ -465,7 +567,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Ziziphus jujuba Mill. var. spinosa (Bunge) Hu ex H.F.Chow",
     pinyin: "Suān Zǎo Rén",
     cong_dung: "Dưỡng tâm an thần, liễm hãn, trị mất ngủ.",
-    kieng_ky: "Thực nhiệt uất."
+    kieng_ky: "Thực nhiệt uất.",
+    dac_tinh: "Tính bình, vị ngọt chua.",
+    hinh_dang: "Hạt táo chua tươi vỏ lụa tròn dẹt màu nâu đỏ tươi, nhân bên trong đục chắc."
   },
   {
     stt: 2101,
@@ -474,7 +578,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Platycladus orientalis (L.) Franco",
     pinyin: "Bǎi Zǐ Rén",
     cong_dung: "Dưỡng tâm an thần, nhuận tràng thông tiện.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính bình, vị ngọt.",
+    hinh_dang: "Nhân hạt trắc bách diệp tươi hình trứng dẹt, màu vàng đục, nhiều dầu béo thơm."
   },
   {
     stt: 2102,
@@ -483,7 +589,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Polygala tenuifolia Willd.",
     pinyin: "Yuǎn Zhì",
     cong_dung: "Ninh tâm an thần, khư đàm ích trí.",
-    kieng_ky: "Loét dạ dày."
+    kieng_ky: "Loét dạ dày.",
+    dac_tinh: "Tính ấm, vị đắng cay.",
+    hinh_dang: "Rễ tươi hình ống đã rút bỏ lõi gỗ, vỏ ngoài nâu xám thơm cay đắng nồng."
   },
   {
     stt: 2103,
@@ -492,7 +600,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Erythrina variegata L.",
     pinyin: "Hǎi Tóng Yè",
     cong_dung: "An thần thông lạc, đắp tiêu sưng trĩ.",
-    kieng_ky: "Dùng quá liều."
+    kieng_ky: "Dùng quá liều.",
+    dac_tinh: "Tính bình, vị đắng nhẹ.",
+    hinh_dang: "Lá tươi mỏng xanh hình tam giác tròn lệch, giã ra nhựa dịu xanh thẫm."
   },
   {
     stt: 2104,
@@ -501,7 +611,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Stephania glabra (Roxb.) Miers",
     pinyin: "Dì Dǎn",
     cong_dung: "Trấn kinh an thần, giảm đau dạ dày.",
-    kieng_ky: "Dùng quá liều."
+    kieng_ky: "Dùng quá liều.",
+    dac_tinh: "Tính mát, vị đắng sẫm.",
+    hinh_dang: "Củ to tròn tươi vỏ nâu xám sần sùi, ruột mọng nước màu xám trắng hay vàng nhạt."
   },
   {
     stt: 2105,
@@ -510,7 +622,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Jasminum sambac (L.) Aiton",
     pinyin: "Mò Lì Huā",
     cong_dung: "Giải uất an thần, thanh nhiệt dịu mát.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát, vị cay ngọt thơm.",
+    hinh_dang: "Hoa trắng mọng tươi mới hái, cánh hoa dày tỏa hương thơm lừng thanh khiết."
   },
   {
     stt: 2106,
@@ -519,7 +633,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Nelumbo nucifera Gaertn.",
     pinyin: "Lián Xīn",
     cong_dung: "Thanh tâm hỏa, hạ áp, chữa mất ngủ trằn trọc.",
-    kieng_ky: "Huyết áp thấp."
+    kieng_ky: "Huyết áp thấp.",
+    dac_tinh: "Tính hàn, vị đắng thanh.",
+    hinh_dang: "Chồi mầm giữa hạt sen tươi màu xanh lục đậm, giòn mọng, đắng ngắt thanh khiết."
   },
   {
     stt: 2107,
@@ -528,7 +644,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Rosa laevigata Michx.",
     pinyin: "Jīn Yīng Zǐ",
     cong_dung: "Cố tinh sáp niệu, cầm tiêu chảy mạn.",
-    kieng_ky: "Tiểu buốt dắt."
+    kieng_ky: "Tiểu buốt dắt.",
+    dac_tinh: "Tính bình, vị chua chát ngọt.",
+    hinh_dang: "Quả tươi hình chén phủ gai nhỏ, chín màu đỏ cam, ruột đầy hạt có lông tơ."
   },
   {
     stt: 2108,
@@ -537,7 +655,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Terminalia chebula Retz.",
     pinyin: "Hē Zǐ",
     cong_dung: "Liễm phế chỉ khái, sáp tràng cầm tiêu chảy.",
-    kieng_ky: "Ho mới phát."
+    kieng_ky: "Ho mới phát.",
+    dac_tinh: "Tính ấm, vị chua chát đắng.",
+    hinh_dang: "Quả tươi hình trứng nhọn 2 đầu màu xám xanh, vỏ thịt dày chắc, chua chát nồng."
   },
   {
     stt: 2109,
@@ -546,7 +666,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Rhus chinensis Mill.",
     pinyin: "Wǔ Bèi Zǐ",
     cong_dung: "Cầm máu, thu liễm chỉ hãn, sáp tràng.",
-    kieng_ky: "Thực nhiệt."
+    kieng_ky: "Thực nhiệt.",
+    dac_tinh: "Tính bình, vị chát đắng.",
+    hinh_dang: "Tổ sâu gõ tươi xám xanh nhiều thùy gồ ghề, vách mỏng giòn, bên trong rỗng."
   },
   {
     stt: 2110,
@@ -555,7 +677,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Crassostrea gigas (Thunberg)",
     pinyin: "Mǔ Lì",
     cong_dung: "Bình can tiềm dương, thu liễm cố sáp.",
-    kieng_ky: "Hàn chứng."
+    kieng_ky: "Hàn chứng.",
+    dac_tinh: "Tính hơi hàn, vị mặn chát.",
+    hinh_dang: "Vỏ hàu biển tươi sống dày cứng, màu xám trắng xếp lớp; chọn vỏ dày không mục nát."
   },
   {
     stt: 2111,
@@ -564,7 +688,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Os Mastodi",
     pinyin: "Lóng Gǔ",
     cong_dung: "Trấn kinh an thần, thu liễm cố sáp chỉ hãn.",
-    kieng_ky: "Thấp nhiệt."
+    kieng_ky: "Thấp nhiệt.",
+    dac_tinh: "Tính bình, vị ngọt chát.",
+    hinh_dang: "Xương động vật hóa thạch khối chắc màu xám trắng, dính lưỡi nhẹ khi nếm."
   },
   {
     stt: 2112,
@@ -573,7 +699,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Sepiella maindroni de Rochebrune",
     pinyin: "Wū Zéi Gǔ",
     cong_dung: "Thu liễm cầm máu, trung hòa acid dạ dày.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính bình, vị mặn chát.",
+    hinh_dang: "Mai mực tươi xốp trắng giòn, dẹt thoi nhọn, mặt lưng lấm tấm chấm gai nhỏ."
   },
   {
     stt: 2113,
@@ -582,7 +710,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Halloysite",
     pinyin: "Chì Shí Zhī",
     cong_dung: "Cố sáp chỉ tả, thu liễm cầm máu, sinh cơ.",
-    kieng_ky: "Táo bón."
+    kieng_ky: "Táo bón.",
+    dac_tinh: "Tính ấm, vị ngọt chát.",
+    hinh_dang: "Khoáng đất sét màu đỏ sẫm dẻo mịn khi ướt, không lẫn đất sạn bẩn."
   },
   {
     stt: 2114,
@@ -591,7 +721,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Atractylodes macrocephala Koidz.",
     pinyin: "Bái Zhú",
     cong_dung: "Bổ tỳ kiện vị, nhuận trung tiêu, dịu vị.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị ngọt đắng nhẹ.",
+    hinh_dang: "Lát thái màu vàng nâu nhạt, thấm cam thảo thơm dịu ngọt, hết đắng gắt."
   },
   {
     stt: 2115,
@@ -600,7 +732,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Astragalus mongholicus Bunge",
     pinyin: "Huáng Qí",
     cong_dung: "Bổ khí ích tỳ, ấm hạ tiêu, bớt trệ.",
-    kieng_ky: "Thực nhiệt uất."
+    kieng_ky: "Thực nhiệt uất.",
+    dac_tinh: "Tính ấm, vị ngọt cay thơm.",
+    hinh_dang: "Lát dẹt hoàng kỳ màu vàng nhạt, thoảng vị cay ấm thơm nồng sa nhân."
   },
   {
     stt: 2116,
@@ -609,7 +743,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Glycyrrhiza uralensis Fisch.",
     pinyin: "Gān Cǎo",
     cong_dung: "Bổ tỳ hòa trung, dẫn thuốc hạ tiêu.",
-    kieng_ky: "Trệ bụng đàm thấp."
+    kieng_ky: "Trệ bụng đàm thấp.",
+    dac_tinh: "Tính ấm, vị ngọt cay thơm.",
+    hinh_dang: "Phiến cam thảo vàng óng, thấm đằm hương thơm sa nhân cay nhẹ dịu ngọt."
   },
   {
     stt: 2117,
@@ -618,7 +754,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Bupleurum chinense DC.",
     pinyin: "Chái Hú",
     cong_dung: "Sơ can giải uất, dẫn thuốc xuống thận.",
-    kieng_ky: "Can dương bốc hỏa."
+    kieng_ky: "Can dương bốc hỏa.",
+    dac_tinh: "Tính bình, vị đắng cay mặn nhẹ.",
+    hinh_dang: "Rễ mảnh sài hồ chích muối màu xám sẫm, se hơi mặn, bớt tính thăng phát bốc."
   },
   {
     stt: 2118,
@@ -627,7 +765,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Scutellaria baicalensis Georgi",
     pinyin: "Huáng Qín",
     cong_dung: "Thanh nhiệt tả hỏa hạ tiêu, dẫn thuốc xuống thận.",
-    kieng_ky: "Phế hàn ho đờm."
+    kieng_ky: "Phế hàn ho đờm.",
+    dac_tinh: "Tính lạnh chỉ dịu, vị đắng mặn nhẹ.",
+    hinh_dang: "Lát hoàng cầm màu vàng sẫm se mặn nhẹ do chích muối, đắng thanh đằm."
   },
   {
     stt: 2119,
@@ -636,7 +776,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Phyllanthus urinaria L.",
     pinyin: "Yè Xià Zhū",
     cong_dung: "Thanh nhiệt, giải độc gan, thông mật, mát huyết.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính mát, vị đắng.",
+    hinh_dang: "Thân lá sấy dẻo quắt màu xanh xẫm, tỏa vị đắng nồng ngắt đặc trưng."
   },
   {
     stt: 2120,
@@ -645,7 +787,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Wedelia chinensis (Osbeck) Merr.",
     pinyin: "Páng Dì Jū",
     cong_dung: "Thanh nhiệt giải độc, mát gan, bớt kích ứng dạ dày.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt đắng nhẹ.",
+    hinh_dang: "Thân lá sao giòn dính bụi cám vàng thơm béo nhẹ, bớt tính hàn ngắt."
   },
   {
     stt: 2121,
@@ -654,7 +798,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Houttuynia cordata Thunb.",
     pinyin: "Yú Xīng Cǎo",
     cong_dung: "Thanh nhiệt, tiêu viêm bài nùng, dịu trĩ.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát, vị chua cay hơi tanh nhẹ.",
+    hinh_dang: "Toàn cây sấy dẻo xanh sẫm quắt lại, giảm hẳn mùi tanh nồng của diếp cá tươi."
   },
   {
     stt: 2122,
@@ -663,7 +809,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Eclipta prostrata (L.) L.",
     pinyin: "Mò Hān Lián",
     cong_dung: "Thanh nhiệt lương huyết, dẫn thuốc cầm máu vào can.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính mát, vị ngọt chua nhẹ.",
+    hinh_dang: "Cành lá thâm đen tẩm giấm sao khô, tỏa vị chua nhẹ đằm vị thuốc."
   },
   {
     stt: 2123,
@@ -672,7 +820,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morus alba L.",
     pinyin: "Sāng Yè",
     cong_dung: "Thanh phế nhuận táo, bình can dịu ho khan.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính bình, vị ngọt nhẹ thanh.",
+    hinh_dang: "Lá dâu quắt ngả màu vàng nâu mật dẻo, ngấm vị mật ngọt thanh dịu phế."
   },
   {
     stt: 2124,
@@ -681,7 +831,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Plantago asiatica L.",
     pinyin: "Chē Qián Cǎo",
     cong_dung: "Thanh nhiệt lợi niệu, hạ tính lạnh, thông lâm.",
-    kieng_ky: "Phụ nữ mang thai, tiêu chảy."
+    kieng_ky: "Phụ nữ mang thai, tiêu chảy.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt nhạt.",
+    hinh_dang: "Toàn cây sao ngả màu vàng thơm mộc, giảm tính hàn lạnh gây đi ngoài."
   },
   {
     stt: 2125,
@@ -690,7 +842,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Euphorbia hirta L.",
     pinyin: "Dà Fēi Yáng Cǎo",
     cong_dung: "Thanh nhiệt, cầm tiêu chảy, dịu dạ dày.",
-    kieng_ky: "Táo bón."
+    kieng_ky: "Táo bón.",
+    dac_tinh: "Tính mát, vị chua đắng nhẹ.",
+    hinh_dang: "Thân lá sao vàng sẫm khô giòn, thơm dịu mùi thảo mộc sao."
   },
   {
     stt: 2126,
@@ -699,7 +853,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Eleusine indica (L.) Gaertn.",
     pinyin: "Niú Jīn Cǎo",
     cong_dung: "Thanh nhiệt mát gan, hạ áp, kiện tỳ nhẹ.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt nhạt.",
+    hinh_dang: "Toàn cây mần trầu bám lớp bụi cám vàng sao thơm ngậy, giảm hàn vị."
   },
   {
     stt: 2127,
@@ -708,7 +864,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Xanthium sibiricum Patrin ex Widder",
     pinyin: "Cāng Ěr Zǐ",
     cong_dung: "Trừ phong thấp, thông tỷ khiếu, ấm vị.",
-    kieng_ky: "Âm hư huyết nhiệt."
+    kieng_ky: "Âm hư huyết nhiệt.",
+    dac_tinh: "Tính ấm, vị cay đắng nhẹ.",
+    hinh_dang: "Quả gai ké chích gừng sao vàng sẫm, dậy hương gừng cay nồng ấm."
   },
   {
     stt: 2128,
@@ -717,7 +875,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Portulaca oleracea L.",
     pinyin: "Mǎ Cǐ Xiàn",
     cong_dung: "Thanh nhiệt lương huyết, sát trùng đường ruột dịu vị.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính mát nhẹ, vị chua ngọt nhẹ.",
+    hinh_dang: "Thân mọng khô quắt sao nhẹ ngả màu nâu đỏ, giảm bớt chua gắt."
   },
   {
     stt: 2129,
@@ -726,7 +886,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Imperata cylindrica (L.) Raeusch.",
     pinyin: "Máo Gēn",
     cong_dung: "Thanh nhiệt lương huyết, bớt tính lạnh, lợi niệu.",
-    kieng_ky: "Thể hư hàn."
+    kieng_ky: "Thể hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt.",
+    hinh_dang: "Rễ đốt màu trắng chuyển ngả vàng ruộm sao thơm mùi lúa rang."
   },
   {
     stt: 2130,
@@ -735,7 +897,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Lophatherum gracile Brongn.",
     pinyin: "Zhú Yè",
     cong_dung: "Thanh tâm hỏa, trừ phiền, ấm vị nhẹ.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt nhạt.",
+    hinh_dang: "Lá tre dẹt thuôn nhọn sao màu vàng rơm thơm dịu nhẹ."
   },
   {
     stt: 2131,
@@ -744,7 +908,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Lonicera japonica Thunb.",
     pinyin: "Rěn Dōng Téng",
     cong_dung: "Thanh nhiệt giải độc, dẫn thuốc hoạt lạc vào can.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt đắng nhẹ.",
+    hinh_dang: "Cành lá khô tẩm giấm sao màu xám nâu chua nhẹ se đằm."
   },
   {
     stt: 2132,
@@ -753,7 +919,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Adenosma caeruleum R.Br.",
     pinyin: "Nán Yīn Chén",
     cong_dung: "Thanh nhiệt lợi mật, thoái hoàng, ấm dạ dày.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính mát, vị đắng cay nhẹ.",
+    hinh_dang: "Thân hoa sao vàng sẫm giòn, dậy hương tinh dầu thơm lừng."
   },
   {
     stt: 2133,
@@ -762,7 +930,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Artemisia capillaris Thunb.",
     pinyin: "Yīn Chén",
     cong_dung: "Thanh nhiệt lợi thấp, giải độc gan, nhuận vị.",
-    kieng_ky: "Nhiệt uất không thấp."
+    kieng_ky: "Nhiệt uất không thấp.",
+    dac_tinh: "Tính mát dịu, vị đắng ngọt nhẹ.",
+    hinh_dang: "Cụm hoa lá chích mật sao dẻo thơm ngòn ngọt nhạt."
   },
   {
     stt: 2134,
@@ -771,7 +941,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Celosia cristata L.",
     pinyin: "Jī Guān Huā",
     cong_dung: "Thanh nhiệt lương huyết, tăng hiệu quả cầm máu.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính ấm, vị chát ngọt.",
+    hinh_dang: "Hoa mào gà sao cháy xém ngả màu đen xốp, cầm máu cực tốt."
   },
   {
     stt: 2135,
@@ -780,7 +952,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Celosia argentea L.",
     pinyin: "Qīng Xiāng",
     cong_dung: "Thanh can hỏa, sáng mắt, dịu kích ứng.",
-    kieng_ky: "Cườm mắt do âm hư."
+    kieng_ky: "Cườm mắt do âm hư.",
+    dac_tinh: "Tính mát, vị đắng nhạt.",
+    hinh_dang: "Hạt mào gà trắng phủ dính áo cám sao vàng thơm ngậy."
   },
   {
     stt: 2136,
@@ -789,7 +963,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Catharanthus roseus (L.) G.Don",
     pinyin: "Cháng Chūn Huā",
     cong_dung: "Thanh nhiệt, hạ huyết áp, bớt lạnh bụng.",
-    kieng_ky: "Phụ nữ mang thai, áp thấp."
+    kieng_ky: "Phụ nữ mang thai, áp thấp.",
+    dac_tinh: "Tính mát nhẹ, vị đắng nhạt.",
+    hinh_dang: "Thân lá khô sao màu vàng nâu, thơm mùi thảo mộc sao."
   },
   {
     stt: 2137,
@@ -798,7 +974,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Momordica charantia L. var. abbreviata",
     pinyin: "Yě Kǔ Guā",
     cong_dung: "Thanh nhiệt hạ đường huyết, kiện tỳ dịu mát.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát, vị đắng đằm.",
+    hinh_dang: "Lát mỏng dính vỏ cám vàng thơm, đắng dịu thanh dễ uống."
   },
   {
     stt: 2138,
@@ -807,7 +985,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Gymnema sylvestre (Retz.) Schult.",
     pinyin: "Chí Gēng Téng",
     cong_dung: "Thanh nhiệt, giảm hấp thu đường hiệu quả.",
-    kieng_ky: "Hay bị hạ đường huyết."
+    kieng_ky: "Hay bị hạ đường huyết.",
+    dac_tinh: "Tính mát, vị đắng nhạt.",
+    hinh_dang: "Lá cành sấy dẻo quắt màu xanh xẫm, giảm vị đắng gắt."
   },
   {
     stt: 2139,
@@ -816,7 +996,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Orthosiphon aristatus (Blume) Miq.",
     pinyin: "Māo Xū Cǎo",
     cong_dung: "Thanh nhiệt lợi tiểu, bài sỏi thận dịu nhẹ.",
-    kieng_ky: "Phụ nữ mang thai 3 tháng đầu."
+    kieng_ky: "Phụ nữ mang thai 3 tháng đầu.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt đắng.",
+    hinh_dang: "Thân cành nhụy hoa ngả màu vàng nâu sao thơm dịu nhẹ."
   },
   {
     stt: 2140,
@@ -825,7 +1007,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Syzygium nervosum DC.",
     pinyin: "Shuǐ Wēng Yè",
     cong_dung: "Thanh nhiệt tiêu thực, kiện tỳ, diệt khuẩn ruột.",
-    kieng_ky: "Thể hư hàn nặng."
+    kieng_ky: "Thể hư hàn nặng.",
+    dac_tinh: "Tính mát nhẹ, vị đắng chát nhẹ.",
+    hinh_dang: "Phiến lá vối khô bám bột cám sao thơm ngậy."
   },
   {
     stt: 2141,
@@ -834,7 +1018,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Syzygium nervosum DC.",
     pinyin: "Shuǐ Wēng Huā",
     cong_dung: "Thanh nhiệt, trợ tiêu hóa, giảm mỡ máu.",
-    kieng_ky: "Huyết áp thấp."
+    kieng_ky: "Huyết áp thấp.",
+    dac_tinh: "Tính mát, vị chát đắng nhẹ.",
+    hinh_dang: "Nụ hoa khô dẻo ngả màu nâu sẫm, giàu tinh dầu thơm."
   },
   {
     stt: 2142,
@@ -843,7 +1029,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Hibiscus rosa-sinensis L.",
     pinyin: "Fú Sāng Huā",
     cong_dung: "Thanh nhiệt giải độc, sát trùng ngoài da.",
-    kieng_ky: "Thể trạng hư hàn."
+    kieng_ky: "Thể trạng hư hàn.",
+    dac_tinh: "Tính mát, vị ngọt đắng nhẹ.",
+    hinh_dang: "Cánh hoa dâm bụt phơi khô dẻo xốp thâm nâu, lá quắt khô."
   },
   {
     stt: 2143,
@@ -852,7 +1040,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Abutilon indicum (L.) Sweet",
     pinyin: "Mǎ Yīng Háng",
     cong_dung: "Thanh nhiệt lợi tiểu, tiêu viêm, thông tai.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt nhạt.",
+    hinh_dang: "Quả cối xay cùng thân lá sao vàng ruộm thơm nhẹ."
   },
   {
     stt: 2144,
@@ -861,7 +1051,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Vernonia amygdalina Delile",
     pinyin: "Nán Fāng Kǔ Yè",
     cong_dung: "Thanh nhiệt giải độc gan, kích thích tiêu hóa.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát, vị đắng đậm thanh.",
+    hinh_dang: "Lá sấy khô quắt màu xanh nâu, vị đắng đậm đằm ngọt hậu."
   },
   {
     stt: 2145,
@@ -870,7 +1062,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Eclipta prostrata (L.) L.",
     pinyin: "Mò Hān Lián",
     cong_dung: "Thanh nhiệt lương huyết, bổ thận âm dịu vị.",
-    kieng_ky: "Tiêu chảy tỳ hư."
+    kieng_ky: "Tiêu chảy tỳ hư.",
+    dac_tinh: "Tính mát dịu, vị ngọt đắng nhạt.",
+    hinh_dang: "Thân lá phủ bụi cám sao vàng thơm béo dịu Tỳ."
   },
   {
     stt: 2146,
@@ -879,7 +1073,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Amaranthus spinosus L.",
     pinyin: "Cì Àn",
     cong_dung: "Thanh nhiệt, lợi tiểu, tiêu mụn nhọt dịu nhẹ.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát, vị ngọt nhạt.",
+    hinh_dang: "Thân gai khô phủ bụi cám dính ngậy nhẹ."
   },
   {
     stt: 2147,
@@ -888,7 +1084,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Hemerocallis fulva (L.) L.",
     pinyin: "Xuān Cǎo",
     cong_dung: "Thanh nhiệt lương huyết, an thần, ấm vị.",
-    kieng_ky: "Thể trạng lạnh."
+    kieng_ky: "Thể trạng lạnh.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt thanh.",
+    hinh_dang: "Hoa khô sao ngả vàng nâu sẫm, thơm dịu ngọt."
   },
   {
     stt: 2148,
@@ -897,7 +1095,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Tinospora sinensis (Lour.) Merr.",
     pinyin: "Kuān Jīn Téng",
     cong_dung: "Tăng cường khu phong trừ thấp, thư cân thông lạc.",
-    kieng_ky: "Thể hư hàn."
+    kieng_ky: "Thể hư hàn.",
+    dac_tinh: "Tính ấm, vị đắng chát.",
+    hinh_dang: "Lát thân xốp thấm rượu sao thơm cay nồng nhẹ."
   },
   {
     stt: 2149,
@@ -906,7 +1106,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Gnetum montanum Markgr.",
     pinyin: "Mǎi Má Téng",
     cong_dung: "Khu phong thấp, hạ acid uric, ấm khớp gút.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm, vị đắng chát nhẹ.",
+    hinh_dang: "Lát dây gắm ngấm giọt gừng sao thơm ấm khớp."
   },
   {
     stt: 2150,
@@ -915,7 +1117,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Piper sarmentosum Roxb.",
     pinyin: "Jiǎ Jù Yè",
     cong_dung: "Ôn trung tán hàn, khu phong thấp, dịu niêm mạc.",
-    kieng_ky: "Dạ dày nhiệt."
+    kieng_ky: "Dạ dày nhiệt.",
+    dac_tinh: "Tính ấm nhẹ, vị cay thơm nhẹ.",
+    hinh_dang: "Lá khô quắt phủ cám sao thơm béo dịu dạ dày."
   },
   {
     stt: 2151,
@@ -924,7 +1128,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Piper sarmentosum Roxb.",
     pinyin: "Jiǎ Jù Gēn",
     cong_dung: "Khu phong thấp hạ tiêu cực mạnh, ấm kinh.",
-    kieng_ky: "Táo bón, nhiệt miệng."
+    kieng_ky: "Táo bón, nhiệt miệng.",
+    dac_tinh: "Tính ấm nóng, vị cay nồng.",
+    hinh_dang: "Rễ củ tẩm rượu sao dậy mùi cay thơm xộc ấm hạ tiêu."
   },
   {
     stt: 2152,
@@ -933,7 +1139,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Achyranthes aspera L.",
     pinyin: "Tǔ Niú Xī",
     cong_dung: "Hoạt huyết thông kinh, dẫn thuốc khu phong xuống hạ tiêu.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính bình, vị đắng chua nhẹ.",
+    hinh_dang: "Rễ củ xước tẩm giấm sao màu xám nâu chua dịu."
   },
   {
     stt: 2153,
@@ -942,7 +1150,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Eleutherococcus trifoliatus (L.) S.Y.Hu",
     pinyin: "Cì Wǔ Jiā",
     cong_dung: "Bổ can thận, mạnh gân cốt, nhuận vị.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị đắng ngọt nhẹ.",
+    hinh_dang: "Vỏ cành chích mật vàng bóng dính dẻo, thơm ngậy."
   },
   {
     stt: 2154,
@@ -951,7 +1161,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Eleutherococcus gracilistylus (W.W.Sm.) S.Y.Hu",
     pinyin: "Wǔ Jiā Pí",
     cong_dung: "Bổ khí ích thận, khu phong trừ thấp ấm áp.",
-    kieng_ky: "Âm hư nội nhiệt."
+    kieng_ky: "Âm hư nội nhiệt.",
+    dac_tinh: "Tính ấm, vị cay thơm đắng nhạt.",
+    hinh_dang: "Lát vỏ cành sao gừng dậy nồng mùi gừng ấm áp."
   },
   {
     stt: 2155,
@@ -960,7 +1172,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cibotium barometz (L.) J.Sm.",
     pinyin: "Gǒu Jǐ",
     cong_dung: "Bổ can thận, mạnh gân cốt, ấm lưng gối.",
-    kieng_ky: "Thận hư nhiệt."
+    kieng_ky: "Thận hư nhiệt.",
+    dac_tinh: "Tính ấm, vị ngọt đắng cay nhẹ.",
+    hinh_dang: "Phiến lông vàng cẩu tích tẩm gừng sao khô ấm."
   },
   {
     stt: 2156,
@@ -969,7 +1183,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Reynoutria japonica Houtt.",
     pinyin: "Hǔ Zhàng",
     cong_dung: "Dẫn thuốc vào can kinh, hoạt huyết khu phong.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính bình, vị đắng chát chua nhẹ.",
+    hinh_dang: "Lát củ vàng đỏ tẩm giấm sao thơm vị chua dịu."
   },
   {
     stt: 2157,
@@ -978,7 +1194,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Achyranthes aspera L.",
     pinyin: "Tǔ Niú Xī",
     cong_dung: "Hoạt huyết thông kinh, giảm đau khớp hạ tiêu.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính bình, vị đắng chua nhẹ.",
+    hinh_dang: "Rễ mảnh tẩm giấm sao mềm se vị chua thanh."
   },
   {
     stt: 2158,
@@ -987,7 +1205,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Homalomena occulta (Lour.) Schott",
     pinyin: "Qiān Nián Jiàn",
     cong_dung: "Tăng ôn ấm gân cốt, khu phong trừ thấp.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay nồng thơm gừng.",
+    hinh_dang: "Lát củ xốp tẩm gừng sao rất thơm cay ấm gân cốt."
   },
   {
     stt: 2159,
@@ -996,7 +1216,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Ficus simplicissima Lour.",
     pinyin: "Niú Dà Lì",
     cong_dung: "Trừ phong thấp, bổ tỳ phế, nhuận vị.",
-    kieng_ky: "Âm hư."
+    kieng_ky: "Âm hư.",
+    dac_tinh: "Tính ấm, vị ngọt nhẹ.",
+    hinh_dang: "Lát thân gỗ dính mật sao vàng óng dẻo béo."
   },
   {
     stt: 2160,
@@ -1005,7 +1227,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Rhinacanthus nasutus (L.) Kurz",
     pinyin: "Bái Hè Líng Zhī",
     cong_dung: "Trừ phong thấp, ấm kinh, tiêu sưng đau.",
-    kieng_ky: "Thể trạng hư hàn."
+    kieng_ky: "Thể trạng hư hàn.",
+    dac_tinh: "Tính ấm, vị cay đắng nhẹ.",
+    hinh_dang: "Thân lá sao gừng dậy vị ấm nồng dịu nhẹ."
   },
   {
     stt: 2161,
@@ -1014,7 +1238,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Micromelum falcatum (Lour.) Tanaka",
     pinyin: "Mǐ Kōng Mù",
     cong_dung: "Khu phong trừ thấp, hành khí thông mạch.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm, vị cay đắng.",
+    hinh_dang: "Lát cành tẩm rượu sao nồng vị tinh dầu."
   },
   {
     stt: 2162,
@@ -1023,7 +1249,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Tetracera scandens (L.) Merr.",
     pinyin: "Xī Yè Téng",
     cong_dung: "Trừ phong thấp, đả thông kinh lạc, ấm áp.",
-    kieng_ky: "Cơ thể yếu."
+    kieng_ky: "Cơ thể yếu.",
+    dac_tinh: "Tính ấm, vị chát cay nhẹ.",
+    hinh_dang: "Lát dây thô sao gừng thơm mùi ấm áp."
   },
   {
     stt: 2163,
@@ -1032,7 +1260,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Caesalpinia minax Hance",
     pinyin: "Yún Shí",
     cong_dung: "Khu phong trừ thấp, giảm co quắp dịu nhẹ.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng cay.",
+    hinh_dang: "Quả hạt phủ cám sao thơm giảm cay tê."
   },
   {
     stt: 2164,
@@ -1041,7 +1271,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cissus quadrangularis L.",
     pinyin: "Bái Fěn Téng",
     cong_dung: "Dẫn thuốc vào can kinh, tiêu sưng thoát vị.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính bình, vị đắng chua nhẹ.",
+    hinh_dang: "Thân 5 cạnh tẩm giấm sao dịu vị chát ngứa."
   },
   {
     stt: 2165,
@@ -1050,7 +1282,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cissus modeccoides Planch.",
     pinyin: "Bái Fěn Téng",
     cong_dung: "Trừ phong thấp, ấm gân cốt, giảm mỏi lưng.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm, vị đắng cay nhạt.",
+    hinh_dang: "Thân dẹt tẩm gừng sao ấm dạ dày gân cốt."
   },
   {
     stt: 2166,
@@ -1059,7 +1293,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Millettia reticulata Benth.",
     pinyin: "Hēi Mù",
     cong_dung: "Khu phong trừ thấp, tiêu sưng bớt kích ứng.",
-    kieng_ky: "Cơ thể suy nhược."
+    kieng_ky: "Cơ thể suy nhược.",
+    dac_tinh: "Tính bình, vị đắng nhẹ.",
+    hinh_dang: "Lát gỗ đen dính bụi cám sao thơm ngậy."
   },
   {
     stt: 2167,
@@ -1068,7 +1304,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Gouania leptostachya DC.",
     pinyin: "Jiáo Lóng Téng",
     cong_dung: "Hoạt huyết, khu phong trừ thấp, giảm đau chấn thương.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm, vị đắng chát.",
+    hinh_dang: "Lát cành thấm rượu sao nồng ấm hoạt huyết."
   },
   {
     stt: 2168,
@@ -1077,7 +1315,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Albizia lebbeck (L.) Benth.",
     pinyin: "Yìn Dù Hé Huān",
     cong_dung: "Trừ phong thấp, tiêu sưng thông kinh ấm áp.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm, vị đắng cay nhạt.",
+    hinh_dang: "Vỏ cành tẩm gừng sao bớt hắc nồng."
   },
   {
     stt: 2169,
@@ -1086,7 +1326,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Tacca chantrieri André",
     pinyin: "Lǎo Hǔ Xū",
     cong_dung: "Trừ phong thấp, giảm đau nhức xương khớp.",
-    kieng_ky: "Cơ thể hư nhược."
+    kieng_ky: "Cơ thể hư nhược.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng chát.",
+    hinh_dang: "Lát củ rễ phủ cám béo dịu dạ dày."
   },
   {
     stt: 2170,
@@ -1095,7 +1337,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Pueraria montana (Lour.) Merr.",
     pinyin: "Yě Gě Gēn",
     cong_dung: "Giải cơ thoái nhiệt, kiện tỳ thông lạc.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt nhạt.",
+    hinh_dang: "Lát rễ xốp phủ bụi cám sao thơm ngậy."
   },
   {
     stt: 2171,
@@ -1104,7 +1348,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Clematis armandii Franch.",
     pinyin: "Nán Mù Tōng",
     cong_dung: "Khu phong trừ thấp, dẫn thuốc thông kinh hạ tiêu.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính bình, vị đắng chua nhẹ.",
+    hinh_dang: "Lát xốp tròn tẩm giấm sao dịu vị."
   },
   {
     stt: 2172,
@@ -1113,7 +1359,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Mussaenda erythrophylla Schumach. & Thonn.",
     pinyin: "Hóng Yè Jīn Huā",
     cong_dung: "Khu phong giải độc, ấm gân cốt giảm đau.",
-    kieng_ky: "Thể hư hàn."
+    kieng_ky: "Thể hư hàn.",
+    dac_tinh: "Tính ấm, vị đắng cay nhẹ.",
+    hinh_dang: "Thân lá sao gừng thơm dịu ấm áp."
   },
   {
     stt: 2173,
@@ -1122,7 +1370,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Bauhinia purpurea L.",
     pinyin: "Yáng Tí Jiǎ",
     cong_dung: "Trừ phong thấp, kiện tỳ hòa vị, giảm đau lưng.",
-    kieng_ky: "Thực nhiệt uất."
+    kieng_ky: "Thực nhiệt uất.",
+    dac_tinh: "Tính bình, vị đắng chát nhạt.",
+    hinh_dang: "Lát cành vỏ bám cám sao thơm ngậy."
   },
   {
     stt: 2174,
@@ -1131,7 +1381,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Nauclea orientalis (L.) L.",
     pinyin: "Wū Tán Mù",
     cong_dung: "Thanh nhiệt, khu phong chỉ thống dịu nhẹ.",
-    kieng_ky: "Thể hư hàn."
+    kieng_ky: "Thể hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị đắng nhẹ.",
+    hinh_dang: "Lát gỗ vỏ phủ bụi cám sao thơm béo."
   },
   {
     stt: 2175,
@@ -1140,7 +1392,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Siegesbeckia orientalis L.",
     pinyin: "Xī Xiān Cǎo",
     cong_dung: "Trừ phong thấp, hoạt huyết, bình gan hạ áp.",
-    kieng_ky: "Âm hư huyết nhiệt."
+    kieng_ky: "Âm hư huyết nhiệt.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng chát thơm rượu.",
+    hinh_dang: "Thân lá thấm rượu sao bớt đắng ngắt nồng hắc."
   },
   {
     stt: 2176,
@@ -1149,7 +1403,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Smilax glabra Roxb.",
     pinyin: "Tǔ Fú Líng",
     cong_dung: "Trừ phong thấp, kiện tỳ, giải độc thủy ngân.",
-    kieng_ky: "Âm hư tân khô."
+    kieng_ky: "Âm hư tân khô.",
+    dac_tinh: "Tính bình, vị ngọt nhạt.",
+    hinh_dang: "Lát củ đỏ đốm trắng bám cám sao vàng thơm."
   },
   {
     stt: 2177,
@@ -1158,7 +1414,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Polyscias fruticosa (L.) Harms",
     pinyin: "Nán Yáng Shēn",
     cong_dung: "Đại bổ khí huyết, tăng sinh lực, thông mạch.",
-    kieng_ky: "Dùng quá liều."
+    kieng_ky: "Dùng quá liều.",
+    dac_tinh: "Tính ấm, vị ngọt đắng nhẹ thơm rượu.",
+    hinh_dang: "Lát củ dẻo quắt thơm nồng hương rượu sâm bổ dưỡng."
   },
   {
     stt: 2178,
@@ -1167,7 +1425,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Polyscias fruticosa (L.) Harms",
     pinyin: "Nán Yáng Shēn",
     cong_dung: "Bổ khí ích huyết, kiện tỳ, giảm mỏi mệt.",
-    kieng_ky: "Dùng quá liều."
+    kieng_ky: "Dùng quá liều.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt đắng dịu.",
+    hinh_dang: "Lát củ khô bám bụi cám sao thơm béo dịu Tỳ."
   },
   {
     stt: 2179,
@@ -1176,7 +1436,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Dioscorea persimilis Prain & Burkill",
     pinyin: "Shān Yào",
     cong_dung: "Bổ tỳ phế thận, cố tinh, nhuận vị sinh tân.",
-    kieng_ky: "Trướng bụng."
+    kieng_ky: "Trướng bụng.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt béo.",
+    hinh_dang: "Phiến củ mài trắng dính mật sao xém nâu nhạt, ngọt béo nhuận Phế."
   },
   {
     stt: 2180,
@@ -1185,7 +1447,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Polygonatum kingianum Coll. et Hemsl.",
     pinyin: "Diān Huáng Jīng",
     cong_dung: "Bổ khí dưỡng âm, ích thận thông huyết.",
-    kieng_ky: "Tỳ hư đàm thấp."
+    kieng_ky: "Tỳ hư đàm thấp.",
+    dac_tinh: "Tính ấm, vị ngọt đắng nhẹ.",
+    hinh_dang: "Phiến màu đen dẻo quánh thấm hương rượu thơm đằm."
   },
   {
     stt: 2181,
@@ -1194,7 +1458,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Codonopsis convolvulacea Kom.",
     pinyin: "Dǎng Shēn",
     cong_dung: "Bổ trung ích khí, dưỡng huyết, dịu ngọt hòa vị.",
-    kieng_ky: "Thực tà uất."
+    kieng_ky: "Thực tà uất.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt thanh.",
+    hinh_dang: "Lát củ dẻo dính mật thơm ngọt bổ Tỳ."
   },
   {
     stt: 2182,
@@ -1203,7 +1469,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Spiranthes sinensis (Pers.) Ames",
     pinyin: "Pán Lóng Shēn",
     cong_dung: "Bổ khí dưỡng âm, kiện tỳ nhuận phế.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính bình, vị ngọt đắng nhạt.",
+    hinh_dang: "Rễ xoắn nhỏ phủ cám sao thơm bổ Tỳ."
   },
   {
     stt: 2183,
@@ -1212,7 +1480,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Curculigo orchioides Gaertn.",
     pinyin: "Xiān Máo",
     cong_dung: "Bổ khí ích tinh, ôn thận dịu nhẹ.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay ngọt béo cám.",
+    hinh_dang: "Lát củ rễ khô phủ áo cám thơm ngậy bớt cay gắt."
   },
   {
     stt: 2184,
@@ -1221,7 +1491,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Curcuma sp.",
     pinyin: "Shí Shēn",
     cong_dung: "Bổ khí lực, ấm trung tiêu, giải độc gan.",
-    kieng_ky: "Sốt cao thực nhiệt."
+    kieng_ky: "Sốt cao thực nhiệt.",
+    dac_tinh: "Tính ấm, vị cay ngọt nhẹ.",
+    hinh_dang: "Lát củ ngả vàng ruộm thơm ấm trung tiêu."
   },
   {
     stt: 2185,
@@ -1230,7 +1502,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Angelica sinensis (Oliv.) Diels",
     pinyin: "Dāng Guī",
     cong_dung: "Dẫn thuốc bổ huyết vào can kinh, điều kinh.",
-    kieng_ky: "Tiêu chảy."
+    kieng_ky: "Tiêu chảy.",
+    dac_tinh: "Tính ấm nhẹ, vị cay ngọt chua dịu.",
+    hinh_dang: "Phiến dẻo thơm nồng vị đương quy quyện giấm se đằm."
   },
   {
     stt: 2186,
@@ -1239,7 +1513,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Angelica sinensis (Oliv.) Diels",
     pinyin: "Dāng Guī Wěi",
     cong_dung: "Hoạt huyết tiêu ứ, bớt kích ứng dạ dày.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng nhẹ thơm béo cám.",
+    hinh_dang: "Nhánh rễ nhỏ bám béo cám sao vàng."
   },
   {
     stt: 2187,
@@ -1248,7 +1524,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Rehmannia glutinosa Libosch.",
     pinyin: "Shú Dì Huáng",
     cong_dung: "Tư âm bổ huyết, ích tinh tủy, nhuận vị.",
-    kieng_ky: "Tiêu chảy tỳ hư."
+    kieng_ky: "Tiêu chảy tỳ hư.",
+    dac_tinh: "Tính ấm, vị ngọt đậm dẻo.",
+    hinh_dang: "Khối đen quánh dẻo dính mật phơi khô bổ Thận âm."
   },
   {
     stt: 2188,
@@ -1257,7 +1535,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Paeonia lactiflora Pall.",
     pinyin: "Bái Sháo",
     cong_dung: "Dưỡng huyết liễm âm, bình can, tăng hoạt huyết.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính bình, vị chua đắng thơm rượu.",
+    hinh_dang: "Phiến màu hồng nhạt thấm vị rượu sao hoạt huyết."
   },
   {
     stt: 2189,
@@ -1266,7 +1546,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Spatholobus suberectus Dunn",
     pinyin: "Jī Xuè Téng",
     cong_dung: "Bổ huyết hoạt huyết, ấm kinh thông lạc.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm, vị đắng chát cay nhẹ.",
+    hinh_dang: "Phiến thân đốm hoa văn dậy hương gừng ấm."
   },
   {
     stt: 2190,
@@ -1275,7 +1557,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Fallopia multiflora (Thunb.) Haraldson",
     pinyin: "Hé Shǒu Wū",
     cong_dung: "Bổ can thận, dưỡng huyết, dẫn thuốc vào can.",
-    kieng_ky: "Tỳ hư đàm thấp."
+    kieng_ky: "Tỳ hư đàm thấp.",
+    dac_tinh: "Tính ấm nhẹ, vị chát đắng ngọt chua nhạt.",
+    hinh_dang: "Lát củ màu nâu đỏ tím se vị giấm dẫn thuốc Can."
   },
   {
     stt: 2191,
@@ -1284,7 +1568,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Streptocaulon juventas (Lour.) Merr.",
     pinyin: "Bái Hé Shǒu Wū",
     cong_dung: "Bổ huyết thanh nhiệt nhẹ, kiện tỳ hòa vị.",
-    kieng_ky: "Tiêu chảy."
+    kieng_ky: "Tiêu chảy.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng chát ngọt nhẹ.",
+    hinh_dang: "Phiến củ dính mật sao dẻo nhẹ thơm ngòn ngọt."
   },
   {
     stt: 2192,
@@ -1293,7 +1579,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Capra hircus L.",
     pinyin: "Shān Yáng Gǔ Jiāo",
     cong_dung: "Bổ huyết, ích tinh tủy, ấm vị giảm tanh.",
-    kieng_ky: "Thể trạng thực nhiệt."
+    kieng_ky: "Thể trạng thực nhiệt.",
+    dac_tinh: "Tính ấm, vị mặn béo ngậy thơm nhẹ.",
+    hinh_dang: "Cục cao dẻo quánh sao ngả màu nâu sẫm thơm bớt tanh."
   },
   {
     stt: 2193,
@@ -1302,7 +1590,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Dimocarpus longan Lour.",
     pinyin: "Lóng Yǎn Ròu",
     cong_dung: "Bổ tâm tỳ, dưỡng huyết an thần, nhuận vị.",
-    kieng_ky: "Đầy trướng bụng."
+    kieng_ky: "Đầy trướng bụng.",
+    dac_tinh: "Tính ấm, vị ngọt đậm quánh.",
+    hinh_dang: "Áo lớp mật bóng dẻo thơm nức bổ Tâm Tỳ."
   },
   {
     stt: 2194,
@@ -1311,7 +1601,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Lycium barbarum L.",
     pinyin: "Gǒu Qǐ Zǐ",
     cong_dung: "Bổ can thận, sáng mắt, tăng dưỡng huyết.",
-    kieng_ky: "Tiêu chảy, sốt."
+    kieng_ky: "Tiêu chảy, sốt.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt chua thơm rượu.",
+    hinh_dang: "Quả kỷ tử ngấm rượu mềm dẻo ngọt bổ Can Thận."
   },
   {
     stt: 2195,
@@ -1320,7 +1612,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Ophiopogon japonicus (Thunb.) Ker Gawl.",
     pinyin: "Mài Dōng",
     cong_dung: "Dưỡng âm sinh tân, nhuận phế thanh tâm, dịu vị.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt dịu dẻo.",
+    hinh_dang: "Tép củ béo mọng ngấm mật thơm bổ Phế âm."
   },
   {
     stt: 2196,
@@ -1329,7 +1623,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Asparagus cochinchinensis (Lour.) Merr.",
     pinyin: "Tiān Mén Dōng",
     cong_dung: "Tư âm nhuận táo, thanh phế, bớt tính lạnh.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt đắng nhạt.",
+    hinh_dang: "Tép củ dẻo quánh dính mật sao nhuận phế."
   },
   {
     stt: 2197,
@@ -1338,7 +1634,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morinda officinalis How",
     pinyin: "Bā Jǐ Tiān",
     cong_dung: "Ôn bổ thận dương, tráng gân cốt, ấm hạ tiêu.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay ngọt nồng gừng.",
+    hinh_dang: "Lát thịt ba kích tím dậy vị gừng ấm hạ tiêu."
   },
   {
     stt: 2198,
@@ -1347,7 +1645,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morinda officinalis How",
     pinyin: "Bā Jǐ Tiān",
     cong_dung: "Tăng cường ôn bổ thận dương, khu phong thấp.",
-    kieng_ky: "Tiểu buốt dắt."
+    kieng_ky: "Tiểu buốt dắt.",
+    dac_tinh: "Tính ấm, vị cay ngọt thơm rượu.",
+    hinh_dang: "Lát thịt xám nhạt đằm vị rượu sao bổ Thận dương."
   },
   {
     stt: 2199,
@@ -1356,7 +1656,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Epimedium brevicornu Maxim.",
     pinyin: "Yín Yáng Huò",
     cong_dung: "Bổ thận tráng dương, dẫn thuốc vào can kinh.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm nhẹ, vị cay chua dịu.",
+    hinh_dang: "Lá khô tẩm giấm sao sẫm màu giòn dẻo dẫn vào Can."
   },
   {
     stt: 2200,
@@ -1365,7 +1667,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cistanche deserticola Y.C.Ma",
     pinyin: "Ròu Cōng Róng",
     cong_dung: "Bổ thận tráng dương, ấm vị, nhuận tràng.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính ấm, vị ngọt mặn cay gừng.",
+    hinh_dang: "Lát dẻo đen tẩm gừng thơm ấm bổ Thận."
   },
   {
     stt: 2201,
@@ -1374,7 +1678,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Eucommia ulmoides Oliv.",
     pinyin: "Dù Zhòng",
     cong_dung: "Bổ can thận, ấm gân cốt, an thai dịu nhẹ.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị ngọt đắng cay nhẹ.",
+    hinh_dang: "Phiến vỏ có tơ dính dậy hương gừng cay ấm gân cốt."
   },
   {
     stt: 2202,
@@ -1383,7 +1689,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Dipsacus asper Wall. ex DC.",
     pinyin: "Xù Duàn",
     cong_dung: "Bổ can thận, nối gân xương, nhuận vị.",
-    kieng_ky: "Phong thấp thể nhiệt."
+    kieng_ky: "Phong thấp thể nhiệt.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng ngọt dịu.",
+    hinh_dang: "Lát củ xám xanh tẩm mật sao nâu nhẹ thơm ngọt."
   },
   {
     stt: 2203,
@@ -1392,7 +1700,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cullen corylifolium (L.) Medik.",
     pinyin: "Bǔ Gǔ Zhǐ",
     cong_dung: "Tăng ôn thận tráng dương, cố tinh sáp niệu.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay đắng thơm rượu.",
+    hinh_dang: "Hạt nâu đen thấm rượu sao dậy mùi tráng dương."
   },
   {
     stt: 2204,
@@ -1401,7 +1711,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Alpinia oxyphylla Miq.",
     pinyin: "Yì Zhì Rén",
     cong_dung: "Ôn tỳ sáp khí, cố tinh, giảm lạnh bụng.",
-    kieng_ky: "Tiểu buốt do nhiệt."
+    kieng_ky: "Tiểu buốt do nhiệt.",
+    dac_tinh: "Tính ấm, vị cay nồng gừng.",
+    hinh_dang: "Hạt thoi tẩm gừng sao rất cay thơm ấm Tỳ vị."
   },
   {
     stt: 2205,
@@ -1410,7 +1722,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Drynaria fortunei (Kunze) J.Sm.",
     pinyin: "Gǔ Suì Bǔ",
     cong_dung: "Bổ thận cường gân cốt, tăng hoạt huyết liền xương.",
-    kieng_ky: "Âm hư."
+    kieng_ky: "Âm hư.",
+    dac_tinh: "Tính ấm, vị đắng chát thơm rượu.",
+    hinh_dang: "Phiến thân lông thấm rượu sao xém vàng đằm vị."
   },
   {
     stt: 2206,
@@ -1419,7 +1733,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Curculigo orchioides Gaertn.",
     pinyin: "Xiān Máo",
     cong_dung: "Ôn tráng thận dương, trừ hàn thấp hạ tiêu.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm nóng, vị cay đắng nồng gừng.",
+    hinh_dang: "Lát củ đen thấm gừng cay xộc ôn Thận."
   },
   {
     stt: 2207,
@@ -1428,7 +1744,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus reticulata Blanco",
     pinyin: "Chén Pí",
     cong_dung: "Lý khí kiện tỳ, ấm vị, tiêu đờm lạnh.",
-    kieng_ky: "Ho khan âm hư."
+    kieng_ky: "Ho khan âm hư.",
+    dac_tinh: "Tính ấm, vị cay đắng nồng gừng.",
+    hinh_dang: "Vỏ hãm gừng phơi xém thơm ấm vị phế."
   },
   {
     stt: 2208,
@@ -1437,7 +1755,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Clausena lansium (Lour.) Skeels",
     pinyin: "Huáng Pí",
     cong_dung: "Nhuận phế giáng khí, trừ đờm, dịu ho.",
-    kieng_ky: "Nhiệt uất phế."
+    kieng_ky: "Nhiệt uất phế.",
+    dac_tinh: "Tính ấm nhẹ, vị chua ngọt cay dịu.",
+    hinh_dang: "Miếng vỏ dẻo dính mật phơi nắng thơm dịu Phế."
   },
   {
     stt: 2209,
@@ -1446,7 +1766,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cyperus rotundus L.",
     pinyin: "Xiāng Fù",
     cong_dung: "Sơ can giải uất, điều kinh, hòa vị dịu ngọt.",
-    kieng_ky: "Âm hư huyết nhiệt."
+    kieng_ky: "Âm hư huyết nhiệt.",
+    dac_tinh: "Tính bình, vị cay đắng ngọt dịu.",
+    hinh_dang: "Củ củ gấu tẩm mật sao thơm dịu ngọt lý khí."
   },
   {
     stt: 2210,
@@ -1455,7 +1777,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Aucklandia lappa Decne.",
     pinyin: "Mù Xiāng",
     cong_dung: "Dẫn thuốc hành khí xuống hạ tiêu, tiêu trướng.",
-    kieng_ky: "Âm hư nội nhiệt."
+    kieng_ky: "Âm hư nội nhiệt.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng mặn dịu.",
+    hinh_dang: "Lát rễ tẩm muối sao hơi đằm vị mặn hạ tiêu."
   },
   {
     stt: 2211,
@@ -1464,7 +1788,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus aurantium L.",
     pinyin: "Zhǐ Shí",
     cong_dung: "Phá khí tiêu tích, ấm vị, tán đờm bĩ.",
-    kieng_ky: "Tỳ vị hư nhược."
+    kieng_ky: "Tỳ vị hư nhược.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng chua cay gừng.",
+    hinh_dang: "Phiến quả nhỏ tẩm gừng sao giảm lạnh đắng."
   },
   {
     stt: 2212,
@@ -1473,7 +1799,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus aurantium L.",
     pinyin: "Zhǐ Ké",
     cong_dung: "Lý khí khoan hung, ấm tỳ vị, tiêu trướng.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng chua cay gừng.",
+    hinh_dang: "Bổ đôi tẩm gừng sao thơm dịu vị khoan hung."
   },
   {
     stt: 2213,
@@ -1482,7 +1810,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Lindera aggregata (Sims) Kosterm.",
     pinyin: "Wū Yào",
     cong_dung: "Hành khí chỉ thống, nhuận trung tiêu, ôn thận.",
-    kieng_ky: "Khí hư nội nhiệt."
+    kieng_ky: "Khí hư nội nhiệt.",
+    dac_tinh: "Tính ấm nhẹ, vị cay ngọt dịu.",
+    hinh_dang: "Phiến chuỗi rễ tẩm mật sao bóng đẹp thơm nhuận."
   },
   {
     stt: 2214,
@@ -1491,7 +1821,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus medica L. var. sarcodactylis (Swingle) Swingle",
     pinyin: "Fó Shǒu",
     cong_dung: "Sơ can lý khí, hòa vị chỉ thống, nhuận phế.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm nhẹ, vị cay ngọt chua nhẹ.",
+    hinh_dang: "Lát dẻo tẩm mật phơi thơm ngòn ngọt sơ Can."
   },
   {
     stt: 2215,
@@ -1500,7 +1832,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Magnolia officinalis Rehd. & Wils.",
     pinyin: "Hòu Pò",
     cong_dung: "Hành khí táo thấp, dẫn thuốc vào can, tiêu trướng.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng chua dịu.",
+    hinh_dang: "Lát vỏ tẩm giấm sao bớt đắng chát dẫn Can."
   },
   {
     stt: 2216,
@@ -1509,7 +1843,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus reticulata Blanco",
     pinyin: "Qīng Pí",
     cong_dung: "Sơ can phá khí, ấm tỳ vị, tiêu tích trệ.",
-    kieng_ky: "Thai phụ."
+    kieng_ky: "Thai phụ.",
+    dac_tinh: "Tính ấm, vị cay đắng nồng gừng.",
+    hinh_dang: "Vỏ xanh tẩm gừng sao bớt xé họng xua lạnh."
   },
   {
     stt: 2217,
@@ -1518,7 +1854,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Prunus armeniaca L.",
     pinyin: "Xìng Rén",
     cong_dung: "Nhuận phế bình suyễn, dẫn thuốc vào can kinh.",
-    kieng_ky: "Tiêu chảy."
+    kieng_ky: "Tiêu chảy.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng chua dịu.",
+    hinh_dang: "Nhân hạt tẩm giấm sao dịu vị độc dẫn Can."
   },
   {
     stt: 2218,
@@ -1527,7 +1865,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Pinellia ternata (Thunb.) Makino",
     pinyin: "Bàn Xià",
     cong_dung: "Táo thấp hóa đờm, giáng nghịch chỉ nôn, an vị.",
-    kieng_ky: "Ho khan âm hư."
+    kieng_ky: "Ho khan âm hư.",
+    dac_tinh: "Tính ấm, vị cay mặn nhẹ bớt ngứa.",
+    hinh_dang: "Củ nhỏ ngâm gừng muối hết hẳn ngứa an vị."
   },
   {
     stt: 2219,
@@ -1536,7 +1876,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Platycodon grandiflorus (Jacq.) A.DC.",
     pinyin: "Jié Gèng",
     cong_dung: "Tuyên phế khứ đờm, dẫn thuốc vào can giải ho.",
-    kieng_ky: "Ho ra máu."
+    kieng_ky: "Ho ra máu.",
+    dac_tinh: "Tính bình, vị đắng chua dịu.",
+    hinh_dang: "Phiến rễ tẩm giấm sao thơm dịu nhẹ dẫn Can."
   },
   {
     stt: 2220,
@@ -1545,7 +1887,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Stemona tuberosa Lour.",
     pinyin: "Bǎi Bù",
     cong_dung: "Nhuận phế chỉ khái, dẫn thuốc vào can diệt giun.",
-    kieng_ky: "Tiêu chảy."
+    kieng_ky: "Tiêu chảy.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt đắng chua nhạt.",
+    hinh_dang: "Lát củ dẻo tẩm giấm sao bớt đắng diệt giun."
   },
   {
     stt: 2221,
@@ -1554,7 +1898,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Aster tataricus L.f.",
     pinyin: "Zǐ Yuǎn",
     cong_dung: "Nhuận phế hạ khí, hóa đàm chỉ ho hiệu quả.",
-    kieng_ky: "Ho khan âm hư."
+    kieng_ky: "Ho khan âm hư.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng cay chua dịu.",
+    hinh_dang: "Phiến rễ tẩm giấm sao dịu phế hóa đờm."
   },
   {
     stt: 2222,
@@ -1563,7 +1909,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Peucedanum praeruptorum Dunn",
     pinyin: "Qián Hú",
     cong_dung: "Tuyên tán phong nhiệt, nhuận phế hóa đờm.",
-    kieng_ky: "Ho phong hàn."
+    kieng_ky: "Ho phong hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng ngọt dịu.",
+    hinh_dang: "Phiến rễ tẩm mật sao bớt tính hàn đắng."
   },
   {
     stt: 2223,
@@ -1572,7 +1920,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Sinapis alba L.",
     pinyin: "Bái Jiè Zǐ",
     cong_dung: "Ôn phế hóa đờm, nhuận phế bớt kích ứng.",
-    kieng_ky: "Phế hỏa ho khan."
+    kieng_ky: "Phế hỏa ho khan.",
+    dac_tinh: "Tính ấm, vị cay ngọt nhẹ.",
+    hinh_dang: "Hạt vàng nhỏ tẩm mật sao thơm nồng dịu."
   },
   {
     stt: 2224,
@@ -1581,7 +1931,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morus alba L.",
     pinyin: "Sāng Bái Pí",
     cong_dung: "Tả phế bình suyễn, dẫn thuốc vào can kinh.",
-    kieng_ky: "Ho phế hàn."
+    kieng_ky: "Ho phế hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt chua dịu.",
+    hinh_dang: "Phiến xơ trắng tẩm giấm sao se dịu phế."
   },
   {
     stt: 2225,
@@ -1590,7 +1942,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Tussilago farfara L.",
     pinyin: "Kuǎn Dōng Huā",
     cong_dung: "Ôn phế giáng khí, hóa đờm chỉ ho mạn.",
-    kieng_ky: "Ho phế nhiệt."
+    kieng_ky: "Ho phế nhiệt.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng chua dịu.",
+    hinh_dang: "Nụ hoa tẩm giấm sao mềm dịu giáng khí."
   },
   {
     stt: 2226,
@@ -1599,7 +1953,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Pouzolzia zeylanica (L.) Benn.",
     pinyin: "Tǔ Pái Qián Cǎo",
     cong_dung: "Thanh phế hóa đờm, bớt kích ứng tỳ vị.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt nhạt.",
+    hinh_dang: "Lát củ bám bụi cám sao thơm nhẹ dịu Tỳ."
   },
   {
     stt: 2227,
@@ -1608,7 +1964,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Crataegus pinnatifida Bunge",
     pinyin: "Shān Zhā",
     cong_dung: "Tiêu tích trệ, ấm vị, tăng hoạt huyết.",
-    kieng_ky: "Dạ dày thừa acid."
+    kieng_ky: "Dạ dày thừa acid.",
+    dac_tinh: "Tính ấm nhẹ, vị chua ngọt cay gừng.",
+    hinh_dang: "Phiến quả tẩm gừng sao ấm vị tiêu thực."
   },
   {
     stt: 2228,
@@ -1617,7 +1975,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Hordeum vulgare L.",
     pinyin: "Mài Yá",
     cong_dung: "Tiêu thực hóa tích, kiện tỳ nhuận vị.",
-    kieng_ky: "Phụ nữ cho con bú."
+    kieng_ky: "Phụ nữ cho con bú.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt béo.",
+    hinh_dang: "Hạt mầm tẩm mật sao màu vàng nâu thơm ngọt."
   },
   {
     stt: 2229,
@@ -1626,7 +1986,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Gallus gallus domesticus Brisson",
     pinyin: "Jī Nèi Jīn",
     cong_dung: "Kiện tỳ tiêu thực, dẫn thuốc vào can bài sỏi.",
-    kieng_ky: "Không tích trệ."
+    kieng_ky: "Không tích trệ.",
+    dac_tinh: "Tính bình, vị ngọt chua nhẹ.",
+    hinh_dang: "Màng dạ dày tẩm giấm sao giòn xốp dẫn Can."
   },
   {
     stt: 2230,
@@ -1635,7 +1997,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Massa Medicata Fermentata",
     pinyin: "Shén Qū",
     cong_dung: "Khai vị tiêu thực, ấm trung tiêu tích.",
-    kieng_ky: "Tỳ hư nặng."
+    kieng_ky: "Tỳ hư nặng.",
+    dac_tinh: "Tính ấm, vị cay ngọt thơm gừng.",
+    hinh_dang: "Khối bánh tẩm gừng sao ấm dạ dày khai vị."
   },
   {
     stt: 2231,
@@ -1644,7 +2008,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Raphanus sativus L.",
     pinyin: "Lái Fú Zǐ",
     cong_dung: "Tiêu thực giáng khí, dẫn thuốc tiêu đờm trệ.",
-    kieng_ky: "Khí hư không tích."
+    kieng_ky: "Khí hư không tích.",
+    dac_tinh: "Tính bình, vị cay chua dịu.",
+    hinh_dang: "Hạt nâu tẩm giấm sao bớt hăng giáng khí."
   },
   {
     stt: 2232,
@@ -1653,7 +2019,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Setaria italica (L.) Beauv.",
     pinyin: "Gǔ Yá",
     cong_dung: "Tiêu thực hòa tỳ, kiện vị nhuận trung.",
-    kieng_ky: "Tích nhiệt."
+    kieng_ky: "Tích nhiệt.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt thơm.",
+    hinh_dang: "Hạt mầm lúa tẩm mật sao béo ngậy kiện Tỳ."
   },
   {
     stt: 2233,
@@ -1662,7 +2030,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus sinensis (L.) Osbeck",
     pinyin: "Chéng Pí",
     cong_dung: "Lý khí hòa vị, nhuận phế tiêu đờm.",
-    kieng_ky: "Âm hư."
+    kieng_ky: "Âm hư.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt cay đắng nhẹ.",
+    hinh_dang: "Phiến vỏ dẻo quánh dính mật sao nhuận Phế."
   },
   {
     stt: 2234,
@@ -1671,7 +2041,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus maxima (Burm.) Merr.",
     pinyin: "Yù Pí",
     cong_dung: "Hóa đờm giáng khí, kiện tỳ tiêu mỡ.",
-    kieng_ky: "Thể hư hàn."
+    kieng_ky: "Thể hư hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng cay thơm béo.",
+    hinh_dang: "Phiến vỏ khô bám béo bột cám sao vàng."
   },
   {
     stt: 2235,
@@ -1680,7 +2052,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Styphnolobium japonicum (L.) Schott",
     pinyin: "Huái Mǐ",
     cong_dung: "Lương huyết chỉ huyết, hạ áp dịu tỳ vị.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị đắng béo cám.",
+    hinh_dang: "Nụ hoa nhỏ áo lớp cám sao vàng dịu Tỳ."
   },
   {
     stt: 2236,
@@ -1689,7 +2063,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Zingiber officinale Roscoe",
     pinyin: "Shēn Jiāng",
     cong_dung: "Ôn trung tán hàn, giáng nghịch chỉ nôn.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay chua nhẹ.",
+    hinh_dang: "Lát gừng tẩm giấm sao dịu vị cay xộc nôn."
   },
   {
     stt: 2237,
@@ -1698,7 +2074,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Mentha haplocalyx Briq.",
     pinyin: "Bò He",
     cong_dung: "Sơ tán phong nhiệt, dịu kích ứng tỳ vị.",
-    kieng_ky: "Mồ hôi ra quá nhiều."
+    kieng_ky: "Mồ hôi ra quá nhiều.",
+    dac_tinh: "Tính mát nhẹ, vị cay mát béo nhẹ.",
+    hinh_dang: "Lá cành phủ áo cám sao dịu vị menthol."
   },
   {
     stt: 2238,
@@ -1707,7 +2085,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Perilla frutescens (L.) Britt.",
     pinyin: "Zǐ Sū",
     cong_dung: "Phát tán phong hàn, kiện tỳ lý khí an thai.",
-    kieng_ky: "Biểu hư tự hãn."
+    kieng_ky: "Biểu hư tự hãn.",
+    dac_tinh: "Tính ấm nhẹ, vị cay thơm béo.",
+    hinh_dang: "Lá khô phủ bột cám sao vàng dịu an thai."
   },
   {
     stt: 2239,
@@ -1716,7 +2096,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Elsholtzia ciliata (Thunb.) Hyland.",
     pinyin: "Jīng Jiè",
     cong_dung: "Phát tán phong hàn, thấu chẩn, dịu vị.",
-    kieng_ky: "Mụn nhọt đã vỡ."
+    kieng_ky: "Mụn nhọt đã vỡ.",
+    dac_tinh: "Tính ấm nhẹ, vị cay thơm cám.",
+    hinh_dang: "Cành lá khô áo lớp bột cám thơm béo."
   },
   {
     stt: 2240,
@@ -1725,7 +2107,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Chrysanthemum indicum L.",
     pinyin: "Yě Jū Huā",
     cong_dung: "Tán phong thanh nhiệt, nhuận phế sáng mắt.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị đắng ngọt thơm dịu.",
+    hinh_dang: "Bông cúc áo mật dẻo thơm ngào ngạt."
   },
   {
     stt: 2241,
@@ -1734,7 +2118,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Chrysanthemum morifolium Ramat.",
     pinyin: "Jū Huā",
     cong_dung: "Thanh nhiệt bình can, nhuận phế dịu ho.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt đắng thanh dịu.",
+    hinh_dang: "Bông cúc trắng ngấm mật ngọt thanh dịu ho."
   },
   {
     stt: 2242,
@@ -1743,7 +2129,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Vitex trifolia L.",
     pinyin: "Màn Jīng Zǐ",
     cong_dung: "Sơ tán phong nhiệt, dẫn thuốc trị đau đầu.",
-    kieng_ky: "Huyết hư đau đầu."
+    kieng_ky: "Huyết hư đau đầu.",
+    dac_tinh: "Tính bình, vị cay đắng chua dịu.",
+    hinh_dang: "Quả hạt tẩm giấm sao dịu mùi hắc dẫn Can."
   },
   {
     stt: 2243,
@@ -1752,7 +2140,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morus alba L.",
     pinyin: "Sāng Yè",
     cong_dung: "Thanh phế nhuận táo, dịu ho phong nhiệt.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt thanh.",
+    hinh_dang: "Lá dâu quắt tẩm mật sao màu nâu dẻo thơm."
   },
   {
     stt: 2244,
@@ -1761,7 +2151,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Saposhnikovia divaricata (Turcz.) Schischk.",
     pinyin: "Fáng Fēng",
     cong_dung: "Khu phong giải biểu, dẫn thuốc vào can kinh.",
-    kieng_ky: "Huyết hư sốt."
+    kieng_ky: "Huyết hư sốt.",
+    dac_tinh: "Tính ấm nhẹ, vị cay ngọt chua dịu.",
+    hinh_dang: "Phiến rễ tẩm giấm sao dịu cay dẫn Can."
   },
   {
     stt: 2245,
@@ -1770,7 +2162,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Angelica dahurica (Fisch. ex Hoffm.) Benth. & Hook.f.",
     pinyin: "Bái Zhǐ",
     cong_dung: "Giải biểu tán hàn, giảm đau, thông khiếu.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm nhẹ, vị cay chua dịu nhẹ.",
+    hinh_dang: "Phiến trắng tẩm giấm sao giảm nồng thông khiếu."
   },
   {
     stt: 2246,
@@ -1779,7 +2173,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Pueraria montana var. lobata (Willd.) Maesen & S.M.Almeida",
     pinyin: "Gě Gēn",
     cong_dung: "Giải cơ thoái nhiệt, nhuận tỳ sinh tân.",
-    kieng_ky: "Vị hàn."
+    kieng_ky: "Vị hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt dịu béo.",
+    hinh_dang: "Phiến sắn dây tẩm mật sao xém nâu nhạt."
   },
   {
     stt: 2247,
@@ -1788,7 +2184,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Ziziphus jujuba Mill. var. spinosa (Bunge) Hu ex H.F.Chow",
     pinyin: "Suān Zǎo Rén",
     cong_dung: "Dưỡng tâm an thần, nhuận vị, trị mất ngủ.",
-    kieng_ky: "Thực nhiệt uất."
+    kieng_ky: "Thực nhiệt uất.",
+    dac_tinh: "Tính bình, vị ngọt chua dịu.",
+    hinh_dang: "Nhân hạt ngấm mật sao dẻo bóng an thần."
   },
   {
     stt: 2248,
@@ -1797,7 +2195,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Platycladus orientalis (L.) Franco",
     pinyin: "Bǎi Zǐ Rén",
     cong_dung: "Dưỡng tâm an thần, nhuận tràng thông tiện.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính bình, vị ngọt béo mật.",
+    hinh_dang: "Nhân hạt dính mật sao thơm nức thông tiện."
   },
   {
     stt: 2249,
@@ -1806,7 +2206,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Polygala tenuifolia Willd.",
     pinyin: "Yuǎn Zhì",
     cong_dung: "Ninh tâm an thần, khư đàm, dẫn thuốc vào can.",
-    kieng_ky: "Loét dạ dày."
+    kieng_ky: "Loét dạ dày.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng cay chua dịu.",
+    hinh_dang: "Đoạn ống tẩm giấm sao bớt đắng gắt."
   },
   {
     stt: 2250,
@@ -1815,7 +2217,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Erythrina variegata L.",
     pinyin: "Hǎi Tóng Yè",
     cong_dung: "An thần thông lạc, bớt kích ứng ruột.",
-    kieng_ky: "Dùng quá liều."
+    kieng_ky: "Dùng quá liều.",
+    dac_tinh: "Tính bình, vị đắng nhạt béo cám.",
+    hinh_dang: "Lá quắt áo bột cám sao vàng nhẹ dịu ruột."
   },
   {
     stt: 2251,
@@ -1824,7 +2228,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Stephania glabra (Roxb.) Miers",
     pinyin: "Dì Dǎn",
     cong_dung: "Trấn kinh an thần, dịu đau dạ dày.",
-    kieng_ky: "Dùng quá liều."
+    kieng_ky: "Dùng quá liều.",
+    dac_tinh: "Tính mát nhẹ, vị đắng nhẹ thơm cám.",
+    hinh_dang: "Lát củ áo bọc bột cám thơm dịu dạ dày."
   },
   {
     stt: 2252,
@@ -1833,7 +2239,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Jasminum sambac (L.) Aiton",
     pinyin: "Mò Lì Huā",
     cong_dung: "Giải uất an thần, kiện tỳ dịu mát.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt thơm cám.",
+    hinh_dang: "Bông hoa khô bám cám vàng ruộm an thần."
   },
   {
     stt: 2253,
@@ -1842,7 +2250,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Nelumbo nucifera Gaertn.",
     pinyin: "Lián Xīn",
     cong_dung: "Thanh tâm hỏa, hạ áp, dịu thần kinh.",
-    kieng_ky: "Huyết áp thấp."
+    kieng_ky: "Huyết áp thấp.",
+    dac_tinh: "Tính mát, vị đắng dịu béo cám.",
+    hinh_dang: "Nhụy mầm xanh áo lớp bột cám giảm đắng gắt."
   },
   {
     stt: 2254,
@@ -1851,7 +2261,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Rosa laevigata Michx.",
     pinyin: "Jīn Yīng Zǐ",
     cong_dung: "Cố tinh sáp niệu, nhuận vị cầm tả.",
-    kieng_ky: "Tiểu buốt dắt."
+    kieng_ky: "Tiểu buốt dắt.",
+    dac_tinh: "Tính bình, vị chua chát ngọt dịu.",
+    hinh_dang: "Quả chẻ đôi áo lớp mật bóng sao nhuận vị."
   },
   {
     stt: 2255,
@@ -1860,7 +2272,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Terminalia chebula Retz.",
     pinyin: "Hē Zǐ",
     cong_dung: "Liễm phế chỉ khái, sáp tràng cầm tiêu chảy.",
-    kieng_ky: "Ho mới phát."
+    kieng_ky: "Ho mới phát.",
+    dac_tinh: "Tính ấm nhẹ, vị chua chát dịu.",
+    hinh_dang: "Phiến quả tẩm giấm sao bớt chát xé phế."
   },
   {
     stt: 2256,
@@ -1869,7 +2283,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Rhus chinensis Mill.",
     pinyin: "Wǔ Bèi Zǐ",
     cong_dung: "Cầm máu, thu liễm chỉ hãn, cầm tả.",
-    kieng_ky: "Thực nhiệt."
+    kieng_ky: "Thực nhiệt.",
+    dac_tinh: "Tính bình, vị chát chua nhạt.",
+    hinh_dang: "Khối sâu tẩm giấm sao bớt chát gắt sáp tràng."
   },
   {
     stt: 2257,
@@ -1878,7 +2294,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Crassostrea gigas (Thunberg)",
     pinyin: "Mǔ Lì",
     cong_dung: "Bình can tiềm dương, trung hòa acid dạ dày.",
-    kieng_ky: "Hàn chứng."
+    kieng_ky: "Hàn chứng.",
+    dac_tinh: "Tính bình, vị mặn chua nhẹ.",
+    hinh_dang: "Vỏ hàu đập vỡ tẩm giấm sao giòn xốp dịu acid."
   },
   {
     stt: 2258,
@@ -1887,7 +2305,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Os Mastodi",
     pinyin: "Lóng Gǔ",
     cong_dung: "Trấn kinh an thần, thu liễm cố sáp.",
-    kieng_ky: "Thấp nhiệt."
+    kieng_ky: "Thấp nhiệt.",
+    dac_tinh: "Tính bình, vị ngọt mặn chua nhạt.",
+    hinh_dang: "Khối xương hóa thạch tẩm giấm sao bớt tanh."
   },
   {
     stt: 2259,
@@ -1896,7 +2316,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Sepiella maindroni de Rochebrune",
     pinyin: "Wū Zéi Gǔ",
     cong_dung: "Thu liễm cầm máu, ấm vị, trung hòa acid.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm nhẹ, vị mặn cay nhẹ thơm gừng.",
+    hinh_dang: "Bột mai mực tẩm gừng sao ấm vị tiêu acid."
   },
   {
     stt: 2260,
@@ -1905,7 +2327,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Atractylodes macrocephala Koidz.",
     pinyin: "Bái Zhú",
     cong_dung: "Đại bổ tỳ vị, triệt tiêu tính lạnh, cầm tả.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị ngọt đắng dằn vị.",
+    hinh_dang: "Lát củ sao cháy sẫm xém cạnh, mùi cháy hạ thổ đặc trưng bổ Tỳ."
   },
   {
     stt: 2261,
@@ -1914,7 +2338,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Astragalus mongholicus Bunge",
     pinyin: "Huáng Qí",
     cong_dung: "Bổ khí cố biểu, thăng dương, ấm trung tiêu.",
-    kieng_ky: "Thực nhiệt uất."
+    kieng_ky: "Thực nhiệt uất.",
+    dac_tinh: "Tính ấm, vị ngọt đằm.",
+    hinh_dang: "Lát dẹt sao vàng ngả sẫm, thơm mùi thổ mộc dằn vị."
   },
   {
     stt: 2262,
@@ -1923,7 +2349,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Glycyrrhiza uralensis Fisch.",
     pinyin: "Gān Cǎo",
     cong_dung: "Bổ tỳ hòa trung, giải độc, điều hòa thuốc.",
-    kieng_ky: "Trệ bụng đàm thấp."
+    kieng_ky: "Trệ bụng đàm thấp.",
+    dac_tinh: "Tính ấm, vị ngọt dịu đậm.",
+    hinh_dang: "Phiến tròn sao vàng sẫm hạ thổ tỏa hương thơm."
   },
   {
     stt: 2263,
@@ -1932,7 +2360,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Bupleurum chinense DC.",
     pinyin: "Chái Hú",
     cong_dung: "Sơ can giải uất, thăng dương dịu nhẹ.",
-    kieng_ky: "Can dương bốc hỏa."
+    kieng_ky: "Can dương bốc hỏa.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng cay đằm.",
+    hinh_dang: "Rễ mảnh sao vàng cháy xém, hạ thổ dịu tính bốc."
   },
   {
     stt: 2264,
@@ -1941,7 +2371,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Scutellaria baicalensis Georgi",
     pinyin: "Huáng Qín",
     cong_dung: "Thanh nhiệt tả hỏa phế vị, bớt tính hàn.",
-    kieng_ky: "Phế hàn ho đờm."
+    kieng_ky: "Phế hàn ho đờm.",
+    dac_tinh: "Tính bình, vị đắng đằm.",
+    hinh_dang: "Lát vàng sẫm sao cháy xém dịu tính quá lạnh."
   },
   {
     stt: 2265,
@@ -1950,7 +2382,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Eclipta prostrata (L.) L.",
     pinyin: "Mò Hān Lián",
     cong_dung: "Thanh nhiệt lương huyết, tăng bền mạch, cầm máu.",
-    kieng_ky: "Tỳ vị hư hàn tiêu chảy."
+    kieng_ky: "Tỳ vị hư hàn tiêu chảy.",
+    dac_tinh: "Tính bình, vị ngọt chua chát đằm.",
+    hinh_dang: "Toàn cây sao xém đen hạ thổ, hết lạnh tỳ vị."
   },
   {
     stt: 2266,
@@ -1959,7 +2393,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Phyllanthus urinaria L.",
     pinyin: "Yè Xià Zhū",
     cong_dung: "Thanh nhiệt, giải độc gan, thông mật, ấm trung tiêu.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng cay nồng gừng.",
+    hinh_dang: "Thân lá tẩm gừng sao bớt tính quá hàn mát."
   },
   {
     stt: 2267,
@@ -1968,7 +2404,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Wedelia chinensis (Osbeck) Merr.",
     pinyin: "Páng Dì Jū",
     cong_dung: "Thanh nhiệt giải độc, dẫn thuốc mát gan vào can.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt đắng chua nhạt.",
+    hinh_dang: "Thân lá tẩm giấm sao đằm vị thanh nhiệt mát gan."
   },
   {
     stt: 2268,
@@ -1977,7 +2415,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Houttuynia cordata Thunb.",
     pinyin: "Yú Xīng Cǎo",
     cong_dung: "Thanh nhiệt tiêu viêm bài nùng, dẫn thuốc vào can.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị chua dịu bớt tanh.",
+    hinh_dang: "Toàn cây tẩm giấm sao bay hết mùi tanh hắc."
   },
   {
     stt: 2269,
@@ -1986,7 +2426,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morus alba L.",
     pinyin: "Sāng Yè",
     cong_dung: "Thanh phế nhuận táo, dịu ho lạnh phế.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt cay nhẹ thơm gừng.",
+    hinh_dang: "Lá khô tẩm gừng sao ấm dịu phế chỉ ho."
   },
   {
     stt: 2270,
@@ -1995,7 +2437,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Plantago asiatica L.",
     pinyin: "Chē Qián Cǎo",
     cong_dung: "Thanh nhiệt lợi niệu, ấm vị thông lâm bài sỏi.",
-    kieng_ky: "Phụ nữ mang thai, tiêu chảy."
+    kieng_ky: "Phụ nữ mang thai, tiêu chảy.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt cay nhẹ gừng.",
+    hinh_dang: "Toàn cây tẩm gừng sao bớt gây đi ngoài."
   },
   {
     stt: 2271,
@@ -2004,7 +2448,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Euphorbia thymifolia L.",
     pinyin: "Xiǎo Fēi Yáng Cǎo",
     cong_dung: "Thanh nhiệt cầm tiêu chảy, dẫn thuốc vào can.",
-    kieng_ky: "Táo bón."
+    kieng_ky: "Táo bón.",
+    dac_tinh: "Tính mát nhẹ, vị chua dịu nhẹ.",
+    hinh_dang: "Cành lá nhỏ tẩm giấm sao dịu vị đường ruột."
   },
   {
     stt: 2272,
@@ -2013,7 +2459,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Eleusine indica (L.) Gaertn.",
     pinyin: "Niú Jīn Cǎo",
     cong_dung: "Thanh nhiệt mát gan, hạ áp, kiện tỳ cực tốt.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt đằm.",
+    hinh_dang: "Thân rễ sao vàng cháy xém thơm phức hạ thổ."
   },
   {
     stt: 2273,
@@ -2022,7 +2470,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Xanthium sibiricum Patrin ex Widder",
     pinyin: "Cāng Ěr Zǐ",
     cong_dung: "Trừ phong thấp, thông tỷ khiếu, dẫn thuốc vào can.",
-    kieng_ky: "Âm hư huyết nhiệt."
+    kieng_ky: "Âm hư huyết nhiệt.",
+    dac_tinh: "Tính bình, vị cay đắng chua dịu.",
+    hinh_dang: "Quả ké tẩm giấm sao bớt độc tính dẫn Can."
   },
   {
     stt: 2274,
@@ -2031,7 +2481,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Portulaca oleracea L.",
     pinyin: "Mǎ Cǐ Xiàn",
     cong_dung: "Thanh nhiệt lương huyết, kiện tỳ diệt khuẩn ruột.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính mát nhẹ, vị chua béo nhẹ.",
+    hinh_dang: "Thân mọng tẩm cám sao vàng thơm béo dịu Tỳ."
   },
   {
     stt: 2275,
@@ -2040,7 +2492,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Imperata cylindrica (L.) Raeusch.",
     pinyin: "Máo Gēn",
     cong_dung: "Thanh nhiệt lương huyết, kiện tỳ lợi niệu.",
-    kieng_ky: "Thể hư hàn."
+    kieng_ky: "Thể hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt béo cám.",
+    hinh_dang: "Rễ đốt ngắn bám áo bột cám thơm béo."
   },
   {
     stt: 2276,
@@ -2049,7 +2503,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Lophatherum gracile Brongn.",
     pinyin: "Zhú Yè",
     cong_dung: "Thanh tâm hỏa, trừ phiền khát, kiện tỳ.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt nhạt béo.",
+    hinh_dang: "Lá dẹt phủ áo bột cám sao vàng dịu."
   },
   {
     stt: 2277,
@@ -2058,7 +2514,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Adenosma caeruleum R.Br.",
     pinyin: "Nán Yīn Chén",
     cong_dung: "Thanh nhiệt lợi mật, thoái hoàng, kiện tỳ.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính mát nhẹ, vị đắng thơm béo.",
+    hinh_dang: "Cành hoa bám bột cám sao giảm đắng gắt."
   },
   {
     stt: 2278,
@@ -2067,7 +2525,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Artemisia capillaris Thunb.",
     pinyin: "Yīn Chén",
     cong_dung: "Thanh nhiệt lợi thấp, dẫn thuốc giải độc vào can.",
-    kieng_ky: "Nhiệt uất không thấp."
+    kieng_ky: "Nhiệt uất không thấp.",
+    dac_tinh: "Tính mát nhẹ, vị đắng chua dịu.",
+    hinh_dang: "Toàn cây tẩm giấm sao dịu vị gan giải độc."
   },
   {
     stt: 2279,
@@ -2076,7 +2536,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Celosia cristata L.",
     pinyin: "Jī Guān Huā",
     cong_dung: "Thanh nhiệt lương huyết, kiện tỳ cầm máu.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị chát ngọt đằm.",
+    hinh_dang: "Bông hoa sao vàng xém thơm dịu vị cầm máu."
   },
   {
     stt: 2280,
@@ -2085,7 +2547,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Celosia argentea L.",
     pinyin: "Qīng Xiāng",
     cong_dung: "Thanh can hỏa, sáng mắt, ấm vị bài sỏi.",
-    kieng_ky: "Cườm mắt do âm hư."
+    kieng_ky: "Cườm mắt do âm hư.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng cay gừng nhẹ.",
+    hinh_dang: "Hạt hoa tẩm gừng sao ấm vị dạ dày."
   },
   {
     stt: 2281,
@@ -2094,7 +2558,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Catharanthus roseus (L.) G.Don",
     pinyin: "Cháng Chūn Huā",
     cong_dung: "Thanh nhiệt hạ áp, kiện tỳ dịu thần kinh.",
-    kieng_ky: "Phụ nữ mang thai, áp thấp."
+    kieng_ky: "Phụ nữ mang thai, áp thấp.",
+    dac_tinh: "Tính mát nhẹ, vị đắng dịu béo.",
+    hinh_dang: "Thân lá phủ bột cám sao bớt gắt."
   },
   {
     stt: 2282,
@@ -2103,7 +2569,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Momordica charantia L. var. abbreviata",
     pinyin: "Yě Kǔ Guā",
     cong_dung: "Thanh nhiệt hạ đường huyết, dẫn thuốc vào can.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị đắng chua dịu.",
+    hinh_dang: "Lát mỏng tẩm giấm sao bớt đắng ngắt."
   },
   {
     stt: 2283,
@@ -2112,7 +2580,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Gymnema sylvestre (Retz.) Schult.",
     pinyin: "Chí Gēng Téng",
     cong_dung: "Thanh nhiệt, giảm hấp thu đường, dẫn thuốc vào can.",
-    kieng_ky: "Hay bị hạ đường huyết."
+    kieng_ky: "Hay bị hạ đường huyết.",
+    dac_tinh: "Tính mát nhẹ, vị đắng chua nhạt.",
+    hinh_dang: "Lá cành tẩm giấm sao dịu đường huyết."
   },
   {
     stt: 2284,
@@ -2121,7 +2591,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Orthosiphon aristatus (Blume) Miq.",
     pinyin: "Māo Xū Cǎo",
     cong_dung: "Thanh nhiệt lợi tiểu, kiện tỳ bài sỏi thận.",
-    kieng_ky: "Phụ nữ mang thai 3 tháng đầu."
+    kieng_ky: "Phụ nữ mang thai 3 tháng đầu.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt đắng béo cám.",
+    hinh_dang: "Thân hoa bám béo bột cám sao vàng."
   },
   {
     stt: 2285,
@@ -2130,7 +2602,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Syzygium nervosum DC.",
     pinyin: "Shuǐ Wēng Yè",
     cong_dung: "Thanh nhiệt tiêu thực, dẫn thuốc kháng khuẩn vào can.",
-    kieng_ky: "Thể hư hàn nặng."
+    kieng_ky: "Thể hư hàn nặng.",
+    dac_tinh: "Tính mát nhẹ, vị đắng chát chua dịu.",
+    hinh_dang: "Phiến lá tẩm giấm sao bớt chát xé."
   },
   {
     stt: 2286,
@@ -2139,7 +2613,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Syzygium nervosum DC.",
     pinyin: "Shuǐ Wēng Huā",
     cong_dung: "Thanh nhiệt hạ mỡ máu, kiện tỳ trợ tiêu hóa.",
-    kieng_ky: "Huyết áp thấp."
+    kieng_ky: "Huyết áp thấp.",
+    dac_tinh: "Tính mát nhẹ, vị chát đắng béo cám.",
+    hinh_dang: "Nụ hoa khô phủ bụi cám sao thơm ngậy."
   },
   {
     stt: 2287,
@@ -2148,7 +2624,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Abutilon indicum (L.) Sweet",
     pinyin: "Mǎ Yīng Háng",
     cong_dung: "Thanh nhiệt lợi tiểu, ấm vị thông tai.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt cay gừng nhạt.",
+    hinh_dang: "Quả thân tẩm gừng sao ấm vị lợi tiểu."
   },
   {
     stt: 2288,
@@ -2157,7 +2635,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Vernonia amygdalina Delile",
     pinyin: "Nán Fāng Kǔ Yè",
     cong_dung: "Thanh nhiệt mát gan, kiện tỳ thông tiêu hóa.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị đắng dằn béo cám.",
+    hinh_dang: "Lá bám bột cám sao giảm đắng ngắt."
   },
   {
     stt: 2289,
@@ -2166,7 +2646,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Eclipta prostrata (L.) L.",
     pinyin: "Mò Hān Lián",
     cong_dung: "Thanh nhiệt lương huyết, bổ can thận âm.",
-    kieng_ky: "Tiêu chảy tỳ hư."
+    kieng_ky: "Tiêu chảy tỳ hư.",
+    dac_tinh: "Tính bình, vị ngọt đắng chua đằm.",
+    hinh_dang: "Thân lá sao xém đen ủ đất dằn vị bổ Thận."
   },
   {
     stt: 2290,
@@ -2175,7 +2657,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Amaranthus spinosus L.",
     pinyin: "Cì Àn",
     cong_dung: "Thanh nhiệt, nhuận tỳ lợi tiểu, tiêu mụn nhọt.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính bình, vị ngọt dịu nhẹ.",
+    hinh_dang: "Thân gai tẩm mật sao ngả vàng thơm nhuận."
   },
   {
     stt: 2291,
@@ -2184,7 +2668,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Hemerocallis fulva (L.) L.",
     pinyin: "Xuān Cǎo",
     cong_dung: "Thanh nhiệt lương huyết, dẫn thuốc an thần vào can.",
-    kieng_ky: "Thể trạng lạnh."
+    kieng_ky: "Thể trạng lạnh.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt chua dịu.",
+    hinh_dang: "Hoa khô tẩm giấm sao dịu vị an thần."
   },
   {
     stt: 2292,
@@ -2193,7 +2679,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Mahonia nepalensis DC.",
     pinyin: "Kǔ Wù Zǐ",
     cong_dung: "Thanh nhiệt giải độc, ấm vị giảm lạnh bụng.",
-    kieng_ky: "Thai phụ."
+    kieng_ky: "Thai phụ.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng cay nồng gừng.",
+    hinh_dang: "Lát gỗ tẩm gừng sao bớt cực hàn."
   },
   {
     stt: 2293,
@@ -2202,7 +2690,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Terminalia catappa L.",
     pinyin: "Hǎi Táng Yè",
     cong_dung: "Thanh nhiệt thu liễm, dẫn thuốc tiêu viêm vào can.",
-    kieng_ky: "Táo bón."
+    kieng_ky: "Táo bón.",
+    dac_tinh: "Tính bình, vị chát chua dịu.",
+    hinh_dang: "Phiến lá tẩm giấm sao dịu niêm mạc."
   },
   {
     stt: 2294,
@@ -2211,7 +2701,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Tinospora sinensis (Lour.) Merr.",
     pinyin: "Kuān Jīn Téng",
     cong_dung: "Trừ phong thấp, thư cân, bổ tỳ thông lạc.",
-    kieng_ky: "Thể hư hàn."
+    kieng_ky: "Thể hư hàn.",
+    dac_tinh: "Tính ấm, vị đắng chát đằm.",
+    hinh_dang: "Lát dây sao cháy xém ủ thổ thơm ấm trừ thấp."
   },
   {
     stt: 2295,
@@ -2220,7 +2712,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Gnetum montanum Markgr.",
     pinyin: "Mǎi Má Téng",
     cong_dung: "Khu phong thấp, hạ acid uric, kiện tỳ dịu vị.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng chát béo cám.",
+    hinh_dang: "Lát gỗ dây phủ bột cám sao béo Tỳ."
   },
   {
     stt: 2296,
@@ -2229,7 +2723,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Piper sarmentosum Roxb.",
     pinyin: "Jiǎ Jù Yè",
     cong_dung: "Ôn trung tán hàn, nhuận vị trừ phong thấp.",
-    kieng_ky: "Dạ dày nhiệt."
+    kieng_ky: "Dạ dày nhiệt.",
+    dac_tinh: "Tính ấm, vị cay ngọt dịu thơm lốt.",
+    hinh_dang: "Lá khô tẩm mật sao dẻo nhẹ thơm ngậy."
   },
   {
     stt: 2297,
@@ -2238,7 +2734,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Piper sarmentosum Roxb.",
     pinyin: "Jiǎ Jù Gēn",
     cong_dung: "Trừ phong thấp hạ tiêu, dẫn thuốc vào can.",
-    kieng_ky: "Táo bón, nhiệt miệng."
+    kieng_ky: "Táo bón, nhiệt miệng.",
+    dac_tinh: "Tính ấm, vị cay chua dịu nhẹ.",
+    hinh_dang: "Rễ tẩm giấm sao dịu xộc cay hạ tiêu."
   },
   {
     stt: 2298,
@@ -2247,7 +2745,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Achyranthes aspera L.",
     pinyin: "Tǔ Niú Xī",
     cong_dung: "Hoạt huyết, khu phong thấp, ấm hạ tiêu.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm, vị đắng cay nồng gừng.",
+    hinh_dang: "Rễ tẩm gừng sao ấm hạ tiêu trừ thấp."
   },
   {
     stt: 2299,
@@ -2256,16 +2756,20 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Eleutherococcus trifoliatus (L.) S.Y.Hu",
     pinyin: "Cì Wǔ Jiā",
     cong_dung: "Bổ can thận, mạnh gân cốt, ấm kinh tán hàn.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị đắng cay nồng gừng thơm.",
+    hinh_dang: "Vỏ cành tẩm gừng sao ấm khớp xương."
   },
-  {
+    {
     stt: 2300,
     nhom: "Khu phong trừ thấp",
     ten: "Cây ngũ gia bì hương chích giấm",
     ten_khoa_hoc: "Eleutherococcus gracilistylus (W.W.Sm.) S.Y.Hu",
     pinyin: "Wǔ Jiā Pí",
     cong_dung: "Bổ khí ích thận, khu phong trừ thấp vào can.",
-    kieng_ky: "Âm hư nội nhiệt."
+    kieng_ky: "Âm hư nội nhiệt.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng chua dịu.",
+    hinh_dang: "Lát vỏ thân tẩm giấm sao xém nhẹ màu vàng nâu, bớt mùi hắc; chọn mảnh khô giòn, xốp nhẹ."
   },
   {
     stt: 2301,
@@ -2274,7 +2778,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Parabarium micranthum (A.DC.) Pierre",
     pinyin: "Nán Dù Zhòng",
     cong_dung: "Bổ thận, dẫn thuốc trị đau lưng vào can.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng chát chua nhẹ.",
+    hinh_dang: "Vỏ thân cuộn dẹt tẩm giấm sao khô, khi bẻ bớt nhựa tơ; chọn vỏ dày chắc không mục nát."
   },
   {
     stt: 2302,
@@ -2283,7 +2789,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cibotium barometz (L.) J.Sm.",
     pinyin: "Gǒu Jǐ",
     cong_dung: "Bổ can thận, mạnh gân cốt, nhuận vị.",
-    kieng_ky: "Thận hư nhiệt."
+    kieng_ky: "Thận hư nhiệt.",
+    dac_tinh: "Tính ấm, vị ngọt đắng dẻo nhẹ.",
+    hinh_dang: "Lát củ phủ lông vàng tẩm mật sao màu nâu đỏ dẻo bóng; chọn lát dày chắc, thơm mùi mật."
   },
   {
     stt: 2303,
@@ -2292,7 +2800,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Reynoutria japonica Houtt.",
     pinyin: "Hǔ Zhàng",
     cong_dung: "Hoạt huyết thông kinh, ấm áp khu phong.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm, vị đắng chát cay gừng.",
+    hinh_dang: "Lát củ màu nâu xám tẩm gừng sao dậy hương thơm ấm; chọn lát chắc ruột màu vàng nâu."
   },
   {
     stt: 2304,
@@ -2301,7 +2811,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Achyranthes aspera L.",
     pinyin: "Tǔ Niú Xī",
     cong_dung: "Hoạt huyết thông kinh, hạ áp, ấm hạ tiêu.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm, vị đắng chua cay nhẹ.",
+    hinh_dang: "Đoạn rễ mảnh tẩm gừng sao khô màu vàng nâu thơm nồng gừng; chọn rễ dẻo chắc, không sâu thối."
   },
   {
     stt: 2305,
@@ -2310,7 +2822,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Homalomena occulta (Lour.) Schott",
     pinyin: "Qiān Nián Jiàn",
     cong_dung: "Trừ phong thấp, ấm gân cốt, nhuận vị.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay ngọt thơm nồng.",
+    hinh_dang: "Lát củ xốp tẩm mật sao màu nâu đỏ bóng dẻo; chọn phiến xốp dày, thơm nồng vị thảo mộc."
   },
   {
     stt: 2306,
@@ -2319,7 +2833,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Ficus simplicissima Lour.",
     pinyin: "Niú Dà Lì",
     cong_dung: "Trừ phong thấp, bổ tỳ phế, dẫn thuốc vào can.",
-    kieng_ky: "Âm hư."
+    kieng_ky: "Âm hư.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt chua nhẹ.",
+    hinh_dang: "Lát thân gỗ tròn tẩm giấm sao ngả màu nâu nhạt; chọn lát chắc gỗ, không mốc xám."
   },
   {
     stt: 2307,
@@ -2328,7 +2844,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Rhinacanthus nasutus (L.) Kurz",
     pinyin: "Bái Hè Líng Zhī",
     cong_dung: "Trừ phong thấp, nhuận phế, giải ngứa da.",
-    kieng_ky: "Thể trạng hư hàn."
+    kieng_ky: "Thể trạng hư hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng ngọt dịu.",
+    hinh_dang: "Thân lá tẩm mật sao dẻo nhẹ ngả màu nâu vàng; chọn cành lá khô quắt thơm nhẹ."
   },
   {
     stt: 2308,
@@ -2337,7 +2855,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Micromelum falcatum (Lour.) Tanaka",
     pinyin: "Mǐ Kōng Mù",
     cong_dung: "Khu phong trừ thấp, hành khí, ấm gân cốt.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm, vị cay đắng thơm gừng.",
+    hinh_dang: "Lát cành tẩm gừng sao khô tỏa mùi tinh dầu thơm ấm; chọn cành chắc, vỏ không giập thối."
   },
   {
     stt: 2309,
@@ -2346,7 +2866,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Tetracera scandens (L.) Merr.",
     pinyin: "Xī Yè Téng",
     cong_dung: "Trừ phong thấp, đả thông kinh lạc vào can.",
-    kieng_ky: "Cơ thể yếu."
+    kieng_ky: "Cơ thể yếu.",
+    dac_tinh: "Tính ấm nhẹ, vị chát chua nhạt.",
+    hinh_dang: "Lát dây xốp tẩm giấm sao khô màu nâu xám; chọn lát dẻo dai, không rỗng ruột mục."
   },
   {
     stt: 2310,
@@ -2355,7 +2877,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Caesalpinia minax Hance",
     pinyin: "Yún Shí",
     cong_dung: "Khu phong trừ thấp, dẫn thuốc giảm co quắp.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng cay chua dịu.",
+    hinh_dang: "Hạt quả tẩm giấm sao màu xám đen bớt vị tê dại; chọn hạt mẩy chắc, vỏ bóng cứng."
   },
   {
     stt: 2311,
@@ -2364,7 +2888,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cissus quadrangularis L.",
     pinyin: "Bái Fěn Téng",
     cong_dung: "Trừ phong thấp, tiêu sưng thoát vị, ấm kinh.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm, vị đắng cay gừng nhẹ.",
+    hinh_dang: "Đoạn thân 5 cạnh tẩm gừng sao khô màu xanh xám ngả nâu; chọn đoạn giòn chắc, không ngứa."
   },
   {
     stt: 2312,
@@ -2373,7 +2899,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cissus modeccoides Planch.",
     pinyin: "Bái Fěn Téng",
     cong_dung: "Trừ phong thấp, nhuận vị, giảm mỏi lưng.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng ngọt dịu.",
+    hinh_dang: "Thân dẹt tẩm mật sao dẻo màu nâu nhạt; chọn đoạn khô chắc, thơm mùi mật sao."
   },
   {
     stt: 2313,
@@ -2382,7 +2910,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Millettia reticulata Benth.",
     pinyin: "Hēi Mù",
     cong_dung: "Trừ phong thấp, dẫn thuốc tiêu sưng vào can.",
-    kieng_ky: "Cơ thể suy nhược."
+    kieng_ky: "Cơ thể suy nhược.",
+    dac_tinh: "Tính bình, vị đắng chua nhẹ.",
+    hinh_dang: "Lát gỗ màu đen sẫm tẩm giấm sao dịu vị; chọn lát thô nặng, không mối mọt."
   },
   {
     stt: 2314,
@@ -2391,7 +2921,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Gouania leptostachya DC.",
     pinyin: "Jiáo Lóng Téng",
     cong_dung: "Hoạt huyết giảm đau chấn thương, ấm kinh.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm, vị đắng chát cay gừng.",
+    hinh_dang: "Lát cành tẩm gừng sao thơm vị nồng ấm; chọn phiến cành khô cứng, không mục thối."
   },
   {
     stt: 2315,
@@ -2400,7 +2932,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Albizia lebbeck (L.) Benth.",
     pinyin: "Yìn Dù Hé Huān",
     cong_dung: "Trừ phong thấp, thông kinh lạc vào can.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính bình, vị đắng chua nhạt.",
+    hinh_dang: "Vỏ cành tẩm giấm sao ngả màu xám nâu se vị; chọn mảnh vỏ dày xốp, không mốc."
   },
   {
     stt: 2316,
@@ -2409,7 +2943,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Tacca chantrieri André",
     pinyin: "Lǎo Hǔ Xū",
     cong_dung: "Trừ phong thấp, dẫn thuốc giảm đau vào can.",
-    kieng_ky: "Cơ thể hư nhược."
+    kieng_ky: "Cơ thể hư nhược.",
+    dac_tinh: "Tính bình, vị đắng chát chua dịu.",
+    hinh_dang: "Lát củ rễ tẩm giấm sao màu xám đen se dịu; chọn lát chắc ruột, không rỗng mùn."
   },
   {
     stt: 2317,
@@ -2418,7 +2954,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Pueraria montana (Lour.) Merr.",
     pinyin: "Yě Gě Gēn",
     cong_dung: "Giải cơ thoái nhiệt, dẫn thuốc vào can.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt chua nhẹ.",
+    hinh_dang: "Lát rễ xốp màu trắng xám tẩm giấm sao khô; chọn lát chắc nặng giàu bột."
   },
   {
     stt: 2318,
@@ -2427,7 +2965,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Clematis armandii Franch.",
     pinyin: "Nán Mù Tōng",
     cong_dung: "Khu phong trừ thấp, nhuận vị lợi tiểu.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng ngọt dịu.",
+    hinh_dang: "Lát xốp tròn tẩm mật sao dẻo ngả màu nâu vàng; chọn lát xốp đều không mốc."
   },
   {
     stt: 2319,
@@ -2436,7 +2976,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Mussaenda erythrophylla Schumach. & Thonn.",
     pinyin: "Hóng Yè Jīn Huā",
     cong_dung: "Khu phong giải độc, dẫn thuốc vào can kinh.",
-    kieng_ky: "Thể hư hàn."
+    kieng_ky: "Thể hư hàn.",
+    dac_tinh: "Tính bình, vị đắng chua nhạt.",
+    hinh_dang: "Thân lá tẩm giấm sao khô ngả màu xám sẫm; chọn cành lá giòn khô thơm nhẹ."
   },
   {
     stt: 2320,
@@ -2445,7 +2987,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Bauhinia purpurea L.",
     pinyin: "Yáng Tí Jiǎ",
     cong_dung: "Trừ phong thấp, kiện tỳ, dẫn thuốc vào can.",
-    kieng_ky: "Thực nhiệt uất."
+    kieng_ky: "Thực nhiệt uất.",
+    dac_tinh: "Tính bình, vị đắng chát chua nhẹ.",
+    hinh_dang: "Lát cành vỏ tẩm giấm sao dịu vị chát; chọn cành chắc, vỏ nâu xám không mốc."
   },
   {
     stt: 2321,
@@ -2454,7 +2998,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Nauclea orientalis (L.) L.",
     pinyin: "Wū Tán Mù",
     cong_dung: "Thanh nhiệt, khu phong chỉ thống, ấm gân cốt.",
-    kieng_ky: "Thể hư hàn."
+    kieng_ky: "Thể hư hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng cay gừng.",
+    hinh_dang: "Lát gỗ vỏ tẩm gừng sao màu vàng nâu thơm ấm; chọn lát gỗ chắc nặng, không vụn nát."
   },
   {
     stt: 2322,
@@ -2463,7 +3009,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Siegesbeckia orientalis L.",
     pinyin: "Xī Xiān Cǎo",
     cong_dung: "Trừ phong thấp, bình gan hạ áp vào can.",
-    kieng_ky: "Âm hư huyết nhiệt."
+    kieng_ky: "Âm hư huyết nhiệt.",
+    dac_tinh: "Tính bình, vị đắng chua dịu.",
+    hinh_dang: "Thân lá khô tẩm giấm sao ngả màu đen sẫm; chọn chùm lá khô không vụn nát mốc đen."
   },
   {
     stt: 2323,
@@ -2472,7 +3020,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Smilax glabra Roxb.",
     pinyin: "Tǔ Fú Líng",
     cong_dung: "Trừ phong thấp, giải độc thủy ngân, ấm vị.",
-    kieng_ky: "Âm hư tân khô."
+    kieng_ky: "Âm hư tân khô.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt đắng cay gừng.",
+    hinh_dang: "Lát củ đốm trắng tẩm gừng sao thơm nồng ấm; chọn lát mỏng giòn, chắc nặng."
   },
   {
     stt: 2324,
@@ -2481,7 +3031,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Polyscias fruticosa (L.) Harms",
     pinyin: "Nán Yáng Shēn",
     cong_dung: "Đại bổ khí huyết, nhuận phế, tăng sinh lực.",
-    kieng_ky: "Dùng quá liều."
+    kieng_ky: "Dùng quá liều.",
+    dac_tinh: "Tính ấm, vị ngọt thơm mật.",
+    hinh_dang: "Lát củ dẻo tẩm mật phơi khô màu vàng sẫm; chọn lát béo mẩy, thơm phức vị sâm."
   },
   {
     stt: 2325,
@@ -2490,7 +3042,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Polyscias fruticosa (L.) Harms",
     pinyin: "Nán Yáng Shēn",
     cong_dung: "Bổ khí ích huyết, dẫn thuốc vào can.",
-    kieng_ky: "Dùng quá liều."
+    kieng_ky: "Dùng quá liều.",
+    dac_tinh: "Tính bình, vị ngọt đắng chua nhẹ.",
+    hinh_dang: "Lát củ khô tẩm giấm phơi ngả màu xám vàng; chọn phiến khô giòn không mốc mọt."
   },
   {
     stt: 2326,
@@ -2499,7 +3053,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Dioscorea persimilis Prain & Burkill",
     pinyin: "Shān Yào",
     cong_dung: "Bổ tỳ phế thận, cố tinh, dẫn thuốc vào can.",
-    kieng_ky: "Trướng bụng."
+    kieng_ky: "Trướng bụng.",
+    dac_tinh: "Tính bình, vị ngọt chua nhạt.",
+    hinh_dang: "Phiến củ trắng mọng tẩm giấm phơi khô giòn; chọn phiến trắng ngà giàu bột, không ố vàng."
   },
   {
     stt: 2327,
@@ -2508,7 +3064,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Polygonatum kingianum Coll. et Hemsl.",
     pinyin: "Diān Huáng Jīng",
     cong_dung: "Bổ khí dưỡng âm, kiện tỳ nhuận phế.",
-    kieng_ky: "Tỳ hư đàm thấp."
+    kieng_ky: "Tỳ hư đàm thấp.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt béo cám.",
+    hinh_dang: "Phiến đen quánh bám lớp bụi cám vàng sao thơm ngậy; chọn phiến dẻo ngọt chắc."
   },
   {
     stt: 2328,
@@ -2517,7 +3075,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Codonopsis convolvulacea Kom.",
     pinyin: "Dǎng Shēn",
     cong_dung: "Bổ trung ích khí, dưỡng huyết vào can.",
-    kieng_ky: "Thực tà uất."
+    kieng_ky: "Thực tà uất.",
+    dac_tinh: "Tính bình, vị ngọt chua dịu.",
+    hinh_dang: "Lát củ dẻo tẩm giấm sao khô màu nâu nhạt; chọn lát mẩy dẻo thơm dịu."
   },
   {
     stt: 2329,
@@ -2526,7 +3086,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Spiranthes sinensis (Pers.) Ames",
     pinyin: "Pán Lóng Shēn",
     cong_dung: "Bổ khí dưỡng âm, ấm phế dịu ho.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính ấm, vị ngọt đắng cay gừng.",
+    hinh_dang: "Chùm rễ xoắn nhỏ tẩm gừng sao thơm nồng vị gừng; chọn rễ mẩy tròn chắc."
   },
   {
     stt: 2330,
@@ -2535,7 +3097,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Curculigo orchioides Gaertn.",
     pinyin: "Xiān Máo",
     cong_dung: "Bổ khí ích tinh, dẫn thuốc vào can.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm nhẹ, vị cay chua nhẹ.",
+    hinh_dang: "Lát củ tẩm giấm sao khô màu nâu xám; chọn lát chắc ruột, bớt vị cay gắt."
   },
   {
     stt: 2331,
@@ -2544,7 +3108,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Curcuma sp.",
     pinyin: "Shí Shēn",
     cong_dung: "Bổ khí lực, giải độc gan, tăng sức bền.",
-    kieng_ky: "Sốt cao thực nhiệt."
+    kieng_ky: "Sốt cao thực nhiệt.",
+    dac_tinh: "Tính bình, vị cay chua dịu.",
+    hinh_dang: "Lát củ tẩm giấm sao ngả màu xám nhạt; chọn lát chắc giòn không ẩm mốc."
   },
   {
     stt: 2332,
@@ -2553,7 +3119,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Angelica sinensis (Oliv.) Diels",
     pinyin: "Dāng Guī",
     cong_dung: "Bổ huyết, hoạt huyết, ấm kinh chỉ thống.",
-    kieng_ky: "Tiêu chảy."
+    kieng_ky: "Tiêu chảy.",
+    dac_tinh: "Tính ấm, vị cay ngọt nồng gừng.",
+    hinh_dang: "Phiến dẻo tẩm gừng sao dậy hương thơm sâm quy hòa gừng; chọn phiến dẻo nhiều dầu."
   },
   {
     stt: 2333,
@@ -2562,7 +3130,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Angelica sinensis (Oliv.) Diels",
     pinyin: "Dāng Guī Wěi",
     cong_dung: "Hoạt huyết tiêu ứ, nhuận tràng dịu vị.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm, vị cay đắng ngọt béo.",
+    hinh_dang: "Nhánh rễ nhỏ tẩm mật sao nâu dẻo bóng; chọn nhánh rễ chắc dẻo không mốc."
   },
   {
     stt: 2334,
@@ -2571,7 +3141,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Rehmannia glutinosa Libosch.",
     pinyin: "Shú Dì Huáng",
     cong_dung: "Tư âm bổ huyết, ích tinh tủy vào can.",
-    kieng_ky: "Tiêu chảy tỳ hư."
+    kieng_ky: "Tiêu chảy tỳ hư.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt chua dịu.",
+    hinh_dang: "Khối dẻo đen quánh tẩm giấm phơi khô đằm vị; chọn khối đen bóng dẻo quánh."
   },
   {
     stt: 2335,
@@ -2580,7 +3152,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Paeonia lactiflora Pall.",
     pinyin: "Bái Sháo",
     cong_dung: "Dưỡng huyết liễm âm, bình can, ấm bụng.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính ấm, vị chua đắng cay gừng.",
+    hinh_dang: "Lát mỏng màu hồng nhạt sao gừng dậy hương thơm ấm; chọn lát giòn phẳng không sâu."
   },
   {
     stt: 2336,
@@ -2589,7 +3163,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Spatholobus suberectus Dunn",
     pinyin: "Jī Xuè Téng",
     cong_dung: "Bổ huyết, hoạt huyết, kiện tỳ thông lạc.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng chát béo cám.",
+    hinh_dang: "Phiến tròn có hoa văn đốm phủ áo cám sao vàng thơm; chọn phiến nặng chắc."
   },
   {
     stt: 2337,
@@ -2598,7 +3174,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Fallopia multiflora (Thunb.) Haraldson",
     pinyin: "Hé Shǒu Wū",
     cong_dung: "Bổ can thận, dưỡng huyết, đen râu tóc.",
-    kieng_ky: "Tỳ hư đàm thấp."
+    kieng_ky: "Tỳ hư đàm thấp.",
+    dac_tinh: "Tính ấm, vị chát đắng ngọt đậm.",
+    hinh_dang: "Lát củ màu nâu đỏ tím tẩm mật sao dẻo bóng; chọn lát dày chắc màu thẫm."
   },
   {
     stt: 2338,
@@ -2607,7 +3185,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Streptocaulon juventas (Lour.) Merr.",
     pinyin: "Bái Hé Shǒu Wū",
     cong_dung: "Bổ huyết thanh nhiệt, dẫn thuốc vào can.",
-    kieng_ky: "Tiêu chảy."
+    kieng_ky: "Tiêu chảy.",
+    dac_tinh: "Tính bình, vị đắng chát chua nhạt.",
+    hinh_dang: "Phiến củ màu xám trắng tẩm giấm sao dịu vị; chọn phiến khô chắc không mục."
   },
   {
     stt: 2339,
@@ -2616,7 +3196,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Capra hircus L.",
     pinyin: "Shān Yáng Gǔ Jiāo",
     cong_dung: "Bổ huyết ích tinh, dẫn thuốc vào can.",
-    kieng_ky: "Thể trạng thực nhiệt."
+    kieng_ky: "Thể trạng thực nhiệt.",
+    dac_tinh: "Tính bình, vị mặn chua nhẹ.",
+    hinh_dang: "Khối cao dẻo tẩm giấm sao ngả màu nâu sẫm, bớt vị tanh nồng; chọn cao chắc dẻo."
   },
   {
     stt: 2340,
@@ -2625,7 +3207,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Dimocarpus longan Lour.",
     pinyin: "Lóng Yǎn Ròu",
     cong_dung: "Bổ tâm tỳ, dưỡng huyết an thần, kiện tỳ.",
-    kieng_ky: "Đầy trướng bụng."
+    kieng_ky: "Đầy trướng bụng.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt béo cám.",
+    hinh_dang: "Áo củi nhãn khô phủ bột cám sao vàng thơm béo; chọn múi nhãn dày dẻo ngọt."
   },
   {
     stt: 2341,
@@ -2634,7 +3218,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Lycium barbarum L.",
     pinyin: "Gǒu Qǐ Zǐ",
     cong_dung: "Bổ can thận, sáng mắt, dẫn thuốc vào can.",
-    kieng_ky: "Tiêu chảy, sốt."
+    kieng_ky: "Tiêu chảy, sốt.",
+    dac_tinh: "Tính bình, vị ngọt chua dịu.",
+    hinh_dang: "Quả kỷ tử ngấm giấm sao mềm màu đỏ sẫm; chọn quả mọng mẩy không dính bết."
   },
   {
     stt: 2342,
@@ -2643,7 +3229,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Ophiopogon japonicus (Thunb.) Ker Gawl.",
     pinyin: "Mài Dōng",
     cong_dung: "Dưỡng âm sinh tân, nhuận phế vào can.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt chua nhạt.",
+    hinh_dang: "Tép củ mọng tẩm giấm sao khô màu vàng nhạt; chọn tép chắc mẩy ruột trắng."
   },
   {
     stt: 2343,
@@ -2652,7 +3240,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Asparagus cochinchinensis (Lour.) Merr.",
     pinyin: "Tiān Mén Dōng",
     cong_dung: "Tư âm nhuận táo, thanh phế vào can.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt đắng chua dịu.",
+    hinh_dang: "Tép củ dẻo mọng tẩm giấm sao màu vàng xám; chọn tép trong mọng không ố đen."
   },
   {
     stt: 2344,
@@ -2661,7 +3251,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morinda officinalis How",
     pinyin: "Bā Jǐ Tiān",
     cong_dung: "Bổ thận tráng dương, kiện tỳ mạnh gân cốt.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay ngọt béo cám.",
+    hinh_dang: "Lát thịt ba kích tím phủ áo bột cám sao vàng thơm ngậy; chọn lát dẻo chắc bỏ lõi."
   },
   {
     stt: 2345,
@@ -2670,7 +3262,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morinda officinalis How",
     pinyin: "Bā Jǐ Tiān",
     cong_dung: "Ôn bổ thận dương, trừ phong thấp, ấm kinh.",
-    kieng_ky: "Tiểu buốt dắt."
+    kieng_ky: "Tiểu buốt dắt.",
+    dac_tinh: "Tính ấm, vị cay ngọt nồng gừng.",
+    hinh_dang: "Lát thịt màu xám trắng tẩm gừng sao thơm nồng; chọn lát khô chắc không giập."
   },
   {
     stt: 2346,
@@ -2679,7 +3273,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Epimedium brevicornu Maxim.",
     pinyin: "Yín Yáng Huò",
     cong_dung: "Tăng ôn bổ thận dương, cường gân cốt.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay ngọt thơm gừng.",
+    hinh_dang: "Lá khô tẩm gừng sao màu xanh xám thơm gừng ấm; chọn lá nguyên không nát mốc."
   },
   {
     stt: 2347,
@@ -2688,7 +3284,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cistanche deserticola Y.C.Ma",
     pinyin: "Ròu Cōng Róng",
     cong_dung: "Bổ thận tráng dương, dẫn thuốc vào can.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt mặn chua dịu.",
+    hinh_dang: "Lát vẩy thịt dẻo đen tẩm giấm sao se vị; chọn lát dẻo quánh mềm mọng."
   },
   {
     stt: 2348,
@@ -2697,7 +3295,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Eucommia ulmoides Oliv.",
     pinyin: "Dù Zhòng",
     cong_dung: "Bổ can thận, tráng gân cốt vào can.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt đắng chua dịu.",
+    hinh_dang: "Phiến vỏ có sợi tơ tẩm giấm sao ngả màu nâu xám; chọn vỏ dày nhiều nhựa tơ."
   },
   {
     stt: 2349,
@@ -2706,7 +3306,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Dipsacus asper Wall. ex DC.",
     pinyin: "Xù Duàn",
     cong_dung: "Bổ can thận, nối gân xương, kiện tỳ.",
-    kieng_ky: "Phong thấp thể nhiệt."
+    kieng_ky: "Phong thấp thể nhiệt.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng ngọt béo cám.",
+    hinh_dang: "Lát củ xám xanh phủ áo bột cám sao vàng thơm; chọn lát mẩy chắc không sâu."
   },
   {
     stt: 2350,
@@ -2715,7 +3317,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cullen corylifolium (L.) Medik.",
     pinyin: "Bǔ Gǔ Zhǐ",
     cong_dung: "Ôn thận tráng dương, cố tinh, ấm tỳ.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay đắng thơm gừng.",
+    hinh_dang: "Hạt nâu đen tẩm gừng sao dậy hương cay nồng ấm; chọn hạt mẩy chắc thơm."
   },
   {
     stt: 2351,
@@ -2724,7 +3328,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Alpinia oxyphylla Miq.",
     pinyin: "Yì Zhì Rén",
     cong_dung: "Ôn tỳ sáp khí, cố tinh, nhuận vị.",
-    kieng_ky: "Tiểu buốt do nhiệt."
+    kieng_ky: "Tiểu buốt do nhiệt.",
+    dac_tinh: "Tính ấm, vị cay ngọt thơm mật.",
+    hinh_dang: "Hạt hình thoi tẩm mật sao màu nâu sáng ngọt béo; chọn hạt mẩy giàu tinh dầu."
   },
   {
     stt: 2352,
@@ -2733,7 +3339,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Drynaria fortunei (Kunze) J.Sm.",
     pinyin: "Gǔ Suì Bǔ",
     cong_dung: "Bổ thận cường gân cốt, ấm kinh liền xương.",
-    kieng_ky: "Âm hư."
+    kieng_ky: "Âm hư.",
+    dac_tinh: "Tính ấm, vị đắng chát cay gừng.",
+    hinh_dang: "Phiến thân rễ phủ lông tẩm gừng sao xém vàng thơm ấm; chọn phiến chắc mẩy."
   },
   {
     stt: 2353,
@@ -2742,7 +3350,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Curculigo orchioides Gaertn.",
     pinyin: "Xiān Máo",
     cong_dung: "Ôn tráng thận dương, dẫn thuốc vào can.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng chua dịu.",
+    hinh_dang: "Lát củ xám đen tẩm giấm sao bớt vị độc gắt; chọn lát chắc ruột màu trắng đục."
   },
   {
     stt: 2354,
@@ -2751,7 +3361,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus reticulata Blanco",
     pinyin: "Chén Pí",
     cong_dung: "Lý khí kiện tỳ, dẫn thuốc hóa đờm vào can.",
-    kieng_ky: "Ho khan âm hư."
+    kieng_ky: "Ho khan âm hư.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng chua dịu.",
+    hinh_dang: "Vỏ quýt khô tẩm giấm sao xém nhẹ màu vàng nâu; chọn vỏ dày nhiều túi dầu thơm."
   },
   {
     stt: 2355,
@@ -2760,7 +3372,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Clausena lansium (Lour.) Skeels",
     pinyin: "Huáng Pí",
     cong_dung: "Ôn phế giáng khí, trừ đờm, kiện tỳ.",
-    kieng_ky: "Nhiệt uất phế."
+    kieng_ky: "Nhiệt uất phế.",
+    dac_tinh: "Tính ấm nhẹ, vị chua ngọt béo cám.",
+    hinh_dang: "Vỏ quả phủ lớp bột cám sao vàng thơm béo; chọn miếng vỏ dày giàu tinh dầu."
   },
   {
     stt: 2356,
@@ -2769,7 +3383,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cyperus rotundus L.",
     pinyin: "Xiāng Fù",
     cong_dung: "Sơ can giải uất, kiện tỳ điều kinh.",
-    kieng_ky: "Âm hư huyết nhiệt."
+    kieng_ky: "Âm hư huyết nhiệt.",
+    dac_tinh: "Tính bình, vị cay đắng ngọt béo.",
+    hinh_dang: "Củ cỏ gấu phủ bột cám sao vàng ruộm thơm béo Tỳ; chọn củ chắc nặng thơm."
   },
   {
     stt: 2357,
@@ -2778,7 +3394,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Aucklandia lappa Decne.",
     pinyin: "Mù Xiāng",
     cong_dung: "Hành khí chỉ thống, dẫn thuốc vào can kinh.",
-    kieng_ky: "Âm hư nội nhiệt."
+    kieng_ky: "Âm hư nội nhiệt.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng chua dịu.",
+    hinh_dang: "Lát rễ nâu xám tẩm giấm sao đằm vị tinh dầu; chọn lát chắc xám nâu thơm hăng."
   },
   {
     stt: 2358,
@@ -2787,7 +3405,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus aurantium L.",
     pinyin: "Zhǐ Shí",
     cong_dung: "Phá khí tiêu tích, kiện tỳ tiêu trướng.",
-    kieng_ky: "Tỳ vị hư nhược."
+    kieng_ky: "Tỳ vị hư nhược.",
+    dac_tinh: "Tính bình, vị đắng chua dằn vị.",
+    hinh_dang: "Lát quả non sao cháy xém ngả sẫm hạ thổ dằn vị; chọn lát nhỏ vỏ xanh đen."
   },
   {
     stt: 2359,
@@ -2796,7 +3416,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus aurantium L.",
     pinyin: "Zhǐ Ké",
     cong_dung: "Lý khí khoan hung, kiện tỳ tiêu trướng.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính bình, vị đắng chua đằm.",
+    hinh_dang: "Phiến quả bánh tẻ sao cháy xém ngả sẫm hạ thổ thơm mộc; chọn phiến chắc không thối."
   },
   {
     stt: 2360,
@@ -2805,7 +3427,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Lindera aggregata (Sims) Kosterm.",
     pinyin: "Wū Yào",
     cong_dung: "Hành khí chỉ thống, kiện tỳ ôn thận.",
-    kieng_ky: "Khí hư nội nhiệt."
+    kieng_ky: "Khí hư nội nhiệt.",
+    dac_tinh: "Tính ấm nhẹ, vị cay béo cám.",
+    hinh_dang: "Phiến củ thoi phủ áo bột cám sao vàng thơm béo; chọn phiến chắc thơm nhẹ."
   },
   {
     stt: 2361,
@@ -2814,7 +3438,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus medica L. var. sarcodactylis (Swingle) Swingle",
     pinyin: "Fó Shǒu",
     cong_dung: "Sơ can lý khí, kiện tỳ hòa vị chỉ thống.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng béo cám.",
+    hinh_dang: "Lát quả phật thủ phủ cám sao vàng thơm dịu Tỳ; chọn lát khô quắt thơm nồng."
   },
   {
     stt: 2362,
@@ -2823,7 +3449,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Magnolia officinalis Rehd. & Wils.",
     pinyin: "Hòu Pò",
     cong_dung: "Hành khí táo thấp, dẫn thuốc vào can kinh.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng chua dịu.",
+    hinh_dang: "Lát vỏ cuộn tẩm giấm phơi khô ngả màu nâu tím; chọn vỏ dày thơm hắc."
   },
   {
     stt: 2363,
@@ -2832,7 +3460,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus reticulata Blanco",
     pinyin: "Qīng Pí",
     cong_dung: "Sơ can phá khí, kiện tỳ tiêu tích trệ.",
-    kieng_ky: "Thai phụ."
+    kieng_ky: "Thai phụ.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng dằn vị.",
+    hinh_dang: "Vỏ quýt non sao cháy xém ngả sẫm hạ thổ dịu tính hắc; chọn vỏ sần sùi đen xanh."
   },
   {
     stt: 2364,
@@ -2841,7 +3471,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Prunus armeniaca L.",
     pinyin: "Xìng Rén",
     cong_dung: "Nhuận phế bình suyễn, ấm phế dịu ho.",
-    kieng_ky: "Tiêu chảy."
+    kieng_ky: "Tiêu chảy.",
+    dac_tinh: "Tính ấm, vị đắng cay nồng gừng.",
+    hinh_dang: "Nhân hạt hình tim tẩm gừng sao thơm ấm phế; chọn nhân đục chắc giàu dầu."
   },
   {
     stt: 2365,
@@ -2850,7 +3482,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Pinellia ternata (Thunb.) Makino",
     pinyin: "Bàn Xià",
     cong_dung: "Táo thấp hóa đờm, giáng nghịch chỉ nôn.",
-    kieng_ky: "Ho khan âm hư."
+    kieng_ky: "Ho khan âm hư.",
+    dac_tinh: "Tính ấm, vị cay chua nhẹ hết ngứa.",
+    hinh_dang: "Củ tròn ngâm gừng giấm chế khô màu trắng xám hết ngứa; chọn củ chắc tròn."
   },
   {
     stt: 2366,
@@ -2859,7 +3493,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Platycodon grandiflorus (Jacq.) A.DC.",
     pinyin: "Jié Gèng",
     cong_dung: "Tuyên phế khứ đờm, kiện tỳ giải ho.",
-    kieng_ky: "Ho ra máu."
+    kieng_ky: "Ho ra máu.",
+    dac_tinh: "Tính bình, vị đắng cay béo cám.",
+    hinh_dang: "Phiến rễ trắng ngà phủ bột cám sao vàng thơm ngậy; chọn phiến giòn dẻo mẩy."
   },
   {
     stt: 2367,
@@ -2868,7 +3504,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Stemona tuberosa Lour.",
     pinyin: "Bǎi Bù",
     cong_dung: "Nhuận phế chỉ khái, ấm phế diệt giun.",
-    kieng_ky: "Tiêu chảy."
+    kieng_ky: "Tiêu chảy.",
+    dac_tinh: "Tính ấm, vị ngọt đắng cay gừng.",
+    hinh_dang: "Lát củ dẻo tẩm gừng sao thơm nồng vị gừng ấm; chọn lát mọng dẻo màu trắng ngà."
   },
   {
     stt: 2368,
@@ -2877,7 +3515,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Aster tataricus L.f.",
     pinyin: "Zǐ Yuǎn",
     cong_dung: "Nhuận phế hạ khí, kiện tỳ hóa đờm.",
-    kieng_ky: "Ho khan âm hư."
+    kieng_ky: "Ho khan âm hư.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng ngọt béo cám.",
+    hinh_dang: "Rễ chùm xám tím phủ bột cám sao vàng thơm béo; chọn rễ dẻo mọng thơm."
   },
   {
     stt: 2369,
@@ -2886,7 +3526,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Peucedanum praeruptorum Dunn",
     pinyin: "Qián Hú",
     cong_dung: "Tuyên tán phong nhiệt, kiện tỳ hóa đờm.",
-    kieng_ky: "Ho phong hàn."
+    kieng_ky: "Ho phong hàn.",
+    dac_tinh: "Tính bình, vị đắng cay béo cám.",
+    hinh_dang: "Phiến rễ vỏ nâu đen phủ áo cám sao vàng thơm dịu; chọn phiến thơm tinh dầu."
   },
   {
     stt: 2370,
@@ -2895,7 +3537,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Sinapis alba L.",
     pinyin: "Bái Jiè Zǐ",
     cong_dung: "Ôn phế hóa đờm, trừ hàn ẩm cực tốt.",
-    kieng_ky: "Phế hỏa ho khan."
+    kieng_ky: "Phế hỏa ho khan.",
+    dac_tinh: "Tính ấm, vị cay nồng thơm mộc.",
+    hinh_dang: "Hạt cải vàng sao cháy xém ngả sẫm hạ thổ tỏa hương cay nồng; chọn hạt tròn mẩy."
   },
   {
     stt: 2371,
@@ -2904,7 +3548,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morus alba L.",
     pinyin: "Sāng Bái Pí",
     cong_dung: "Tả phế bình suyễn, kiện tỳ lợi thủy.",
-    kieng_ky: "Ho phế hàn."
+    kieng_ky: "Ho phế hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt béo cám.",
+    hinh_dang: "Dải xơ vỏ trắng phủ bột cám sao vàng thơm ngậy; chọn dải xơ mỏng dẻo dai."
   },
   {
     stt: 2372,
@@ -2913,7 +3559,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Tussilago farfara L.",
     pinyin: "Kuǎn Dōng Huā",
     cong_dung: "Ôn phế giáng khí, kiện tỳ hóa đờm.",
-    kieng_ky: "Ho phế nhiệt."
+    kieng_ky: "Ho phế nhiệt.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng béo cám.",
+    hinh_dang: "Nụ hoa nhung tím phủ cám sao vàng mềm thơm béo; chọn nụ chưa nở mềm mại."
   },
   {
     stt: 2373,
@@ -2922,7 +3570,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Pouzolzia zeylanica (L.) Benn.",
     pinyin: "Tǔ Pái Qián Cǎo",
     cong_dung: "Thanh phế hóa đờm, dẫn thuốc vào can.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt chua nhạt.",
+    hinh_dang: "Lát củ tẩm giấm sao khô màu xám đục se vị; chọn lát dẻo chắc không thối."
   },
   {
     stt: 2374,
@@ -2931,7 +3581,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Crataegus pinnatifida Bunge",
     pinyin: "Shān Zhā",
     cong_dung: "Tiêu tích trệ, kiện tỳ hòa vị.",
-    kieng_ky: "Dạ dày thừa acid."
+    kieng_ky: "Dạ dày thừa acid.",
+    dac_tinh: "Tính ấm nhẹ, vị chua ngọt béo cám.",
+    hinh_dang: "Phiến quả đỏ thắm phủ cám sao khô thơm dịu Tỳ; chọn phiến chắc bóng chua dịu."
   },
   {
     stt: 2375,
@@ -2940,7 +3592,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Hordeum vulgare L.",
     pinyin: "Mài Yá",
     cong_dung: "Đại bổ tỳ tiêu thực, hóa tích khai vị.",
-    kieng_ky: "Phụ nữ cho con bú."
+    kieng_ky: "Phụ nữ cho con bú.",
+    dac_tinh: "Tính ấm, vị ngọt đậm thơm lúa.",
+    hinh_dang: "Hạt mầm lúa sao vàng cháy xém hạ thổ thơm phức mùi ngũ cốc; chọn mầm dài mẩy."
   },
   {
     stt: 2376,
@@ -2949,7 +3603,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Gallus gallus domesticus Brisson",
     pinyin: "Jī Nèi Jīn",
     cong_dung: "Kiện tỳ tiêu thực, nhuận vị bài sỏi.",
-    kieng_ky: "Không tích trệ."
+    kieng_ky: "Không tích trệ.",
+    dac_tinh: "Tính bình, vị ngọt béo nhạt.",
+    hinh_dang: "Màng dạ dày tẩm mật sao màu vàng nâu giòn dẻo; chọn màng mỏng màu vàng sáng."
   },
   {
     stt: 2377,
@@ -2958,7 +3614,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Massa Medicata Fermentata",
     pinyin: "Shén Qū",
     cong_dung: "Khai vị tiêu thực, kiện tỳ hòa trung.",
-    kieng_ky: "Tỳ hư nặng."
+    kieng_ky: "Tỳ hư nặng.",
+    dac_tinh: "Tính ấm nhẹ, vị cay ngọt béo cám.",
+    hinh_dang: "Khối bánh phủ cám sao khô thơm nhẹ mùi men ngọt; chọn khối dẻo chắc không mốc."
   },
   {
     stt: 2378,
@@ -2967,7 +3625,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Raphanus sativus L.",
     pinyin: "Lái Fú Zǐ",
     cong_dung: "Tiêu thực giáng khí, kiện tỳ hóa đờm.",
-    kieng_ky: "Khí hư không tích."
+    kieng_ky: "Khí hư không tích.",
+    dac_tinh: "Tính bình, vị cay ngọt béo cám.",
+    hinh_dang: "Hạt củ cải nâu đỏ phủ cám sao vàng thơm ngậy; chọn hạt nhỏ dẹt mẩy."
   },
   {
     stt: 2379,
@@ -2976,7 +3636,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Setaria italica (L.) Beauv.",
     pinyin: "Gǔ Yá",
     cong_dung: "Tiêu thực hòa tỳ, kiện vị khai vị.",
-    kieng_ky: "Tích nhiệt."
+    kieng_ky: "Tích nhiệt.",
+    dac_tinh: "Tính ấm, vị ngọt thơm mầm lúa.",
+    hinh_dang: "Hạt lúa mầm sao vàng cháy xém ngả sẫm hạ thổ thơm phức; chọn mầm tròn mẩy."
   },
   {
     stt: 2380,
@@ -2985,7 +3647,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus sinensis (L.) Osbeck",
     pinyin: "Chéng Pí",
     cong_dung: "Lý khí hòa vị, dẫn thuốc tiêu đờm vào can.",
-    kieng_ky: "Âm hư."
+    kieng_ky: "Âm hư.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng chua dịu.",
+    hinh_dang: "Phiến vỏ cam tẩm giấm sao ngả màu nâu vàng dịu vị; chọn vỏ chín thơm tinh dầu."
   },
   {
     stt: 2381,
@@ -2994,7 +3658,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus maxima (Burm.) Merr.",
     pinyin: "Yù Pí",
     cong_dung: "Hóa đờm giáng khí, dẫn thuốc tiêu mỡ vào can.",
-    kieng_ky: "Thể hư hàn."
+    kieng_ky: "Thể hư hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng cay chua dịu.",
+    hinh_dang: "Phiến vỏ bưởi tẩm giấm sao khô màu xám xanh se vị; chọn vỏ xanh nhiều túi dầu."
   },
   {
     stt: 2382,
@@ -3003,7 +3669,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Styphnolobium japonicum (L.) Schott",
     pinyin: "Huái Mǐ",
     cong_dung: "Lương huyết chỉ huyết, dẫn thuốc hạ áp vào can.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị đắng chua nhạt.",
+    hinh_dang: "Nụ hoa xanh nhỏ tẩm giấm sao khô se vị; chọn nụ hình trứng nhọn chưa nở."
   },
   {
     stt: 2383,
@@ -3012,7 +3680,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Zingiber officinale Roscoe",
     pinyin: "Shēn Jiāng",
     cong_dung: "Ôn trung tán hàn, kiện tỳ chỉ nôn.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay nồng béo cám.",
+    hinh_dang: "Lát gừng phủ bột cám sao vàng thơm ngậy cay nồng; chọn lát ruột vàng đậm."
   },
   {
     stt: 2384,
@@ -3021,7 +3691,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Mentha haplocalyx Briq.",
     pinyin: "Bò He",
     cong_dung: "Sơ tán phong nhiệt, dẫn thuốc vào can.",
-    kieng_ky: "Mồ hôi ra quá nhiều."
+    kieng_ky: "Mồ hôi ra quá nhiều.",
+    dac_tinh: "Tính mát, vị cay mát chua dịu.",
+    hinh_dang: "Lá cành tẩm giấm sao khô màu xanh xám dịu cay; chọn chùm lá thơm menthol."
   },
   {
     stt: 2385,
@@ -3030,7 +3702,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Perilla frutescens (L.) Britt.",
     pinyin: "Zǐ Sū",
     cong_dung: "Phát tán phong hàn, dẫn thuốc an thai vào can.",
-    kieng_ky: "Biểu hư tự hãn."
+    kieng_ky: "Biểu hư tự hãn.",
+    dac_tinh: "Tính ấm nhẹ, vị cay thơm chua dịu.",
+    hinh_dang: "Lá tẩm giấm sao khô màu tím xám thơm dịu; chọn lá khô nguyên không nát."
   },
   {
     stt: 2386,
@@ -3039,7 +3713,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Elsholtzia ciliata (Thunb.) Hyland.",
     pinyin: "Jīng Jiè",
     cong_dung: "Phát tán phong hàn, thấu chẩn vào can.",
-    kieng_ky: "Mụn nhọt đã vỡ."
+    kieng_ky: "Mụn nhọt đã vỡ.",
+    dac_tinh: "Tính ấm nhẹ, vị cay thơm chua nhạt.",
+    hinh_dang: "Cành lá hoa tẩm giấm sao ngả màu nâu nhạt; chọn cành hoa thơm thảo mộc."
   },
   {
     stt: 2387,
@@ -3048,7 +3724,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Chrysanthemum indicum L.",
     pinyin: "Yě Jū Huā",
     cong_dung: "Tán phong thanh nhiệt, dẫn thuốc sáng mắt vào can.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị đắng chua dịu.",
+    hinh_dang: "Bông cúc vàng tẩm giấm sao khô đằm vị; chọn bông nhỏ rực rỡ đài xanh."
   },
   {
     stt: 2388,
@@ -3057,7 +3735,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Chrysanthemum morifolium Ramat.",
     pinyin: "Jū Huā",
     cong_dung: "Thanh nhiệt bình can, trị đau đầu hiệu quả.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt đắng chua nhạt.",
+    hinh_dang: "Bông cúc trắng tẩm giấm sao dịu vị thanh; chọn cánh dài đài tươi nguyên."
   },
   {
     stt: 2389,
@@ -3066,7 +3746,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Vitex trifolia L.",
     pinyin: "Màn Jīng Zǐ",
     cong_dung: "Sơ tán phong nhiệt, ấm vị trị đau đầu.",
-    kieng_ky: "Huyết hư đau đầu."
+    kieng_ky: "Huyết hư đau đầu.",
+    dac_tinh: "Tính ấm, vị cay đắng nồng gừng.",
+    hinh_dang: "Quả hạt tròn tẩm gừng sao dậy hương thơm ấm; chọn quả xám đen vỏ cứng."
   },
   {
     stt: 2390,
@@ -3075,7 +3757,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morus alba L.",
     pinyin: "Sāng Yè",
     cong_dung: "Thanh phế nhuận táo, dẫn thuốc vào can.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị đắng ngọt chua dịu.",
+    hinh_dang: "Lá dâu tằm tẩm giấm sao ngả màu xám nâu nhạt; chọn lá mỏng không sâu cuốn."
   },
   {
     stt: 2391,
@@ -3084,7 +3768,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Saposhnikovia divaricata (Turcz.) Schischk.",
     pinyin: "Fáng Fēng",
     cong_dung: "Khu phong giải biểu, kiện tỳ chỉ thống.",
-    kieng_ky: "Huyết hư sốt."
+    kieng_ky: "Huyết hư sốt.",
+    dac_tinh: "Tính ấm nhẹ, vị cay ngọt béo cám.",
+    hinh_dang: "Phiến rễ xám nâu phủ áo bột cám sao vàng thơm béo; chọn phiến mềm thơm."
   },
   {
     stt: 2392,
@@ -3093,7 +3779,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Angelica dahurica (Fisch. ex Hoffm.) Benth. & Hook.f.",
     pinyin: "Bái Zhǐ",
     cong_dung: "Giải biểu tán hàn, kiện tỳ thông khiếu.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm nhẹ, vị cay thơm béo cám.",
+    hinh_dang: "Phiến rễ trắng ngà phủ cám sao vàng thơm dịu; chọn phiến xốp thơm cay."
   },
   {
     stt: 2393,
@@ -3102,7 +3790,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Pueraria montana var. lobata (Willd.) Maesen & S.M.Almeida",
     pinyin: "Gě Gēn",
     cong_dung: "Giải cơ thoái nhiệt, dẫn thuốc sinh tân vào can.",
-    kieng_ky: "Vị hàn."
+    kieng_ky: "Vị hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt chua dịu.",
+    hinh_dang: "Phiến sắn dây tẩm giấm sao khô màu trắng xám se vị; chọn phiến nặng chắc."
   },
   {
     stt: 2394,
@@ -3111,7 +3801,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Ziziphus jujuba Mill. var. spinosa (Bunge) Hu ex H.F.Chow",
     pinyin: "Suān Zǎo Rén",
     cong_dung: "Đại bổ tâm tỳ, dưỡng tâm an thần, trị mất ngủ.",
-    kieng_ky: "Thực nhiệt uất."
+    kieng_ky: "Thực nhiệt uất.",
+    dac_tinh: "Tính bình, vị ngọt chua dằn vị.",
+    hinh_dang: "Hạt táo chua sao cháy xém ngả sẫm hạ thổ thơm mộc; chọn nhân đục chắc nâu đỏ."
   },
   {
     stt: 2395,
@@ -3120,7 +3812,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Platycladus orientalis (L.) Franco",
     pinyin: "Bǎi Zǐ Rén",
     cong_dung: "Dưỡng tâm an thần, kiện tỳ nhuận tràng.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính bình, vị ngọt thơm mộc.",
+    hinh_dang: "Nhân hạt trắc bách sao cháy xém ngả sẫm hạ thổ thơm ngậy; chọn hạt vàng đục."
   },
   {
     stt: 2396,
@@ -3129,7 +3823,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Polygala tenuifolia Willd.",
     pinyin: "Yuǎn Zhì",
     cong_dung: "Ninh tâm an thần, khư đàm, kiện tỳ.",
-    kieng_ky: "Loét dạ dày."
+    kieng_ky: "Loét dạ dày.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng cay dằn vị.",
+    hinh_dang: "Đoạn ống rễ sao cháy xém ngả màu nâu đen hạ thổ; chọn ống bỏ lõi gỗ thơm."
   },
   {
     stt: 2397,
@@ -3138,7 +3834,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Erythrina variegata L.",
     pinyin: "Hǎi Tóng Yè",
     cong_dung: "An thần thông lạc, dẫn thuốc vào can.",
-    kieng_ky: "Dùng quá liều."
+    kieng_ky: "Dùng quá liều.",
+    dac_tinh: "Tính bình, vị đắng chua dịu.",
+    hinh_dang: "Lá mỏng tẩm giấm sao khô ngả màu xanh xám; chọn lá hình tam giác tròn."
   },
   {
     stt: 2398,
@@ -3147,7 +3845,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Stephania glabra (Roxb.) Miers",
     pinyin: "Dì Dǎn",
     cong_dung: "Trấn kinh an thần, ấm vị giảm đau.",
-    kieng_ky: "Dùng quá liều."
+    kieng_ky: "Dùng quá liều.",
+    dac_tinh: "Tính mát nhẹ, vị đắng cay gừng.",
+    hinh_dang: "Lát củ tẩm gừng sao dậy mùi gừng ấm dịu đắng; chọn lát ruột xám trắng hay vàng."
   },
   {
     stt: 2399,
@@ -3156,7 +3856,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Jasminum sambac (L.) Aiton",
     pinyin: "Mò Lì Huā",
     cong_dung: "Giải uất an thần, dẫn thuốc vào can kinh.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt thơm chua dịu.",
+    hinh_dang: "Bông hoa trắng tẩm giấm sao dịu hương thơm; chọn hoa nguyên cánh không dập."
   },
   {
     stt: 2400,
@@ -3165,7 +3867,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Nelumbo nucifera Gaertn.",
     pinyin: "Lián Xīn",
     cong_dung: "Thanh tâm hỏa, hạ áp, dẫn thuốc vào can.",
-    kieng_ky: "Huyết áp thấp."
+    kieng_ky: "Huyết áp thấp.",
+    dac_tinh: "Tính mát, vị đắng chua nhạt.",
+    hinh_dang: "Chồi mầm xanh tẩm giấm sao giảm vị đắng gắt; chọn mầm xanh lục giòn."
   },
   {
     stt: 2401,
@@ -3174,7 +3878,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Rosa laevigata Michx.",
     pinyin: "Jīn Yīng Zǐ",
     cong_dung: "Cố tinh sáp niệu, kiện tỳ cầm tả.",
-    kieng_ky: "Tiểu buốt dắt."
+    kieng_ky: "Tiểu buốt dắt.",
+    dac_tinh: "Tính bình, vị chua chát béo cám.",
+    hinh_dang: "Quả bổ đôi phủ bột cám sao vàng thơm béo; chọn quả chín màu đỏ cam."
   },
   {
     stt: 2402,
@@ -3183,7 +3889,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Terminalia chebula Retz.",
     pinyin: "Hē Zǐ",
     cong_dung: "Liễm phế chỉ khái, sáp tràng cầm tiêu chảy.",
-    kieng_ky: "Ho mới phát."
+    kieng_ky: "Ho mới phát.",
+    dac_tinh: "Tính ấm nhẹ, vị chua chát dằn vị.",
+    hinh_dang: "Phiến quả sao cháy xém ngả sẫm hạ thổ bớt chát xé; chọn phiến dày chắc."
   },
   {
     stt: 2403,
@@ -3192,7 +3900,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Rhus chinensis Mill.",
     pinyin: "Wǔ Bèi Zǐ",
     cong_dung: "Cầm máu, thu liễm chỉ hãn, kiện tỳ.",
-    kieng_ky: "Thực nhiệt."
+    kieng_ky: "Thực nhiệt.",
+    dac_tinh: "Tính bình, vị chát đắng béo cám.",
+    hinh_dang: "Khối sâu gõ phủ cám sao vàng thơm ngậy dịu vị; chọn khối xám xanh giòn."
   },
   {
     stt: 2404,
@@ -3201,7 +3911,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Crassostrea gigas (Thunberg)",
     pinyin: "Mǔ Lì",
     cong_dung: "Bình can tiềm dương, trung hòa acid dạ dày.",
-    kieng_ky: "Hàn chứng."
+    kieng_ky: "Hàn chứng.",
+    dac_tinh: "Tính bình, vị mặn béo cám.",
+    hinh_dang: "Vỏ hàu đập vỡ phủ bột cám sao vàng giòn xốp; chọn mảnh vỏ dày xốp trắng."
   },
   {
     stt: 2405,
@@ -3210,7 +3922,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Os Mastodi",
     pinyin: "Lóng Gǔ",
     cong_dung: "Trấn kinh an thần, thu liễm cố sáp.",
-    kieng_ky: "Thấp nhiệt."
+    kieng_ky: "Thấp nhiệt.",
+    dac_tinh: "Tính bình, vị ngọt mặn béo cám.",
+    hinh_dang: "Khối xương hóa thạch phủ cám sao vàng dịu vị; chọn khối xám trắng dính lưỡi."
   },
   {
     stt: 2406,
@@ -3219,7 +3933,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Sepiella maindroni de Rochebrune",
     pinyin: "Wū Zéi Gǔ",
     cong_dung: "Thu liễm cầm máu, ấm vị, tiêu acid.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm nhẹ, vị mặn dằn vị.",
+    hinh_dang: "Mai mực sao cháy xém ngả sẫm hạ thổ thơm ấm; chọn mai xốp dẹt màu xám trắng."
   },
   {
     stt: 2407,
@@ -3228,7 +3944,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Halloysite",
     pinyin: "Chì Shí Zhī",
     cong_dung: "Cố sáp chỉ tả, cầm máu ngoài da, kiện tỳ.",
-    kieng_ky: "Táo bón."
+    kieng_ky: "Táo bón.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt chát béo cám.",
+    hinh_dang: "Cục đất sét đỏ phủ bột cám sao vàng mịn thơm; chọn cục màu đỏ sẫm mịn."
   },
   {
     stt: 2408,
@@ -3237,7 +3955,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Atractylodes macrocephala Koidz.",
     pinyin: "Bái Zhú",
     cong_dung: "Đại bổ tỳ vị, ấm trung tiêu, triệt nôn mửa.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị ngọt đắng cay gừng.",
+    hinh_dang: "Lát củ tẩm gừng sao cháy xém hạ thổ thơm phức; chọn lát màu nâu sẫm dằn vị."
   },
   {
     stt: 2409,
@@ -3246,7 +3966,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Astragalus mongholicus Bunge",
     pinyin: "Huáng Qí",
     cong_dung: "Bổ khí cố biểu, thăng dương, ấm trung tiêu.",
-    kieng_ky: "Thực nhiệt uất."
+    kieng_ky: "Thực nhiệt uất.",
+    dac_tinh: "Tính ấm, vị ngọt cay nồng gừng.",
+    hinh_dang: "Lát dẹt tẩm gừng sao cháy xém ngả sẫm hạ thổ thơm ấm; chọn lát màu vàng nâu."
   },
   {
     stt: 2410,
@@ -3255,7 +3977,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Glycyrrhiza uralensis Fisch.",
     pinyin: "Gān Cǎo",
     cong_dung: "Bổ tỳ hòa trung, ấm phế nhuận họng dịu ho.",
-    kieng_ky: "Trệ bụng đàm thấp."
+    kieng_ky: "Trệ bụng đàm thấp.",
+    dac_tinh: "Tính ấm, vị ngọt cay gừng dịu.",
+    hinh_dang: "Phiến tròn tẩm gừng sao cháy xém hạ thổ thơm nồng; chọn phiến vàng óng dằn vị."
   },
   {
     stt: 2411,
@@ -3264,7 +3988,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Bupleurum chinense DC.",
     pinyin: "Chái Hú",
     cong_dung: "Sơ can giải uất, ấm can tán hàn dịu nhẹ.",
-    kieng_ky: "Can dương bốc hỏa."
+    kieng_ky: "Can dương bốc hỏa.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng cay gừng dằn vị.",
+    hinh_dang: "Rễ mảnh tẩm gừng sao cháy xém hạ thổ dịu bốc; chọn rễ xám sẫm thơm gừng."
   },
   {
     stt: 2412,
@@ -3273,7 +3999,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Scutellaria baicalensis Georgi",
     pinyin: "Huáng Qín",
     cong_dung: "Thanh nhiệt tả hỏa, ấm dạ dày, bớt tính hàn.",
-    kieng_ky: "Phế hàn ho đờm."
+    kieng_ky: "Phế hàn ho đờm.",
+    dac_tinh: "Tính bình, vị đắng cay gừng đằm.",
+    hinh_dang: "Lát vàng sẫm tẩm gừng sao cháy xém hạ thổ bớt lạnh; chọn lát đắng đằm thơm gừng."
   },
   {
     stt: 2413,
@@ -3282,7 +4010,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Phyllanthus urinaria L.",
     pinyin: "Yè Xià Zhū",
     cong_dung: "Thanh nhiệt giải độc gan, nhuận vị, nhuận mật.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính bình, vị đắng ngọt dịu.",
+    hinh_dang: "Thân lá tẩm mật sao màu xanh nâu dẻo nhẹ; chọn thân lá khô quắt thơm mật."
   },
   {
     stt: 2414,
@@ -3291,7 +4021,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Wedelia chinensis (Osbeck) Merr.",
     pinyin: "Páng Dì Jū",
     cong_dung: "Thanh nhiệt giải độc, nhuận vị, tiêu mụn nhọt.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt đắng dịu.",
+    hinh_dang: "Thân lá tẩm mật sao dẻo nhẹ thơm ngòn ngọt; chọn cành lá khô ngả nâu vàng."
   },
   {
     stt: 2415,
@@ -3300,7 +4032,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Houttuynia cordata Thunb.",
     pinyin: "Yú Xīng Cǎo",
     cong_dung: "Thanh nhiệt tiêu viêm bài nùng, ấm vị, dịu trĩ.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị chua cay gừng nhẹ.",
+    hinh_dang: "Toàn cây tẩm gừng sao khô thơm mùi gừng ấm bay hết mùi tanh; chọn cây khô quắt."
   },
   {
     stt: 2416,
@@ -3309,7 +4043,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morus alba L.",
     pinyin: "Sāng Yè",
     cong_dung: "Thanh phế nhuận táo, dẫn thuốc vào can kinh.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt chua dịu.",
+    hinh_dang: "Lá dâu tẩm giấm sao khô màu nâu xám; chọn lá mỏng khô giòn không mốc."
   },
   {
     stt: 2417,
@@ -3318,7 +4054,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Plantago asiatica L.",
     pinyin: "Chē Qián Cǎo",
     cong_dung: "Thanh nhiệt lợi niệu, kiện tỳ thông lâm.",
-    kieng_ky: "Phụ nữ mang thai, tiêu chảy."
+    kieng_ky: "Phụ nữ mang thai, tiêu chảy.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt béo cám.",
+    hinh_dang: "Toàn cây phủ bột cám sao vàng thơm ngậy; chọn cây khô quắt màu xám xanh."
   },
   {
     stt: 2418,
@@ -3327,7 +4065,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Euphorbia thymifolia L.",
     pinyin: "Xiǎo Fēi Yáng Cǎo",
     cong_dung: "Thanh nhiệt cầm tiêu chảy, nhuận vị.",
-    kieng_ky: "Táo bón."
+    kieng_ky: "Táo bón.",
+    dac_tinh: "Tính bình, vị chua ngọt dịu.",
+    hinh_dang: "Cành lá nhỏ tẩm mật sao dẻo màu nâu nhạt; chọn cành lá khô dịu vị."
   },
   {
     stt: 2419,
@@ -3336,7 +4076,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Eleusine indica (L.) Gaertn.",
     pinyin: "Niú Jīn Cǎo",
     cong_dung: "Thanh nhiệt mát gan, hạ áp vào can kinh.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt chua nhạt.",
+    hinh_dang: "Thân rễ tẩm giấm sao khô màu vàng nâu se vị; chọn thân rễ khô giòn thơm."
   },
   {
     stt: 2420,
@@ -3345,7 +4087,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Xanthium sibiricum Patrin ex Widder",
     pinyin: "Cāng Ěr Zǐ",
     cong_dung: "Khu phong trừ thấp, nhuận phế thông tỷ khiếu.",
-    kieng_ky: "Âm hư huyết nhiệt."
+    kieng_ky: "Âm hư huyết nhiệt.",
+    dac_tinh: "Tính bình, vị cay đắng ngọt dịu.",
+    hinh_dang: "Quả gai tẩm mật sao màu nâu đỏ bóng dẻo; chọn quả mẩy chắc thơm dịu."
   },
   {
     stt: 2421,
@@ -3354,7 +4098,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Portulaca oleracea L.",
     pinyin: "Mǎ Cǐ Xiàn",
     cong_dung: "Thanh nhiệt lương huyết, nhuận vị diệt khuẩn ruột.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính mát nhẹ, vị chua ngọt dịu.",
+    hinh_dang: "Thân mọng tẩm mật sao màu nâu đỏ dẻo nhẹ; chọn thân quắt dẻo bớt chua gắt."
   },
   {
     stt: 2422,
@@ -3363,7 +4109,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Imperata cylindrica (L.) Raeusch.",
     pinyin: "Máo Gēn",
     cong_dung: "Thanh nhiệt lương huyết, nhuận vị lợi niệu.",
-    kieng_ky: "Thể hư hàn."
+    kieng_ky: "Thể hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt béo mật.",
+    hinh_dang: "Rễ đốt tẩm mật sao màu vàng ruộm thơm ngọt; chọn rễ đốt mẩy tròn vàng."
   },
   {
     stt: 2423,
@@ -3372,7 +4120,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Lophatherum gracile Brongn.",
     pinyin: "Zhú Yè",
     cong_dung: "Thanh tâm hỏa, trừ phiền khát vào can.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát, vị ngọt chua nhạt.",
+    hinh_dang: "Lá tre dẹt tẩm giấm sao khô màu vàng rơm se vị; chọn lá khô giòn thơm nhẹ."
   },
   {
     stt: 2424,
@@ -3381,7 +4131,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Adenosma caeruleum R.Br.",
     pinyin: "Nán Yīn Chén",
     cong_dung: "Thanh nhiệt lợi mật, thoái hoàng, ấm tỳ vị.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng cay gừng.",
+    hinh_dang: "Cành hoa tẩm gừng sao ngả màu nâu vàng thơm nồng gừng; chọn cành hoa khô giòn."
   },
   {
     stt: 2425,
@@ -3390,7 +4142,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Artemisia capillaris Thunb.",
     pinyin: "Yīn Chén",
     cong_dung: "Thanh nhiệt lợi thấp, kiện tỳ giải độc gan.",
-    kieng_ky: "Nhiệt uất không thấp."
+    kieng_ky: "Nhiệt uất không thấp.",
+    dac_tinh: "Tính mát nhẹ, vị đắng béo cám.",
+    hinh_dang: "Toàn cây phủ bột cám sao vàng thơm ngậy dịu đắng; chọn cây nhỏ dẻo thơm."
   },
   {
     stt: 2426,
@@ -3399,7 +4153,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Celosia cristata L.",
     pinyin: "Jī Guān Huā",
     cong_dung: "Thanh nhiệt lương huyết, dẫn thuốc cầm máu vào can.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính bình, vị chát chua dịu.",
+    hinh_dang: "Bông hoa tẩm giấm sao khô màu đỏ sẫm ngả nâu se vị; chọn bông hoa xốp khô."
   },
   {
     stt: 2427,
@@ -3408,7 +4164,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Celosia argentea L.",
     pinyin: "Qīng Xiāng",
     cong_dung: "Thanh can hỏa, sáng mắt, kiện tỳ bài sỏi.",
-    kieng_ky: "Cườm mắt do âm hư."
+    kieng_ky: "Cườm mắt do âm hư.",
+    dac_tinh: "Tính mát nhẹ, vị đắng béo cám.",
+    hinh_dang: "Hạt phủ bột cám sao vàng thơm béo dịu Tỳ; chọn hạt bóng nhỏ mẩy."
   },
   {
     stt: 2428,
@@ -3417,7 +4175,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Catharanthus roseus (L.) G.Don",
     pinyin: "Cháng Chūn Huā",
     cong_dung: "Thanh nhiệt hạ áp, ấm trung tiêu.",
-    kieng_ky: "Phụ nữ mang thai, áp thấp."
+    kieng_ky: "Phụ nữ mang thai, áp thấp.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng cay gừng nhạt.",
+    hinh_dang: "Thân lá tẩm gừng sao khô thơm mùi gừng ấm; chọn thân lá màu vàng nâu khô."
   },
   {
     stt: 2429,
@@ -3426,7 +4186,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Momordica charantia L. var. abbreviata",
     pinyin: "Yě Kǔ Guā",
     cong_dung: "Thanh nhiệt hạ đường huyết, nhuận tỳ vị.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị đắng ngọt dịu.",
+    hinh_dang: "Lát mỏng tẩm mật sao dẻo màu nâu vàng thơm ngọt; chọn lát mỏng bớt đắng ngắt."
   },
   {
     stt: 2430,
@@ -3435,7 +4197,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Gymnema sylvestre (Retz.) Schult.",
     pinyin: "Chí Gēng Téng",
     cong_dung: "Thanh nhiệt, nhuận tỳ giảm hấp thu đường.",
-    kieng_ky: "Hay bị hạ đường huyết."
+    kieng_ky: "Hay bị hạ đường huyết.",
+    dac_tinh: "Tính mát nhẹ, vị đắng ngọt dịu.",
+    hinh_dang: "Lá cành tẩm mật sao màu xanh sẫm ngả nâu; chọn cành lá dẻo thơm ngọt."
   },
   {
     stt: 2431,
@@ -3444,7 +4208,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Orthosiphon aristatus (Blume) Miq.",
     pinyin: "Māo Xū Cǎo",
     cong_dung: "Thanh nhiệt lợi tiểu, dẫn thuốc bài sỏi vào can.",
-    kieng_ky: "Phụ nữ mang thai 3 tháng đầu."
+    kieng_ky: "Phụ nữ mang thai 3 tháng đầu.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt đắng chua nhạt.",
+    hinh_dang: "Thân hoa tẩm giấm sao khô màu nâu xám se vị; chọn thân cành khô giòn."
   },
   {
     stt: 2432,
@@ -3453,7 +4219,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Syzygium nervosum DC.",
     pinyin: "Shuǐ Wēng Yè",
     cong_dung: "Thanh nhiệt tiêu thực, ấm tỳ vị diệt khuẩn ruột.",
-    kieng_ky: "Thể hư hàn nặng."
+    kieng_ky: "Thể hư hàn nặng.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng chát cay gừng.",
+    hinh_dang: "Phiến lá tẩm gừng sao thơm vị gừng ấm áp; chọn phiến lá khô giòn không mốc."
   },
   {
     stt: 2433,
@@ -3462,7 +4230,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Syzygium nervosum DC.",
     pinyin: "Shuǐ Wēng Huā",
     cong_dung: "Thanh nhiệt hạ mỡ máu, nhuận tỳ trợ tiêu hóa.",
-    kieng_ky: "Huyết áp thấp."
+    kieng_ky: "Huyết áp thấp.",
+    dac_tinh: "Tính mát nhẹ, vị chát ngọt dịu.",
+    hinh_dang: "Nụ hoa tẩm mật sao màu nâu bóng thơm ngọt; chọn nụ khô mẩy giàu tinh dầu."
   },
   {
     stt: 2434,
@@ -3471,7 +4241,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Abutilon indicum (L.) Sweet",
     pinyin: "Mǎ Yīng Háng",
     cong_dung: "Thanh nhiệt lợi tiểu, nhuận phế thông tai.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt dịu thơm.",
+    hinh_dang: "Quả thân tẩm mật sao màu vàng nâu dẻo nhẹ; chọn quả tròn nhăn thơm ngọt."
   },
   {
     stt: 2435,
@@ -3480,7 +4252,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Vernonia amygdalina Delile",
     pinyin: "Nán Fāng Kǔ Yè",
     cong_dung: "Thanh nhiệt mát gan, dẫn thuốc vào can kinh.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị đắng chua dịu.",
+    hinh_dang: "Lá tẩm giấm sao khô màu xanh nâu se vị; chọn lá khô quắt đắng đậm thanh."
   },
   {
     stt: 2436,
@@ -3489,7 +4263,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Eclipta prostrata (L.) L.",
     pinyin: "Mò Hān Lián",
     cong_dung: "Thanh nhiệt lương huyết, ấm vị bổ can thận âm.",
-    kieng_ky: "Tiêu chảy tỳ hư."
+    kieng_ky: "Tiêu chảy tỳ hư.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt đắng cay gừng.",
+    hinh_dang: "Thân lá tẩm gừng sao màu xám đen thơm gừng ấm; chọn cây khô chắc không mùn."
   },
   {
     stt: 2437,
@@ -3498,7 +4274,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Amaranthus spinosus L.",
     pinyin: "Cì Àn",
     cong_dung: "Thanh nhiệt lợi tiểu, ấm vị tiêu mụn nhọt.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt cay gừng nhạt.",
+    hinh_dang: "Thân gai tẩm gừng sao thơm vị nồng ấm; chọn thân khô giòn ngả vàng."
   },
   {
     stt: 2438,
@@ -3507,7 +4285,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Hemerocallis fulva (L.) L.",
     pinyin: "Xuān Cǎo",
     cong_dung: "Thanh nhiệt lương huyết, kiện tỳ an thần.",
-    kieng_ky: "Thể trạng lạnh."
+    kieng_ky: "Thể trạng lạnh.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt béo cám.",
+    hinh_dang: "Hoa khô phủ bột cám sao vàng thơm ngậy; chọn hoa ngả vàng nâu thơm."
   },
   {
     stt: 2439,
@@ -3516,7 +4296,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Mahonia nepalensis DC.",
     pinyin: "Kǔ Wù Zǐ",
     cong_dung: "Thanh nhiệt giải độc, dẫn thuốc vào can kinh.",
-    kieng_ky: "Thai phụ."
+    kieng_ky: "Thai phụ.",
+    dac_tinh: "Tính bình, vị đắng chua dịu.",
+    hinh_dang: "Lát gỗ tẩm giấm sao ngả màu vàng xám se vị; chọn lát gỗ chắc nặng đắng thanh."
   },
   {
     stt: 2440,
@@ -3525,7 +4307,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Terminalia catappa L.",
     pinyin: "Hǎi Táng Yè",
     cong_dung: "Thanh nhiệt thu liễm, kiện tỳ tiêu viêm.",
-    kieng_ky: "Táo bón."
+    kieng_ky: "Táo bón.",
+    dac_tinh: "Tính bình, vị chát béo cám.",
+    hinh_dang: "Phiến lá phủ bột cám sao vàng thơm ngậy dịu chát; chọn phiến khô giòn."
   },
   {
     stt: 2441,
@@ -3534,7 +4318,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Clerodendrum cyrtophyllum Turcz.",
     pinyin: "Dà Qīng Yè",
     cong_dung: "Thanh nhiệt giải độc, nhuận vị dịu mát.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt đắng dịu.",
+    hinh_dang: "Thân lá tẩm mật sao dẻo màu nâu vàng thơm ngọt; chọn cành lá khô không mốc."
   },
   {
     stt: 2442,
@@ -3543,7 +4329,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Tinospora sinensis (Lour.) Merr.",
     pinyin: "Kuān Jīn Téng",
     cong_dung: "Khu phong trừ thấp, thư cân, dẫn thuốc vào can.",
-    kieng_ky: "Thể hư hàn."
+    kieng_ky: "Thể hư hàn.",
+    dac_tinh: "Tính bình, vị đắng chát chua dịu.",
+    hinh_dang: "Lát dây xốp tẩm giấm sao khô màu xám nâu; chọn lát xốp tròn chắc."
   },
   {
     stt: 2443,
@@ -3552,7 +4340,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Gnetum montanum Markgr.",
     pinyin: "Mǎi Má Téng",
     cong_dung: "Khu phong thấp, hạ acid uric, nhuận vị dịu khớp.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng chát ngọt béo.",
+    hinh_dang: "Lát gỗ tẩm mật sao màu nâu bóng thơm ngọt; chọn lát chắc không mối mọt."
   },
   {
     stt: 2444,
@@ -3561,7 +4351,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Piper sarmentosum Roxb.",
     pinyin: "Jiǎ Jù Yè",
     cong_dung: "Ôn trung tán hàn, tăng ấm kinh trừ phong thấp.",
-    kieng_ky: "Dạ dày nhiệt."
+    kieng_ky: "Dạ dày nhiệt.",
+    dac_tinh: "Tính ấm, vị cay thơm nồng gừng.",
+    hinh_dang: "Lá khô tẩm gừng sao tỏa hương thơm ấm nồng; chọn lá quắt khô màu xanh nâu."
   },
   {
     stt: 2445,
@@ -3570,7 +4362,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Piper sarmentosum Roxb.",
     pinyin: "Jiǎ Jù Gēn",
     cong_dung: "Trừ phong thấp hạ tiêu, nhuận vị ấm kinh.",
-    kieng_ky: "Táo bón, nhiệt miệng."
+    kieng_ky: "Táo bón, nhiệt miệng.",
+    dac_tinh: "Tính ấm, vị cay ngọt thơm mật.",
+    hinh_dang: "Rễ tẩm mật sao dẻo màu nâu vàng thơm nồng; chọn rễ mẩy chắc dẻo."
   },
   {
     stt: 2446,
@@ -3579,7 +4373,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Achyranthes aspera L.",
     pinyin: "Tǔ Niú Xī",
     cong_dung: "Bổ can thận, hoạt huyết nhuận vị.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng ngọt dịu.",
+    hinh_dang: "Rễ tẩm mật sao màu nâu vàng dẻo bóng; chọn rễ củ chắc không thối."
   },
   {
     stt: 2447,
@@ -3588,7 +4384,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Eleutherococcus trifoliatus (L.) S.Y.Hu",
     pinyin: "Cì Wǔ Jiā",
     cong_dung: "Bổ can thận, mạnh gân cốt, kiện tỳ.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng ngọt béo cám.",
+    hinh_dang: "Vỏ cành phủ cám sao vàng thơm ngậy dịu vị; chọn vỏ dẻo chắc không mốc."
   },
   {
     stt: 2448,
@@ -3597,7 +4395,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Eleutherococcus gracilistylus (W.W.Sm.) S.Y.Hu",
     pinyin: "Wǔ Jiā Pí",
     cong_dung: "Bổ khí ích thận, kiện tỳ trừ phong thấp.",
-    kieng_ky: "Âm hư nội nhiệt."
+    kieng_ky: "Âm hư nội nhiệt.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng béo cám.",
+    hinh_dang: "Lát vỏ cành phủ bột cám sao vàng thơm béo; chọn lát xốp nhẹ thơm mộc."
   },
   {
     stt: 2449,
@@ -3606,7 +4406,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Parabarium micranthum (A.DC.) Pierre",
     pinyin: "Nán Dù Zhòng",
     cong_dung: "Bổ thận mạnh gân cốt, kiện tỳ.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng chát béo cám.",
+    hinh_dang: "Vỏ cuộn phủ bột cám sao vàng thơm béo Tỳ; chọn vỏ dày chắc ít mục."
   },
   {
     stt: 2450,
@@ -3615,7 +4417,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cibotium barometz (L.) J.Sm.",
     pinyin: "Gǒu Jǐ",
     cong_dung: "Bổ can thận, mạnh gân cốt, kiện tỳ.",
-    kieng_ky: "Thận hư nhiệt."
+    kieng_ky: "Thận hư nhiệt.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt đắng béo cám.",
+    hinh_dang: "Phiến lông vàng phủ bột cám sao vàng ruộm thơm béo; chọn phiến dày chắc."
   },
   {
     stt: 2451,
@@ -3624,7 +4428,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Reynoutria japonica Houtt.",
     pinyin: "Hǔ Zhàng",
     cong_dung: "Hoạt huyết thông kinh, nhuận vị tiêu ứ.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính bình, vị đắng ngọt dịu.",
+    hinh_dang: "Lát củ tẩm mật sao màu vàng đỏ bóng dẻo; chọn lát củ chắc ruột."
   },
   {
     stt: 2452,
@@ -3633,7 +4439,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Achyranthes aspera L.",
     pinyin: "Tǔ Niú Xī",
     cong_dung: "Hoạt huyết thông kinh, nhuận tỳ hạ áp.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính bình, vị đắng ngọt dịu.",
+    hinh_dang: "Rễ tẩm mật sao dẻo màu nâu vàng thơm ngọt; chọn rễ mảnh dẻo chắc."
   },
   {
     stt: 2453,
@@ -3642,7 +4450,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Homalomena occulta (Lour.) Schott",
     pinyin: "Qiān Nián Jiàn",
     cong_dung: "Trừ phong thấp, dẫn thuốc ấm xương vào can.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng chua dịu.",
+    hinh_dang: "Lát củ xốp tẩm giấm sao khô màu nâu xám se vị; chọn lát xốp thơm nồng."
   },
   {
     stt: 2454,
@@ -3651,7 +4461,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Ficus simplicissima Lour.",
     pinyin: "Niú Dà Lì",
     cong_dung: "Trừ phong thấp, bổ tỳ phế, ấm trung tiêu.",
-    kieng_ky: "Âm hư."
+    kieng_ky: "Âm hư.",
+    dac_tinh: "Tính ấm, vị ngọt cay gừng.",
+    hinh_dang: "Lát thân tẩm gừng sao dậy hương gừng ấm áp; chọn lát gỗ màu vàng nhạt chắc."
   },
   {
     stt: 2455,
@@ -3660,7 +4472,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Rhinacanthus nasutus (L.) Kurz",
     pinyin: "Bái Hè Líng Zhī",
     cong_dung: "Trừ phong thấp, kiện tỳ giải ngứa da.",
-    kieng_ky: "Thể trạng hư hàn."
+    kieng_ky: "Thể trạng hư hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng béo cám.",
+    hinh_dang: "Thân lá phủ bột cám sao vàng thơm béo dịu Tỳ; chọn cành lá khô giòn."
   },
   {
     stt: 2456,
@@ -3669,7 +4483,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Micromelum falcatum (Lour.) Tanaka",
     pinyin: "Mǐ Kōng Mù",
     cong_dung: "Khu phong trừ thấp, hành khí nhuận vị.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng ngọt dịu.",
+    hinh_dang: "Lát cành tẩm mật sao dẻo màu nâu vàng thơm nồng; chọn lát chắc vỏ."
   },
   {
     stt: 2457,
@@ -3678,7 +4494,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Tetracera scandens (L.) Merr.",
     pinyin: "Xī Yè Téng",
     cong_dung: "Trừ phong thấp, đả thông kinh lạc ấm áp.",
-    kieng_ky: "Cơ thể yếu."
+    kieng_ky: "Cơ thể yếu.",
+    dac_tinh: "Tính ấm, vị chát cay gừng.",
+    hinh_dang: "Lát dây xốp tẩm gừng sao thơm vị nồng ấm; chọn lát dẻo dai không mùn."
   },
   {
     stt: 2458,
@@ -3687,7 +4505,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Caesalpinia minax Hance",
     pinyin: "Yún Shí",
     cong_dung: "Khu phong trừ thấp, nhuận vị giảm co quắp.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng ngọt béo.",
+    hinh_dang: "Hạt quả tẩm mật sao màu nâu bóng thơm ngọt; chọn hạt mẩy vỏ cứng."
   },
   {
     stt: 2459,
@@ -3696,7 +4516,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cissus quadrangularis L.",
     pinyin: "Bái Fěn Téng",
     cong_dung: "Trừ phong thấp, nhuận vị tiêu sưng thoát vị.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính bình, vị đắng ngọt dịu.",
+    hinh_dang: "Thân 5 cạnh tẩm mật sao dẻo màu nâu nhạt; chọn đoạn giòn chắc thơm mật."
   },
   {
     stt: 2460,
@@ -3705,7 +4527,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cissus modeccoides Planch.",
     pinyin: "Bái Fěn Téng",
     cong_dung: "Trừ phong thấp, ấm gân cốt, giảm mỏi lưng.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm, vị đắng cay gừng.",
+    hinh_dang: "Thân dẹt tẩm gừng sao tỏa hương gừng ấm áp; chọn đoạn khô chắc."
   },
   {
     stt: 2461,
@@ -3714,7 +4538,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Millettia reticulata Benth.",
     pinyin: "Hēi Mù",
     cong_dung: "Trừ phong thấp, nhuận vị tiêu sưng.",
-    kieng_ky: "Cơ thể suy nhược."
+    kieng_ky: "Cơ thể suy nhược.",
+    dac_tinh: "Tính bình, vị đắng ngọt dịu.",
+    hinh_dang: "Lát gỗ đen tẩm mật sao dẻo màu nâu sẫm bóng; chọn lát thô nặng."
   },
   {
     stt: 2462,
@@ -3723,7 +4549,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Gouania leptostachya DC.",
     pinyin: "Jiáo Lóng Téng",
     cong_dung: "Hoạt huyết giảm đau chấn thương, nhuận vị.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng ngọt dịu.",
+    hinh_dang: "Lát cành tẩm mật sao màu nâu đỏ bóng thơm; chọn lát cành khô cứng."
   },
   {
     stt: 2463,
@@ -3732,7 +4560,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Albizia lebbeck (L.) Benth.",
     pinyin: "Yìn Dù Hé Huān",
     cong_dung: "Trừ phong thấp, nhuận vị thông kinh lạc.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính bình, vị đắng ngọt dịu.",
+    hinh_dang: "Vỏ cành tẩm mật sao dẻo ngả màu nâu vàng thơm; chọn vỏ xốp không mốc."
   },
   {
     stt: 2464,
@@ -3741,7 +4571,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Tacca chantrieri André",
     pinyin: "Lǎo Hǔ Xū",
     cong_dung: "Trừ phong thấp, nhuận vị giảm đau nhức.",
-    kieng_ky: "Cơ thể hư nhược."
+    kieng_ky: "Cơ thể hư nhược.",
+    dac_tinh: "Tính bình, vị đắng chát ngọt dịu.",
+    hinh_dang: "Lát củ rễ tẩm mật sao màu xám đen bóng dẻo; chọn lát chắc ruột."
   },
   {
     stt: 2465,
@@ -3750,7 +4582,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Pueraria montana (Lour.) Merr.",
     pinyin: "Yě Gě Gēn",
     cong_dung: "Giải cơ thoái nhiệt, ấm phế kiện tỳ.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt cay gừng.",
+    hinh_dang: "Lát rễ xốp tẩm gừng sao thơm vị gừng ấm; chọn lát mỏng giòn nặng bột."
   },
   {
     stt: 2466,
@@ -3759,7 +4593,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Clematis armandii Franch.",
     pinyin: "Nán Mù Tōng",
     cong_dung: "Khu phong trừ thấp, dẫn thuốc thông kinh vào can.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính bình, vị đắng chua nhẹ.",
+    hinh_dang: "Lát xốp tròn tẩm giấm sao khô màu nâu xám se vị; chọn lát xốp đều."
   },
   {
     stt: 2467,
@@ -3768,7 +4604,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Mussaenda erythrophylla Schumach. & Thonn.",
     pinyin: "Hóng Yè Jīn Huā",
     cong_dung: "Khu phong giải độc, nhuận vị giảm đau.",
-    kieng_ky: "Thể hư hàn."
+    kieng_ky: "Thể hư hàn.",
+    dac_tinh: "Tính bình, vị đắng ngọt dịu.",
+    hinh_dang: "Thân lá tẩm mật sao màu nâu sẫm thơm ngọt; chọn cành lá khô quắt."
   },
   {
     stt: 2468,
@@ -3777,7 +4615,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Bauhinia purpurea L.",
     pinyin: "Yáng Tí Jiǎ",
     cong_dung: "Trừ phong thấp, kiện tỳ, nhuận vị giảm đau lưng.",
-    kieng_ky: "Thực nhiệt uất."
+    kieng_ky: "Thực nhiệt uất.",
+    dac_tinh: "Tính bình, vị đắng chát ngọt dịu.",
+    hinh_dang: "Lát cành vỏ tẩm mật sao màu nâu vàng dẻo bóng; chọn cành vỏ chắc."
   },
   {
     stt: 2469,
@@ -3786,7 +4626,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Nauclea orientalis (L.) L.",
     pinyin: "Wū Tán Mù",
     cong_dung: "Thanh nhiệt, khu phong chỉ thống nhuận vị.",
-    kieng_ky: "Thể hư hàn."
+    kieng_ky: "Thể hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị đắng ngọt dịu.",
+    hinh_dang: "Lát gỗ vỏ tẩm mật sao màu nâu vàng thơm ngọt; chọn lát chắc nặng."
   },
   {
     stt: 2470,
@@ -3795,7 +4637,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Siegesbeckia orientalis L.",
     pinyin: "Xī Xiān Cǎo",
     cong_dung: "Trừ phong thấp, bình gan hạ áp, nhuận vị.",
-    kieng_ky: "Âm hư huyết nhiệt."
+    kieng_ky: "Âm hư huyết nhiệt.",
+    dac_tinh: "Tính bình, vị đắng ngọt dịu.",
+    hinh_dang: "Thân lá tẩm mật sao dẻo màu nâu đen thơm ngọt; chọn chùm lá không mốc."
   },
   {
     stt: 2471,
@@ -3804,7 +4648,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Smilax glabra Roxb.",
     pinyin: "Tǔ Fú Líng",
     cong_dung: "Trừ phong thấp, giải độc, nhuận tỳ vị.",
-    kieng_ky: "Âm hư tân khô."
+    kieng_ky: "Âm hư tân khô.",
+    dac_tinh: "Tính bình, vị ngọt nhạt dẻo thơm.",
+    hinh_dang: "Lát củ đốm tẩm mật sao dẻo nhẹ màu nâu hồng; chọn lát mỏng chắc giòn."
   },
   {
     stt: 2472,
@@ -3813,7 +4659,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Polyscias fruticosa (L.) Harms",
     pinyin: "Nán Yáng Shēn",
     cong_dung: "Đại bổ khí huyết, ấm hạ tiêu, bớt trệ.",
-    kieng_ky: "Dùng quá liều."
+    kieng_ky: "Dùng quá liều.",
+    dac_tinh: "Tính ấm, vị ngọt cay thơm sa nhân.",
+    hinh_dang: "Lát củ tẩm sa nhân sao thơm nồng vị gia vị ấm; chọn lát dẻo thơm sâm."
   },
   {
     stt: 2473,
@@ -3822,7 +4670,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Polyscias fruticosa (L.) Harms",
     pinyin: "Nán Yáng Shēn",
     cong_dung: "Bổ khí ích huyết, ấm tỳ vị, giảm mệt.",
-    kieng_ky: "Dùng quá liều."
+    kieng_ky: "Dùng quá liều.",
+    dac_tinh: "Tính ấm, vị ngọt đắng cay gừng.",
+    hinh_dang: "Lát củ tẩm gừng sao khô màu vàng nâu thơm gừng; chọn lát khô béo Tỳ."
   },
   {
     stt: 2474,
@@ -3831,7 +4681,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Dioscorea persimilis Prain & Burkill",
     pinyin: "Shān Yào",
     cong_dung: "Bổ tỳ phế thận, cố tinh, cầm tiêu chảy.",
-    kieng_ky: "Trướng bụng."
+    kieng_ky: "Trướng bụng.",
+    dac_tinh: "Tính bình, vị ngọt béo cám.",
+    hinh_dang: "Phiến củ trắng phủ bột cám sao vàng thơm béo giòn; chọn phiến trắng ngà."
   },
   {
     stt: 2475,
@@ -3840,7 +4692,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Polygonatum kingianum Coll. et Hemsl.",
     pinyin: "Diān Huáng Jīng",
     cong_dung: "Bổ khí dưỡng âm, ấm tỳ nhuận phế.",
-    kieng_ky: "Tỳ hư đàm thấp."
+    kieng_ky: "Tỳ hư đàm thấp.",
+    dac_tinh: "Tính ấm, vị ngọt cay gừng.",
+    hinh_dang: "Phiến đen quánh tẩm gừng sao dẻo thơm nồng gừng; chọn phiến dẻo ngọt."
   },
   {
     stt: 2476,
@@ -3849,7 +4703,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Codonopsis convolvulacea Kom.",
     pinyin: "Dǎng Shēn",
     cong_dung: "Bổ trung ích khí, ấm hạ tiêu, bớt trệ.",
-    kieng_ky: "Thực tà uất."
+    kieng_ky: "Thực tà uất.",
+    dac_tinh: "Tính ấm, vị ngọt cay thơm sa nhân.",
+    hinh_dang: "Lát củ dẻo tẩm sa nhân sao tỏa hương thơm cay ấm; chọn lát mẩy dẻo."
   },
   {
     stt: 2477,
@@ -3858,7 +4714,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Spiranthes sinensis (Pers.) Ames",
     pinyin: "Pán Lóng Shēn",
     cong_dung: "Bổ khí dưỡng âm, dẫn thuốc vào can.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính bình, vị ngọt đắng chua nhạt.",
+    hinh_dang: "Rễ xoắn nhỏ tẩm giấm sao khô ngả màu nâu xám; chọn chùm rễ mẩy tròn."
   },
   {
     stt: 2478,
@@ -3867,7 +4725,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Curculigo orchioides Gaertn.",
     pinyin: "Xiān Máo",
     cong_dung: "Bổ khí ích tinh, nhuận vị tráng dương.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay ngọt béo.",
+    hinh_dang: "Lát củ tẩm mật sao màu nâu sáng bóng dẻo thơm; chọn lát chắc ruột."
   },
   {
     stt: 2479,
@@ -3876,7 +4736,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Curcuma sp.",
     pinyin: "Shí Shēn",
     cong_dung: "Bổ khí lực, ấm vị giải độc gan.",
-    kieng_ky: "Sốt cao thực nhiệt."
+    kieng_ky: "Sốt cao thực nhiệt.",
+    dac_tinh: "Tính ấm, vị cay ngọt thơm gừng.",
+    hinh_dang: "Lát củ tẩm gừng sao thơm vị gừng ấm áp; chọn lát ngả vàng ruộm."
   },
   {
     stt: 2480,
@@ -3885,7 +4747,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Angelica sinensis (Oliv.) Diels",
     pinyin: "Dāng Guī",
     cong_dung: "Bổ huyết, hoạt huyết, bớt trệ trướng bụng.",
-    kieng_ky: "Tiêu chảy."
+    kieng_ky: "Tiêu chảy.",
+    dac_tinh: "Tính ấm, vị cay ngọt thơm sa nhân.",
+    hinh_dang: "Phiến dẻo tẩm sa nhân sao dậy mùi thơm đặc trưng; chọn phiến dẻo nhiều dầu."
   },
   {
     stt: 2481,
@@ -3894,7 +4758,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Angelica sinensis (Oliv.) Diels",
     pinyin: "Dāng Guī Wěi",
     cong_dung: "Hoạt huyết tiêu ứ, dẫn thuốc vào can kinh.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng chua dịu.",
+    hinh_dang: "Nhánh rễ nhỏ tẩm giấm sao khô màu nâu xám se vị; chọn nhánh rễ dẻo chắc."
   },
   {
     stt: 2482,
@@ -3903,7 +4769,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Rehmannia glutinosa Libosch.",
     pinyin: "Shú Dì Huáng",
     cong_dung: "Tư âm bổ huyết, ấm hạ tiêu, chống trệ bụng.",
-    kieng_ky: "Tiêu chảy tỳ hư."
+    kieng_ky: "Tiêu chảy tỳ hư.",
+    dac_tinh: "Tính ấm, vị ngọt cay thơm sa nhân.",
+    hinh_dang: "Khối dẻo đen quánh tẩm sa nhân phơi khô thơm phức; chọn khối đen bóng quánh."
   },
   {
     stt: 2483,
@@ -3912,7 +4780,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Paeonia lactiflora Pall.",
     pinyin: "Bái Sháo",
     cong_dung: "Dưỡng huyết liễm âm, bình can chỉ thống.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính bình, vị chua đắng dịu.",
+    hinh_dang: "Phiến mỏng hồng nhạt tẩm giấm sao vàng xém cạnh; chọn phiến phẳng chắc."
   },
   {
     stt: 2484,
@@ -3921,7 +4791,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Spatholobus suberectus Dunn",
     pinyin: "Jī Xuè Téng",
     cong_dung: "Bổ huyết, hoạt huyết, dẫn thuốc vào can.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính bình, vị đắng chát chua nhẹ.",
+    hinh_dang: "Phiến tròn hoa văn tẩm giấm sao khô màu nâu xám; chọn phiến nặng chắc."
   },
   {
     stt: 2485,
@@ -3930,7 +4802,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Fallopia multiflora (Thunb.) Haraldson",
     pinyin: "Hé Shǒu Wū",
     cong_dung: "Bổ can thận, dưỡng huyết, đen râu tóc, ấm vị.",
-    kieng_ky: "Tỳ hư đàm thấp."
+    kieng_ky: "Tỳ hư đàm thấp.",
+    dac_tinh: "Tính ấm, vị chát đắng ngọt cay gừng.",
+    hinh_dang: "Lát củ nâu đỏ tẩm mật gừng sao dẻo thơm nồng; chọn lát dày chắc mẩy."
   },
   {
     stt: 2486,
@@ -3939,7 +4813,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Streptocaulon juventas (Lour.) Merr.",
     pinyin: "Bái Hé Shǒu Wū",
     cong_dung: "Bổ huyết thanh nhiệt nhẹ, ấm vị bớt lỏng.",
-    kieng_ky: "Tiêu chảy."
+    kieng_ky: "Tiêu chảy.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng chát cay gừng.",
+    hinh_dang: "Phiến củ xám trắng tẩm gừng sao thơm gừng ấm; chọn phiến khô chắc."
   },
   {
     stt: 2487,
@@ -3948,7 +4824,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Capra hircus L.",
     pinyin: "Shān Yáng Gǔ Jiāo",
     cong_dung: "Bổ huyết ích tinh, nhuận tỳ ấm gối.",
-    kieng_ky: "Thể trạng thực nhiệt."
+    kieng_ky: "Thể trạng thực nhiệt.",
+    dac_tinh: "Tính ấm, vị mặn ngọt béo.",
+    hinh_dang: "Khối cao dẻo tẩm mật sao ngả màu nâu bóng thơm béo; chọn cao dẻo quánh."
   },
   {
     stt: 2488,
@@ -3957,7 +4835,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Dimocarpus longan Lour.",
     pinyin: "Lóng Yǎn Ròu",
     cong_dung: "Bổ tâm tỳ, dưỡng huyết, dẫn thuốc vào can.",
-    kieng_ky: "Đầy trướng bụng."
+    kieng_ky: "Đầy trướng bụng.",
+    dac_tinh: "Tính bình, vị ngọt chua dịu.",
+    hinh_dang: "Múi nhãn khô tẩm giấm sao dẻo nhẹ màu nâu sẫm; chọn múi dày dẻo thơm."
   },
   {
     stt: 2489,
@@ -3966,7 +4846,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Lycium barbarum L.",
     pinyin: "Gǒu Qǐ Zǐ",
     cong_dung: "Bổ can thận, sáng mắt, ấm phế vị.",
-    kieng_ky: "Tiêu chảy, sốt."
+    kieng_ky: "Tiêu chảy, sốt.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt cay gừng nhẹ.",
+    hinh_dang: "Quả kỷ tử tẩm gừng sao mềm màu đỏ sẫm thơm ấm; chọn quả mọng mẩy."
   },
   {
     stt: 2490,
@@ -3975,7 +4857,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Ophiopogon japonicus (Thunb.) Ker Gawl.",
     pinyin: "Mài Dōng",
     cong_dung: "Dưỡng âm sinh tân, ấm phế nhuận tâm.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt cay gừng nhạt.",
+    hinh_dang: "Tép củ tẩm gừng sao khô màu vàng nhạt thơm gừng; chọn tép mẩy ruột trắng."
   },
   {
     stt: 2491,
@@ -3984,7 +4868,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Asparagus cochinchinensis (Lour.) Merr.",
     pinyin: "Tiān Mén Dōng",
     cong_dung: "Tư âm nhuận táo, ấm phế giáng hỏa.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt đắng cay gừng.",
+    hinh_dang: "Tép củ mọng tẩm gừng sao ngả màu vàng xám thơm gừng; chọn tép dẻo trong."
   },
   {
     stt: 2492,
@@ -3993,7 +4879,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morinda officinalis How",
     pinyin: "Bā Jǐ Tiān",
     cong_dung: "Bổ thận tráng dương, ấm hạ tiêu, bớt trệ.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay ngọt thơm sa nhân.",
+    hinh_dang: "Lát thịt ba kích tím tẩm sa nhân sao thơm cay nồng; chọn lát dẻo bỏ lõi."
   },
   {
     stt: 2493,
@@ -4002,7 +4890,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morinda officinalis How",
     pinyin: "Bā Jǐ Tiān",
     cong_dung: "Ôn bổ thận dương, nhuận vị trừ phong thấp.",
-    kieng_ky: "Tiểu buốt dắt."
+    kieng_ky: "Tiểu buốt dắt.",
+    dac_tinh: "Tính ấm, vị cay ngọt béo.",
+    hinh_dang: "Lát thịt màu xám nhạt tẩm mật sao dẻo bóng thơm ngòn ngọt; chọn lát chắc."
   },
   {
     stt: 2494,
@@ -4011,7 +4901,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Epimedium brevicornu Maxim.",
     pinyin: "Yín Yáng Huò",
     cong_dung: "Bổ thận tráng dương, bớt trệ hạ tiêu.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay ngọt thơm sa nhân.",
+    hinh_dang: "Lá khô tẩm sa nhân sao tỏa hương thơm cay ấm; chọn lá xanh xám giòn."
   },
   {
     stt: 2495,
@@ -4020,7 +4912,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cistanche deserticola Y.C.Ma",
     pinyin: "Ròu Cōng Róng",
     cong_dung: "Bổ thận tráng dương, ấm hạ tiêu nhuận tràng.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính ấm, vị ngọt mặn cay sa nhân.",
+    hinh_dang: "Lát vẩy thịt dẻo đen tẩm sa nhân sao thơm nồng hạ tiêu; chọn lát dẻo quánh."
   },
   {
     stt: 2496,
@@ -4029,7 +4923,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Eucommia ulmoides Oliv.",
     pinyin: "Dù Zhòng",
     cong_dung: "Bổ can thận, tráng gân cốt, bớt trệ.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị ngọt đắng cay sa nhân.",
+    hinh_dang: "Phiến vỏ tơ tẩm sa nhân sao màu nâu xám thơm nồng; chọn vỏ dày nhiều nhựa."
   },
   {
     stt: 2497,
@@ -4038,7 +4934,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Dipsacus asper Wall. ex DC.",
     pinyin: "Xù Duàn",
     cong_dung: "Bổ can thận, nối gân xương, ấm kinh.",
-    kieng_ky: "Phong thấp thể nhiệt."
+    kieng_ky: "Phong thấp thể nhiệt.",
+    dac_tinh: "Tính ấm, vị đắng cay nồng gừng.",
+    hinh_dang: "Lát củ xám xanh tẩm gừng sao thơm gừng ấm kinh; chọn lát chắc không sâu."
   },
   {
     stt: 2498,
@@ -4047,7 +4945,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cullen corylifolium (L.) Medik.",
     pinyin: "Bǔ Gǔ Zhǐ",
     cong_dung: "Ôn thận tráng dương, cố tinh, nhuận vị.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay đắng ngọt béo.",
+    hinh_dang: "Hạt nâu đen tẩm mật sao màu sáng bóng thơm ngọt béo; chọn hạt mẩy chắc."
   },
   {
     stt: 2499,
@@ -4056,7 +4956,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Alpinia oxyphylla Miq.",
     pinyin: "Yì Zhì Rén",
     cong_dung: "Ôn tỳ sáp khí, dẫn thuốc xuống hạ tiêu cố tinh.",
-    kieng_ky: "Tiểu buốt do nhiệt."
+    kieng_ky: "Tiểu buốt do nhiệt.",
+    dac_tinh: "Tính ấm, vị cay nồng sa nhân.",
+    hinh_dang: "Hạt hình thoi tẩm sa nhân sao rất cay thơm ấm Tỳ hạ tiêu; chọn hạt mẩy."
   },
   {
     stt: 2500,
@@ -4065,7 +4967,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Drynaria fortunei (Kunze) J.Sm.",
     pinyin: "Gǔ Suì Bǔ",
     cong_dung: "Bổ thận cường gân cốt, nhuận vị liền xương.",
-    kieng_ky: "Âm hư."
+    kieng_ky: "Âm hư.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng ngọt béo.",
+    hinh_dang: "Phiến thân lông tẩm mật sao dẻo ngả màu nâu đỏ thơm; chọn phiến chắc mẩy."
   },
   {
     stt: 2501,
@@ -4074,7 +4978,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Curculigo orchioides Gaertn.",
     pinyin: "Xiān Máo",
     cong_dung: "Ôn tráng thận dương, nhuận vị trừ hàn thấp.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay ngọt béo.",
+    hinh_dang: "Lát củ đen tẩm mật sao dẻo bóng bớt vị gắt độc; chọn lát ruột trắng đục."
   },
   {
     stt: 2502,
@@ -4083,7 +4989,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus reticulata Blanco",
     pinyin: "Chén Pí",
     cong_dung: "Lý khí kiện tỳ, dẫn thuốc vào can hóa đờm.",
-    kieng_ky: "Ho khan âm hư."
+    kieng_ky: "Ho khan âm hư.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng chua dịu.",
+    hinh_dang: "Vỏ quýt tẩm giấm sao vàng cháy xém thơm dịu Can phế; chọn vỏ dày nhiều túi dầu."
   },
   {
     stt: 2503,
@@ -4092,7 +5000,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Clausena lansium (Lour.) Skeels",
     pinyin: "Huáng Pí",
     cong_dung: "Ôn phế giáng khí, trừ đờm lạnh dịu ho.",
-    kieng_ky: "Nhiệt uất phế."
+    kieng_ky: "Nhiệt uất phế.",
+    dac_tinh: "Tính ấm, vị chua ngọt cay gừng.",
+    hinh_dang: "Vỏ tẩm gừng phơi khô ngả màu nâu sẫm thơm gừng; chọn miếng vỏ giàu tinh dầu."
   },
   {
     stt: 2504,
@@ -4101,7 +5011,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Cyperus rotundus L.",
     pinyin: "Xiāng Fù",
     cong_dung: "Sơ can giải uất, ấm hạ tiêu điều kinh.",
-    kieng_ky: "Âm hư huyết nhiệt."
+    kieng_ky: "Âm hư huyết nhiệt.",
+    dac_tinh: "Tính bình, vị cay đắng thơm sa nhân.",
+    hinh_dang: "Củ cỏ gấu tẩm sa nhân sao tỏa mùi thơm nồng giải uất; chọn củ chắc nặng."
   },
   {
     stt: 2505,
@@ -4110,7 +5022,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Aucklandia lappa Decne.",
     pinyin: "Mù Xiāng",
     cong_dung: "Hành khí chỉ thống, dẫn thuốc vào can kinh.",
-    kieng_ky: "Âm hư nội nhiệt."
+    kieng_ky: "Âm hư nội nhiệt.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng chua dịu.",
+    hinh_dang: "Lát rễ tẩm giấm phơi khô ngả màu xám nâu đằm vị; chọn lát chắc thơm hăng."
   },
   {
     stt: 2506,
@@ -4119,7 +5033,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus aurantium L.",
     pinyin: "Zhǐ Shí",
     cong_dung: "Phá khí tiêu tích, dẫn thuốc tiêu bĩ vào can.",
-    kieng_ky: "Tỳ vị hư nhược."
+    kieng_ky: "Tỳ vị hư nhược.",
+    dac_tinh: "Tính bình, vị đắng chua se nhẹ.",
+    hinh_dang: "Phiến quả non tẩm giấm phơi khô màu xanh đen se vị; chọn phiến nhỏ nhiều dầu."
   },
   {
     stt: 2507,
@@ -4128,7 +5044,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus aurantium L.",
     pinyin: "Zhǐ Ké",
     cong_dung: "Lý khí khoan hung, dẫn thuốc tiêu trướng vào can.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính bình, vị đắng chua dịu.",
+    hinh_dang: "Quả bánh tẻ cắt đôi tẩm giấm phơi khô xám xanh se vị; chọn quả chắc không thối."
   },
   {
     stt: 2508,
@@ -4137,7 +5055,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Lindera aggregata (Sims) Kosterm.",
     pinyin: "Wū Yào",
     cong_dung: "Hành khí chỉ thống, ấm thận tán hàn.",
-    kieng_ky: "Khí hư nội nhiệt."
+    kieng_ky: "Khí hư nội nhiệt.",
+    dac_tinh: "Tính ấm, vị cay nồng gừng.",
+    hinh_dang: "Phiến rễ chuỗi tẩm gừng phơi khô tỏa hương thơm gừng; chọn phiến màu nâu nhạt."
   },
   {
     stt: 2509,
@@ -4146,7 +5066,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus medica L. var. sarcodactylis (Swingle) Swingle",
     pinyin: "Fó Shǒu",
     cong_dung: "Sơ can lý khí, ấm vị chỉ thống.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay đắng thơm gừng.",
+    hinh_dang: "Lát quả phật thủ tẩm gừng phơi khô màu vàng xám thơm ấm; chọn lát dẻo khô."
   },
   {
     stt: 2510,
@@ -4155,7 +5077,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Magnolia officinalis Rehd. & Wils.",
     pinyin: "Hòu Pò",
     cong_dung: "Hành khí táo thấp, ấm trung tiêu, tiêu trướng.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm, vị cay đắng nồng gừng.",
+    hinh_dang: "Lát vỏ cuộn tẩm gừng phơi khô màu nâu xám thơm hắc gừng; chọn vỏ dày chắc."
   },
   {
     stt: 2511,
@@ -4164,7 +5088,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus reticulata Blanco",
     pinyin: "Qīng Pí",
     cong_dung: "Sơ can phá khí mạnh, dẫn thuốc vào can.",
-    kieng_ky: "Thai phụ."
+    kieng_ky: "Thai phụ.",
+    dac_tinh: "Tính bình, vị cay đắng chua dịu.",
+    hinh_dang: "Vỏ quýt non tẩm giấm phơi khô màu xanh đen se vị; chọn vỏ sần sùi nhiều dầu."
   },
   {
     stt: 2512,
@@ -4173,7 +5099,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Prunus armeniaca L.",
     pinyin: "Xìng Rén",
     cong_dung: "Nhuận phế bình suyễn, dịu ho thông tiện.",
-    kieng_ky: "Tiêu chảy."
+    kieng_ky: "Tiêu chảy.",
+    dac_tinh: "Tính bình, vị đắng ngọt dịu.",
+    hinh_dang: "Nhân hạt hình tim tẩm mật phơi khô màu vàng nâu bóng; chọn nhân đục chắc."
   },
   {
     stt: 2513,
@@ -4182,7 +5110,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Pinellia ternata (Thunb.) Makino",
     pinyin: "Bàn Xià",
     cong_dung: "Táo thấp hóa đờm, giáng nghịch, ấm hạ tiêu.",
-    kieng_ky: "Ho khan âm hư."
+    kieng_ky: "Ho khan âm hư.",
+    dac_tinh: "Tính ấm, vị cay thơm sa nhân hết ngứa.",
+    hinh_dang: "Củ tròn chế gừng sa nhân khô màu xám trắng hết hẳn ngứa; chọn củ tròn mẩy."
   },
   {
     stt: 2514,
@@ -4191,7 +5121,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Platycodon grandiflorus (Jacq.) A.DC.",
     pinyin: "Jié Gèng",
     cong_dung: "Tuyên phế khứ đờm, dẫn thuốc giải ho vào can.",
-    kieng_ky: "Ho ra máu."
+    kieng_ky: "Ho ra máu.",
+    dac_tinh: "Tính bình, vị đắng chua dịu.",
+    hinh_dang: "Phiến rễ tẩm giấm phơi khô màu trắng ngà se vị; chọn phiến chắc dẻo."
   },
   {
     stt: 2515,
@@ -4200,7 +5132,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Stemona tuberosa Lour.",
     pinyin: "Bǎi Bù",
     cong_dung: "Nhuận phế chỉ khái, dẫn thuốc diệt giun vào can.",
-    kieng_ky: "Tiêu chảy."
+    kieng_ky: "Tiêu chảy.",
+    dac_tinh: "Tính bình, vị ngọt đắng chua nhạt.",
+    hinh_dang: "Lát củ dẻo tẩm giấm phơi khô ngả màu vàng xám; chọn lát mọng dẻo bớt đắng."
   },
   {
     stt: 2516,
@@ -4209,7 +5143,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Aster tataricus L.f.",
     pinyin: "Zǐ Yuǎn",
     cong_dung: "Nhuận phế hạ khí, ấm phế hóa đờm.",
-    kieng_ky: "Ho khan âm hư."
+    kieng_ky: "Ho khan âm hư.",
+    dac_tinh: "Tính ấm, vị đắng ngọt cay gừng.",
+    hinh_dang: "Rễ chùm xám tím tẩm gừng phơi khô thơm nồng gừng; chọn rễ dẻo mọng."
   },
   {
     stt: 2517,
@@ -4218,7 +5154,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Peucedanum praeruptorum Dunn",
     pinyin: "Qián Hú",
     cong_dung: "Tuyên tán phong nhiệt, giáng khí hóa đờm vào can.",
-    kieng_ky: "Ho phong hàn."
+    kieng_ky: "Ho phong hàn.",
+    dac_tinh: "Tính bình, vị đắng cay chua dịu.",
+    hinh_dang: "Phiến rễ tẩm giấm phơi khô màu nâu xám se vị; chọn phiến xốp thơm tinh dầu."
   },
   {
     stt: 2518,
@@ -4227,7 +5165,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Sinapis alba L.",
     pinyin: "Bái Jiè Zǐ",
     cong_dung: "Ôn phế hóa đờm, dẫn thuốc trừ hàn ẩm vào can.",
-    kieng_ky: "Phế hỏa ho khan."
+    kieng_ky: "Phế hỏa ho khan.",
+    dac_tinh: "Tính ấm nhẹ, vị cay chua dịu.",
+    hinh_dang: "Hạt cải vàng tẩm giấm phơi khô se vị bớt nồng gắt; chọn hạt mẩy tròn."
   },
   {
     stt: 2519,
@@ -4236,7 +5176,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morus alba L.",
     pinyin: "Sāng Bái Pí",
     cong_dung: "Tả phế bình suyễn, dẫn thuốc lợi thủy vào can.",
-    kieng_ky: "Ho phế hàn."
+    kieng_ky: "Ho phế hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt chua dịu.",
+    hinh_dang: "Dải xơ vỏ trắng tẩm giấm phơi khô se vị phế; chọn dải xơ mỏng dẻo."
   },
   {
     stt: 2520,
@@ -4245,7 +5187,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Tussilago farfara L.",
     pinyin: "Kuǎn Dōng Huā",
     cong_dung: "Ôn phế giáng khí, dẫn thuốc hóa đờm vào can.",
-    kieng_ky: "Ho phế nhiệt."
+    kieng_ky: "Ho phế nhiệt.",
+    dac_tinh: "Tính ấm nhẹ, vị cay đắng chua dịu.",
+    hinh_dang: "Nụ hoa nhung tẩm giấm phơi khô mềm dịu se phế; chọn nụ chưa nở tím nhạt."
   },
   {
     stt: 2521,
@@ -4254,7 +5198,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Pouzolzia zeylanica (L.) Benn.",
     pinyin: "Tǔ Pái Qián Cǎo",
     cong_dung: "Thanh phế hóa đờm, ấm phế giảm ho.",
-    kieng_ky: "Phụ nữ mang thai."
+    kieng_ky: "Phụ nữ mang thai.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt cay gừng nhạt.",
+    hinh_dang: "Lát củ tẩm gừng phơi khô màu xám đục thơm gừng ấm; chọn lát dẻo chắc."
   },
   {
     stt: 2522,
@@ -4263,7 +5209,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Crataegus pinnatifida Bunge",
     pinyin: "Shān Zhā",
     cong_dung: "Tiêu tích trệ, dẫn thuốc hoạt huyết vào can.",
-    kieng_ky: "Dạ dày thừa acid."
+    kieng_ky: "Dạ dày thừa acid.",
+    dac_tinh: "Tính bình, vị chua ngọt se nhẹ.",
+    hinh_dang: "Phiến quả đỏ thắm tẩm giấm phơi khô se vị; chọn phiến chắc bóng chua dịu."
   },
   {
     stt: 2523,
@@ -4272,7 +5220,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Hordeum vulgare L.",
     pinyin: "Mài Yá",
     cong_dung: "Tiêu thực hóa tích, ấm tỳ khai vị.",
-    kieng_ky: "Phụ nữ cho con bú."
+    kieng_ky: "Phụ nữ cho con bú.",
+    dac_tinh: "Tính ấm, vị ngọt cay gừng nhạt.",
+    hinh_dang: "Hạt mầm lúa tẩm gừng phơi khô màu vàng nâu thơm gừng ấm; chọn mầm dài mẩy."
   },
   {
     stt: 2524,
@@ -4281,7 +5231,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Gallus gallus domesticus Brisson",
     pinyin: "Jī Nèi Jīn",
     cong_dung: "Kiện tỳ tiêu thực, dẫn thuốc hóa sỏi vào can.",
-    kieng_ky: "Không tích trệ."
+    kieng_ky: "Không tích trệ.",
+    dac_tinh: "Tính bình, vị ngọt chua nhạt.",
+    hinh_dang: "Màng dạ dày tẩm giấm phơi khô giòn xốp se vị; chọn màng mỏng màu vàng sáng."
   },
   {
     stt: 2525,
@@ -4290,7 +5242,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Massa Medicata Fermentata",
     pinyin: "Shén Qū",
     cong_dung: "Khai vị tiêu thực, nhuận tỳ hòa trung.",
-    kieng_ky: "Tỳ hư nặng."
+    kieng_ky: "Tỳ hư nặng.",
+    dac_tinh: "Tính ấm nhẹ, vị cay ngọt dẻo.",
+    hinh_dang: "Khối bánh tẩm mật phơi khô thơm ngọt men chua; chọn khối dẻo chắc không mốc."
   },
   {
     stt: 2526,
@@ -4299,7 +5253,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Raphanus sativus L.",
     pinyin: "Lái Fú Zǐ",
     cong_dung: "Tiêu thực giáng khí, dẫn thuốc tiêu đờm vào can.",
-    kieng_ky: "Khí hư không tích."
+    kieng_ky: "Khí hư không tích.",
+    dac_tinh: "Tính bình, vị cay chua dịu.",
+    hinh_dang: "Hạt củ cải nâu đỏ tẩm giấm phơi khô se vị giáng khí; chọn hạt nhỏ mẩy."
   },
   {
     stt: 2527,
@@ -4308,7 +5264,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Setaria italica (L.) Beauv.",
     pinyin: "Gǔ Yá",
     cong_dung: "Tiêu thực hòa tỳ, dẫn thuốc kiện vị vào can.",
-    kieng_ky: "Tích nhiệt."
+    kieng_ky: "Tích nhiệt.",
+    dac_tinh: "Tính bình, vị ngọt chua nhạt.",
+    hinh_dang: "Hạt mầm lúa tẩm giấm phơi khô màu vàng ruộm se vị; chọn hạt mầm mẩy tròn."
   },
   {
     stt: 2528,
@@ -4317,7 +5275,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus sinensis (L.) Osbeck",
     pinyin: "Chéng Pí",
     cong_dung: "Lý khí hòa vị, ấm phế tiêu đờm.",
-    kieng_ky: "Âm hư."
+    kieng_ky: "Âm hư.",
+    dac_tinh: "Tính ấm, vị cay đắng nồng gừng.",
+    hinh_dang: "Phiến vỏ cam tẩm gừng phơi khô màu vàng cam thơm gừng; chọn vỏ giàu tinh dầu."
   },
   {
     stt: 2529,
@@ -4326,7 +5286,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Citrus maxima (Burm.) Merr.",
     pinyin: "Yù Pí",
     cong_dung: "Hóa đờm giáng khí, ấm vị tiêu mỡ.",
-    kieng_ky: "Thể hư hàn."
+    kieng_ky: "Thể hư hàn.",
+    dac_tinh: "Tính ấm, vị đắng cay nồng gừng.",
+    hinh_dang: "Phiến vỏ bưởi tẩm gừng phơi khô màu xanh xám thơm ấm; chọn vỏ dày nhiều túi dầu."
   },
   {
     stt: 2530,
@@ -4335,7 +5297,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Styphnolobium japonicum (L.) Schott",
     pinyin: "Huái Mǐ",
     cong_dung: "Lương huyết chỉ huyết, ấm tỳ hạ áp.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng cay gừng nhạt.",
+    hinh_dang: "Nụ hoa xanh tẩm gừng phơi khô thơm gừng dịu Tỳ; chọn nụ trứng nhọn chưa nở."
   },
   {
     stt: 2531,
@@ -4344,7 +5308,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Zingiber officinale Roscoe",
     pinyin: "Shēn Jiāng",
     cong_dung: "Ôn trung tán hàn, kiện tỳ chỉ nôn.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị cay nồng béo cám.",
+    hinh_dang: "Lát gừng phủ cám sao phơi khô màu vàng nâu thơm ngậy; chọn lát ruột vàng đậm."
   },
   {
     stt: 2532,
@@ -4353,7 +5319,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Mentha haplocalyx Briq.",
     pinyin: "Bò He",
     cong_dung: "Sơ tán phong nhiệt, kiện tỳ dịu ngứa.",
-    kieng_ky: "Mồ hôi ra quá nhiều."
+    kieng_ky: "Mồ hôi ra quá nhiều.",
+    dac_tinh: "Tính mát nhẹ, vị cay mát béo cám.",
+    hinh_dang: "Lá cành phủ cám sao phơi khô màu xanh xám thơm menthol; chọn cành lá khô giòn."
   },
   {
     stt: 2533,
@@ -4362,7 +5330,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Perilla frutescens (L.) Britt.",
     pinyin: "Zǐ Sū",
     cong_dung: "Phát tán phong hàn, kiện tỳ an thai.",
-    kieng_ky: "Biểu hư tự hãn."
+    kieng_ky: "Biểu hư tự hãn.",
+    dac_tinh: "Tính ấm nhẹ, vị cay thơm béo cám.",
+    hinh_dang: "Lá phủ cám sao phơi khô màu tím xám thơm béo; chọn lá khô nguyên hình."
   },
   {
     stt: 2534,
@@ -4371,7 +5341,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Elsholtzia ciliata (Thunb.) Hyland.",
     pinyin: "Jīng Jiè",
     cong_dung: "Phát tán phong hàn, thấu chẩn, kiện tỳ.",
-    kieng_ky: "Mụn nhọt đã vỡ."
+    kieng_ky: "Mụn nhọt đã vỡ.",
+    dac_tinh: "Tính ấm nhẹ, vị cay thơm béo cám.",
+    hinh_dang: "Cành lá hoa phủ cám sao phơi khô màu nâu vàng thơm; chọn cành hoa khô giòn."
   },
   {
     stt: 2535,
@@ -4380,7 +5352,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Chrysanthemum indicum L.",
     pinyin: "Yě Jū Huā",
     cong_dung: "Tán phong thanh nhiệt, ấm phế sáng mắt.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng cay gừng nhạt.",
+    hinh_dang: "Bông cúc vàng tẩm gừng phơi khô thơm nồng gừng ấm; chọn bông nhỏ đài xanh."
   },
   {
     stt: 2536,
@@ -4389,7 +5363,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Chrysanthemum morifolium Ramat.",
     pinyin: "Jū Huā",
     cong_dung: "Thanh nhiệt bình can, ấm phế trị đau đầu.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt đắng cay gừng.",
+    hinh_dang: "Bông cúc trắng tẩm gừng phơi khô thơm gừng dịu; chọn hoa cánh dài tươi khô."
   },
   {
     stt: 2537,
@@ -4398,7 +5374,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Vitex trifolia L.",
     pinyin: "Màn Jīng Zǐ",
     cong_dung: "Sơ tán phong nhiệt, dẫn thuốc trị đau đầu vào can.",
-    kieng_ky: "Huyết hư đau đầu."
+    kieng_ky: "Huyết hư đau đầu.",
+    dac_tinh: "Tính bình, vị cay đắng chua dịu.",
+    hinh_dang: "Quả hạt tròn tẩm giấm phơi khô màu xám đen se vị; chọn quả mẩy vỏ cứng."
   },
   {
     stt: 2538,
@@ -4407,7 +5385,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Morus alba L.",
     pinyin: "Sāng Yè",
     cong_dung: "Thanh phế nhuận táo, ấm phế dịu ho.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng ngọt cay gừng.",
+    hinh_dang: "Lá dâu tằm tẩm gừng phơi khô màu xám nâu thơm phế; chọn lá mỏng khô giòn."
   },
   {
     stt: 2539,
@@ -4416,7 +5396,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Saposhnikovia divaricata (Turcz.) Schischk.",
     pinyin: "Fáng Fēng",
     cong_dung: "Khu phong giải biểu, dẫn thuốc chỉ thống vào can.",
-    kieng_ky: "Huyết hư sốt."
+    kieng_ky: "Huyết hư sốt.",
+    dac_tinh: "Tính bình, vị cay ngọt chua dịu.",
+    hinh_dang: "Phiến rễ xám nâu tẩm giấm phơi khô se vị; chọn phiến mềm xốp thơm."
   },
   {
     stt: 2540,
@@ -4425,7 +5407,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Angelica dahurica (Fisch. ex Hoffm.) Benth. & Hook.f.",
     pinyin: "Bái Zhǐ",
     cong_dung: "Giải biểu tán hàn, dẫn thuốc thông khiếu vào can.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm nhẹ, vị cay chua dịu.",
+    hinh_dang: "Phiến rễ trắng ngà tẩm giấm phơi khô se vị thông khiếu; chọn phiến xốp thơm."
   },
   {
     stt: 2541,
@@ -4434,7 +5418,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Pueraria montana var. lobata (Willd.) Maesen & S.M.Almeida",
     pinyin: "Gě Gēn",
     cong_dung: "Giải cơ thoái nhiệt, nhuận tỳ sinh tân.",
-    kieng_ky: "Vị hàn."
+    kieng_ky: "Vị hàn.",
+    dac_tinh: "Tính ấm nhẹ, vị ngọt béo mật.",
+    hinh_dang: "Phiến sắn dây tẩm mật phơi khô màu vàng nhạt dẻo thơm; chọn phiến nặng chắc."
   },
   {
     stt: 2542,
@@ -4443,7 +5429,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Ziziphus jujuba Mill. var. spinosa (Bunge) Hu ex H.F.Chow",
     pinyin: "Suān Zǎo Rén",
     cong_dung: "Dưỡng tâm an thần, nhuận vị, chữa mất ngủ.",
-    kieng_ky: "Thực nhiệt uất."
+    kieng_ky: "Thực nhiệt uất.",
+    dac_tinh: "Tính bình, vị ngọt chua dịu dẻo.",
+    hinh_dang: "Hạt táo chua tẩm mật phơi khô dẻo bóng màu nâu đỏ; chọn nhân đục chắc."
   },
   {
     stt: 2543,
@@ -4452,7 +5440,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Platycladus orientalis (L.) Franco",
     pinyin: "Bǎi Zǐ Rén",
     cong_dung: "Dưỡng tâm an thần, nhuận tràng thông tiện.",
-    kieng_ky: "Tỳ hư tiêu chảy."
+    kieng_ky: "Tỳ hư tiêu chảy.",
+    dac_tinh: "Tính bình, vị ngọt béo mật.",
+    hinh_dang: "Nhân hạt trắc bách tẩm mật phơi khô màu vàng đục dẻo thơm; chọn hạt mẩy béo."
   },
   {
     stt: 2544,
@@ -4461,7 +5451,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Polygala tenuifolia Willd.",
     pinyin: "Yuǎn Zhì",
     cong_dung: "Ninh tâm an thần, nhuận phế khư đàm.",
-    kieng_ky: "Loét dạ dày."
+    kieng_ky: "Loét dạ dày.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng ngọt dịu.",
+    hinh_dang: "Đoạn ống rễ tẩm mật phơi khô màu nâu xám dẻo thơm; chọn ống bỏ lõi gỗ."
   },
   {
     stt: 2545,
@@ -4470,7 +5462,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Erythrina variegata L.",
     pinyin: "Hǎi Tóng Yè",
     cong_dung: "An thần thông lạc, kiện tỳ dịu thần kinh.",
-    kieng_ky: "Dùng quá liều."
+    kieng_ky: "Dùng quá liều.",
+    dac_tinh: "Tính bình, vị đắng béo cám.",
+    hinh_dang: "Lá mỏng phủ cám sao phơi khô màu xám xanh thơm béo; chọn lá khô giòn nguyên."
   },
   {
     stt: 2546,
@@ -4479,7 +5473,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Stephania glabra (Roxb.) Miers",
     pinyin: "Dì Dǎn",
     cong_dung: "Trấn kinh an thần, kiện tỳ giảm đau dạ dày.",
-    kieng_ky: "Dùng quá liều."
+    kieng_ky: "Dùng quá liều.",
+    dac_tinh: "Tính mát nhẹ, vị đắng béo cám.",
+    hinh_dang: "Lát củ phủ cám sao phơi khô màu xám trắng thơm ngậy; chọn lát ruột giòn chắc."
   },
   {
     stt: 2547,
@@ -4488,7 +5484,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Jasminum sambac (L.) Aiton",
     pinyin: "Mò Lì Huā",
     cong_dung: "Giải uất an thần, kiện tỳ dịu mát.",
-    kieng_ky: "Tỳ vị hư hàn."
+    kieng_ky: "Tỳ vị hư hàn.",
+    dac_tinh: "Tính mát nhẹ, vị ngọt thơm béo cám.",
+    hinh_dang: "Bông hoa trắng phủ cám sao phơi khô ngả vàng thơm béo; chọn hoa nguyên cánh."
   },
   {
     stt: 2548,
@@ -4497,7 +5495,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Nelumbo nucifera Gaertn.",
     pinyin: "Lián Xīn",
     cong_dung: "Thanh tâm hỏa, hạ áp, kiện tỳ dịu thần kinh.",
-    kieng_ky: "Huyết áp thấp."
+    kieng_ky: "Huyết áp thấp.",
+    dac_tinh: "Tính mát, vị đắng béo cám.",
+    hinh_dang: "Chồi mầm xanh phủ cám sao phơi khô ngả màu vàng xanh; chọn mầm giòn chắc."
   },
   {
     stt: 2549,
@@ -4506,7 +5506,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Rosa laevigata Michx.",
     pinyin: "Jīn Yīng Zǐ",
     cong_dung: "Cố tinh sáp niệu, kiện tỳ cầm tiêu chảy.",
-    kieng_ky: "Tiểu buốt dắt."
+    kieng_ky: "Tiểu buốt dắt.",
+    dac_tinh: "Tính bình, vị chua chát béo cám.",
+    hinh_dang: "Quả bổ đôi phủ cám sao phơi khô màu đỏ cam thơm béo; chọn quả mẩy vỏ gai."
   },
   {
     stt: 2550,
@@ -4515,7 +5517,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Terminalia chebula Retz.",
     pinyin: "Hē Zǐ",
     cong_dung: "Liễm phế chỉ khái, kiện tỳ cầm tiêu chảy.",
-    kieng_ky: "Ho mới phát."
+    kieng_ky: "Ho mới phát.",
+    dac_tinh: "Tính ấm nhẹ, vị chua chát béo cám.",
+    hinh_dang: "Phiến quả phủ cám sao phơi khô màu xám xanh thơm ngậy; chọn phiến dày chắc."
   },
   {
     stt: 2551,
@@ -4524,7 +5528,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Rhus chinensis Mill.",
     pinyin: "Wǔ Bèi Zǐ",
     cong_dung: "Cầm máu, thu liễm chỉ hãn, kiện tỳ.",
-    kieng_ky: "Thực nhiệt."
+    kieng_ky: "Thực nhiệt.",
+    dac_tinh: "Tính bình, vị chát đắng béo cám.",
+    hinh_dang: "Khối sâu phủ cám sao phơi khô màu xám xanh thơm dịu; chọn khối giòn xốp."
   },
   {
     stt: 2552,
@@ -4533,7 +5539,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Crassostrea gigas (Thunberg)",
     pinyin: "Mǔ Lì",
     cong_dung: "Bình can tiềm dương, kiện tỳ trung hòa acid.",
-    kieng_ky: "Hàn chứng."
+    kieng_ky: "Hàn chứng.",
+    dac_tinh: "Tính bình, vị mặn béo cám.",
+    hinh_dang: "Vỏ hàu biển đập vỡ phủ cám sao phơi khô màu xám trắng; chọn vỏ dày chắc xốp."
   },
   {
     stt: 2553,
@@ -4542,7 +5550,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Os Mastodi",
     pinyin: "Lóng Gǔ",
     cong_dung: "Trấn kinh an thần, kiện tỳ thu liễm cố sáp.",
-    kieng_ky: "Thấp nhiệt."
+    kieng_ky: "Thấp nhiệt.",
+    dac_tinh: "Tính bình, vị ngọt mặn béo cám.",
+    hinh_dang: "Khối xương hóa thạch phủ cám sao phơi khô màu xám trắng; chọn khối chắc dính lưỡi."
   },
   {
     stt: 2554,
@@ -4551,7 +5561,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Sepiella maindroni de Rochebrune",
     pinyin: "Wū Zéi Gǔ",
     cong_dung: "Thu liễm cầm máu, kiện tỳ trung hòa acid.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm nhẹ, vị mặn béo cám.",
+    hinh_dang: "Mai mực phủ cám sao phơi khô màu xám trắng thơm béo; chọn mai xốp giòn dẹt."
   },
   {
     stt: 2555,
@@ -4560,7 +5572,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Atractylodes macrocephala Koidz.",
     pinyin: "Bái Zhú",
     cong_dung: "Bổ tỳ kiện vị, ấm trung tiêu, nhuận vị.",
-    kieng_ky: "Âm hư hỏa vượng."
+    kieng_ky: "Âm hư hỏa vượng.",
+    dac_tinh: "Tính ấm, vị ngọt đắng cay gừng thơm mật.",
+    hinh_dang: "Lát củ tẩm mật gừng phơi khô màu nâu dẻo thơm nồng; chọn lát mẩy dẻo bổ Tỳ."
   },
   {
     stt: 2556,
@@ -4569,7 +5583,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Astragalus mongholicus Bunge",
     pinyin: "Huáng Qí",
     cong_dung: "Bổ khí cố biểu, ấm trung tiêu nhuận phế.",
-    kieng_ky: "Thực nhiệt uất."
+    kieng_ky: "Thực nhiệt uất.",
+    dac_tinh: "Tính ấm, vị ngọt cay nồng gừng thơm mật.",
+    hinh_dang: "Lát dẹt tẩm mật gừng phơi khô màu vàng nâu dẻo thơm; chọn lát béo mẩy nhiều thịt."
   },
   {
     stt: 2557,
@@ -4578,7 +5594,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Glycyrrhiza uralensis Fisch.",
     pinyin: "Gān Cǎo",
     cong_dung: "Bổ tỳ hòa trung, ấm phế nhuận họng.",
-    kieng_ky: "Trệ bụng đàm thấp."
+    kieng_ky: "Trệ bụng đàm thấp.",
+    dac_tinh: "Tính ấm, vị ngọt đậm cay gừng.",
+    hinh_dang: "Phiến tròn tẩm mật gừng phơi khô màu vàng óng dẻo thơm; chọn phiến tròn phẳng dẻo."
   },
   {
     stt: 2558,
@@ -4587,7 +5605,9 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Bupleurum chinense DC.",
     pinyin: "Chái Hú",
     cong_dung: "Sơ can giải uất, ấm can tán hàn dịu nhẹ.",
-    kieng_ky: "Can dương bốc hỏa."
+    kieng_ky: "Can dương bốc hỏa.",
+    dac_tinh: "Tính ấm nhẹ, vị đắng ngọt cay gừng.",
+    hinh_dang: "Rễ mảnh tẩm mật gừng phơi khô màu xám sẫm dẻo thơm; chọn rễ khô dẻo không gãy."
   },
   {
     stt: 2559,
@@ -4596,6 +5616,8 @@ window.duocLieuData = (window.duocLieuData || []).concat([
     ten_khoa_hoc: "Scutellaria baicalensis Georgi",
     pinyin: "Huáng Qín",
     cong_dung: "Thanh nhiệt tả hỏa, ấm phế vị, bớt tính hàn.",
-    kieng_ky: "Phế hàn ho đờm."
-  }
+    kieng_ky: "Phế hàn ho đờm.",
+    dac_tinh: "Tính bình, vị đắng ngọt cay gừng.",
+    hinh_dang: "Lát vàng sẫm tẩm mật gừng phơi khô dẻo dịu đắng; chọn lát chắc ruột màu vàng sẫm."
+  },
 ]);
