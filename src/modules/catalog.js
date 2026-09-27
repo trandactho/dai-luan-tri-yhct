@@ -246,20 +246,45 @@ function executeRenderDuocLieu(filteredData) {
         const linkKhoaHoc = d.ten_khoa_hoc ? `https://www.google.com/search?q=${encodeURIComponent(d.ten_khoa_hoc)}` : '';
         const linkPinyin = d.pinyin ? `https://www.google.com/search?q=${encodeURIComponent(d.pinyin + ' YHCT')}` : '';
 
+        // Tách tự động nội dung "Chọn..." ra khỏi hinh_dang
+        let mainHinhDang = d.hinh_dang || '';
+        let chonText = '';
+        if (mainHinhDang.includes('Chọn ')) {
+            const parts = mainHinhDang.split(/(?=Chọn\s)/i);
+            mainHinhDang = parts[0].trim();
+            chonText = parts.slice(1).join(' ').trim();
+        }
+
         card.innerHTML = `
             <div class="absolute top-0 right-0 bg-emerald-950 text-emerald-400 text-[10px] font-bold px-2 py-0.5 rounded-bl uppercase tracking-wider">${escapeHTML(d.nhom || 'Dược liệu YHCT')}</div>
             <div>
-                <h3 class="font-bold text-emerald-400 text-base cursor-pointer hover:underline card-title-el inline-flex items-center gap-1 w-fit">🌿 ${highlightText(d.ten || '', txtRaw)}</h3>
-                <div class="flex flex-wrap gap-x-3 gap-y-1 mt-1 text-xs">
+                <div class="flex items-center gap-2 flex-wrap pr-20">
+                    <h3 class="font-bold text-emerald-400 text-base cursor-pointer hover:underline card-title-el inline-flex items-center gap-1 w-fit">🌿 ${highlightText(d.ten || '', txtRaw)}</h3>
+                    ${d.dac_tinh ? `<span class="inline-flex items-center gap-1 w-fit text-cyan-300 font-semibold bg-cyan-950/60 px-2 py-0.5 rounded border border-cyan-800/60 text-[11px]"><i class="fa-solid fa-temperature-half text-[10px] text-cyan-400"></i> Tính: ${highlightText(d.dac_tinh, txtRaw)}</span>` : ''}
+                </div>
+                <div class="flex flex-wrap gap-x-2.5 gap-y-1.5 mt-1.5 text-xs">
                     ${d.ten_khoa_hoc ? `<a href="${linkKhoaHoc}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="inline-flex items-center gap-1 w-fit text-stone-400 italic hover:text-emerald-300 hover:underline"><i class="fa-solid fa-flask text-[10px] text-emerald-500/80"></i> ${highlightText(d.ten_khoa_hoc, txtRaw)}</a>` : ''}
                     ${d.pinyin ? `<a href="${linkPinyin}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="inline-flex items-center gap-1 w-fit text-amber-300/90 font-medium hover:text-amber-200 hover:underline"><i class="fa-solid fa-language text-[10px] text-amber-500"></i> ${highlightText(d.pinyin, txtRaw)}</a>` : ''}
                 </div>
             </div>
             <div class="blur-target ${blurDL} space-y-2">
+                ${mainHinhDang ? `
+                <div class="bg-stone-900/70 border border-stone-800 p-2.5 rounded-md text-xs leading-relaxed">
+                    <div class="text-stone-400 text-[10px] font-bold tracking-wider uppercase flex items-center gap-1 mb-0.5"><i class="fa-solid fa-eye text-[9px]"></i> HÌNH DẠNG & ĐẶC ĐIỂM:</div>
+                    <p class="text-stone-300/90 font-normal leading-relaxed">${highlightText(mainHinhDang, txtRaw)}</p>
+                </div>` : ''}
+
                 <div class="bg-emerald-950/30 border border-emerald-600/60 p-2.5 rounded-md cong-dung-el cursor-pointer hover:border-amber-500/80 transition-colors" title="Bấm để tra cứu hội chứng phù hợp trong Luận trị">
                     <div class="text-emerald-400 text-[10px] font-bold tracking-wider uppercase flex items-center gap-1"><i class="fa-solid fa-briefcase-medical text-[9px]"></i> CÔNG DỤNG CHÍNH:</div>
                     <p class="text-sm text-stone-200 font-medium mt-0.5 leading-relaxed">${highlightText(d.cong_dung || 'Đang cập nhật công năng chủ trị.', txtRaw)}</p>
                 </div>
+
+                ${chonText ? `
+                <div class="bg-amber-950/30 border border-amber-500/50 p-2.5 rounded-md text-xs leading-relaxed">
+                    <div class="text-amber-400 text-[10px] font-bold tracking-wider uppercase flex items-center gap-1 mb-0.5"><i class="fa-solid fa-circle-check text-[9px]"></i> TIÊU CHUẨN CHỌN DƯỢC LIỆU:</div>
+                    <p class="text-amber-200/90 font-medium leading-relaxed">${highlightText(chonText, txtRaw)}</p>
+                </div>` : ''}
+
                 ${d.kieng_ky ? `<div class="bg-red-950/20 border border-red-900/40 p-2.5 rounded-md text-xs leading-relaxed"><div class="text-red-400 text-[10px] font-bold tracking-wider uppercase flex items-center gap-1 mb-0.5"><i class="fa-solid fa-triangle-exclamation text-[9px]"></i> LƯU Ý & KIÊNG KỴ:</div><p class="text-red-300/90 font-medium">${highlightText(d.kieng_ky, txtRaw)}</p></div>` : ''}
             </div>`;
 
@@ -286,6 +311,8 @@ function executeRenderDuocLieu(filteredData) {
     });
     grid.appendChild(frag);
 }
+
+
 
 // --- 2. THEME KINH MẠCH & TAB HUYỆT VỊ ---
 function getKinhTheme(kinhName) {
