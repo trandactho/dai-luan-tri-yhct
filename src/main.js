@@ -185,35 +185,42 @@ async function taiDuLieuOffline() {
         const channel = new BroadcastChannel('pwa_offline_progress');
         
         channel.onmessage = (event) => {
-    const data = event.data;
-    if (!data) return;
+            const data = event.data;
+            if (!data) return;
 
-    if (data.type === 'PROGRESS') {
-        if (btnEl) btnEl.innerText = `Đang tải... ${data.percent}% (${data.processed}/${data.total})`;
-    }
+            // Bắt lỗi từ SW trả về
+            if (data.type === 'SW_ERROR') {
+                logErr(data.code || 'ERR_SW', data.detail || 'Lỗi không xác định từ Service Worker.');
+                channel.close();
+                return;
+            }
 
-    if (data.type === 'COMPLETE') {
-        if (btnEl) {
-            btnEl.disabled = false;
-            btnEl.innerHTML = '☁️ Tải Offline';
-        }
+            if (data.type === 'PROGRESS') {
+                if (btnEl) btnEl.innerText = `Đang tải... ${data.percent}% (${data.processed}/${data.total})`;
+            }
 
-        // Báo lỗi thực tế nếu SW đang chạy là bản cũ
-        if (typeof data.total === 'undefined') {
-            alert('⚠️ Service Worker cũ chưa nhả cache. Đang làm mới trang...');
-            window.location.reload();
-            return;
-        }
+            if (data.type === 'COMPLETE') {
+                if (btnEl) {
+                    btnEl.disabled = false;
+                    btnEl.innerHTML = '☁️ Tải Offline';
+                }
 
-        let msg = `✅ Tải hoàn tất!\n- Thành công: ${data.count}/${data.total} file.\n- Bị lỗi/bỏ qua: ${data.failed} file.`;
-        if (data.failedList && data.failedList.length > 0) {
-            msg += `\n\n📌 Danh sách file chưa tải được:\n` + data.failedList.join('\n');
-        }
+                if (typeof data.total === 'undefined') {
+                    alert('⚠️ Service Worker cũ chưa nhả cache. Đang làm mới trang...');
+                    window.location.reload();
+                    return;
+                }
 
-        alert(msg);
-        channel.close();
-    }
-};
+                let msg = `✅ Tải hoàn tất!\n- Thành công: ${data.count}/${data.total} file.\n- Bị lỗi/bỏ qua: ${data.failed} file.`;
+                if (data.failedList && data.failedList.length > 0) {
+                    msg += `\n\n📌 Danh sách file chưa tải được:\n` + data.failedList.join('\n');
+                }
+
+                alert(msg);
+                channel.close();
+            }
+        };
+
         // Lọc danh sách ảnh huyệt vị dựa vào mã WHO (ma_who)
         let listAnh = [];
         try {
@@ -243,7 +250,6 @@ async function taiDuLieuOffline() {
                     const res = await fetch('./huyetvidata.js');
                     if (res.ok) {
                         const text = await res.text();
-                        // Bẫy tất cả giá trị thuộc tính ma_who (ví dụ ma_who: "LU1", "ma_who": 'ST36')
                         const matches = text.match(/["']?ma_?who["']?\s*:\s*["']([^"']+)["']/gi) || [];
                         matches.forEach(m => {
                             const val = m.match(/:\s*["']([^"']+)["']/);
@@ -258,13 +264,11 @@ async function taiDuLieuOffline() {
                 }
             }
 
-            // Lọc trùng lặp
             listAnh = [...new Set(listAnh)];
             console.log(`[Offline Check] Đã quét thành công ${listAnh.length} ảnh huyệt vị.`);
         } catch (e) {
             return logErr('ERR_DATA_PARSE', 'Lỗi quét danh sách ảnh: ' + e.message);
         }
-
 
         if (btnEl) btnEl.innerText = 'Đang tiến hành tải...';
 
@@ -277,8 +281,6 @@ async function taiDuLieuOffline() {
         logErr('ERR_CLIENT_TRY_CATCH', err.message || err);
     }
 }
-
-
 
 // --- BỘ XỬ LÝ VUỐT CHUYỂN TAB TỐI ƯU HÓA MOBILE ---
 
@@ -313,7 +315,6 @@ function shouldIgnoreSwipe(target) {
 }
 
 document.addEventListener('touchstart', (e) => {
-    // Nếu tắt tính năng vuốt chuyển tab trong cài đặt -> bỏ qua và đánh dấu ignore ngay lập tức
     if (localStorage.getItem('setting_swipe_tabs') === 'false') {
         isSwipeIgnored = true;
         return;
@@ -336,7 +337,6 @@ document.addEventListener('touchstart', (e) => {
 }, { passive: true });
 
 document.addEventListener('touchend', (e) => {
-    // Kiểm tra thêm điều kiện cài đặt ở touchend để đảm bảo tuyệt đối
     if (localStorage.getItem('setting_swipe_tabs') === 'false') return;
     if (isSwipeIgnored || !e.changedTouches || e.changedTouches.length === 0) return;
 
@@ -389,11 +389,15 @@ function khoiPhucTrangThaiTruocDo() {
         if (state.tab && typeof switchTab === 'function') {
             switchTab(state.tab, false);
 
-            const searchInput = document.getElementById(`search${capitalize(state.tab)}`);
+            const tabCap = typeof capitalize === 'function' 
+                ? capitalize(state.tab) 
+                : (state.tab.charAt(0).toUpperCase() + state.tab.slice(1));
+
+            const searchInput = document.getElementById(`search${tabCap}`);
             if (searchInput && state.search) searchInput.value = state.search;
 
             setTimeout(() => {
-                const filterEl = document.getElementById(`filterNhom${capitalize(state.tab)}`) || document.getElementById(`filterKinhLac`);
+                const filterEl = document.getElementById(`filterNhom${tabCap}`) || document.getElementById(`filterKinhLac`);
                 if (filterEl && state.group) filterEl.value = state.group;
 
                 if (state.tab === 'duoclieu' && typeof filterDuocLieu === 'function') filterDuocLieu();
@@ -411,15 +415,11 @@ function khoiPhucTrangThaiTruocDo() {
     }
 }
 
-// Khôi phục khi mở lại app từ trình duyệt
 window.addEventListener('pageshow', khoiPhucTrangThaiTruocDo);
 
-// Xử lý nút Back của trình duyệt / thiết bị di động
 window.addEventListener('popstate', (e) => {
-    // Nếu tắt tính năng chặn nút back trong cài đặt -> cho phép trình duyệt xử lý tự nhiên hoàn toàn
     if (localStorage.getItem('setting_back_block') === 'false') return;
 
-    // 1. Kiểm tra và đóng các modal đang mở trước
     const openModals = [
         'modal-cai-dat',
         'modal-don-thuoc',
@@ -455,7 +455,6 @@ function moModalCaiDat() {
     if (modal) {
         modal.classList.remove('hidden');
         
-        // Đồng bộ trạng thái checkbox với localStorage
         const swipeToggle = document.getElementById('setting-swipe-tabs');
         const backToggle = document.getElementById('setting-back-block');
         
@@ -479,57 +478,3 @@ function toggleSettingSwipe(checkbox) {
 function toggleSettingBackBlock(checkbox) {
     localStorage.setItem('setting_back_block', checkbox.checked);
 }
-
-// --- ĐIỀU CHỈNH TRONG SỰ KIỆN VUỐT TAB ---
-document.addEventListener('touchstart', (e) => {
-    // Nếu tắt tính năng vuốt chuyển tab trong cài đặt -> bỏ qua
-    if (localStorage.getItem('setting_swipe_tabs') === 'false') return;
-
-    if (e.touches.length !== 1) {
-        isSwipeIgnored = true;
-        return;
-    }
-
-    if (shouldIgnoreSwipe(e.target)) {
-        isSwipeIgnored = true;
-        return;
-    }
-
-    isSwipeIgnored = false;
-    touchStartX = e.touches[0].clientX;
-    touchStartY = e.touches[0].clientY;
-    touchStartTime = Date.now();
-}, { passive: true });
-
-// --- ĐIỀU CHỈNH TRONG SỰ KIỆN POPSTATE (NÚT BACK) ---
-window.addEventListener('popstate', (e) => {
-    // Nếu tắt tính năng chặn nút back trong cài đặt -> cho phép trình duyệt xử lý tự nhiên
-    if (localStorage.getItem('setting_back_block') === 'false') return;
-
-    const openModals = [
-        'modal-cai-dat',
-        'modal-don-thuoc',
-        'modal-tuan-nay-an-gi',
-        'modal-thong-tin-yhct',
-        'modal-role-lock'
-    ];
-    
-    let closedAnyModal = false;
-    for (const modalId of openModals) {
-        const modalEl = document.getElementById(modalId);
-        if (modalEl && !modalEl.classList.contains('hidden')) {
-            modalEl.classList.add('hidden');
-            closedAnyModal = true;
-        }
-    }
-
-    if (closedAnyModal) return;
-
-    const activeBtn = document.querySelector('nav button.tab-active');
-    const currentTabId = activeBtn ? activeBtn.id.replace('btnTab', '').toLowerCase() : '';
-
-    if (currentTabId && currentTabId !== 'taikhoan') {
-        history.pushState({ tab: 'taikhoan' }, '', window.location.href);
-        switchTab('taikhoan', false);
-    } 
-});
