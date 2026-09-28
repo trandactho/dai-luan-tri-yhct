@@ -4,11 +4,21 @@
 
 const CACHE_NAME = 'dailuantri-v1.8.2-fix3';
 
-const CORE_FILES = [
+const allFilesToDownload = [
     './', 
     './index.html', 
     './style.css', 
     './manifest.json',
+
+    // --- LƯU CACHE CẢ CDN TAILWIND LẪN FONTAWESOME NỘI BỘ ---
+    'https://cdn.tailwindcss.com',
+    './assets/css/all.min.css',
+    './assets/webfonts/fa-brands-400.woff2',
+    './assets/webfonts/fa-regular-400.woff2',
+    './assets/webfonts/fa-solid-900.woff2',
+    './assets/webfonts/fa-v4compatibility.woff2',
+    // --------------------------------------------------------
+
     './luantridata.js', 
     './huyetvidata.js',
     './duoclieudata1.js', './duoclieudata2.js', './duoclieudata3.js', './duoclieudata4.js', './duoclieudata5.js',
