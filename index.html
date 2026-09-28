@@ -1146,10 +1146,7 @@
             <a href="privacy.html" class="hover:text-primary transition-colors">Chính sách bảo mật</a>
             <span>•</span>
             <a href="contact.html" class="hover:text-primary transition-colors">Liên hệ</a>
-            <span>•</span>
-            <button onclick="taiDuLieuOffline()" class="hover:text-amber-500 text-stone-400 transition-colors cursor-pointer inline-flex items-center gap-1">
-                <i class="fa-solid fa-cloud-arrow-down"></i> Tải Offline
-            </button>
+            
         </div>
         <p class="text-[11px] text-stone-600">© 2026 Đại Luận Trị YHCT. Phát triển bởi Trần Đắc Thọ.</p>
     </footer>
@@ -1500,6 +1497,20 @@
                     <div class="w-9 h-5 bg-stone-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-amber-600"></div>
                 </label>
             </div>
+            <!-- Tùy chọn 3: Tải dữ liệu Offline -->
+            <div class="flex items-center justify-between p-3 bg-stone-950 rounded-xl border border-stone-800">
+                <div class="space-y-0.5">
+                    <div class="font-bold text-stone-200 flex items-center gap-1.5">
+                        <i class="fa-solid text-amber-500"></i> Tải dữ liệu Offline
+                    </div>
+                    <div class="text-[10px] text-stone-400">Lưu dữ liệu và ảnh huyệt vị để dùng khi không có mạng</div>
+                </div>
+                    <button onclick="taiDuLieuOffline(this)" 
+                        class="shrink-0 px-3 py-1.5 bg-amber-600 hover:bg-amber-500 active:bg-amber-700 text-white text-xs font-medium rounded-lg shadow transition-all duration-200 flex items-center gap-1.5">
+                           <i class="fa-solid fa-cloud-arrow-down"></i>
+                             <span>Tải Offline</span>
+                    </button>
+                </div>
         </div>
         <div class="pt-2 border-t border-stone-800 flex justify-end">
             <button onclick="dongModalCaiDat()" class="px-4 py-2 bg-amber-600 hover:bg-amber-500 text-white font-bold rounded-xl transition-all cursor-pointer">
@@ -1508,6 +1519,7 @@
         </div>
     </div>
 </div>
+
 
     <!-- 0. CƠ SỞ DỮ LIỆU -->
     <script src="luantridata.js" defer></script>
