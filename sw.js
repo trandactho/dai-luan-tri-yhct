@@ -2,11 +2,39 @@
 // SERVICE WORKER - BẮT LỖI TREO CACHE.PUT TUYỆT ĐỐI
 // ==========================================
 
-const CACHE_NAME = 'dailuantri-v1.8.2-fix';
+const CACHE_NAME = 'dailuantri-v1.8.2-fix3';
+
+const CORE_FILES = [
+    './', 
+    './index.html', 
+    './style.css', 
+    './manifest.json',
+    './luantridata.js', 
+    './huyetvidata.js',
+    './duoclieudata1.js', './duoclieudata2.js', './duoclieudata3.js', './duoclieudata4.js', './duoclieudata5.js',
+    './duocthiendata.js', './tradata.js', './questiondata.js',
+    './src/modules/tai-khoan.js', 
+    './src/modules/luan-tri.js', 
+    './src/modules/catalog.js',
+    './src/modules/phoi-ngu.js', 
+    './src/modules/trac-nghiem.js', 
+    './src/modules/thu-vien.js', 
+    './src/modules/tu-chan.js',
+    './src/core/ai-service.js',
+    './src/core/config.js',
+    './src/core/utils.js',
+    './main.js'
+];
 
 self.addEventListener('install', (event) => {
     self.skipWaiting();
+    event.waitUntil(
+        caches.open(CACHE_NAME).then((cache) => {
+            return cache.addAll(CORE_FILES).catch(err => console.warn('Lỗi cache file cốt lõi:', err));
+        })
+    );
 });
+
 
 self.addEventListener('activate', (event) => {
     event.waitUntil(
@@ -101,8 +129,22 @@ self.addEventListener('message', (event) => {
                 try {
                     // --- CẬP NHẬT MẢNG allFilesToDownload TRONG sw.js ---
 const allFilesToDownload = [
-    './', './index.html', './style.css', './manifest.json',
-    './luantridata.js', './huyetvidata.js',
+    './', 
+    './index.html', 
+    './style.css', 
+    './manifest.json',
+
+    // --- CÁC FILE UI NỘI BỘ MỚI TẠO ---
+    './assets/css/tailwind.min.css',
+    './assets/css/all.min.css',
+    './assets/webfonts/fa-brands-400.woff2',
+    './assets/webfonts/fa-regular-400.woff2',
+    './assets/webfonts/fa-solid-900.woff2',
+    './assets/webfonts/fa-v4compatibility.woff2',
+    // ------------------------------------
+
+    './luantridata.js', 
+    './huyetvidata.js',
     './duoclieudata1.js', './duoclieudata2.js', './duoclieudata3.js', './duoclieudata4.js', './duoclieudata5.js',
     './duocthiendata.js', './tradata.js', './questiondata.js',
     './src/modules/tai-khoan.js', 
@@ -112,12 +154,11 @@ const allFilesToDownload = [
     './src/modules/trac-nghiem.js', 
     './src/modules/thu-vien.js', 
     './src/modules/tu-chan.js',
-    './src/core/ai-service.js', // Sửa lại đúng đường dẫn thư mục core
+    './src/core/ai-service.js',
     './src/core/config.js',
-    './src/core/utils.js'
+    './src/core/utils.js',
+    './main.js'
 ];
-
-
                     const rawList = event.data.imageList || [];
                     const cleanImageList = [...new Set(rawList)].filter(
                         u => u && typeof u === 'string' && !u.includes('undefined') && !u.includes('null')
