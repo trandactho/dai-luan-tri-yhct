@@ -2,7 +2,7 @@
 // SERVICE WORKER - BẮT LỖI TREO CACHE.PUT TUYỆT ĐỐI
 // ==========================================
 
-const CACHE_NAME = 'dailuantri-v1.8.0-fix v4';
+const CACHE_NAME = 'dailuantri-v1.8.2-fix';
 
 self.addEventListener('install', (event) => {
     self.skipWaiting();
@@ -16,7 +16,7 @@ self.addEventListener('activate', (event) => {
                     if (key !== CACHE_NAME) return caches.delete(key);
                 })
             );
-        }).then(() => self.clients.claim()) // Ép chiếm quyền control ngay lập tức
+        }).then(() => self.clients.claim())
     );
 });
 
@@ -34,31 +34,31 @@ self.addEventListener('fetch', (event) => {
 });
 
 // Bẫy Timeout tuyệt đối cho TOÀN BỘ quá trình (Fetch + Cache.put)
-function processSingleFileWithHardTimeout(cache, url, timeoutMs = 3500) {
+function processSingleFileWithHardTimeout(cache, url, timeoutMs = 2500) {
     return new Promise((resolve) => {
         let isDone = false;
 
+        // Bẫy đếm giờ tuyệt đối: Quá timeoutMs là ÉP HỦY ngắt luồng ngay lập tức
         const timer = setTimeout(() => {
             if (!isDone) {
                 isDone = true;
-                resolve(false);
+                resolve(false); // Quá thời gian -> Bỏ qua file này
             }
         }, timeoutMs);
 
         (async () => {
             try {
+                // 1. Nếu đã có trong Cache -> Bỏ qua
                 const matched = await cache.match(url);
                 if (matched) {
                     if (!isDone) { isDone = true; clearTimeout(timer); resolve(true); }
                     return;
                 }
 
-                // Xử lý riêng cho URL CDN bên ngoài để không bị lỗi CORS
-                const isExternal = url.startsWith('http://') || url.startsWith('https://');
-                const fetchOptions = isExternal ? { mode: 'cors' } : { cache: 'no-cache' };
-
-                const res = await fetch(url, fetchOptions);
-                if (res && (res.ok || res.type === 'opaque')) {
+                // 2. Tải file từ mạng
+                const res = await fetch(url, { cache: 'no-cache' });
+                if (res && res.ok) {
+                    // 3. Ghi vào Cache (Nếu bước này treo, Bẫy timer ở trên vẫn sẽ giải thoát luồng)
                     await cache.put(url, res.clone());
                     if (!isDone) { isDone = true; clearTimeout(timer); resolve(true); }
                 } else {
@@ -83,7 +83,6 @@ async function processPool(items, concurrency, taskFn) {
     await Promise.all(workers);
 }
 
-// --- THAY ĐOẠN MESSAGE TRONG sw.js ---
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'SKIP_WAITING') {
         self.skipWaiting();
@@ -103,9 +102,6 @@ self.addEventListener('message', (event) => {
                     // --- CẬP NHẬT MẢNG allFilesToDownload TRONG sw.js ---
 const allFilesToDownload = [
     './', './index.html', './style.css', './manifest.json',
-    'https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css', // Thay dòng tailwindcss.com cũ
-    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
-    'https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js',
     './luantridata.js', './huyetvidata.js',
     './duoclieudata1.js', './duoclieudata2.js', './duoclieudata3.js', './duoclieudata4.js', './duoclieudata5.js',
     './duocthiendata.js', './tradata.js', './questiondata.js',
@@ -132,7 +128,6 @@ const allFilesToDownload = [
 
                     let processedCount = 0;
                     let successCount = 0;
-                    let failedFiles = [];
 
                     let cache;
                     try {
@@ -148,16 +143,12 @@ const allFilesToDownload = [
                         total: totalItems
                     });
 
+                    // Giảm xuống 3 luồng để tránh tràn bộ nhớ I/O đĩa trên di động
                     const CONCURRENCY = 3;
 
                     await processPool(allResources, CONCURRENCY, async (url) => {
-                        // Tăng bẫy Timeout lên 3500ms cho mạng di động
-                        const isSuccess = await processSingleFileWithHardTimeout(cache, url, 3500);
-                        if (isSuccess) {
-                            successCount++;
-                        } else {
-                            failedFiles.push(url);
-                        }
+                        const isSuccess = await processSingleFileWithHardTimeout(cache, url, 2500);
+                        if (isSuccess) successCount++;
                         
                         processedCount++;
                         const percent = Math.min(100, Math.round((processedCount / totalItems) * 100));
@@ -171,17 +162,16 @@ const allFilesToDownload = [
                         } catch(e){}
                     });
 
-                    // Gửi chính xác số file thành công, thất bại và danh sách file lỗi
-                    channel.postMessage({ 
-                        type: 'COMPLETE', 
-                        success: true, 
-                        count: successCount,
-                        failed: failedFiles.length,
-                        total: totalItems,
-                        failedList: failedFiles
-                    });
-                    channel.close();
-
+                    // Cập nhật đầy đủ các trường dữ liệu mà main.js yêu cầu
+channel.postMessage({ 
+    type: 'COMPLETE', 
+    success: true, 
+    count: successCount,
+    failed: allResources.length - successCount,
+    total: totalItems,
+    failedList: []
+});
+channel.close();
                 } catch (mainSWError) {
                     sendError('ERR_SW_EXECUTION', mainSWError.message || mainSWError);
                 }
