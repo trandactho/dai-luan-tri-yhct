@@ -1,8 +1,8 @@
 // ==========================================
-// SERVICE WORKER - BẮT LỖI TREO CACHE.PUT TUYỆT ĐỐI
+// SERVICE WORKER - KIỂM TRA CACHE TRƯỚC (ZERO NETWORK FOR CACHED FILES)
 // ==========================================
 
-const CACHE_NAME = 'dailuantri-v1.8.0-fix4';
+const CACHE_NAME = 'dailuantri-v1.8.0-fix10';
 
 const allFilesToDownload = [
     './', 
@@ -32,19 +32,23 @@ const allFilesToDownload = [
     './src/core/ai-service.js',
     './src/core/config.js',
     './src/core/utils.js',
-    './main.js'
+    './src/main.js'
 ];
 
 self.addEventListener('install', (event) => {
     self.skipWaiting();
     event.waitUntil(
-        caches.open(CACHE_NAME).then((cache) => {
-            // Thay CORE_FILES bằng allFilesToDownload để không bị lỗi undefined
-            return cache.addAll(allFilesToDownload).catch(err => console.warn('Lỗi cache file cốt lõi:', err));
+        caches.open(CACHE_NAME).then(async (cache) => {
+            for (const url of allFilesToDownload) {
+                try {
+                    await cache.add(url);
+                } catch (e) {
+                    console.warn('[SW Install] Bỏ qua file lỗi:', url);
+                }
+            }
         })
     );
 });
-
 
 self.addEventListener('activate', (event) => {
     event.waitUntil(
@@ -71,45 +75,53 @@ self.addEventListener('fetch', (event) => {
     );
 });
 
-// Bẫy Timeout tuyệt đối cho TOÀN BỘ quá trình (Fetch + Cache.put)
-function processSingleFileWithHardTimeout(cache, url, timeoutMs = 2500) {
+function fetchWithTimeout(url, timeoutMs) {
     return new Promise((resolve) => {
         let isDone = false;
-
-        // Bẫy đếm giờ tuyệt đối: Quá timeoutMs là ÉP HỦY ngắt luồng ngay lập tức
         const timer = setTimeout(() => {
-            if (!isDone) {
-                isDone = true;
-                resolve(false); // Quá thời gian -> Bỏ qua file này
-            }
+            if (!isDone) { isDone = true; resolve(null); }
         }, timeoutMs);
 
-        (async () => {
-            try {
-                // 1. Nếu đã có trong Cache -> Bỏ qua
-                const matched = await cache.match(url);
-                if (matched) {
-                    if (!isDone) { isDone = true; clearTimeout(timer); resolve(true); }
-                    return;
-                }
-
-                // 2. Tải file từ mạng
-                const res = await fetch(url, { cache: 'no-cache' });
-                if (res && res.ok) {
-                    // 3. Ghi vào Cache (Nếu bước này treo, Bẫy timer ở trên vẫn sẽ giải thoát luồng)
-                    await cache.put(url, res.clone());
-                    if (!isDone) { isDone = true; clearTimeout(timer); resolve(true); }
-                } else {
-                    if (!isDone) { isDone = true; clearTimeout(timer); resolve(false); }
-                }
-            } catch (err) {
-                if (!isDone) { isDone = true; clearTimeout(timer); resolve(false); }
-            }
-        })();
+        fetch(url, { cache: 'no-cache' })
+            .then(res => {
+                if (!isDone) { isDone = true; clearTimeout(timer); resolve(res); }
+            })
+            .catch(() => {
+                if (!isDone) { isDone = true; clearTimeout(timer); resolve(null); }
+            });
     });
 }
 
-// Xử lý hàng đợi song song
+// Sửa tận gốc: Kiểm tra Cache trước, có rồi thì DỪNG KHÔNG GỬI REQUEST MẠNG
+async function processSingleFileWithHardTimeout(cache, url, timeoutMs = 8000) {
+    if (url === './main.js') url = './src/main.js';
+
+    try {
+        // 1. KIỂM TRA TRONG CACHE THỰC TẾ
+        const matched = await cache.match(url);
+        if (matched) {
+            // Đã lưu thành công từ trước -> Bỏ qua tải mạng hoàn toàn!
+            return true; 
+        }
+
+        // 2. CHỈ TẢI QUA MẠNG KHI CHƯA CÓ TRONG CACHE
+        let res = await fetchWithTimeout(url, timeoutMs);
+        if (!res) {
+            // Thử lại lần 2 nếu mạng chập chờn
+            res = await fetchWithTimeout(url, timeoutMs);
+        }
+
+        if (res && res.ok) {
+            await cache.put(url, res.clone());
+            return true;
+        }
+
+        return false;
+    } catch (e) {
+        return false;
+    }
+}
+
 async function processPool(items, concurrency, taskFn) {
     let index = 0;
     const workers = Array(concurrency).fill(0).map(async () => {
@@ -142,11 +154,16 @@ self.addEventListener('message', (event) => {
                         u => u && typeof u === 'string' && !u.includes('undefined') && !u.includes('null')
                     );
 
-                    const allResources = [...allFilesToDownload, ...cleanImageList];
+                    let allResources = [...allFilesToDownload, ...cleanImageList].map(item => {
+                        return item === './main.js' ? './src/main.js' : item;
+                    });
+                    allResources = [...new Set(allResources)];
+
                     const totalItems = allResources.length;
 
                     let processedCount = 0;
                     let successCount = 0;
+                    let failedFiles = [];
 
                     let cache;
                     try {
@@ -162,12 +179,15 @@ self.addEventListener('message', (event) => {
                         total: totalItems
                     });
 
-                    // Giảm xuống 3 luồng để tránh tràn bộ nhớ I/O đĩa trên di động
                     const CONCURRENCY = 3;
 
                     await processPool(allResources, CONCURRENCY, async (url) => {
-                        const isSuccess = await processSingleFileWithHardTimeout(cache, url, 2500);
-                        if (isSuccess) successCount++;
+                        const isSuccess = await processSingleFileWithHardTimeout(cache, url, 8000);
+                        if (isSuccess) {
+                            successCount++;
+                        } else {
+                            failedFiles.push(url);
+                        }
                         
                         processedCount++;
                         const percent = Math.min(100, Math.round((processedCount / totalItems) * 100));
@@ -181,16 +201,15 @@ self.addEventListener('message', (event) => {
                         } catch(e){}
                     });
 
-                    // Cập nhật đầy đủ các trường dữ liệu mà main.js yêu cầu
-channel.postMessage({ 
-    type: 'COMPLETE', 
-    success: true, 
-    count: successCount,
-    failed: allResources.length - successCount,
-    total: totalItems,
-    failedList: []
-});
-channel.close();
+                    channel.postMessage({ 
+                        type: 'COMPLETE', 
+                        success: true, 
+                        count: successCount,
+                        failed: failedFiles.length,
+                        total: totalItems,
+                        failedList: failedFiles
+                    });
+                    channel.close();
                 } catch (mainSWError) {
                     sendError('ERR_SW_EXECUTION', mainSWError.message || mainSWError);
                 }
