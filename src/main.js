@@ -1,7 +1,8 @@
 // --- KHỞI CHẠY ỨNG DỤNG & ĐIỀU HƯỚNG TAB ---
+
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        // 1. Tải và hiển thị ngay các dữ liệu local/offline có sẵn
+        // Bỏ qua việc tự động khôi phục / lọc nặng khi vừa mở app để giảm tải cho CPU
         capNhatThongKeHeader();
         if (typeof capNhatTongSoTrieuChung === 'function') capNhatTongSoTrieuChung();
         if (typeof capNhatTongSoTracNghiem === 'function') capNhatTongSoTracNghiem();
@@ -9,20 +10,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (typeof updateLuanTri === 'function') updateLuanTri();
 
-        // 2. Chỉ truy vấn API Server/Drive NẾU THIẾT BỊ ĐANG CÓ MẠNG (ONLINE)
+        // Cho phép đồng bộ Drive chạy sau cùng bằng setTimeout để không nghẽn luồng chính
         setTimeout(() => {
-            if (navigator.onLine) {
-                if (typeof taiDanhSachSachTuDrive === 'function') taiDanhSachSachTuDrive();
-                if (typeof initUserAuthSession === 'function') initUserAuthSession();
-            } else {
-                console.log("ℹ️ Đang ở chế độ Offline: Bỏ qua kết nối Google Drive & Auth Session.");
-            }
+            if (typeof taiDanhSachSachTuDrive === 'function') taiDanhSachSachTuDrive();
+            if (typeof initUserAuthSession === 'function') initUserAuthSession();
         }, 500);
 
     } catch (err) {
         console.error("Lỗi trong quá trình khởi chạy ứng dụng:", err);
     } finally {
-        // 3. Tắt màn hình chờ (Loader) bình thường kể cả khi Online hay Offline
         const loader = document.getElementById('app-loader');
         if (loader) {
             loader.classList.add('opacity-0');
@@ -32,14 +28,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 });
-
-// 4. (Tùy chọn bổ sung) Tự động kết nối lại Server ngay khi thiết bị có lại Wifi/4G
-window.addEventListener('online', () => {
-    console.log("🌐 Đã kết nối Internet trở lại! Đang đồng bộ dữ liệu...");
-    if (typeof taiDanhSachSachTuDrive === 'function') taiDanhSachSachTuDrive();
-    if (typeof initUserAuthSession === 'function') initUserAuthSession();
-});
-
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && e.target && e.target.tagName === 'INPUT') {
@@ -230,33 +218,55 @@ async function taiDuLieuOffline() {
 
                                 // Lọc danh sách ảnh huyệt vị dựa vào mã WHO (ma_who)
         let listAnh = [];
-let missingWhoCount = 0;
+        try {
+            // 1. Lấy dữ liệu từ RAM
+            let rawData = [];
+            if (typeof huyetViData !== 'undefined' && Array.isArray(huyetViData) && huyetViData.length > 0) {
+                rawData = huyetViData;
+            } else if (typeof DANH_SACH_HUYET_VI !== 'undefined' && Array.isArray(DANH_SACH_HUYET_VI) && DANH_SACH_HUYET_VI.length > 0) {
+                rawData = DANH_SACH_HUYET_VI;
+            } else if (window.huyetViData && Array.isArray(window.huyetViData) && window.huyetViData.length > 0) {
+                rawData = window.huyetViData;
+            }
 
-try {
-    let rawData = [];
-    if (typeof huyetViData !== 'undefined' && Array.isArray(huyetViData)) rawData = huyetViData;
-    else if (typeof DANH_SACH_HUYET_VI !== 'undefined' && Array.isArray(DANH_SACH_HUYET_VI)) rawData = DANH_SACH_HUYET_VI;
+            // 2. Nếu có dữ liệu trong RAM: Trích xuất ma_who và ghép đường dẫn .png
+            if (rawData.length > 0) {
+                rawData.forEach(h => {
+                    if (!h) return;
+                    const maWho = h.ma_who || h.maWHO || h.ma || '';
+                    const safe = String(maWho).trim().replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+                    if (safe) listAnh.push(`./hinhanhhuyetvi/${safe}.png`);
+                });
+            }
 
-    rawData.forEach((h, index) => {
-        if (!h) return;
-        const maWho = h.ma_who || h.maWHO || h.ma || '';
-        const safe = String(maWho).trim().replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
-        if (safe) {
-            listAnh.push(`./hinhanhhuyetvi/${safe}.png`);
-        } else {
-            missingWhoCount++; // Bẫy đếm số huyệt thiếu ma_who
+            // 3. Nếu RAM trống: Đọc trực tiếp file huyetvidata.js để tìm tất cả chuỗi "ma_who"
+            if (listAnh.length === 0) {
+                try {
+                    const res = await fetch('./huyetvidata.js');
+                    if (res.ok) {
+                        const text = await res.text();
+                        // Bẫy tất cả giá trị thuộc tính ma_who (ví dụ ma_who: "LU1", "ma_who": 'ST36')
+                        const matches = text.match(/["']?ma_?who["']?\s*:\s*["']([^"']+)["']/gi) || [];
+                        matches.forEach(m => {
+                            const val = m.match(/:\s*["']([^"']+)["']/);
+                            if (val && val[1]) {
+                                const safe = val[1].trim().replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+                                if (safe) listAnh.push(`./hinhanhhuyetvi/${safe}.png`);
+                            }
+                        });
+                    }
+                } catch (fetchErr) {
+                    console.warn('Lỗi fetch huyetvidata.js:', fetchErr);
+                }
+            }
+
+            // Lọc trùng lặp
+            listAnh = [...new Set(listAnh)];
+            console.log(`[Offline Check] Đã quét thành công ${listAnh.length} ảnh huyệt vị.`);
+        } catch (e) {
+            return logErr('ERR_DATA_PARSE', 'Lỗi quét danh sách ảnh: ' + e.message);
         }
-    });
 
-    listAnh = [...new Set(listAnh)];
-    
-    // Báo thông số quét ban đầu ra alert trên điện thoại nếu phát hiện bất thường
-    if (listAnh.length < 397) {
-        console.warn(`[Quét ảnh] Tìm thấy ${listAnh.length}/397 mã ảnh. Có ${missingWhoCount} huyệt thiếu ma_who.`);
-    }
-} catch (e) {
-    return logErr('ERR_DATA_PARSE', 'Lỗi quét danh sách ảnh: ' + e.message);
-}
 
         if (btnEl) btnEl.innerText = 'Đang tiến hành tải...';
 
