@@ -214,9 +214,7 @@ async function taiDuLieuOffline() {
         channel.close();
     }
 };
-
-
-                                // Lọc danh sách ảnh huyệt vị dựa vào mã WHO (ma_who)
+        // Lọc danh sách ảnh huyệt vị dựa vào mã WHO (ma_who)
         let listAnh = [];
         try {
             // 1. Lấy dữ liệu từ RAM
