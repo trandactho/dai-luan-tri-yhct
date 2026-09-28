@@ -1,8 +1,8 @@
 // ==========================================
-// SERVICE WORKER - KIỂM TRA CACHE TRƯỚC (ZERO NETWORK FOR CACHED FILES)
+// SERVICE WORKER - ĐẢM BẢO CACHE CHUẨN OFFINE 100%
 // ==========================================
 
-const CACHE_NAME = 'dailuantri-v1.8.0-fix10';
+const CACHE_NAME = 'dailuantri-v1.8.0-fix12';
 
 const allFilesToDownload = [
     './', 
@@ -10,8 +10,11 @@ const allFilesToDownload = [
     './style.css', 
     './manifest.json',
 
-    // --- FILE UI NỘI BỘ ---
-    './assets/css/tailwind.min.css',
+    // --- CDN BÊN NGOÀI (CẦN CACHE BẮT BUỘC) ---
+    'https://cdn.tailwindcss.com',
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
+
+    // --- FILE NỘI BỘ ---
     './assets/css/all.min.css',
     './assets/webfonts/fa-brands-400.woff2',
     './assets/webfonts/fa-regular-400.woff2',
@@ -35,21 +38,26 @@ const allFilesToDownload = [
     './src/main.js'
 ];
 
+// 1. CÀI ĐẶT: Ép tải toàn bộ file trong danh sách vào Cache
 self.addEventListener('install', (event) => {
     self.skipWaiting();
     event.waitUntil(
         caches.open(CACHE_NAME).then(async (cache) => {
             for (const url of allFilesToDownload) {
                 try {
-                    await cache.add(url);
+                    const response = await fetch(url, { mode: 'cors' });
+                    if (response.ok || response.type === 'opaque') {
+                        await cache.put(url, response);
+                    }
                 } catch (e) {
-                    console.warn('[SW Install] Bỏ qua file lỗi:', url);
+                    console.warn('[SW Install] Bỏ qua file lỗi hoặc không có mạng:', url);
                 }
             }
         })
     );
 });
 
+// 2. KÍCH HOẠT: Xóa Cache cũ
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((keys) => {
@@ -62,11 +70,26 @@ self.addEventListener('activate', (event) => {
     );
 });
 
+// 3. LẤY DỮ LIỆU: Ưu tiên Cache -> Không có mới gọi Mạng & Tự động lưu Cache
 self.addEventListener('fetch', (event) => {
     if (event.request.method !== 'GET') return;
+
     event.respondWith(
-        caches.match(event.request).then((cached) => {
-            return cached || fetch(event.request).catch(() => {
+        caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
+            if (cachedResponse) {
+                return cachedResponse; // Đã có trong cache -> Trả về ngay
+            }
+
+            // Nếu chưa có trong cache -> Fetch qua mạng và TỰ ĐỘNG LƯU VÀO CACHE
+            return fetch(event.request).then((networkResponse) => {
+                if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
+                    const responseToCache = networkResponse.clone();
+                    caches.open(CACHE_NAME).then((cache) => {
+                        cache.put(event.request, responseToCache);
+                    });
+                }
+                return networkResponse;
+            }).catch(() => {
                 if (event.request.mode === 'navigate') {
                     return caches.match('./index.html') || caches.match('./');
                 }
@@ -75,14 +98,15 @@ self.addEventListener('fetch', (event) => {
     );
 });
 
-function fetchWithTimeout(url, timeoutMs) {
+// Hàm hỗ trợ Tải với Timeout
+function fetchWithTimeout(url, timeoutMs = 8000) {
     return new Promise((resolve) => {
         let isDone = false;
         const timer = setTimeout(() => {
             if (!isDone) { isDone = true; resolve(null); }
         }, timeoutMs);
 
-        fetch(url, { cache: 'no-cache' })
+        fetch(url, { mode: 'cors', cache: 'no-cache' })
             .then(res => {
                 if (!isDone) { isDone = true; clearTimeout(timer); resolve(res); }
             })
@@ -92,26 +116,25 @@ function fetchWithTimeout(url, timeoutMs) {
     });
 }
 
-// Sửa tận gốc: Kiểm tra Cache trước, có rồi thì DỪNG KHÔNG GỬI REQUEST MẠNG
+// Kiểm tra chính xác xem file đã nằm trong Cache Storage chưa
 async function processSingleFileWithHardTimeout(cache, url, timeoutMs = 8000) {
     if (url === './main.js') url = './src/main.js';
 
     try {
-        // 1. KIỂM TRA TRONG CACHE THỰC TẾ
-        const matched = await cache.match(url);
-        if (matched) {
-            // Đã lưu thành công từ trước -> Bỏ qua tải mạng hoàn toàn!
-            return true; 
+        // 1. KIỂM TRA XEM ĐÃ CÓ TRONG CACHE CHƯA
+        const matched = await cache.match(url, { ignoreSearch: true });
+        if (matched && (matched.ok || matched.type === 'opaque')) {
+            return true; // File đã tồn tại chuẩn xác trong Cache!
         }
 
-        // 2. CHỈ TẢI QUA MẠNG KHI CHƯA CÓ TRONG CACHE
+        // 2. CHƯA CÓ TRONG CACHE -> ÉP TẢI VỀ TỪ MẠNG
         let res = await fetchWithTimeout(url, timeoutMs);
-        if (!res) {
-            // Thử lại lần 2 nếu mạng chập chờn
+        if (!res || (!res.ok && res.type !== 'opaque')) {
+            // Thử lại lần 2
             res = await fetchWithTimeout(url, timeoutMs);
         }
 
-        if (res && res.ok) {
+        if (res && (res.ok || res.type === 'opaque')) {
             await cache.put(url, res.clone());
             return true;
         }
@@ -133,6 +156,7 @@ async function processPool(items, concurrency, taskFn) {
     await Promise.all(workers);
 }
 
+// 4. LẮNG NGHE LỆNH "TẢI OFFLINE" TỪ GIAO DIỆN
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'SKIP_WAITING') {
         self.skipWaiting();
@@ -160,7 +184,6 @@ self.addEventListener('message', (event) => {
                     allResources = [...new Set(allResources)];
 
                     const totalItems = allResources.length;
-
                     let processedCount = 0;
                     let successCount = 0;
                     let failedFiles = [];
