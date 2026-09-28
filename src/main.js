@@ -9,9 +9,10 @@ if ('serviceWorker' in navigator) {
     });
 }
 
+// --- ĐOẠN MÃ MỚI ĐÃ TỐI ƯU OFFLINE ---
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        // Bỏ qua việc tự động khôi phục / lọc nặng khi vừa mở app để giảm tải cho CPU
+        // 1. Tải và hiển thị ngay các dữ liệu local/offline có sẵn
         capNhatThongKeHeader();
         if (typeof capNhatTongSoTrieuChung === 'function') capNhatTongSoTrieuChung();
         if (typeof capNhatTongSoTracNghiem === 'function') capNhatTongSoTracNghiem();
@@ -19,15 +20,20 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (typeof updateLuanTri === 'function') updateLuanTri();
 
-        // Cho phép đồng bộ Drive chạy sau cùng bằng setTimeout để không nghẽn luồng chính
+        // 2. Chỉ truy vấn API Server/Drive NẾU THIẾT BỊ ĐANG CÓ MẠNG (ONLINE)
         setTimeout(() => {
-            if (typeof taiDanhSachSachTuDrive === 'function') taiDanhSachSachTuDrive();
-            if (typeof initUserAuthSession === 'function') initUserAuthSession();
+            if (navigator.onLine) {
+                if (typeof taiDanhSachSachTuDrive === 'function') taiDanhSachSachTuDrive();
+                if (typeof initUserAuthSession === 'function') initUserAuthSession();
+            } else {
+                console.log("ℹ️ Đang ở chế độ Offline: Bỏ qua kết nối Google Drive & Auth Session.");
+            }
         }, 500);
 
     } catch (err) {
         console.error("Lỗi trong quá trình khởi chạy ứng dụng:", err);
     } finally {
+        // 3. Tắt màn hình chờ (Loader) bình thường kể cả khi Online hay Offline
         const loader = document.getElementById('app-loader');
         if (loader) {
             loader.classList.add('opacity-0');
@@ -37,6 +43,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }
 });
+
+// 4. (Tùy chọn bổ sung) Tự động kết nối lại Server ngay khi thiết bị có lại Wifi/4G
+window.addEventListener('online', () => {
+    console.log("🌐 Đã kết nối Internet trở lại! Đang đồng bộ dữ liệu...");
+    if (typeof taiDanhSachSachTuDrive === 'function') taiDanhSachSachTuDrive();
+    if (typeof initUserAuthSession === 'function') initUserAuthSession();
+});
+
 
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Enter' && e.target && e.target.tagName === 'INPUT') {
