@@ -2,7 +2,7 @@
 // SERVICE WORKER - BẮT LỖI TREO CACHE.PUT TUYỆT ĐỐI
 // ==========================================
 
-const CACHE_NAME = 'dailuantri-v1.8.0-fix v3';
+const CACHE_NAME = 'dailuantri-v1.8.0-fix v4';
 
 self.addEventListener('install', (event) => {
     self.skipWaiting();
@@ -58,7 +58,7 @@ function processSingleFileWithHardTimeout(cache, url, timeoutMs = 3500) {
                 const fetchOptions = isExternal ? { mode: 'cors' } : { cache: 'no-cache' };
 
                 const res = await fetch(url, fetchOptions);
-                if (res && res.ok) {
+                if (res && (res.ok || res.type === 'opaque')) {
                     await cache.put(url, res.clone());
                     if (!isDone) { isDone = true; clearTimeout(timer); resolve(true); }
                 } else {
@@ -103,7 +103,7 @@ self.addEventListener('message', (event) => {
                     // --- CẬP NHẬT MẢNG allFilesToDownload TRONG sw.js ---
 const allFilesToDownload = [
     './', './index.html', './style.css', './manifest.json',
-    'https://cdn.tailwindcss.com',
+    'https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css', // Thay dòng tailwindcss.com cũ
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
     'https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js',
     './luantridata.js', './huyetvidata.js',
