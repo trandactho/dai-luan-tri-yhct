@@ -1,15 +1,4 @@
 // --- KHỞI CHẠY ỨNG DỤNG & ĐIỀU HƯỚNG TAB ---
-let refreshing = false;
-if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.addEventListener('controllerchange', () => {
-        if (!refreshing) {
-            refreshing = true;
-            window.location.reload();
-        }
-    });
-}
-
-// --- ĐOẠN MÃ MỚI ĐÃ TỐI ƯU OFFLINE ---
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         // 1. Tải và hiển thị ngay các dữ liệu local/offline có sẵn
