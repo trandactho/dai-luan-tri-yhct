@@ -2,7 +2,7 @@
 // SERVICE WORKER - BẮT LỖI TREO CACHE.PUT TUYỆT ĐỐI
 // ==========================================
 
-const CACHE_NAME = 'dailuantri-v1.8.0-fix v2';
+const CACHE_NAME = 'dailuantri-v1.8.0-fix v3';
 
 self.addEventListener('install', (event) => {
     self.skipWaiting();
@@ -34,31 +34,31 @@ self.addEventListener('fetch', (event) => {
 });
 
 // Bẫy Timeout tuyệt đối cho TOÀN BỘ quá trình (Fetch + Cache.put)
-function processSingleFileWithHardTimeout(cache, url, timeoutMs = 2500) {
+function processSingleFileWithHardTimeout(cache, url, timeoutMs = 3500) {
     return new Promise((resolve) => {
         let isDone = false;
 
-        // Bẫy đếm giờ tuyệt đối: Quá timeoutMs là ÉP HỦY ngắt luồng ngay lập tức
         const timer = setTimeout(() => {
             if (!isDone) {
                 isDone = true;
-                resolve(false); // Quá thời gian -> Bỏ qua file này
+                resolve(false);
             }
         }, timeoutMs);
 
         (async () => {
             try {
-                // 1. Nếu đã có trong Cache -> Bỏ qua
                 const matched = await cache.match(url);
                 if (matched) {
                     if (!isDone) { isDone = true; clearTimeout(timer); resolve(true); }
                     return;
                 }
 
-                // 2. Tải file từ mạng
-                const res = await fetch(url, { cache: 'no-cache' });
+                // Xử lý riêng cho URL CDN bên ngoài để không bị lỗi CORS
+                const isExternal = url.startsWith('http://') || url.startsWith('https://');
+                const fetchOptions = isExternal ? { mode: 'cors' } : { cache: 'no-cache' };
+
+                const res = await fetch(url, fetchOptions);
                 if (res && res.ok) {
-                    // 3. Ghi vào Cache (Nếu bước này treo, Bẫy timer ở trên vẫn sẽ giải thoát luồng)
                     await cache.put(url, res.clone());
                     if (!isDone) { isDone = true; clearTimeout(timer); resolve(true); }
                 } else {
