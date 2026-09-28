@@ -2,7 +2,7 @@
 // SERVICE WORKER - BẮT LỖI TREO CACHE.PUT TUYỆT ĐỐI
 // ==========================================
 
-const CACHE_NAME = 'dailuantri-v1.8.0-fix v1';
+const CACHE_NAME = 'dailuantri-v1.8.0-fix v2';
 
 self.addEventListener('install', (event) => {
     self.skipWaiting();
@@ -103,6 +103,9 @@ self.addEventListener('message', (event) => {
                     // --- CẬP NHẬT MẢNG allFilesToDownload TRONG sw.js ---
 const allFilesToDownload = [
     './', './index.html', './style.css', './manifest.json',
+    'https://cdn.tailwindcss.com',
+    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css',
+    'https://cdnjs.cloudflare.com/ajax/libs/dompurify/3.0.6/purify.min.js',
     './luantridata.js', './huyetvidata.js',
     './duoclieudata1.js', './duoclieudata2.js', './duoclieudata3.js', './duoclieudata4.js', './duoclieudata5.js',
     './duocthiendata.js', './tradata.js', './questiondata.js',
