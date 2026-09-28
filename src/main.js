@@ -1,4 +1,13 @@
 // --- KHỞI CHẠY ỨNG DỤNG & ĐIỀU HƯỚNG TAB ---
+let refreshing = false;
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+        if (!refreshing) {
+            refreshing = true;
+            window.location.reload();
+        }
+    });
+}
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
@@ -141,34 +150,123 @@ function exportPDF() {
 }
 
 async function taiDuLieuOffline() {
+    const logErr = (code, detail) => {
+        const msg = `❌ LỖI [${code}]: ${detail}`;
+        console.error(msg);
+        alert(msg);
+        const btnEl = document.getElementById('btn-download-offline') || document.querySelector('[onclick*="taiDuLieuOffline"]');
+        if (btnEl) {
+            btnEl.disabled = false;
+            btnEl.innerText = '☁️ Tải Offline';
+        }
+    };
+
     if (!('serviceWorker' in navigator)) {
-        alert('Trình duyệt của bạn không hỗ trợ tính năng Offline.');
-        return;
+        return logErr('ERR_NO_SW_SUPPORT', 'Trình duyệt không hỗ trợ Service Worker.');
+    }
+
+    const btnEl = document.getElementById('btn-download-offline') || document.querySelector('[onclick*="taiDuLieuOffline"]');
+    if (btnEl) {
+        btnEl.disabled = true;
+        btnEl.innerText = 'Đang khởi chạy...';
     }
 
     try {
-        const registration = await navigator.serviceWorker.ready;
-        const activeWorker = navigator.serviceWorker.controller || registration.active;
-
-        if (activeWorker) {
-            // Tạo kênh phản hồi 2 chiều
-            const messageChannel = new MessageChannel();
-            messageChannel.port1.onmessage = (event) => {
-                if (event.data && event.data.success) {
-                    alert(`Đã lưu toàn bộ dữ liệu & ${event.data.count} ảnh huyệt vị Offline thành công!`);
-                }
-            };
-
-            activeWorker.postMessage({ type: 'CACHE_ALL' }, [messageChannel.port2]);
-            console.log('Đang bắt đầu tiến trình đồng bộ Cache Offline...');
-        } else {
-            alert('Service Worker đang khởi tạo, vui lòng tải lại trang (F5) và thử lại.');
+        // TỰ ĐỘNG CẬP NHẬT/ĐẮNG KÝ LẠI SW MỚI
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        for (let reg of registrations) {
+            await reg.update();
         }
+
+        const reg = await navigator.serviceWorker.register('./sw.js');
+        await reg.update();
+
+        const readyTimeout = new Promise((_, reject) => 
+            setTimeout(() => reject(new Error('SW không phản hồi. Vui lòng F5 lại trang!')), 4000)
+        );
+
+        await Promise.race([navigator.serviceWorker.ready, readyTimeout]);
+
+        if (!navigator.serviceWorker.controller) {
+            return logErr('ERR_NO_CONTROLLER', 'Đã cập nhật SW! Hãy bấm F5 (Tải lại trang) 1 lần rồi bấm Tải lại.');
+        }
+
+        const channel = new BroadcastChannel('pwa_offline_progress');
+        
+        channel.onmessage = (event) => {
+    const data = event.data;
+    if (!data) return;
+
+    if (data.type === 'PROGRESS') {
+        if (btnEl) btnEl.innerText = `Đang tải... ${data.percent}% (${data.processed}/${data.total})`;
+    }
+
+    if (data.type === 'COMPLETE') {
+        if (btnEl) {
+            btnEl.disabled = false;
+            btnEl.innerHTML = '☁️ Tải Offline';
+        }
+
+        // Báo lỗi thực tế nếu SW đang chạy là bản cũ
+        if (typeof data.total === 'undefined') {
+            alert('⚠️ Service Worker cũ chưa nhả cache. Đang làm mới trang...');
+            window.location.reload();
+            return;
+        }
+
+        let msg = `✅ Tải hoàn tất!\n- Thành công: ${data.count}/${data.total} file.\n- Bị lỗi/bỏ qua: ${data.failed} file.`;
+        if (data.failedList && data.failedList.length > 0) {
+            msg += `\n\n📌 Danh sách file chưa tải được:\n` + data.failedList.join('\n');
+        }
+
+        alert(msg);
+        channel.close();
+    }
+};
+
+
+                                // Lọc danh sách ảnh huyệt vị dựa vào mã WHO (ma_who)
+        let listAnh = [];
+let missingWhoCount = 0;
+
+try {
+    let rawData = [];
+    if (typeof huyetViData !== 'undefined' && Array.isArray(huyetViData)) rawData = huyetViData;
+    else if (typeof DANH_SACH_HUYET_VI !== 'undefined' && Array.isArray(DANH_SACH_HUYET_VI)) rawData = DANH_SACH_HUYET_VI;
+
+    rawData.forEach((h, index) => {
+        if (!h) return;
+        const maWho = h.ma_who || h.maWHO || h.ma || '';
+        const safe = String(maWho).trim().replace(/[^a-zA-Z0-9]/g, '').toUpperCase();
+        if (safe) {
+            listAnh.push(`./hinhanhhuyetvi/${safe}.png`);
+        } else {
+            missingWhoCount++; // Bẫy đếm số huyệt thiếu ma_who
+        }
+    });
+
+    listAnh = [...new Set(listAnh)];
+    
+    // Báo thông số quét ban đầu ra alert trên điện thoại nếu phát hiện bất thường
+    if (listAnh.length < 397) {
+        console.warn(`[Quét ảnh] Tìm thấy ${listAnh.length}/397 mã ảnh. Có ${missingWhoCount} huyệt thiếu ma_who.`);
+    }
+} catch (e) {
+    return logErr('ERR_DATA_PARSE', 'Lỗi quét danh sách ảnh: ' + e.message);
+}
+
+        if (btnEl) btnEl.innerText = 'Đang tiến hành tải...';
+
+        navigator.serviceWorker.controller.postMessage({
+            type: 'CACHE_ALL',
+            imageList: listAnh
+        });
+
     } catch (err) {
-        console.error('Lỗi tải offline:', err);
-        alert('Chưa thể lưu Offline: ' + err.message);
+        logErr('ERR_CLIENT_TRY_CATCH', err.message || err);
     }
 }
+
 
 
 // --- BỘ XỬ LÝ VUỐT CHUYỂN TAB TỐI ƯU HÓA MOBILE ---
