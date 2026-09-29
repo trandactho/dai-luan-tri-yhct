@@ -2,6 +2,7 @@
 
 document.addEventListener('DOMContentLoaded', async () => {
     try {
+        // Bỏ qua việc tự động khôi phục / lọc nặng khi vừa mở app để giảm tải cho CPU
         capNhatThongKeHeader();
         if (typeof capNhatTongSoTrieuChung === 'function') capNhatTongSoTrieuChung();
         if (typeof capNhatTongSoTracNghiem === 'function') capNhatTongSoTracNghiem();
@@ -9,6 +10,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         if (typeof updateLuanTri === 'function') updateLuanTri();
 
+        // Cho phép đồng bộ Drive chạy sau cùng bằng setTimeout để không nghẽn luồng chính
         setTimeout(() => {
             if (typeof taiDanhSachSachTuDrive === 'function') taiDanhSachSachTuDrive();
             if (typeof initUserAuthSession === 'function') initUserAuthSession();
@@ -24,9 +26,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 loader.classList.add('hidden');
             }, 500);
         }
-    }        
-    if (!history.state) {
-        history.replaceState({ tab: 'luantri' }, '', window.location.href);
     }
 });
 
@@ -109,8 +108,7 @@ async function switchTab(tabName, pushHistory = true) {
         }
     }
 
-    // Chỉ pushState nếu tab chuyển đổi khác với tab hiện tại trong history
-    if (pushHistory && history.state?.tab !== tabName) {
+    if (pushHistory) {
         history.pushState({ tab: tabName }, '', window.location.href);
     }
 
@@ -165,6 +163,7 @@ async function taiDuLieuOffline() {
     }
 
     try {
+        // TỰ ĐỘNG CẬP NHẬT/ĐẮNG KÝ LẠI SW MỚI
         const registrations = await navigator.serviceWorker.getRegistrations();
         for (let reg of registrations) {
             await reg.update();
@@ -179,62 +178,53 @@ async function taiDuLieuOffline() {
 
         await Promise.race([navigator.serviceWorker.ready, readyTimeout]);
 
-        // Tự động kích hoạt controller nếu chưa nhận ngay
         if (!navigator.serviceWorker.controller) {
-            if (reg.active) {
-                reg.active.postMessage({ type: 'SKIP_WAITING' });
+            return logErr('ERR_NO_CONTROLLER', 'Đã cập nhật SW! Hãy bấm F5 (Tải lại trang) 1 lần rồi bấm Tải lại.');
+        }
+
+        const channel = new BroadcastChannel('pwa_offline_progress');
+        
+        channel.onmessage = (event) => {
+            const data = event.data;
+            if (!data) return;
+
+            // Bắt lỗi từ SW trả về
+            if (data.type === 'SW_ERROR') {
+                logErr(data.code || 'ERR_SW', data.detail || 'Lỗi không xác định từ Service Worker.');
+                channel.close();
+                return;
             }
-            await new Promise(resolve => setTimeout(resolve, 300));
-        }
 
-        const activeController = navigator.serviceWorker.controller || reg.active;
-        if (!activeController) {
-            return logErr('ERR_NO_CONTROLLER', 'Chưa thể kết nối Service Worker! Hãy bấm F5 để thử lại.');
-        }
+            if (data.type === 'PROGRESS') {
+                if (btnEl) btnEl.innerText = `Đang tải... ${data.percent}% (${data.processed}/${data.total})`;
+            }
 
-        let channel = null;
-        if ('BroadcastChannel' in window) {
-            channel = new BroadcastChannel('pwa_offline_progress');
-            channel.onmessage = (event) => {
-                const data = event.data;
-                if (!data) return;
+            if (data.type === 'COMPLETE') {
+                if (btnEl) {
+                    btnEl.disabled = false;
+                    btnEl.innerHTML = '☁️ Tải Offline';
+                }
 
-                if (data.type === 'SW_ERROR') {
-                    logErr(data.code || 'ERR_SW', data.detail || 'Lỗi không xác định từ Service Worker.');
-                    channel.close();
+                if (typeof data.total === 'undefined') {
+                    alert('⚠️ Service Worker cũ chưa nhả cache. Đang làm mới trang...');
+                    window.location.reload();
                     return;
                 }
 
-                if (data.type === 'PROGRESS') {
-                    if (btnEl) btnEl.innerText = `Đang tải... ${data.percent}% (${data.processed}/${data.total})`;
+                let msg = `✅ Tải hoàn tất!\n- Thành công: ${data.count}/${data.total} file.\n- Bị lỗi/bỏ qua: ${data.failed} file.`;
+                if (data.failedList && data.failedList.length > 0) {
+                    msg += `\n\n📌 Danh sách file chưa tải được:\n` + data.failedList.join('\n');
                 }
 
-                if (data.type === 'COMPLETE') {
-                    if (btnEl) {
-                        btnEl.disabled = false;
-                        btnEl.innerHTML = '☁️ Tải Offline';
-                    }
+                alert(msg);
+                channel.close();
+            }
+        };
 
-                    if (typeof data.total === 'undefined') {
-                        alert('⚠️ Service Worker cũ chưa nhả cache. Đang làm mới trang...');
-                        window.location.reload();
-                        return;
-                    }
-
-                    let msg = `✅ Tải hoàn tất!\n- Thành công: ${data.count}/${data.total} file.\n- Bị lỗi/bỏ qua: ${data.failed} file.`;
-                    if (data.failedList && data.failedList.length > 0) {
-                        msg += `\n\n📌 Danh sách file chưa tải được:\n` + data.failedList.join('\n');
-                    }
-
-                    alert(msg);
-                    channel.close();
-                }
-            };
-        }
-
-        // Lọc danh sách ảnh huyệt vị
+        // Lọc danh sách ảnh huyệt vị dựa vào mã WHO (ma_who)
         let listAnh = [];
         try {
+            // 1. Lấy dữ liệu từ RAM
             let rawData = [];
             if (typeof huyetViData !== 'undefined' && Array.isArray(huyetViData) && huyetViData.length > 0) {
                 rawData = huyetViData;
@@ -244,6 +234,7 @@ async function taiDuLieuOffline() {
                 rawData = window.huyetViData;
             }
 
+            // 2. Nếu có dữ liệu trong RAM: Trích xuất ma_who và ghép đường dẫn .png
             if (rawData.length > 0) {
                 rawData.forEach(h => {
                     if (!h) return;
@@ -253,13 +244,10 @@ async function taiDuLieuOffline() {
                 });
             }
 
+            // 3. Nếu RAM trống: Đọc trực tiếp file huyetvidata.js để tìm tất cả chuỗi "ma_who"
             if (listAnh.length === 0) {
                 try {
-                    const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 3000);
-                    const res = await fetch('./huyetvidata.js', { signal: controller.signal });
-                    clearTimeout(timeoutId);
-
+                    const res = await fetch('./huyetvidata.js');
                     if (res.ok) {
                         const text = await res.text();
                         const matches = text.match(/["']?ma_?who["']?\s*:\s*["']([^"']+)["']/gi) || [];
@@ -275,6 +263,7 @@ async function taiDuLieuOffline() {
                     console.warn('Lỗi fetch huyetvidata.js:', fetchErr);
                 }
             }
+
             listAnh = [...new Set(listAnh)];
             console.log(`[Offline Check] Đã quét thành công ${listAnh.length} ảnh huyệt vị.`);
         } catch (e) {
@@ -283,7 +272,7 @@ async function taiDuLieuOffline() {
 
         if (btnEl) btnEl.innerText = 'Đang tiến hành tải...';
 
-        activeController.postMessage({
+        navigator.serviceWorker.controller.postMessage({
             type: 'CACHE_ALL',
             imageList: listAnh
         });
@@ -448,19 +437,18 @@ window.addEventListener('popstate', (e) => {
         }
     }
 
-    if (closedAnyModal) {
-        const activeBtn = document.querySelector('nav button.tab-active');
-        const currentTabId = activeBtn ? activeBtn.id.replace('btnTab', '').toLowerCase() : 'luantri';
-        history.pushState({ tab: currentTabId }, '', window.location.href);
-        return;
-    }
+    if (closedAnyModal) return;
 
-    if (e.state && e.state.tab) {
-        switchTab(e.state.tab, false);
-    }
+    const activeBtn = document.querySelector('nav button.tab-active');
+    const currentTabId = activeBtn ? activeBtn.id.replace('btnTab', '').toLowerCase() : '';
+
+    if (currentTabId && currentTabId !== 'taikhoan') {
+        history.pushState({ tab: 'taikhoan' }, '', window.location.href);
+        switchTab('taikhoan', false);
+    } 
 });
 
-// --- QUẢN LÝ MODAL CÀI ĐẶT ---
+// --- QUẢN LÝ MODAL CÀI ĐẶT & TRẠNG THÁI ---
 
 function moModalCaiDat() {
     const modal = document.getElementById('modal-cai-dat');
