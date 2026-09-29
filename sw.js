@@ -1,9 +1,9 @@
 // ==========================================
-// SERVICE WORKER - CHỐNG PHÌNH CACHE & DỌN DẸP RÁC
+// SERVICE WORKER - TỰ ĐỘNG CẬP NHẬT CODE CORE KHÔNG CẦN ĐỔI VERSION
 // ==========================================
 
-const STATIC_CACHE = 'dailuantri-static-v1.8.0-fix14'; // Chỉ chứa HTML/JS/CSS nội bộ
-const PERSISTENT_CACHE = 'dailuantri-persistent-v1';  // Chứa CDN + Ảnh + Font (BẢO TỒN VĨNH VIỄN)
+const STATIC_CACHE = 'dailuantri-static-v1.8.0-fix14'; 
+const PERSISTENT_CACHE = 'dailuantri-persistent-v1';  
 
 const allFilesToDownload = [
     './', 
@@ -11,7 +11,7 @@ const allFilesToDownload = [
     './style.css', 
     './manifest.json',
 
-    // --- CDN BÊN NGOÀI (LƯU VÀO CACHE BỀN VỮNG) ---
+    // --- CDN BÊN NGOÀI ---
     'https://cdn.tailwindcss.com',
 
     // --- FILE NỘI BỘ ---
@@ -38,35 +38,35 @@ const allFilesToDownload = [
     './src/main.js'
 ];
 
-// 1. Kiểm tra file thuộc nhóm Bền Vững (CDN, Ảnh, Font)
 function isPersistentResource(urlStr) {
     const url = new URL(urlStr, self.location.origin);
     return url.hostname.includes('cdn.tailwindcss.com') ||
            url.pathname.includes('/hinhanhhuyetvi/') ||
            url.pathname.includes('/assets/webfonts/') ||
-           url.pathname.includes('/assets/css/') || // <-- Bổ sung để giữ vĩnh viễn FontAwesome CSS
+           url.pathname.includes('/assets/css/') ||
            /\.(jpg|jpeg|png|webp|gif|svg|woff2|woff|ttf)$/i.test(url.pathname);
 }
 
-// 2. KIỂM TRA NGHIÊM NGẶT: Chỉ lưu Cache file hợp lệ, KHÔNG LƯU RÁC ĐĂNG NHẬP
 function isCacheableStaticResource(urlStr) {
     const url = new URL(urlStr, self.location.origin);
 
-    // Chặn tuyệt đối các domain API, Auth, Avatar Đăng nhập
     const isDynamicOrApi = 
         url.pathname.includes('/.netlify/') ||
         url.hostname.includes('supabase.co') ||
         url.hostname.includes('script.google.com') ||
         url.hostname.includes('googleapis.com') ||
         url.hostname.includes('google-analytics.com') ||
-        url.hostname.includes('googleusercontent.com') || // Chặn lưu avatar Google
-        url.hostname.includes('githubusercontent.com') ||
-        url.search.length > 0;
+        url.hostname.includes('googleusercontent.com') ||
+        url.hostname.includes('githubusercontent.com');
 
     if (isDynamicOrApi) return false;
 
-    // CHỈ CHẤP NHẬN CACHE NẾU NẰM TRONG DANH SÁCH FILE HOẶC LÀ ẢNH/FONT CHUẨN
-    const isDeclaredFile = allFilesToDownload.some(f => new URL(f, self.location.origin).href === url.href);
+    const cleanHref = url.origin + url.pathname;
+    const isDeclaredFile = allFilesToDownload.some(f => {
+        const declaredUrl = new URL(f, self.location.origin);
+        return declaredUrl.origin + declaredUrl.pathname === cleanHref;
+    });
+
     const isPersistent = isPersistentResource(urlStr);
 
     return isDeclaredFile || isPersistent;
@@ -82,7 +82,7 @@ self.addEventListener('install', (event) => {
 
             for (const url of allFilesToDownload) {
                 try {
-                    const response = await fetch(url, { mode: 'cors' });
+                    const response = await fetch(url, { cache: 'no-cache' });
                     if (response.ok || response.type === 'opaque') {
                         const targetCache = isPersistentResource(url) ? persistentCache : staticCache;
                         await targetCache.put(url, response);
@@ -95,7 +95,7 @@ self.addEventListener('install', (event) => {
     );
 });
 
-// KÍCH HOẠT: Di chuyển ảnh cũ + DỌN DẸP SẠCH FILE RÁC THỪA
+// KÍCH HOẠT: Dọn dẹp cache thừa
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         (async () => {
@@ -103,7 +103,6 @@ self.addEventListener('activate', (event) => {
             const sCache = await caches.open(STATIC_CACHE);
             const keys = await caches.keys();
 
-            // Bước 1: Cứu Ảnh/Font từ Cache cũ sang PERSISTENT_CACHE
             for (const key of keys) {
                 if (key !== STATIC_CACHE && key !== PERSISTENT_CACHE) {
                     try {
@@ -120,13 +119,13 @@ self.addEventListener('activate', (event) => {
                 }
             }
 
-            // Bước 2: Quét và XÓA SẠCH file rác trong STATIC_CACHE
-            const validStaticUrls = new Set(allFilesToDownload.map(f => new URL(f, self.location.origin).href));
+            const validStaticUrls = new Set(allFilesToDownload.map(f => new URL(f, self.location.origin).pathname));
             const staticRequests = await sCache.keys();
 
             for (const req of staticRequests) {
-                if (!validStaticUrls.has(req.url) && !isPersistentResource(req.url)) {
-                    await sCache.delete(req); // Xóa file phát sinh thừa
+                const reqPath = new URL(req.url).pathname;
+                if (!validStaticUrls.has(reqPath) && !isPersistentResource(req.url)) {
+                    await sCache.delete(req);
                 }
             }
 
@@ -135,58 +134,71 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// LẤY DỮ LIỆU: Chỉ lưu vào Cache nếu thỏa mãn điều kiện an toàn
+// LẤY DỮ LIỆU: NETWORK-FIRST CHO CODE CORE, CACHE-FIRST CHO ẢNH/FONT
 self.addEventListener('fetch', (event) => {
     if (event.request.method !== 'GET') return;
 
     const url = new URL(event.request.url);
     if (!url.protocol.startsWith('http')) return;
 
-    event.respondWith(
-        caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
-            if (cachedResponse) return cachedResponse;
+    if (!isCacheableStaticResource(event.request.url)) return;
 
-            return fetch(event.request).then((networkResponse) => {
-                // KIỂM TRA CHẶN RÁC TRƯỚC KHI LƯU
-                if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
-                    if (isCacheableStaticResource(event.request.url)) {
+    const isPersistent = isPersistentResource(event.request.url);
+
+    if (isPersistent) {
+        event.respondWith(
+            caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
+                if (cachedResponse) return cachedResponse;
+
+                return fetch(event.request).then((networkResponse) => {
+                    if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
                         const responseToCache = networkResponse.clone();
-                        const targetCacheName = isPersistentResource(event.request.url) ? PERSISTENT_CACHE : STATIC_CACHE;
-                        
-                        caches.open(targetCacheName).then((cache) => {
+                        caches.open(PERSISTENT_CACHE).then((cache) => {
                             cache.put(event.request, responseToCache);
                         });
                     }
-                }
-                return networkResponse;
-            }).catch(() => {
-                if (event.request.mode === 'navigate') {
-                    return caches.match('./index.html') || caches.match('./');
-                }
-            });
-        })
-    );
+                    return networkResponse;
+                });
+            })
+        );
+    } else {
+        event.respondWith(
+            fetch(event.request, { cache: 'no-cache' })
+                .then((networkResponse) => {
+                    if (networkResponse && networkResponse.status === 200) {
+                        const responseToCache = networkResponse.clone();
+                        caches.open(STATIC_CACHE).then((cache) => {
+                            cache.put(event.request, responseToCache);
+                        });
+                    }
+                    return networkResponse;
+                })
+                .catch(() => {
+                    return caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
+                        if (cachedResponse) return cachedResponse;
+                        if (event.request.mode === 'navigate') {
+                            return caches.match('./index.html', { ignoreSearch: true }) || caches.match('./', { ignoreSearch: true });
+                        }
+                    });
+                })
+        );
+    }
 });
 
-// Hàm hỗ trợ Tải Offline
 function fetchWithTimeout(url, timeoutMs = 8000) {
     return new Promise((resolve) => {
         let isDone = false;
         const timer = setTimeout(() => { if (!isDone) { isDone = true; resolve(null); } }, timeoutMs);
-        fetch(url, { mode: 'cors', cache: 'no-cache' })
+        fetch(url, { cache: 'no-cache' })
             .then(res => { if (!isDone) { isDone = true; clearTimeout(timer); resolve(res); } })
             .catch(() => { if (!isDone) { isDone = true; clearTimeout(timer); resolve(null); } });
     });
 }
 
 async function processSingleFileWithHardTimeout(pCache, sCache, url, timeoutMs = 8000) {
-    if (url === './main.js') url = './src/main.js';
     const targetCache = isPersistentResource(url) ? pCache : sCache;
 
     try {
-        const matched = await targetCache.match(url, { ignoreSearch: true });
-        if (matched && (matched.ok || matched.type === 'opaque')) return true;
-
         let res = await fetchWithTimeout(url, timeoutMs);
         if (!res || (!res.ok && res.type !== 'opaque')) res = await fetchWithTimeout(url, timeoutMs);
 
@@ -194,7 +206,9 @@ async function processSingleFileWithHardTimeout(pCache, sCache, url, timeoutMs =
             await targetCache.put(url, res.clone());
             return true;
         }
-        return false;
+
+        const matched = await targetCache.match(url, { ignoreSearch: true });
+        return !!(matched && (matched.ok || matched.type === 'opaque'));
     } catch (e) {
         return false;
     }
@@ -211,7 +225,7 @@ async function processPool(items, concurrency, taskFn) {
     await Promise.all(workers);
 }
 
-// LẮNG NGHE LỆNH "TẢI OFFLINE"
+// LẮNG NGHE LỆNH "TẢI OFFLINE" HOẶC "SKIP WAITING"
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'SKIP_WAITING') {
         self.skipWaiting();
@@ -221,9 +235,19 @@ self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'CACHE_ALL') {
         event.waitUntil(
             (async () => {
-                const channel = new BroadcastChannel('pwa_offline_progress');
+                let channel = null;
+                if ('BroadcastChannel' in self) {
+                    channel = new BroadcastChannel('pwa_offline_progress');
+                }
+                
+                const sendMsg = (payload) => {
+                    if (channel) {
+                        try { channel.postMessage(payload); } catch(e){}
+                    }
+                };
+
                 const sendError = (code, detail) => {
-                    try { channel.postMessage({ type: 'SW_ERROR', code: code, detail: detail }); } catch(e){}
+                    sendMsg({ type: 'SW_ERROR', code: code, detail: detail });
                 };
 
                 try {
@@ -232,7 +256,7 @@ self.addEventListener('message', (event) => {
                         u => u && typeof u === 'string' && !u.includes('undefined') && !u.includes('null')
                     );
 
-                    let allResources = [...allFilesToDownload, ...cleanImageList].map(item => item === './main.js' ? './src/main.js' : item);
+                    let allResources = [...allFilesToDownload, ...cleanImageList];
                     allResources = [...new Set(allResources)];
 
                     const totalItems = allResources.length;
@@ -248,7 +272,7 @@ self.addEventListener('message', (event) => {
                         return sendError('ERR_CACHE_OPEN', 'Không thể mở Cache Storage: ' + cacheErr.message);
                     }
 
-                    channel.postMessage({ type: 'PROGRESS', percent: 0, processed: 0, total: totalItems });
+                    sendMsg({ type: 'PROGRESS', percent: 0, processed: 0, total: totalItems });
 
                     await processPool(allResources, 3, async (url) => {
                         const isSuccess = await processSingleFileWithHardTimeout(pCache, sCache, url, 8000);
@@ -257,11 +281,11 @@ self.addEventListener('message', (event) => {
                         
                         processedCount++;
                         const percent = Math.min(100, Math.round((processedCount / totalItems) * 100));
-                        try { channel.postMessage({ type: 'PROGRESS', percent: percent, processed: processedCount, total: totalItems }); } catch(e){}
+                        sendMsg({ type: 'PROGRESS', percent: percent, processed: processedCount, total: totalItems });
                     });
 
-                    channel.postMessage({ type: 'COMPLETE', success: true, count: successCount, failed: failedFiles.length, total: totalItems, failedList: failedFiles });
-                    channel.close();
+                    sendMsg({ type: 'COMPLETE', success: true, count: successCount, failed: failedFiles.length, total: totalItems, failedList: failedFiles });
+                    if (channel) channel.close();
                 } catch (mainSWError) {
                     sendError('ERR_SW_EXECUTION', mainSWError.message || mainSWError);
                 }
