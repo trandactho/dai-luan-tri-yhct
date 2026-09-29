@@ -2,7 +2,7 @@
 // SERVICE WORKER - TỰ ĐỘNG CẬP NHẬT CODE CORE KHÔNG CẦN ĐỔI VERSION
 // ==========================================
 
-const STATIC_CACHE = 'dailuantri-static-v1.8.0-fix15'; 
+const STATIC_CACHE = 'dailuantri-static-v1.8.0-fix16'; 
 const PERSISTENT_CACHE = 'dailuantri-persistent-v1';  
 
 const allFilesToDownload = [
@@ -134,7 +134,7 @@ self.addEventListener('activate', (event) => {
     );
 });
 
-// LẤY DỮ LIỆU: NETWORK-FIRST CHO CODE CORE, CACHE-FIRST CHO ẢNH/FONT
+// LẤY DỮ LIỆU: TỐI ƯU TRÁNH PHÌNH CACHE KHI VUỐT TAB
 self.addEventListener('fetch', (event) => {
     if (event.request.method !== 'GET') return;
 
@@ -148,17 +148,11 @@ self.addEventListener('fetch', (event) => {
     if (isPersistent) {
         event.respondWith(
             caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
+                // 1. Nếu đã có trong Cache (do tải offline), trả về ngay lập tức
                 if (cachedResponse) return cachedResponse;
 
-                return fetch(event.request).then((networkResponse) => {
-                    if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
-                        const responseToCache = networkResponse.clone();
-                        caches.open(PERSISTENT_CACHE).then((cache) => {
-                            cache.put(event.request, responseToCache);
-                        });
-                    }
-                    return networkResponse;
-                });
+                // 2. Nếu chưa có, chỉ tải qua mạng trả về trình duyệt, TUYỆT ĐỐI KHÔNG tự động cache.put() nữa
+                return fetch(event.request);
             })
         );
     } else {
@@ -184,6 +178,7 @@ self.addEventListener('fetch', (event) => {
         );
     }
 });
+
 
 function fetchWithTimeout(url, timeoutMs = 8000) {
     return new Promise((resolve) => {
