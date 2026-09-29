@@ -269,8 +269,10 @@ function renderAuthUI(isLoggedIn) {
         memberView.style.display = 'none';
         memberView.classList.add('hidden');
 
-        if (paidSections) paidSections.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch max-w-6xl mx-auto";
-        
+        if (paidSections) {
+           const isHidden = paidSections.classList.contains('hidden');
+           paidSections.className = `${isHidden ? 'hidden ' : ''}grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6 items-stretch max-w-6xl mx-auto`;
+        }        
         if (guestCard) guestCard.style.display = 'flex';
         if (freeCard) freeCard.style.display = 'flex';
         if (vip3Card) vip3Card.style.display = 'none';
@@ -676,7 +678,7 @@ function renderLeaderboard(usersList = []) {
         return `
             <tr class="hover:bg-stone-800/40 transition-colors">
                 <td class="py-2 px-2 text-center font-bold text-stone-400">${rankBadge}</td>
-                <td class="py-2 px-2 font-mono text-stone-300">${escapeHTML(user.displayName)}</td>
+                <td class="py-2 px-2 font-mono text-stone-300">${typeof escapeHTML === 'function' ? escapeHTML(user.displayName) : user.displayName}</td>
                 <td class="py-2 px-2 text-center">
                     <span class="px-2 py-0.5 ${roleClass} border rounded text-[10px] font-bold">${user.role}</span>
                 </td>
@@ -859,7 +861,6 @@ function renderMessagesToDOM(messagesEl, history) {
     const myName = getCurrentUserChatName().toLowerCase();
     let lastTimestamp = 0;
     
-    // Lọc chỉ lấy tin nhắn trong vòng 7 ngày qua
     const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
     const recentHistory = history.filter(item => {
         const msgTime = new Date(item.timestamp || 0).getTime();
@@ -884,8 +885,8 @@ function renderMessagesToDOM(messagesEl, history) {
             displayName = isMe ? getCurrentUserChatName() : 'Thành viên';
         }
 
-        let safeText = typeof escapeHTML === 'function' ? escapeHTML(item.text) : item.text;
-        
+        const rawText = item.text || '';
+        let safeText = typeof escapeHTML === 'function' ? escapeHTML(rawText) : rawText;
         safeText = safeText.replace(/@([^\s,]+)/g, '<span class="bg-amber-500/20 text-amber-300 font-bold px-1.5 py-0.5 rounded border border-amber-500/40">@$1</span>');
 
         const safeSender = typeof escapeHTML === 'function' ? escapeHTML(displayName) : displayName;
@@ -918,6 +919,7 @@ function renderMessagesToDOM(messagesEl, history) {
 
     messagesEl.innerHTML = htmlContent;
     messagesEl.scrollTo({ top: messagesEl.scrollHeight, behavior: 'smooth' });
+    setTimeout(() => { messagesEl.scrollTop = messagesEl.scrollHeight; }, 50);
 
     if (latestMessages.length > 0) {
         const lastMsg = latestMessages[latestMessages.length - 1];
@@ -945,23 +947,27 @@ async function sendChatMessage() {
     if (!text) return;
 
     const senderName = getCurrentUserChatName();
+    const safeSenderName = typeof escapeHTML === 'function' ? escapeHTML(senderName) : senderName;
     const nowTime = new Date().toISOString();
-    let safeText = typeof escapeHTML === 'function' ? escapeHTML(text) : text;
+    const rawText = text || '';
+    let safeText = typeof escapeHTML === 'function' ? escapeHTML(rawText) : rawText;
     
     safeText = safeText.replace(/@([^\s,]+)/g, '<span class="bg-amber-500/20 text-amber-300 font-bold px-1.5 py-0.5 rounded border border-amber-500/40">@$1</span>');
 
-    messages.innerHTML += `
+    messages.insertAdjacentHTML('beforeend', `
         <div class="space-y-0.5">
-            <div class="text-[10px] text-stone-500 text-right px-1 font-mono">${senderName}</div>
+            <div class="text-[10px] text-stone-500 text-right px-1 font-mono">${safeSenderName}</div>
             <div class="flex justify-end">
                 <div class="bg-amber-600/30 border border-amber-500/50 p-2.5 rounded-xl max-w-[85%] text-amber-200 font-medium leading-relaxed">
                     ${safeText}
                 </div>
             </div>
         </div>
-    `;
+    `);
+
     input.value = '';
     messages.scrollTo({ top: messages.scrollHeight, behavior: 'smooth' });
+    setTimeout(() => { messages.scrollTop = messages.scrollHeight; }, 50);
 
     try {
         await fetch(window.GAS_CHAT_API, {
@@ -1026,7 +1032,6 @@ function updateChatPermissionUI(forcedRole) {
         `;
     }
 }
-window.loadChatHistoryFromDrive = loadChatHistoryFromDrive;
 window.renderMessagesToDOM = renderMessagesToDOM;
 window.sendChatMessage = sendChatMessage;
 window.updateChatPermissionUI = updateChatPermissionUI;
@@ -1076,11 +1081,15 @@ function handleChatInput(e) {
         return;
     }
 
-    dropdown.innerHTML = filtered.map(name => `
-        <div class="px-3 py-2 hover:bg-amber-600/20 text-stone-300 hover:text-amber-300 cursor-pointer font-medium transition-colors" onclick="selectChatMention('${name}')">
-            @${name}
-        </div>
-    `).join('');
+        dropdown.innerHTML = filtered.map(name => {
+        const safeAttr = name.replace(/\\/g, '\\\\').replace(/'/g, "\\'");
+        const safeDisplay = typeof escapeHTML === 'function' ? escapeHTML(name) : name;
+        return `
+            <div class="px-3 py-2 hover:bg-amber-600/20 text-stone-300 hover:text-amber-300 cursor-pointer font-medium transition-colors" onclick="selectChatMention('${safeAttr}')">
+                @${safeDisplay}
+            </div>
+        `;
+    }).join('');
     dropdown.classList.remove('hidden');
 }
 
@@ -1089,11 +1098,11 @@ function selectChatMention(name) {
     if (!input) return;
     const cursorPos = input.selectionStart;
     const val = input.value;
-    
+
     const textBeforeCursor = val.slice(0, cursorPos);
     const textAfterCursor = val.slice(cursorPos);
     const newTextBefore = textBeforeCursor.replace(/@([^\s@]*)$/, `@${name} `);
-    
+
     input.value = newTextBefore + textAfterCursor;
     input.focus();
     input.setSelectionRange(newTextBefore.length, newTextBefore.length);
