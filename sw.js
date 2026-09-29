@@ -1,8 +1,9 @@
 // ==========================================
-// SERVICE WORKER - ĐẢM BẢO CACHE CHUẨN OFFLINE 100%
+// SERVICE WORKER - CHỐNG PHÌNH CACHE & DỌN DẸP RÁC
 // ==========================================
 
-const CACHE_NAME = 'dailuantri-v1.8.0-fix13'; // Tăng version để tự động xóa cache phình cũ
+const STATIC_CACHE = 'dailuantri-static-v1.8.0-fix14'; // Chỉ chứa HTML/JS/CSS nội bộ
+const PERSISTENT_CACHE = 'dailuantri-persistent-v1';  // Chứa CDN + Ảnh + Font (BẢO TỒN VĨNH VIỄN)
 
 const allFilesToDownload = [
     './', 
@@ -10,7 +11,7 @@ const allFilesToDownload = [
     './style.css', 
     './manifest.json',
 
-    // --- CDN BÊN NGOÀI (CẦN CACHE BẮT BUỘC) ---
+    // --- CDN BÊN NGOÀI (LƯU VÀO CACHE BỀN VỮNG) ---
     'https://cdn.tailwindcss.com',
 
     // --- FILE NỘI BỘ ---
@@ -37,91 +38,125 @@ const allFilesToDownload = [
     './src/main.js'
 ];
 
-// 1. CÀI ĐẶT: Ép tải toàn bộ file trong danh sách vào Cache
-self.addEventListener('install', (event) => {
-    self.skipWaiting();
-    event.waitUntil(
-        caches.open(CACHE_NAME).then(async (cache) => {
-            for (const url of allFilesToDownload) {
-                try {
-                    const response = await fetch(url, { mode: 'cors' });
-                    if (response.ok || response.type === 'opaque') {
-                        await cache.put(url, response);
-                    }
-                } catch (e) {
-                    console.warn('[SW Install] Bỏ qua file lỗi hoặc không có mạng:', url);
-                }
-            }
-        })
-    );
-});
+// 1. Kiểm tra file thuộc nhóm Bền Vững (CDN, Ảnh, Font)
+function isPersistentResource(urlStr) {
+    const url = new URL(urlStr, self.location.origin);
+    return url.hostname.includes('cdn.tailwindcss.com') ||
+           url.pathname.includes('/hinhanhhuyetvi/') ||
+           url.pathname.includes('/assets/webfonts/') ||
+           url.pathname.includes('/assets/css/') || // <-- Bổ sung để giữ vĩnh viễn FontAwesome CSS
+           /\.(jpg|jpeg|png|webp|gif|svg|woff2|woff|ttf)$/i.test(url.pathname);
+}
 
-// 2. KÍCH HOẠT: Xóa Cache tên cũ và dọn dẹp các file rác thừa
-self.addEventListener('activate', (event) => {
-    event.waitUntil(
-        caches.keys().then((keys) => {
-            return Promise.all(
-                keys.map((key) => {
-                    if (key !== CACHE_NAME) return caches.delete(key);
-                })
-            );
-        }).then(async () => {
-            // Lọc và xóa các file rác nhưng GIỮ LẠI danh sách chính + ảnh offline
-            const cache = await caches.open(CACHE_NAME);
-            const requests = await cache.keys();
-            const validUrls = new Set(allFilesToDownload.map(f => new URL(f, self.location.origin).href));
+// 2. KIỂM TRA NGHIÊM NGẶT: Chỉ lưu Cache file hợp lệ, KHÔNG LƯU RÁC ĐĂNG NHẬP
+function isCacheableStaticResource(urlStr) {
+    const url = new URL(urlStr, self.location.origin);
 
-            return Promise.all(
-                requests.map(req => {
-                    const url = req.url;
-                    // Bỏ qua không xóa nếu là file trong allFilesToDownload HOẶC là file ảnh/dữ liệu offline
-                    const isStaticFile = validUrls.has(url);
-                    const isOfflineImage = url.includes('/hinhanhhuyetvi/') || 
-                                           url.includes('/assets/') || 
-                                           /\.(jpg|jpeg|png|webp|gif|svg|woff2)$/i.test(url);
-
-                    if (!isStaticFile && !isOfflineImage) {
-                        return cache.delete(req);
-                    }
-                })
-            );
-        }).then(() => self.clients.claim())
-    );
-});
-
-
-// 3. LẤY DỮ LIỆU: Ưu tiên Cache -> Không có mới gọi Mạng (KHÔNG tự động cache các request API/động)
-self.addEventListener('fetch', (event) => {
-    if (event.request.method !== 'GET') return;
-
-    const url = new URL(event.request.url);
-
-    // Chỉ xử lý giao thức HTTP/HTTPS
-    if (!url.protocol.startsWith('http')) return;
-
-    // KIỂM TRA REQUEST API / DỮ LIỆU ĐỘNG (KHÔNG LƯU VÀO CACHE THÊM)
+    // Chặn tuyệt đối các domain API, Auth, Avatar Đăng nhập
     const isDynamicOrApi = 
         url.pathname.includes('/.netlify/') ||
         url.hostname.includes('supabase.co') ||
         url.hostname.includes('script.google.com') ||
         url.hostname.includes('googleapis.com') ||
         url.hostname.includes('google-analytics.com') ||
-        url.search.length > 0; //Request có tham số query string (đăng nhập, tìm kiếm, auth...)
+        url.hostname.includes('googleusercontent.com') || // Chặn lưu avatar Google
+        url.hostname.includes('githubusercontent.com') ||
+        url.search.length > 0;
+
+    if (isDynamicOrApi) return false;
+
+    // CHỈ CHẤP NHẬN CACHE NẾU NẰM TRONG DANH SÁCH FILE HOẶC LÀ ẢNH/FONT CHUẨN
+    const isDeclaredFile = allFilesToDownload.some(f => new URL(f, self.location.origin).href === url.href);
+    const isPersistent = isPersistentResource(urlStr);
+
+    return isDeclaredFile || isPersistent;
+}
+
+// CÀI ĐẶT
+self.addEventListener('install', (event) => {
+    self.skipWaiting();
+    event.waitUntil(
+        (async () => {
+            const staticCache = await caches.open(STATIC_CACHE);
+            const persistentCache = await caches.open(PERSISTENT_CACHE);
+
+            for (const url of allFilesToDownload) {
+                try {
+                    const response = await fetch(url, { mode: 'cors' });
+                    if (response.ok || response.type === 'opaque') {
+                        const targetCache = isPersistentResource(url) ? persistentCache : staticCache;
+                        await targetCache.put(url, response);
+                    }
+                } catch (e) {
+                    console.warn('[SW Install] Bỏ qua file lỗi:', url);
+                }
+            }
+        })()
+    );
+});
+
+// KÍCH HOẠT: Di chuyển ảnh cũ + DỌN DẸP SẠCH FILE RÁC THỪA
+self.addEventListener('activate', (event) => {
+    event.waitUntil(
+        (async () => {
+            const pCache = await caches.open(PERSISTENT_CACHE);
+            const sCache = await caches.open(STATIC_CACHE);
+            const keys = await caches.keys();
+
+            // Bước 1: Cứu Ảnh/Font từ Cache cũ sang PERSISTENT_CACHE
+            for (const key of keys) {
+                if (key !== STATIC_CACHE && key !== PERSISTENT_CACHE) {
+                    try {
+                        const oldCache = await caches.open(key);
+                        const oldRequests = await oldCache.keys();
+                        for (const req of oldRequests) {
+                            if (isPersistentResource(req.url)) {
+                                const response = await oldCache.match(req);
+                                if (response) await pCache.put(req, response);
+                            }
+                        }
+                    } catch (e) {}
+                    await caches.delete(key);
+                }
+            }
+
+            // Bước 2: Quét và XÓA SẠCH file rác trong STATIC_CACHE
+            const validStaticUrls = new Set(allFilesToDownload.map(f => new URL(f, self.location.origin).href));
+            const staticRequests = await sCache.keys();
+
+            for (const req of staticRequests) {
+                if (!validStaticUrls.has(req.url) && !isPersistentResource(req.url)) {
+                    await sCache.delete(req); // Xóa file phát sinh thừa
+                }
+            }
+
+            await self.clients.claim();
+        })()
+    );
+});
+
+// LẤY DỮ LIỆU: Chỉ lưu vào Cache nếu thỏa mãn điều kiện an toàn
+self.addEventListener('fetch', (event) => {
+    if (event.request.method !== 'GET') return;
+
+    const url = new URL(event.request.url);
+    if (!url.protocol.startsWith('http')) return;
 
     event.respondWith(
         caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
-            if (cachedResponse) {
-                return cachedResponse; // File đã cache từ trước -> Trả về ngay
-            }
+            if (cachedResponse) return cachedResponse;
 
-            // Chưa có trong cache -> Fetch qua mạng
             return fetch(event.request).then((networkResponse) => {
-                // CHỈ lưu cache tự động nếu KHÔNG PHẢI là API hay request động
-                if (!isDynamicOrApi && networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
-                    const responseToCache = networkResponse.clone();
-                    caches.open(CACHE_NAME).then((cache) => {
-                        cache.put(event.request, responseToCache);
-                    });
+                // KIỂM TRA CHẶN RÁC TRƯỚC KHI LƯU
+                if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
+                    if (isCacheableStaticResource(event.request.url)) {
+                        const responseToCache = networkResponse.clone();
+                        const targetCacheName = isPersistentResource(event.request.url) ? PERSISTENT_CACHE : STATIC_CACHE;
+                        
+                        caches.open(targetCacheName).then((cache) => {
+                            cache.put(event.request, responseToCache);
+                        });
+                    }
                 }
                 return networkResponse;
             }).catch(() => {
@@ -133,44 +168,32 @@ self.addEventListener('fetch', (event) => {
     );
 });
 
-// Hàm hỗ trợ Tải với Timeout
+// Hàm hỗ trợ Tải Offline
 function fetchWithTimeout(url, timeoutMs = 8000) {
     return new Promise((resolve) => {
         let isDone = false;
-        const timer = setTimeout(() => {
-            if (!isDone) { isDone = true; resolve(null); }
-        }, timeoutMs);
-
+        const timer = setTimeout(() => { if (!isDone) { isDone = true; resolve(null); } }, timeoutMs);
         fetch(url, { mode: 'cors', cache: 'no-cache' })
-            .then(res => {
-                if (!isDone) { isDone = true; clearTimeout(timer); resolve(res); }
-            })
-            .catch(() => {
-                if (!isDone) { isDone = true; clearTimeout(timer); resolve(null); }
-            });
+            .then(res => { if (!isDone) { isDone = true; clearTimeout(timer); resolve(res); } })
+            .catch(() => { if (!isDone) { isDone = true; clearTimeout(timer); resolve(null); } });
     });
 }
 
-// Kiểm tra chính xác xem file đã nằm trong Cache Storage chưa
-async function processSingleFileWithHardTimeout(cache, url, timeoutMs = 8000) {
+async function processSingleFileWithHardTimeout(pCache, sCache, url, timeoutMs = 8000) {
     if (url === './main.js') url = './src/main.js';
+    const targetCache = isPersistentResource(url) ? pCache : sCache;
 
     try {
-        const matched = await cache.match(url, { ignoreSearch: true });
-        if (matched && (matched.ok || matched.type === 'opaque')) {
-            return true;
-        }
+        const matched = await targetCache.match(url, { ignoreSearch: true });
+        if (matched && (matched.ok || matched.type === 'opaque')) return true;
 
         let res = await fetchWithTimeout(url, timeoutMs);
-        if (!res || (!res.ok && res.type !== 'opaque')) {
-            res = await fetchWithTimeout(url, timeoutMs);
-        }
+        if (!res || (!res.ok && res.type !== 'opaque')) res = await fetchWithTimeout(url, timeoutMs);
 
         if (res && (res.ok || res.type === 'opaque')) {
-            await cache.put(url, res.clone());
+            await targetCache.put(url, res.clone());
             return true;
         }
-
         return false;
     } catch (e) {
         return false;
@@ -188,7 +211,7 @@ async function processPool(items, concurrency, taskFn) {
     await Promise.all(workers);
 }
 
-// 4. LẮNG NGHE LỆNH "TẢI OFFLINE" TỪ GIAO DIỆN
+// LẮNG NGHE LỆNH "TẢI OFFLINE"
 self.addEventListener('message', (event) => {
     if (event.data && event.data.type === 'SKIP_WAITING') {
         self.skipWaiting();
@@ -199,7 +222,6 @@ self.addEventListener('message', (event) => {
         event.waitUntil(
             (async () => {
                 const channel = new BroadcastChannel('pwa_offline_progress');
-
                 const sendError = (code, detail) => {
                     try { channel.postMessage({ type: 'SW_ERROR', code: code, detail: detail }); } catch(e){}
                 };
@@ -210,9 +232,7 @@ self.addEventListener('message', (event) => {
                         u => u && typeof u === 'string' && !u.includes('undefined') && !u.includes('null')
                     );
 
-                    let allResources = [...allFilesToDownload, ...cleanImageList].map(item => {
-                        return item === './main.js' ? './src/main.js' : item;
-                    });
+                    let allResources = [...allFilesToDownload, ...cleanImageList].map(item => item === './main.js' ? './src/main.js' : item);
                     allResources = [...new Set(allResources)];
 
                     const totalItems = allResources.length;
@@ -220,50 +240,27 @@ self.addEventListener('message', (event) => {
                     let successCount = 0;
                     let failedFiles = [];
 
-                    let cache;
+                    let pCache, sCache;
                     try {
-                        cache = await caches.open(CACHE_NAME);
+                        pCache = await caches.open(PERSISTENT_CACHE);
+                        sCache = await caches.open(STATIC_CACHE);
                     } catch (cacheErr) {
                         return sendError('ERR_CACHE_OPEN', 'Không thể mở Cache Storage: ' + cacheErr.message);
                     }
 
-                    channel.postMessage({
-                        type: 'PROGRESS',
-                        percent: 0,
-                        processed: 0,
-                        total: totalItems
-                    });
+                    channel.postMessage({ type: 'PROGRESS', percent: 0, processed: 0, total: totalItems });
 
-                    const CONCURRENCY = 3;
-
-                    await processPool(allResources, CONCURRENCY, async (url) => {
-                        const isSuccess = await processSingleFileWithHardTimeout(cache, url, 8000);
-                        if (isSuccess) {
-                            successCount++;
-                        } else {
-                            failedFiles.push(url);
-                        }
+                    await processPool(allResources, 3, async (url) => {
+                        const isSuccess = await processSingleFileWithHardTimeout(pCache, sCache, url, 8000);
+                        if (isSuccess) successCount++;
+                        else failedFiles.push(url);
                         
                         processedCount++;
                         const percent = Math.min(100, Math.round((processedCount / totalItems) * 100));
-                        try {
-                            channel.postMessage({
-                                type: 'PROGRESS',
-                                percent: percent,
-                                processed: processedCount,
-                                total: totalItems
-                            });
-                        } catch(e){}
+                        try { channel.postMessage({ type: 'PROGRESS', percent: percent, processed: processedCount, total: totalItems }); } catch(e){}
                     });
 
-                    channel.postMessage({ 
-                        type: 'COMPLETE', 
-                        success: true, 
-                        count: successCount,
-                        failed: failedFiles.length,
-                        total: totalItems,
-                        failedList: failedFiles
-                    });
+                    channel.postMessage({ type: 'COMPLETE', success: true, count: successCount, failed: failedFiles.length, total: totalItems, failedList: failedFiles });
                     channel.close();
                 } catch (mainSWError) {
                     sendError('ERR_SW_EXECUTION', mainSWError.message || mainSWError);
