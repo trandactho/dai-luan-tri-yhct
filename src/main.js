@@ -25,7 +25,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             setTimeout(() => {
                 loader.classList.add('hidden');
             }, 500);
-        }
+                }
+    }        
+    if (!history.state) {
+        history.replaceState({ tab: 'luantri' }, '', window.location.href);
     }
 });
 
@@ -420,6 +423,7 @@ window.addEventListener('pageshow', khoiPhucTrangThaiTruocDo);
 window.addEventListener('popstate', (e) => {
     if (localStorage.getItem('setting_back_block') === 'false') return;
 
+    // 1. Ưu tiên đóng Modal nếu đang mở
     const openModals = [
         'modal-cai-dat',
         'modal-don-thuoc',
@@ -436,16 +440,18 @@ window.addEventListener('popstate', (e) => {
             closedAnyModal = true;
         }
     }
-
-    if (closedAnyModal) return;
-
-    const activeBtn = document.querySelector('nav button.tab-active');
-    const currentTabId = activeBtn ? activeBtn.id.replace('btnTab', '').toLowerCase() : '';
-
-    if (currentTabId && currentTabId !== 'taikhoan') {
-        history.pushState({ tab: 'taikhoan' }, '', window.location.href);
-        switchTab('taikhoan', false);
-    } 
+    // Nếu vừa đóng modal, giữ nguyên vị trí tab hiện tại trong history
+    if (closedAnyModal) {
+        const activeBtn = document.querySelector('nav button.tab-active');
+        const currentTabId = activeBtn ? activeBtn.id.replace('btnTab', '').toLowerCase() : 'luantri';
+        history.pushState({ tab: currentTabId }, '', window.location.href);
+        return;
+    }
+    // 2. Quay lại tab trước đó dựa vào state đã lưu
+    if (e.state && e.state.tab) {
+        switchTab(e.state.tab, false);
+    }
+    // Nếu hết state (hết lịch sử tab trong ứng dụng), trình duyệt sẽ tự động lùi/thoát ứng dụng theo mặc định.
 });
 
 // --- QUẢN LÝ MODAL CÀI ĐẶT & TRẠNG THÁI ---
