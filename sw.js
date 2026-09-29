@@ -2,7 +2,7 @@
 // SERVICE WORKER - TỰ ĐỘNG CẬP NHẬT CODE CORE KHÔNG CẦN ĐỔI VERSION
 // ==========================================
 
-const STATIC_CACHE = 'dailuantri-static-v1.8.0-fix14'; 
+const STATIC_CACHE = 'dailuantri-static-v1.8.0-fix15'; 
 const PERSISTENT_CACHE = 'dailuantri-persistent-v1';  
 
 const allFilesToDownload = [
