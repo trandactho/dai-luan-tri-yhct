@@ -2,7 +2,7 @@
 // SERVICE WORKER - TỰ ĐỘNG CẬP NHẬT CODE CORE KHÔNG CẦN ĐỔI VERSION
 // ==========================================
 
-const STATIC_CACHE = 'dailuantri-static-v1.8.0-fix17'; 
+const STATIC_CACHE = 'dailuantri-static-v1.8.0-fix18'; 
 const PERSISTENT_CACHE = 'dailuantri-persistent-v1';  
 
 const allFilesToDownload = [
@@ -72,7 +72,7 @@ function isCacheableStaticResource(urlStr) {
     return isDeclaredFile || isPersistent;
 }
 
-// CÀI ĐẶT
+// CÀI ĐẶT (Đã bọc timeout tránh treo khởi động)
 self.addEventListener('install', (event) => {
     self.skipWaiting();
     event.waitUntil(
@@ -82,13 +82,13 @@ self.addEventListener('install', (event) => {
 
             for (const url of allFilesToDownload) {
                 try {
-                    const response = await fetch(url, { cache: 'no-cache' });
-                    if (response.ok || response.type === 'opaque') {
+                    let response = await fetchWithTimeout(url, 5000); // Giới hạn 5 giây mỗi file
+                    if (response && (response.ok || response.type === 'opaque')) {
                         const targetCache = isPersistentResource(url) ? persistentCache : staticCache;
                         await targetCache.put(url, response);
                     }
                 } catch (e) {
-                    console.warn('[SW Install] Bỏ qua file lỗi:', url);
+                    console.warn('[SW Install] Bỏ qua file lỗi/timeout:', url);
                 }
             }
         })()
