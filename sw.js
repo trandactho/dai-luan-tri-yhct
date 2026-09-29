@@ -1,8 +1,8 @@
 // ==========================================
-// SERVICE WORKER - ĐẢM BẢO CACHE CHUẨN OFFINE 100%
+// SERVICE WORKER - ĐẢM BẢO CACHE CHUẨN OFFLINE 100%
 // ==========================================
 
-const CACHE_NAME = 'dailuantri-v1.8.0-fix12';
+const CACHE_NAME = 'dailuantri-v1.8.0-fix13'; // Tăng version để tự động xóa cache phình cũ
 
 const allFilesToDownload = [
     './', 
@@ -12,7 +12,6 @@ const allFilesToDownload = [
 
     // --- CDN BÊN NGOÀI (CẦN CACHE BẮT BUỘC) ---
     'https://cdn.tailwindcss.com',
-    'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css',
 
     // --- FILE NỘI BỘ ---
     './assets/css/all.min.css',
@@ -57,7 +56,7 @@ self.addEventListener('install', (event) => {
     );
 });
 
-// 2. KÍCH HOẠT: Xóa Cache cũ
+// 2. KÍCH HOẠT: Xóa Cache tên cũ và dọn dẹp các file rác thừa
 self.addEventListener('activate', (event) => {
     event.waitUntil(
         caches.keys().then((keys) => {
@@ -66,23 +65,59 @@ self.addEventListener('activate', (event) => {
                     if (key !== CACHE_NAME) return caches.delete(key);
                 })
             );
+        }).then(async () => {
+            // Lọc và xóa các file rác nhưng GIỮ LẠI danh sách chính + ảnh offline
+            const cache = await caches.open(CACHE_NAME);
+            const requests = await cache.keys();
+            const validUrls = new Set(allFilesToDownload.map(f => new URL(f, self.location.origin).href));
+
+            return Promise.all(
+                requests.map(req => {
+                    const url = req.url;
+                    // Bỏ qua không xóa nếu là file trong allFilesToDownload HOẶC là file ảnh/dữ liệu offline
+                    const isStaticFile = validUrls.has(url);
+                    const isOfflineImage = url.includes('/hinhanhhuyetvi/') || 
+                                           url.includes('/assets/') || 
+                                           /\.(jpg|jpeg|png|webp|gif|svg|woff2)$/i.test(url);
+
+                    if (!isStaticFile && !isOfflineImage) {
+                        return cache.delete(req);
+                    }
+                })
+            );
         }).then(() => self.clients.claim())
     );
 });
 
-// 3. LẤY DỮ LIỆU: Ưu tiên Cache -> Không có mới gọi Mạng & Tự động lưu Cache
+
+// 3. LẤY DỮ LIỆU: Ưu tiên Cache -> Không có mới gọi Mạng (KHÔNG tự động cache các request API/động)
 self.addEventListener('fetch', (event) => {
     if (event.request.method !== 'GET') return;
+
+    const url = new URL(event.request.url);
+
+    // Chỉ xử lý giao thức HTTP/HTTPS
+    if (!url.protocol.startsWith('http')) return;
+
+    // KIỂM TRA REQUEST API / DỮ LIỆU ĐỘNG (KHÔNG LƯU VÀO CACHE THÊM)
+    const isDynamicOrApi = 
+        url.pathname.includes('/.netlify/') ||
+        url.hostname.includes('supabase.co') ||
+        url.hostname.includes('script.google.com') ||
+        url.hostname.includes('googleapis.com') ||
+        url.hostname.includes('google-analytics.com') ||
+        url.search.length > 0; //Request có tham số query string (đăng nhập, tìm kiếm, auth...)
 
     event.respondWith(
         caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
             if (cachedResponse) {
-                return cachedResponse; // Đã có trong cache -> Trả về ngay
+                return cachedResponse; // File đã cache từ trước -> Trả về ngay
             }
 
-            // Nếu chưa có trong cache -> Fetch qua mạng và TỰ ĐỘNG LƯU VÀO CACHE
+            // Chưa có trong cache -> Fetch qua mạng
             return fetch(event.request).then((networkResponse) => {
-                if (networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
+                // CHỈ lưu cache tự động nếu KHÔNG PHẢI là API hay request động
+                if (!isDynamicOrApi && networkResponse && (networkResponse.status === 200 || networkResponse.type === 'opaque')) {
                     const responseToCache = networkResponse.clone();
                     caches.open(CACHE_NAME).then((cache) => {
                         cache.put(event.request, responseToCache);
@@ -121,16 +156,13 @@ async function processSingleFileWithHardTimeout(cache, url, timeoutMs = 8000) {
     if (url === './main.js') url = './src/main.js';
 
     try {
-        // 1. KIỂM TRA XEM ĐÃ CÓ TRONG CACHE CHƯA
         const matched = await cache.match(url, { ignoreSearch: true });
         if (matched && (matched.ok || matched.type === 'opaque')) {
-            return true; // File đã tồn tại chuẩn xác trong Cache!
+            return true;
         }
 
-        // 2. CHƯA CÓ TRONG CACHE -> ÉP TẢI VỀ TỪ MẠNG
         let res = await fetchWithTimeout(url, timeoutMs);
         if (!res || (!res.ok && res.type !== 'opaque')) {
-            // Thử lại lần 2
             res = await fetchWithTimeout(url, timeoutMs);
         }
 
